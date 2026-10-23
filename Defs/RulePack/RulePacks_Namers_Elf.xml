@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<RulePackDef>
+		<defName>NamerPerson_Elf_Male</defName>
+		<rulePack>
+			<rulesStrings>
+				<li>r_name(p=4)->[Adult_Name] [Family_Name]</li>
+				<li>r_name(p=2)->[Adult_Name] [Family_Name]</li>
+				<li>r_name(p=1)->[Adult_Name] [Family_Name]</li>
+			</rulesStrings>
+			<rulesFiles>
+				<li>Elf_Adult_Name_Female->Names/Elf_Adult_Name_Male</li>
+				<li>Family_Name->Names/Elf_Family_Name</li>
+			</rulesFiles>
+		</rulePack>
+	</RulePackDef>
+	<RulePackDef>
+		<defName>NamerPerson_Elf_Female</defName>
+		<rulePack>
+			<rulesStrings>
+				<li>r_name(p=4)->[Adult_Name] [Family_Name]</li>
+				<li>r_name(p=2)->[Adult_Name] [Family_Name]</li>
+				<li>r_name(p=1)->[Adult_Name] [Family_Name]</li>
+			</rulesStrings>
+			<rulesFiles>
+				<li>Elf_Adult_Name_Female->Names/Elf_Adult_Name_Female</li>
+				<li>Family_Name->Names/Elf_Family_Name</li>
+			</rulesFiles>
+		</rulePack>
+	</RulePackDef>
+</Defs>
