@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+<packageId>NekoYukari.WhisperOfTheForest</packageId>
+<name>Whisper of the Forest</name>
+<description>Elf race mod by Neko Yukari.</description>
+<authors>
+  <li>Neko Yukari</li>
+</authors>
+<supportedVersions>
+  <li>1.6</li>
+  <li>1.7</li>
+</supportedVersions>
+<modVersion>1.0</modVersion>
+<loadAfter>
+  <li>erdelf.HumanoidAlienRaces</li>
+</loadAfter>
+</ModMetaData>
