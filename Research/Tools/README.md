@@ -56,4 +56,4 @@ pwsh -File Research/Tools/check-missiles/dump.ps1      # 生成字段/类型清�
 pwsh -File Research/Tools/check-missiles/il.ps1        # 生成 IL 片段
 ```
 
-不重建也可以直接用 `motion-harness`（自包含）和仓库根 `Tools/verify.ps1`、`Tools/check-defs.ps1` 做主要校验。
+不重建也可以直接用 `motion-harness`（自包含）和仓库根 `Tools/verify.ps1`、`Tools/check-defs.ps1` 做主要校验；后两个脚本带旧机绝对路径（`check-defs.ps1` 第 9 行 `CecilPath`、第 14 行 `gameRoot`），换机器先改这两处常量。

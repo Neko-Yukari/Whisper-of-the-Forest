@@ -25,23 +25,28 @@
 | `tick` / `timeSpeed` | 当时的游戏 tick 与速度 |
 | `selected` / `selectedId` | 被观察对象的完整快照（位置、job、能力、伤口等） |
 | `request` / `dir` | 请求文件与本轮实验目录（旧机器路径） |
-| `results` | 该命令的返回值/统计（例如射弹 `live`、`impacts`、`expired`、`age`、`heading`） |
+| `missiles` | 射弹统计对象：`live/launched/impacts/expired/labFired/frameCount/frames[]`；每帧含 `x/z/headingX/headingZ/targetX/targetZ/ageTicks/targetThingId/targetCell/settings` |
+| `results` | 只有少数旧行把命令返回值包在这一层；多数行的字段是**平铺**的，取值前先看该行有哪些 key |
 
 `experiment.jsonl` 每行大致是 `{"ts","tick","category","actor","detail"}`，适合看时间顺序与因果关系。
 
 典型查法（PowerShell，逐行 JSON 更省内存）：
 
 ```powershell
-# 找某个命令 ID
-Select-String -Path Research/Results/a20/results.jsonl -Pattern 'c073730994927'
-# 统计一次飞行里 live 的变化
+# 找某个命令 ID（c073730994927 在 a20-moving，不在 a20）
+Select-String -Path Research/Results/a20-moving/results.jsonl -Pattern 'c073730994927'
+
+# 读一次飞行的状态与帧数据
 Get-Content Research/Results/a20-moving/results.jsonl |
   ForEach-Object { $_ | ConvertFrom-Json } |
-  Where-Object { $_.results.missiles } |
-  Select-Object -First 20 tick, @{n='live';e={$_.results.missiles[0].live}}, @{n='age';e={$_.results.missiles[0].age}}
+  Where-Object { $_.missiles } |
+  Select-Object -First 20 id, tick,
+    @{n='live';e={$_.missiles.live}},
+    @{n='ageTicks';e={$_.missiles.frames[0].ageTicks}},
+    @{n='headingX';e={$_.missiles.frames[0].headingX}}
 ```
 
-（示例里的字段名以文件实际内容为准：不同阶段 `results` 里射弹信息可能是 `missiles` 数组或 `selected.arcaneMissile` 对象。）
+`missiles` 是**对象**不是数组，`age/heading` 在 `missiles.frames[]` 里；`live/impacts/expired` 直接在 `missiles` 上。少数旧行额外套了一层 `results`，遇到时先看 keys 再取值。
 
 ## 各目录对应哪一轮
 
@@ -53,7 +58,7 @@ Get-Content Research/Results/a20-moving/results.jsonl |
 | `a20/` | 原生射弹迁移后的主结果（含先前累计记录，`c065...` 为本轮命令） | A26–A29 |
 | `a20-moving/` | 补验：已推进状态下保存、读档续飞 | A31–A32 |
 | `a20-prelaunch/` | a20 开跑前的 `.a19` 快照（其中 `results.jsonl.a19` 与 `a19-soundfix/results.jsonl` 完全相同，未重复上传） | — |
-| `lab-run/` | 最后一次实验目录的原样快照（含 `requests.txt`，可直接照着重放） | — |
+| `lab-run/` | 最后一次实验目录的原样快照。`requests.txt` 是历史命令记录（实体 ID/坐标/存档名都已过期，不能原样重放，仅作写法参考），见 `../HANDOFF.md` §8.4 | — |
 | `Logs/` | 三份 **脱敏摘录**（不是完整日志），头部写明源文件字节数与 SHA256 | 上下文 |
 | `Media/first-flight.mp4` | 首次飞行效果的录屏（自有素材，546 KB） | 观感参考 |
 

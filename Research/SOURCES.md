@@ -158,21 +158,21 @@
 
 | 旧机路径（Moddev/…） | 字节 | SHA256 | 原因 |
 | --- | --- | --- | --- |
-| `lab-profile/Saves/a18-door.rws` | 12775972 | `2FDB47EB54459E77019C711832B6DF4A23E0ACBC5B984844E5F38E7A5F3B12DD` | savegame 12-22MB, machine-local; reproduce from Results/lab-run/requests.txt instead |
-| `lab-profile/Saves/a18-final.rws` | 12783682 | `1F0EE13058E7332833BFA8E878CFF016ED4F874C8BEA18512E030AFD5AF5C313` | savegame 12-22MB, machine-local; reproduce from Results/lab-run/requests.txt instead |
-| `lab-profile/Saves/a18-final.rws.bak` | 12776328 | `43A00AC057BD8B46DCD5766EF99C02CCF0CA96B82D25F6DCFAA1AF0389B6A717` | savegame 12-22MB, machine-local; reproduce from Results/lab-run/requests.txt instead |
-| `lab-profile/Saves/a18-flight.rws` | 12973922 | `CC850D9F0CDFF2E1BCA6D958843386ACD8702F73F29CE343D451196E15E2B4AB` | savegame 12-22MB, machine-local; reproduce from Results/lab-run/requests.txt instead |
-| `lab-profile/Saves/a18-ui.rws` | 12774461 | `771676A6B4E4688E993C7342F5419DE98DDF28D8E408D92C2D27A05AB018D806` | savegame 12-22MB, machine-local; reproduce from Results/lab-run/requests.txt instead |
-| `lab-profile/Saves/a19-base.rws` | 12783776 | `332E1E9A6E5912AE46BB0EF7854287033751DFFAE93E36859364FD44ACF6D6BA` | savegame 12-22MB, machine-local; reproduce from Results/lab-run/requests.txt instead |
-| `lab-profile/Saves/a19-final.rws` | 12760089 | `C93DE88320B6899ED305523F8CEDBE856394128C852A0534483A50ECF40D7AFA` | savegame 12-22MB, machine-local; reproduce from Results/lab-run/requests.txt instead |
-| `lab-profile/Saves/a19-mender-flight.rws` | 12760761 | `49B53FB1B66037C95D8A09D81AAA7EB833B29685D78C693442335D7A19A84093` | savegame 12-22MB, machine-local; reproduce from Results/lab-run/requests.txt instead |
-| `lab-profile/Saves/a19-preui.rws` | 12784775 | `A34351793BB55665EF0E0C02B407284AC6CE286485660B883FA4D8BD2DCAC2B9` | savegame 12-22MB, machine-local; reproduce from Results/lab-run/requests.txt instead |
-| `lab-profile/Saves/a19-ui.rws` | 12784755 | `AE5481750F0112BAABF6D0554DCF32084D51C2CDE0273C00BA17491FBC757860` | savegame 12-22MB, machine-local; reproduce from Results/lab-run/requests.txt instead |
-| `lab-profile/Saves/a20-final.rws` | 12756887 | `FD3A8021587352F6071C12D7F686E66EFD1BBE97055724309FF5A49010DFD3FD` | savegame 12-22MB, machine-local; reproduce from Results/lab-run/requests.txt instead |
-| `lab-profile/Saves/a20-flight.rws` | 12764121 | `C350DDFB77E9317A003A541347CAA2857684D10E61A481F79650EFE5A3F48207` | savegame 12-22MB, machine-local; reproduce from Results/lab-run/requests.txt instead |
-| `lab-profile/Saves/a20-moving-flight.rws` | 13497066 | `E7BC63E78C55D6A05398CDEA0AE72A1C55295AFBAE51ED3F4C43C65EE186FEF6` | savegame 12-22MB, machine-local; reproduce from Results/lab-run/requests.txt instead |
-| `lab-profile/Saves/wotf-a17.rws` | 22243441 | `AB048EB0ADEA8C67B06B390D5A8C51C32D8F4E146E0297D5984CB1603C6B76CA` | savegame 12-22MB, machine-local; reproduce from Results/lab-run/requests.txt instead |
-| `lab-profile/Saves/wotf-lab-initial.rws` | 6839189 | `BAA88BCEA628ECBE64D4A2D87E93D1F5C4F0AD075310486703A799A77BF87C4D` | savegame 12-22MB, machine-local; reproduce from Results/lab-run/requests.txt instead |
+| `lab-profile/Saves/a18-door.rws` | 12775972 | `2FDB47EB54459E77019C711832B6DF4A23E0ACBC5B984844E5F38E7A5F3B12DD` | savegame stays machine-local; rebuild an equivalent scene per HANDOFF §8.4 (old scene cannot be restored) |
+| `lab-profile/Saves/a18-final.rws` | 12783682 | `1F0EE13058E7332833BFA8E878CFF016ED4F874C8BEA18512E030AFD5AF5C313` | savegame stays machine-local; rebuild an equivalent scene per HANDOFF §8.4 (old scene cannot be restored) |
+| `lab-profile/Saves/a18-final.rws.bak` | 12776328 | `43A00AC057BD8B46DCD5766EF99C02CCF0CA96B82D25F6DCFAA1AF0389B6A717` | savegame stays machine-local; rebuild an equivalent scene per HANDOFF §8.4 (old scene cannot be restored) |
+| `lab-profile/Saves/a18-flight.rws` | 12973922 | `CC850D9F0CDFF2E1BCA6D958843386ACD8702F73F29CE343D451196E15E2B4AB` | savegame stays machine-local; rebuild an equivalent scene per HANDOFF §8.4 (old scene cannot be restored) |
+| `lab-profile/Saves/a18-ui.rws` | 12774461 | `771676A6B4E4688E993C7342F5419DE98DDF28D8E408D92C2D27A05AB018D806` | savegame stays machine-local; rebuild an equivalent scene per HANDOFF §8.4 (old scene cannot be restored) |
+| `lab-profile/Saves/a19-base.rws` | 12783776 | `332E1E9A6E5912AE46BB0EF7854287033751DFFAE93E36859364FD44ACF6D6BA` | savegame stays machine-local; rebuild an equivalent scene per HANDOFF §8.4 (old scene cannot be restored) |
+| `lab-profile/Saves/a19-final.rws` | 12760089 | `C93DE88320B6899ED305523F8CEDBE856394128C852A0534483A50ECF40D7AFA` | savegame stays machine-local; rebuild an equivalent scene per HANDOFF §8.4 (old scene cannot be restored) |
+| `lab-profile/Saves/a19-mender-flight.rws` | 12760761 | `49B53FB1B66037C95D8A09D81AAA7EB833B29685D78C693442335D7A19A84093` | savegame stays machine-local; rebuild an equivalent scene per HANDOFF §8.4 (old scene cannot be restored) |
+| `lab-profile/Saves/a19-preui.rws` | 12784775 | `A34351793BB55665EF0E0C02B407284AC6CE286485660B883FA4D8BD2DCAC2B9` | savegame stays machine-local; rebuild an equivalent scene per HANDOFF §8.4 (old scene cannot be restored) |
+| `lab-profile/Saves/a19-ui.rws` | 12784755 | `AE5481750F0112BAABF6D0554DCF32084D51C2CDE0273C00BA17491FBC757860` | savegame stays machine-local; rebuild an equivalent scene per HANDOFF §8.4 (old scene cannot be restored) |
+| `lab-profile/Saves/a20-final.rws` | 12756887 | `FD3A8021587352F6071C12D7F686E66EFD1BBE97055724309FF5A49010DFD3FD` | savegame stays machine-local; rebuild an equivalent scene per HANDOFF §8.4 (old scene cannot be restored) |
+| `lab-profile/Saves/a20-flight.rws` | 12764121 | `C350DDFB77E9317A003A541347CAA2857684D10E61A481F79650EFE5A3F48207` | savegame stays machine-local; rebuild an equivalent scene per HANDOFF §8.4 (old scene cannot be restored) |
+| `lab-profile/Saves/a20-moving-flight.rws` | 13497066 | `E7BC63E78C55D6A05398CDEA0AE72A1C55295AFBAE51ED3F4C43C65EE186FEF6` | savegame stays machine-local; rebuild an equivalent scene per HANDOFF §8.4 (old scene cannot be restored) |
+| `lab-profile/Saves/wotf-a17.rws` | 22243441 | `AB048EB0ADEA8C67B06B390D5A8C51C32D8F4E146E0297D5984CB1603C6B76CA` | savegame stays machine-local; rebuild an equivalent scene per HANDOFF §8.4 (old scene cannot be restored) |
+| `lab-profile/Saves/wotf-lab-initial.rws` | 6839189 | `BAA88BCEA628ECBE64D4A2D87E93D1F5C4F0AD075310486703A799A77BF87C4D` | savegame stays machine-local; rebuild an equivalent scene per HANDOFF §8.4 (old scene cannot be restored) |
 | `evidence/baseline-main-menu.png` | 4522950 | `53EC7D3B35F3A9BDFB1598F485F8CDA1D2B075024F71258E1C3BF338B9A6A89F` | 4.5MB screenshot, regenerable |
 | `evidence/a18-acceptance-player.log` | 53545 | `8DAB34512EA28FC83EDD5C13F33914AFFF01A78AF1EC741957129838A6EFDF11` | full Player.log (56KB); only sanitized excerpts shipped |
 | `evidence/a19-final-player.log` | 59374 | `7760706F30323EB5A33FE24714AB927CEADDBEC22D2FD9ED66BDA96E698EC823` | full Player.log |
