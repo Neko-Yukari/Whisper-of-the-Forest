@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <!-- DefInjected path = <defName>.<field>. The parent folder (DefInjected/ThingDef)
+       already supplies the def type; a leading "ThingDef." segment is read as a defName
+       and fails with "Found no ThingDef named ThingDef". -->
+  <WotF_TerrainStride.label>terrain stride mantle</WotF_TerrainStride.label>
+  <WotF_TerrainStride.description>A light experiment mantle. While worn, the terrain underfoot no longer adds its own movement cost: mud, marsh and rough ground are walked at normal speed. Walls, closed doors, buildings and other real obstacles still block and still cost what they cost. Removing it restores normal movement immediately.</WotF_TerrainStride.description>
+
+  <WotF_BlinkStride.label>blink stride sash</WotF_BlinkStride.label>
+  <WotF_BlinkStride.description>A light experiment sash. While worn, the bearer walks one cell of their own path and then steps instantly to the next cell of that same path, alternating. The hop never leaves the calculated route: walls, closed doors, illegal diagonals, occupied cells and the final cell of the path are still walked normally. Removing it or recalculating the path leaves no residual effect.</WotF_BlinkStride.description>
+
+</LanguageData>

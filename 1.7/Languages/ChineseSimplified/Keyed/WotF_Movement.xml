@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <WotF_Movement_StatusLine>{0}：已走 {1} 格，瞬移 {2} 格，瞬移受阻 {3} 次（最近原因：{4}）</WotF_Movement_StatusLine>
+  <WotF_Movement_Equipped>已装备{0}。{1}</WotF_Movement_Equipped>
+  <WotF_Movement_Unequipped>已卸下{0}，移动效果立即恢复原版。{1}</WotF_Movement_Unequipped>
+
+</LanguageData>

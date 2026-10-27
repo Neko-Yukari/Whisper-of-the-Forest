@@ -12,6 +12,31 @@
 </supportedVersions>
 <modVersion>1.0</modVersion>
 <loadAfter>
+  <li>brrainz.harmony</li>
   <li>erdelf.HumanoidAlienRaces</li>
+  <li>Chezhou.RimUnity</li>
 </loadAfter>
+<modDependenciesByVersion>
+  <v1.7>
+    <li>
+      <packageId>brrainz.harmony</packageId>
+      <displayName>Harmony</displayName>
+      <steamWorkshopUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=2009463077</steamWorkshopUrl>
+    </li>
+    <li>
+      <packageId>erdelf.HumanoidAlienRaces</packageId>
+      <displayName>Humanoid Alien Races</displayName>
+      <steamWorkshopUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=839005762</steamWorkshopUrl>
+    </li>
+    <li>
+      <packageId>Chezhou.RimUnity</packageId>
+      <displayName>RimUnity</displayName>
+      <steamWorkshopUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=3819570122</steamWorkshopUrl>
+    </li>
+    <li>
+      <packageId>ludeon.rimworld.royalty</packageId>
+      <displayName>RimWorld - Royalty</displayName>
+    </li>
+  </v1.7>
+</modDependenciesByVersion>
 </ModMetaData>

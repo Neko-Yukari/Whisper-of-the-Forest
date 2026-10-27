@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <!-- DefInjected path = <defName>.<field>. The parent folder (DefInjected/ThingDef)
+       already supplies the def type; a leading "ThingDef." segment is read as a defName
+       and fails with "Found no ThingDef named ThingDef". -->
+  <WotF_TerrainStride.label>地形轻步披肩</WotF_TerrainStride.label>
+  <WotF_TerrainStride.description>实验用轻披肩。穿着时，脚下的地形不再叠加额外移动成本：泥地、沼泽和崎岖地面都按正常速度行走。墙壁、关闭的门、建筑和其他真正的障碍物仍然阻挡，也仍然照常计算成本。脱下后立即恢复。</WotF_TerrainStride.description>
+
+  <WotF_BlinkStride.label>闪现腰带</WotF_BlinkStride.label>
+  <WotF_BlinkStride.description>实验用轻腰带。穿着时，佩戴者沿自己的寻路路线走一格，随即瞬移到同一条路线的下一格，如此交替。瞬移绝不离开已算出的路线：墙壁、关闭的门、非法斜角、被占据的格子以及路线终点仍需正常走过。脱下或路径重算后不会残留效果。</WotF_BlinkStride.description>
+
+</LanguageData>

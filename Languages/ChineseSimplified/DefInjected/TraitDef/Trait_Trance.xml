@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+	<Elf_Trance.degreeDatas.0.label>出神</Elf_Trance.degreeDatas.0.label>
+	<Elf_Trance.degreeDatas.0.description>{PAWN_nameDef}不需要睡眠，即使是魔法也无法令{PAWN_nameDef}陷入睡眠。\n作为代替，{PAWN_nameDef}可以保持清醒状态地以一种类似冥想的方式进行休息。</Elf_Trance.degreeDatas.0.description>
+</LanguageData>

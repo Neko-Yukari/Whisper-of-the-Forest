@@ -9,7 +9,8 @@
 				<li>r_name(p=1)->[Adult_Name] [Family_Name]</li>
 			</rulesStrings>
 			<rulesFiles>
-				<li>Elf_Adult_Name_Female->Names/Elf_Adult_Name_Male</li>
+				<!-- rulesStrings 引用的符号名必须与这里定义的符号一致 -->
+				<li>Adult_Name->Names/Elf_Adult_Name_Male</li>
 				<li>Family_Name->Names/Elf_Family_Name</li>
 			</rulesFiles>
 		</rulePack>
@@ -23,7 +24,7 @@
 				<li>r_name(p=1)->[Adult_Name] [Family_Name]</li>
 			</rulesStrings>
 			<rulesFiles>
-				<li>Elf_Adult_Name_Female->Names/Elf_Adult_Name_Female</li>
+				<li>Adult_Name->Names/Elf_Adult_Name_Female</li>
 				<li>Family_Name->Names/Elf_Family_Name</li>
 			</rulesFiles>
 		</rulePack>

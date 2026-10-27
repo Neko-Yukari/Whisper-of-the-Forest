@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <WotF_ArcaneMissiles.label>arcane missiles</WotF_ArcaneMissiles.label>
+  <WotF_ArcaneMissiles.description>A volley of homing darts of raw arcane force. Each dart steers toward the chosen target - a creature, a building or a spot on the ground - and detonates on the first thing it touches. Darts turn at a limited rate, so fast or circling targets can dodge them.</WotF_ArcaneMissiles.description>
+
+  <WotF_ArcaneMissiles_Heavy.label>arcane heavy missile</WotF_ArcaneMissiles_Heavy.label>
+  <WotF_ArcaneMissiles_Heavy.description>A single shell of arcane force that turns only slowly toward the chosen point. It detonates on the first thing it touches, so a target that keeps moving sideways can make it miss; the 20-cell boundary is recorded in the missile experiment notes. It keeps flying until it leaves the map.</WotF_ArcaneMissiles_Heavy.description>
+
+  <WotF_ArcaneMissiles_Mender.label>arcane mending missile</WotF_ArcaneMissiles_Mender.label>
+  <WotF_ArcaneMissiles_Mender.description>A single slow, highly agile mote of restorative force. It locks onto one pawn or animal and follows it until it touches the target, healing a small amount once. If the target dies, leaves the map or is otherwise lost, the mote fades without healing anything. It moves slower than a running person.</WotF_ArcaneMissiles_Mender.description>
+
+</LanguageData>

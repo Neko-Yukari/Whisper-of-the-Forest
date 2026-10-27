@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <WotF_UI.SettingsCategory>Whisper of the Forest: Tech Lab</WotF_UI.SettingsCategory>
+  <WotF_UI.SettingsHint>The floating entry visibility and position are saved in the mod settings. The lab window itself is never restored on load and always starts closed.</WotF_UI.SettingsHint>
+  <WotF_UI.WindowTitle>Whisper of the Forest - Tech Lab</WotF_UI.WindowTitle>
+
+  <WotF_UI.NoPawn>No pawn selected</WotF_UI.NoPawn>
+  <WotF_UI.NoPawnHint>Select a pawn on the map to enable the actions below.</WotF_UI.NoPawnHint>
+  <WotF_UI.PawnInfo>{0} - {1}</WotF_UI.PawnInfo>
+  <WotF_UI.NeedPawnTip>Select a pawn on the map first.</WotF_UI.NeedPawnTip>
+
+  <WotF_UI.SectionPsycast>Arcane missile</WotF_UI.SectionPsycast>
+  <WotF_UI.GrantPsycast>Grant missile psycast</WotF_UI.GrantPsycast>
+  <WotF_UI.GrantPsycastTip>Grants the experimental arcane missile to the selected pawn. Cast it from the pawn's gizmo bar and pick a target.</WotF_UI.GrantPsycastTip>
+  <WotF_UI.PsycastHint>Rule: the missile only works for pawns that were granted it. Several missiles may fly at once, but each hit resolves once. Missiles track moving targets.</WotF_UI.PsycastHint>
+
+  <WotF_UI.SectionMovement>Movement apparel</WotF_UI.SectionMovement>
+  <WotF_UI.EquipTerrainStride>Terrain stride</WotF_UI.EquipTerrainStride>
+  <WotF_UI.EquipTerrainStrideTip>Equips the terrain stride experiment apparel: terrain movement cost is ignored.</WotF_UI.EquipTerrainStrideTip>
+  <WotF_UI.EquipBlinkStride>Blink stride</WotF_UI.EquipBlinkStride>
+  <WotF_UI.EquipBlinkStrideTip>Equips the blink stride experiment apparel: walking and blinking alternate along a legal path.</WotF_UI.EquipBlinkStrideTip>
+  <WotF_UI.RemoveApparel>Remove experiment apparel</WotF_UI.RemoveApparel>
+  <WotF_UI.RemoveApparelTip>Removes both experiment apparel items and stops their movement effects immediately.</WotF_UI.RemoveApparelTip>
+  <WotF_UI.MovementHint>Rule: blinking only lands on legal path cells; it never crosses walls or closed doors. Removing the apparel ends the effect immediately.</WotF_UI.MovementHint>
+
+  <WotF_UI.SectionEntry>Floating entry</WotF_UI.SectionEntry>
+  <WotF_UI.ShowFloatingEntry>Show the bottom-right floating entry</WotF_UI.ShowFloatingEntry>
+  <WotF_UI.ResetEntryPosition>Reset position</WotF_UI.ResetEntryPosition>
+  <WotF_UI.ResetEntryPositionTip>Puts the floating entry back above the vanilla play settings row in the bottom right corner.</WotF_UI.ResetEntryPositionTip>
+  <WotF_UI.EntryHint>Drag the entry to move it, click it to open this window. The entry stays after the window is closed. If the entry is hidden, reopen this window from the bottom tech lab button.</WotF_UI.EntryHint>
+
+  <WotF_UI.StatusReady>Run an action after selecting a pawn; failures are reported here.</WotF_UI.StatusReady>
+  <WotF_UI.ActionDone>Done: {0} ({1})</WotF_UI.ActionDone>
+  <WotF_UI.ActionFailed>Failed: {0} ({1})</WotF_UI.ActionFailed>
+
+  <WotF_UI.RowEntryTooltip>Tech lab: open the window (the floating entry can be dragged or hidden)</WotF_UI.RowEntryTooltip>
+  <WotF_UI.RowEntryTooltipRestore>Tech lab: open the window and restore the floating entry</WotF_UI.RowEntryTooltipRestore>
+
+  <WotF_UI.EntryGlyph>W</WotF_UI.EntryGlyph>
+  <WotF_UI.EntryTooltip>Tech lab: drag to move, click to open the window</WotF_UI.EntryTooltip>
+  <WotF_UI.EntryHideTooltip>Hide the floating entry (the bottom tech lab button still opens the window)</WotF_UI.EntryHideTooltip>
+  <WotF_UI.EntryHidden>The floating entry is hidden. Open the bottom tech lab button to show it again.</WotF_UI.EntryHidden>
+</LanguageData>
