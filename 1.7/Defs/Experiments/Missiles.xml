@@ -94,7 +94,6 @@
     <iconPath>Experiments/Missiles/ArcaneMissiles</iconPath>
     <hotKey>Misc11</hotKey>
     <hostile>true</hostile>
-    <!-- Vanilla draws this bar over the target; disable it so no bar appears. -->
     <showCastingProgressBar>true</showCastingProgressBar>
     <showPsycastEffects>true</showPsycastEffects>
     <aiCanUse>false</aiCanUse>
@@ -161,7 +160,6 @@
     <level>1</level>
     <iconPath>Experiments/Missiles/ArcaneMissiles</iconPath>
     <hostile>true</hostile>
-    <!-- Vanilla draws this bar over the target; disable it so no bar appears. -->
     <showCastingProgressBar>true</showCastingProgressBar>
     <showPsycastEffects>true</showPsycastEffects>
     <aiCanUse>false</aiCanUse>
@@ -213,7 +211,6 @@
     <iconPath>Experiments/Missiles/ArcaneMissiles</iconPath>
     <hostile>false</hostile>
     <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
-    <!-- Vanilla draws this bar over the target; disable it so no bar appears. -->
     <showCastingProgressBar>true</showCastingProgressBar>
     <showPsycastEffects>true</showPsycastEffects>
     <aiCanUse>false</aiCanUse>
