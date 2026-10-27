@@ -1,0 +1,65 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Read-only integration probe for the movement worker.
+    Compiles the real Source tree (integration + movement sources, no stub) into a
+    throwaway output under tools/check-movement so the shared project's obj/bin and
+    1.7/Assemblies output are never touched.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <OutputType>Library</OutputType>
+    <AssemblyName>check-integration-movement</AssemblyName>
+    <RootNamespace>WhisperOfTheForest.Experimental</RootNamespace>
+    <NoWarn>$(NoWarn);CS0436;CS0649;CS0169;CS0414;CS0162;CS0168;CS0219</NoWarn>
+    <DebugType>none</DebugType>
+    <GameRoot Condition="'$(GameRoot)' == ''">E:/SteamLibrary/steamapps/common/RimWorld</GameRoot>
+    <WorkshopRoot Condition="'$(WorkshopRoot)' == ''">E:/SteamLibrary/steamapps/workshop/content/294100</WorkshopRoot>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="../../Whisper-of-the-Forest/Source/WhisperOfTheForest/**/*.cs"
+             Exclude="../../Whisper-of-the-Forest/Source/WhisperOfTheForest/obj/**/*.cs;../../Whisper-of-the-Forest/Source/WhisperOfTheForest/bin/**/*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(GameRoot)/Assembly-CSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityStubs">
+      <HintPath>$(GameRoot)/UnityStubs.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Waylith">
+      <HintPath>$(GameRoot)/Waylith.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="com.rlabrecque.steamworks.net">
+      <HintPath>$(GameRoot)/com.rlabrecque.steamworks.net.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>$(WorkshopRoot)/2009463077/1.7/Assemblies/0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="RimUnity.Core">
+      <HintPath>$(WorkshopRoot)/3819570122/1.7/Assemblies/RimUnity.Core.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="RimUnity">
+      <HintPath>$(WorkshopRoot)/3819570122/1.7/Assemblies/RimUnity.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="AlienRace">
+      <HintPath>$(WorkshopRoot)/839005762/1.7/Assemblies/AlienRace.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+</Project>

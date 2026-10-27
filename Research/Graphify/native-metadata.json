@@ -1,0 +1,47 @@
+{
+  "role": "bounded decompiled reference for migration-relevant native types",
+  "assembly_path": "E:/SteamLibrary/steamapps/common/RimWorld/Assembly-CSharp.dll",
+  "assembly_bytes": 15633408,
+  "assembly_sha256": "4e61d57205944c113631234bc55136a1a7c1679667b26008bee5425bcffa1463",
+  "assembly_version": "1.7.9795.32073+9c5885f92a4d7fc26b7bb2f77d95c66f6b5bc1d6",
+  "decompiler": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Moddev\\Graphify\\tools\\decompiler\\ilspycmd.exe",
+  "decompiler_version": "ilspycmd: 9.1.0.7988",
+  "decompiled_at_utc": "2026-10-27T06:22:36.6968826Z",
+  "types": [
+    {
+      "type": "Verse.Projectile",
+      "path": "native/source/Verse.Projectile.cs",
+      "bytes": 16008,
+      "sha256": "c989fb871691ac1a8ff1f9b3b8cde2b6070d64d748df0419c0de2f6b8ef13fb4",
+      "lineCount": 586
+    },
+    {
+      "type": "Verse.ThingWithComps",
+      "path": "native/source/Verse.ThingWithComps.cs",
+      "bytes": 21917,
+      "sha256": "f8109fe2e767d3a1302aba0a1687a36ae087741072713488df1dc312a83a5ad9",
+      "lineCount": 1032
+    },
+    {
+      "type": "Verse.Thing",
+      "path": "native/source/Verse.Thing.cs",
+      "bytes": 58085,
+      "sha256": "9d21fc4188d16a1cf772e41ce91fb48d1f48c2184c27d134c70878f02762457f",
+      "lineCount": 2240
+    },
+    {
+      "type": "Verse.LocalTargetInfo",
+      "path": "native/source/Verse.LocalTargetInfo.cs",
+      "bytes": 4462,
+      "sha256": "33e2384162ec08865df636eacd5a276685150edfbdb4bd290bcf3b1359da5ddb",
+      "lineCount": 236
+    },
+    {
+      "type": "Verse.ProjectileHitFlags",
+      "path": "native/source/Verse.ProjectileHitFlags.cs",
+      "bytes": 685,
+      "sha256": "af3ff7fff732284ea391521589f734909bdab3358c6daebe3c21117cce719eaf",
+      "lineCount": 18
+    }
+  ]
+}

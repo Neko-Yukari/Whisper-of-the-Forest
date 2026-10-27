@@ -1,0 +1,31 @@
+{"ts":"2026-10-27T07:35:11.4391178Z","tick":32772,"category":"lab","actor":{"id":37171,"name":"Lab Human","def":"Human","pos":[236,0,239]},"detail":"selected via lab"}
+{"ts":"2026-10-27T07:35:20.5678885Z","tick":32772,"category":"lab","actor":{"id":37171,"name":"Lab Human","def":"Human","pos":[236,0,239]},"detail":"selected via lab"}
+{"ts":"2026-10-27T07:35:21.0743895Z","tick":32772,"category":"lab","actor":{"id":37171,"name":"Lab Human","def":"Human","pos":[236,0,239]},"detail":"draft=True"}
+{"ts":"2026-10-27T07:35:21.5818543Z","tick":32772,"category":"lab","actor":{"id":37171,"name":"Lab Human","def":"Human","pos":[236,0,239]},"detail":"orderedGoto dest=(241, 0, 228) canReach=True queued=True drafted=True"}
+{"ts":"2026-10-27T07:35:32.2206931Z","tick":33380,"category":"lab","actor":{"id":37175,"name":"Lab Elf","def":"Elf","pos":[232,0,240]},"detail":"selected via lab"}
+{"ts":"2026-10-27T07:35:33.2355414Z","tick":33441,"category":"missiles","actor":{"id":37175,"name":"Lab Elf","def":"Elf","pos":[232,0,240]},"detail":"volley launched=1/1 impact=WotF_Impact_Heal visual=WotF_Visual_RimUnity target=Lab Human"}
+{"ts":"2026-10-27T07:35:33.2355515Z","tick":33441,"category":"lab","actor":{"id":37175,"name":"Lab Elf","def":"Elf","pos":[232,0,240]},"detail":"cast WotF_ArcaneMissiles_Mender target=(241, 0, 228) activated=True ignoreFlightLimits=True expireOnTargetLost=True"}
+{"ts":"2026-10-27T07:35:36.6985283Z","tick":33648,"category":"missiles","actor":{"id":37175,"name":"Lab Elf","def":"Elf","pos":[232,0,240]},"detail":"impact def=WotF_Impact_Heal target=Lab Human cell=(241, 0, 228) age=208"}
+{"ts":"2026-10-27T07:35:48.4376296Z","tick":34353,"category":"lab","actor":{"id":37171,"name":"Lab Human","def":"Human","pos":[241,0,228]},"detail":"selected via lab"}
+{"ts":"2026-10-27T07:36:07.4357799Z","tick":35493,"category":"lab","actor":{"id":37171,"name":"Lab Human","def":"Human","pos":[241,0,228]},"detail":"selected via lab"}
+{"ts":"2026-10-27T07:36:07.9440499Z","tick":35523,"category":"lab","actor":{"id":37171,"name":"Lab Human","def":"Human","pos":[241,0,228]},"detail":"hurt part=Torso severity=0.4 total=0.4"}
+{"ts":"2026-10-27T07:36:08.4508648Z","tick":35554,"category":"lab","actor":{"id":37171,"name":"Lab Human","def":"Human","pos":[241,0,228]},"detail":"draft=True"}
+{"ts":"2026-10-27T07:36:08.9576930Z","tick":35584,"category":"lab","actor":{"id":37171,"name":"Lab Human","def":"Human","pos":[241,0,228]},"detail":"orderedGoto dest=(225, 0, 215) canReach=True queued=True drafted=True"}
+{"ts":"2026-10-27T07:36:10.4790299Z","tick":35675,"category":"lab","actor":{"id":37175,"name":"Lab Elf","def":"Elf","pos":[232,0,240]},"detail":"selected via lab"}
+{"ts":"2026-10-27T07:36:11.4920435Z","tick":35736,"category":"missiles","actor":{"id":37175,"name":"Lab Elf","def":"Elf","pos":[232,0,240]},"detail":"volley launched=1/1 impact=WotF_Impact_Heal visual=WotF_Visual_RimUnity target=Lab Human"}
+{"ts":"2026-10-27T07:36:11.4924190Z","tick":35736,"category":"lab","actor":{"id":37175,"name":"Lab Elf","def":"Elf","pos":[232,0,240]},"detail":"cast WotF_ArcaneMissiles_Mender target=(237, 0, 225) activated=True ignoreFlightLimits=True expireOnTargetLost=True"}
+{"ts":"2026-10-27T07:36:18.1979712Z","tick":36138,"category":"missiles","actor":{"id":37175,"name":"Lab Elf","def":"Elf","pos":[232,0,240]},"detail":"impact def=WotF_Impact_Heal target=Lab Human cell=(225, 0, 215) age=396"}
+{"ts":"2026-10-27T07:36:25.8487529Z","tick":36527,"category":"lab","actor":null,"detail":"saved game a20-moving-flight"}
+{"ts":"2026-10-27T07:36:26.1851221Z","tick":36527,"category":"lab","actor":{"id":37171,"name":"Lab Human","def":"Human","pos":[225,0,215]},"detail":"selected via lab"}
+{"ts":"2026-10-27T07:36:56.4111019Z","tick":36528,"category":"lab","actor":{"id":37171,"name":"Lab Human","def":"Human","pos":[225,0,215]},"detail":"selected via lab"}
+{"ts":"2026-10-27T07:36:56.9166727Z","tick":36528,"category":"lab","actor":{"id":37171,"name":"Lab Human","def":"Human","pos":[225,0,215]},"detail":"hurt part=Torso severity=0.4 total=0.4"}
+{"ts":"2026-10-27T07:36:57.4244007Z","tick":36528,"category":"lab","actor":{"id":37171,"name":"Lab Human","def":"Human","pos":[225,0,215]},"detail":"draft=True"}
+{"ts":"2026-10-27T07:36:57.9311466Z","tick":36528,"category":"lab","actor":{"id":37171,"name":"Lab Human","def":"Human","pos":[225,0,215]},"detail":"orderedGoto dest=(241, 0, 228) canReach=True queued=True drafted=True"}
+{"ts":"2026-10-27T07:36:59.4502582Z","tick":36589,"category":"lab","actor":{"id":37175,"name":"Lab Elf","def":"Elf","pos":[232,0,240]},"detail":"selected via lab"}
+{"ts":"2026-10-27T07:37:00.4650664Z","tick":36650,"category":"missiles","actor":{"id":37175,"name":"Lab Elf","def":"Elf","pos":[232,0,240]},"detail":"volley launched=1/1 impact=WotF_Impact_Heal visual=WotF_Visual_RimUnity target=Lab Human"}
+{"ts":"2026-10-27T07:37:00.4654916Z","tick":36650,"category":"lab","actor":{"id":37175,"name":"Lab Elf","def":"Elf","pos":[232,0,240]},"detail":"cast WotF_ArcaneMissiles_Mender target=(229, 0, 217) activated=True ignoreFlightLimits=True expireOnTargetLost=True"}
+{"ts":"2026-10-27T07:37:10.8514855Z","tick":36802,"category":"lab","actor":{"id":37171,"name":"Lab Human","def":"Human","pos":[234,0,222]},"detail":"selected via lab"}
+{"ts":"2026-10-27T07:37:12.0016543Z","tick":36802,"category":"lab","actor":null,"detail":"saved game a20-moving-flight"}
+{"ts":"2026-10-27T07:37:33.3759132Z","tick":36902,"category":"missiles","actor":{"id":37175,"name":"Lab Elf","def":"Elf","pos":[232,0,240]},"detail":"impact def=WotF_Impact_Heal target=Lab Human cell=(237, 0, 225) age=253"}
+{"ts":"2026-10-27T07:37:37.8018755Z","tick":37168,"category":"lab","actor":{"id":37171,"name":"Lab Human","def":"Human","pos":[241,0,228]},"detail":"selected via lab"}
+{"ts":"2026-10-27T07:38:07.2621547Z","tick":29060,"category":"lab","actor":{"id":37175,"name":"Lab Elf","def":"Elf","pos":[232,0,240]},"detail":"selected via lab"}

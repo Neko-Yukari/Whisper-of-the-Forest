@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Temporary verification harness for the real missile logic (not a mirror implementation).
+    It compiles the production gameplay files unchanged against a minimal Verse/RimWorld shim so
+    steering, swept collision, arrival, hit-strategy dispatch and save-field wiring can be executed
+    outside the game. Visual backends are excluded because they need RimUnity / flecks.
+    Never referenced by the mod project.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>WotF_MissileMotionHarness</AssemblyName>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <NoWarn>CS0649;CS0169;CS0414</NoWarn>
+    <ModSource Condition="'$(ModSource)' == ''">$(MSBuildThisFileDirectory)../../../Whisper-of-the-Forest/Source/WhisperOfTheForest</ModSource>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="$(ModSource)/Missiles/ArcaneMissile.cs" Link="Production/ArcaneMissile.cs" />
+    <Compile Include="$(ModSource)/Missiles/ArcaneMissileSettings.cs" Link="Production/ArcaneMissileSettings.cs" />
+    <Compile Include="$(ModSource)/Missiles/ArcaneMissileDefs.cs" Link="Production/ArcaneMissileDefs.cs" />
+    <Compile Include="$(ModSource)/Missiles/ArcaneMissileImpactWorker.cs" Link="Production/ArcaneMissileImpactWorker.cs" />
+    <Compile Include="$(ModSource)/Missiles/ArcaneMissileImpactWorkers.cs" Link="Production/ArcaneMissileImpactWorkers.cs" />
+    <Compile Include="$(ModSource)/Missiles/ArcaneMissileVisualSource.cs" Link="Production/ArcaneMissileVisualSource.cs" />
+    <Compile Include="$(ModSource)/Missiles/ArcaneMissileLabFrame.cs" Link="Production/ArcaneMissileLabFrame.cs" />
+    <Compile Include="$(ModSource)/Missiles/ArcaneMissileLauncher.cs" Link="Production/ArcaneMissileLauncher.cs" />
+    <Compile Include="$(ModSource)/Missiles/Projectile_ArcaneMissiles.cs" Link="Production/Projectile_ArcaneMissiles.cs" />
+    <Compile Include="$(ModSource)/Missiles/MapComponent_ArcaneMissiles.cs" Link="Production/MapComponent_ArcaneMissiles.cs" />
+    <Compile Include="Shims.cs" />
+    <Compile Include="Program.cs" />
+  </ItemGroup>
+
+</Project>

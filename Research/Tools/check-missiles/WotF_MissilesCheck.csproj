@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Isolated compile check for the missile feature only. It never builds the final mod assembly:
+    output, obj and bin stay under Moddev/tools/check-missiles. The integration worker builds the
+    real project (Source/WhisperOfTheForest/WhisperOfTheForest.csproj).
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>WotF_MissilesCheck</AssemblyName>
+    <RootNamespace>WhisperOfTheForest.Experimental</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <Deterministic>true</Deterministic>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+    <NoWarn>CS0436;CS0649;CS0169;CS0414;CS0162</NoWarn>
+
+    <GameRoot Condition="'$(GameRoot)' == ''">E:/SteamLibrary/steamapps/common/RimWorld</GameRoot>
+    <WorkshopRoot Condition="'$(WorkshopRoot)' == ''">E:/SteamLibrary/steamapps/workshop/content/294100</WorkshopRoot>
+    <ModSource Condition="'$(ModSource)' == ''">$(MSBuildThisFileDirectory)../../Whisper-of-the-Forest/Source/WhisperOfTheForest</ModSource>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="$(ModSource)/Missiles/**/*.cs" LinkBase="Missiles" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExperimentLogStub.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(GameRoot)/Assembly-CSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityStubs">
+      <HintPath>$(GameRoot)/UnityStubs.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="RimUnity.Core">
+      <HintPath>$(WorkshopRoot)/3819570122/1.7/Assemblies/RimUnity.Core.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="RimUnity">
+      <HintPath>$(WorkshopRoot)/3819570122/1.7/Assemblies/RimUnity.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+</Project>

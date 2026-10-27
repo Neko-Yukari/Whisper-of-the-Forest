@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Verifies the UI sources against the integration owner's real LabActions,
+       without writing anything into the mod's own obj/bin. -->
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <AssemblyName>WotF_UI_Check_Real</AssemblyName>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <DebugType>none</DebugType>
+    <NoWarn>MSB3277;CS0649;CS0169;CS0414</NoWarn>
+    <GameDir>E:/SteamLibrary/steamapps/common/RimWorld</GameDir>
+    <ModSrc>$(GameDir)/Moddev/Whisper-of-the-Forest/Source/WhisperOfTheForest</ModSrc>
+    <HarmonyDir>E:/SteamLibrary/steamapps/workshop/content/294100/2009463077/1.7/Assemblies</HarmonyDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="$(ModSrc)/UI/*.cs" />
+    <Compile Include="$(ModSrc)/Lab/LabActions.cs" />
+    <Compile Include="$(ModSrc)/Lab/ExperimentLog.cs" />
+    <Compile Include="$(ModSrc)/Lab/Json.cs" />
+    <Compile Include="$(ModSrc)/Lab/BoundedJsonlWriter.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(GameDir)/Assembly-CSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityStubs">
+      <HintPath>$(GameDir)/UnityStubs.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Waylith">
+      <HintPath>$(GameDir)/Waylith.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>$(HarmonyDir)/0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+</Project>
