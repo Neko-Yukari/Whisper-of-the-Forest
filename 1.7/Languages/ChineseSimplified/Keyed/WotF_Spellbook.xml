@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <WotF_Spellbook.WindowTitle>林地低语 · 魔术书</WotF_Spellbook.WindowTitle>
+  <WotF_Spellbook.Caster>施法者：{0}</WotF_Spellbook.Caster>
+  <WotF_Spellbook.NoCaster>未选择角色</WotF_Spellbook.NoCaster>
+  <WotF_Spellbook.CurrentSlot>当前槽 {0}</WotF_Spellbook.CurrentSlot>
+
+  <WotF_Spellbook.PageCatalog>符文目录</WotF_Spellbook.PageCatalog>
+  <WotF_Spellbook.PageEditor>编排与创建</WotF_Spellbook.PageEditor>
+  <WotF_Spellbook.SearchPlaceholder>搜索符文名称</WotF_Spellbook.SearchPlaceholder>
+  <WotF_Spellbook.CategoryAll>全部</WotF_Spellbook.CategoryAll>
+  <WotF_Spellbook.CategoryForm>形式</WotF_Spellbook.CategoryForm>
+  <WotF_Spellbook.CategoryEffect>效果</WotF_Spellbook.CategoryEffect>
+  <WotF_Spellbook.CategoryAugment>增幅</WotF_Spellbook.CategoryAugment>
+  <WotF_Spellbook.CatalogEmpty>没有匹配的符文。</WotF_Spellbook.CatalogEmpty>
+  <WotF_Spellbook.CatalogMissingDefs>未找到任何符文定义，请检查魔术书 XML 是否加载。</WotF_Spellbook.CatalogMissingDefs>
+
+  <WotF_Spellbook.KindForm>形式</WotF_Spellbook.KindForm>
+  <WotF_Spellbook.KindEffect>效果</WotF_Spellbook.KindEffect>
+  <WotF_Spellbook.KindAugment>增幅</WotF_Spellbook.KindAugment>
+  <WotF_Spellbook.KindTrigger>触发</WotF_Spellbook.KindTrigger>
+
+  <WotF_Spellbook.FieldName>法术名称</WotF_Spellbook.FieldName>
+  <WotF_Spellbook.ChainHeader>法术栏 {0}/{1}</WotF_Spellbook.ChainHeader>
+  <WotF_Spellbook.ChainEmpty>点左侧符文，把它加进法术栏。</WotF_Spellbook.ChainEmpty>
+  <WotF_Spellbook.ChainHint>点左侧符文加入法术栏，点法术栏里的符文移除。</WotF_Spellbook.ChainHint>
+  <WotF_Spellbook.GlyphAdded>已加入符文：{0}</WotF_Spellbook.GlyphAdded>
+  <WotF_Spellbook.GlyphRemoved>已移除符文：{0}</WotF_Spellbook.GlyphRemoved>
+  <WotF_Spellbook.GlyphMissing>缺失的符文定义</WotF_Spellbook.GlyphMissing>
+  <WotF_Spellbook.GlyphDetail>符文说明</WotF_Spellbook.GlyphDetail>
+  <WotF_Spellbook.NoSelection>把鼠标停在目录或法术栏的符文上，这里会显示它的说明。点目录里的符文加入，点法术栏里的符文移除。</WotF_Spellbook.NoSelection>
+  <WotF_Spellbook.Timing>前摇 {0}s · 引导 {1}s · 后摇 {2}s</WotF_Spellbook.Timing>
+  <WotF_Spellbook.TimingTip>点“创建”时冻结进槽位的施法时间：前摇 {0} tick、引导 {1} tick、后摇 {2} tick（60 tick = 1 秒）。每个符文各加一份。前摇时可以移动，引导时减速，后摇时站定。</WotF_Spellbook.TimingTip>
+  <WotF_Spellbook.GlyphTiming>+{0}s / +{1}s / +{2}s（前摇/引导/后摇）</WotF_Spellbook.GlyphTiming>
+  <WotF_Spellbook.ClickToRemove>点击移除：{0}</WotF_Spellbook.ClickToRemove>
+
+  <WotF_Spellbook.ValidationOk>组合有效，可以创建。</WotF_Spellbook.ValidationOk>
+  <WotF_Spellbook.ValidationFailed>组合无效：{0}</WotF_Spellbook.ValidationFailed>
+  <WotF_Spellbook.ValidationUnknown>原因未知</WotF_Spellbook.ValidationUnknown>
+  <WotF_Spellbook.CastReady>当前槽 {0} 可以施放。</WotF_Spellbook.CastReady>
+  <WotF_Spellbook.CastNoSaved>当前槽 {0} 是空的，先创建一条法术。</WotF_Spellbook.CastNoSaved>
+  <WotF_Spellbook.CastBlocked>无法施放：{0}</WotF_Spellbook.CastBlocked>
+  <WotF_Spellbook.EmptySlotHint>当前槽是空的：编好符文后点“创建”，人物施法按钮才会出现这个法术。</WotF_Spellbook.EmptySlotHint>
+
+  <WotF_Spellbook.Create>创建到槽 {0}</WotF_Spellbook.Create>
+  <WotF_Spellbook.CreateTip>把法术栏写入当前槽 {0}，原有法术会被直接覆盖。</WotF_Spellbook.CreateTip>
+  <WotF_Spellbook.Created>已创建到槽 {0}，并设为当前施放。</WotF_Spellbook.Created>
+  <WotF_Spellbook.CreateRefused>无法创建：{0}</WotF_Spellbook.CreateRefused>
+  <WotF_Spellbook.BarEmpty>法术栏是空的，先点左侧符文加入。</WotF_Spellbook.BarEmpty>
+
+  <WotF_Spellbook.ClearBar>清空法术栏</WotF_Spellbook.ClearBar>
+  <WotF_Spellbook.ClearBarTip>只清空法术栏，当前槽里已保存的法术不受影响。</WotF_Spellbook.ClearBarTip>
+  <WotF_Spellbook.BarCleared>已清空法术栏，槽里的法术没有变化。</WotF_Spellbook.BarCleared>
+  <WotF_Spellbook.DeleteSlot>删除此槽</WotF_Spellbook.DeleteSlot>
+  <WotF_Spellbook.DeleteSlotTip>单击立即删除槽 {0} 里的法术，不再确认。</WotF_Spellbook.DeleteSlotTip>
+  <WotF_Spellbook.SlotDeleted>已删除槽 {0} 的法术。</WotF_Spellbook.SlotDeleted>
+  <WotF_Spellbook.SlotAlreadyEmpty>槽 {0} 本来就是空的。</WotF_Spellbook.SlotAlreadyEmpty>
+
+  <WotF_Spellbook.Cast>施放</WotF_Spellbook.Cast>
+  <WotF_Spellbook.CastNamed>施放《{0}》</WotF_Spellbook.CastNamed>
+  <WotF_Spellbook.CastTip>进入目标选择，用当前槽 {0} 已创建的法术施放。</WotF_Spellbook.CastTip>
+
+  <WotF_Spellbook.SlotTitle>法术槽 {0}</WotF_Spellbook.SlotTitle>
+  <WotF_Spellbook.SlotEmpty>空槽</WotF_Spellbook.SlotEmpty>
+  <WotF_Spellbook.SlotTooltipUsed>已创建：{0}</WotF_Spellbook.SlotTooltipUsed>
+  <WotF_Spellbook.SwitchBookmark>点击切换书签：立即设为当前槽，并同步人物施法按钮</WotF_Spellbook.SwitchBookmark>
+
+  <WotF_Spellbook.StatusReady>点左侧符文加入法术栏；点“创建”才写入当前槽，未创建的改动在切槽或关书时丢弃。</WotF_Spellbook.StatusReady>
+  <WotF_Spellbook.NoGameComponent>存档组件未就绪，暂时无法读写法术。</WotF_Spellbook.NoGameComponent>
+
+  <WotF_Spellbook.AnimOn>动效：开</WotF_Spellbook.AnimOn>
+  <WotF_Spellbook.AnimOff>动效：关</WotF_Spellbook.AnimOff>
+  <WotF_Spellbook.AnimTip>开关书页动效。关掉后交互不变，只是不再播放飞入、翻页、抖动和扫光。</WotF_Spellbook.AnimTip>
+
+  <WotF_Spellbook.LabSection>魔术书</WotF_Spellbook.LabSection>
+  <WotF_Spellbook.LabOpen>打开魔术书</WotF_Spellbook.LabOpen>
+  <WotF_Spellbook.LabOpened>已为 {0} 打开魔术书。</WotF_Spellbook.LabOpened>
+  <WotF_Spellbook.LabOpenTip>为选中角色打开魔术书：编排符文、创建到书签，并选择他当前施放的法术。</WotF_Spellbook.LabOpenTip>
+</LanguageData>

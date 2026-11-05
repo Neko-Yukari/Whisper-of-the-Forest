@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Form -->
+  <WotF_Form_Self.label>self</WotF_Form_Self.label>
+  <WotF_Form_Self.description>Cast on the caster and the caster's own cell. Nothing else is targeted.</WotF_Form_Self.description>
+  <WotF_Form_Touch.label>touch</WotF_Form_Touch.label>
+  <WotF_Form_Touch.description>Cast on one adjacent, reachable target. A wall blocks it and it never reaches further than the neighbouring cells.</WotF_Form_Touch.description>
+  <WotF_Form_Projectile.label>projectile</WotF_Form_Projectile.label>
+  <WotF_Form_Projectile.description>Flies as the existing homing arcane dart and resolves where it really hits. Only this form accepts pierce, accelerate, decelerate and split.</WotF_Form_Projectile.description>
+  <WotF_Form_Orbit.label>orbit</WotF_Form_Orbit.label>
+  <WotF_Form_Orbit.description>Places orbs that circle the caster and apply the arranged effects to the first pawn they touch. No target selection.</WotF_Form_Orbit.description>
+
+  <!-- Effect: harm -->
+  <WotF_Effect_Harm.label>harm</WotF_Effect_Harm.label>
+  <WotF_Effect_Harm.description>Arcane force damage to what the spell reaches. With Extend Time it becomes a sustained wound of the same total damage.</WotF_Effect_Harm.description>
+  <WotF_Effect_Explosion.label>explosion</WotF_Effect_Explosion.label>
+  <WotF_Effect_Explosion.description>One native explosion at the spell's point. Area widens that single blast; Sensitive keeps it from damaging buildings.</WotF_Effect_Explosion.description>
+  <WotF_Effect_Ignite.label>ignite</WotF_Effect_Ignite.label>
+  <WotF_Effect_Ignite.description>Sets the target alight. The plain version starts spreading fire; Sensitive uses a non-spreading burn instead.</WotF_Effect_Ignite.description>
+  <WotF_Effect_Lightning.label>lightning</WotF_Effect_Lightning.label>
+  <WotF_Effect_Lightning.description>EMP and burn damage, plus a charge stack; later strikes hurt more for each stack already carried. The main answer to mechanoids.</WotF_Effect_Lightning.description>
+  <WotF_Effect_ColdSnap.label>cold snap</WotF_Effect_ColdSnap.label>
+  <WotF_Effect_ColdSnap.description>Bursts against a target that is already slowed, adding a vulnerability multiplier to the base damage.</WotF_Effect_ColdSnap.description>
+
+  <!-- Effect: control -->
+  <WotF_Effect_Freeze.label>freeze</WotF_Effect_Freeze.label>
+  <WotF_Effect_Freeze.description>Lowers the target's movement for a while. Nothing else about the target changes.</WotF_Effect_Freeze.description>
+  <WotF_Effect_Knockback.label>knockback</WotF_Effect_Knockback.label>
+  <WotF_Effect_Knockback.description>Throws the target away from the impact point through the vanilla flying carrier. The value is the distance; Area decides who is thrown.</WotF_Effect_Knockback.description>
+  <WotF_Effect_Pull.label>pull</WotF_Effect_Pull.label>
+  <WotF_Effect_Pull.description>Drags the target towards the impact point through the vanilla flying carrier. The value is the distance.</WotF_Effect_Pull.description>
+  <WotF_Effect_Snare.label>snare</WotF_Effect_Snare.label>
+  <WotF_Effect_Snare.description>Sets movement to zero while leaving attacks untouched. This is not a stun.</WotF_Effect_Snare.description>
+  <WotF_Effect_Hex.label>hex</WotF_Effect_Hex.label>
+  <WotF_Effect_Hex.description>Marks the target to take more damage and heal more slowly for a while.</WotF_Effect_Hex.description>
+
+  <!-- Effect: support -->
+  <WotF_Effect_Heal.label>clot</WotF_Effect_Heal.label>
+  <WotF_Effect_Heal.description>No direct healing: bandages every wound with no medicine and speeds natural healing for a while.</WotF_Effect_Heal.description>
+  <WotF_Effect_Grow.label>grow</WotF_Effect_Grow.label>
+  <WotF_Effect_Grow.description>No instant maturity: the hit cell (a circle of cells with Area) grows plants faster for a while.</WotF_Effect_Grow.description>
+  <WotF_Effect_Magelight.label>magelight</WotF_Effect_Magelight.label>
+  <WotF_Effect_Magelight.description>Places a temporary light at the spell's point. Radius, colour and lifetime are frozen from the rune and its augments.</WotF_Effect_Magelight.description>
+  <WotF_Effect_Blink.label>blink</WotF_Effect_Blink.label>
+  <WotF_Effect_Blink.description>From a self cast the caster flickers forward; delivered by a dart or touch, the caster lands at the spell's point.</WotF_Effect_Blink.description>
+
+  <!-- Effect: when and where -->
+  <WotF_Effect_Linger.label>linger</WotF_Effect_Linger.label>
+  <WotF_Effect_Linger.description>Leaves a force field at the point. Every interval it applies everything to its right to every pawn inside. Accelerate shortens the interval, Decelerate lengthens it.</WotF_Effect_Linger.description>
+  <WotF_Effect_Rune.label>rune</WotF_Effect_Rune.label>
+  <WotF_Effect_Rune.description>Leaves a seal that takes no building space. The first pawn stepping on it gets everything to its right, then the seal is gone.</WotF_Effect_Rune.description>
+  <WotF_Effect_Delay.label>delay</WotF_Effect_Delay.label>
+  <WotF_Effect_Delay.description>Everything to its right resolves a few seconds later at the same target point.</WotF_Effect_Delay.description>
+
+  <!-- Augment -->
+  <WotF_Augment_Amplify.label>amplify</WotF_Augment_Amplify.label>
+  <WotF_Augment_Amplify.description>Strengthens the effect on its left: damage, healing rate, light, throw distance and blast radius all scale with it.</WotF_Augment_Amplify.description>
+  <WotF_Augment_Dampen.label>dampen</WotF_Augment_Dampen.label>
+  <WotF_Augment_Dampen.description>Weakens the effect on its left: less damage, shorter throw, dimmer light.</WotF_Augment_Dampen.description>
+  <WotF_Augment_AOE.label>area</WotF_Augment_AOE.label>
+  <WotF_Augment_AOE.description>Widens the effect on its left over nearby targets. Each target is affected once, and an explosion still detonates once.</WotF_Augment_AOE.description>
+  <WotF_Augment_Extend.label>extend time</WotF_Augment_Extend.label>
+  <WotF_Augment_Extend.description>Makes the effect last longer. On Harm it turns the one hit into a sustained wound of the same total damage.</WotF_Augment_Extend.description>
+  <WotF_Augment_Shorten.label>shorten time</WotF_Augment_Shorten.label>
+  <WotF_Augment_Shorten.description>Makes the effect last a shorter time.</WotF_Augment_Shorten.description>
+  <WotF_Augment_Sensitive.label>sensitive</WotF_Augment_Sensitive.label>
+  <WotF_Augment_Sensitive.description>Keeps only the controlled half: an explosion no longer damages buildings and an ignite no longer starts spreading fire.</WotF_Augment_Sensitive.description>
+  <WotF_Augment_BreakArmor.label>break armor</WotF_Augment_BreakArmor.label>
+  <WotF_Augment_BreakArmor.description>Adds armour penetration to the damage effect on its left.</WotF_Augment_BreakArmor.description>
+  <WotF_Augment_Pierce.label>pierce</WotF_Augment_Pierce.label>
+  <WotF_Augment_Pierce.description>Lets the projectile on its left keep flying after a hit. Each extra hit spends one pierce.</WotF_Augment_Pierce.description>
+  <WotF_Augment_Accelerate.label>accelerate</WotF_Augment_Accelerate.label>
+  <WotF_Augment_Accelerate.description>Faster projectile, faster orbit, or a shorter Linger interval.</WotF_Augment_Accelerate.description>
+  <WotF_Augment_Decelerate.label>decelerate</WotF_Augment_Decelerate.label>
+  <WotF_Augment_Decelerate.description>Slower projectile, slower orbit, or a longer Linger interval.</WotF_Augment_Decelerate.description>
+  <WotF_Augment_Split.label>split</WotF_Augment_Split.label>
+  <WotF_Augment_Split.description>Adds more darts to the projectile on its left, or one more orb to an orbit.</WotF_Augment_Split.description>
+
+</LanguageData>

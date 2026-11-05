@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Spell staff gizmo and inspect text. The gizmo label always names the spell the staff will
+       cast, so the weapon's chosen bookmark is visible without opening the menu. -->
+
+  <WotF_Equipment.Gizmo.NoSpell>Spell staff: no spell</WotF_Equipment.Gizmo.NoSpell>
+  <WotF_Equipment.Gizmo.Current>Spell staff: {0}</WotF_Equipment.Gizmo.Current>
+  <WotF_Equipment.Gizmo.Desc>Choose which spellbook bookmark this staff casts with its attack. The staff remembers the bookmark, not a copy, so editing that page changes what it casts. It cannot attack while the bookmark is empty.</WotF_Equipment.Gizmo.Desc>
+  <WotF_Equipment.Gizmo.NoBook>The spellbook is not ready in this game.</WotF_Equipment.Gizmo.NoBook>
+  <WotF_Equipment.Gizmo.NoSavedSpell>The spellbook has no saved spell yet.</WotF_Equipment.Gizmo.NoSavedSpell>
+  <WotF_Equipment.Menu.Slot>{0}. {1}</WotF_Equipment.Menu.Slot>
+  <WotF_Equipment.Inspect.NoSpell>Spell: none</WotF_Equipment.Inspect.NoSpell>
+  <WotF_Equipment.Inspect.Current>Spell: {0}</WotF_Equipment.Inspect.Current>
+
+</LanguageData>

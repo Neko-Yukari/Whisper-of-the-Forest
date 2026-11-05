@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using Verse;
+using WhisperOfTheForest.Experimental.Testing;
 
 namespace WhisperOfTheForest.Experimental
 {
@@ -120,6 +121,15 @@ namespace WhisperOfTheForest.Experimental
             catch (Exception exception)
             {
                 Log.ErrorOnce("[WotF-Lab] Request pump failed: " + exception, 0x57544602);
+            }
+
+            try
+            {
+                LabTestRunner.OnMainThreadUpdate();
+            }
+            catch (Exception exception)
+            {
+                Log.ErrorOnce("[WotF-Lab] Test runner pump failed: " + exception, 0x57544604);
             }
 
             try

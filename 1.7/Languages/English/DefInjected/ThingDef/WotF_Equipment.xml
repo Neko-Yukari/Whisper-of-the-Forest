@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <!-- DefInjected path = <defName>.<field>. The parent folder (DefInjected/ThingDef) already
+       supplies the def type. -->
+
+  <WotF_SpellStaff.label>spell staff</WotF_SpellStaff.label>
+  <WotF_SpellStaff.description>A prototype staff that casts instead of shooting. Its attack casts the spellbook bookmark chosen on its gizmo; the staff remembers the slot, not a copy, so editing that page changes what it casts. Without a saved spell it cannot attack.</WotF_SpellStaff.description>
+
+</LanguageData>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <WotF_ManaMax.label>魔力上限</WotF_ManaMax.label>
+  <WotF_ManaMax.description>林庭血脉施法者能持有的魔力上限。基础值由血脉等级决定，装备还可以继续叠加。</WotF_ManaMax.description>
+
+</LanguageData>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <WotF_Hediff_Clotting.label>凝血包扎</WotF_Hediff_Clotting.label>
+  <WotF_Hediff_Clotting.description>伤口被魔法包扎过，正在以更快的速度愈合。</WotF_Hediff_Clotting.description>
+  <WotF_Hediff_Freeze.label>霜冻</WotF_Hediff_Freeze.label>
+  <WotF_Hediff_Freeze.description>关节上结着霜：寒冷持续期间移动能力被压低。</WotF_Hediff_Freeze.description>
+  <WotF_Hediff_Ensnare.label>缚足</WotF_Hediff_Ensnare.label>
+  <WotF_Hediff_Ensnare.description>被法术钉在原地。移动为零，攻击不受影响；这不是眩晕。</WotF_Hediff_Ensnare.description>
+  <WotF_Hediff_Hex.label>咒印</WotF_Hediff_Hex.label>
+  <WotF_Hediff_Hex.description>咒印使身体承受更多伤害，愈合也更慢。</WotF_Hediff_Hex.description>
+  <WotF_Hediff_LightningCharge.label>受电</WotF_Hediff_LightningCharge.label>
+  <WotF_Hediff_LightningCharge.description>雷击残留的电荷。每多一层，下一次雷击就伤得更重。</WotF_Hediff_LightningCharge.description>
+  <WotF_Hediff_ArcaneDot.label>奥术持续创伤</WotF_Hediff_ArcaneDot.label>
+  <WotF_Hediff_ArcaneDot.description>奥术力量留在伤口里持续起作用，而不是一击即散。</WotF_Hediff_ArcaneDot.description>
+  <WotF_Hediff_Scorch.label>灼烧</WotF_Hediff_Scorch.label>
+  <WotF_Hediff_Scorch.description>受控的灼烧持续炙烤目标，但不会变成四处蔓延的火灾。</WotF_Hediff_Scorch.description>
+
+</LanguageData>

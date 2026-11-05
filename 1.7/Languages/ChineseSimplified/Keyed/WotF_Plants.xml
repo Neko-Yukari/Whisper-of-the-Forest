@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <WotF_MaturePlant_Failed_NotPlant>目标不是植物，请选择一株正在生长的植物。</WotF_MaturePlant_Failed_NotPlant>
+  <WotF_MaturePlant_Failed_AlreadyMature>这株植物已经成熟。</WotF_MaturePlant_Failed_AlreadyMature>
+  <WotF_MaturePlant_Failed_Unavailable>目标植物已消失或不在当前地图。</WotF_MaturePlant_Failed_Unavailable>
+
+</LanguageData>

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Verse;
+using WhisperOfTheForest.Experimental.Vfx;
 
 namespace WhisperOfTheForest.Experimental.Missiles
 {
@@ -8,34 +9,29 @@ namespace WhisperOfTheForest.Experimental.Missiles
     /// Native carrier for one arcane missile. <see cref="Verse.Projectile"/> and the game's thing
     /// pipeline own spawning, registration, ticking (including the 1-visible / 15-offscreen update
     /// rate), saving and destruction; this class only supplies what the vanilla straight-line
-    /// projectile cannot: a homing step delegated to <see cref="ArcaneMissile"/>, the payload dispatch
-    /// already resolved by that model, and the per-missile visual lifecycle.
+    /// projectile cannot: a homing step delegated to <see cref="ArcaneMissile"/> and the payload
+    /// dispatch already resolved by that model.
+    ///
+    /// Nothing visual lives here. The projectile only asks the Vfx layer for a follow effect when it
+    /// spawns (including right after a load, from <see cref="SpawnSetup"/>) and for a burst at the
+    /// impact point; the Vfx Def decides what either one looks like.
     ///
     /// <see cref="TickInterval"/> deliberately does not call the vanilla implementation: the base
     /// class would move the missile along its launch line, run its lifetime countdown and resolve
     /// hits through the private intercept checks, which would double-drive the same projectile.
-    /// Consequence: shield/interceptor handling of the base class is not wired here (see
-    /// Experiments/missiles.md, "native migration").
     /// </summary>
     public class Projectile_ArcaneMissiles : Projectile
     {
         /// <summary>Gameplay state. Serialized with the projectile; own copy, never a Def.</summary>
         private ArcaneMissile state;
 
-        private ArcaneMissileVisualSource visual;
-
-        /// <summary>Set when this missile's backend failed; never retried for this missile.</summary>
-        private bool visualBroken;
-
-        /// <summary>True while this missile's map is not the current one, so nothing is spawned.</summary>
-        private bool visualsSuspended;
+        /// <summary>Set once the trail was handed to the Vfx layer; not scribed, so a load asks again.</summary>
+        private bool visualRequested;
 
         /// <summary>Set once when the payload/expiry was resolved; keeps settlement single.</summary>
         private bool settled;
 
         internal ArcaneMissile State => state;
-
-        internal bool VisualBroken => visualBroken;
 
         /// <summary>
         /// Attaches the already-initialised flight model and fills the native projectile slots other
@@ -57,6 +53,16 @@ namespace WhisperOfTheForest.Experimental.Missiles
         /// <summary>Authoritative position for drawing and for the map grid: the model's own point.</summary>
         public override Vector3 ExactPosition =>
             state != null ? new Vector3(state.posX, def.Altitude, state.posZ) : base.ExactPosition;
+
+        /// <summary>
+        /// Runs on every spawn, including the one the save loader performs, so a missile restored
+        /// mid-flight gets its trail back even while the game is paused.
+        /// </summary>
+        public override void SpawnSetup(Map map, bool respawningAfterLoad)
+        {
+            base.SpawnSetup(map, respawningAfterLoad);
+            RequestTrailVisual();
+        }
 
         /// <summary>
         /// One engine tick batch. <paramref name="delta"/> is the number of game ticks since the last
@@ -91,9 +97,6 @@ namespace WhisperOfTheForest.Experimental.Missiles
             }
 
             SyncPosition();
-            // Sole per-tick visual driver: the map component only gates visibility and rebuilds,
-            // so a visual is advanced exactly once per tick and never double-driven.
-            TickVisual();
         }
 
         /// <summary>Resolves the ending exactly once: counters, impact effect, cleanup, destroy.</summary>
@@ -105,19 +108,28 @@ namespace WhisperOfTheForest.Experimental.Missiles
             }
 
             settled = true;
-            MapComponent_ArcaneMissiles component = Map != null ? Map.GetComponent<MapComponent_ArcaneMissiles>() : null;
+            MapComponent_ArcaneMissiles component = Map.GetComponent<MapComponent_ArcaneMissiles>();
 
             if (end == ArcaneMissileEnd.Impact)
             {
                 component?.NotifyImpact();
-                PlayImpactVisual();
-            }
-            else
-            {
-                component?.NotifyExpired();
+                try
+                {
+                    RequestImpactVisual();
+                }
+                finally
+                {
+                    // The effect is fire-and-forget, but the missile must leave the map even if the
+                    // visual Def is broken and throws: the exception still propagates.
+                    Destroy();
+                }
+
+                return;
             }
 
-            // Destroy() runs the despawn/cleanup chain; our overrides release the visual first.
+            component?.NotifyExpired();
+
+            // The trail effect is a follow effect: the Vfx component drops it once this thing is gone.
             Destroy();
         }
 
@@ -130,96 +142,16 @@ namespace WhisperOfTheForest.Experimental.Missiles
             }
         }
 
-        public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
-        {
-            ReleaseVisual("destroy");
-            base.Destroy(mode);
-        }
-
-        public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
-        {
-            ReleaseVisual("despawn");
-            base.DeSpawn(mode);
-        }
-
         public override void ExposeData()
         {
             base.ExposeData();
             Scribe_Deep.Look(ref state, "arcaneMissile");
         }
 
-        // ---------------------------------------------------------------- visuals
-
-        /// <summary>Called by the map component when this map stops being the current one.</summary>
-        internal void SuspendVisual()
-        {
-            visualsSuspended = true;
-            ReleaseVisual("map hidden");
-        }
-
-        /// <summary>Called by the map component when the map is current again (or right after load).</summary>
-        internal void ResumeVisual()
-        {
-            visualsSuspended = false;
-            EnsureVisual();
-        }
-
-        internal void TickVisual()
-        {
-            if (visualsSuspended)
-            {
-                return;
-            }
-
-            EnsureVisual();
-            if (visual == null)
-            {
-                return;
-            }
-
-            try
-            {
-                visual.Update(Frame());
-            }
-            catch (Exception exception)
-            {
-                ArcaneMissileDiagnostics.Error("visual failed to update; disabled for this missile: " + exception);
-                ReleaseVisual("update failure");
-                visualBroken = true;
-            }
-        }
-
-        internal void ReleaseVisual(string reason)
-        {
-            if (visual == null)
-            {
-                return;
-            }
-
-            ArcaneMissileVisualSource current = visual;
-            visual = null;
-            TryDispose(current, reason);
-        }
-
-        internal ArcaneMissileVisualFrame Frame()
-        {
-            return new ArcaneMissileVisualFrame
-            {
-                Map = Map,
-                X = state.posX,
-                Y = state.settings.flightHeight,
-                Z = state.posZ,
-                HeadingX = state.headingX,
-                HeadingZ = state.headingZ,
-                AgeTicks = state.ageTicks,
-                WobblePhase = state.wobblePhase,
-                Settings = state.settings
-            };
-        }
-
+        /// <summary>Lab snapshot of the live flight state; settings are copied.</summary>
         internal ArcaneMissileLabFrame ToLabFrame()
         {
-            UnityEngine.Vector3 target = state.TargetPosition();
+            Vector3 target = state.TargetPosition();
             return new ArcaneMissileLabFrame
             {
                 X = state.posX,
@@ -235,92 +167,56 @@ namespace WhisperOfTheForest.Experimental.Missiles
             };
         }
 
-        private void EnsureVisual()
+        /// <summary>
+        /// Asks for the trail of the volley's selected backend. A save can outlive a Def (the
+        /// selection is a scribed Def reference), and that is the one case a visual cannot rebuild:
+        /// it is reported and the missile keeps flying without one.
+        /// </summary>
+        private void RequestTrailVisual()
         {
-            if (visualsSuspended || visual != null || visualBroken || state == null || state.settings == null)
+            if (visualRequested || state?.settings == null)
             {
                 return;
             }
 
-            ArcaneMissileVisualDef def = state.settings.visualDef;
-            if (def == null)
+            visualRequested = true;
+            ArcaneMissileVisualDef visualDef = state.settings.visualDef;
+            if (visualDef == null)
             {
-                visualBroken = true;
                 ArcaneMissileDiagnostics.Error(
                     "missile has no visualDef (saved selection could not be resolved); it keeps flying without a visual.");
                 return;
             }
 
-            ArcaneMissileVisualSource source;
-            try
+            VfxService.Play(new ArcaneMissileVfxRequest
             {
-                source = def.CreateSource();
-            }
-            catch (Exception exception)
-            {
-                visualBroken = true;
-                ArcaneMissileDiagnostics.Error("visual " + def.defName + " failed to spawn; disabled for this missile: " + exception);
-                return;
-            }
-
-            if (source == null)
-            {
-                visualBroken = true;
-                return;
-            }
-
-            try
-            {
-                source.Spawn(Frame());
-                visual = source;
-            }
-            catch (Exception exception)
-            {
-                visualBroken = true;
-                ArcaneMissileDiagnostics.Error("visual " + def.defName + " failed to spawn; disabled for this missile: " + exception);
-                TryDispose(source, "spawn failure");
-            }
+                map = Map,
+                follow = this,
+                origin = ExactPosition,
+                target = state.TargetPosition(),
+                direction = new Vector3(state.headingX, 0f, state.headingZ),
+                vfxDefName = visualDef.defName,
+                settings = state.settings
+            });
         }
 
-        private void PlayImpactVisual()
+        private void RequestImpactVisual()
         {
-            if (visualsSuspended || visual == null || state == null || state.settings == null)
+            ArcaneMissileVisualDef visualDef = state.settings.visualDef;
+            if (visualDef == null)
             {
                 return;
             }
 
-            var context = new ArcaneMissileImpactVisualContext
+            VfxService.Play(new ArcaneMissileVfxRequest
             {
-                Map = Map,
-                Cell = state.lastImpactCell,
-                X = state.posX,
-                Y = state.settings.flightHeight,
-                Z = state.posZ,
-                Hit = state.lastHit,
-                Settings = state.settings
-            };
-
-            try
-            {
-                visual.Impact(context);
-            }
-            catch (Exception exception)
-            {
-                ArcaneMissileDiagnostics.Error("impact visual failed: " + exception);
-            }
-        }
-
-        private static void TryDispose(ArcaneMissileVisualSource source, string reason)
-        {
-            try
-            {
-                source?.Dispose();
-            }
-            catch (Exception exception)
-            {
-                // A failing backend must never block missile removal or map cleanup.
-                ArcaneMissileDiagnostics.Error("visual dispose failed (" + reason + "), continuing: " + exception);
-            }
+                map = Map,
+                origin = new Vector3(state.posX, state.settings.flightHeight, state.posZ),
+                target = state.TargetPosition(),
+                direction = new Vector3(state.headingX, 0f, state.headingZ),
+                vfxDefName = visualDef.impactVisualDefName,
+                settings = state.settings
+            });
         }
     }
 }

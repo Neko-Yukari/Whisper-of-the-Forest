@@ -2,63 +2,43 @@ using System;
 using System.Collections.Generic;
 using RimWorld;
 using Verse;
+using WhisperOfTheForest.Experimental.Vfx;
 
 namespace WhisperOfTheForest.Experimental.Missiles
 {
-    /// <summary>Shared, prefixed logging so configuration mistakes are visible instead of silent.</summary>
+    /// <summary>Missile-layer logging: the shared leveled entry with the missile module tag.</summary>
     public static class ArcaneMissileDiagnostics
     {
-        public const string Prefix = "[WotF-Missiles] ";
-
         public static void Error(string message)
         {
-            Log.Error(Prefix + message);
+            WotfLog.Error(WotfLog.ModuleMissile, message);
+        }
+
+        public static void Warning(string message)
+        {
+            WotfLog.Warning(WotfLog.ModuleMissile, message);
+        }
+
+        public static void Info(string message)
+        {
+            WotfLog.Info(WotfLog.ModuleMissile, message);
+        }
+
+        public static void Debug(string message)
+        {
+            WotfLog.Debug(WotfLog.ModuleMissile, message);
         }
     }
 
     /// <summary>
     /// Selects how one missile is drawn. The Def only names a lifecycle class, so a new backend is a
-    /// new <see cref="ArcaneMissileVisualSource"/> plus a Def - the missile core never learns about it.
+    /// new <see cref="VfxWorker"/> plus a Def - the missile core never learns about it. It is a
+    /// <see cref="VfxDef"/> like the railgun's: the missile layer owns no visual framework of its own.
     /// </summary>
-    public class ArcaneMissileVisualDef : Def
+    public class ArcaneMissileVisualDef : VfxDef
     {
-        public Type visualClass;
-
-        [Unsaved] private bool failureLogged;
-
-        /// <summary>Creates a per-missile visual instance. Returns null (after logging) on bad config.</summary>
-        public ArcaneMissileVisualSource CreateSource()
-        {
-            if (visualClass == null || !typeof(ArcaneMissileVisualSource).IsAssignableFrom(visualClass))
-            {
-                if (!failureLogged)
-                {
-                    failureLogged = true;
-                    ArcaneMissileDiagnostics.Error(
-                        "visual def " + defName + " has an invalid visualClass (" + (visualClass?.FullName ?? "null")
-                        + "); it must derive from " + typeof(ArcaneMissileVisualSource).FullName
-                        + ". Missiles will fly without a visual instead of switching backend.");
-                }
-
-                return null;
-            }
-
-            try
-            {
-                return (ArcaneMissileVisualSource)Activator.CreateInstance(visualClass);
-            }
-            catch (Exception exception)
-            {
-                if (!failureLogged)
-                {
-                    failureLogged = true;
-                    ArcaneMissileDiagnostics.Error(
-                        "visual def " + defName + " could not create " + visualClass.FullName + ": " + exception);
-                }
-
-                return null;
-            }
-        }
+        /// <summary>Effect played where a missile of this backend detonates.</summary>
+        public string impactVisualDefName;
 
         public override IEnumerable<string> ConfigErrors()
         {
@@ -67,13 +47,9 @@ namespace WhisperOfTheForest.Experimental.Missiles
                 yield return error;
             }
 
-            if (visualClass == null)
+            if (impactVisualDefName.NullOrEmpty())
             {
-                yield return "visualClass is null";
-            }
-            else if (!typeof(ArcaneMissileVisualSource).IsAssignableFrom(visualClass))
-            {
-                yield return "visualClass must derive from " + typeof(ArcaneMissileVisualSource).FullName;
+                yield return "impactVisualDefName is empty; a detonating missile would have no effect";
             }
         }
     }

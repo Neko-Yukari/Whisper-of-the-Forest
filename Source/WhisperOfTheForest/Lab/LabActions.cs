@@ -1,66 +1,31 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using RimWorld;
 using Verse;
-using WhisperOfTheForest.Experimental.Missiles;
 
 namespace WhisperOfTheForest.Experimental
 {
     /// <summary>
-    /// Public actions the experiment window (and lab commands) call. Every action is limited to
-    /// the explicitly passed pawn; nothing here changes global behaviour or other pawns.
+    /// Public actions the lab commands call. Every action is limited to the explicitly passed pawn;
+    /// nothing here changes global behaviour or other pawns.
     /// </summary>
     public static class LabActions
     {
-        public const string ArcaneMissilesDefName = "WotF_ArcaneMissiles";
-        public const string ArcaneMissilesHeavyDefName = "WotF_ArcaneMissiles_Heavy";
-        public const string ArcaneMissilesMenderDefName = "WotF_ArcaneMissiles_Mender";
         public const string TerrainStrideDefName = "WotF_TerrainStride";
         public const string BlinkStrideDefName = "WotF_BlinkStride";
 
-        // Grant targets are discovered from loaded AbilityDefs that carry the missile comp, so a new
-        // XML preset needs no C# list change. The constants above remain the default entry points.
-
-        /// <summary>Last human-readable failure, for the window and the JSON lab result.</summary>
+        /// <summary>Last human-readable failure, for the lab JSON result.</summary>
         public static string LastError { get; private set; }
 
         /// <summary>
-        /// Grants every loaded experiment psycast to the selected pawn: raises psylink to the highest
-        /// required level, fills psyfocus, then learns each missing ability. Only the passed pawn
-        /// changes. Throws InvalidOperationException on failure so the UI can surface the reason.
+        /// Raises the selected pawn to psylink level 1 and fills its psyfocus, which is the only thing
+        /// the spellbook needs from Royalty: <see cref="Spells.SpellService"/> then grants the carrier
+        /// ability on its own. Only the passed pawn changes.
         /// </summary>
-        public static void GrantPsycast(Pawn pawn)
+        public static bool TryGrantPsylink(Pawn pawn)
         {
-            ThrowIfFailed(TryGrantPsycast(pawn));
-        }
-
-        public static bool TryGrantPsycast(Pawn pawn)
-        {
-            return Run(pawn, "grant-psycast", delegate(Pawn target)
+            return Run(pawn, "grant-psylink", delegate(Pawn target)
             {
-                List<AbilityDef> abilityDefs = new List<AbilityDef>();
-                foreach (AbilityDef def in DefDatabase<AbilityDef>.AllDefs)
-                {
-                    if (def == null || def.comps == null)
-                    {
-                        continue;
-                    }
-
-                    if (def.comps.OfType<CompProperties_AbilityWotFArcaneMissiles>().Any())
-                    {
-                        abilityDefs.Add(def);
-                    }
-                }
-
-                if (abilityDefs.Count == 0)
-                {
-                    return FailMessage("no AbilityDef with CompProperties_AbilityWotFArcaneMissiles is loaded");
-                }
-
-                // Deterministic grant/report order regardless of DefDatabase order.
-                abilityDefs.Sort((a, b) => string.CompareOrdinal(a.defName, b.defName));
-
                 if (HediffDefOf.PsychicAmplifier == null || target.psychicEntropy == null || target.abilities == null)
                 {
                     return FailMessage("Royalty psycast system is not loaded");
@@ -95,42 +60,15 @@ namespace WhisperOfTheForest.Experimental
                     target.health.AddHediff(psylink, brain, null, null);
                 }
 
-                int requiredLevel = 1;
-                foreach (AbilityDef def in abilityDefs)
-                {
-                    requiredLevel = Math.Max(requiredLevel, def.level);
-                }
-
-                if (psylink.level < requiredLevel)
+                if (psylink.level < 1)
                 {
                     // ChangeLevel keeps vanilla level bookkeeping and psyfocus capacity in sync.
-                    psylink.ChangeLevel(requiredLevel - psylink.level, false);
+                    psylink.ChangeLevel(1 - psylink.level, false);
                 }
 
                 target.psychicEntropy.OffsetPsyfocusDirectly(1f);
                 target.psychicEntropy.SetPsyfocusTarget(1f);
-
-                for (int i = 0; i < abilityDefs.Count; i++)
-                {
-                    if (target.abilities.GetAbility(abilityDefs[i], true) == null)
-                    {
-                        target.abilities.GainAbility(abilityDefs[i]);
-                    }
-                }
-
-                List<string> granted = new List<string>(abilityDefs.Count);
-                for (int i = 0; i < abilityDefs.Count; i++)
-                {
-                    AbilityDef def = abilityDefs[i];
-                    if (target.abilities.GetAbility(def, true) == null)
-                    {
-                        return FailMessage("ability " + def.defName + " still missing after GainAbility");
-                    }
-
-                    granted.Add(def.defName);
-                }
-
-                return "psylink=" + psylink.level + " psyfocus=" + target.psychicEntropy.CurrentPsyfocus.ToString("0.##") + " abilities=" + string.Join(",", granted.ToArray());
+                return "psylink=" + psylink.level + " psyfocus=" + target.psychicEntropy.CurrentPsyfocus.ToString("0.##");
             });
         }
 

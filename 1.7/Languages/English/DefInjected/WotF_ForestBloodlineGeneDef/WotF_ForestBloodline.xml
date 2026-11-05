@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <WotF_ForestBloodline.label>forest bloodline</WotF_ForestBloodline.label>
+  <WotF_ForestBloodline.labelShortAdj>forest-blooded</WotF_ForestBloodline.labelShortAdj>
+  <WotF_ForestBloodline.description>An inherited bond with the forest's old magic. Carriers hold mana, learn their own kind of casting, and can wake a spellbook that is dead in anyone else's hands. The bond also raises how much neural heat the body can bear.</WotF_ForestBloodline.description>
+  <WotF_ForestBloodline.resourceLabel>mana</WotF_ForestBloodline.resourceLabel>
+  <WotF_ForestBloodline.resourceDescription>The caster's own reserve. A spell spends it when it resolves; the maximum is set by the bloodline level and can be raised further by a spellbook or a staff.</WotF_ForestBloodline.resourceDescription>
+
+</LanguageData>

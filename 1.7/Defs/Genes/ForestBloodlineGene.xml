@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    Forest bloodline (林庭血脉).
+
+    HAR carries the body, the gene carries the magic: the mana bar is a Gene_Resource, and the
+    caster level and experience are saved on this gene's instance. Every level number lives in
+    ForestBloodlineLevels.xml; this Def only points at the table and at the stat the gene reads.
+  -->
+
+  <WhisperOfTheForest.Experimental.Race.WotF_ForestBloodlineGeneDef>
+    <defName>WotF_ForestBloodline</defName>
+    <label>forest bloodline</label>
+    <labelShortAdj>forest-blooded</labelShortAdj>
+    <description>An inherited bond with the forest's old magic. Carriers hold mana, learn their own kind of casting, and can wake a spellbook that is dead in anyone else's hands. The bond also raises how much neural heat the body can bear.</description>
+    <displayCategory>Ability</displayCategory>
+    <biostatCpx>2</biostatCpx>
+    <geneClass>WhisperOfTheForest.Experimental.Race.Gene_ForestBloodline</geneClass>
+    <resourceGizmoType>WhisperOfTheForest.Experimental.Race.GeneGizmo_ForestMana</resourceGizmoType>
+    <showGizmoOnWorldView>true</showGizmoOnWorldView>
+    <showGizmoWhenDrafted>true</showGizmoWhenDrafted>
+    <resourceLabel>mana</resourceLabel>
+    <resourceDescription>The caster's own reserve. A spell spends it when it resolves; the maximum is set by the bloodline level and can be raised further by a spellbook or a staff.</resourceDescription>
+    <manaMaxStat>WotF_ManaMax</manaMaxStat>
+    <manaBarColor>(0.36, 0.62, 0.92)</manaBarColor>
+    <manaBarHighlightColor>(0.62, 0.85, 1)</manaBarHighlightColor>
+    <levelTable>
+      <li>WotF_CasterLevel_1</li>
+      <li>WotF_CasterLevel_2</li>
+      <li>WotF_CasterLevel_3</li>
+      <li>WotF_CasterLevel_4</li>
+      <li>WotF_CasterLevel_5</li>
+      <li>WotF_CasterLevel_6</li>
+    </levelTable>
+  </WhisperOfTheForest.Experimental.Race.WotF_ForestBloodlineGeneDef>
+
+</Defs>

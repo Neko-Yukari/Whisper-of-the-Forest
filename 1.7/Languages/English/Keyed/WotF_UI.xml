@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
-  <WotF_UI.SettingsCategory>Whisper of the Forest: Tech Lab</WotF_UI.SettingsCategory>
-  <WotF_UI.SettingsHint>The floating entry visibility and position are saved in the mod settings. The lab window itself is never restored on load and always starts closed.</WotF_UI.SettingsHint>
+  <WotF_UI.SettingsCategory>Whisper of the Forest</WotF_UI.SettingsCategory>
+  <WotF_UI.SettingsHint>Debug logging is off by default; turn it on only while diagnosing, and the game log will then carry per-object detail.</WotF_UI.SettingsHint>
   <WotF_UI.WindowTitle>Whisper of the Forest - Tech Lab</WotF_UI.WindowTitle>
 
   <WotF_UI.NoPawn>No pawn selected</WotF_UI.NoPawn>
@@ -25,6 +25,7 @@
 
   <WotF_UI.SectionEntry>Floating entry</WotF_UI.SectionEntry>
   <WotF_UI.ShowFloatingEntry>Show the bottom-right floating entry</WotF_UI.ShowFloatingEntry>
+  <WotF_UI.DebugLog>Log per-object debug lines (turn on while diagnosing)</WotF_UI.DebugLog>
   <WotF_UI.ResetEntryPosition>Reset position</WotF_UI.ResetEntryPosition>
   <WotF_UI.ResetEntryPositionTip>Puts the floating entry back above the vanilla play settings row in the bottom right corner.</WotF_UI.ResetEntryPositionTip>
   <WotF_UI.EntryHint>Drag the entry to move it, click it to open this window. The entry stays after the window is closed. If the entry is hidden, reopen this window from the bottom tech lab button.</WotF_UI.EntryHint>

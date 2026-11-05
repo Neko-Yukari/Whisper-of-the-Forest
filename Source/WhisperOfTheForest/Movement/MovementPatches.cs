@@ -47,8 +47,6 @@ namespace WhisperOfTheForest.Experimental.Movement
     [HarmonyPatch(typeof(Pawn_PathFollower), "TryEnterNextPathCell")]
     internal static class Patch_TryEnterNextPathCell
     {
-        private const int ErrorOnceKey = 571013;
-
         private static MethodInfo setupMoveIntoNextCell;
         private static bool setupMoveIntoNextCellLookup;
 
@@ -68,7 +66,7 @@ namespace WhisperOfTheForest.Experimental.Movement
             catch (Exception e)
             {
                 // Never let an experiment failure escape into the pather tick loop.
-                Log.ErrorOnce("[WhisperOfTheForest] BlinkStride patch failed: " + e, ErrorOnceKey);
+                WotfLog.ErrorOnce(WotfLog.ModuleMovement, "BlinkStride patch failed: " + e);
             }
         }
 
@@ -161,7 +159,8 @@ namespace WhisperOfTheForest.Experimental.Movement
                 setupMoveIntoNextCellLookup = true;
                 if (setupMoveIntoNextCell == null)
                 {
-                    Log.ErrorOnce("[WhisperOfTheForest] Pawn_PathFollower.SetupMoveIntoNextCell not found; BlinkStride disabled for this session.", ErrorOnceKey + 1);
+                    WotfLog.ErrorOnce(WotfLog.ModuleMovement,
+                        "Pawn_PathFollower.SetupMoveIntoNextCell not found; BlinkStride disabled for this session.");
                 }
             }
 

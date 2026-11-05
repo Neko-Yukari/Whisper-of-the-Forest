@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using RimWorld;
 using Verse;
 using Verse.AI;
+using WhisperOfTheForest.Experimental.Abilities;
 using WhisperOfTheForest.Experimental.Missiles;
 using WhisperOfTheForest.Experimental.Movement;
+using WhisperOfTheForest.Experimental.Spells;
 
 namespace WhisperOfTheForest.Experimental
 {
@@ -23,10 +26,12 @@ namespace WhisperOfTheForest.Experimental
         private const int MaxTraitEntries = 16;
         private const int MaxHediffEntries = 32;
         private const int MaxObservedFrames = 16;
+        private const int MaxObservedPlants = 16;
 
         private static int labFiredMissiles;
         private static readonly Dictionary<int, SetupRecord> Setups = new Dictionary<int, SetupRecord>();
         private static readonly Dictionary<int, BehaviorRecord> BehaviorFixtures = new Dictionary<int, BehaviorRecord>();
+        private static readonly Dictionary<string, int> PlantFixtures = new Dictionary<string, int>();
 
         public static string Execute(string id, string command, Dictionary<string, string> args)
         {
@@ -54,10 +59,6 @@ namespace WhisperOfTheForest.Experimental
                     return Sow(id, args);
                 case "attack":
                     return Attack(id, args);
-                case "cast":
-                    return Cast(id, args);
-                case "fire":
-                    return Fire(id, args);
                 case "missiles":
                     return MissileStats(id, args);
                 case "path":
@@ -66,14 +67,16 @@ namespace WhisperOfTheForest.Experimental
                     return Setup(id, args);
                 case "behaviors":
                     return Behaviors(id, args);
+                case "plants":
+                    return Plants(id, args);
                 case "warp":
                     return Warp(id, args);
                 case "hurt":
                     return Hurt(id, args);
                 case "camera":
-                    return Camera(id);
-                case "ui":
-                    return Ui(id, args);
+                    return Camera(id, args);
+                case "spellbook":
+                    return Spellbook(id, args);
                 case "time":
                     return Time(id, args);
                 case "save":
@@ -82,9 +85,59 @@ namespace WhisperOfTheForest.Experimental
                     return Load(id, args);
                 case "step":
                     return Step(id, args);
+                case "test":
+                    return Test(id, args);
+                case "log":
+                    return LogLevel(id, args);
                 default:
                     throw new LabCommandException("unknown command '" + command + "'");
             }
+        }
+
+        private static string LogLevel(string id, Dictionary<string, string> args)
+        {
+            if (args.ContainsKey("tail"))
+            {
+                int count = Math.Min(Math.Max(1, RequireInt(args, "tail")), 200);
+                var json = new StringBuilder(4096);
+                json.Append("\"level\":").Append(Json.Str(WotfLog.LevelName));
+                json.Append(",\"entries\":[");
+                List<LogMessage> messages = new List<LogMessage>(Log.Messages);
+                int start = Math.Max(0, messages.Count - count);
+                for (int i = start; i < messages.Count; i++)
+                {
+                    if (i > start)
+                    {
+                        json.Append(',');
+                    }
+
+                    LogMessage message = messages[i];
+                    json.Append("{\"type\":").Append(Json.Str(message.type.ToString()))
+                        .Append(",\"text\":").Append(Json.Str(message.text.ToString())).Append('}');
+                }
+
+                json.Append(']');
+                return Ok(id, json.ToString());
+            }
+
+            string level = Get(args, "level", null);
+            if (level != null)
+            {
+                switch (level.ToLowerInvariant())
+                {
+                    case "debug":
+                        WotfLog.DebugEnabled = true;
+                        break;
+                    case "info":
+                        WotfLog.DebugEnabled = false;
+                        break;
+                    default:
+                        throw new LabCommandException("log level must be debug or info");
+                }
+            }
+
+            return Ok(id, "\"level\":" + Json.Str(WotfLog.LevelName)
+                          + ",\"debug\":" + Json.Bool(WotfLog.DebugEnabled));
         }
 
         private static string Status(string id)
@@ -98,9 +151,7 @@ namespace WhisperOfTheForest.Experimental
             json.Append(",\"harmonyPatched\":").Append(Json.Bool(LabHost.IsHarmonyPatched));
             json.Append(",\"gameLoaded\":").Append(Json.Bool(Current.Game != null));
             json.Append(",\"defs\":{");
-            json.Append("\"WotF_ArcaneMissiles\":").Append(Json.Bool(DefExists<AbilityDef>(LabActions.ArcaneMissilesDefName)));
-            json.Append(",\"WotF_ArcaneMissiles_Heavy\":").Append(Json.Bool(DefExists<AbilityDef>(LabActions.ArcaneMissilesHeavyDefName)));
-            json.Append(",\"WotF_ArcaneMissiles_Mender\":").Append(Json.Bool(DefExists<AbilityDef>(LabActions.ArcaneMissilesMenderDefName)));
+            json.Append("\"WotF_SpellbookCast\":").Append(Json.Bool(DefExists<AbilityDef>(SpellDefs.CastAbilityDefName)));
             json.Append(",\"WotF_TerrainStride\":").Append(Json.Bool(DefExists<ThingDef>(LabActions.TerrainStrideDefName)));
             json.Append(",\"WotF_BlinkStride\":").Append(Json.Bool(DefExists<ThingDef>(LabActions.BlinkStrideDefName)));
             json.Append(",\"WotF_Visual_RimUnity\":").Append(Json.Bool(DefExists<ArcaneMissileVisualDef>(ArcaneMissileDefs.RimUnityVisualDefName)));
@@ -120,6 +171,9 @@ namespace WhisperOfTheForest.Experimental
             if (Current.Game != null && Find.CurrentMap != null)
             {
                 json.Append(",\"setup\":").Append(SetupState(Find.CurrentMap));
+                json.Append(",\"railgun\":{\"pending\":")
+                    .Append(Json.Num(GameComponent_RailgunCasts.Current?.PendingCount ?? 0))
+                    .Append(",\"last\":").Append(Json.Str(RailgunCastService.LastResolve)).Append('}');
             }
             else
             {
@@ -274,30 +328,6 @@ namespace WhisperOfTheForest.Experimental
             json.Append(']');
             json.Append('}');
             return json.ToString();
-        }
-
-        /// <summary>
-        /// Resolves an ability preset and returns a fresh copy of its missile settings. The Def is
-        /// never handed out, and a Def without the missile comp is a hard error instead of a
-        /// silent fallback to the built-in defaults.
-        /// </summary>
-        private static ArcaneMissileSettings PresetSettings(string preset)
-        {
-            AbilityDef def = DefDatabase<AbilityDef>.GetNamedSilentFail(preset);
-            if (def == null)
-            {
-                throw new LabCommandException("preset ability def " + preset + " is not loaded");
-            }
-
-            CompProperties_AbilityWotFArcaneMissiles props = def.comps != null
-                ? def.comps.OfType<CompProperties_AbilityWotFArcaneMissiles>().FirstOrDefault()
-                : null;
-            if (props == null || props.settings == null)
-            {
-                throw new LabCommandException("preset ability def " + preset + " has no CompProperties_AbilityWotFArcaneMissiles settings");
-            }
-
-            return props.settings.Copy();
         }
 
         /// <summary>Effective numbers and both flight flags for one volley or Def preset.</summary>
@@ -576,8 +606,8 @@ namespace WhisperOfTheForest.Experimental
         private static string Grant(string id)
         {
             Pawn pawn = RequireSelectedPawn();
-            bool ok = LabActions.TryGrantPsycast(pawn);
-            return ActionResult(id, ok, "grant", pawn);
+            bool ok = LabActions.TryGrantPsylink(pawn);
+            return ActionResult(id, ok, "grant-psylink", pawn);
         }
 
         private static string Equip(string id, Dictionary<string, string> args)
@@ -727,214 +757,6 @@ namespace WhisperOfTheForest.Experimental
             }
 
             return Ok(id, "\"target\":" + Json.Num(targetId) + ",\"job\":" + Json.Str(pawn.CurJobDef != null ? pawn.CurJobDef.defName : null));
-        }
-
-        private static string Cast(string id, Dictionary<string, string> args)
-        {
-            Map map = RequireMap();
-            Pawn pawn = RequireSelectedPawn();
-            string presetName = Get(args, "preset", LabActions.ArcaneMissilesDefName);
-            AbilityDef abilityDef = DefDatabase<AbilityDef>.GetNamedSilentFail(presetName);
-            if (abilityDef == null)
-            {
-                throw new LabCommandException("ability def " + presetName + " is not loaded");
-            }
-
-            ArcaneMissileSettings effectiveSettings = PresetSettings(presetName);
-            effectiveSettings.Clamp();
-
-            Ability ability = pawn.abilities != null ? pawn.abilities.GetAbility(abilityDef, true) : null;
-            if (ability == null)
-            {
-                throw new LabCommandException("selected pawn has no " + presetName + " (run grant first)");
-            }
-
-            LocalTargetInfo target;
-            if (args.ContainsKey("id"))
-            {
-                Thing thing = FindThing(map, RequireInt(args, "id"));
-                if (thing == null)
-                {
-                    throw new LabCommandException("no spawned thing for cast target");
-                }
-
-                target = new LocalTargetInfo(thing);
-            }
-            else if (args.ContainsKey("x") && args.ContainsKey("z"))
-            {
-                IntVec3 cell = new IntVec3(RequireInt(args, "x"), 0, RequireInt(args, "z"));
-                if (!cell.InBounds(map))
-                {
-                    throw new LabCommandException("cast cell out of bounds");
-                }
-
-                target = new LocalTargetInfo(cell);
-            }
-            else
-            {
-                throw new LabCommandException("cast needs id=<thingId> or x=<int> z=<int>");
-            }
-
-            bool activated = ability.Activate(target, target);
-            ExperimentLog.Record(
-                "lab",
-                pawn,
-                "cast " + abilityDef.defName + " target=" + target.Cell + " activated=" + activated +
-                " ignoreFlightLimits=" + effectiveSettings.ignoreFlightLimits +
-                " expireOnTargetLost=" + effectiveSettings.expireOnTargetLost);
-            if (!activated)
-            {
-                throw new LabCommandException("ability.Activate returned false");
-            }
-
-            StringBuilder json = new StringBuilder(320);
-            json.Append("\"target\":").Append(Json.Cell(target.Cell));
-            json.Append(",\"ability\":").Append(Json.Str(abilityDef.defName));
-            json.Append(",\"preset\":").Append(Json.Str(presetName));
-            json.Append(",\"settings\":");
-            AppendMissileSettings(json, effectiveSettings);
-            return Ok(id, json.ToString());
-        }
-
-        private static string Fire(string id, Dictionary<string, string> args)
-        {
-            Map map = RequireMap();
-            Pawn pawn = RequireSelectedPawn();
-            string presetName = Get(args, "preset", null);
-            ArcaneMissileSettings settings = string.IsNullOrEmpty(presetName)
-                ? ArcaneMissileLauncher.CreateDefaultSettings()
-                : PresetSettings(presetName);
-
-            string requestedMode = Get(args, "mode", null);
-            if (!string.IsNullOrEmpty(requestedMode))
-            {
-                switch (requestedMode.ToLowerInvariant())
-                {
-                    case "damage":
-                        settings.impactMode = ArcaneMissileImpactMode.Damage;
-                        break;
-                    case "heal":
-                        settings.impactMode = ArcaneMissileImpactMode.Heal;
-                        break;
-                    case "explode":
-                        settings.impactMode = ArcaneMissileImpactMode.Explode;
-                        break;
-                    default:
-                        throw new LabCommandException("mode must be damage|heal|explode");
-                }
-
-                // Only an explicit mode overrides the preset's impactDef; otherwise the preset wins.
-                settings.impactDef = ArcaneMissileDefs.ImpactForMode(settings.impactMode);
-            }
-
-            string mode = settings.impactMode.ToString().ToLowerInvariant();
-            if (settings.impactDef == null)
-            {
-                // Keep the legacy log/response readable; the launcher would resolve the same Def.
-                settings.impactDef = ArcaneMissileDefs.ImpactForMode(settings.impactMode);
-            }
-
-            string visual = Get(args, "visual", null);
-            if (!string.IsNullOrEmpty(visual))
-            {
-                string visualDefName;
-                switch (visual.ToLowerInvariant())
-                {
-                    case "rimunity":
-                        visualDefName = ArcaneMissileDefs.RimUnityVisualDefName;
-                        break;
-                    case "native":
-                        visualDefName = ArcaneMissileDefs.NativeVisualDefName;
-                        break;
-                    default:
-                        throw new LabCommandException("visual must be 'rimunity' or 'native'");
-                }
-
-                ArcaneMissileVisualDef visualDef = ArcaneMissileDefs.VisualByName(visualDefName);
-                if (visualDef == null)
-                {
-                    throw new LabCommandException("visual def " + visualDefName + " is not loaded");
-                }
-
-                settings.visualDef = visualDef;
-            }
-
-            if (args.ContainsKey("count"))
-            {
-                settings.missileCount = RequireInt(args, "count");
-            }
-
-            if (args.ContainsKey("speed"))
-            {
-                settings.speedCellsPerSecond = RequireFloat(args, "speed");
-            }
-
-            if (args.ContainsKey("turn"))
-            {
-                settings.maxTurnDegreesPerSecond = RequireFloat(args, "turn");
-            }
-
-            if (args.ContainsKey("wobble"))
-            {
-                settings.wobbleAmplitude = RequireFloat(args, "wobble");
-            }
-
-            if (args.ContainsKey("damage"))
-            {
-                settings.damageAmount = RequireFloat(args, "damage");
-            }
-
-            if (args.ContainsKey("heal"))
-            {
-                settings.healAmount = RequireFloat(args, "heal");
-            }
-
-            if (args.ContainsKey("radius"))
-            {
-                settings.explosionRadius = RequireFloat(args, "radius");
-            }
-
-            settings.Clamp();
-
-            MapComponent_ArcaneMissiles component = map.GetComponent<MapComponent_ArcaneMissiles>();
-            if (Get(args, "reset", "0") == "1")
-            {
-                if (component != null)
-                {
-                    component.ResetLabCounters();
-                }
-
-                labFiredMissiles = 0;
-            }
-
-            LocalTargetInfo target = ResolveTarget(map, args, "fire");
-            int launched = ArcaneMissileLauncher.Fire(pawn, target, settings);
-            labFiredMissiles += launched;
-            ExperimentLog.Record(
-                "lab",
-                pawn,
-                "fire launched=" + launched + " preset=" + (presetName ?? "default") + " mode=" + mode + " target=" + target.Cell +
-                " speed=" + settings.speedCellsPerSecond + " turn=" + settings.maxTurnDegreesPerSecond +
-                " count=" + settings.missileCount + " wobble=" + settings.wobbleAmplitude +
-                " ignoreFlightLimits=" + settings.ignoreFlightLimits + " expireOnTargetLost=" + settings.expireOnTargetLost +
-                " visual=" + (settings.visualDef != null ? settings.visualDef.defName : "default") +
-                " impact=" + (settings.impactDef != null ? settings.impactDef.defName : "enum:" + settings.impactMode));
-
-            StringBuilder json = new StringBuilder(512);
-            json.Append("\"launched\":").Append(Json.Num(launched));
-            json.Append(",\"preset\":").Append(Json.Str(presetName));
-            json.Append(",\"target\":").Append(Json.Cell(target.Cell));
-            json.Append(",\"settings\":");
-            AppendMissileSettings(json, settings);
-            json.Append(",\"visualDef\":").Append(Json.Str(settings.visualDef != null ? settings.visualDef.defName : null));
-            json.Append(",\"visualEffective\":").Append(Json.Str(
-                settings.visualDef != null ? settings.visualDef.defName : ArcaneMissileDefs.DefaultVisual?.defName));
-            json.Append(",\"impactDef\":").Append(Json.Str(settings.impactDef != null ? settings.impactDef.defName : null));
-            json.Append(",\"impactMode\":").Append(Json.Str(settings.impactMode.ToString()));
-            json.Append(",\"impactEffective\":").Append(Json.Str(
-                settings.impactDef != null ? settings.impactDef.defName : "enum:" + settings.impactMode));
-            json.Append(",\"missiles\":").Append(MissileState(map));
-            return Ok(id, json.ToString());
         }
 
         private static string MissileStats(string id, Dictionary<string, string> args)
@@ -1349,6 +1171,162 @@ namespace WhisperOfTheForest.Experimental
             return json.ToString();
         }
 
+        /// <summary>
+        /// Bounded plant view: the shortest path between a real cast and what it did.
+        /// No arguments lists up to 16 immature plants plus counts, <c>id=</c> reports one target
+        /// (plant or not), and <c>confirm=1</c> plants one fixture inside the registered setup
+        /// rectangle. Growth is only ever read here; maturing must come from the ability itself.
+        /// </summary>
+        private static string Plants(string id, Dictionary<string, string> args)
+        {
+            Map map = RequireMap();
+            if (args.ContainsKey("id"))
+            {
+                return Ok(id, "\"plant\":" + PlantState(FindThing(map, RequireInt(args, "id"))));
+            }
+
+            if (Get(args, "confirm", "0") == "1")
+            {
+                return PlantsFixture(id, map, args);
+            }
+
+            List<Plant> immature = new List<Plant>();
+            int plantCount = 0;
+            foreach (Thing thing in map.spawnedThings)
+            {
+                if (!(thing is Plant plant) || plant.Destroyed)
+                {
+                    continue;
+                }
+
+                plantCount++;
+                if (PlantGrowthEffect.FailureReasonKey(plant) == null)
+                {
+                    immature.Add(plant);
+                }
+            }
+
+            immature.Sort((a, b) => a.thingIDNumber.CompareTo(b.thingIDNumber));
+            StringBuilder json = new StringBuilder(1024);
+            json.Append("\"plantCount\":").Append(Json.Num(plantCount));
+            json.Append(",\"immatureCount\":").Append(Json.Num(immature.Count));
+            json.Append(",\"shown\":").Append(Json.Num(Math.Min(immature.Count, MaxObservedPlants)));
+            json.Append(",\"plants\":[");
+            for (int i = 0; i < immature.Count && i < MaxObservedPlants; i++)
+            {
+                if (i > 0)
+                {
+                    json.Append(',');
+                }
+
+                json.Append(PlantState(immature[i]));
+            }
+
+            json.Append(']');
+            return Ok(id, json.ToString());
+        }
+
+        /// <summary>
+        /// One plant fixture for the isolated lab map: a real vanilla plant spawned at growth 0 so the
+        /// only way to see it mature is a real cast. Reused for the same map and def.
+        /// </summary>
+        private static string PlantsFixture(string id, Map map, Dictionary<string, string> args)
+        {
+            SetupRecord setup;
+            if (!Setups.TryGetValue(map.uniqueID, out setup))
+            {
+                throw new LabCommandException("run setup confirm=1 first");
+            }
+
+            string defName = Get(args, "kind", null) == "tree" ? "Plant_TreeOak" : "Plant_Potato";
+            ThingDef def = DefDatabase<ThingDef>.GetNamedSilentFail(defName);
+            if (def == null || def.plant == null)
+            {
+                throw new LabCommandException("plant def " + defName + " is not loaded");
+            }
+
+            string key = map.uniqueID + ":" + def.defName;
+            int existingId;
+            if (PlantFixtures.TryGetValue(key, out existingId))
+            {
+                Plant existing = FindThing(map, existingId) as Plant;
+                if (existing != null && !existing.Destroyed)
+                {
+                    return Ok(id, "\"reused\":true,\"def\":" + Json.Str(def.defName) + ",\"plant\":" + PlantState(existing));
+                }
+            }
+
+            IntVec3 cell = IntVec3.Invalid;
+            for (int z = 0; z < 5 && !cell.IsValid; z++)
+            {
+                for (int x = 0; x < 15; x++)
+                {
+                    IntVec3 candidate = new IntVec3(setup.Origin.x + x, 0, setup.Origin.z + z);
+                    if (candidate.InBounds(map) && candidate.Standable(map) &&
+                        map.thingGrid.ThingsListAt(candidate).Count == 0)
+                    {
+                        cell = candidate;
+                        break;
+                    }
+                }
+            }
+
+            if (!cell.IsValid)
+            {
+                throw new LabCommandException("no free cell for a plant fixture inside the setup rectangle");
+            }
+
+            Plant plant = ThingMaker.MakeThing(def, null) as Plant;
+            if (plant == null)
+            {
+                throw new LabCommandException(defName + " did not create a Plant");
+            }
+
+            GenSpawn.Spawn(plant, cell, map, Rot4.North, WipeMode.Vanish);
+            PlantFixtures[key] = plant.thingIDNumber;
+            ExperimentLog.Record("lab", null, "plants fixture def=" + def.defName + " id=" + plant.thingIDNumber + " cell=" + cell);
+            return Ok(id, "\"reused\":false,\"def\":" + Json.Str(def.defName) + ",\"plant\":" + PlantState(plant));
+        }
+
+        /// <summary>Growth/stage/harvest state of one thing; a non-plant reports <c>isPlant:false</c>.</summary>
+        private static string PlantState(Thing thing)
+        {
+            StringBuilder json = new StringBuilder(256);
+            json.Append('{');
+            if (thing == null)
+            {
+                json.Append("\"present\":false");
+                json.Append('}');
+                return json.ToString();
+            }
+
+            json.Append("\"present\":true");
+            json.Append(",\"id\":").Append(Json.Num(thing.thingIDNumber));
+            json.Append(",\"def\":").Append(Json.Str(thing.def != null ? thing.def.defName : null));
+            json.Append(",\"pos\":").Append(Json.Cell(thing.Position));
+            json.Append(",\"hp\":").Append(Json.Num(thing.HitPoints));
+            Plant plant = thing as Plant;
+            if (plant == null)
+            {
+                json.Append(",\"isPlant\":false");
+                json.Append('}');
+                return json.ToString();
+            }
+
+            // Shared effect predicate: null means the ability would mature this plant.
+            string failureReasonKey = PlantGrowthEffect.FailureReasonKey(plant);
+            json.Append(",\"isPlant\":true");
+            json.Append(",\"growth\":").Append(Json.Num(plant.Growth));
+            json.Append(",\"lifeStage\":").Append(Json.Str(plant.LifeStage.ToString()));
+            json.Append(",\"harvestableNow\":").Append(Json.Bool(plant.HarvestableNow));
+            json.Append(",\"isTree\":").Append(Json.Bool(plant.def.plant.IsTree));
+            json.Append(",\"sown\":").Append(Json.Bool(plant.sown));
+            json.Append(",\"matureable\":").Append(Json.Bool(failureReasonKey == null));
+            json.Append(",\"failureReasonKey\":").Append(Json.Str(failureReasonKey));
+            json.Append('}');
+            return json.ToString();
+        }
+
         private static string SetupState(Map map)
         {
             SetupRecord record;
@@ -1592,7 +1570,7 @@ namespace WhisperOfTheForest.Experimental
                 ",\"wounds\":{\"count\":" + Json.Num(count) + ",\"totalSeverity\":" + Json.Num(total) + "}");
         }
 
-        private static string Camera(string id)
+        private static string Camera(string id, Dictionary<string, string> args)
         {
             Pawn pawn = RequireSelectedPawn();
             if (Find.CameraDriver == null)
@@ -1600,82 +1578,535 @@ namespace WhisperOfTheForest.Experimental
                 throw new LabCommandException("camera driver unavailable");
             }
 
+            if (Get(args, "action", "jump") == "status")
+            {
+                CameraDriver driver = Find.CameraDriver;
+                CellRect view = driver.CurrentViewRect;
+                return Ok(id, "\"camera\":{\"mapPos\":" + Json.Cell(driver.MapPosition) +
+                    ",\"rootSize\":" + Json.Num(driver.RootSize) +
+                    ",\"zoom\":" + Json.Str(driver.CurrentZoom.ToString()) +
+                    ",\"view\":{\"minX\":" + Json.Num(view.minX) + ",\"maxX\":" + Json.Num(view.maxX) +
+                    ",\"minZ\":" + Json.Num(view.minZ) + ",\"maxZ\":" + Json.Num(view.maxZ) + "}}");
+            }
+
             Find.CameraDriver.JumpToCurrentMapLoc(pawn.Position);
             return Ok(id, "\"cameraPos\":" + Json.Cell(pawn.Position));
         }
 
-        private static string Ui(string id, Dictionary<string, string> args)
+        /// <summary>
+        /// Small entry point for the book. Every branch calls the same shared services the window
+        /// uses (<see cref="GameComponent_Spellbook"/> and <see cref="SpellService"/>); nothing here
+        /// reinterprets a recipe, so a lab scenario cannot drift from what the page does.
+        /// </summary>
+        private static string Spellbook(string id, Dictionary<string, string> args)
         {
-            WindowStack stack = Find.WindowStack;
-            if (stack == null)
+            if (Current.Game == null)
             {
-                throw new LabCommandException("no window stack");
-            }
-
-            TechLabSettings settings = TechLabMod.Settings;
-            if (settings == null)
-            {
-                throw new LabCommandException("TechLabMod.Settings is not initialized");
+                throw new LabCommandException("no game loaded");
             }
 
             string action = Get(args, "action", "status").ToLowerInvariant();
+            GameComponent_Spellbook component = GameComponent_Spellbook.Current;
+            Pawn pawn = Find.Selector != null ? Find.Selector.SingleSelectedThing as Pawn : null;
+            WindowStack stack = Find.WindowStack;
+
+            StringBuilder json = new StringBuilder(1024);
+            json.Append("\"action\":").Append(Json.Str(action));
+            json.Append(",\"component\":").Append(Json.Bool(component != null));
+
             switch (action)
             {
-                case "open":
-                    if (stack.WindowOfType<Window_TechLab>() == null)
+                case "status":
+                    break;
+
+                case "save":
+                {
+                    RequireSpellbookComponent(component);
+                    int slot = RequireSpellSlot(args);
+                    SpellRecipe recipe = SpellRecipeFromArgs(args);
+                    string reason;
+                    bool saved = component.SaveSlot(slot, recipe, out reason);
+                    json.Append(",\"save\":{\"ok\":").Append(Json.Bool(saved));
+                    json.Append(",\"slot\":").Append(Json.Num(slot));
+                    json.Append(",\"name\":").Append(Json.Str(recipe.name));
+                    json.Append(",\"reason\":").Append(Json.Str(reason));
+                    json.Append('}');
+                    break;
+                }
+
+                case "clear":
+                {
+                    RequireSpellbookComponent(component);
+                    int slot = RequireSpellSlot(args);
+                    component.ClearSlot(slot);
+                    json.Append(",\"cleared\":").Append(Json.Num(slot));
+                    break;
+                }
+
+                case "active":
+                {
+                    RequireSpellbookComponent(component);
+                    if (pawn == null)
                     {
-                        stack.Add(new Window_TechLab());
+                        throw new LabCommandException("spellbook active needs a selected pawn");
+                    }
+
+                    int slot = RequireSpellSlot(args);
+                    component.SetActiveSlot(pawn, slot);
+                    json.Append(",\"setActive\":").Append(Json.Num(slot));
+                    json.Append(",\"readBack\":").Append(Json.Num(component.GetActiveSlot(pawn)));
+                    break;
+                }
+
+                case "select":
+                {
+                    // Same entry the bookmark strip uses: open the page, then SelectBookmark.
+                    RequireSpellbookComponent(component);
+                    if (pawn == null)
+                    {
+                        throw new LabCommandException("spellbook select needs a selected pawn");
+                    }
+
+                    int slot = RequireSpellSlot(args);
+                    Window_Spellbook window = stack != null ? stack.WindowOfType<Window_Spellbook>() : null;
+                    if (window != null && window.Caster != pawn)
+                    {
+                        window.Close(true);
+                        window = null;
+                    }
+
+                    if (window == null)
+                    {
+                        SpellService.OpenSpellbook(pawn);
+                        window = stack != null ? stack.WindowOfType<Window_Spellbook>() : null;
+                    }
+
+                    if (window == null)
+                    {
+                        throw new LabCommandException("spellbook window did not open");
+                    }
+
+                    window.SelectBookmark(slot);
+                    json.Append(",\"select\":{\"slot\":").Append(Json.Num(slot));
+                    json.Append(",\"readBack\":").Append(Json.Num(component.GetActiveSlot(pawn))).Append('}');
+                    break;
+                }
+
+                case "category":
+                {
+                    // Evidence-only hook for the screenshot: the category is a private UI field and
+                    // has no public setter. This changes no game state outside the open page.
+                    Window_Spellbook window = stack != null ? stack.WindowOfType<Window_Spellbook>() : null;
+                    if (window == null)
+                    {
+                        if (pawn == null)
+                        {
+                            throw new LabCommandException("spellbook category needs an open book or a selected pawn");
+                        }
+
+                        SpellService.OpenSpellbook(pawn);
+                        window = stack != null ? stack.WindowOfType<Window_Spellbook>() : null;
+                    }
+
+                    if (window == null)
+                    {
+                        throw new LabCommandException("spellbook window did not open");
+                    }
+
+                    int index = RequireInt(args, "index");
+                    if (index < 0 || index >= CatalogLayout.CategoryCount)
+                    {
+                        throw new LabCommandException("category index must be 0.." + (CatalogLayout.CategoryCount - 1));
+                    }
+
+                    FieldInfo field = typeof(Window_Spellbook).GetField("category", BindingFlags.Instance | BindingFlags.NonPublic);
+                    if (field == null)
+                    {
+                        throw new LabCommandException("Window_Spellbook.category field not found");
+                    }
+
+                    field.SetValue(window, index == 0 ? null : (object)(SpellGlyphKind)(index - 1));
+                    json.Append(",\"category\":").Append(Json.Num(index));
+                    break;
+                }
+
+                case "validate":
+                {
+                    SpellRecipe recipe = args.ContainsKey("slot")
+                        ? RequireSpellbookRecipe(component, RequireSpellSlot(args))
+                        : SpellRecipeFromArgs(args);
+                    string reason;
+                    bool valid = SpellService.Validate(recipe, out reason);
+                    json.Append(",\"validate\":{\"ok\":").Append(Json.Bool(valid));
+                    json.Append(",\"reason\":").Append(Json.Str(reason));
+                    json.Append(",\"glyphs\":");
+                    AppendGlyphNames(json, recipe.glyphs);
+                    json.Append('}');
+                    break;
+                }
+
+                case "can":
+                {
+                    if (pawn == null)
+                    {
+                        throw new LabCommandException("spellbook can needs a selected pawn");
+                    }
+
+                    SpellRecipe recipe = args.ContainsKey("glyphs")
+                        ? SpellRecipeFromArgs(args)
+                        : RequireSpellbookRecipe(component, RequireSpellSlot(args));
+                    string reason;
+                    bool can = SpellService.CanCast(pawn, recipe, out reason);
+                    json.Append(",\"canCast\":{\"ok\":").Append(Json.Bool(can));
+                    json.Append(",\"reason\":").Append(Json.Str(reason));
+                    json.Append('}');
+                    break;
+                }
+
+                case "cast":
+                {
+                    if (pawn == null)
+                    {
+                        throw new LabCommandException("spellbook cast needs a selected pawn");
+                    }
+
+                    SpellRecipe recipe = args.ContainsKey("glyphs")
+                        ? SpellRecipeFromArgs(args)
+                        : RequireSpellbookRecipe(component, RequireSpellSlot(args));
+                    LocalTargetInfo target = args.ContainsKey("id") || (args.ContainsKey("x") && args.ContainsKey("z"))
+                        ? ResolveTarget(RequireMap(), args, "spellbook cast")
+                        : new LocalTargetInfo(pawn);
+                    string reason;
+                    bool cast = SpellService.TryCast(pawn, recipe, target, out reason);
+                    ExperimentLog.Record("lab", pawn,
+                        "spellbook cast name=" + (recipe.name ?? "") + " target=" + target.Cell + " ok=" + cast +
+                        " reason=" + (reason ?? ""));
+                    json.Append(",\"cast\":{\"ok\":").Append(Json.Bool(cast));
+                    json.Append(",\"reason\":").Append(Json.Str(reason));
+                    json.Append(",\"target\":").Append(Json.Cell(target.Cell));
+                    json.Append('}');
+                    break;
+                }
+
+                case "begin":
+                {
+                    if (pawn == null)
+                    {
+                        throw new LabCommandException("spellbook begin needs a selected pawn");
+                    }
+
+                    // The shared player entry point the page button and the gizmo both use.
+                    SpellRecipe recipe = args.ContainsKey("glyphs")
+                        ? SpellRecipeFromArgs(args)
+                        : RequireSpellbookRecipe(component, RequireSpellSlot(args));
+                    SpellService.BeginTargeting(pawn, recipe);
+                    Targeter targeter = Find.Targeter;
+                    json.Append(",\"targeter\":{\"isTargeting\":").Append(Json.Bool(targeter != null && targeter.IsTargeting));
+                    json.Append('}');
+                    break;
+                }
+
+                case "cancel":
+                    if (Find.Targeter != null && Find.Targeter.IsTargeting)
+                    {
+                        Find.Targeter.StopTargeting();
                     }
 
                     break;
+
+                case "open":
+                    if (pawn == null)
+                    {
+                        throw new LabCommandException("spellbook open needs a selected pawn");
+                    }
+
+                    SpellService.OpenSpellbook(pawn);
+                    break;
+
                 case "close":
-                    Window_TechLab open = stack.WindowOfType<Window_TechLab>();
+                {
+                    Window_Spellbook open = stack != null ? stack.WindowOfType<Window_Spellbook>() : null;
                     if (open != null)
                     {
                         open.Close(true);
                     }
 
                     break;
-                case "show":
-                    settings.showFloatingEntry = true;
-                    settings.Write();
+                }
+
+                case "copyprobe":
+                {
+                    // GetSlot must hand out an independent copy: mutating it cannot touch the slot.
+                    RequireSpellbookComponent(component);
+                    int slot = RequireSpellSlot(args);
+                    SpellRecipe first = component.GetSlot(slot);
+                    int before = first != null ? first.glyphs.Count : -1;
+                    if (first != null)
+                    {
+                        first.glyphs.Add(SpellDefs.EffectHarm);
+                        first.name = "copyprobe-mutated";
+                    }
+
+                    SpellRecipe second = component.GetSlot(slot);
+                    int after = second != null ? second.glyphs.Count : -1;
+                    json.Append(",\"copyProbe\":{\"slot\":").Append(Json.Num(slot));
+                    json.Append(",\"countBefore\":").Append(Json.Num(before));
+                    json.Append(",\"countAfter\":").Append(Json.Num(after));
+                    json.Append(",\"isolated\":").Append(Json.Bool(before == after));
+                    json.Append('}');
                     break;
-                case "hide":
-                    settings.showFloatingEntry = false;
-                    settings.Write();
+                }
+
+                case "plan":
+                {
+                    // Read-only inspection of what the shared compiler would execute. This is the
+                    // same call TryCast/BeginTargeting make, so the numbers cannot drift from a cast.
+                    SpellRecipe recipe = args.ContainsKey("glyphs")
+                        ? SpellRecipeFromArgs(args)
+                        : RequireSpellbookRecipe(component, RequireSpellSlot(args));
+                    string reason;
+                    SpellCastPlan plan = SpellCompiler.Compile(recipe, out reason);
+                    json.Append(",\"plan\":");
+                    if (plan == null)
+                    {
+                        json.Append("null,\"planReason\":").Append(Json.Str(reason));
+                    }
+                    else
+                    {
+                        json.Append('{');
+                        json.Append("\"name\":").Append(Json.Str(plan.recipeName));
+                        json.Append(",\"form\":").Append(Json.Str(plan.form.ToString()));
+                        json.Append(",\"missileCount\":").Append(Json.Num(plan.missileCount));
+                        json.Append(",\"missileSpeed\":").Append(Json.Num(plan.missileSpeed));
+                        json.Append(",\"steps\":[");
+                        for (int i = 0; i < plan.steps.Count; i++)
+                        {
+                            if (i > 0)
+                            {
+                                json.Append(',');
+                            }
+
+                            SpellPlanStep step = plan.steps[i];
+                            json.Append('{');
+                            json.Append("\"effect\":").Append(Json.Str(step.effect.ToString()));
+                            json.Append(",\"amount\":").Append(Json.Num(step.amount));
+                            json.Append(",\"radius\":").Append(Json.Num(step.radius));
+                            json.Append(",\"amplifyStacks\":").Append(Json.Num(step.amplifyStacks));
+                            json.Append(",\"aoeStacks\":").Append(Json.Num(step.aoeStacks));
+                            json.Append(",\"aoe\":").Append(Json.Bool(step.aoe));
+                            json.Append('}');
+                        }
+
+                        json.Append("],\"segmentCount\":").Append(Json.Num(plan.SegmentCount));
+                        json.Append(",\"segments\":[");
+                        for (int si = 0; si < plan.SegmentCount; si++)
+                        {
+                            if (si > 0)
+                            {
+                                json.Append(',');
+                            }
+
+                            SpellSegment segment = plan.segments[si];
+                            json.Append('{');
+                            json.Append("\"form\":").Append(Json.Str(segment != null ? segment.form.ToString() : null));
+                            json.Append(",\"missileCount\":").Append(Json.Num(segment != null ? segment.missileCount : 0));
+                            json.Append(",\"missileSpeed\":").Append(Json.Num(segment != null ? segment.missileSpeed : 0f));
+                            json.Append(",\"triggerOnHit\":").Append(Json.Bool(segment != null && segment.triggerOnHit));
+                            json.Append(",\"steps\":[");
+                            for (int k = 0; segment != null && segment.steps != null && k < segment.steps.Count; k++)
+                            {
+                                if (k > 0)
+                                {
+                                    json.Append(',');
+                                }
+
+                                SpellPlanStep step = segment.steps[k];
+                                json.Append('{');
+                                json.Append("\"effect\":").Append(Json.Str(step.effect.ToString()));
+                                json.Append(",\"amount\":").Append(Json.Num(step.amount));
+                                json.Append(",\"radius\":").Append(Json.Num(step.radius));
+                                json.Append(",\"amplifyStacks\":").Append(Json.Num(step.amplifyStacks));
+                                json.Append(",\"aoeStacks\":").Append(Json.Num(step.aoeStacks));
+                                json.Append(",\"aoe\":").Append(Json.Bool(step.aoe));
+                                json.Append('}');
+                            }
+
+                            json.Append("]}");
+                        }
+
+                        json.Append("],\"glyphs\":");
+                        AppendGlyphNames(json, plan.glyphs);
+                        json.Append('}');
+                    }
+
                     break;
-                case "reset":
-                    TechLabUi.ResetEntryPosition(settings);
-                    break;
-                case "restore":
-                    // Same callback the native play-settings icon invokes; this exercises the
-                    // callback path, not a mouse click on the rendered icon.
-                    TechLabUi.OpenWindowAndRestoreEntry();
-                    break;
-                case "status":
-                    break;
+                }
+
                 default:
-                    throw new LabCommandException("ui action must be open|close|show|hide|reset|restore|status");
+                    throw new LabCommandException(
+                        "spellbook action must be status|save|clear|active|select|category|validate|can|plan|cast|begin|cancel|open|close|copyprobe");
             }
 
-            Window_TechLab current = stack.WindowOfType<Window_TechLab>();
-            Pawn selected = Find.Selector != null ? Find.Selector.SingleSelectedThing as Pawn : null;
-            StringBuilder json = new StringBuilder(256);
-            json.Append("\"action\":").Append(Json.Str(action));
-            json.Append(",\"windowOpen\":").Append(Json.Bool(current != null));
-            json.Append(",\"showFloatingEntry\":").Append(Json.Bool(settings.showFloatingEntry));
-            json.Append(",\"hasCustomEntryPosition\":").Append(Json.Bool(settings.hasCustomEntryPosition));
-            json.Append(",\"entryX\":").Append(Json.Num(settings.entryX));
-            json.Append(",\"entryY\":").Append(Json.Num(settings.entryY));
-            json.Append(",\"entryLayoutVersion\":").Append(Json.Num(TechLabUi.EntryLayoutVersion));
-            json.Append(",\"hasRow\":").Append(Json.Bool(Patch_PlaySettingsRowEntry.HasRow));
-            json.Append(",\"lastRowLeftX\":").Append(Json.Num(Patch_PlaySettingsRowEntry.LastRowLeftX));
-            json.Append(",\"topY\":").Append(Json.Num(Patch_PlaySettingsRowEntry.LastRowTopY));
-            json.Append(",\"screenWidth\":").Append(Json.Num(Patch_PlaySettingsRowEntry.LastScreenWidth));
-            json.Append(",\"screenHeight\":").Append(Json.Num(Patch_PlaySettingsRowEntry.LastScreenHeight));
-            json.Append(",\"rowEntryDraws\":").Append(Json.Num(Patch_PlaySettingsRowEntry.RowEntryDraws));
-            json.Append(",\"selectedId\":").Append(selected != null ? Json.Num(selected.thingIDNumber) : "null");
+            AppendSpellbookState(json, component, pawn, stack);
             return Ok(id, json.ToString());
+        }
+
+        private static void RequireSpellbookComponent(GameComponent_Spellbook component)
+        {
+            if (component == null)
+            {
+                throw new LabCommandException("GameComponent_Spellbook.Current is null (no book in this game)");
+            }
+        }
+
+        private static int RequireSpellSlot(Dictionary<string, string> args)
+        {
+            int slot = RequireInt(args, "slot");
+            if (slot < 0 || slot >= GameComponent_Spellbook.SlotCount)
+            {
+                throw new LabCommandException("slot must be 0.." + (GameComponent_Spellbook.SlotCount - 1));
+            }
+
+            return slot;
+        }
+
+        private static SpellRecipe RequireSpellbookRecipe(GameComponent_Spellbook component, int slot)
+        {
+            RequireSpellbookComponent(component);
+            SpellRecipe recipe = component.GetSlot(slot);
+            if (recipe == null)
+            {
+                throw new LabCommandException("slot " + slot + " is empty");
+            }
+
+            return recipe;
+        }
+
+        /// <summary>Builds a recipe from name= and glyphs=&lt;defName,...&gt;; unknown glyphs are refused.</summary>
+        private static SpellRecipe SpellRecipeFromArgs(Dictionary<string, string> args)
+        {
+            SpellRecipe recipe = new SpellRecipe();
+            recipe.name = Get(args, "name", "lab spell");
+            string raw = Get(args, "glyphs", "");
+            if (string.IsNullOrEmpty(raw))
+            {
+                return recipe;
+            }
+
+            string[] parts = raw.Split(',');
+            for (int i = 0; i < parts.Length; i++)
+            {
+                string defName = parts[i].Trim();
+                if (defName.Length == 0)
+                {
+                    continue;
+                }
+
+                if (SpellDefs.Glyph(defName) == null)
+                {
+                    throw new LabCommandException("unknown glyph def '" + defName + "'");
+                }
+
+                recipe.glyphs.Add(defName);
+            }
+
+            return recipe;
+        }
+
+        private static void AppendGlyphNames(StringBuilder json, List<string> glyphs)
+        {
+            json.Append('[');
+            for (int i = 0; glyphs != null && i < glyphs.Count; i++)
+            {
+                if (i > 0)
+                {
+                    json.Append(',');
+                }
+
+                json.Append(Json.Str(glyphs[i]));
+            }
+
+            json.Append(']');
+        }
+
+        private static void AppendSpellbookState(StringBuilder json, GameComponent_Spellbook component, Pawn pawn,
+            WindowStack stack)
+        {
+            json.Append(",\"slotCount\":").Append(Json.Num(GameComponent_Spellbook.SlotCount));
+            json.Append(",\"pawnId\":").Append(pawn != null ? Json.Num(pawn.thingIDNumber) : "null");
+            json.Append(",\"activeSlot\":").Append(component != null && pawn != null
+                ? Json.Num(component.GetActiveSlot(pawn))
+                : "null");
+
+            SpellAbility spellAbility = null;
+            if (pawn != null && pawn.abilities != null)
+            {
+                List<Ability> abilities = pawn.abilities.AllAbilitiesForReading;
+                for (int i = 0; i < abilities.Count; i++)
+                {
+                    if (abilities[i] is SpellAbility found)
+                    {
+                        spellAbility = found;
+                        break;
+                    }
+                }
+            }
+
+            Command castGizmo = null;
+            if (spellAbility != null)
+            {
+                // Last gizmo is the cast button; the first is "open book".
+                foreach (Command command in spellAbility.GetGizmos())
+                {
+                    castGizmo = command;
+                }
+            }
+
+            json.Append(",\"gizmo\":{");
+            if (castGizmo == null)
+            {
+                json.Append("\"present\":false");
+            }
+            else
+            {
+                json.Append("\"present\":true");
+                json.Append(",\"label\":").Append(Json.Str(castGizmo.defaultLabel));
+                json.Append(",\"disabled\":").Append(Json.Bool(castGizmo.Disabled));
+                json.Append(",\"disabledReason\":").Append(Json.Str(castGizmo.disabledReason));
+            }
+
+            json.Append('}');
+
+            json.Append(",\"slots\":[");
+            for (int slot = 0; component != null && slot < GameComponent_Spellbook.SlotCount; slot++)
+            {
+                if (slot > 0)
+                {
+                    json.Append(',');
+                }
+
+                SpellRecipe recipe = component.GetSlot(slot);
+                json.Append('{');
+                json.Append("\"slot\":").Append(Json.Num(slot));
+                json.Append(",\"empty\":").Append(Json.Bool(recipe == null));
+                json.Append(",\"name\":").Append(Json.Str(recipe != null ? recipe.name : null));
+                json.Append(",\"glyphs\":");
+                AppendGlyphNames(json, recipe != null ? recipe.glyphs : null);
+                json.Append('}');
+            }
+
+            json.Append(']');
+
+            Window_Spellbook window = stack != null ? stack.WindowOfType<Window_Spellbook>() : null;
+            json.Append(",\"window\":{\"open\":").Append(Json.Bool(window != null));
+            if (window != null)
+            {
+                json.Append(",\"casterId\":").Append(window.Caster != null ? Json.Num(window.Caster.thingIDNumber) : "null");
+                json.Append(",\"casterName\":").Append(Json.Str(window.Caster != null ? window.Caster.LabelShort : null));
+                json.Append(",\"hasUnsavedDraft\":").Append(Json.Bool(window.HasUnsavedDraft));
+            }
+
+            json.Append('}');
         }
 
         private static string Time(string id, Dictionary<string, string> args)
@@ -1785,6 +2216,55 @@ namespace WhisperOfTheForest.Experimental
             }
 
             return Ok(id, "\"stepped\":" + Json.Num(count) + ",\"tick\":" + Json.Num(Find.TickManager.TicksGame));
+        }
+
+        /// <summary>
+        /// L2 scenario tests: "list" (discovery only), "status" (does a run still own the game?) and
+        /// "run" (start a run; it continues frame by frame through the lab pump).
+        /// </summary>
+        private static string Test(string id, Dictionary<string, string> args)
+        {
+            string action = Get(args, "action", "run").ToLowerInvariant();
+            string filter = Get(args, "filter", string.Empty);
+
+            if (action == "list")
+            {
+                return Ok(id, "\"tests\":" + Testing.LabTestRunner.List(filter));
+            }
+
+            if (action == "status")
+            {
+                return Ok(id, "\"running\":" + Json.Bool(Testing.LabTestRunner.Running)
+                              + ",\"last\":" + Json.Str(Testing.LabTestRunner.Status));
+            }
+
+            if (action == "cancel")
+            {
+                return Ok(id, Testing.LabTestRunner.Cancel());
+            }
+
+            if (action != "run")
+            {
+                throw new LabCommandException("test action must be list, status, cancel or run");
+            }
+
+            string fixtureName = Get(args, "fixture", "a25-fixture");
+            string fixture = fixtureName.Equals("none", StringComparison.OrdinalIgnoreCase) ? null : fixtureName;
+            int repeats = 1;
+            string repeatRaw = Get(args, "repeat", null);
+            if (!string.IsNullOrEmpty(repeatRaw)
+                && !int.TryParse(repeatRaw, NumberStyles.Integer, CultureInfo.InvariantCulture, out repeats))
+            {
+                throw new LabCommandException("invalid integer 'repeat'");
+            }
+
+            bool reloadFixture = Get(args, "reload", "0") == "1";
+            if (!Testing.LabTestRunner.Begin(filter, fixture, repeats, reloadFixture, out string detail, out string error))
+            {
+                throw new LabCommandException(error);
+            }
+
+            return Ok(id, detail);
         }
 
         private static string ActionResult(string id, bool ok, string action, Pawn pawn)

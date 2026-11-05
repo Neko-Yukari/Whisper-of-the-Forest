@@ -1,6 +1,6 @@
 ---
 status: complete
-phase: 5
+phase: 6
 updated: 2026-10-27
 ---
 
@@ -126,6 +126,29 @@ updated: 2026-10-27
 - 本轮工作流异常已报维护工单 `sp_cf14b3c00d624c499fd375f6bf8f4b5e`。维护确认依赖映射正确，实际缺陷为租约无续期、非 owner DONE 静默接受和重复完成通知；修复已由维护方推送。随后发现 completed run 追加任务不唤醒，经工单 `sp_b2e792f2952d44c8a8a1591991474400` 修复（`d89e85d0`）。主代理已调用新工具 delm_reopen，返回 active / 2 open / 0 claimed，只恢复两项补验，不重跑三项完成工作，也未接手实现。
 - 维护方另按用户指令将三个技能的 `showCastingProgressBar` 改为 false；主代理只读核对 XML，不修改该文件。此项不需要重编译 DLL，当前运行实例未重载 Def，不能列为本轮已生效或画面通过。
 - 两项补验已由原 run 的 worker 完成，最终队列为 5 done / 0 open / 0 claimed。主代理没有重跑场景；重复完成通知再次出现，已将新现场送达维护工单 `sp_b106e808d30c47d5b1a85034a275e5e1`，不将维护待查项混作模组功能失败。
+
+## Phase 6: 植物催熟与独立效果接口 [COMPLETE]
+
+- [x] 6.1 需求确认：单株瞬间催熟；效果与触发分离，独立效果可被其他触发源直接调用；不自动收获、不治疗、不增殖、不伪造物品、不强改年龄；成熟是否可收获沿用 def 规则。
+- [x] 6.2 本机 API 与刷新路径：`Plant.set_Growth` 做 `Clamp01` 并清 `cachedLabelMouseover`；`LifeStage` 由 `growthInt` 推导（>0.999 为 `Mature`）；原版成熟刷新为 `Map.mapDrawer.MapMeshDirty(pos, MapMeshFlagDefOf.Things)`，但 `TickLong` 只在 `CurrentlyCultivated()` 时调用，故催熟须无条件 dirty 一次。
+- [x] 6.3 实现：`Abilities/PlantGrowthEffect`（`TryMature`/`FailureReasonKey`，不依赖 Ability/飞弹/Lab）、`CompAbilityEffect_WotFPlantGrowth` 薄适配（`Valid`/`CanApplyOn`/`Apply`）、无行为公共基类 `CompProperties_WotFAbilityEffect`；Def `WotF_MaturePlant`（PsycastBase、level1、24.9、warmup0.5、冷却90~120、零消耗、非敌对、禁 AI、无施法条、仅植物目标、复用现有图标）；中英 label/description 与三条失败提示。旧飞弹 props 仅改继承声明。
+- [x] 6.4 功能侧隔离检查：`Moddev/tools/check-plants` 独立编译与 44 项断言通过，不写最终 DLL、不启动游戏、不新增美术。
+- [x] 6.5 接入与实机：Lab 按共享基类授予（无硬编码名单）、`cast` 对任意实验技能走真实 `Ability.Activate`（仅飞弹附带 settings）、新增有界 `plants` 观测命令；新 DLL 127,488 字节 / `a1a877c60e18fabc678b5b888521a742740940caa666d817df4bd0f0d2372b5`，`verify` 31 PASS、`check-defs` 21 引用 0 missing；作物与橡树各一次真实催熟（`0.15→1`、`Growing→Mature`、HP/thingId 不变）、重复授予仍四项、旧三发飞弹 3/3、a21 存档读档保留成熟状态。证据见 `Experiments/acceptance.md` A34–A40 与 `Experiments/integration.md` §12。
+- 未实测项：玩家点击选植物与 `targetParams` 高亮、中文 UI 文本实际显示、`Valid` 返回 false 的点击路径（仅编译与反编译调用链证据）、特殊植物、实际收获动作；旧飞弹/UI/移动场景本轮未重做。
+
+## Phase 7: 可组装法术与魔术书 [COMPLETE]
+
+- [x] 7.1 核实 Ars Nouveau 的 Forms / Effects / Augments 语法及 RimWorld 对应机制，区分本体、附属模组与本轮支持范围。
+- [x] 7.2 以共享符文目录、法术配方、存档法术库、校验和施法服务为契约，由 DeLM worker 分别实现运行层与双页魔术书。
+- [x] 7.3 在隔离 a23 场景打通编辑、保存、读档和有能力小人施法，复核旧技能及维护 XML；主代理审查原始证据后交付。
+- a22 集成未通过（2026-10-28）：Player.log 的抽象 `Verse.Verb`/每 tick Warmup NRE，以及 Projectile+Harm 对 Pawn 无伤口；根因已定位为 `IsDamageTarget` 的 `def.useHitPoints` 限制和 `WotF_SpellbookCast` 缺少具体 `verbClass`。旧 run 因 claim 无释放入口停止审计，改用 `run_e5d55b029eee440b877ae127` 修复后重建 a23。
+- a23 最终交付（2026-10-28）：修复 `verbClass`/空 `AbilityTick`、Pawn health 判定、空字典 working lists 后，DLL 185,856B / `353773d6…`；verify 47/0，check-defs 35/0，check-spells ALL，check-ui/UI check 通过。最终 `a23-final.rws` 12,232,266B / `a3d0ecb1…`，tick12940、Paused、Lab Elf40081、activeSlot2、窗口关闭、live0；隔离 PID56960。详见 `Experiments/spellbook.md` §7 与 `acceptance.md` A41–A50。
+- a24 完成（2026-10-30）：点击书签即当前槽、触发分类与半透明拒绝、`WotF_Trigger_OnHit` 段列表与 `spellSegmentIndex` 存档、命中后目标远侧生成。DLL 199,168B / `F3F49241…`；`a24-final.rws` 12,228,269B，tick17596，Paused，live0；验收见 `acceptance.md` A51–A57。
+- 用户明确授权 auto drive；可使用生图 MCP 或许可清楚的免费资源。首轮支持集合内自由组合，不强求 Minecraft 世界机制的逐项等价，不引入解锁经济、跨地图自动化或完整附属模组体系。
+- 基础集合：自身、接触、射弹；伤害、治疗、爆炸、催熟；强化、范围、加速、减速、分裂。使用现有追踪射弹是 RimWorld 适配，不能将其说成原作普通直线 Projectile 的完全复刻。
+- 保存法术属于当前游戏存档；Royalty 灵能链接等级至少 1 的玩家小人可使用。首轮沿用实验的零 psyfocus 消耗，设实际施放间隔，避免另造法力系统。
+- 约束：保留 a18–a21、已验收 a21 工作树、维护版 Missiles.xml（SHA256 `650B6B5959C54AE9E7CC95188E75E3D53BD5F29DAD13752C23747032C33C8549`）；不提交、推送、发布，不操作正常存档和未授权的桌面输入。现有独立四技能仍应可用。
+- 共享契约和 DeLM brief 见 `Experiments/spellbook.md`。新 run 启动前，先等待维护修复 `delm_status: expireLeases is not defined`；故障已通过工单 `sp_bcc3672609ba4f1da52cb57515204578` 送达，不绕过队列派发。
 
 ## Acceptance criteria
 

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <WotF_Hediff_Clotting.label>clotted wounds</WotF_Hediff_Clotting.label>
+  <WotF_Hediff_Clotting.description>Wounds were bandaged by magic and are closing faster than they otherwise would.</WotF_Hediff_Clotting.description>
+  <WotF_Hediff_Freeze.label>frozen</WotF_Hediff_Freeze.label>
+  <WotF_Hediff_Freeze.description>Rime on the joints: movement is capped while the cold lasts.</WotF_Hediff_Freeze.description>
+  <WotF_Hediff_Ensnare.label>rooted</WotF_Hediff_Ensnare.label>
+  <WotF_Hediff_Ensnare.description>Held in place by the spell. Movement is zero; attacking is untouched.</WotF_Hediff_Ensnare.description>
+  <WotF_Hediff_Hex.label>hexed</WotF_Hediff_Hex.label>
+  <WotF_Hediff_Hex.description>A mark that makes the body take more damage and mend more slowly.</WotF_Hediff_Hex.description>
+  <WotF_Hediff_LightningCharge.label>charged</WotF_Hediff_LightningCharge.label>
+  <WotF_Hediff_LightningCharge.description>Residual charge from a lightning strike. The next strike hurts more for every stack carried.</WotF_Hediff_LightningCharge.description>
+  <WotF_Hediff_ArcaneDot.label>sustained arcane wound</WotF_Hediff_ArcaneDot.label>
+  <WotF_Hediff_ArcaneDot.description>Arcane force keeps working through the wound instead of passing in one blow.</WotF_Hediff_ArcaneDot.description>
+  <WotF_Hediff_Scorch.label>scorched</WotF_Hediff_Scorch.label>
+  <WotF_Hediff_Scorch.description>A controlled burn that keeps searing the target without ever becoming a spreading fire.</WotF_Hediff_Scorch.description>
+
+</LanguageData>

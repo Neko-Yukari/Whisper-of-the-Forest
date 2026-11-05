@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <WotF_SpellStaff.label>法术法杖</WotF_SpellStaff.label>
+  <WotF_SpellStaff.description>原型法术法杖：攻击时施法而不是射击。攻击会施放其 Gizmo 上选定的魔术书槽位；法杖记住的是槽位而非法术副本，修改该页会改变它施放的法术。魔术书里没有保存法术时无法攻击。</WotF_SpellStaff.description>
+
+</LanguageData>

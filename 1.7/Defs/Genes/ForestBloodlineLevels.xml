@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    The forest bloodline ladder.
+
+    One Def per level. The gene's levelTable lists these in order and C# reads every number from
+    here: experience needed to leave the level, the level's mana cap, and the flat addition to the
+    vanilla neural-heat limit. These numbers are first-pass placeholders, not a balance decision.
+    A future specialisation becomes another table (or another StatPart) without touching the gene's
+    saved data, which only stores level and experience.
+  -->
+
+  <WhisperOfTheForest.Experimental.Race.WotF_CasterLevelDef>
+    <defName>WotF_CasterLevel_1</defName>
+    <label>forest bloodline level 1</label>
+    <level>1</level>
+    <xpToNextLevel>100</xpToNextLevel>
+    <manaMax>100</manaMax>
+    <entropyMaxBonus>0</entropyMaxBonus>
+  </WhisperOfTheForest.Experimental.Race.WotF_CasterLevelDef>
+
+  <WhisperOfTheForest.Experimental.Race.WotF_CasterLevelDef>
+    <defName>WotF_CasterLevel_2</defName>
+    <label>forest bloodline level 2</label>
+    <level>2</level>
+    <xpToNextLevel>200</xpToNextLevel>
+    <manaMax>140</manaMax>
+    <entropyMaxBonus>5</entropyMaxBonus>
+  </WhisperOfTheForest.Experimental.Race.WotF_CasterLevelDef>
+
+  <WhisperOfTheForest.Experimental.Race.WotF_CasterLevelDef>
+    <defName>WotF_CasterLevel_3</defName>
+    <label>forest bloodline level 3</label>
+    <level>3</level>
+    <xpToNextLevel>400</xpToNextLevel>
+    <manaMax>180</manaMax>
+    <entropyMaxBonus>10</entropyMaxBonus>
+  </WhisperOfTheForest.Experimental.Race.WotF_CasterLevelDef>
+
+  <WhisperOfTheForest.Experimental.Race.WotF_CasterLevelDef>
+    <defName>WotF_CasterLevel_4</defName>
+    <label>forest bloodline level 4</label>
+    <level>4</level>
+    <xpToNextLevel>800</xpToNextLevel>
+    <manaMax>220</manaMax>
+    <entropyMaxBonus>15</entropyMaxBonus>
+  </WhisperOfTheForest.Experimental.Race.WotF_CasterLevelDef>
+
+  <WhisperOfTheForest.Experimental.Race.WotF_CasterLevelDef>
+    <defName>WotF_CasterLevel_5</defName>
+    <label>forest bloodline level 5</label>
+    <level>5</level>
+    <xpToNextLevel>1600</xpToNextLevel>
+    <manaMax>260</manaMax>
+    <entropyMaxBonus>20</entropyMaxBonus>
+  </WhisperOfTheForest.Experimental.Race.WotF_CasterLevelDef>
+
+  <WhisperOfTheForest.Experimental.Race.WotF_CasterLevelDef>
+    <defName>WotF_CasterLevel_6</defName>
+    <label>forest bloodline level 6</label>
+    <level>6</level>
+    <xpToNextLevel>0</xpToNextLevel>
+    <manaMax>300</manaMax>
+    <entropyMaxBonus>25</entropyMaxBonus>
+  </WhisperOfTheForest.Experimental.Race.WotF_CasterLevelDef>
+
+</Defs>

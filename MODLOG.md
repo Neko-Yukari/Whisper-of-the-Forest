@@ -38,6 +38,33 @@
 
 ## 验证记录
 
+### 2026-10-28：组合施法与魔术书开工（未验收）
+
+- 用户授权 auto drive：分析 Ars Nouveau 的魔法组成及 RimWorld 对应机制，提供能组装、保存并交给有能力小人施放的魔术书，可自由使用原创生图或许可清楚的免费资源。共享契约见 `Experiments/spellbook.md`，验收清单见 `Experiments/acceptance.md` A41–A49。
+- 已核实原作基本语法：仅一个 Form 且位于首位；多个 Effect 顺序执行；Augment 作用于左侧最近的兼容 Form/Effect。首轮固定 Self/Touch/Projectile、Harm/Heal/Explosion/Grow、Amplify/AOE/Accelerate/Decelerate/Split，十符文、十法术槽。使用当前存档法术库与已有原生追踪射弹，不将实验零消耗称为完成了原作 Mana 系统。
+- DeLM run `run_f012dba2178b4904b0b8ef7d`，研究 `tidy-pebble-acorn`、运行层 `misty-summit-clover`、书页 `crisp-brook-kettle` 并行；集成 `wild-aurora-kettle` 依赖前三项，独占最终 DLL 与隔离实例。当前三项已认领、尚无完成证据，主代理未实现功能或操作 Lab。
+- 开工保护基线：分支 `feat/rimworld-native-projectile-lab-a20-20261027` / HEAD `2a44f27c73d5eb3754b60d475ca476a87c97097e`；DLL 仍为已验收 a21 的 `a1a877c60e18fabc678b5b888521a742740940caa666d817df4bd0f0d2372b5`。维护版 Missiles.xml 哈希为 `650b6b5959c54ae9e7cc95188e75e3d53bd5f29dad13752c23747032c33c8549`，继续只读。
+- 原最终存档 SHA256：a18 `1f0ee13058e7332833bfa8e878cff016ed4f874c8bea18512e030afd5af5c313`；a19 `c93de88320b6899ed305523f8cedbe856394128c852a0534483a50ecf40d7afa`；a20 `fd3a8021587352f6071c12d7f686e66efd1bbe97055724309ff5a49010dfd3fd`；a21 `da7804abd1dab207eacf442c859ed5988e813a0682ca4012f8818d093ae4d71e`。新验证使用 a22，不覆盖这些文件。
+- 开工遇到 `delm_status: expireLeases is not defined`，已报维护工单 `sp_bcc3672609ba4f1da52cb57515204578`。维护修复热重载中间态引用后，主代理真实读取旧 run，结果 seq19/completed/2done/0claimed；未唤醒旧 worker，随后才启动新 run。
+- 首轮 a22 集成构建为 185,344 B / SHA256 `9e04ec5a462a10ee20dfbd01efa0fecb40957421a9d7dffd576d0bb194c17d9c`，静态检查 47 PASS；但真实 Player.log 报 `Could not instantiate Verb ... Cannot create abstract class Verse.Verb` 与每 tick `Ability.WarmupTick` NRE，且 Projectile+Harm 命中 Pawn 后无伤口。a22 只能作为失败现场，不能作为最终交付；已保留 `a22-final.rws`、`a22-player.log`、旧 run 审计并停止旧 run，另开 a23 run 修复根因后重建。
+- a22 已通过的部分：十槽保存、副本隔离、读档名称/符文顺序、非法组合原因、无 psylink 拒绝、Self Heal、Touch Grow 相邻与远距拒绝、plan 数值（Split/Accel/Decel/Amplify/Explosion）以及书页回调开窗。未通过项按上一条保留。
+- 旧 run 的两个 worker 均在持有任务时被宿主结束；维护确认当前 DeLM 无 claim 释放入口，故不编辑 board、不伪造 DONE，改以 `run_e5d55b029eee440b877ae127` 继续。
+- 随后维护修复 DeLM 工具注入（`ab7f8505`，`delm_*` 不再经 Code Mode），运行层修复完成：`SpellAbility.AbilityTick` 空实现、`WotF_SpellbookCast` 的 `verbClass=Verb_CastAbility`、`SpellTargets` 以 health 判定 Pawn、`SpellExecutor` 改用该判定，`GameComponent_Spellbook` 用显式 working lists 保存空/部分失效的 pawn 字典。check-spells 273 PASS / 0 FAIL。
+- a23 最终构建与部署件均为 185,856B、SHA256 `353773d6f47c4722b44f517826af571412efcf32686d464ff65836e8a61bcbfe`；verify 47 PASS、check-defs 35/0、check-spells ALL、check-ui OK、check-spellbook-ui OK。最终实例 Player.log 0 ERROR/Config error/Verb/NRE/dictionary error，仅保留 1 条旧有简体中文翻译 WARN。
+- a23 实机通过：十槽保存/副本隔离/读档顺序/非法组合原因；Self Heal、Touch Grow 相邻与 7 格拒绝、Projectile Harm 真 Pawn 0→17.92 伤、Projectile Heal 17.92→5.84、多效果链 ProjHarm+Heal 单次、AOE Grow 两株、Amplify/AOE/Accel/Decel/Split 数值、飞行存档改槽后按快照一次结算；旧四技能 4/4。主代理补测实际 Projectile+Explosion（日志 explosion=1）与 Split（live3/impact3），实时 frame 见 speed28.8/damage13.5；测试后重载 a23-final。交付档 `../lab-profile/Saves/a23-final.rws` 12,232,266B、tick12940、Paused、Lab Elf40081、activeSlot2(T03-ProjHarm)、窗口关闭、live0；隔离 PID56960。旧 a18–a21 与 `a22-final` 保留，维护 Missiles.xml 哈希未变。
+- 未实测：真实鼠标点击 Gizmo/书页、中文像素级排版与多分辨率、原版护盾/拦截、特殊植物、多地图。没有提交、推送或发布。
+
+### 2026-10-27：植物催熟技能接入与 a21 实机交付
+
+- 用户要求把当前功能一起放进游戏查看，交付含三种飞弹与新催熟技能的演示档。本轮只做 Lab 接入与隔离验证：不改飞弹参数、不改视觉、不扩展符文/魔力系统。
+- 功能侧（前序任务）：`Abilities/PlantGrowthEffect` 提供 `TryMature(Plant, out string failureReasonKey)` 与 `FailureReasonKey(Plant)`，只改原生 `Plant.Growth` 并 `MapMeshDirty(Position, MapMeshFlagDefOf.Things)`；`CompAbilityEffect_WotFPlantGrowth` 是薄适配，`CompProperties_WotFAbilityEffect` 为无行为公共基类，旧飞弹 props 仅换基类；Def `WotF_MaturePlant` 复用 PsycastBase 与现有图标，双语 label/description 与三条失败提示。
+- 集成侧：`LabActions` 授予改为按共享基类发现（排序/去重/原 psylink 流程不变，无硬编码 Def 名单）；`LabCommands.cast` 对任意已授予的实验技能走真实 `Ability.Activate`，只有飞弹 Def 才附带既有 settings，`fire` 仍飞弹专用；新增有界 `plants` 命令（最多 16 株列表、单目标状态、`confirm=1` 在已登记矩形造一株 fixture），只读 growth。
+- 构建与检查：隔离重建与部署件同为 127,488 字节、SHA256 `a1a877c60e18fabc678b5b888521a742740940caa666d817df4bd0f0d2372b5`，0 warning/0 error；`verify.ps1` 31 PASS、`check-defs.ps1` 21 引用 0 missing；未重跑旧 52 项 harness、UI 与移动场景。
+- 现场与重启：旧现场先存 `a21-before`（13,301,179 字节），旧会话（14:53 启动、只含旧 Def）与 a20 日志归档到 `../evidence/a21-prelaunch/`；安全退出旧隔离实例后部署新 DLL，再用同一组参数（`-savedatafolder` + `-wotflab` + `-quicktest`，无 `-mod`）启动 PID33332，`status` 显示 11 个特性 Def 全 true。
+- 实机（quicktest 地图，真实 Ability 入口）：作物 45297 与橡树 45298 均从 `growth 0.15/Growing` 变为 `1/Mature`、`harvestableNow=true`，thingId 与 HP（85/200）不变；两次植物施法后 `launched=0/impacts=0`；对门与已成熟植物的施法不改变任何状态；第二次 `grant` 后技能仍为四项；旧三发飞弹仍正常 `launched=3/impacts=3`；`save/load a21-final` 后成熟状态与四项技能保留，存档内两株为 `<growth>1</growth>`、`<age>2000</age>`（未强改年龄）。最终 `a21-final.rws` 17,446,723 字节，tick 5019、Paused、选中 Elf45296、窗口关闭、live=0，`a21-player.log` 0 条 ERROR/Exception。
+- 未实测项：玩家点击选植物与 targetParams 高亮、中文 UI 文本显示、`Valid` 返回 false 的点击路径（仅编译与反编译调用链证据）、特殊植物、实际收获动作。旧 a18/a19/a20 存档与证据保留，本轮不提交、推送或发布。
+- 流程：原集成 worker 中断后由主代理报维护工单 `sp_0430e3b38e5b40aebebb57aeba40dd3a`；本轮由 worker-2 承接同一集成任务，只补完验证与文档，未重做功能、未另起委派。
+
 ### 2026-10-27：原生射弹迁移交付
 
 - 用户确认主要复用 `Verse.Projectile` 的对象管理，已有追踪和粒子逻辑继续使用。先建立 `../Graphify/` 本地图谱，再用 DeLM 共享队列交给 worker。主代理只负责说明、监督与最终验收；流程故障先向维护窗口报告，不绕过调度自行实现。
@@ -114,3 +141,9 @@
 - 实机发现并修复 Harmony 参数名绑定错误；最终 DLL 的现有检查已覆盖参数名和类型。另以一行 `<soundExplosion>Explosion_Bomb</soundExplosion>` 修复爆炸的 null SoundDef，重启隔离实例后真实施法复验通过，新日志无 ERROR/Exception/null SoundDef。
 - 最终 DLL 为 121,344 字节，SHA256 `ce991a866e9160f69f0cd7d72c522ceb9d4e01b55c75a60d372acc017cce3074`。构建检查 29 项通过，17 个引用无缺失，生产代码 harness 46 项通过；旧功能不重复全量验收。
 - 当前试玩档为 `../lab-profile/Saves/a19-final.rws`（12,760,089 字节）。核对时 PID 25772 暂停于 tick 24937，选中三技能 Lab Elf，窗口关闭、入口显示、无飞弹。原始证据为 `../evidence/a19-final-*` 和 `a19-soundfix-*`；旧 a18 存档及失败现场保留。目标失效实机、Mender 单独 cast、鼠标点击新入口和声音听感未验证；未提交、推送或发布。
+
+### 2026-10-30：a24 魔术书交互与命中触发交付
+
+- 魔术书改为点击书签即切换当前槽，施法按钮同步；去掉草稿与确认弹窗；新增“触发”分类，不可追加的符文半透明并给出红字原因。实机 `SelectBookmark` 槽 2→3、gizmo 同步；空槽禁用。
+- 新增 `WotF_Trigger_OnHit`：法术编译为 `SpellCastPlan.segments`，飞弹携带 `spellPlan` 与 `spellSegmentIndex` 并随存档保存；命中后由 `SpellTriggerService` 在目标远侧生成下一段。`[射弹][伤害][触发][射弹][爆炸]` 第一段造成 +9 伤口，第二段在目标东侧生成并只爆炸一次；出图不触发；两段飞行存档读档各只结算一次。
+- 最终 DLL 199,168 B，SHA256 `F3F4924161C780A8A2B641BE7973C748CEB28FE8DED5A6C4028E0EDB104CB941`；`a24-final.rws` 12,228,269 B，tick17596，Paused，activeSlot 9，`live=0`；日志 0 ERROR/Exception；a18–a23 与 `Missiles.xml` 未改。未提交、推送或发布。

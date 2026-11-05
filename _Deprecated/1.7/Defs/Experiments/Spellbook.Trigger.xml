@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Deprecated 2026-11-05: the on-hit trigger rune, extracted from
+  1.7/Defs/Experiments/Spellbook.xml.
+
+  Reason: the new spell table schedules timing effects with 滞留 (linger), 地印 (sigil) and 延迟
+  (delay) instead of a hit-then-continue rune. The segment machinery it used - SpellSegment,
+  spellSegmentIndex, SpellTriggerService, SpellTriggerGeometry - stays in the product assembly as the
+  payload layer those three runes will build on; only this entry rune is gone.
+
+  Not loaded and not compiled: this folder is outside Source/WhisperOfTheForest.
+-->
+<Defs>
+
+  <!--
+    Ends the segment on its left and starts the next one at the same position in the chain: the rune
+    right after it must be a form. Only a projectile segment can carry it, because only a projectile
+    has a real hit to continue from. A spell cannot start or end with it, it carries no numbers, and
+    it takes no augment (Ars Nouveau 5.13.3).
+  -->
+  <WhisperOfTheForest.Experimental.Spells.SpellGlyphDef>
+    <defName>WotF_Trigger_OnHit</defName>
+    <label>on hit</label>
+    <description>Ends the segment on its left: when that segment really hits, the next segment starts at the hit point. A dart that leaves the map, expires or loses its target never continues.</description>
+    <kind>Trigger</kind>
+    <compatibleAugments />
+    <iconPath>Experiments/Spellbook/Glyphs/WotF_Trigger_OnHit</iconPath>
+  </WhisperOfTheForest.Experimental.Spells.SpellGlyphDef>
+
+  <!-- ============================================================ Trigger visual -->
+
+  <!--
+    Ring played where a trigger hands the chain to the next segment (Experiments/spellbook.md §8.2:
+    about half a second, so the player can see where the chain reconnects). The trigger service falls
+    back to ExplosionFlash + ThrowLightningGlow when this def is missing, so a stripped build still
+    marks the point. TriggerRing.png is drawn by the book-art task; a missing PNG only loses the ring.
+  -->
+  <FleckDef ParentName="FleckBase">
+    <defName>WotF_Fleck_TriggerRing</defName>
+    <graphicData>
+      <texPath>Experiments/Spellbook/TriggerRing</texPath>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>3</drawSize>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.06</fadeInTime>
+    <solidTime>0.3</solidTime>
+    <fadeOutTime>0.14</fadeOutTime>
+  </FleckDef>
+
+</Defs>

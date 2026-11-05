@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <WotF_ForestBloodline.label>林庭血脉</WotF_ForestBloodline.label>
+  <WotF_ForestBloodline.labelShortAdj>林庭</WotF_ForestBloodline.labelShortAdj>
+  <WotF_ForestBloodline.description>与森林古老魔法的血脉联系。携带者拥有魔力，能走上自己的施法成长之路，也能唤醒在他人手中毫无反应的魔术书。血脉同时提高身体能承受的心灵熵。</WotF_ForestBloodline.description>
+  <WotF_ForestBloodline.resourceLabel>魔力</WotF_ForestBloodline.resourceLabel>
+  <WotF_ForestBloodline.resourceDescription>施法者自身的魔力储备。法术结算时消耗魔力；上限由林庭血脉等级决定，魔术书与法杖还能继续提高。</WotF_ForestBloodline.resourceDescription>
+
+</LanguageData>

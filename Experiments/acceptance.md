@@ -59,3 +59,54 @@
 | A33 | 补验后恢复与显示边界 | `c073748075200` 重新加载未覆盖的 a20-final；最终 `c073808175495` 为 tick29060、Paused、selectedId37175，`c073808639348` 为 live=0；`c073809112432` 窗口关闭、悬浮入口可见。隔离 PID13364，a18/a19保留。维护方关闭施法进度条的 XML 尚未在该实例重载，不计为已生效 |
 
 首轮原始结果为 `../evidence/a20-results.jsonl` 与 `a20-experiment.jsonl`，其中包含先前累计记录；本轮命令以 `c065...` 标识，事件以 2026-10-27 UTC 时间为边界。补验单独归档为 `a20-moving-results.jsonl`（73条）与 `a20-moving-experiment.jsonl`（31条，最早 2026-10-27T07:35:11 UTC）。主代理核对原始结果、保存实体、源码哈希及最终状态，`a20-player.log` 与补验后的 Player.log 均未检出 ERROR/Exception。粒子仅有生命周期代码、RimUnity设置路径执行及无报错证据，未通过画面检查粒子或残留，观感由用户判断。护盾/拦截链没有接入，旧飞行中格式不转换，多地图及目标失效未在本轮实机重做。
+
+## a21 植物催熟验收（2026-10-27）
+
+| 编号 | 场景 | 主代理核对的证据与结果 |
+| --- | --- | --- |
+| A34 | 效果与触发分离 | 催熟效果是 `PlantGrowthEffect.TryMature(Plant, out string)` 与 `FailureReasonKey(Plant)`，只依赖 `Verse`/`RimWorld`，不依赖 Ability、飞弹或 Lab；技能侧只有 `CompAbilityEffect_WotFPlantGrowth` 这个薄适配（`Valid`/`CanApplyOn`/`Apply`）。任何持有已生成 `Plant` 的触发源都能直接调用，无需假命中 context |
+| A35 | 授予发现与去重 | 授予改为按共享基类 `CompProperties_WotFAbilityEffect` 发现，排序与去重逻辑不变。`c1a21grant` 后 abilities 为 Mender/ArcaneMissiles/Heavy/MaturePlant 四项；`c2a21grant2` 再授予一次后 `c2a21obs2` 仍为四项，未重复、未丢失旧三技能。没有硬编码 WotF_MaturePlant 名单 |
+| A36 | 未成熟作物催熟 | `c1a21fix1` 的 `Plant_Potato` 45297 为 `growth 0.15/Growing/hp85/harvestableNow=false`；`c1a21cast1` 真实 `Ability.Activate` 后 `c1a21after1` 为 `growth 1/Mature/harvestableNow=true/hp85`，thingId、def、位置不变 |
+| A37 | 未成熟树催熟 | `c1a21fix2` 的 `Plant_TreeOak` 45298 同为 `0.15→1`，`isTree=true`、`Mature`、`harvestableNow=true`、`hp200` 不变（`c1a21cast2`、`c1a21after2`）。两项都只改 growth，未改 Age、HP、病害或堆叠 |
+| A38 | 拒绝与不变式 | 对门 45292 施法（`c1a21door`/`c1a21castdoor`）与对已成熟 45297 再施法（`c1a21castmature`/`c1a21after3`）都返回 ok 但状态不变；门报告 `isPlant=false`，已成熟植物报告 `failureReasonKey=WotF_MaturePlant_Failed_AlreadyMature`。直调 Activate 的 ok 不代表通过了玩家的目标校验。两次植物施法后 `launched=0/impacts=0/live=0`（`c1a21miss1`、`c1a21miss2`），没有生成飞弹或多余结算 |
+| A39 | 存档保留成熟状态 | `c2a21save1` 存 a21-final，`c2a21load1` 读档后 `c2a21p5`/`c2a21p6` 仍为 `growth 1/Mature/harvestableNow=true`、hp 不变，`c2a21obs3` 仍四项技能；`a21-final.rws` 内两株原生字段为 `<health>85/200</health>`、`<growth>1</growth>`、`<age>2000</age>`，Elf45296 在同一存档 |
+| A40 | 构建、检查与最终态 | 隔离重建与部署件同为 127,488 字节、SHA256 `a1a877c60e18fabc678b5b888521a742740940caa666d817df4bd0f0d2372b5`，0 warning/0 error；`verify.ps1` 31 PASS/0 WARN/0 FAIL，`check-defs.ps1` 21 引用/0 missing。最终 `c2a21st5` 为 tick 5019、Paused、selectedId 45296、四项技能，`c2a21ui4` 窗口关闭、入口可见，`c2a21miss-d` live=0；旧飞弹一次真实 cast 结算 `launched=3/impacts=3`（`c1a21castmiss`、`c2a21miss-a`）说明旧链路未受影响 |
+
+原始记录为 `../evidence/a21-results.jsonl`、`a21-experiment.jsonl` 与 `a21-player.log`（0 条 ERROR/Exception），旧会话与 a20 日志在 `../evidence/a21-prelaunch/`。存档：`a21-before.rws` 13,301,179 字节（旧 DLL/旧 Def 现场），`a21-final.rws` 17,446,723 字节（新 DLL quicktest 地图）。未实测项：玩家点击选植物与 `targetParams` 高亮、中文 description/错误提示显示、`Valid` 返回 false 的点击路径（仅代码与编译证据）、特殊植物、实际收获动作，以及旧飞弹/UI/移动的既有场景未重做。隔离实例 PID33332（无 `-mod`，`-savedatafolder`/`-wotflab` 与 a20 相同）。
+
+主代理最终核对：独立运行 verify 为 31 PASS/0 WARN/0 FAIL、check-defs 为 21 引用/0 missing，git diff --check 无空白错误；部署通过 Mods 目录联接读取同一 DLL，产物哈希与上述一致，维护 Missiles.xml 哈希仍为 `650B6B5959C54AE9E7CC95188E75E3D53BD5F29DAD13752C23747032C33C8549`。核对原始 JSON 与存档 XML 中两株的 growth=1、HP=85/200，以及 Elf45296 的四个技能。只读截取窗口 HWND 1508022，确认游戏暂停、Lab Elf 已选中、三个飞弹 Gizmo 与中文“瞬间催熟植物”Gizmo 同时显示；这不等于鼠标施法、目标高亮或成熟贴图对比验收。未重跑 worker 已完成的实机场景。
+
+本节的「拒绝」结论按证据分级：运行期只证实直调 `Activate` 后状态不变（原版行为），`CompAbilityEffect_WotFPlantGrowth.Valid` 阻止玩家点击的那条路径由本机程序集编译检查与 `Verb_CastAbility.ValidateTarget` 反编译调用链支撑，未做鼠标实测。
+
+## a22 魔术书验收清单（最终 a23 验收）
+
+本轮按用户的 auto drive 请求验收：研究新生魔艺的组成与 RimWorld 对应机制，提供能自由组装、保存并交给有施法能力小人使用的魔术书。以下项目以 a23 最终构建和真实游戏结果为准，不以队列完成、编译通过或存在某个方法替代功能结果。
+
+| 编号 | 用户要求对应的交付 | 验收所需证据 | 当前结果 |
+| --- | --- | --- | --- |
+| A41 | 分析原作组成并寻找 RimWorld 对应 | `spellbook.md` 的来源与映射；分清本体和附属模组、已实现与仅有接口可能性 | 通过：§6 已按 229 条中 87 个 `ars_nouveau:` 本体条目、14 个附属 namespace 分类，给 Form/Effect/Augment 映射、真实 API 与未确认项 |
+| A42 | 类似魔术书的游戏内页面 | 原生 Window 与实际书页画面；符文目录、说明、配方区、十个书签、可读中文和明确入口 | 通过：原生双页 Window；主代理只读窗口截图确认左页符文目录/分类、右页编排/保存、十个书签、中文按钮；书页 open/close 状态由真实回调确认 |
+| A43 | 自由组装受支持的法术 | 添加、删除、调序与命名；一个 Form 开头、多个 Effect 有序、Augment 只修改左侧最近的兼容项；非法组合显示原因 | 通过：十槽保存/读取；缺 Form、两个 Form、Amplify 绑 Grow、射弹增幅错位均拒绝并显示原因；有效链按顺序执行 |
+| A44 | 保存多个法术并读档保留 | 十槽保存、改名、切换；草稿不污染已存内容；保存再加载后名称、顺序与小人选中槽位一致 | 通过：10 槽保存、副本隔离、读档名称/顺序逐字一致；`a23-final` 的 activeSlot=2；草稿切换有覆盖确认 |
+| A45 | 有能力的小人能施放 | 有灵能链接小人的原生入口与玩家目标选择；无能力、距离、阻挡、状态、冷却拒绝；说明哪些只测回调、哪些真经玩家输入 | 通过：psylink0 的 can/cast 拒绝且原因可见，grant 后自动获得 `WotF_SpellbookCast`；原生 Command_Target、书页 open/close 和 Self/Touch/Projectile 施放链实测。真实鼠标点击未单独测，见边界 |
+| A46 | 三种形式与四种效果可实际组合 | 少量场景覆盖 Self、Touch、Projectile 与 Harm、Heal、Explosion、Grow，至少一条多效果链；前后真实 HP、伤口、growth 与计数 | 通过：Self Heal 2.0→0；Touch Grow 0.266→1、Mature；Projectile Harm 0→Crack9+Bruise8.92；Projectile Heal 17.92→5.84；ProjHarm+Heal 余 6.0；AOE Grow 两株 0.15→1.0；Projectile+Explosion 日志 `impact ... explosion=1`（主代理在最终实例补测） |
+| A47 | 增幅真实改变法术 | Amplify、AOE、Accelerate、Decelerate、Split 的实际数值、范围或弹数；范围效果去重，爆炸只生成一次 | 通过：Harm 9→13.5、速度16→28.8/8.8、Split1→3、AOE半径1.9→3.1、Explosion12→18且只一次；AOE Grow 两株各一次。主代理另在最终实例的实时 frame 看到 `speed=28.8/damage=13.5`，Split 实发 `live=3/impact=3`，Projectile+Explosion 日志 `explosion=1`；测试后重载 a23-final |
+| A48 | 保存法术可稳定交给射弹执行 | 已推进飞行存档；发射后改槽不改载荷；加载后按发射快照执行一次，无重复命中 | 通过：飞行中保存/改槽/load 后 live=1、age 延续、一次 impact，日志按发射快照；`a23-flight.rws` 留档 |
+| A49 | 交付可试玩结果且保留既有成果 | 最终 DLL 与部署哈希一致、相关检查通过、a23-final 暂停/live=0/书中有样例；旧四技能、a18–a21 与维护 XML 不受覆盖 | 通过：DLL 185,856B / `353773d6…`；a23-final 12,232,266B / `a3d0ecb1…`，tick12940、Paused、选中 Elf40081、activeSlot2、窗口关闭、live0；a18–a21 哈希未变，Missiles.xml `650B6B59…` |
+| A50 | 配置式运行与旧功能回归 | 构建检查、旧四技能、日志和实际入口 | 通过：verify 47/0、check-defs 35/0、check-spells ALL、check-ui OK、spellbook UI OK；旧四技能 4/4 生效 |
+
+最终集成任务独占部署 DLL、游戏实例与 Lab 队列。主代理独立运行 `verify`、`check-defs`、`check-ui`、`check-spells`、`check-spellbook-ui`，核对 DLL/存档/Missiles 哈希与 a18–a21 未覆盖；并用只读窗口截图确认书页实际显示。未覆盖边界：真实鼠标点击 Gizmo/书页、中文像素级排版与多分辨率、原版护盾/拦截、特殊植物、多地图；仅 1 条本轮之前的简体中文翻译 WARN 保留。
+
+## a24 魔术书交互与命中触发验收（2026-10-30）
+
+| 编号 | 场景 | 主代理核对的结果 |
+| --- | --- | --- |
+| A51 | 书签同步 | `select slot=3` 后 activeSlot 2→3，gizmo T03-ProjHarm→T04-ProjHeal；`select slot=0` 后 T01-SelfHeal；空槽 9 禁用并给出原因 |
+| A52 | 增幅兼容 | `[Projectile][Harm][AOE]` 与 `[Touch][Grow][Amplify]` 被拒；`[Projectile][Explosion][AOE]` 通过 |
+| A53 | 触发链 | `[Projectile][Harm][Trigger][Projectile][Explosion]`：第一段 +9 伤口；第二段从目标远侧 (241.04,221.01) 朝 (249,226) 发射，只爆炸一次；`live=0/impacts=2` |
+| A54 | 不触发 | 目标在图边时 spawn 250.09,220.54 越界，日志 `not triggered`，只有第一段 |
+| A55 | 飞行存档 | `a24-flight1` 含 segments/triggerOnHit；`a24-flight2` 含 `spellSegmentIndex=1`；读档各只结算一次 |
+| A56 | 旧技能与最终态 | 旧四技能 4/4 生效；`a24-final.rws` 12,228,269B，tick17596，Paused，activeSlot9，live0；日志 0 ERROR/Exception |
+| A57 | 构建与产物 | DLL 199,168B / `F3F49241…`；verify 47/0、check-defs 37/0、check-spells 460 PASS、UI/layout OK；a18–a23 与 Missiles.xml 未改 |
+
+未实测：真实鼠标点击/悬停、红字提示排版、a–f 在 199,168B 最终 hash 上重跑（a–f 在 198,656B；最终只多 Lab 截图 hook，产品 Spells/UI/Defs 未变）、爆炸逐格伤害统计、墙体命中后续段落点、护盾/拦截。既有单图 96 发 live 上限仍作为安全阀保留，链本身没有额外段数上限。

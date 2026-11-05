@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    Prototype spell staff.
+
+    It is an ordinary ranged weapon (equipmentType Primary, a real verb, a standard attack
+    command), but the verb does not launch anything: Verb_CastSpellStaff hands the chosen
+    spellbook bookmark to the same SpellService.TryCast entry point the book gizmo uses. The
+    casting system therefore owns windup, channel, recovery, cooldown and the payload.
+
+    Numbers that belong to the casting system (range, cooldown, payload) are NOT copied here:
+      * range is only the fallback for vanilla UI that reads verbProps.range directly; the real
+        reach comes from the selected bookmark's compiled plan (Verb_CastSpellStaff.EffectiveRange);
+      * RangedWeapon_Cooldown is the attack cycle of the weapon. It is set to the same 2 s as the
+        book's WotF_SpellTuning.cooldownTicks so a drafted attack order retries at the same pace
+        the casting service allows another cast. The casting service stays the authority: if the
+        two ever differ, it refuses earlier or later, never the other way round.
+    warmupTime is 0 because the staff's windup is the spell's own.
+  -->
+  <ThingDef ParentName="BaseGun">
+    <defName>WotF_SpellStaff</defName>
+    <label>spell staff</label>
+    <description>A prototype staff that casts instead of shooting. Its attack casts the spellbook bookmark chosen on its gizmo; the staff remembers the slot, not a copy, so editing that page changes what it casts. Without a saved spell it cannot attack.</description>
+    <thingClass>ThingWithComps</thingClass>
+    <techLevel>Spacer</techLevel>
+    <graphicData>
+      <texPath>Experiments/Equipment/SpellStaff</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <Mass>2.5</Mass>
+      <Flammability>0.3</Flammability>
+      <!-- 2 s: the weapon's own attack cycle, matching WotF_SpellTuning.cooldownTicks. -->
+      <RangedWeapon_Cooldown>2</RangedWeapon_Cooldown>
+    </statBases>
+    <!-- Lab-granted placeholder, like the movement experiment items: nothing to smelt back. -->
+    <smeltable>false</smeltable>
+    <weaponClasses>
+      <li>Ranged</li>
+      <li>Ultratech</li>
+    </weaponClasses>
+    <verbs>
+      <li>
+        <verbClass>WhisperOfTheForest.Experimental.Equipment.Verb_CastSpellStaff</verbClass>
+        <label>cast</label>
+        <isPrimary>true</isPrimary>
+        <hasStandardCommand>true</hasStandardCommand>
+        <ai_IsWeapon>true</ai_IsWeapon>
+        <warmupTime>0</warmupTime>
+        <range>24.9</range>
+        <!-- The spell decides reach and line of sight per form; the verb checks them itself. -->
+        <requireLineOfSight>false</requireLineOfSight>
+        <!--
+          Permissive on purpose: the per-spell filter (harm/heal/grow/explosion/railgun) is built
+          from the compiled plan and returned by Verb_CastSpellStaff.targetParams, exactly like the
+          book's cast gizmo. This list only matters in the moment before a bookmark is chosen.
+        -->
+        <targetParams>
+          <canTargetPawns>true</canTargetPawns>
+          <canTargetAnimals>true</canTargetAnimals>
+          <canTargetHumans>true</canTargetHumans>
+          <canTargetMechs>true</canTargetMechs>
+          <canTargetSubhumans>true</canTargetSubhumans>
+          <canTargetBuildings>true</canTargetBuildings>
+          <canTargetPlants>true</canTargetPlants>
+          <canTargetLocations>true</canTargetLocations>
+          <canTargetSelf>false</canTargetSelf>
+          <neverTargetIncapacitated>false</neverTargetIncapacitated>
+        </targetParams>
+      </li>
+    </verbs>
+    <!--
+      Comps are declared without inheritance because the equipment comp itself is replaced:
+      CompSpellStaff derives from CompEquippable, which is what lets an equipped weapon contribute
+      the slot-selection gizmo to the pawn. CompProperties_Equippable does not exist as a separate
+      type in 1.7; a plain CompProperties entry with a compClass is how vanilla declares it.
+
+      CompProperties_Styleable must stay: BaseWeapon declares it for every weapon, and the IdeoRelic
+      precept's available-things list validates that a listed weapon has it. Dropping it logged
+      "Config error in IdeoRelic: ThingDef WotF_SpellStaff ... missing CompStyleable" at load.
+    -->
+    <comps Inherit="False">
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Styleable"/>
+      <li>
+        <compClass>WhisperOfTheForest.Experimental.Equipment.CompSpellStaff</compClass>
+      </li>
+    </comps>
+  </ThingDef>
+
+</Defs>

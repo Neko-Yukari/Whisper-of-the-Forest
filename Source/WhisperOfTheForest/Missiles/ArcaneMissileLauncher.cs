@@ -1,5 +1,6 @@
 using System;
 using Verse;
+using WhisperOfTheForest.Experimental.Vfx;
 
 namespace WhisperOfTheForest.Experimental.Missiles
 {
@@ -123,7 +124,7 @@ namespace WhisperOfTheForest.Experimental.Missiles
                 var projectile = (Projectile_ArcaneMissiles)ThingMaker.MakeThing(projectileDef);
                 projectile.Initialize(missile, caster, target, target);
                 GenSpawn.Spawn(projectile, spawnCell, map, WipeMode.Vanish);
-                component.NotifyLaunched(projectile);
+                component.NotifyLaunched();
                 launched++;
             }
 
@@ -147,6 +148,135 @@ namespace WhisperOfTheForest.Experimental.Missiles
         public static int FireAtThing(Pawn caster, Thing target, ArcaneMissileSettings settings = null)
         {
             return target == null ? 0 : Fire(caster, new LocalTargetInfo(target), settings);
+        }
+
+        /// <summary>
+        /// Fires one segment of a longer spell from an explicit point and direction. Used by the
+        /// trigger hand-over, where the origin is just behind the surface the previous dart hit and
+        /// the direction is that surface's normal.
+        ///
+        /// <paramref name="segmentIndex"/> is the pointer the new darts carry, so the segment they
+        /// must run when they hit is the one that was just launched. Only the origin and aim differ
+        /// from <see cref="Fire"/>: the same spread, clamps and map missile cap apply, and a null
+        /// <paramref name="targetThing"/> aims at the cell so a dart can never home back onto the
+        /// thing that was already hit. Returns the number of missiles actually launched.
+        /// </summary>
+        public static int FireSpellSegment(
+            Pawn caster,
+            ArcaneMissileSettings settings,
+            int segmentIndex,
+            UnityEngine.Vector3 origin,
+            float dirX,
+            float dirZ,
+            IntVec3 targetCell,
+            Thing targetThing)
+        {
+            if (caster == null || !caster.Spawned || caster.Map == null)
+            {
+                return 0;
+            }
+
+            Map map = caster.Map;
+            if (!GenGrid.InBounds(targetCell, map))
+            {
+                ArcaneMissileDiagnostics.Error(
+                    "segment " + segmentIndex + " launch rejected: target cell " + targetCell + " is outside the map.");
+                return 0;
+            }
+
+            if (targetThing != null
+                && (targetThing.Destroyed || !targetThing.Spawned || targetThing.Map != map))
+            {
+                targetThing = null;
+            }
+
+            ArcaneMissileSettings volley = (settings ?? ArcaneMissileSettings.CreateDefault()).Copy();
+            volley.Clamp();
+            ResolveSelections(volley);
+            volley.spellSegmentIndex = segmentIndex;
+
+            float length = MathF.Sqrt(dirX * dirX + dirZ * dirZ);
+            if (length < 0.0001f)
+            {
+                dirX = 0f;
+                dirZ = 1f;
+            }
+            else
+            {
+                dirX /= length;
+                dirZ /= length;
+            }
+
+            ThingDef projectileDef = ArcaneMissileDefs.ProjectileThingDef;
+            if (projectileDef == null)
+            {
+                ArcaneMissileDiagnostics.Error(
+                    "projectile thing def " + ArcaneMissileDefs.ProjectileThingDefName
+                    + " is missing; the segment was not fired.");
+                return 0;
+            }
+
+            float baseAngle = MathF.Atan2(dirX, dirZ);
+            float startX = origin.x;
+            float startZ = origin.z;
+            float spreadRadians = volley.launchSpreadDegrees * (MathF.PI / 180f);
+            LocalTargetInfo target = targetThing != null
+                ? new LocalTargetInfo(targetThing)
+                : new LocalTargetInfo(targetCell);
+
+            MapComponent_ArcaneMissiles component = MapComponent_ArcaneMissiles.GetOrCreate(map);
+            int launched = 0;
+
+            for (int i = 0; i < volley.missileCount; i++)
+            {
+                if (!component.CanAcceptMore())
+                {
+                    ExperimentLog.Record(
+                        "missiles",
+                        caster,
+                        "dropped segment volley: missile cap " + MapComponent_ArcaneMissiles.MaxLiveMissiles + " reached");
+                    break;
+                }
+
+                float offset = volley.missileCount <= 1
+                    ? 0f
+                    : (i - (volley.missileCount - 1) * 0.5f) / (volley.missileCount - 1) * spreadRadians;
+
+                float angle = baseAngle + offset;
+                var missile = new ArcaneMissile();
+                missile.Initialize(
+                    caster,
+                    targetThing,
+                    targetCell,
+                    startX,
+                    startZ,
+                    MathF.Sin(angle),
+                    MathF.Cos(angle),
+                    volley,
+                    Gen.HashCombineInt(Find.TickManager.TicksGame, i * 397 + caster.thingIDNumber));
+
+                var spawnCell = new IntVec3((int)MathF.Floor(startX), 0, (int)MathF.Floor(startZ));
+                if (!GenGrid.InBounds(spawnCell, map))
+                {
+                    ExperimentLog.Record("missiles", caster, "dropped missile: segment spawn cell out of bounds " + spawnCell);
+                    continue;
+                }
+
+                var projectile = (Projectile_ArcaneMissiles)ThingMaker.MakeThing(projectileDef);
+                projectile.Initialize(missile, caster, target, target);
+                GenSpawn.Spawn(projectile, spawnCell, map, WipeMode.Vanish);
+                component.NotifyLaunched();
+                launched++;
+            }
+
+            ExperimentLog.Record(
+                "missiles",
+                caster,
+                "segment volley index=" + segmentIndex
+                + " launched=" + launched + "/" + volley.missileCount
+                + " target=" + (targetThing != null ? targetThing.LabelShort : targetCell.ToString()));
+
+            return launched;
         }
 
         /// <summary>
@@ -180,9 +310,10 @@ namespace WhisperOfTheForest.Experimental.Missiles
         }
 
         /// <summary>
-        /// Debug helper for in-game verification of a visual backend: plays one probe effect at a
+        /// Debug helper for in-game verification of a visual backend: plays one probe burst at a
         /// cell with no gameplay effect. Uses the default (RimUnity) backend unless another Def is
-        /// given. Returns false when the selected backend is unusable.
+        /// given, and keeps the effect alive for <paramref name="seconds"/>. Returns false only when
+        /// the point is unusable.
         /// </summary>
         public static bool SpawnVisualProbe(
             Map map,
@@ -203,43 +334,21 @@ namespace WhisperOfTheForest.Experimental.Missiles
                 return false;
             }
 
-            ArcaneMissileVisualSource source = def.CreateSource();
-            if (source == null)
-            {
-                return false;
-            }
-
             ArcaneMissileSettings settings = ArcaneMissileSettings.CreateDefault();
             if (!string.IsNullOrEmpty(colorHex))
             {
                 settings.missileColorHex = colorHex;
             }
 
-            settings.lifetimeSeconds = Math.Max(0.5f, seconds);
-
-            var context = new ArcaneMissileImpactVisualContext
+            VfxService.Play(new ArcaneMissileVfxRequest
             {
-                Map = map,
-                Cell = cell,
-                X = cell.x + 0.5f,
-                Y = 1.1f,
-                Z = cell.z + 0.5f,
-                Hit = null,
-                Settings = settings
-            };
-
-            try
-            {
-                source.Probe(context);
-            }
-            catch (Exception exception)
-            {
-                ArcaneMissileDiagnostics.Error("visual probe for " + def.defName + " failed: " + exception);
-                source.Dispose();
-                return false;
-            }
-
-            source.Dispose();
+                map = map,
+                origin = new UnityEngine.Vector3(cell.x + 0.5f, settings.flightHeight, cell.z + 0.5f),
+                direction = UnityEngine.Vector3.forward,
+                vfxDefName = def.impactVisualDefName,
+                settings = settings,
+                seconds = Math.Max(0.5f, seconds)
+            });
             return true;
         }
     }

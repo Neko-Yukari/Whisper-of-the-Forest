@@ -460,3 +460,83 @@ Windows 上脚本用 `Invoke-CimMethod Win32_Process Create`（WMI detached）�
 - 证据文件（已按边界隔离旧 a18/a19 记录）：`Moddev/evidence/a20-moving-results.jsonl`（73 条，按命令 id `c0735`–`c0738` 取本次）、`Moddev/evidence/a20-moving-experiment.jsonl`（31 条，按 `ts ≥ 2026-10-27T07:35` 取本次，最早 tick 32772）。
 - 最终态：重新 `load a20-final`（未覆盖，`c073748075200`）→ tick 29060、Paused、选中 37175（三技能 Elf）、`windowOpen=false`/`showFloatingEntry=true`、`live=0`（`c073808175495`、`c073808639348`、`c073809112432`）。
 - 主代理复核：`a20-moving-flight.rws` 实含一个 `Projectile_ArcaneMissiles`，id146887、age=152、pos(232.710632,229.878464)，目标引用及 Heal/4/720/两 flag 均保存；读档后 age=153、位移约一 tick，再于 age=253 命中一次。补验数据与旧累计日志分开，最终 DLL 哈希仍为 `c08464fd…51eb0c1`。粒子只核对生命周期代码、已执行的 RimUnity 设置及无错误日志，没有通过画面核实形状或残留。
+
+## 12. 植物催熟技能接入与 a21 实机（2026-10-27）
+
+### 代码接入（只动 Lab，不改功能实现）
+
+- `Lab/LabActions.cs`：授予发现从「携带飞弹 comp」改为共享基类 `CompProperties_WotFAbilityEffect`，仍按 defName 排序、去重、走原 psylink/psyfocus 流程；新增常量 `MaturePlantDefName`。没有硬编码 `WotF_MaturePlant` 名单。
+- `Lab/LabCommands.cs`：`cast preset=...` 对任意已授予的本实验技能直接调用真实 `Ability.Activate`；仅当 Def 携带 `CompProperties_AbilityWotFArcaneMissiles` 时才附带既有 `settings`（新增私有 `HasMissileProps`）。非飞弹技能返回 `"settings":null`，并新增顶层 `"radius":null`；飞弹的 `settings` 字段保持原样，`radius` 仍可在 `settings.radius` 读到。`fire` 仍是飞弹专用，没有扩成通用命令。
+- 新增有界 `plants` 命令：无参列出最多 16 株未成熟植物加 `plantCount/immatureCount/shown`；`id=` 报告单目标（`present/def/pos/hp/isPlant/growth/lifeStage/harvestableNow/isTree/sown/matureable/failureReasonKey`）；`confirm=1` 在已登记 `setup` 矩形内生成一株 fixture（`kind=tree` 用 `Plant_TreeOak`，否则 `Plant_Potato`，同图同 def 复用）。该命令只读 growth，催熟只能来自真实施法。
+- `status.defs` 增加 `WotF_MaturePlant` 存在字段，未重构既有列表。
+
+### 构建与静态检查
+
+- 隔离重建（输出到临时目录，未覆盖交付 DLL）与部署件均为 **127,488 字节**、SHA256 `a1a877c60e18fabc678b5b888521a742740940caa666d817df4bd0f0d2372b5`，说明部署件就是当前源码的确定性产物；0 warning / 0 error。
+- `Tools/verify.ps1`：**31 passed / 0 warnings / 0 failures**；`Tools/check-defs.ps1`：21 个 Def 类型/贴图引用 **0 missing**（含新 comp 类）。
+- 未重跑旧 52 项飞弹 harness、UI 与移动场景。
+
+### 现场、退出与隔离重启
+
+- 旧现场先存为 `a21-before`（13,301,179 字节）。该会话 14:53 启动、只加载了旧 Def（`status` 中 `WotF_MaturePlant=false`），存盘后才由集成任务关闭。
+- 旧隔离实例（`-savedatafolder=E:/…/Moddev/lab-profile -wotflab=E:/…/Moddev/lab-run -quicktest`，**无 `-mod`**）安全退出后构建部署，再用同一组参数启动新实例 **PID33332**（23:18:07 本地）；`status` 为 `harmonyPatched=true`、11 个特性 Def 全 true（含 `WotF_MaturePlant`）。旧会话与 a20 日志归档在 `../evidence/a21-prelaunch/`，a18/a19/a20 存档未动。
+- 新实例是独立 quicktest 地图；`setup confirm=1` 在 15×5 实验矩形内清掉 49 株植物与 4 处污渍，生成围挡、门与 Lab Human 45293 / Lab Elf 45296。
+- 说明：a21 命令批次的前半段（`c1a21st1`–`c1a21miss1`、`c1a21fix2`–`c1a21miss3`）由被中断的原集成 worker 在同一新实例上发出；本 worker 接手后重新读取状态、补齐重复授予、保存读档与最终态，并逐条核对上述原始 JSON，未改动这些命令或结果。
+
+### 实机证据（真实 Ability 入口，暂停/正常时间按需切换）
+
+| 检查 | 观察 | 证据 id |
+| --- | --- | --- |
+| 授予含新技能 | `grant` 后 `psylink=1`、`psyfocus≈1`，abilities 为 `WotF_ArcaneMissiles_Mender`、`WotF_ArcaneMissiles`、`WotF_ArcaneMissiles_Heavy`、`WotF_MaturePlant` | `c1a21grant`、`c1a21obs1` |
+| 地图植物可观测 | 地图共 32827 株、其中 20362 株可催熟；列表前 16 株均 `growth<1`、`lifeStage=Growing`、`harvestableNow=false` | `c1a21plantlist` |
+| 未成熟作物催熟 | `Plant_Potato` 45297 @ (101,0,129)：`growth 0.15 / Growing / hp85 / harvestableNow=false` → 施法 → `growth 1 / Mature / harvestableNow=true / hp85`，thingId 与位置不变 | `c1a21fix1`、`c1a21cast1`、`c1a21after1` |
+| 未成熟树催熟 | `Plant_TreeOak` 45298 @ (102,0,129)：同样 `0.15 → 1`，`isTree=true`、`Mature`、`harvestableNow=true`、`hp200` 不变 | `c1a21fix2`、`c1a21cast2`、`c1a21after2` |
+| 催熟不产生飞弹 | 两次植物施法后 `live=0 / launched=0 / impacts=0 / expired=0`，无新 Thing、无多余 impact | `c1a21miss1`、`c1a21miss2` |
+| 非植物目标 | 对门 45292 施法：目标 `isPlant=false`，施法返回 ok，门与植物状态均未变（直调 `Activate` 不走 `Valid`，属原版行为；玩家点击路径的拒绝由 `Verb_CastAbility.ValidateTarget → CompAbilityEffect_WotFPlantGrowth.Valid` 承担，见 §12 代码证据） | `c1a21door`、`c1a21castdoor` |
+| 已成熟再施法 | 对已成熟 45297 再次施法：`growth 1 / Mature` 不变，`failureReasonKey=WotF_MaturePlant_Failed_AlreadyMature` | `c1a21castmature`、`c1a21after3` |
+| 重复授予不重复 | 第二次 `grant` 后 abilities 仍为 4 项，无重复 | `c2a21grant2`、`c2a21obs2` |
+| 旧飞弹仍工作 | `cast preset=WotF_ArcaneMissiles id=45286` 返回原 settings（3 发/13/300/Damage/radius1.7），`live=3` 后结算 `launched=3 / impacts=3 / live=0` | `c1a21castmiss`、`c1a21miss3`、`c2a21miss-a` |
+| 保存读档保留成熟 | `save a21-final` → `load a21-final` 后 45297/45298 仍 `growth 1 / Mature / harvestableNow=true`、hp 不变，abilities 仍 4 项 | `c2a21save1`、`c2a21load1`、`c2a21p5`、`c2a21p6`、`c2a21obs3` |
+| 存档内的原生字段 | `a21-final.rws` 中 (101,0,129) 与 (102,0,129) 两株为 `<health>85/200</health>`、`<growth>1</growth>`、`<age>2000</age>`（只改 growth，未强改年龄），Elf45296 在同一存档 | `a21-final.rws` |
+| 最终态 | 重新加载后 `tick 5019`、`Paused`、`selectedId 45296`、abilities 4 项、`windowOpen=false`、入口可见、`live=0` | `c2a21st5`、`c2a21obs4`、`c2a21ui4`、`c2a21miss-d` |
+
+- 日志：`../evidence/a21-player.log` 中 **0 条 ERROR/Exception**（仅 Waylith/Vulkan 启动告警）；本轮命令流 `a21-results.jsonl`、事件流 `a21-experiment.jsonl`。
+
+### 未验证/已知边界
+
+- 没有鼠标键盘：玩家点击选植物、`targetParams` 是否真的把植物高亮为合法目标、中文 label/description 与三条失败提示的实际显示，均未实机点击确认；由 XML 参数、`TargetingParameters.CanTarget` 与 `check-defs` 覆盖。
+- 「已成熟/非植物」的运行期证据是直调 `Ability.Activate` 后状态不变；`Valid` 返回 false 的那条路径靠编译检查与反编译调用链支撑，未做点击实测。
+- 只验证一株普通作物与一株橡树；特殊植物（灵能树、菌菇、仙灵树等）按普通 Plant 处理，未单独实机，也没有专门兼容层。
+- 收获动作本身未执行：只观测 `HarvestableNow=true`，没有让小人去割/收，也不自动收获。
+- 未重做旧飞弹的移动目标追踪、飞行存档、UI 拖动与移动装备场景。
+
+## 13. a24 触发链与书页实机（2026-10-29）
+
+### 构建与入口
+
+- 最终 DLL：`1.7/Assemblies/WhisperOfTheForest.dll` **199168 B**，`2026-10-29T16:52:16Z`，sha256 `F3F4924161C780A8A2B641BE7973C748CEB28FE8DED5A6C4028E0EDB104CB941`；部署 junction 读到同一 hash。
+- `build.ps1 -Verify`：47 PASS/0 FAIL；`check-defs`：37 引用 0 missing；`check-ui.ps1 -AssemblyPath <最终DLL>`：UI CHECK OK。
+- 环境故障与修复：首次 `launch-lab.ps1` 的 `-mod=` 列表只解析本地 Mods，Harmony/AlienRace/RimUnity（workshop）被忽略，导致 `HarmonyLib.HarmonyPatch` TypeLoad 并使 ModsConfig 重置。`Tools/launch-lab.ps1` 增加 `-UseModsConfig`（不传 `-mod=`，使用隔离 `lab-profile/Config/ModsConfig.xml`），重启后 `harmonyPatched=true`。未改产品代码。
+
+### 书页与兼容（a、b）
+
+- `spellbook action=select slot=3`（经 `Window_Spellbook.SelectBookmark`）：`activeSlot 2→3`，gizmo label `T03-ProjHarm→T04-ProjHeal`；`slot=0` → `T01-SelfHeal`。`clear slot=9` 后 `select slot=9`：gizmo label 变为“未选择法术”、`disabled=true`、reason 指明第 10 个书签为空。
+- validate：`[Projectile][Harm][AOE]` false，`[Touch][Grow][Amplify]` false，`[Projectile][Explosion][AOE]` true。
+
+### 触发链（c）
+
+- plan（Lab 已扩展输出 segments）：`segmentCount=2`；segment0 Projectile/Harm amount9 `triggerOnHit=true`，segment1 Projectile/Explosion amount12 radius1.9。
+- `cast slot=9 id=40078`（真实 Ability 入口，slot 9 = `T11-ProjHarmTrigProjExpl`）：segment0 impact tick13381 cell `(240,0,220)`，Lab Human 伤口 `1/8.92→2/17.92`（+9）；日志 `trigger ... segment=1 launched=1/1 from (241.04,0.00,221.01) towards (249,0,226) direction=0.86,0.5`（施法者在西侧，spawn 在目标东侧）；segment1 impact tick13428 cell `(249,0,226) hit=ground explosion=1`；`live=0`、`impacts=2`（一次 Harm、一次 Explosion）。
+- 第二段图边生成失败（d）：目标在 `(249,220)` 时日志 `trigger ... not triggered: spawn point 250.09,220.54 is outside the map`，只有 segment0 impact，无第二段。
+
+### 飞行存档（e）
+
+- 第一段飞行中 `a24-flight1.rws`：`spellPlan` 含 `segments` 与 `triggerOnHit=True`；load 后只结算一次：segment0 Harm → trigger segment1 → Explosion 一次（`live0/impact2`）。
+- 第二段飞行中 `a24-flight2.rws`：rws 明确含 `<spellSegmentIndex>1</spellSegmentIndex>`；load 后 segment1 命中一次（`live0/impact1`），无重复 segment0/爆炸。
+
+### 旧四技能与截图（f、g）
+
+- 真实 `cast`：`WotF_ArcaneMissiles` 3 impacts；`WotF_ArcaneMissiles_Heavy` 1 impact；`WotF_ArcaneMissiles_Mender` 使 Elf 伤口 `8/52.8→7/42.8`（-10）；`WotF_MaturePlant` 对植物 14241 `activated=True`。
+  - 注：Lab Human 40078 在长时间正常时间测试中因累计伤势死亡，之后旧技能改用地面/自身目标；不影响触发链证据。
+- 书页截图：`Moddev/evidence/a24-spellbook-trigger.png`，2560×1440，PrintWindow 只读捕获；停在“触发”分类（5 个标签可见），目录显示 `On hit/触发`，法术栏为 5 符文触发链。
+- 最终：`a24-final.rws` 12,228,269 B，`2026-10-29T16:53:42Z`，tick17596，暂停，选中 Elf40081，书页关闭，`live=0`；本次 Player.log `ERROR` 计数 0（`a24-final-player.log`）。a18–a23 存档与 `Missiles.xml`（`650B6B59…`）未改。

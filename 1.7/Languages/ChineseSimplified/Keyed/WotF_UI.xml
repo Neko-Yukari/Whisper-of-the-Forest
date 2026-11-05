@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
-  <WotF_UI.SettingsCategory>林地低语：实验台</WotF_UI.SettingsCategory>
-  <WotF_UI.SettingsHint>悬浮入口的显示与位置会保存到模组设置；窗口开闭不保存，进入游戏时始终关闭。</WotF_UI.SettingsHint>
+  <WotF_UI.SettingsCategory>林地低语</WotF_UI.SettingsCategory>
+  <WotF_UI.SettingsHint>调试日志默认关闭，只在排查时开启；开启后游戏日志会记录逐对象明细。</WotF_UI.SettingsHint>
   <WotF_UI.WindowTitle>林地低语 · 实验台</WotF_UI.WindowTitle>
 
   <WotF_UI.NoPawn>未选择角色</WotF_UI.NoPawn>
@@ -25,6 +25,7 @@
 
   <WotF_UI.SectionEntry>悬浮入口</WotF_UI.SectionEntry>
   <WotF_UI.ShowFloatingEntry>显示右下角悬浮入口</WotF_UI.ShowFloatingEntry>
+  <WotF_UI.DebugLog>记录逐对象调试日志（排查时开启）</WotF_UI.DebugLog>
   <WotF_UI.ResetEntryPosition>重置位置</WotF_UI.ResetEntryPosition>
   <WotF_UI.ResetEntryPositionTip>把悬浮入口放回右下角显示开关那排控件的左上方。</WotF_UI.ResetEntryPositionTip>
   <WotF_UI.EntryHint>拖动入口移动位置，点击打开本窗口；关闭窗口后入口保留。隐藏入口后可从底部实验台按钮重新打开本窗口。</WotF_UI.EntryHint>

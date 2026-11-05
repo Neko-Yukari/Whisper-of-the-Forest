@@ -37,6 +37,10 @@
       <packageId>ludeon.rimworld.royalty</packageId>
       <displayName>RimWorld - Royalty</displayName>
     </li>
+    <li>
+      <packageId>ludeon.rimworld.biotech</packageId>
+      <displayName>RimWorld - Biotech</displayName>
+    </li>
   </v1.7>
 </modDependenciesByVersion>
 </ModMetaData>

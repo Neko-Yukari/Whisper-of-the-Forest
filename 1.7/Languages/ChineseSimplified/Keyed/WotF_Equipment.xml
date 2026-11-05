@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- 法术法杖的 Gizmo 与信息栏文本。Gizmo 标题始终写出法杖将施放的法术，无需打开菜单就能看到当前槽位。 -->
+
+  <WotF_Equipment.Gizmo.NoSpell>法术法杖：未选择法术</WotF_Equipment.Gizmo.NoSpell>
+  <WotF_Equipment.Gizmo.Current>法术法杖：{0}</WotF_Equipment.Gizmo.Current>
+  <WotF_Equipment.Gizmo.Desc>选择法杖攻击时施放哪个魔术书槽位。法杖记住的是槽位而非法术副本，修改该页会改变它施放的法术。槽位为空时无法攻击。</WotF_Equipment.Gizmo.Desc>
+  <WotF_Equipment.Gizmo.NoBook>魔术书在当前游戏中尚未就绪。</WotF_Equipment.Gizmo.NoBook>
+  <WotF_Equipment.Gizmo.NoSavedSpell>魔术书里还没有保存的法术。</WotF_Equipment.Gizmo.NoSavedSpell>
+  <WotF_Equipment.Menu.Slot>{0}. {1}</WotF_Equipment.Menu.Slot>
+  <WotF_Equipment.Inspect.NoSpell>法术：无</WotF_Equipment.Inspect.NoSpell>
+  <WotF_Equipment.Inspect.Current>法术：{0}</WotF_Equipment.Inspect.Current>
+
+</LanguageData>

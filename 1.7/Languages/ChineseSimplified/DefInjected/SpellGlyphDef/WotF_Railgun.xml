@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- 轨道炮符文本身的名称与说明；语法原因文本放在 Keyed/WotF_Spells.xml 里。 -->
+  <WotF_Form_Railgun.label>轨道炮</WotF_Form_Railgun.label>
+  <WotF_Form_Railgun.description>一个本身就是完整法术的符文：蓄能片刻后打出一条笔直的光束，贯穿路径上的一切，墙体和山体也不例外。线上的目标无一幸免，只有施法者除外。</WotF_Form_Railgun.description>
+
+</LanguageData>

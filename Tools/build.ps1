@@ -79,11 +79,9 @@ if ($copied) {
 }
 
 if ($Verify) {
-    & (Join-Path $PSScriptRoot 'verify.ps1')
-    if ($LASTEXITCODE -ne 0) {
-        throw "verify.ps1 reported failures"
-    }
-
+    # Assembly-level check: every Class/thingClass/workerClass and texPath in 1.7/Defs must
+    # resolve. Source-text greps were removed; behaviour is covered by Tools/test.ps1 in a real
+    # game instance.
     & (Join-Path $PSScriptRoot 'check-defs.ps1')
     if ($LASTEXITCODE -ne 0) {
         throw "check-defs.ps1 reported missing types or textures"

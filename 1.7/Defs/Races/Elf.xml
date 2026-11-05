@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    The elf race. HAR owns the skeleton (body, head, hair placeholders); the forest bloodline gene
+    owns the magic and is always present through raceGenes.
+
+    Placeholder art lives in Textures/Placeholder/Milira/ (git-ignored). Its layout follows what
+    HAR 1.7 generates:
+      body: graphicPaths.body path prefix + "Naked_" + body type defName
+      head: graphicPaths.head path prefix + the HeadTypeDef's graphicPath file name
+    Body textures are copied from the Milira female body, head from MiliraHead0, hair from the
+    Milira hair overlay. Nothing here refers to Milira's own Defs, only to the copied files.
+  -->
+
+  <AlienRace.ThingDef_AlienRace ParentName="BasePawn">
+    <defName>WotF_Elf</defName>
+    <label>elf</label>
+    <description>A tall, long-lived people of the old forests. Their bodies are built for a life among trees, and their bloodline still answers to the magic that humans only reach through archotech psylinks.</description>
+
+    <statBases>
+      <MarketValue>1750</MarketValue>
+      <MoveSpeed>4.6</MoveSpeed>
+      <ComfyTemperatureMin>16</ComfyTemperatureMin>
+      <ComfyTemperatureMax>26</ComfyTemperatureMax>
+      <LeatherAmount>75</LeatherAmount>
+      <RoyalFavorValue>3</RoyalFavorValue>
+      <Wildness>0.75</Wildness>
+    </statBases>
+
+    <!-- BasePawn carries no tools; without them Pawn_MeleeVerbs has no verb to use. -->
+    <tools>
+      <li>
+        <label>left fist</label>
+        <labelNoLocation>fist</labelNoLocation>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>8.2</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>LeftHand</linkedBodyPartsGroup>
+        <surpriseAttack>
+          <extraMeleeDamages>
+            <li>
+              <def>Stun</def>
+              <amount>14</amount>
+            </li>
+          </extraMeleeDamages>
+        </surpriseAttack>
+      </li>
+      <li>
+        <label>right fist</label>
+        <labelNoLocation>fist</labelNoLocation>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>8.2</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>RightHand</linkedBodyPartsGroup>
+        <surpriseAttack>
+          <extraMeleeDamages>
+            <li>
+              <def>Stun</def>
+              <amount>14</amount>
+            </li>
+          </extraMeleeDamages>
+        </surpriseAttack>
+      </li>
+      <li>
+        <label>teeth</label>
+        <capacities>
+          <li>Bite</li>
+        </capacities>
+        <power>8.2</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>Teeth</linkedBodyPartsGroup>
+        <chanceFactor>0.07</chanceFactor>
+        <soundMeleeHit>Pawn_Melee_HumanBite_Hit</soundMeleeHit>
+        <soundMeleeMiss>Pawn_Melee_HumanBite_Miss</soundMeleeMiss>
+      </li>
+      <li>
+        <label>head</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>5</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+        <chanceFactor>0.2</chanceFactor>
+      </li>
+    </tools>
+
+    <race>
+      <thinkTreeMain>Humanlike</thinkTreeMain>
+      <thinkTreeConstant>HumanlikeConstant</thinkTreeConstant>
+      <intelligence>Humanlike</intelligence>
+      <makesFootprints>true</makesFootprints>
+      <lifeExpectancy>500</lifeExpectancy>
+      <bloodDef>Filth_Blood</bloodDef>
+      <bloodSmearDef>Filth_BloodSmear</bloodSmearDef>
+      <leatherDef>Leather_Human</leatherDef>
+      <nameCategory>HumanStandard</nameCategory>
+      <body>Human</body>
+      <renderTree>Humanlike</renderTree>
+      <baseBodySize>1</baseBodySize>
+      <baseHealthScale>1</baseHealthScale>
+      <foodType>OmnivoreHuman</foodType>
+      <gestationPeriodDays>18</gestationPeriodDays>
+      <meatMarketValue>0.8</meatMarketValue>
+      <manhunterOnDamageChance>0.50</manhunterOnDamageChance>
+      <manhunterOnTameFailChance>0.10</manhunterOnTameFailChance>
+      <soundCallIntervalRange>2000~5000</soundCallIntervalRange>
+      <canBecomeShambler>true</canBecomeShambler>
+      <knowledgeCategory MayRequire="Ludeon.RimWorld.Anomaly">Basic</knowledgeCategory>
+      <anomalyKnowledge>1</anomalyKnowledge>
+      <hasUnnaturalCorpse>true</hasUnnaturalCorpse>
+      <litterSizeCurve>
+        <points>
+          <li>(0.5, 0)</li>
+          <li>(1, 1)</li>
+          <li>(1.01, 0.02)</li>
+          <li>(3.5, 0)</li>
+        </points>
+      </litterSizeCurve>
+      <lifeStageAges>
+        <li>
+          <def>HumanlikeBaby</def>
+          <minAge>0</minAge>
+        </li>
+        <li>
+          <def>HumanlikeChild</def>
+          <minAge>3</minAge>
+        </li>
+        <li MayRequire="Ludeon.RimWorld.Biotech">
+          <def>HumanlikePreTeenager</def>
+          <minAge>9</minAge>
+        </li>
+        <li>
+          <def>HumanlikeTeenager</def>
+          <minAge>13</minAge>
+        </li>
+        <li>
+          <def>HumanlikeAdult</def>
+          <minAge>20</minAge>
+        </li>
+      </lifeStageAges>
+      <lifeStageWorkSettings MayRequire="Ludeon.RimWorld.Biotech">
+        <Firefighter>7</Firefighter>
+        <Patient>0</Patient>
+        <Doctor>10</Doctor>
+        <PatientBedRest>0</PatientBedRest>
+        <Childcare MayRequire="Ludeon.RimWorld.Biotech">0</Childcare>
+        <BasicWorker>3</BasicWorker>
+        <Warden>10</Warden>
+        <Handling>7</Handling>
+        <Cooking>7</Cooking>
+        <Hunting>7</Hunting>
+        <Construction>10</Construction>
+        <Growing>7</Growing>
+        <Mining>7</Mining>
+        <PlantCutting>7</PlantCutting>
+        <Smithing>13</Smithing>
+        <Tailoring>7</Tailoring>
+        <Art>10</Art>
+        <Crafting>10</Crafting>
+        <Research>10</Research>
+      </lifeStageWorkSettings>
+      <soundMeleeDodge>Pawn_MeleeDodge</soundMeleeDodge>
+      <specialShadowData>
+        <volume>(0.3, 0.8, 0.4)</volume>
+        <offset>(0,0,-0.3)</offset>
+      </specialShadowData>
+    </race>
+
+    <alienRace>
+      <generalSettings>
+        <minAgeForAdulthood>20</minAgeForAdulthood>
+        <humanRecipeImport>true</humanRecipeImport>
+
+        <alienPartGenerator>
+          <bodyTypes>
+            <li>Thin</li>
+            <li MayRequire="Ludeon.RimWorld.Biotech">Baby</li>
+            <li MayRequire="Ludeon.RimWorld.Biotech">Child</li>
+          </bodyTypes>
+          <headTypes>
+            <li>WotF_Head_Elf</li>
+          </headTypes>
+          <customDrawSize>(1,1)</customDrawSize>
+          <customHeadDrawSize>(1,1)</customHeadDrawSize>
+          <customPortraitDrawSize>(1,1)</customPortraitDrawSize>
+
+          <bodyAddons>
+            <!-- Placeholder hair, front layer. Layer depth copied from Milira's own addon. -->
+            <li>
+              <name>hair</name>
+              <userCustomizable>true</userCustomizable>
+              <path>Placeholder/Milira/Hair/HairMain/MiliraHair</path>
+              <inFrontOfBody>true</inFrontOfBody>
+              <layerInvert>false</layerInvert>
+              <colorChannel>hair</colorChannel>
+              <defaultOffset>Center</defaultOffset>
+              <drawSize>1</drawSize>
+              <alignWithHead>true</alignWithHead>
+              <scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+              <conditions>
+                <BodyPart>
+                  <bodyPart>Head</bodyPart>
+                </BodyPart>
+                <Posture>
+                  <drawnStanding>true</drawnStanding>
+                  <drawnInBed>true</drawnInBed>
+                  <drawnLaying>true</drawnLaying>
+                </Posture>
+              </conditions>
+              <offsets>
+                <west>
+                  <layerOffset>-0.274</layerOffset>
+                </west>
+                <south>
+                  <layerOffset>-0.274</layerOffset>
+                </south>
+                <north>
+                  <layerOffset>-0.274</layerOffset>
+                </north>
+                <east>
+                  <layerOffset>-0.274</layerOffset>
+                </east>
+              </offsets>
+            </li>
+
+            <!-- Placeholder hair, back layer. Variant index follows the front layer. -->
+            <li>
+              <name>hair background</name>
+              <userCustomizable>true</userCustomizable>
+              <path>Placeholder/Milira/Hair/HairBackGround/MiliraHairBG</path>
+              <inFrontOfBody>false</inFrontOfBody>
+              <layerInvert>false</layerInvert>
+              <colorChannel>hair</colorChannel>
+              <defaultOffset>Center</defaultOffset>
+              <drawSize>1</drawSize>
+              <alignWithHead>true</alignWithHead>
+              <scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+              <linkVariantIndexWithPrevious>true</linkVariantIndexWithPrevious>
+              <conditions>
+                <BodyPart>
+                  <bodyPart>Head</bodyPart>
+                </BodyPart>
+                <Posture>
+                  <drawnStanding>true</drawnStanding>
+                  <drawnInBed>false</drawnInBed>
+                  <drawnLaying>true</drawnLaying>
+                </Posture>
+              </conditions>
+              <offsets>
+                <west>
+                  <layerOffset>-0.275</layerOffset>
+                </west>
+                <south>
+                  <layerOffset>-0.299</layerOffset>
+                </south>
+                <north>
+                  <layerOffset>-0.275</layerOffset>
+                </north>
+                <east>
+                  <layerOffset>-0.275</layerOffset>
+                </east>
+              </offsets>
+            </li>
+          </bodyAddons>
+        </alienPartGenerator>
+
+        <raceGenes>
+          <li>
+            <defName>WotF_ForestBloodline</defName>
+            <chance>100</chance>
+          </li>
+        </raceGenes>
+      </generalSettings>
+
+      <graphicPaths>
+        <body>
+          <path>Placeholder/Milira/Bodies/</path>
+        </body>
+        <head>
+          <path>Placeholder/Milira/Heads/</path>
+        </head>
+      </graphicPaths>
+
+      <!-- The placeholder hair is a body addon; vanilla hair would draw a second layer over it.
+           With hasStyle false HAR only allows HairDefs tagged alienNoStyle, which is Bald. -->
+      <styleSettings>
+        <li>
+          <key>HairDef</key>
+          <value>
+            <hasStyle>false</hasStyle>
+          </value>
+        </li>
+      </styleSettings>
+
+      <!-- Vanilla appearance genes would draw a second ears/tail/body/hair layer over HAR art. -->
+      <raceRestriction>
+        <blackGeneTags>
+          <li>Ears</li>
+          <li>Tail</li>
+          <li>BodyType</li>
+          <li>Furskin</li>
+          <li>HairStyle</li>
+        </blackGeneTags>
+      </raceRestriction>
+    </alienRace>
+  </AlienRace.ThingDef_AlienRace>
+
+  <PawnKindDef ParentName="BasePlayerPawnKind">
+    <defName>WotF_Elf_Colonist</defName>
+    <label>elf</label>
+    <race>WotF_Elf</race>
+    <defaultFactionDef>PlayerColony</defaultFactionDef>
+    <initialResistanceRange>13~21</initialResistanceRange>
+  </PawnKindDef>
+
+</Defs>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- ============================================================ 语法原因 -->
+
+  <WotF_Spells.Reason.NoGlyphs>还没有编排符文：先放一个形式，再放至少一个效果。</WotF_Spells.Reason.NoGlyphs>
+  <WotF_Spells.Reason.TooLong>这个法术的符文超过 {0} 个。</WotF_Spells.Reason.TooLong>
+  <WotF_Spells.Reason.UnknownGlyph>未知符文：{0}</WotF_Spells.Reason.UnknownGlyph>
+  <WotF_Spells.Reason.FormMustBeFirst>第一个符文必须是形式（自身、接触、弹射物或环绕）。</WotF_Spells.Reason.FormMustBeFirst>
+  <WotF_Spells.Reason.OnlyOneForm>一个法术只能有一个形式。</WotF_Spells.Reason.OnlyOneForm>
+  <WotF_Spells.Reason.NoEffect>法术至少需要一个效果，否则什么也不会发生。</WotF_Spells.Reason.NoEffect>
+  <WotF_Spells.Reason.AmplifyNeedsEffect>强化左侧需要一个效果才能生效。</WotF_Spells.Reason.AmplifyNeedsEffect>
+  <WotF_Spells.Reason.AmplifyCannotGrow>催熟是瞬间完成的，强化无法让它更强。</WotF_Spells.Reason.AmplifyCannotGrow>
+  <WotF_Spells.Reason.AoeNeedsEffect>范围左侧需要一个效果才能扩大。</WotF_Spells.Reason.AoeNeedsEffect>
+  <WotF_Spells.Reason.ProjectileAugmentNeedsProjectile>加速、减速和分裂只能修改射弹形式。</WotF_Spells.Reason.ProjectileAugmentNeedsProjectile>
+  <WotF_Spells.Reason.AugmentNotAccepted>该增幅不能接在左侧这个符文上。</WotF_Spells.Reason.AugmentNotAccepted>
+  <WotF_Spells.Reason.TimingNeedsEffect>滞留、地印和延迟需要右侧至少有一个效果，否则什么也不会发生。</WotF_Spells.Reason.TimingNeedsEffect>
+
+  <!-- ============================================================ 复合形式 -->
+
+  <WotF_Spells.Reason.RailgunOutOfRange>轨道炮的 {0} 格射程内没有可以瞄准的东西。</WotF_Spells.Reason.RailgunOutOfRange>
+  <WotF_Spells.Reason.CompleteFormNoEffect>轨道炮符文本身就是一整个法术，不能再接效果符文。</WotF_Spells.Reason.CompleteFormNoEffect>
+  <WotF_Spells.Reason.CompleteFormNotAfterTrigger>轨道炮符文不能接在触发符文之后：它自己就是一个完整的法术。</WotF_Spells.Reason.CompleteFormNotAfterTrigger>
+
+  <!-- ============================================================ 触发语法 -->
+
+  <WotF_Spells.Reason.TriggerNotFirst>触发符文不能放在首位，它用来结束前面那一段。</WotF_Spells.Reason.TriggerNotFirst>
+  <WotF_Spells.Reason.TriggerNotLast>触发符文后面必须紧跟一个形式，用来开始下一段。</WotF_Spells.Reason.TriggerNotLast>
+  <WotF_Spells.Reason.TriggerNeedsForm>触发符文后面必须直接跟一个形式。</WotF_Spells.Reason.TriggerNeedsForm>
+  <WotF_Spells.Reason.TriggerOnlyAfterProjectile>触发符文只能接在射弹段之后：自身和接触会立刻结算，没有可以继续的命中。</WotF_Spells.Reason.TriggerOnlyAfterProjectile>
+  <WotF_Spells.Reason.FormOnlyAfterTrigger>一段法术只能有一个形式，新形式只能在触发符文之后开始。</WotF_Spells.Reason.FormOnlyAfterTrigger>
+  <WotF_Spells.Reason.LastSegmentNeedsEffect>最后一段至少需要一个效果，否则这一段什么也不会做。</WotF_Spells.Reason.LastSegmentNeedsEffect>
+
+  <!-- ============================================================ 保存原因 -->
+
+  <WotF_Spells.Reason.SlotOutOfRange>没有第 {0} 个书签。</WotF_Spells.Reason.SlotOutOfRange>
+  <WotF_Spells.Reason.NeedName>保存前请先给法术命名。</WotF_Spells.Reason.NeedName>
+
+  <!-- ============================================================ 施法者原因 -->
+
+  <WotF_Spells.Reason.NoPawn>没有指定施法者。</WotF_Spells.Reason.NoPawn>
+  <WotF_Spells.Reason.PawnDead>死亡的小人无法施法。</WotF_Spells.Reason.PawnDead>
+  <WotF_Spells.Reason.PawnNotSpawned>施法者必须已生成在地图上。</WotF_Spells.Reason.PawnNotSpawned>
+  <WotF_Spells.Reason.PawnDowned>倒地的小人无法施法。</WotF_Spells.Reason.PawnDowned>
+  <WotF_Spells.Reason.NotPlayerControlled>只有你控制的小人可以使用魔术书。</WotF_Spells.Reason.NotPlayerControlled>
+  <WotF_Spells.Reason.NoPsylink>这个小人的灵能链接等级需要达到 1 级才能施法。</WotF_Spells.Reason.NoPsylink>
+  <WotF_Spells.Reason.AlreadyCasting>这个小人正在施法。</WotF_Spells.Reason.AlreadyCasting>
+  <WotF_Spells.Reason.NoGameComponent>魔术书在当前游戏中尚未就绪。</WotF_Spells.Reason.NoGameComponent>
+  <WotF_Spells.Reason.Cooldown>仍在凝聚灵能：距离下次施法还有 {0} 秒。</WotF_Spells.Reason.Cooldown>
+  <WotF_Spells.Reason.NoSpellSelected>这个小人的当前法术是空的，请在魔术书中选择。</WotF_Spells.Reason.NoSpellSelected>
+  <WotF_Spells.Reason.NoTargeter>游戏尚未准备好目标选择。</WotF_Spells.Reason.NoTargeter>
+  <WotF_Spells.Reason.Unknown>这个法术现在无法施放。</WotF_Spells.Reason.Unknown>
+  <WotF_Spells.Reason.LaunchFailed>法术弹无法发射。</WotF_Spells.Reason.LaunchFailed>
+  <WotF_Spells.Reason.MissingImpactDef>缺少法术射弹定义 {0}，因此无法发射。</WotF_Spells.Reason.MissingImpactDef>
+
+  <!-- ============================================================ 目标原因 -->
+
+  <WotF_Spells.Reason.NoTarget>请先选择目标。</WotF_Spells.Reason.NoTarget>
+  <WotF_Spells.Reason.TargetOtherMap>该目标不在这张地图上。</WotF_Spells.Reason.TargetOtherMap>
+  <WotF_Spells.Reason.TargetOutOfBounds>该目标在地图之外。</WotF_Spells.Reason.TargetOutOfBounds>
+  <WotF_Spells.Reason.TouchNotAdjacent>接触法术只能作用于相邻格。</WotF_Spells.Reason.TouchNotAdjacent>
+  <WotF_Spells.Reason.NoLineOfSight>有实心物体挡住了法术。</WotF_Spells.Reason.NoLineOfSight>
+
+  <!-- ============================================================ 按钮与施法反馈 -->
+
+  <WotF_Spells.Gizmo.OpenBook>魔术书</WotF_Spells.Gizmo.OpenBook>
+  <WotF_Spells.Gizmo.OpenBookDesc>编排符文、命名法术，并保存到十个书签之一。</WotF_Spells.Gizmo.OpenBookDesc>
+  <WotF_Spells.Gizmo.NoSpell>尚未选择法术</WotF_Spells.Gizmo.NoSpell>
+  <WotF_Spells.Gizmo.NoSpellDesc>打开魔术书，为这个小人在书签里选择一个法术。</WotF_Spells.Gizmo.NoSpellDesc>
+  <WotF_Spells.Gizmo.NoSpellReason>第 {0} 个书签是空的。</WotF_Spells.Gizmo.NoSpellReason>
+  <WotF_Spells.Gizmo.CastDesc>施放保存在第 {0} 个书签中的法术。</WotF_Spells.Gizmo.CastDesc>
+  <WotF_Spells.Gizmo.Unnamed>未命名法术</WotF_Spells.Gizmo.Unnamed>
+  <WotF_Spells.CastDone>已施放{0}。</WotF_Spells.CastDone>
+
+</LanguageData>

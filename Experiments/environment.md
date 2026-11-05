@@ -109,3 +109,10 @@ RimUnity 的编辑器路线要求 Unity 2022.3 LTS、exporter 包及 Shader 工�
 - [RimWorld Modding Tutorials](https://rimworldwiki.com/wiki/Modding_Tutorials)：XML/C# 模组开发入口；[Plague Gun](https://rimworldwiki.com/wiki/Modding_Tutorials/Plague_Gun) 提供命中与原生效果的实例，具体 API 仍以本机 1.7 程序集为准。
 
 上述网页于 2026-10-25 核对。真实多地图切换、地图移除及目标丢失的完整游戏场景尚未运行；对应逻辑已有生产代码 harness 和调度 IL 检查。暂停与倍率下的外观、其他体型装备的视觉适配、Unity Editor/exporter 工作流不计入已完成的实机验证。
+
+## 并发驱动与重载边界（2026-10-27 a21 观察到）
+
+- Def 与 DLL 只在进程启动时读取：本次旧会话 14:53 启动，之后新增的 `Plants.xml` 与新的 `Lab`/`Abilities` 代码都要等重启新实例（PID33332）后才生效，`status.defs` 才从 `WotF_MaturePlant=false` 变为 `true`。改 Def 或重建 DLL 后必须重启隔离实例，`build.ps1` 在检测到 `RimWorld` 进程时也会直接拒绝构建。
+- `requests.txt` 是追加式队列，写入后由运行中的游戏按屏幕状态执行；读档是排队的长事件，紧随其后的命令可能返回 `no map loaded`，需要等新图就绪再发（本轮 `c2a21load1` 后的首个 `plants` 如此，等待数秒后恢复）。
+- 同一隔离实例不宜由两个 worker 同时驱动：本轮被中断的原集成 worker 与本 worker 的命令在 `results.jsonl` 中交错出现（`c1a21...` 与 `c2a21...`）。结果本身可按 id 区分且都在同一新 DLL 上执行，但排障时应先确认队列归属，避免对同一地图重复执行 `setup confirm=1`。
+- 观察只能通过 `status`/`observe`/`plants`/`missiles`/`ui action=status` 等有界命令完成；没有桌面键鼠，因此玩家点击式校验（目标高亮、鼠标提示文本）无法自动化。

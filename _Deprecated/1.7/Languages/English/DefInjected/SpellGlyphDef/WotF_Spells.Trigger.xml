@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Deprecated 2026-11-05: the on-hit trigger rune localization, extracted from
+  1.7/Languages/English/DefInjected/SpellGlyphDef/WotF_Spells.xml.
+  Reason: the rune is gone; see _Deprecated/1.7/Defs/Experiments/Spellbook.Trigger.xml.
+-->
+<LanguageData>
+
+  <!-- Trigger -->
+  <WotF_Trigger_OnHit.label>on hit</WotF_Trigger_OnHit.label>
+  <WotF_Trigger_OnHit.description>Ends the segment on its left: when that segment really hits, the next segment starts at the hit point. A dart that leaves the map, expires or loses its target never continues.</WotF_Trigger_OnHit.description>
+
+</LanguageData>

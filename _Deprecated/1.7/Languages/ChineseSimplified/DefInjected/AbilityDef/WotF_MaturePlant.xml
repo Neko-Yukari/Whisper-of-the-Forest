@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <WotF_MaturePlant.label>瞬间催熟植物</WotF_MaturePlant.label>
+  <WotF_MaturePlant.description>让一株未成熟的植物当场长成。作物和树木都有效，但只改变生长度：伤势、疾病、年龄和该植物的收获规则都保持原样，能否收获依旧由它自身的定义决定。</WotF_MaturePlant.description>
+
+</LanguageData>

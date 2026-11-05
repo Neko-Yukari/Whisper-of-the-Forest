@@ -31,12 +31,12 @@ namespace WhisperOfTheForest.Experimental
             {
                 new Harmony(HarmonyId).PatchAll();
                 LabHost.MarkHarmonyPatched();
-                Log.Message("[WotF-Lab] Harmony patched with id " + HarmonyId);
+                WotfLog.Info(WotfLog.ModuleBoot, "Harmony patched with id " + HarmonyId);
             }
             catch (Exception exception)
             {
                 // A failed patch must stay visible in the log and in `status`, but must not break startup.
-                Log.Error("[WotF-Lab] Harmony PatchAll failed: " + exception);
+                WotfLog.Error(WotfLog.ModuleBoot, "Harmony PatchAll failed: " + exception);
             }
         }
     }

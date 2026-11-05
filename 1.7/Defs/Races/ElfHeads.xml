@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    One head for the placeholder phase. HAR 1.7 builds the head path as
+    graphicPaths.head.path + the file name of this Def's graphicPath, so the prefix in Elf.xml
+    ("Placeholder/Milira/Heads/") plus "MiliraHead0" points at the copied textures.
+  -->
+
+  <HeadTypeDef ParentName="AverageBase">
+    <defName>WotF_Head_Elf</defName>
+    <label>elf head</label>
+    <graphicPath>Placeholder/Milira/Heads/MiliraHead0</graphicPath>
+    <gender>None</gender>
+  </HeadTypeDef>
+
+</Defs>

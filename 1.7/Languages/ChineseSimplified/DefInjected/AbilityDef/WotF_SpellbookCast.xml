@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <WotF_SpellbookCast.label>魔术书</WotF_SpellbookCast.label>
+  <WotF_SpellbookCast.description>一本用来编排符文的奥术魔典。打开它可以选择、命名并保存十个法术之一，然后把当前法术施放到相邻目标、化作追踪法术弹，或者作用在施法者自身。</WotF_SpellbookCast.description>
+
+</LanguageData>

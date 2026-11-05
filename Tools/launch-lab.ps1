@@ -10,6 +10,11 @@
 
   The repo itself stays inside Moddev. Deployment (junction/copy into RimWorld/Mods) is owned by
   the orchestrator; this script only validates the deployed path and starts the game.
+
+  The mod list comes from <savedatafolder>/Config/ModsConfig.xml by default. Never pass -mod= for a
+  workshop mod: the game resolves that list only against the local Mods folder, so Harmony, HAR and
+  RimUnity would be silently skipped and the assembly fails to load (ReflectionTypeLoadException,
+  no map, lab silent). -Mods exists only for a local-only mod list.
 #>
 [CmdletBinding()]
 param(
@@ -17,7 +22,7 @@ param(
     [string]$DeployedModPath,
     [string]$LabDir,
     [string]$SaveDataFolder,
-    [string]$Mods,
+    [string]$Mods = '',
     [switch]$QuickTest,
     [switch]$Wait
 )
@@ -37,7 +42,7 @@ if (-not $SaveDataFolder) {
     $SaveDataFolder = Join-Path $LabDir 'savedata'
 }
 if (-not $Mods) {
-    $Mods = 'NekoYukari.WhisperOfTheForest;brrainz.harmony;erdelf.HumanoidAlienRaces;Chezhou.RimUnity'
+    $Mods = ''
 }
 
 if (-not (Test-Path -LiteralPath $gameExe)) {
@@ -72,11 +77,12 @@ if (Get-Process -Name 'RimWorld' -ErrorAction SilentlyContinue) {
     Write-Warning 'A RimWorld process is already running. Close it first, or the lab folder may be shared by two sessions.'
 }
 
-$arguments = @(
-    "-savedatafolder=$SaveDataFolder",
-    "-mod=$Mods",
-    "-wotflab=$LabDir"
-)
+$arguments = @("-savedatafolder=$SaveDataFolder")
+if ($Mods) {
+    # Local Mods folder only (see the header): workshop packageIds would be ignored.
+    $arguments += "-mod=$Mods"
+}
+$arguments += "-wotflab=$LabDir"
 if ($QuickTest) {
     $arguments += '-quicktest'
 }
@@ -85,7 +91,7 @@ Write-Host "Game: $gameExe"
 Write-Host "Deployed mod: $DeployedModPath"
 Write-Host "Lab: $LabDir"
 Write-Host "Save data: $SaveDataFolder"
-Write-Host "Mods: $Mods"
+Write-Host "Mods: $(if ($Mods) { $Mods } else { '<savedatafolder>/Config/ModsConfig.xml' })"
 Write-Host "QuickTest: $QuickTest"
 Write-Host ''
 

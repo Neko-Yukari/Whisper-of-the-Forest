@@ -1,6 +1,7 @@
 using System;
 using RimWorld;
 using Verse;
+using WhisperOfTheForest.Experimental.Spells;
 
 namespace WhisperOfTheForest.Experimental.Missiles
 {
@@ -61,6 +62,21 @@ namespace WhisperOfTheForest.Experimental.Missiles
         public string missileColorHex = "#9BD8FF";
         public string trailColorHex = "#3F7DFF";
 
+        /// <summary>
+        /// Optional spell payload. Null keeps every pre-spellbook behaviour unchanged (the existing
+        /// Damage/Heal/Explode impact defs never read it). A spell cast freezes a deep copy here, so
+        /// the volley carries the effects that were arranged when it was fired, and
+        /// <c>SpellImpactWorker_SpellCast</c> executes them where the dart really lands.
+        /// </summary>
+        public SpellCastPlan spellPlan;
+
+        /// <summary>
+        /// Which segment of <see cref="spellPlan"/> this volley must run when it hits. The cast starts
+        /// at 0; every continuation carries the index of the segment it was launched from. Saved with
+        /// the projectile, so a chain reloaded mid-flight keeps pointing at the same segment.
+        /// </summary>
+        public int spellSegmentIndex;
+
         /// <summary>Damage type actually used, falling back to a core damage def when unset.</summary>
         public DamageDef ResolvedDamageDef => damageDef ?? ArcaneMissileDefs.ArcaneForce;
 
@@ -87,7 +103,16 @@ namespace WhisperOfTheForest.Experimental.Missiles
 
         public ArcaneMissileSettings Copy()
         {
-            return (ArcaneMissileSettings)MemberwiseClone();
+            var copy = (ArcaneMissileSettings)MemberwiseClone();
+
+            // The payload is a mutable object graph, so a plain memberwise copy would let an edit of
+            // the book (or of the caller's settings) rewrite a volley that is already in flight.
+            if (spellPlan != null)
+            {
+                copy.spellPlan = spellPlan.Copy();
+            }
+
+            return copy;
         }
 
         /// <summary>
@@ -120,6 +145,13 @@ namespace WhisperOfTheForest.Experimental.Missiles
             Scribe_Values.Look(ref trailTime, "trailTime", 0.35f);
             Scribe_Values.Look(ref missileColorHex, "missileColorHex", "#9BD8FF");
             Scribe_Values.Look(ref trailColorHex, "trailColorHex", "#3F7DFF");
+
+            // Saved with the projectile, so a dart in flight across a load keeps its exact effects.
+            Scribe_Deep.Look(ref spellPlan, "spellPlan");
+
+            // The segment pointer is part of the same snapshot: restoring a dart mid-chain must
+            // resume at the segment it was launched from, not at the first one.
+            Scribe_Values.Look(ref spellSegmentIndex, "spellSegmentIndex", 0);
         }
 
         public static ArcaneMissileSettings CreateDefault()

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <WotF_Spellbook.WindowTitle>Whisper of the Forest · Spellbook</WotF_Spellbook.WindowTitle>
+  <WotF_Spellbook.Caster>Caster: {0}</WotF_Spellbook.Caster>
+  <WotF_Spellbook.NoCaster>no pawn selected</WotF_Spellbook.NoCaster>
+  <WotF_Spellbook.CurrentSlot>Current slot {0}</WotF_Spellbook.CurrentSlot>
+
+  <WotF_Spellbook.PageCatalog>Glyph catalogue</WotF_Spellbook.PageCatalog>
+  <WotF_Spellbook.PageEditor>Compose and create</WotF_Spellbook.PageEditor>
+  <WotF_Spellbook.SearchPlaceholder>Search glyph names</WotF_Spellbook.SearchPlaceholder>
+  <WotF_Spellbook.CategoryAll>All</WotF_Spellbook.CategoryAll>
+  <WotF_Spellbook.CategoryForm>Form</WotF_Spellbook.CategoryForm>
+  <WotF_Spellbook.CategoryEffect>Effect</WotF_Spellbook.CategoryEffect>
+  <WotF_Spellbook.CategoryAugment>Augment</WotF_Spellbook.CategoryAugment>
+  <WotF_Spellbook.CatalogEmpty>No glyph matches this filter.</WotF_Spellbook.CatalogEmpty>
+  <WotF_Spellbook.CatalogMissingDefs>No glyph defs were loaded. Check that the spellbook XML is active.</WotF_Spellbook.CatalogMissingDefs>
+
+  <WotF_Spellbook.KindForm>Form</WotF_Spellbook.KindForm>
+  <WotF_Spellbook.KindEffect>Effect</WotF_Spellbook.KindEffect>
+  <WotF_Spellbook.KindAugment>Augment</WotF_Spellbook.KindAugment>
+  <WotF_Spellbook.KindTrigger>Trigger</WotF_Spellbook.KindTrigger>
+
+  <WotF_Spellbook.FieldName>Spell name</WotF_Spellbook.FieldName>
+  <WotF_Spellbook.ChainHeader>Spell bar {0}/{1}</WotF_Spellbook.ChainHeader>
+  <WotF_Spellbook.ChainEmpty>Click a glyph on the left page to put it in the spell bar.</WotF_Spellbook.ChainEmpty>
+  <WotF_Spellbook.ChainHint>Click a left-page glyph to add it; click a glyph in the bar to remove it.</WotF_Spellbook.ChainHint>
+  <WotF_Spellbook.GlyphAdded>Added glyph: {0}</WotF_Spellbook.GlyphAdded>
+  <WotF_Spellbook.GlyphRemoved>Removed glyph: {0}</WotF_Spellbook.GlyphRemoved>
+  <WotF_Spellbook.GlyphMissing>missing glyph def</WotF_Spellbook.GlyphMissing>
+  <WotF_Spellbook.GlyphDetail>Glyph</WotF_Spellbook.GlyphDetail>
+  <WotF_Spellbook.NoSelection>Hover a glyph in the catalogue or in the bar to read it here. Click a catalogue glyph to add it; click a glyph in the bar to remove it.</WotF_Spellbook.NoSelection>
+  <WotF_Spellbook.Timing>Windup {0}s · Channel {1}s · Recovery {2}s</WotF_Spellbook.Timing>
+  <WotF_Spellbook.TimingTip>Cast time that Create freezes into the slot: windup {0} ticks, channel {1} ticks, recovery {2} ticks (60 ticks = 1 second). Every glyph adds its own share. The caster may walk during windup, is slowed while channelling and stands still during recovery.</WotF_Spellbook.TimingTip>
+  <WotF_Spellbook.GlyphTiming>+{0}s / +{1}s / +{2}s (windup/channel/recovery)</WotF_Spellbook.GlyphTiming>
+  <WotF_Spellbook.ClickToRemove>Click to remove: {0}</WotF_Spellbook.ClickToRemove>
+
+  <WotF_Spellbook.ValidationOk>The combination is valid and can be created.</WotF_Spellbook.ValidationOk>
+  <WotF_Spellbook.ValidationFailed>Not a valid combination: {0}</WotF_Spellbook.ValidationFailed>
+  <WotF_Spellbook.ValidationUnknown>unknown reason</WotF_Spellbook.ValidationUnknown>
+  <WotF_Spellbook.CastReady>Current slot {0} is ready to cast.</WotF_Spellbook.CastReady>
+  <WotF_Spellbook.CastNoSaved>Current slot {0} is empty. Create a spell first.</WotF_Spellbook.CastNoSaved>
+  <WotF_Spellbook.CastBlocked>Cannot cast: {0}</WotF_Spellbook.CastBlocked>
+  <WotF_Spellbook.EmptySlotHint>The current slot is empty: compose a spell and press Create so the pawn's cast button has something to fire.</WotF_Spellbook.EmptySlotHint>
+
+  <WotF_Spellbook.Create>Create in slot {0}</WotF_Spellbook.Create>
+  <WotF_Spellbook.CreateTip>Write the spell bar into the current slot {0}; an existing spell is overwritten without asking.</WotF_Spellbook.CreateTip>
+  <WotF_Spellbook.Created>Created in slot {0} and set as the active spell.</WotF_Spellbook.Created>
+  <WotF_Spellbook.CreateRefused>Cannot create: {0}</WotF_Spellbook.CreateRefused>
+  <WotF_Spellbook.BarEmpty>The spell bar is empty. Add glyphs from the left page first.</WotF_Spellbook.BarEmpty>
+
+  <WotF_Spellbook.ClearBar>Clear spell bar</WotF_Spellbook.ClearBar>
+  <WotF_Spellbook.ClearBarTip>Clears the spell bar only; the spell saved in the current slot stays.</WotF_Spellbook.ClearBarTip>
+  <WotF_Spellbook.BarCleared>Spell bar cleared; the saved spell did not change.</WotF_Spellbook.BarCleared>
+  <WotF_Spellbook.DeleteSlot>Delete this slot</WotF_Spellbook.DeleteSlot>
+  <WotF_Spellbook.DeleteSlotTip>One click deletes the spell in slot {0}; there is no confirmation.</WotF_Spellbook.DeleteSlotTip>
+  <WotF_Spellbook.SlotDeleted>Deleted the spell in slot {0}.</WotF_Spellbook.SlotDeleted>
+  <WotF_Spellbook.SlotAlreadyEmpty>Slot {0} was already empty.</WotF_Spellbook.SlotAlreadyEmpty>
+
+  <WotF_Spellbook.Cast>Cast</WotF_Spellbook.Cast>
+  <WotF_Spellbook.CastNamed>Cast "{0}"</WotF_Spellbook.CastNamed>
+  <WotF_Spellbook.CastTip>Start target selection with the spell created in current slot {0}.</WotF_Spellbook.CastTip>
+
+  <WotF_Spellbook.SlotTitle>Slot {0}</WotF_Spellbook.SlotTitle>
+  <WotF_Spellbook.SlotEmpty>empty slot</WotF_Spellbook.SlotEmpty>
+  <WotF_Spellbook.SlotTooltipUsed>created: {0}</WotF_Spellbook.SlotTooltipUsed>
+  <WotF_Spellbook.SwitchBookmark>Click to switch bookmark: it becomes the current slot at once and the pawn's cast button follows</WotF_Spellbook.SwitchBookmark>
+
+  <WotF_Spellbook.StatusReady>Click glyphs to fill the bar; only Create writes it into the current slot. Uncreated edits are dropped on a slot switch or when the book closes.</WotF_Spellbook.StatusReady>
+  <WotF_Spellbook.NoGameComponent>The save component is not ready, so slots cannot be read or written yet.</WotF_Spellbook.NoGameComponent>
+
+  <WotF_Spellbook.AnimOn>Animations on</WotF_Spellbook.AnimOn>
+  <WotF_Spellbook.AnimOff>Animations off</WotF_Spellbook.AnimOff>
+  <WotF_Spellbook.AnimTip>Turns the page animations on or off. Interaction is identical, only the fly-in, page band, shake and sweep stop playing.</WotF_Spellbook.AnimTip>
+
+  <WotF_Spellbook.LabSection>Spellbook</WotF_Spellbook.LabSection>
+  <WotF_Spellbook.LabOpen>Open spellbook</WotF_Spellbook.LabOpen>
+  <WotF_Spellbook.LabOpened>Opened the spellbook for {0}.</WotF_Spellbook.LabOpened>
+  <WotF_Spellbook.LabOpenTip>Open the spellbook for the selected pawn: compose glyphs, create them into a bookmark and pick the spell they cast.</WotF_Spellbook.LabOpenTip>
+</LanguageData>
