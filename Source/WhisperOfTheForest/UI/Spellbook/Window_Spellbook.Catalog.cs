@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
 using Verse;
-using WhisperOfTheForest.Experimental.Spells;
+using WhisperOfTheForest.Spells;
 
-namespace WhisperOfTheForest.Experimental
+namespace WhisperOfTheForest
 {
     /// <summary>
     /// Left page: searchable, category-filtered rune catalogue. Runes are cards in one or two

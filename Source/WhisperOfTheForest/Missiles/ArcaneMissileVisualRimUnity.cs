@@ -1,8 +1,8 @@
 using System;
-using WhisperOfTheForest.Experimental.Vfx;
+using WhisperOfTheForest.Vfx;
 using Verse;
 
-namespace WhisperOfTheForest.Experimental.Missiles
+namespace WhisperOfTheForest.Missiles
 {
     /// <summary>
     /// RimUnity backend for one flying missile: a world-space particle comet with a TrailRenderer

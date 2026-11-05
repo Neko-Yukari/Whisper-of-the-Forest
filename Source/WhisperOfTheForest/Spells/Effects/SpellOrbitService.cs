@@ -1,6 +1,6 @@
 using Verse;
 
-namespace WhisperOfTheForest.Experimental.Spells
+namespace WhisperOfTheForest.Spells
 {
     /// <summary>
     /// Places the Orbit form's orbs. One orb per volley slot (Split adds more), spread evenly around
@@ -8,13 +8,11 @@ namespace WhisperOfTheForest.Experimental.Spells
     /// </summary>
     public static class SpellOrbitService
     {
-        public static int Spawn(Map map, Pawn caster, SpellSegment segment)
+        public static int Spawn(Map map, Pawn caster, SpellCastPlan plan)
         {
-            if (map == null || caster == null || segment == null
-                || segment.orbitDistance <= 0f || segment.orbitSpeedDegrees <= 0f
-                || segment.orbitHitRadius <= 0f || segment.orbitLifetimeTicks <= 0)
+            if (map == null || caster == null || plan.orbit == null)
             {
-                SpellDiagnostics.ErrorOnce("an orbit segment is missing its radius/speed/hit-radius/lifetime; nothing was placed.");
+                SpellDiagnostics.ErrorOnce("an orbit cast has no orbit block; nothing was placed.");
                 return 0;
             }
 
@@ -25,12 +23,12 @@ namespace WhisperOfTheForest.Experimental.Spells
                 return 0;
             }
 
-            int count = segment.missileCount > 0 ? segment.missileCount : 1;
+            int count = plan.orbit.count;
             int spawned = 0;
             for (int i = 0; i < count; i++)
             {
                 var orb = (Thing_SpellOrbit)ThingMaker.MakeThing(def);
-                orb.Configure(caster, segment, 360f * i / count);
+                orb.Configure(caster, plan, 360f * i / count);
                 GenSpawn.Spawn(orb, caster.Position, map);
                 spawned++;
             }

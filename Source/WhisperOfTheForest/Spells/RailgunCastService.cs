@@ -2,10 +2,9 @@ using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
 using Verse;
-using WhisperOfTheForest.Experimental.Missiles;
-using WhisperOfTheForest.Experimental.Vfx;
+using WhisperOfTheForest.Vfx;
 
-namespace WhisperOfTheForest.Experimental.Spells
+namespace WhisperOfTheForest.Spells
 {
     /// <summary>
     /// The composite form's payload: it hands the semantic charge request to the visual layer when the
@@ -20,7 +19,6 @@ namespace WhisperOfTheForest.Experimental.Spells
     /// </summary>
     public static class RailgunCastService
     {
-        private static readonly ArcaneMissileImpactWorker_Damage DamageWorker = new ArcaneMissileImpactWorker_Damage();
 
         /// <summary>Last resolution summary, exposed read-only for the lab harness.</summary>
         public static string LastResolve { get; private set; } = "none";
@@ -111,7 +109,7 @@ namespace WhisperOfTheForest.Experimental.Spells
                 IntVec3 position = thing.Position;
                 int hpBefore = thing.HitPoints;
 
-                DamageWorker.Resolve(Context(map, caster, thing, aimCell, dirX, dirZ, spec));
+                SpellDamage.Deal(thing, spec.damage, spec.armorPenetration, caster);
 
                 int hpAfter = thing.Destroyed ? 0 : thing.HitPoints;
                 hits++;
@@ -249,39 +247,6 @@ namespace WhisperOfTheForest.Experimental.Spells
                 : Mathf.Sqrt(map.Size.x * (float)map.Size.x + map.Size.z * (float)map.Size.z);
             return RailgunGeometry.TryLength(origin.x + 0.5f, origin.z + 0.5f, dirX, dirZ, maxRange,
                 map.Size.x, map.Size.z, out length);
-        }
-
-        private static ArcaneMissileImpactContext Context(
-            Map map,
-            Pawn caster,
-            Thing hit,
-            IntVec3 aimCell,
-            float dirX,
-            float dirZ,
-            SpellRailgunSpec spec)
-        {
-            IntVec3 impactCell = hit.Spawned ? hit.Position : aimCell;
-            Vector3 point = impactCell.ToVector3Shifted();
-            return new ArcaneMissileImpactContext
-            {
-                Map = map,
-                Caster = caster,
-                Hit = hit,
-                OriginalTarget = hit,
-                OriginalTargetCell = aimCell,
-                ImpactCell = impactCell,
-                ImpactX = point.x,
-                ImpactZ = point.z,
-                HeadingX = dirX,
-                HeadingZ = dirZ,
-                Settings = new ArcaneMissileSettings
-                {
-                    damageDef = ArcaneMissileDefs.ArcaneForce,
-                    damageAmount = spec.damage,
-                    armorPenetration = spec.armorPenetration,
-                    healAmount = 0f
-                }
-            };
         }
     }
 }

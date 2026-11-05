@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
-namespace WhisperOfTheForest.Experimental.Vfx
+namespace WhisperOfTheForest.Vfx
 {
     /// <summary>
     /// Per-map owner of the running visual effects. It drives them every frame on a game-tick clock,

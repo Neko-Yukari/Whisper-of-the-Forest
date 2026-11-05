@@ -1,55 +1,28 @@
-using System;
-using RimWorld;
+using System.Collections.Generic;
+using UnityEngine;
 using Verse;
-using WhisperOfTheForest.Experimental.Spells;
 
-namespace WhisperOfTheForest.Experimental.Missiles
+namespace WhisperOfTheForest.Missiles
 {
-    /// <summary>What a missile does where it lands.</summary>
-    public enum ArcaneMissileImpactMode
-    {
-        Damage,
-        Heal,
-        Explode
-    }
-
     /// <summary>
-    /// Everything that defines one volley: launch pattern, steering, hit test and payload.
-    /// XML authors configure it through <see cref="CompProperties_AbilityWotFArcaneMissiles"/>;
-    /// code callers may pass their own instance to <see cref="ArcaneMissileLauncher.Fire"/>.
-    /// The launcher copies the instance per volley, so mutating one later never changes a Def.
+    /// One volley: launch pattern, steering, hit test, look, and the payload it delivers. The numbers
+    /// come from XML (a projectile form's <c>&lt;projectile&gt;</c> block) and are checked by
+    /// <see cref="ConfigErrors"/> when the Def loads; there is no code default behind them and the
+    /// launcher never corrects a value. The launcher copies the instance per volley, so mutating one
+    /// later never changes a Def or a dart in flight.
     /// </summary>
     public class ArcaneMissileSettings : IExposable
     {
-        public int missileCount = 3;
-        public float speedCellsPerSecond = 13f;
-        public float maxTurnDegreesPerSecond = 300f;
-        public float wobbleAmplitude = 0.14f;
-        public float wobbleFrequency = 2.2f;
-        public float launchSpreadDegrees = 8f;
-        public float flightHeight = 1.2f;
-        public float hitRadius = 0.45f;
-        public float lifetimeSeconds = 10f;
-        public float maxRangeCells = 34f;
-
-        public float damageAmount = 7f;
-        public float armorPenetration = 0.5f;
-        public DamageDef damageDef;
-        public ArcaneMissileImpactMode impactMode = ArcaneMissileImpactMode.Damage;
-        public float explosionRadius = 1.7f;
-        public float healAmount = 10f;
-
-        /// <summary>Selected visual backend. Null means "use the documented default" at launch.</summary>
-        public ArcaneMissileVisualDef visualDef;
-
-        /// <summary>Selected hit strategy. Non-null always wins over <see cref="impactMode"/>.</summary>
-        public ArcaneMissileImpactDef impactDef;
-
-        /// <summary>
-        /// Skips only the lifetime and range checks. Out-of-bounds, map removal and collision
-        /// cleanup still apply, and existing numeric limits are not changed.
-        /// </summary>
-        public bool ignoreFlightLimits;
+        public int missileCount;
+        public float speedCellsPerSecond;
+        public float maxTurnDegreesPerSecond;
+        public float wobbleAmplitude;
+        public float wobbleFrequency;
+        public float launchSpreadDegrees;
+        public float flightHeight;
+        public float hitRadius;
+        public float lifetimeSeconds;
+        public float maxRangeCells;
 
         /// <summary>
         /// When true the missile requires a live Thing target and expires (without resolving a hit)
@@ -57,48 +30,60 @@ namespace WhisperOfTheForest.Experimental.Missiles
         /// </summary>
         public bool expireOnTargetLost;
 
-        public float missileSize = 0.55f;
-        public float trailTime = 0.35f;
-        public string missileColorHex = "#9BD8FF";
-        public string trailColorHex = "#3F7DFF";
+        public ArcaneMissileVisualDef visualDef;
+        public float missileSize;
+        public float trailTime;
+        public string missileColorHex;
+        public string trailColorHex;
 
         /// <summary>
-        /// Optional spell payload. Null keeps every pre-spellbook behaviour unchanged (the existing
-        /// Damage/Heal/Explode impact defs never read it). A spell cast freezes a deep copy here, so
-        /// the volley carries the effects that were arranged when it was fired, and
-        /// <c>SpellImpactWorker_SpellCast</c> executes them where the dart really lands.
+        /// What a hit does. Set by whoever fires the volley (a spell freezes its plan here); the
+        /// missile layer only calls it and never knows what it is.
         /// </summary>
-        public SpellCastPlan spellPlan;
+        public IArcaneMissilePayload payload;
 
-        /// <summary>
-        /// Which segment of <see cref="spellPlan"/> this volley must run when it hits. The cast starts
-        /// at 0; every continuation carries the index of the segment it was launched from. Saved with
-        /// the projectile, so a chain reloaded mid-flight keeps pointing at the same segment.
-        /// </summary>
-        public int spellSegmentIndex;
-
-        /// <summary>Damage type actually used, falling back to a core damage def when unset.</summary>
-        public DamageDef ResolvedDamageDef => damageDef ?? ArcaneMissileDefs.ArcaneForce;
-
-        /// <summary>Sane defaults for every value; invalid XML or lab input is clamped here.</summary>
-        public void Clamp()
+        /// <summary>Load-time checks for an XML block; the owning Def reports them.</summary>
+        public IEnumerable<string> ConfigErrors()
         {
-            missileCount = Math.Clamp(missileCount, 1, 12);
-            speedCellsPerSecond = Math.Clamp(speedCellsPerSecond, 1f, 60f);
-            maxTurnDegreesPerSecond = Math.Clamp(maxTurnDegreesPerSecond, 10f, 1440f);
-            wobbleAmplitude = Math.Clamp(wobbleAmplitude, 0f, 1.5f);
-            wobbleFrequency = Math.Clamp(wobbleFrequency, 0f, 12f);
-            launchSpreadDegrees = Math.Clamp(launchSpreadDegrees, 0f, 180f);
-            flightHeight = Math.Clamp(flightHeight, 0.2f, 4f);
-            hitRadius = Math.Clamp(hitRadius, 0.05f, 2f);
-            lifetimeSeconds = Math.Clamp(lifetimeSeconds, 1f, 120f);
-            maxRangeCells = Math.Clamp(maxRangeCells, 1f, 120f);
-            damageAmount = Math.Clamp(damageAmount, 0f, 500f);
-            armorPenetration = Math.Clamp(armorPenetration, 0f, 10f);
-            explosionRadius = Math.Clamp(explosionRadius, 0.1f, 12f);
-            healAmount = Math.Clamp(healAmount, 0f, 500f);
-            missileSize = Math.Clamp(missileSize, 0.05f, 4f);
-            trailTime = Math.Clamp(trailTime, 0.02f, 3f);
+            if (missileCount < 1)
+            {
+                yield return "missileCount must be at least 1";
+            }
+
+            if (speedCellsPerSecond <= 0f || maxTurnDegreesPerSecond <= 0f)
+            {
+                yield return "speedCellsPerSecond and maxTurnDegreesPerSecond must be positive";
+            }
+
+            if (hitRadius <= 0f || flightHeight <= 0f || lifetimeSeconds <= 0f || maxRangeCells <= 0f)
+            {
+                yield return "hitRadius, flightHeight, lifetimeSeconds and maxRangeCells must be positive";
+            }
+
+            if (wobbleAmplitude < 0f || wobbleFrequency < 0f || launchSpreadDegrees < 0f)
+            {
+                yield return "wobbleAmplitude, wobbleFrequency and launchSpreadDegrees must not be negative";
+            }
+
+            if (missileSize <= 0f || trailTime <= 0f)
+            {
+                yield return "missileSize and trailTime must be positive";
+            }
+
+            if (visualDef == null)
+            {
+                yield return "visualDef is null";
+            }
+
+            if (!ColorUtility.TryParseHtmlString(missileColorHex, out _) || !ColorUtility.TryParseHtmlString(trailColorHex, out _))
+            {
+                yield return "missileColorHex and trailColorHex must be HTML colours such as #7FE3C7";
+            }
+
+            if (payload != null)
+            {
+                yield return "a payload is set by the caster at launch, never in XML";
+            }
         }
 
         public ArcaneMissileSettings Copy()
@@ -106,12 +91,8 @@ namespace WhisperOfTheForest.Experimental.Missiles
             var copy = (ArcaneMissileSettings)MemberwiseClone();
 
             // The payload is a mutable object graph, so a plain memberwise copy would let an edit of
-            // the book (or of the caller's settings) rewrite a volley that is already in flight.
-            if (spellPlan != null)
-            {
-                copy.spellPlan = spellPlan.Copy();
-            }
-
+            // the caller's settings rewrite a volley that is already in flight.
+            copy.payload = payload?.Copy();
             return copy;
         }
 
@@ -121,45 +102,25 @@ namespace WhisperOfTheForest.Experimental.Missiles
         /// </summary>
         public void ExposeData()
         {
-            Scribe_Values.Look(ref missileCount, "missileCount", 3);
-            Scribe_Values.Look(ref speedCellsPerSecond, "speedCellsPerSecond", 13f);
-            Scribe_Values.Look(ref maxTurnDegreesPerSecond, "maxTurnDegreesPerSecond", 300f);
-            Scribe_Values.Look(ref wobbleAmplitude, "wobbleAmplitude", 0.14f);
-            Scribe_Values.Look(ref wobbleFrequency, "wobbleFrequency", 2.2f);
-            Scribe_Values.Look(ref launchSpreadDegrees, "launchSpreadDegrees", 8f);
-            Scribe_Values.Look(ref flightHeight, "flightHeight", 1.2f);
-            Scribe_Values.Look(ref hitRadius, "hitRadius", 0.45f);
-            Scribe_Values.Look(ref lifetimeSeconds, "lifetimeSeconds", 10f);
-            Scribe_Values.Look(ref maxRangeCells, "maxRangeCells", 34f);
-            Scribe_Values.Look(ref damageAmount, "damageAmount", 7f);
-            Scribe_Values.Look(ref armorPenetration, "armorPenetration", 0.5f);
-            Scribe_Defs.Look(ref damageDef, "damageDef");
-            Scribe_Values.Look(ref impactMode, "impactMode", ArcaneMissileImpactMode.Damage);
+            Scribe_Values.Look(ref missileCount, "missileCount");
+            Scribe_Values.Look(ref speedCellsPerSecond, "speedCellsPerSecond");
+            Scribe_Values.Look(ref maxTurnDegreesPerSecond, "maxTurnDegreesPerSecond");
+            Scribe_Values.Look(ref wobbleAmplitude, "wobbleAmplitude");
+            Scribe_Values.Look(ref wobbleFrequency, "wobbleFrequency");
+            Scribe_Values.Look(ref launchSpreadDegrees, "launchSpreadDegrees");
+            Scribe_Values.Look(ref flightHeight, "flightHeight");
+            Scribe_Values.Look(ref hitRadius, "hitRadius");
+            Scribe_Values.Look(ref lifetimeSeconds, "lifetimeSeconds");
+            Scribe_Values.Look(ref maxRangeCells, "maxRangeCells");
+            Scribe_Values.Look(ref expireOnTargetLost, "expireOnTargetLost");
             Scribe_Defs.Look(ref visualDef, "visualDef");
-            Scribe_Defs.Look(ref impactDef, "impactDef");
-            Scribe_Values.Look(ref ignoreFlightLimits, "ignoreFlightLimits", false);
-            Scribe_Values.Look(ref expireOnTargetLost, "expireOnTargetLost", false);
-            Scribe_Values.Look(ref explosionRadius, "explosionRadius", 1.7f);
-            Scribe_Values.Look(ref healAmount, "healAmount", 10f);
-            Scribe_Values.Look(ref missileSize, "missileSize", 0.55f);
-            Scribe_Values.Look(ref trailTime, "trailTime", 0.35f);
-            Scribe_Values.Look(ref missileColorHex, "missileColorHex", "#9BD8FF");
-            Scribe_Values.Look(ref trailColorHex, "trailColorHex", "#3F7DFF");
+            Scribe_Values.Look(ref missileSize, "missileSize");
+            Scribe_Values.Look(ref trailTime, "trailTime");
+            Scribe_Values.Look(ref missileColorHex, "missileColorHex");
+            Scribe_Values.Look(ref trailColorHex, "trailColorHex");
 
-            // Saved with the projectile, so a dart in flight across a load keeps its exact effects.
-            Scribe_Deep.Look(ref spellPlan, "spellPlan");
-
-            // The segment pointer is part of the same snapshot: restoring a dart mid-chain must
-            // resume at the segment it was launched from, not at the first one.
-            Scribe_Values.Look(ref spellSegmentIndex, "spellSegmentIndex", 0);
-        }
-
-        public static ArcaneMissileSettings CreateDefault()
-        {
-            return new ArcaneMissileSettings
-            {
-                damageDef = ArcaneMissileDefs.ArcaneForce
-            };
+            // Saved with the projectile, so a dart in flight across a load keeps its exact payload.
+            Scribe_Deep.Look(ref payload, "payload");
         }
     }
 }

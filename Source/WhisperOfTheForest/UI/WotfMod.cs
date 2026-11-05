@@ -1,7 +1,7 @@
 using UnityEngine;
 using Verse;
 
-namespace WhisperOfTheForest.Experimental
+namespace WhisperOfTheForest
 {
     /// <summary>The single Mod entry point: it owns the settings object and its page.</summary>
     public class WotfMod : Mod

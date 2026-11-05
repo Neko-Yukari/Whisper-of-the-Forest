@@ -1,4 +1,4 @@
-namespace WhisperOfTheForest.Experimental.Spells
+namespace WhisperOfTheForest.Spells
 {
     /// <summary>
     /// Def names the new effect implementations share. The numbers behind them live in XML; this

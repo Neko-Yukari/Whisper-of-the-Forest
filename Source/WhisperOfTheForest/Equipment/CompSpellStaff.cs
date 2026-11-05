@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using RimWorld;
 using Verse;
-using WhisperOfTheForest.Experimental.Spells;
+using WhisperOfTheForest.Spells;
 
-namespace WhisperOfTheForest.Experimental.Equipment
+namespace WhisperOfTheForest.Equipment
 {
     /// <summary>
-    /// The staff's saved memory: which spellbook bookmark its attack casts. Only the slot index is
-    /// stored, never a copy of the recipe, so editing that bookmark changes what the staff casts.
+    /// The staff's saved memory: which bookmark of its wielder's spells its attack casts. Only the
+    /// slot index is stored, never a copy of the recipe, so editing that bookmark changes what the
+    /// staff casts, and a staff handed to another caster casts that caster's spell in the slot.
     ///
     /// This is the equipment's <see cref="CompEquippable"/> on purpose. An equipped item reaches the
     /// pawn's gizmo row through <c>Pawn_EquipmentTracker.GetGizmos</c>, which asks the primary
@@ -24,8 +25,11 @@ namespace WhisperOfTheForest.Experimental.Equipment
         /// <summary>Bookmark index this staff casts, or <see cref="NoSlot"/>.</summary>
         public int Slot => slot;
 
-        /// <summary>The saved recipe of the chosen bookmark, or null when it is empty or invalid.</summary>
-        public SpellRecipe SelectedRecipe => GameComponent_Spellbook.Current?.GetSlot(slot);
+        /// <summary>
+        /// The wielder's recipe in the chosen bookmark, or null when nobody holds the staff or the
+        /// slot is empty or sealed.
+        /// </summary>
+        public SpellRecipe SelectedRecipe => GameComponent_Spellbook.Current?.GetSlot(Holder, slot);
 
         public void SetSlot(int index)
         {
@@ -98,7 +102,7 @@ namespace WhisperOfTheForest.Experimental.Equipment
                 for (int i = 0; i < GameComponent_Spellbook.SlotCount; i++)
                 {
                     int index = i;
-                    SpellRecipe recipe = book.GetSlot(index);
+                    SpellRecipe recipe = book.GetSlot(Holder, index);
                     if (recipe == null)
                     {
                         continue;

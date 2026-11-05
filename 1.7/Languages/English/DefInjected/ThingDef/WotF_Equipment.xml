@@ -6,5 +6,7 @@
 
   <WotF_SpellStaff.label>spell staff</WotF_SpellStaff.label>
   <WotF_SpellStaff.description>A prototype staff that casts instead of shooting. Its attack casts the spellbook bookmark chosen on its gizmo; the staff remembers the slot, not a copy, so editing that page changes what it casts. Without a saved spell it cannot attack.</WotF_SpellStaff.description>
+  <WotF_Spellbook_Basic.label>spellbook</WotF_Spellbook_Basic.label>
+  <WotF_Spellbook_Basic.description>A forest spellbook worn at the hip. In forest-blooded hands it holds the caster's spells and deepens their mana; to anyone else it is only paper.</WotF_Spellbook_Basic.description>
 
 </LanguageData>

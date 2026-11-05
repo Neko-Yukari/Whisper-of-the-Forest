@@ -3,7 +3,7 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 
-namespace WhisperOfTheForest.Experimental.Race
+namespace WhisperOfTheForest.Race
 {
     /// <summary>
     /// Only exists because <see cref="Gene_Resource"/> creates its gizmo from the gene Def and the

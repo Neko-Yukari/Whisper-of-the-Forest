@@ -2,8 +2,9 @@ using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using WhisperOfTheForest.Race;
 
-namespace WhisperOfTheForest.Experimental.Spells
+namespace WhisperOfTheForest.Spells
 {
     /// <summary>
     /// The one casting service shared by the book page and the native gizmos. It owns validation,
@@ -23,8 +24,9 @@ namespace WhisperOfTheForest.Experimental.Spells
         // ---------------------------------------------------------------- caster requirements
 
         /// <summary>
-        /// Documented requirement: a player-controlled, alive, spawned pawn with at least one Royalty
-        /// psylink level. Everything else is refused with a visible reason, never silently.
+        /// Documented requirement: a player-controlled, alive, spawned pawn carrying the forest
+        /// bloodline gene and wearing a spellbook. Everything else is refused with a visible reason,
+        /// never silently.
         /// </summary>
         public static bool IsEligibleCaster(Pawn pawn, out string reason)
         {
@@ -60,9 +62,15 @@ namespace WhisperOfTheForest.Experimental.Spells
                 return false;
             }
 
-            if (PawnUtility.GetPsylinkLevel(pawn) < 1)
+            if (Gene_ForestBloodline.Get(pawn) == null)
             {
-                reason = SpellText.T("WotF_Spells.Reason.NoPsylink");
+                reason = SpellText.T("WotF_Spells.Reason.NoBloodline");
+                return false;
+            }
+
+            if (WornSpellbook(pawn) == null)
+            {
+                reason = SpellText.T("WotF_Spells.Reason.NoSpellbook");
                 return false;
             }
 
@@ -101,8 +109,92 @@ namespace WhisperOfTheForest.Experimental.Spells
                 return false;
             }
 
+            return CanAfford(pawn, recipe.cost ?? SpellCost.Derive(recipe.glyphs), out reason);
+        }
+
+        // ---------------------------------------------------------------- spellbook and resources
+
+        /// <summary>The spellbook the pawn wears, or null.</summary>
+        public static Apparel WornSpellbook(Pawn pawn)
+        {
+            List<Apparel> worn = pawn?.apparel?.WornApparel;
+            if (worn == null)
+            {
+                return null;
+            }
+
+            for (int i = 0; i < worn.Count; i++)
+            {
+                if (worn[i].def.HasModExtension<SpellbookExtension>())
+                {
+                    return worn[i];
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>How many of the pawn's spell slots its worn book opens; 0 without a book.</summary>
+        public static int OpenSlotCount(Pawn pawn)
+        {
+            Apparel book = WornSpellbook(pawn);
+            return book == null ? 0 : book.def.GetModExtension<SpellbookExtension>().slotCount;
+        }
+
+        /// <summary>
+        /// Whether the pawn can pay this cost right now: enough mana, and the neural heat fits under
+        /// the vanilla limit (unless the player switched that limit off, exactly like a psycast).
+        /// </summary>
+        public static bool CanAfford(Pawn pawn, SpellCost cost, out string reason)
+        {
             reason = null;
+            Gene_ForestBloodline bloodline = Gene_ForestBloodline.Get(pawn);
+            if (cost.mana > 0f && (bloodline == null || !bloodline.HasMana(cost.mana)))
+            {
+                reason = SpellText.TF("WotF_Spells.Reason.NotEnoughMana", cost.mana.ToString("0.#"),
+                    bloodline == null ? "0" : bloodline.CurrentMana.ToString("0.#"));
+                return false;
+            }
+
+            if (cost.entropy > 0f)
+            {
+                if (pawn.psychicEntropy == null)
+                {
+                    reason = SpellText.T("WotF_Spells.Reason.NoNeuralHeat");
+                    return false;
+                }
+
+                if (pawn.psychicEntropy.WouldOverflowEntropy(cost.entropy))
+                {
+                    reason = SpellText.TF("WotF_Spells.Reason.NeuralHeatOverflow", cost.entropy.ToString("0.#"));
+                    return false;
+                }
+            }
+
             return true;
+        }
+
+        /// <summary>
+        /// Spends the cost of a released spell and grants its experience. The caller checked
+        /// <see cref="CanAfford"/> in the same tick, so both payments succeed or neither is tried.
+        /// </summary>
+        public static void PayFor(Pawn pawn, SpellCost cost)
+        {
+            Gene_ForestBloodline bloodline = Gene_ForestBloodline.Get(pawn);
+            if (cost.mana > 0f)
+            {
+                bloodline.TrySpendMana(cost.mana);
+            }
+
+            if (cost.entropy > 0f)
+            {
+                pawn.psychicEntropy.TryAddEntropy(cost.entropy, pawn);
+            }
+
+            if (cost.experience > 0f)
+            {
+                bloodline.GainExperience(cost.experience);
+            }
         }
 
         // ---------------------------------------------------------------- casting
@@ -281,19 +373,19 @@ namespace WhisperOfTheForest.Experimental.Spells
                     return false;
                 }
 
-                // A composite form owns its own aim limit, so an unlimited (0 or less) railgun is
-                // not dragged back to the 24.9 cells of the shared carrier AbilityDef.
-                SpellRailgunSpec spec = plan.Railgun;
-                float range = spec != null ? spec.range : SpellDefs.Tuning.castRange;
+                // A composite form owns its own aim limit; 0 or less is the whole map.
                 IntVec3 from = caster.Position;
-                return SpellAimRange.Within(range, from.x, from.z, pick.Cell.x, pick.Cell.z);
+                return SpellAimRange.Within(plan.railgun.range, from.x, from.z, pick.Cell.x, pick.Cell.z);
             }
 
-            return IsTargetable(caster, plan?.form ?? SpellFormKind.Projectile, pick);
+            return plan != null && IsTargetable(caster, plan.form, plan.range, pick);
         }
 
-        /// <summary>Range, map, line of sight and Touch adjacency for one candidate target.</summary>
-        public static bool IsTargetable(Pawn caster, SpellFormKind form, TargetInfo pick)
+        /// <summary>
+        /// Range, map, line of sight and Touch reach for one candidate target. The range is the form's
+        /// own; Self and Orbit have none, so they accept only the caster's own cell.
+        /// </summary>
+        public static bool IsTargetable(Pawn caster, SpellFormKind form, float range, TargetInfo pick)
         {
             if (caster == null || !caster.Spawned || caster.Map == null || !pick.IsValid)
             {
@@ -312,24 +404,30 @@ namespace WhisperOfTheForest.Experimental.Spells
                 return false;
             }
 
-            SpellTuningDef tuning = SpellDefs.Tuning;
+            if (form == SpellFormKind.Self || form == SpellFormKind.Orbit)
+            {
+                return cell == caster.Position;
+            }
+
             if (form == SpellFormKind.Touch)
             {
-                return IsInTouchReach(caster.Position, cell) && HasLineOfSight(caster, cell, map);
+                return IsInTouchReach(caster.Position, cell, range) && HasLineOfSight(caster, cell, map);
             }
 
             IntVec3 origin = caster.Position;
-            return SpellAimRange.Within(tuning.castRange, origin.x, origin.z, cell.x, cell.z)
+            return SpellAimRange.Within(range, origin.x, origin.z, cell.x, cell.z)
                    && HasLineOfSight(caster, cell, map);
         }
 
-        /// <summary>8-way neighbour or the caster's own cell; walls still block through LOS below.</summary>
-        public static bool IsInTouchReach(IntVec3 from, IntVec3 to)
+        /// <summary>
+        /// Touch reach counted in king moves, so a reach of 1.45 means the 8 neighbours and the
+        /// caster's own cell; walls still block through LOS.
+        /// </summary>
+        public static bool IsInTouchReach(IntVec3 from, IntVec3 to, float reach)
         {
             int dx = Mathf.Abs(from.x - to.x);
             int dz = Mathf.Abs(from.z - to.z);
-            int max = Mathf.Max(dx, dz);
-            return max <= 1 && (float)max <= SpellDefs.Tuning.touchRange;
+            return Mathf.Max(dx, dz) <= reach;
         }
 
         /// <summary>
@@ -348,6 +446,19 @@ namespace WhisperOfTheForest.Experimental.Spells
         {
             if (caster == null)
             {
+                return;
+            }
+
+            if (SpellDefs.Tuning == null)
+            {
+                Messages.Message(SpellText.T("WotF_Spells.Reason.TuningMissing"), MessageTypeDefOf.RejectInput, false);
+                return;
+            }
+
+            // The spells are the pawn's, but only a worn book opens them.
+            if (WornSpellbook(caster) == null)
+            {
+                Reject(SpellText.T("WotF_Spells.Reason.NoSpellbook"));
                 return;
             }
 
@@ -375,6 +486,11 @@ namespace WhisperOfTheForest.Experimental.Spells
                 return;
             }
 
+            if (SpellDefs.Tuning == null)
+            {
+                return;
+            }
+
             List<Map> maps = Find.Maps;
             if (maps == null)
             {
@@ -398,7 +514,7 @@ namespace WhisperOfTheForest.Experimental.Spells
                         continue;
                     }
 
-                    if (PawnUtility.GetPsylinkLevel(pawn) < 1)
+                    if (Gene_ForestBloodline.Get(pawn) == null)
                     {
                         continue;
                     }

@@ -1,4 +1,4 @@
-namespace WhisperOfTheForest.Experimental.Equipment
+namespace WhisperOfTheForest.Equipment
 {
     /// <summary>Fixed names the equipment runtime and the lab tests share.</summary>
     public static class StaffDefs

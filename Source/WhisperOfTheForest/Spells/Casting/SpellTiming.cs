@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Verse;
 
-namespace WhisperOfTheForest.Experimental.Spells
+namespace WhisperOfTheForest.Spells
 {
     /// <summary>
     /// The three phases of a cast in ticks: windup (the caster gathers the spell and may keep

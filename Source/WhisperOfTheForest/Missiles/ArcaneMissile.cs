@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Verse;
 
-namespace WhisperOfTheForest.Experimental.Missiles
+namespace WhisperOfTheForest.Missiles
 {
     /// <summary>How a missile left the simulation. Used by the map component for counters and visuals.</summary>
     internal enum ArcaneMissileEnd
@@ -122,7 +122,7 @@ namespace WhisperOfTheForest.Experimental.Missiles
             }
 
             ageTicks++;
-            if (!settings.ignoreFlightLimits && ageTicks > maxAgeTicks)
+            if (ageTicks > maxAgeTicks)
             {
                 ExperimentLog.Record("missiles", caster, "expired reason=lifetime age=" + ageTicks);
                 return ArcaneMissileEnd.Expired;
@@ -180,15 +180,12 @@ namespace WhisperOfTheForest.Experimental.Missiles
                 }
             }
 
-            if (!settings.ignoreFlightLimits)
+            float travelledX = posX - originX;
+            float travelledZ = posZ - originZ;
+            if (MathF.Sqrt(travelledX * travelledX + travelledZ * travelledZ) > settings.maxRangeCells)
             {
-                float travelledX = posX - originX;
-                float travelledZ = posZ - originZ;
-                if (MathF.Sqrt(travelledX * travelledX + travelledZ * travelledZ) > settings.maxRangeCells)
-                {
-                    ExperimentLog.Record("missiles", caster, "expired reason=range cells=" + MathF.Round(settings.maxRangeCells));
-                    return ArcaneMissileEnd.Expired;
-                }
+                ExperimentLog.Record("missiles", caster, "expired reason=range cells=" + MathF.Round(settings.maxRangeCells));
+                return ArcaneMissileEnd.Expired;
             }
 
             return ArcaneMissileEnd.Flying;
@@ -304,7 +301,7 @@ namespace WhisperOfTheForest.Experimental.Missiles
         }
 
         /// <summary>
-        /// Resolves the hit exactly once through the selected strategy. A throwing worker is logged
+        /// Resolves the hit exactly once through the volley's payload. A throwing payload is logged
         /// and swallowed: the missile still ends, so damage can never repeat on later ticks.
         /// </summary>
         private void Impact(Map map, IntVec3 cell, Thing hit)
@@ -313,13 +310,11 @@ namespace WhisperOfTheForest.Experimental.Missiles
             lastHit = hit;
 
             ArcaneMissileSettings current = settings;
-            ArcaneMissileImpactWorker worker = current?.impactDef?.GetWorker();
+            IArcaneMissilePayload payload = current?.payload;
 
-            if (worker == null)
+            if (payload == null)
             {
-                ArcaneMissileDiagnostics.Error(
-                    "missile had no usable impact strategy (impactDef="
-                    + (current?.impactDef != null ? current.impactDef.defName : "null") + "); no effect applied.");
+                ArcaneMissileDiagnostics.Error("missile hit with no payload; no effect applied.");
             }
             else
             {
@@ -340,13 +335,12 @@ namespace WhisperOfTheForest.Experimental.Missiles
 
                 try
                 {
-                    worker.Resolve(context);
+                    payload.Resolve(context);
                 }
                 catch (Exception exception)
                 {
                     ArcaneMissileDiagnostics.Error(
-                        "impact worker " + worker.GetType().Name + " threw for " + current.impactDef.defName
-                        + "; the missile still ends: " + exception);
+                        "payload " + payload.GetType().Name + " threw; the missile still ends: " + exception);
                 }
             }
 
@@ -354,7 +348,7 @@ namespace WhisperOfTheForest.Experimental.Missiles
             ExperimentLog.Record(
                 "missiles",
                 caster,
-                "impact def=" + (current?.impactDef != null ? current.impactDef.defName : "none")
+                "impact payload=" + (payload != null ? payload.GetType().Name : "none")
                 + " target=" + targetLabel + " cell=" + cell + " age=" + ageTicks);
         }
 

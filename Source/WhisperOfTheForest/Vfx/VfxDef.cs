@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Verse;
 
-namespace WhisperOfTheForest.Experimental.Vfx
+namespace WhisperOfTheForest.Vfx
 {
     /// <summary>How long a running effect lives; declared once per Def, not per request.</summary>
     public enum VfxLifetime

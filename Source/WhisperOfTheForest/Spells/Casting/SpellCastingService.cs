@@ -1,9 +1,9 @@
 using RimWorld;
 using UnityEngine;
 using Verse;
-using WhisperOfTheForest.Experimental.Missiles;
+using WhisperOfTheForest.Missiles;
 
-namespace WhisperOfTheForest.Experimental.Spells
+namespace WhisperOfTheForest.Spells
 {
     /// <summary>
     /// Entry-independent casting: windup, channel and recovery, driven on game ticks. The book page,
@@ -232,7 +232,7 @@ namespace WhisperOfTheForest.Experimental.Spells
 
             if (plan.form == SpellFormKind.Touch)
             {
-                if (!SpellService.IsInTouchReach(caster.Position, cell))
+                if (!SpellService.IsInTouchReach(caster.Position, cell, plan.range))
                 {
                     reason = SpellText.T("WotF_Spells.Reason.TouchNotAdjacent");
                     return false;
@@ -245,7 +245,7 @@ namespace WhisperOfTheForest.Experimental.Spells
                 }
             }
 
-            SpellRailgunSpec railgun = plan.Railgun;
+            SpellRailgunSpec railgun = plan.railgun;
             if (railgun != null && railgun.range > 0f && !caster.Position.InHorDistOf(cell, railgun.range))
             {
                 reason = SpellText.TF("WotF_Spells.Reason.RailgunOutOfRange", railgun.range.ToString("0.#"));
@@ -321,7 +321,7 @@ namespace WhisperOfTheForest.Experimental.Spells
                 return;
             }
 
-            RailgunCastService.PlayCharge(cast.map, cast.caster, cast.cell, cast.plan.Railgun,
+            RailgunCastService.PlayCharge(cast.map, cast.caster, cast.cell, cast.plan.railgun,
                 cast.plan.timing.channelTicks);
         }
 
@@ -336,11 +336,24 @@ namespace WhisperOfTheForest.Experimental.Spells
             Map map = cast.map;
             SpellCastPlan plan = cast.plan;
 
+            // The cost was checked when the cast began; the caster may have spent mana or gained heat
+            // since, so it is checked again here and only paid once the payload really went out.
+            if (!SpellService.CanAfford(caster, plan.cost, out string shortfall))
+            {
+                failure = "the caster can no longer pay " + plan.cost;
+                if (caster.IsPlayerControlled)
+                {
+                    SpellService.Reject(shortfall);
+                }
+
+                return false;
+            }
+
             switch (plan.form)
             {
                 case SpellFormKind.Railgun:
                 {
-                    string report = RailgunCastService.Resolve(map, caster, cast.cell, plan.Railgun);
+                    string report = RailgunCastService.Resolve(map, caster, cast.cell, plan.railgun);
                     SpellDiagnostics.Message("cast '" + plan.recipeName + "' released form=railgun aim="
                                              + cast.cell + " " + report);
                     break;
@@ -348,11 +361,7 @@ namespace WhisperOfTheForest.Experimental.Spells
 
                 case SpellFormKind.Projectile:
                 {
-                    ArcaneMissileSettings settings = BuildMissileSettings(plan, out failure);
-                    if (settings == null)
-                    {
-                        return false;
-                    }
+                    ArcaneMissileSettings settings = BuildMissileSettings(plan);
 
                     // A live picked thing is re-homed on; a dead or despawned one leaves only the
                     // locked cell, so the dart still flies where the player aimed.
@@ -367,16 +376,15 @@ namespace WhisperOfTheForest.Experimental.Spells
                         return false;
                     }
 
-                    SpellDiagnostics.Message("cast '" + plan.recipeName + "' released form=projectile segments="
-                                             + plan.SegmentCount + " launched=" + launched + "/" + plan.missileCount
-                                             + " speed=" + plan.missileSpeed.ToString("0.##"));
+                    SpellDiagnostics.Message("cast '" + plan.recipeName + "' released form=projectile launched="
+                                             + launched + "/" + settings.missileCount
+                                             + " speed=" + settings.speedCellsPerSecond.ToString("0.##"));
                     break;
                 }
 
                 case SpellFormKind.Orbit:
                 {
-                    SpellSegment first = plan.SegmentAt(0) ?? SpellExecutor.FirstSegmentOf(plan);
-                    int spawned = SpellOrbitService.Spawn(map, caster, first);
+                    int spawned = SpellOrbitService.Spawn(map, caster, plan);
                     if (spawned <= 0)
                     {
                         failure = "the orbs could not be placed";
@@ -401,6 +409,7 @@ namespace WhisperOfTheForest.Experimental.Spells
                 }
             }
 
+            SpellService.PayFor(caster, plan.cost);
             GameComponent_Spellbook.Current?.NotifyCast(caster);
             Messages.Message(SpellText.TF("WotF_Spells.CastDone", plan.recipeName),
                 MessageTypeDefOf.NeutralEvent, false);
@@ -433,7 +442,7 @@ namespace WhisperOfTheForest.Experimental.Spells
             }
 
             cell = target.Position;
-            if (!SpellService.IsInTouchReach(caster.Position, cell))
+            if (!SpellService.IsInTouchReach(caster.Position, cell, cast.plan.range))
             {
                 failure = "the caster is no longer next to the target";
                 return false;
@@ -450,51 +459,16 @@ namespace WhisperOfTheForest.Experimental.Spells
         }
 
         /// <summary>
-        /// Settings for one spell dart. Only the payload is new: the flight envelope, the impact
-        /// dispatch and the saved copy are the existing missile machinery.
+        /// Settings for one spell dart: the projectile form's own block as the plan froze it (flight,
+        /// look, Split and speed augments applied), carrying the plan as its payload. The compiler
+        /// gives every projectile-form plan this block.
         /// </summary>
-        private static ArcaneMissileSettings BuildMissileSettings(SpellCastPlan plan, out string failure)
+        private static ArcaneMissileSettings BuildMissileSettings(SpellCastPlan plan)
         {
-            failure = null;
-            ArcaneMissileImpactDef impact =
-                DefDatabase<ArcaneMissileImpactDef>.GetNamedSilentFail(SpellDefs.SpellImpactDefName);
-            if (impact == null)
-            {
-                SpellDiagnostics.ErrorOnce("impact def " + SpellDefs.SpellImpactDefName
-                                           + " is missing; spells cannot fly.");
-                failure = "impact def " + SpellDefs.SpellImpactDefName + " is missing";
-                return null;
-            }
+            ArcaneMissileSettings settings = plan.projectile.Copy();
 
-            SpellTuningDef tuning = SpellDefs.Tuning;
-            SpellSegment first = plan.SegmentAt(0) ?? SpellExecutor.FirstSegmentOf(plan);
-            float harm = first.LargestAmount(SpellEffectKind.Harm);
-            float explosionDamage = first.LargestAmount(SpellEffectKind.Explosion);
-            float heal = first.LargestAmount(SpellEffectKind.Heal);
-
-            ArcaneMissileSettings settings = ArcaneMissileSettings.CreateDefault();
-            settings.missileCount = first.missileCount;
-            settings.speedCellsPerSecond = first.missileSpeed;
-            settings.maxTurnDegreesPerSecond = tuning.missileTurnDegreesPerSecond;
-            settings.maxRangeCells = Mathf.Max(tuning.castRange, first.missileSpeed * 4f);
-            settings.damageDef = ArcaneMissileDefs.ArcaneForce;
-            settings.armorPenetration = tuning.armorPenetration;
-
-            // Readable numbers for the lab/tooltip. The payload itself is the frozen plan below.
-            settings.damageAmount = Mathf.Max(harm, explosionDamage);
-            settings.healAmount = heal;
-            settings.explosionRadius = Mathf.Max(1.9f, first.LargestRadius(SpellEffectKind.Explosion));
-
-            settings.impactDef = impact;
-            settings.visualDef = null; // the launcher's documented default backend
-            settings.expireOnTargetLost = false;
-            settings.missileColorHex = "#7FE3C7";
-            settings.trailColorHex = "#2FA98C";
-
-            // Frozen at launch: the missile deep-copies this and scribes it with itself. A cast always
-            // starts at the first segment; the trigger hand-over writes the following indices.
-            settings.spellPlan = plan.Copy();
-            settings.spellSegmentIndex = 0;
+            // Frozen at launch: the missile deep-copies this and scribes it with itself.
+            settings.payload = new SpellMissilePayload { plan = plan.Copy() };
             return settings;
         }
     }

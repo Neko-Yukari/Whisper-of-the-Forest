@@ -3,53 +3,37 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 
-namespace WhisperOfTheForest.Experimental.Race
+namespace WhisperOfTheForest.Race
 {
     /// <summary>
-    /// One rung of the forest bloodline ladder. The experience needed to leave this level and the
-    /// level's mana and neural-heat contribution are data here, so no C# copies a tunable value.
-    /// </summary>
-    public class WotF_CasterLevelDef : Def
-    {
-        public int level;
-        public float xpToNextLevel;
-        public float manaMax;
-        public float entropyMaxBonus;
-
-        public override IEnumerable<string> ConfigErrors()
-        {
-            foreach (string error in base.ConfigErrors())
-            {
-                yield return error;
-            }
-
-            if (level < 1)
-            {
-                yield return "level must be at least 1";
-            }
-
-            if (manaMax <= 0f)
-            {
-                yield return "manaMax must be positive";
-            }
-
-            if (entropyMaxBonus < 0f)
-            {
-                yield return "entropyMaxBonus must not be negative";
-            }
-        }
-    }
-
-    /// <summary>
-    /// The bloodline gene's Def. It carries the level table plus the stat and colours the gene
-    /// reads, so the gene code never hardcodes a stat name or a bar colour.
+    /// The bloodline gene's Def. It carries the level curves, the vanilla psylink mirror ladder and
+    /// the stat and colours the gene reads, so the gene code never hardcodes a tunable value.
     /// </summary>
     public class WotF_ForestBloodlineGeneDef : GeneDef
     {
         public StatDef manaMaxStat;
+
+        /// <summary>Mana restored per second; the gene adds it every tick it is ticked.</summary>
+        public StatDef manaRegenStat;
         public Color manaBarColor;
         public Color manaBarHighlightColor;
-        public List<WotF_CasterLevelDef> levelTable;
+
+        public int maxLevel;
+
+        /// <summary>Experience needed to leave level x.</summary>
+        public SimpleCurve xpToNextLevelCurve;
+
+        /// <summary>Mana cap at level x, added to <see cref="manaMaxStat"/>.</summary>
+        public SimpleCurve manaMaxCurve;
+
+        /// <summary>Flat addition to the vanilla neural-heat limit at level x.</summary>
+        public SimpleCurve entropyMaxCurve;
+
+        /// <summary>Factor on the vanilla neural-heat recovery rate at level x.</summary>
+        public SimpleCurve entropyRecoveryFactorCurve;
+
+        /// <summary>Entry n is the bloodline level that unlocks mirror psylink level n + 1.</summary>
+        public List<int> psylinkUnlockLevels;
 
         public override IEnumerable<string> ConfigErrors()
         {
@@ -68,9 +52,20 @@ namespace WhisperOfTheForest.Experimental.Race
                 yield return "resourceGizmoType must be GeneGizmo_ForestMana";
             }
 
+            // The vanilla resource gizmo iterates this list every frame without a null check.
+            if (resourceGizmoThresholds == null)
+            {
+                yield return "resourceGizmoThresholds is null; write an empty list if the bar has no marks";
+            }
+
             if (manaMaxStat == null)
             {
                 yield return "manaMaxStat is null";
+            }
+
+            if (manaRegenStat == null)
+            {
+                yield return "manaRegenStat is null";
             }
 
             if (manaBarColor.a <= 0f)
@@ -83,29 +78,59 @@ namespace WhisperOfTheForest.Experimental.Race
                 yield return "manaBarHighlightColor is unset (alpha 0)";
             }
 
-            if (levelTable.NullOrEmpty())
+            if (maxLevel < 1)
             {
-                yield return "levelTable is empty";
+                yield return "maxLevel must be at least 1";
+            }
+
+            if (xpToNextLevelCurve == null || xpToNextLevelCurve.PointsCount == 0)
+            {
+                yield return "xpToNextLevelCurve is empty";
+            }
+            else
+            {
+                for (int level = 1; level < maxLevel; level++)
+                {
+                    if (xpToNextLevelCurve.Evaluate(level) <= 0f)
+                    {
+                        yield return "xpToNextLevelCurve must be positive at level " + level;
+                        break;
+                    }
+                }
+            }
+
+            if (manaMaxCurve == null || manaMaxCurve.PointsCount == 0)
+            {
+                yield return "manaMaxCurve is empty";
+            }
+
+            if (entropyMaxCurve == null || entropyMaxCurve.PointsCount == 0)
+            {
+                yield return "entropyMaxCurve is empty";
+            }
+
+            if (entropyRecoveryFactorCurve == null || entropyRecoveryFactorCurve.PointsCount == 0)
+            {
+                yield return "entropyRecoveryFactorCurve is empty";
+            }
+
+            if (psylinkUnlockLevels.NullOrEmpty())
+            {
+                yield return "psylinkUnlockLevels is empty";
                 yield break;
             }
 
-            for (int i = 0; i < levelTable.Count; i++)
+            for (int i = 0; i < psylinkUnlockLevels.Count; i++)
             {
-                WotF_CasterLevelDef levelDef = levelTable[i];
-                if (levelDef == null)
+                int unlock = psylinkUnlockLevels[i];
+                if (unlock < 1 || unlock > maxLevel)
                 {
-                    yield return "levelTable[" + i + "] is null";
-                    yield break;
+                    yield return "psylinkUnlockLevels[" + i + "] = " + unlock + " is outside 1.." + maxLevel;
                 }
 
-                if (levelDef.level != i + 1)
+                if (i > 0 && unlock <= psylinkUnlockLevels[i - 1])
                 {
-                    yield return "levelTable[" + i + "] has level " + levelDef.level + ", expected " + (i + 1);
-                }
-
-                if (i < levelTable.Count - 1 && levelDef.xpToNextLevel <= 0f)
-                {
-                    yield return "level " + levelDef.level + " needs a positive xpToNextLevel";
+                    yield return "psylinkUnlockLevels must be strictly increasing (entry " + i + ")";
                 }
             }
         }

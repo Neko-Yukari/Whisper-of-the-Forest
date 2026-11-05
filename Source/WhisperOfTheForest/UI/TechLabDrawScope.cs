@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Verse;
 
-namespace WhisperOfTheForest.Experimental
+namespace WhisperOfTheForest
 {
     /// <summary>
     /// Snapshots the global IMGUI text state and restores it on dispose.

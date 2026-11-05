@@ -1,6 +1,6 @@
 using Verse;
 
-namespace WhisperOfTheForest.Experimental.Missiles
+namespace WhisperOfTheForest.Missiles
 {
     /// <summary>
     /// Read-only snapshot of one live missile for the in-game lab. Settings is a fresh instance copy

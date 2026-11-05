@@ -8,7 +8,9 @@ param(
     [ValidateSet('Debug', 'Release')]
     [string]$Configuration = 'Release',
     [switch]$Clean,
-    [switch]$Verify
+    [switch]$Verify,
+    # Compile the test host (Source/Lab, Source/LabTests) into the assembly. Release builds leave it out.
+    [switch]$Lab
 )
 
 $ErrorActionPreference = 'Stop'
@@ -53,8 +55,9 @@ if ($Clean) {
 Write-Host "SDK: $(& $dotnet --version)"
 Write-Host "Project: $project"
 Write-Host "Configuration: $Configuration"
+Write-Host "Lab sources: $(if ($Lab) { 'compiled in' } else { 'excluded' })"
 
-& $dotnet build $project -c $Configuration -v minimal --nologo /p:GenerateFullPaths=false
+& $dotnet build $project -c $Configuration -v minimal --nologo /p:GenerateFullPaths=false $(if ($Lab) { '/p:WotfLab=true' })
 if ($LASTEXITCODE -ne 0) {
     throw "dotnet build failed with exit code $LASTEXITCODE"
 }

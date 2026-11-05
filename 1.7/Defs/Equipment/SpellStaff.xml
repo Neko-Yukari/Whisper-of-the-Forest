@@ -25,7 +25,7 @@
     <thingClass>ThingWithComps</thingClass>
     <techLevel>Spacer</techLevel>
     <graphicData>
-      <texPath>Experiments/Equipment/SpellStaff</texPath>
+      <texPath>Equipment/SpellStaff</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <statBases>
@@ -42,7 +42,7 @@
     </weaponClasses>
     <verbs>
       <li>
-        <verbClass>WhisperOfTheForest.Experimental.Equipment.Verb_CastSpellStaff</verbClass>
+        <verbClass>WhisperOfTheForest.Equipment.Verb_CastSpellStaff</verbClass>
         <label>cast</label>
         <isPrimary>true</isPrimary>
         <hasStandardCommand>true</hasStandardCommand>
@@ -84,7 +84,7 @@
       <li Class="CompProperties_Forbiddable"/>
       <li Class="CompProperties_Styleable"/>
       <li>
-        <compClass>WhisperOfTheForest.Experimental.Equipment.CompSpellStaff</compClass>
+        <compClass>WhisperOfTheForest.Equipment.CompSpellStaff</compClass>
       </li>
     </comps>
   </ThingDef>

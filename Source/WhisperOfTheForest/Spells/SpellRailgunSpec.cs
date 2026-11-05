@@ -1,6 +1,6 @@
 using Verse;
 
-namespace WhisperOfTheForest.Experimental.Spells
+namespace WhisperOfTheForest.Spells
 {
     /// <summary>
     /// The numbers a composite form owns. They are copied into the compiled plan, so a cast keeps the

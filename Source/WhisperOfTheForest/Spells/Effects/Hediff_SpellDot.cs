@@ -1,7 +1,7 @@
 using RimWorld;
 using Verse;
 
-namespace WhisperOfTheForest.Experimental.Spells
+namespace WhisperOfTheForest.Spells
 {
     /// <summary>
     /// A wound that keeps damaging its pawn for a while: the sustained form of Harm and the

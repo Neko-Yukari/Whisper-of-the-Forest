@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using RimUnity;
 
-namespace WhisperOfTheForest.Experimental.Vfx
+namespace WhisperOfTheForest.Vfx
 {
     /// <summary>
     /// The visual layer's only colour parser: "#RRGGBB" or "#RRGGBBAA" (leading hash optional).

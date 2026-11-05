@@ -1,6 +1,6 @@
 using Verse;
 
-namespace WhisperOfTheForest.Experimental.Spells
+namespace WhisperOfTheForest.Spells
 {
     /// <summary>Where a cast in progress is. Phases run in this order and never repeat.</summary>
     public enum SpellCastPhase

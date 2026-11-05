@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace WhisperOfTheForest.Experimental
+namespace WhisperOfTheForest
 {
     /// <summary>Rectangle helper that avoids the Verse extension methods (keeps layout Unity-only).</summary>
     internal static class SpellbookRect

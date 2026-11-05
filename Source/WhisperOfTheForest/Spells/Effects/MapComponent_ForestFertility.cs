@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using RimWorld;
 using Verse;
 
-namespace WhisperOfTheForest.Experimental.Spells
+namespace WhisperOfTheForest.Spells
 {
     /// <summary>One cell that grows faster until a tick, with the multiplier the spell froze.</summary>
     public class FertilityBoost : IExposable

@@ -8,7 +8,7 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <AssemblyName>WhisperOfTheForest</AssemblyName>
-    <RootNamespace>WhisperOfTheForest.Experimental</RootNamespace>
+    <RootNamespace>WhisperOfTheForest</RootNamespace>
     <LangVersion>latest</LangVersion>
     <Nullable>disable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
@@ -68,6 +68,20 @@
       <HintPath>$(WorkshopRoot)/839005762/1.7/Assemblies/AlienRace.dll</HintPath>
       <Private>false</Private>
     </Reference>
+  </ItemGroup>
+
+  <!--
+    Lab build only. The test host (Source/Lab, Source/LabTests) lives outside this project, so a
+    normal build never compiles it; pass /p:WotfLab=true (Tools/build.ps1 -Lab) to fold it into the
+    same assembly for the -wotflab instance.
+  -->
+  <PropertyGroup Condition="'$(WotfLab)' == 'true'">
+    <DefineConstants>$(DefineConstants);WOTF_LAB</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(WotfLab)' == 'true'">
+    <Compile Include="$(MSBuildThisFileDirectory)../Lab/**/*.cs" Link="Lab/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="$(MSBuildThisFileDirectory)../LabTests/**/*.cs" Link="LabTests/%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
 
 </Project>

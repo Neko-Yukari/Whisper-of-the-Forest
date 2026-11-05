@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Verse;
 
-namespace WhisperOfTheForest.Experimental.Spells
+namespace WhisperOfTheForest.Spells
 {
     /// <summary>
     /// Owns every cast in progress for the whole game and advances it on game ticks. This is the only

@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
 using Verse;
-using WhisperOfTheForest.Experimental.Vfx;
+using WhisperOfTheForest.Vfx;
 
-namespace WhisperOfTheForest.Experimental.Missiles
+namespace WhisperOfTheForest.Missiles
 {
     /// <summary>
     /// Native carrier for one arcane missile. <see cref="Verse.Projectile"/> and the game's thing

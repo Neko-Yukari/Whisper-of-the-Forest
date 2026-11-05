@@ -1,7 +1,7 @@
 using RimWorld;
 using Verse;
 
-namespace WhisperOfTheForest.Experimental.Spells
+namespace WhisperOfTheForest.Spells
 {
     /// <summary>
     /// "Can this thing receive harm/healing at all" rules, in one place so the executor and the

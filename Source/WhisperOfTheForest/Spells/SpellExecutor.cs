@@ -4,42 +4,27 @@ using System.Text;
 using RimWorld;
 using UnityEngine;
 using Verse;
-using WhisperOfTheForest.Experimental.Missiles;
 
-namespace WhisperOfTheForest.Experimental.Spells
+namespace WhisperOfTheForest.Spells
 {
     /// <summary>
     /// Runs a compiled chain at one point of the map. This is the only executor: the Self/Touch/Orbit
-    /// forms call it directly, the projectile payload calls it from the impact worker, and a Linger,
+    /// forms call it directly, a spell dart's payload calls it where the dart lands, and a Linger,
     /// Rune or Delay runs its frozen payload through exactly this code later.
     ///
-    /// The older arcane workers are still reused for the three original effects (damage, explosion);
-    /// the new effects are small methods here, so nothing duplicates a damage or explosion
+    /// Every direct hit goes through <see cref="SpellDamage"/>, so nothing duplicates a damage
     /// implementation. Heal and Grow no longer mature/repair directly: they are the spell table's
     /// 凝血 (tend + faster healing) and 催生 (fertility boost through Plant.GrowthRate).
     /// </summary>
     public static class SpellExecutor
     {
-        private static readonly ArcaneMissileImpactWorker_Damage DamageWorker = new ArcaneMissileImpactWorker_Damage();
-
         /// <summary>
-        /// Applies every step of the plan's first segment and returns a compact report of what really
-        /// happened (affected target counts per effect) for the log and for the acceptance run.
+        /// Applies every step of the plan and returns a compact report of what really happened
+        /// (affected target counts per effect) for the log and for the acceptance run.
         /// </summary>
         public static string Execute(SpellCastPlan plan, Pawn caster, Thing primary, IntVec3 cell, Map map)
         {
-            if (plan == null)
-            {
-                return "no-plan";
-            }
-
-            return ExecuteSegment(FirstSegmentOf(plan), caster, primary, cell, map);
-        }
-
-        /// <summary>Applies one segment at one point; the single entry the impact worker also uses.</summary>
-        public static string ExecuteSegment(SpellSegment segment, Pawn caster, Thing primary, IntVec3 cell, Map map)
-        {
-            return segment == null ? "no-plan" : ExecuteStepList(segment.steps, caster, primary, cell, map);
+            return ExecuteStepList(plan.steps, caster, primary, cell, map);
         }
 
         /// <summary>
@@ -95,33 +80,6 @@ namespace WhisperOfTheForest.Experimental.Spells
             return copy;
         }
 
-        /// <summary>
-        /// The segment to run first. A plan scribed by an older build has no segments, so its legacy
-        /// first-segment fields are wrapped in a one-segment view instead of being mutated here.
-        /// </summary>
-        public static SpellSegment FirstSegmentOf(SpellCastPlan plan)
-        {
-            if (plan == null)
-            {
-                return null;
-            }
-
-            SpellSegment first = plan.SegmentAt(0);
-            if (first != null)
-            {
-                return first;
-            }
-
-            return new SpellSegment
-            {
-                form = plan.form,
-                steps = plan.steps,
-                missileCount = plan.missileCount,
-                missileSpeed = plan.missileSpeed,
-                triggerOnHit = false
-            };
-        }
-
         private static int Apply(SpellPlanStep step, Pawn caster, Thing primary, IntVec3 cell, Map map)
         {
             switch (step.effect)
@@ -167,7 +125,6 @@ namespace WhisperOfTheForest.Experimental.Spells
 
         private static int ApplyHarm(SpellPlanStep step, Pawn caster, Thing primary, IntVec3 cell, Map map)
         {
-            ArcaneMissileSettings settings = StepSettings(step);
             int affected = 0;
 
             foreach (Thing target in CollectTargets(step, primary, cell, map, SpellTargets.CanTakeDamage))
@@ -179,7 +136,7 @@ namespace WhisperOfTheForest.Experimental.Spells
                     continue;
                 }
 
-                DamageWorker.Resolve(Context(caster, target, primary, cell, map, settings));
+                SpellDamage.Deal(target, step.amount, step.penetration, caster);
                 affected++;
             }
 
@@ -201,9 +158,9 @@ namespace WhisperOfTheForest.Experimental.Spells
 
             if (dot is Hediff_SpellDot sustained)
             {
-                sustained.damageDef = ArcaneMissileDefs.ArcaneForce;
+                sustained.damageDef = SpellDamage.ArcaneForce;
                 sustained.damagePerPulse = perPulse;
-                sustained.armorPenetration = SpellDefs.Tuning.armorPenetration + step.penetration;
+                sustained.armorPenetration = step.penetration;
                 sustained.pulseIntervalTicks = interval;
                 sustained.instigator = caster;
             }
@@ -261,16 +218,21 @@ namespace WhisperOfTheForest.Experimental.Spells
             // it is told to ignore, so the whole structure list goes in instead of a second explosion
             // implementation.
             List<Thing> ignored = step.sensitive ? BuildingsAround(cell, map, step.radius) : null;
-            ArcaneMissileSettings settings = StepSettings(step);
+            DamageDef damageDef = SpellDamage.ArcaneForce;
+            if (damageDef == null)
+            {
+                SpellDiagnostics.ErrorOnce("explosion has no damage def; the blast was skipped.");
+                return 0;
+            }
 
             GenExplosion.DoExplosion(
                 cell,
                 map,
-                step.radius > 0f ? step.radius : SpellDefs.Tuning.aoeBaseRadius,
-                settings.damageDef,
+                step.radius,
+                damageDef,
                 caster,
-                damAmount: Mathf.Max(1, Mathf.RoundToInt(settings.damageAmount)),
-                armorPenetration: settings.armorPenetration,
+                damAmount: Mathf.Max(1, Mathf.RoundToInt(step.amount)),
+                armorPenetration: step.penetration,
                 doVisualEffects: false,
                 damageFalloff: true,
                 ignoredThings: ignored);
@@ -405,7 +367,7 @@ namespace WhisperOfTheForest.Experimental.Spells
 
                 float damage = step.amount * (1f + stacks * step.perStackFactor);
                 target.TakeDamage(new DamageInfo(DamageDefOf.Burn, damage,
-                    armorPenetration: SpellDefs.Tuning.armorPenetration + step.penetration, angle: -1f,
+                    armorPenetration: step.penetration, angle: -1f,
                     instigator: caster, intendedTarget: target, instigatorGuilty: true, spawnFilth: false));
 
                 if (target is Pawn charged)
@@ -441,22 +403,13 @@ namespace WhisperOfTheForest.Experimental.Spells
         private static int ApplyColdSnap(SpellPlanStep step, Pawn caster, Thing primary, IntVec3 cell, Map map)
         {
             int affected = 0;
-            ArcaneMissileSettings settings = StepSettings(step);
 
             foreach (Thing target in CollectTargets(step, primary, cell, map, SpellTargets.CanTakeDamage))
             {
                 bool slowed = target is Pawn pawn
                               && SpellEffectRuntime.FindHediff(pawn, SpellEffectDefs.HediffFreeze) != null;
-                if (slowed)
-                {
-                    settings.damageAmount = step.amount * Mathf.Max(1f, step.vulnerableFactor);
-                }
-                else
-                {
-                    settings.damageAmount = step.amount;
-                }
-
-                DamageWorker.Resolve(Context(caster, target, primary, cell, map, settings));
+                float amount = slowed ? step.amount * Mathf.Max(1f, step.vulnerableFactor) : step.amount;
+                SpellDamage.Deal(target, amount, step.penetration, caster);
                 affected++;
             }
 
@@ -642,46 +595,6 @@ namespace WhisperOfTheForest.Experimental.Spells
             }
 
             return null;
-        }
-
-        /// <summary>Per-step settings for the reused workers: only the numbers this step owns.</summary>
-        private static ArcaneMissileSettings StepSettings(SpellPlanStep step)
-        {
-            SpellTuningDef tuning = SpellDefs.Tuning;
-            return new ArcaneMissileSettings
-            {
-                damageDef = ArcaneMissileDefs.ArcaneForce,
-                damageAmount = step.amount > 0f ? step.amount : 0f,
-                armorPenetration = tuning.armorPenetration + step.penetration,
-                healAmount = 0f,
-                explosionRadius = step.radius > 0f ? step.radius : tuning.aoeBaseRadius
-            };
-        }
-
-        private static ArcaneMissileImpactContext Context(
-            Pawn caster,
-            Thing hit,
-            Thing primary,
-            IntVec3 cell,
-            Map map,
-            ArcaneMissileSettings settings)
-        {
-            IntVec3 impactCell = hit != null && hit.Spawned ? hit.Position : cell;
-            UnityEngine.Vector3 point = impactCell.ToVector3Shifted();
-            return new ArcaneMissileImpactContext
-            {
-                Map = map,
-                Caster = caster,
-                Hit = hit,
-                OriginalTarget = primary,
-                OriginalTargetCell = cell,
-                ImpactCell = impactCell,
-                ImpactX = point.x,
-                ImpactZ = point.z,
-                HeadingX = 0f,
-                HeadingZ = 1f,
-                Settings = settings
-            };
         }
     }
 }

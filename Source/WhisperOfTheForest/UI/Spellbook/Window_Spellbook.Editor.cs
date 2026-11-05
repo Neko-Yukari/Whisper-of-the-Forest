@@ -1,9 +1,9 @@
 using RimWorld;
 using UnityEngine;
 using Verse;
-using WhisperOfTheForest.Experimental.Spells;
+using WhisperOfTheForest.Spells;
 
-namespace WhisperOfTheForest.Experimental
+namespace WhisperOfTheForest
 {
     /// <summary>
     /// Right page: the spell name, the spell bar with its cast timing, the description of the
@@ -70,6 +70,12 @@ namespace WhisperOfTheForest.Experimental
 
             string timing = TF("WotF_Spellbook.Timing", SpellbookStyle.Seconds(barTiming.windupTicks),
                 SpellbookStyle.Seconds(barTiming.channelTicks), SpellbookStyle.Seconds(barTiming.recoveryTicks));
+            string cost = TF("WotF_Spellbook.Cost", barCost.mana.ToString("0.#"), barCost.entropy.ToString("0.#"));
+            if (!barCost.IsFree)
+            {
+                timing += " · " + cost;
+            }
+
             float timingWidth = Mathf.Min(SpellbookStyle.TextWidth(timing, GameFont.Tiny) + 4f,
                 rect.width - countWidth - 18f);
             if (timingWidth <= 20f)
@@ -84,7 +90,7 @@ namespace WhisperOfTheForest.Experimental
             SpellbookStyle.DrawLabel(timingRect, timing, GameFont.Tiny, SpellbookStyle.InkDim, TextAnchor.MiddleRight);
             TooltipHandler.TipRegion(new Rect(timingRect.x - iconSize - 4f, rect.y, timingWidth + iconSize + 4f,
                 rect.height), TF("WotF_Spellbook.TimingTip", barTiming.windupTicks, barTiming.channelTicks,
-                barTiming.recoveryTicks));
+                barTiming.recoveryTicks) + "\n" + cost + " · " + TF("WotF_Spellbook.Experience", barCost.experience.ToString("0.#")));
         }
 
         private void DrawBar(EditorLayout layout)

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Verse;
 
-namespace WhisperOfTheForest.Experimental.Vfx
+namespace WhisperOfTheForest.Vfx
 {
     /// <summary>
     /// Everything that makes the railgun look like a railgun, and nothing a spell can read: beam and

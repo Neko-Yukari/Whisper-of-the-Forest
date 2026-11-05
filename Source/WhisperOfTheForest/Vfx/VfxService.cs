@@ -1,7 +1,7 @@
 using System;
 using Verse;
 
-namespace WhisperOfTheForest.Experimental.Vfx
+namespace WhisperOfTheForest.Vfx
 {
     /// <summary>
     /// The only entry point a spell may use: hand over a <see cref="VfxRequest"/> and forget it. The

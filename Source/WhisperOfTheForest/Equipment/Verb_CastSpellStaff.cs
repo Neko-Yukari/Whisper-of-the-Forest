@@ -1,8 +1,8 @@
 using RimWorld;
 using Verse;
-using WhisperOfTheForest.Experimental.Spells;
+using WhisperOfTheForest.Spells;
 
-namespace WhisperOfTheForest.Experimental.Equipment
+namespace WhisperOfTheForest.Equipment
 {
     /// <summary>
     /// The staff's attack: a real ranged verb so the drafted attack order, the native targeter and
@@ -32,28 +32,22 @@ namespace WhisperOfTheForest.Experimental.Equipment
                     return 0f;
                 }
 
-                switch (plan.form)
+                if (plan.form != SpellFormKind.Railgun)
                 {
-                    case SpellFormKind.Touch:
-                        return SpellDefs.Tuning.touchRange;
-
-                    case SpellFormKind.Railgun:
-                    {
-                        SpellRailgunSpec spec = plan.Railgun;
-                        if (spec != null && spec.range > 0f)
-                        {
-                            return spec.range;
-                        }
-
-                        // A composite form's 0 means the whole map. Keep a finite number here: the
-                        // base out-of-range test squares it, so infinities break the comparison.
-                        Map map = CasterPawn?.Map;
-                        return map == null ? SpellDefs.Tuning.castRange : map.Size.x + map.Size.z;
-                    }
-
-                    default:
-                        return SpellDefs.Tuning.castRange;
+                    // The form's own range; Self and Orbit have none and so give the staff no reach.
+                    return plan.range;
                 }
+
+                SpellRailgunSpec spec = plan.railgun;
+                if (spec.range > 0f)
+                {
+                    return spec.range;
+                }
+
+                // A composite form's 0 means the whole map. Keep a finite number here: the base
+                // out-of-range test squares it, so infinities break the comparison.
+                Map map = CasterPawn?.Map;
+                return map == null ? 0f : map.Size.x + map.Size.z;
             }
         }
 

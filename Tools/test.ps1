@@ -39,6 +39,8 @@ param(
     [switch]$Reload,
     [switch]$StopAfter,
     [int]$TimeoutSec = 900,
+    # How long a cold start may take before a map exists. Tests may not run earlier.
+    [int]$MapWaitSec = 240,
     [string]$GameRoot = 'E:/SteamLibrary/steamapps/common/RimWorld',
     [string]$LabDir,
     [string]$SaveDataFolder,
@@ -119,12 +121,13 @@ function Get-PlayerLogPaths {
   lines as one block; the block counts as ours when any of its lines names this mod (an exception
   thrown inside our assembly has its name only in the stack).
 #>
-function Read-WotfLogErrors([string]$path) {
+function Read-WotfLogErrors([string]$path, [int]$SkipLines = 0) {
     $result = [pscustomobject]@{
         Path = $path
         Status = 'missing'
         ProcessId = $null
         Started = $null
+        TotalLines = 0
         ScannedLines = 0
         ErrorBlocks = 0
         Messages = @()
@@ -141,7 +144,10 @@ function Read-WotfLogErrors([string]$path) {
     }
 
     $lines = Get-Content -LiteralPath $path -Encoding utf8
-    $result.ScannedLines = $lines.Count
+    $result.TotalLines = $lines.Count
+    # SkipLines lets a repeat call on the same process read only what was appended since the last one.
+    $scanFrom = [Math]::Max(0, [Math]::Min($SkipLines, $lines.Count))
+    $result.ScannedLines = $lines.Count - $scanFrom
 
     $header = $lines | Select-Object -First 20
     $processLine = $header | Where-Object { $_ -match '^Process:\s+pid\s+(\d+)' } | Select-Object -First 1
@@ -162,7 +168,7 @@ function Read-WotfLogErrors([string]$path) {
 
     $result.Status = 'ok'
     $messages = New-Object System.Collections.Generic.List[string]
-    $index = 0
+    $index = $scanFrom
     while ($index -lt $lines.Count) {
         $line = $lines[$index]
         if ($line -notmatch '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d+\s+ERROR\b') {
@@ -306,8 +312,13 @@ function Wait-LabReady {
         Start-Sleep -Milliseconds 500
     }
 
-    # One request at a time: the lab answers only once the game is inside a map.
-    for ($attempt = 1; $attempt -le 2; $attempt++) {
+    # The lab answers as soon as the assembly is up, which on a cold start is before the map exists.
+    # gameLoaded only means a Game object exists (quick test creates it before generating the map);
+    # mapReady matches the test runner's own precondition. Waiting for less makes every test fail
+    # with "no game/map is loaded".
+    $readyDeadline = (Get-Date).AddSeconds($MapWaitSec)
+    $answeredOnce = $false
+    while ((Get-Date) -lt $readyDeadline) {
         if (-not (Get-LabPid)) {
             return $null
         }
@@ -315,14 +326,21 @@ function Wait-LabReady {
         try {
             $answer = & (Join-Path $PSScriptRoot 'lab.ps1') -LabDir $LabDir -Command 'status' -TimeoutSec 25
             if ($LASTEXITCODE -eq 0 -and $answer -match '"ok":true') {
-                return $answer
+                $answeredOnce = $true
+                if ($answer -match '"mapReady":true') {
+                    return $answer
+                }
             }
         }
         catch {
-            # No answer in this attempt; one more before giving up.
+            # No answer in this attempt; keep waiting until the deadline.
         }
 
         Start-Sleep -Seconds 3
+    }
+
+    if ($answeredOnce) {
+        Write-Host "The lab answered but stayed at mapReady=false for $MapWaitSec s: no map was loaded, so no test can run." -ForegroundColor Red
     }
 
     return $null
@@ -337,6 +355,11 @@ function Test-BuildStale {
     $inputs = @()
     $inputs += Get-ChildItem -LiteralPath (Join-Path $repo 'Source/WhisperOfTheForest') -Recurse -File -Include '*.cs', '*.csproj' |
         Where-Object { $_.FullName -notmatch '[\\/](obj|bin)[\\/]' }
+    foreach ($labDir in @('Source/Lab', 'Source/LabTests')) {
+        if (Test-Path -LiteralPath (Join-Path $repo $labDir)) {
+            $inputs += Get-ChildItem -LiteralPath (Join-Path $repo $labDir) -Recurse -File -Include '*.cs'
+        }
+    }
     if (Test-Path -LiteralPath (Join-Path $repo '1.7/Defs')) {
         $inputs += Get-ChildItem -LiteralPath (Join-Path $repo '1.7/Defs') -Recurse -File -Filter '*.xml'
     }
@@ -387,7 +410,10 @@ if (-not $NoBuild) {
                 '). Close it before building; this script never stops a game it did not start.')
         }
 
-        & (Join-Path $PSScriptRoot 'build.ps1')
+        # The csproj reads GameRoot/WorkshopRoot as MSBuild properties; build against the game this run tests.
+        $env:GameRoot = $GameRoot
+        $env:WorkshopRoot = Join-Path (Split-Path (Split-Path $GameRoot)) 'workshop/content/294100'
+        & (Join-Path $PSScriptRoot 'build.ps1') -Lab
         if (-not (Test-Path -LiteralPath $dll)) {
             throw "build.ps1 finished but $dll is missing"
         }
@@ -567,8 +593,26 @@ try {
     Write-Step 'L1 disk log (this process)'
     $logPaths = Get-PlayerLogPaths
     if ($PlayerLog) { $logPaths.Current = $PlayerLog }
-    $disk = Read-WotfLogErrors $logPaths.Current
     $pidForRun = Get-LabPid
+
+    # The log covers the whole process, so a repeat call against the same instance would report the
+    # errors of an earlier call again. Read only what was appended since the last scan of this pid.
+    $scanStatePath = Join-Path $resultDir ("logscan-{0}.json" -f $pidForRun)
+    $skipLines = 0
+    if ((Test-Path -LiteralPath $scanStatePath) -and (Test-Path -LiteralPath $logPaths.Current)) {
+        try {
+            $previousScan = Get-Content -LiteralPath $scanStatePath -Raw | ConvertFrom-Json
+            $logLength = (Get-Item -LiteralPath $logPaths.Current).Length
+            if ($previousScan.path -eq $logPaths.Current -and $logLength -ge [long]$previousScan.length) {
+                $skipLines = [int]$previousScan.lines
+            }
+        }
+        catch {
+            $skipLines = 0
+        }
+    }
+
+    $disk = Read-WotfLogErrors $logPaths.Current -SkipLines $skipLines
     $diskGate = 'ok'
     $diskNote = ''
     switch ($disk.Status) {
@@ -584,8 +628,8 @@ try {
     }
 
     $diskColor = if ($diskGate -eq 'ok' -and $disk.Messages.Count -eq 0) { 'Green' } else { 'Red' }
-    Write-Host ("status={0} pid={1} started={2} lines={3} errorBlocks={4} ourErrors={5}" -f `
-        $diskGate, $disk.ProcessId, $disk.Started, $disk.ScannedLines, $disk.ErrorBlocks, $disk.Messages.Count) -ForegroundColor $diskColor
+    Write-Host ("status={0} pid={1} started={2} lines={3} (new this call={4}) errorBlocks={5} ourErrors={6}" -f `
+        $diskGate, $disk.ProcessId, $disk.Started, $disk.TotalLines, $disk.ScannedLines, $disk.ErrorBlocks, $disk.Messages.Count) -ForegroundColor $diskColor
     if ($diskNote) { Write-Host "  $diskNote" -ForegroundColor Red }
 
     # One failure list: the disk log covers the whole process (including mod loading, which the
@@ -617,6 +661,17 @@ try {
 
         Write-Host "  ERROR $failure" -ForegroundColor Red
     }
+
+    # Remember how far this pid's log was read, so the next call on the same instance starts after it.
+    $logLengthNow = 0
+    if (Test-Path -LiteralPath $logPaths.Current) {
+        $logLengthNow = (Get-Item -LiteralPath $logPaths.Current).Length
+    }
+    [pscustomobject]@{
+        path = $logPaths.Current
+        lines = $disk.TotalLines
+        length = $logLengthNow
+    } | ConvertTo-Json | Set-Content -LiteralPath $scanStatePath -Encoding utf8
 
     $diskReport = Join-Path $resultDir ($report.run + '.disklog.json')
     [pscustomobject]@{

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Verse;
 
-namespace WhisperOfTheForest.Experimental
+namespace WhisperOfTheForest
 {
     /// <summary>
     /// The one logging entry point of this mod. Every line carries a module tag, and the Debug tier is

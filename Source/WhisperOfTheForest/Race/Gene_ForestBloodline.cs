@@ -1,13 +1,16 @@
 using System;
+using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
 using Verse;
 
-namespace WhisperOfTheForest.Experimental.Race
+namespace WhisperOfTheForest.Race
 {
     /// <summary>
     /// The forest bloodline: the race's mana bar and its own caster ladder. Level and experience
-    /// are saved on the gene, so no extra hediff or game component carries them.
+    /// are saved on the gene, so no extra hediff or game component carries them. The vanilla psylink
+    /// is only a mirror of the level: the gene writes it, vanilla sources can only raise the level
+    /// through <see cref="Notify_VanillaPsylinkChanged"/>.
     /// </summary>
     public class Gene_ForestBloodline : Gene_Resource
     {
@@ -22,15 +25,46 @@ namespace WhisperOfTheForest.Experimental.Race
 
         private WotF_ForestBloodlineGeneDef Def => (WotF_ForestBloodlineGeneDef)def;
 
-        public int MaxLevel => Def.levelTable.Count;
+        // Set while the gene writes its own mirror, so the psylink patches do not read that write
+        // back as a vanilla psylink gain.
+        private static bool writingMirror;
+
+        public int MaxLevel => Def.maxLevel;
 
         public int Level => Mathf.Clamp(level, 1, MaxLevel);
 
-        public WotF_CasterLevelDef LevelData => Def.levelTable[Level - 1];
-
         public float Experience => experience;
 
-        public float ExperienceToNextLevel => Level >= MaxLevel ? 0f : LevelData.xpToNextLevel;
+        public float ExperienceToNextLevel => Level >= MaxLevel ? 0f : Def.xpToNextLevelCurve.Evaluate(Level);
+
+        public float LevelManaMax => Def.manaMaxCurve.Evaluate(Level);
+
+        public float LevelEntropyMaxBonus => Def.entropyMaxCurve.Evaluate(Level);
+
+        public float LevelEntropyRecoveryFactor => Def.entropyRecoveryFactorCurve.Evaluate(Level);
+
+        /// <summary>Vanilla psylink level this bloodline level mirrors.</summary>
+        public int MirrorPsylinkLevel
+        {
+            get
+            {
+                int mirror = 0;
+                List<int> unlocks = Def.psylinkUnlockLevels;
+                while (mirror < unlocks.Count && Level >= unlocks[mirror])
+                {
+                    mirror++;
+                }
+
+                return Mathf.Min(mirror, (int)HediffDefOf.PsychicAmplifier.maxSeverity);
+            }
+        }
+
+        /// <summary>Lowest bloodline level whose mirror reaches <paramref name="psylinkLevel"/>.</summary>
+        public int LevelForPsylink(int psylinkLevel)
+        {
+            List<int> unlocks = Def.psylinkUnlockLevels;
+            return psylinkLevel <= 0 ? 1 : unlocks[Mathf.Min(psylinkLevel, unlocks.Count) - 1];
+        }
 
         public float CurrentMana => Value;
 
@@ -58,12 +92,28 @@ namespace WhisperOfTheForest.Experimental.Race
         public override void PostAdd()
         {
             base.PostAdd();
-            ApplyLegacyPsylinkLevel();
+            // A pawn that already has a psylink starts at the lowest level that mirrors it.
+            SetLevel(Mathf.Max(Level, LevelForPsylink(pawn.GetPsylinkLevel())));
+        }
+
+        /// <summary>
+        /// A vanilla source (neuroformer, anima tree, title) added or raised the psylink: the
+        /// bloodline jumps to the lowest level that mirrors the new link, never down.
+        /// </summary>
+        internal void Notify_VanillaPsylinkChanged()
+        {
+            if (writingMirror)
+            {
+                return;
+            }
+
+            SetLevel(Mathf.Max(Level, LevelForPsylink(pawn.GetPsylinkLevel())));
         }
 
         public override void TickInterval(int delta)
         {
             base.TickInterval(delta);
+            Value += pawn.GetStatValue(Def.manaRegenStat) * delta / GenTicks.TicksPerRealSecond;
             if (pawn.IsHashIntervalTick(MaxSyncIntervalTicks, delta))
             {
                 RefreshMaxFromStats();
@@ -138,26 +188,10 @@ namespace WhisperOfTheForest.Experimental.Race
             while (Level > 1 && experience < 0f)
             {
                 SetLevel(Level - 1);
-                experience += LevelData.xpToNextLevel;
+                experience += ExperienceToNextLevel;
             }
 
             experience = Mathf.Max(experience, 0f);
-        }
-
-        /// <summary>
-        /// Legacy compatibility: a vanilla psylink never imports its own level into this ladder and
-        /// never pushes a bloodline pawn past the first level. The hediff itself stays untouched;
-        /// removing it would delete the vanilla psycasts the pawn already learned.
-        /// </summary>
-        public void ApplyLegacyPsylinkLevel()
-        {
-            if (level >= 1 || !pawn.health.hediffSet.HasHediff(HediffDefOf.PsychicAmplifier))
-            {
-                return;
-            }
-
-            SetLevel(1);
-            WotfLog.Info(LogModule, pawn.LabelShortCap + " converted a psylink into forest bloodline level 1");
         }
 
         public override int PostProcessValue(float value)
@@ -182,9 +216,51 @@ namespace WhisperOfTheForest.Experimental.Race
 
         private void SetLevel(int newLevel)
         {
+            int previous = level;
             level = Mathf.Clamp(newLevel, 1, MaxLevel);
             RefreshMaxFromStats();
-            WotfLog.Info(LogModule, pawn.LabelShortCap + " forest bloodline level " + level + " (xp " + experience.ToString("0.#") + ")");
+            SyncPsylinkMirror();
+            if (level != previous)
+            {
+                WotfLog.Info(LogModule, pawn.LabelShortCap + " forest bloodline level " + level + " (xp " + experience.ToString("0.#") + ")");
+            }
+        }
+
+        /// <summary>
+        /// Writes the mirror level straight into the psylink. Going through <c>ChangeLevel</c> would
+        /// hand out psycasts and re-enter the psylink patches.
+        /// </summary>
+        private void SyncPsylinkMirror()
+        {
+            int target = MirrorPsylinkLevel;
+            Hediff_Psylink psylink = pawn.GetMainPsylinkSource();
+            if (psylink == null && target <= 0)
+            {
+                return;
+            }
+
+            writingMirror = true;
+            try
+            {
+                if (psylink == null)
+                {
+                    psylink = (Hediff_Psylink)HediffMaker.MakeHediff(HediffDefOf.PsychicAmplifier, pawn);
+                    psylink.suppressPostAddLetter = true;
+                    psylink.level = target;
+                    pawn.health.AddHediff(psylink, pawn.health.hediffSet.GetBrain());
+                }
+                else
+                {
+                    psylink.level = target;
+                }
+
+                // Vanilla only copies level into severity on tick; the stage must follow right away.
+                psylink.Severity = target;
+            }
+            finally
+            {
+                writingMirror = false;
+            }
         }
     }
 }

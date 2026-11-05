@@ -5,7 +5,7 @@ rebuilt byte-for-byte:
 
     python Tools/art/gen_spellbook_ui.py
 
-Output: Textures/Experiments/Spellbook/UI/*.png. Every size is a power of two (RimWorld may
+Output: Textures/Spellbook/UI/*.png. Every size is a power of two (RimWorld may
 DXT-compress UI textures, which needs multiples of four).
 
 Two kinds of texture:
@@ -25,7 +25,7 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-OUT = os.path.join(ROOT, "Textures", "Experiments", "Spellbook", "UI")
+OUT = os.path.join(ROOT, "Textures", "Spellbook", "UI")
 
 S = 4  # supersampling factor for anti-aliased shapes
 

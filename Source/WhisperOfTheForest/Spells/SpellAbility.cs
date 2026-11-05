@@ -3,7 +3,7 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 
-namespace WhisperOfTheForest.Experimental.Spells
+namespace WhisperOfTheForest.Spells
 {
     /// <summary>
     /// The native carrier for the spellbook: a real <see cref="Ability"/> whose gizmos are the book
@@ -109,10 +109,12 @@ namespace WhisperOfTheForest.Experimental.Spells
             Pawn caster = pawn;
             GameComponent_Spellbook component = GameComponent_Spellbook.Current;
             int slot = component == null ? -1 : component.GetActiveSlot(caster);
-            SpellRecipe recipe = component?.GetSlot(slot);
+            SpellRecipe recipe = component?.GetSlot(caster, slot);
 
             if (recipe == null)
             {
+                // A spell kept in a slot the worn book does not open says so instead of looking empty.
+                bool sealedSpell = component != null && component.StoredSpellName(caster, slot) != null;
                 return new Command_Action
                 {
                     defaultLabel = SpellText.T("WotF_Spells.Gizmo.NoSpell"),
@@ -120,7 +122,9 @@ namespace WhisperOfTheForest.Experimental.Spells
                     icon = bookIconResolved ? bookIcon : ResolveIcon(),
                     action = delegate { SpellService.OpenSpellbook(caster); },
                     Disabled = true,
-                    disabledReason = SpellText.TF("WotF_Spells.Gizmo.NoSpellReason", slot + 1)
+                    disabledReason = sealedSpell
+                        ? SpellText.TF("WotF_Spells.Reason.SlotSealed", slot + 1)
+                        : SpellText.TF("WotF_Spells.Gizmo.NoSpellReason", slot + 1)
                 };
             }
 
@@ -192,7 +196,7 @@ namespace WhisperOfTheForest.Experimental.Spells
         {
             bookIconResolved = true;
             // The experiment's own icon is always shipped; glyph art belongs to the interface task.
-            bookIcon = ContentFinder<Texture2D>.Get("Experiments/UI/TechLabIcon", false);
+            bookIcon = ContentFinder<Texture2D>.Get("UI/TechLabIcon", false);
             return bookIcon;
         }
     }

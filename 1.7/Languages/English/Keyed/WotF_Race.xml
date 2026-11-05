@@ -3,5 +3,6 @@
 
   <WotF_Race.ManaFromLevel>Forest bloodline level {0}</WotF_Race.ManaFromLevel>
   <WotF_Race.EntropyFromLevel>Forest bloodline level {0}</WotF_Race.EntropyFromLevel>
+  <WotF_Race.EntropyRecoveryFromLevel>Forest bloodline level {0}</WotF_Race.EntropyRecoveryFromLevel>
 
 </LanguageData>

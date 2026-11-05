@@ -69,12 +69,12 @@
   <WotF_Augment_BreakArmor.label>破甲</WotF_Augment_BreakArmor.label>
   <WotF_Augment_BreakArmor.description>提高左侧伤害类效果的穿甲。</WotF_Augment_BreakArmor.description>
   <WotF_Augment_Pierce.label>穿透</WotF_Augment_Pierce.label>
-  <WotF_Augment_Pierce.description>让左侧的弹射物命中后继续飞行，可以再命中后方的目标；每次额外命中消耗一层穿透。</WotF_Augment_Pierce.description>
+  <WotF_Augment_Pierce.description>让左侧的弹射物命中后继续飞行，可以再命中后方的目标；每次额外命中消耗一层穿透。不能与分裂同用。</WotF_Augment_Pierce.description>
   <WotF_Augment_Accelerate.label>加速</WotF_Augment_Accelerate.label>
   <WotF_Augment_Accelerate.description>让左侧的弹射物飞得更快、环绕法球转得更快，或缩短滞留的施放间隔。</WotF_Augment_Accelerate.description>
   <WotF_Augment_Decelerate.label>减速</WotF_Augment_Decelerate.label>
   <WotF_Augment_Decelerate.description>让左侧的弹射物飞得更慢、环绕法球转得更慢，或拉长滞留的施放间隔。</WotF_Augment_Decelerate.description>
   <WotF_Augment_Split.label>分裂</WotF_Augment_Split.label>
-  <WotF_Augment_Split.description>为左侧的弹射物增加弹数，或为环绕形式多放一枚法球。</WotF_Augment_Split.description>
+  <WotF_Augment_Split.description>为左侧的弹射物增加弹数，或为环绕形式多放一枚法球。用在弹射物上时不能与穿透同用。</WotF_Augment_Split.description>
 
 </LanguageData>

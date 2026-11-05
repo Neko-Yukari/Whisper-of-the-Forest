@@ -4,6 +4,51 @@ Content here is kept for the record only: it is **not compiled and not loaded** 
 `Source/WhisperOfTheForest` only, and nothing under `_Deprecated` sits in a load folder), and it is not
 acceptance evidence. Each entry names its source and why it left.
 
+## 2026-11-05 - pierce follows the hit heading
+
+| Item | Source | Reason |
+| --- | --- | --- |
+| Through-line direction (impact point -> hit centre) in the pierce geometry | removed in place | The dart hits about one body radius from the centre, so the short line turned the continuation by about 11 degrees and it missed the pawn behind. The continuation now keeps the dart's heading. |
+| Name `SpellTriggerGeometry` | renamed to `Spells/SpellPierceGeometry.cs` | Only pierce uses it. The external segments harness the old name was kept for does not exist on this machine and predates the trigger removal. |
+
+## 2026-11-05 - one-way missile layer, single-segment plan, leaving Experiments
+
+| Item | Source | Reason |
+| --- | --- | --- |
+| `Source/WhisperOfTheForest/Missiles/ArcaneMissileImpactWorkers.cs` (`_Damage`, `_Heal`, `_Explode`) | `git mv` | Their only consumers were the removed standalone psycasts; spells deal damage through `Spells/SpellDamage.cs`. |
+| `ArcaneMissileImpactDef`, `ArcaneMissileImpactWorker`, `ArcaneMissileImpactMode`; `WotF_Impact_Damage`/`_Heal`/`_Explode`/`_SpellCast` Defs | removed in place (`Missiles/ArcaneMissileDefs.cs`, `Missiles.xml`, `Spellbook.xml`) | A hit now calls the volley's `IArcaneMissilePayload`, set by whoever fires it. The missile layer no longer names a spell type, so the Missiles <-> Spells cycle is gone. |
+| `ArcaneMissileSettings` C# defaults, `Clamp()`, `CreateDefault()`, `damageAmount`, `healAmount`, `explosionRadius`, `armorPenetration`, `damageDef`, `ignoreFlightLimits`, `spellPlan`, `spellSegmentIndex`; launcher `FireSpellSegment`, `SpawnVisualProbe`, default visual/impact resolution | removed in place | Numbers come only from the XML block and are checked by `ArcaneMissileSettings.ConfigErrors` at load; nothing corrects or invents a value at launch. `FireSpellSegment` became `FireFrom`. |
+| `SpellSegment`, `SpellCastPlan.segments` and its mirror fields, `SegmentAt`, `FirstSegmentOf`, `ExecuteSegment` | removed in place (`Spells/SpellPlan.cs`, `Spells/SpellExecutor.cs`) | Without the trigger rune a plan always had one segment; its fields now sit on `SpellCastPlan`. |
+| `Source/WhisperOfTheForest/Abilities/PlantGrowthEffect.cs`, `1.7/Languages/*/Keyed/WotF_Plants.xml` | `git mv` | Instant maturity left the design; only the lab `plants` command still read it (it now reports plain growth state). |
+| `Source/WhisperOfTheForest/Spells/Casting/GameComponent_RailgunCasts.cs` | `git mv` | The save-compat shell named an old class; with the namespace rename that name cannot resolve anyway. The lab status reads `GameComponent_SpellCasts.Current.Count`. |
+| `1.7/Defs/Experiments/`, `Textures/Experiments/`, namespace `WhisperOfTheForest.Experimental.*` | moved/renamed in place | Shipped content: Defs now in `Defs/Spells`, `Defs/Missiles`, `Defs/Movement`; textures one level up; namespaces are `WhisperOfTheForest.*`. Saves from before this change do not load their spell data. |
+
+## 2026-11-05 - shared spell tuning numbers and trigger code
+
+| Item | Source | Reason |
+| --- | --- | --- |
+| `SpellTuningDef.castRange`, `touchRange`, `missileSpeed`, `missileTurnDegreesPerSecond`, `missileCount`, `aoeBaseRadius`, `armorPenetration` | removed in place (`Spells/SpellGlyphs.cs`, `Spellbook.xml`) | Each number now lives on the glyph that owns it: `range` and the `<projectile>` block on the form, `radius` and `armorPenetration` on the effect. |
+| `SpellTuningDef.radiusCap`, `amountCap`, `amplifyCap` | removed in place | Silent caps; `amplifyCap` was never read. |
+| `SpellGlyphDef.width`, `angularSpeedDegrees`; orbit use of `radius`/`durationTicks` | removed in place | The orbit form's numbers are the `<orbit>` block (`Spells/SpellOrbitSpec.cs`). |
+| `SpellSegment.missileCount`, `missileSpeed`, `triggerOnHit`, `orbit*`; `SpellCastPlan.missileCount`, `missileSpeed` | removed in place (`Spells/SpellPlan.cs`) | Replaced by the copied `projectile` / `orbit` blocks. |
+| `SpellGlyphKind.Trigger`, `SpellTriggerService.Continue`, trigger grammar in `SpellCompiler`, `SpellDefs.TriggerOnHit`/`TriggerFleckDefName`, trigger language keys | removed in place; `SpellTriggerService.cs` renamed to `SpellPierceService.cs` | The trigger rune is gone; only pierce still relaunches a dart. `SpellTriggerGeometry` keeps its name for the external segments harness. |
+
+## 2026-11-05 - per-level bloodline Defs
+
+| Item | Source | Reason |
+| --- | --- | --- |
+| `1.7/Defs/Genes/ForestBloodlineLevels.xml` (`WotF_CasterLevel_1..6`) | `git mv` | The bloodline has 20 levels; its numbers are curves on `WotF_ForestBloodlineGeneDef` (`xpToNextLevelCurve`, `manaMaxCurve`, `entropyMaxCurve`, `entropyRecoveryFactorCurve`) plus the `psylinkUnlockLevels` ladder. The old table's xp and mana numbers became the first curve points. |
+| `1.7/Languages/*/DefInjected/WotF_CasterLevelDef/WotF_CasterLevels.xml` | `git mv` | Labels of the removed Defs. |
+| `WotF_CasterLevelDef`, `levelTable`, `Gene_ForestBloodline.LevelData` | removed in place (`Race/ForestBloodlineDefs.cs`, `Race/Gene_ForestBloodline.cs`) | Same reason. |
+
+## 2026-11-05 - psylink as the casting key
+
+| Item | Source | Reason |
+| --- | --- | --- |
+| `Source/WhisperOfTheForest/Race/Patch_HediffPsylink.cs` (`Patch_HediffPsylink_Bloodline`) | `git mv` | Casting now requires the forest bloodline gene, not a Royalty psylink. The patch only called `ApplyLegacyPsylinkLevel`, which never did anything: it returned when `level >= 1`, and `level` starts at 1 and is clamped to at least 1. |
+| `Gene_ForestBloodline.ApplyLegacyPsylinkLevel` and the `PostAdd` override that called it | removed in place (`Race/Gene_ForestBloodline.cs`) | Same reason. |
+| `WotF_Spells.Reason.NoPsylink` (both languages) | replaced in place by `WotF_Spells.Reason.NoBloodline` | The refusal reason follows the new key. |
+
 ## 2026-11-05 - railgun charge timer
 
 | Item | Source | Reason |

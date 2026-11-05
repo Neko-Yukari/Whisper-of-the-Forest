@@ -1,7 +1,7 @@
 using RimWorld;
 using Verse;
 
-namespace WhisperOfTheForest.Experimental.Movement
+namespace WhisperOfTheForest.Movement
 {
     /// <summary>
     /// Def names plus wearer checks for the two movement experiment apparels.

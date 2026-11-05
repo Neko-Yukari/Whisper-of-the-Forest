@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Verse;
 
-namespace WhisperOfTheForest.Experimental.Missiles
+namespace WhisperOfTheForest.Missiles
 {
     /// <summary>
     /// Map-scoped adapter for the arcane missiles. It owns no missile list and no visual: every

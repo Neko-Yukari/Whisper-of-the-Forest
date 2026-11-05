@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace WhisperOfTheForest.Experimental
+namespace WhisperOfTheForest
 {
     /// <summary>
     /// IMGUI-only page feedback: a glyph flying into the bar, a light band on a bookmark switch, a

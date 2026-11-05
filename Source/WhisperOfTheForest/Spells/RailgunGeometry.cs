@@ -1,6 +1,6 @@
 using System;
 
-namespace WhisperOfTheForest.Experimental.Spells
+namespace WhisperOfTheForest.Spells
 {
     /// <summary>
     /// The corridor math of the composite form, kept free of Verse and Unity types so it can be

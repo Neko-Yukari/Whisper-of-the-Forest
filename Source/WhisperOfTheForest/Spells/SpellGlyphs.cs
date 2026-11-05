@@ -1,18 +1,15 @@
 using System.Collections.Generic;
 using Verse;
+using WhisperOfTheForest.Missiles;
 
-namespace WhisperOfTheForest.Experimental.Spells
+namespace WhisperOfTheForest.Spells
 {
-    /// <summary>
-    /// The rune categories the book shows and the grammar understands. A Trigger rune is not carried
-    /// on its own: it ends the segment on its left and starts the next one, which must be a Form.
-    /// </summary>
+    /// <summary>The rune categories the book shows and the grammar understands.</summary>
     public enum SpellGlyphKind
     {
         Form,
         Effect,
-        Augment,
-        Trigger
+        Augment
     }
 
     /// <summary>
@@ -39,7 +36,10 @@ namespace WhisperOfTheForest.Experimental.Spells
         /// </summary>
         public bool requiresAmount = true;
 
-        /// <summary>Effect: base working radius. Augment AOE: radius added per stack.</summary>
+        /// <summary>
+        /// Effect: working radius - the blast of an explosion, the field of a linger, and the area an
+        /// AOE'd effect covers before its AOE stacks. Augment AOE: radius added per stack.
+        /// </summary>
         public float radius;
 
         /// <summary>Augment Amplify: multiplier per stack. Accelerate/Decelerate: speed multiplier.</summary>
@@ -59,10 +59,35 @@ namespace WhisperOfTheForest.Experimental.Spells
         public List<string> compatibleAugments;
 
         /// <summary>
+        /// Augments only: other augments that may not bind to the same rune as this one, by defName.
+        /// One side listing the other is enough; the compiler checks both directions.
+        /// </summary>
+        public List<string> excludesAugments;
+
+        /// <summary>
         /// Composite form payload: when set, this Form rune is a whole spell on its own - it needs no
         /// Effect and accepts none - and these numbers are what it casts. Null for every other rune.
         /// </summary>
         public SpellRailgunSpec railgun;
+
+        /// <summary>
+        /// Projectile and Touch forms: how far the caster may aim (projectile) or reach (touch), in
+        /// cells from the caster. Self and Orbit act around the caster and read no range.
+        /// </summary>
+        public float range;
+
+        /// <summary>
+        /// Projectile form: the dart's flight envelope, hit strategy and look. A Form carrying this is a
+        /// projectile; another projectile type is another form Def with its own block, not new code.
+        /// The payload numbers in it (damage, heal, radius) are unused: the arranged effects decide.
+        /// </summary>
+        public ArcaneMissileSettings projectile;
+
+        /// <summary>Orbit form: the orbs' count, distance, turn rate, touch radius and lifetime.</summary>
+        public SpellOrbitSpec orbit;
+
+        /// <summary>Damage effects: armour penetration of the damage they deal; Break Armor adds to it.</summary>
+        public float armorPenetration;
 
         /// <summary>
         /// Ticks this rune adds to a spell's three phases. They are summed along the whole chain when
@@ -76,20 +101,30 @@ namespace WhisperOfTheForest.Experimental.Spells
         public int recoveryTicks;
 
         /// <summary>
+        /// Mana and neural heat this rune adds to a spell's cost, and the bloodline experience it
+        /// adds to the reward. Summed and frozen like the timings; 0 means the rune costs nothing.
+        /// </summary>
+        public float manaCost;
+
+        public float entropyCost;
+
+        public float experience;
+
+        /// <summary>
+        /// True when the colony has to unlock this rune before anyone may arrange it. Unlocks are
+        /// shared by the whole colony (<see cref="GameComponent_Spellbook.Unlock"/>).
+        /// </summary>
+        public bool requiresUnlock;
+
+        /// <summary>
         /// How long the effect keeps lasting (Freeze, Snare, Hex, Ignite, Clotting, Magelight, a
-        /// Linger/Rune/Delay, an Orbit, or a sustained Harm). 0 means the rune has no duration of its
-        /// own; Extend/Shorten only ever turn a Harm into its sustained form.
+        /// Linger/Rune/Delay, or a sustained Harm). 0 means the rune has no duration of its own;
+        /// Extend/Shorten only ever turn a Harm into its sustained form.
         /// </summary>
         public int durationTicks;
 
-        /// <summary>Spacing between two pulses: sustained Harm, a Linger beat, an Orbit re-check.</summary>
+        /// <summary>Spacing between two pulses: sustained Harm, a Linger beat.</summary>
         public int pulseIntervalTicks;
-
-        /// <summary>Orbit: how close a pawn must pass to be touched.</summary>
-        public float width;
-
-        /// <summary>Orbit: turn rate in degrees per second.</summary>
-        public float angularSpeedDegrees;
 
         /// <summary>Cold Snap: damage multiplier against a target that is already slowed.</summary>
         public float vulnerableFactor;
@@ -114,6 +149,12 @@ namespace WhisperOfTheForest.Experimental.Spells
 
         /// <summary>True when this rune already carries its own effect (the composite form entry).</summary>
         public bool IsCompleteForm => railgun != null;
+
+        /// <summary>True when this augment declares <paramref name="augmentDefName"/> as mutually exclusive.</summary>
+        public bool ExcludesAugment(string augmentDefName)
+        {
+            return excludesAugments != null && excludesAugments.Contains(augmentDefName);
+        }
 
         /// <summary>True only when this glyph declares <paramref name="augmentDefName"/> as compatible.</summary>
         public bool AcceptsAugment(string augmentDefName)
@@ -146,9 +187,30 @@ namespace WhisperOfTheForest.Experimental.Spells
                 yield return "only a Form glyph may carry composite-form numbers";
             }
 
+            if (excludesAugments != null)
+            {
+                if (kind != SpellGlyphKind.Augment)
+                {
+                    yield return "only an Augment glyph may list excludesAugments";
+                }
+
+                foreach (string entry in excludesAugments)
+                {
+                    if (entry.NullOrEmpty() || entry == defName)
+                    {
+                        yield return "excludesAugments has an empty entry or names this glyph itself";
+                    }
+                }
+            }
+
             if (windupTicks < 0 || channelTicks < 0 || recoveryTicks < 0)
             {
                 yield return "cast timings windupTicks/channelTicks/recoveryTicks must not be negative";
+            }
+
+            if (manaCost < 0f || entropyCost < 0f || experience < 0f)
+            {
+                yield return "manaCost, entropyCost and experience must not be negative";
             }
 
             if (durationTicks < 0 || pulseIntervalTicks < 0)
@@ -156,9 +218,14 @@ namespace WhisperOfTheForest.Experimental.Spells
                 yield return "durationTicks and pulseIntervalTicks must not be negative";
             }
 
-            if (width < 0f || angularSpeedDegrees < 0f || glowRadius < 0f)
+            if (glowRadius < 0f || armorPenetration < 0f)
             {
-                yield return "width, angularSpeedDegrees and glowRadius must not be negative";
+                yield return "glowRadius and armorPenetration must not be negative";
+            }
+
+            if (kind != SpellGlyphKind.Form && (projectile != null || orbit != null || range > 0f))
+            {
+                yield return "only a Form glyph may carry range, projectile or orbit numbers";
             }
 
             if (vulnerableFactor < 0f || empAmount < 0f || perStackFactor < 0f || fireSize < 0f)
@@ -173,7 +240,7 @@ namespace WhisperOfTheForest.Experimental.Spells
 
             if (iconPath.NullOrEmpty())
             {
-                yield return "iconPath is empty; the book will fall back to Textures/Experiments/Spellbook/Glyphs/"
+                yield return "iconPath is empty; the book will fall back to Textures/Spellbook/Glyphs/"
                              + (defName.NullOrEmpty() ? "<defName>" : defName);
             }
 
@@ -211,27 +278,42 @@ namespace WhisperOfTheForest.Experimental.Spells
                         yield return "only an Effect glyph may set requiresAmount to false";
                     }
 
-                    if (defName == SpellDefs.FormOrbit)
+                    // The form kind is read from the data blocks; self and touch are the only forms
+                    // known by name.
+                    int blocks = (railgun != null ? 1 : 0) + (projectile != null ? 1 : 0) + (orbit != null ? 1 : 0);
+                    bool named = defName == SpellDefs.FormSelf || defName == SpellDefs.FormTouch;
+                    if (blocks + (named ? 1 : 0) != 1)
                     {
-                        if (radius <= 0f)
+                        yield return "a Form glyph must be self or touch, or carry exactly one projectile, orbit or railgun block";
+                    }
+
+                    bool aims = projectile != null || defName == SpellDefs.FormTouch;
+                    if (aims && range <= 0f)
+                    {
+                        yield return "a projectile or touch form needs a positive range";
+                    }
+                    else if (!aims && range != 0f)
+                    {
+                        yield return "only a projectile or touch form reads range";
+                    }
+
+                    if (projectile != null)
+                    {
+                        foreach (string error in projectile.ConfigErrors())
                         {
-                            yield return "the orbit form needs a positive radius (distance from the caster)";
+                            yield return "projectile: " + error;
                         }
 
-                        if (width <= 0f)
+                        if (projectile.maxRangeCells < range)
                         {
-                            yield return "the orbit form needs a positive width (touch radius)";
+                            yield return "a projectile's maxRangeCells must reach at least its aim range";
                         }
+                    }
 
-                        if (angularSpeedDegrees <= 0f)
-                        {
-                            yield return "the orbit form needs a positive angularSpeedDegrees";
-                        }
-
-                        if (durationTicks <= 0)
-                        {
-                            yield return "the orbit form needs a positive durationTicks";
-                        }
+                    if (orbit != null && (orbit.count < 1 || orbit.distance <= 0f || orbit.angularSpeedDegrees <= 0f
+                                          || orbit.hitRadius <= 0f || orbit.lifetimeTicks <= 0))
+                    {
+                        yield return "an orbit form needs a positive count, distance, angularSpeedDegrees, hitRadius and lifetimeTicks";
                     }
 
                     if (railgun != null)
@@ -273,6 +355,12 @@ namespace WhisperOfTheForest.Experimental.Spells
                         yield return "an Effect glyph must not define a negative radius";
                     }
 
+                    // AOE grows the effect's own radius; there is no shared base radius behind it.
+                    if (AcceptsAugment(SpellDefs.AugmentAoe) && radius <= 0f)
+                    {
+                        yield return "an Effect that accepts AOE needs a positive radius";
+                    }
+
                     break;
                 case SpellGlyphKind.Augment:
                     if (amount > 0f)
@@ -280,18 +368,36 @@ namespace WhisperOfTheForest.Experimental.Spells
                         yield return "an Augment glyph must not define an amount";
                     }
 
-                    if (!requiresAmount)
+                    // The compiler reads these numbers as written; there is no code default behind them.
+                    switch (defName)
                     {
-                        yield return "only an Effect glyph may set requiresAmount to false";
-                    }
+                        case SpellDefs.AugmentAmplify:
+                        case SpellDefs.AugmentDampen:
+                        case SpellDefs.AugmentExtend:
+                        case SpellDefs.AugmentShorten:
+                        case SpellDefs.AugmentBreakArmor:
+                        case SpellDefs.AugmentAccelerate:
+                        case SpellDefs.AugmentDecelerate:
+                            if (factor <= 0f)
+                            {
+                                yield return defName + " needs a positive factor";
+                            }
 
-                    break;
-                case SpellGlyphKind.Trigger:
-                    // A trigger rune only marks where one segment ends. Numbers on it would be read
-                    // by nobody, so they are a config error instead of a silent no-op.
-                    if (amount > 0f || factor > 0f || missiles > 0 || radius > 0f)
-                    {
-                        yield return "a Trigger glyph must not carry effect/augment numbers";
+                            break;
+                        case SpellDefs.AugmentAoe:
+                            if (radius <= 0f)
+                            {
+                                yield return defName + " needs a positive radius";
+                            }
+
+                            break;
+                        case SpellDefs.AugmentSplit:
+                            if (missiles <= 0)
+                            {
+                                yield return defName + " needs a positive missiles count";
+                            }
+
+                            break;
                     }
 
                     if (!requiresAmount)
@@ -305,23 +411,16 @@ namespace WhisperOfTheForest.Experimental.Spells
     }
 
     /// <summary>
-    /// Bounded defaults shared by every recipe: casting range, touch range, cooldown and the
-    /// projectile envelope a spell dart starts from. Kept in the mod's own XML so a balance pass
-    /// never needs a rebuild.
+    /// The few numbers that belong to the book and the caster rather than to any rune: chain length,
+    /// cooldown and channel movement. Everything a form or an effect owns lives on its glyph Def.
     /// </summary>
     public class SpellTuningDef : Def
     {
         /// <summary>Longest chain the book accepts; the UI shows the same value from this Def.</summary>
-        public int maxGlyphs = 10;
-
-        /// <summary>Casting range for Projectile and Touch forms, in cells, measured from the caster.</summary>
-        public float castRange = 24.9f;
-
-        /// <summary>Touch form only reaches cells this close (8-way neighbours and the caster's own cell).</summary>
-        public float touchRange = 1.45f;
+        public int maxGlyphs;
 
         /// <summary>Ticks between two casts by the same pawn; the only limiter in this experiment.</summary>
-        public int cooldownTicks = 120;
+        public int cooldownTicks;
 
         /// <summary>
         /// Movement speed during a cast's channel phase, as a fraction of normal speed. Windup is not
@@ -329,32 +428,8 @@ namespace WhisperOfTheForest.Experimental.Spells
         /// </summary>
         public float channelMoveSpeedFactor;
 
-        /// <summary>Base missile speed for a spell dart before Accelerate/Decelerate.</summary>
-        public float missileSpeed = 16f;
-
-        /// <summary>How fast a spell dart may turn, in degrees per second.</summary>
-        public float missileTurnDegreesPerSecond = 300f;
-
-        /// <summary>Missiles per cast before Split.</summary>
-        public int missileCount = 1;
-
-        /// <summary>Hard cap on missiles after Split.</summary>
-        public int maxMissiles = 5;
-
-        /// <summary>Base radius of an AOE'd Harm/Heal effect.</summary>
-        public float aoeBaseRadius = 1.9f;
-
-        /// <summary>Hard cap on any effect radius after AOE.</summary>
-        public float radiusCap = 6f;
-
-        /// <summary>Hard cap on the total Amplify multiplier applied to one effect.</summary>
-        public float amplifyCap = 5f;
-
-        /// <summary>Absolute damage/heal ceiling after Amplify.</summary>
-        public float amountCap = 200f;
-
-        /// <summary>Armour penetration of every spell damage/explosion source.</summary>
-        public float armorPenetration = 0.5f;
+        /// <summary>Hard cap on darts or orbs after Split.</summary>
+        public int maxMissiles;
 
         public override IEnumerable<string> ConfigErrors()
         {
@@ -368,11 +443,6 @@ namespace WhisperOfTheForest.Experimental.Spells
                 yield return "maxGlyphs must be at least 1";
             }
 
-            if (castRange <= 0f || touchRange <= 0f)
-            {
-                yield return "castRange and touchRange must be positive";
-            }
-
             if (cooldownTicks < 0)
             {
                 yield return "cooldownTicks must not be negative";
@@ -383,9 +453,9 @@ namespace WhisperOfTheForest.Experimental.Spells
                 yield return "channelMoveSpeedFactor must be greater than 0 and at most 1";
             }
 
-            if (missileCount < 1 || maxMissiles < missileCount)
+            if (maxMissiles < 1)
             {
-                yield return "missileCount must be at least 1 and maxMissiles must not be below it";
+                yield return "maxMissiles must be at least 1";
             }
         }
     }
@@ -434,14 +504,8 @@ namespace WhisperOfTheForest.Experimental.Spells
         public const string AugmentBreakArmor = "WotF_Augment_BreakArmor";
         public const string AugmentPierce = "WotF_Augment_Pierce";
 
-        /// <summary>Trigger rune: the segment on its left continues after a real hit.</summary>
-        public const string TriggerOnHit = "WotF_Trigger_OnHit";
-
-        /// <summary>Ring fleck played where a trigger hands over to the next segment.</summary>
-        public const string TriggerFleckDefName = "WotF_Fleck_TriggerRing";
-
-        /// <summary>Receiver of a spell projectile's payload.</summary>
-        public const string SpellImpactDefName = "WotF_Impact_SpellCast";
+        /// <summary>The damage type of every damaging spell.</summary>
+        public const string ArcaneForceDamageDefName = "WotF_ArcaneMissileDamage";
 
         /// <summary>Carrier ability that puts the book and the cast gizmos on an eligible pawn.</summary>
         public const string CastAbilityDefName = "WotF_SpellbookCast";
@@ -449,28 +513,18 @@ namespace WhisperOfTheForest.Experimental.Spells
         public const string TuningDefName = "WotF_SpellTuning";
 
         /// <summary>Texture convention for glyph icons owned by the interface task.</summary>
-        public const string GlyphTextureFolder = "Experiments/Spellbook/Glyphs/";
+        public const string GlyphTextureFolder = "Spellbook/Glyphs/";
 
         public static SpellGlyphDef Glyph(string defName)
         {
             return defName.NullOrEmpty() ? null : DefDatabase<SpellGlyphDef>.GetNamedSilentFail(defName);
         }
 
-        /// <summary>Tuning Def, or documented in-code defaults when the XML is missing.</summary>
-        public static SpellTuningDef Tuning
-        {
-            get
-            {
-                SpellTuningDef def = DefDatabase<SpellTuningDef>.GetNamedSilentFail(TuningDefName);
-                if (def == null)
-                {
-                    SpellDiagnostics.ErrorOnce("tuning def " + TuningDefName + " is missing; using built-in defaults.");
-                    return new SpellTuningDef();
-                }
-
-                return def;
-            }
-        }
+        /// <summary>
+        /// The tuning Def, or null when the XML is missing. There is no in-code fallback: the spell
+        /// entries (compile, book, ability grant) refuse service instead.
+        /// </summary>
+        public static SpellTuningDef Tuning => DefDatabase<SpellTuningDef>.GetNamedSilentFail(TuningDefName);
 
         public static string IconPathFor(SpellGlyphDef glyph)
         {

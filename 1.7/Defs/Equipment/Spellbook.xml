@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    The spellbook as a worn item.
+
+    It has its own apparel layer, so it never competes with a shield belt or any other utility
+    item for the waist. Casting needs the forest bloodline and a worn book (SpellService). The
+    book's extension sets how many of the wearer's own spell slots are open; slots beyond that
+    keep their spells sealed until a book with more slots is worn again. Its mana numbers are
+    ordinary equippedStatOffsets on the bloodline stats.
+
+    Numbers are placeholders; how books are obtained and graded is still open.
+  -->
+  <ApparelLayerDef>
+    <defName>WotF_SpellbookLayer</defName>
+    <label>spellbook</label>
+    <drawOrder>310</drawOrder>
+  </ApparelLayerDef>
+
+  <ThingDef ParentName="ApparelBase">
+    <defName>WotF_Spellbook_Basic</defName>
+    <label>spellbook</label>
+    <description>A forest spellbook worn at the hip. In forest-blooded hands it holds the caster's spells and deepens their mana; to anyone else it is only paper.</description>
+    <thingClass>Apparel</thingClass>
+    <techLevel>Medieval</techLevel>
+    <graphicData>
+      <texPath>Spellbook/BookCover</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <Mass>1</Mass>
+      <MarketValue>300</MarketValue>
+      <Flammability>1</Flammability>
+      <EquipDelay>1</EquipDelay>
+    </statBases>
+    <!-- Paper and binding: nothing to smelt back. -->
+    <smeltable>false</smeltable>
+    <equippedStatOffsets>
+      <WotF_ManaMax>20</WotF_ManaMax>
+      <WotF_ManaRegen>0.5</WotF_ManaRegen>
+    </equippedStatOffsets>
+    <thingCategories>
+      <li>ApparelUtility</li>
+    </thingCategories>
+    <apparel>
+      <countsAsClothingForNudity>false</countsAsClothingForNudity>
+      <careIfWornByCorpse>false</careIfWornByCorpse>
+      <careIfDamaged>false</careIfDamaged>
+      <wearPerDay>0</wearPerDay>
+      <bodyPartGroups>
+        <li>Waist</li>
+      </bodyPartGroups>
+      <layers>
+        <li>WotF_SpellbookLayer</li>
+      </layers>
+      <developmentalStageFilter>Adult</developmentalStageFilter>
+    </apparel>
+    <modExtensions>
+      <li Class="WhisperOfTheForest.Spells.SpellbookExtension">
+        <slotCount>10</slotCount>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+</Defs>

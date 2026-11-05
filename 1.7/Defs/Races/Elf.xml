@@ -318,6 +318,9 @@
     <race>WotF_Elf</race>
     <defaultFactionDef>PlayerColony</defaultFactionDef>
     <initialResistanceRange>13~21</initialResistanceRange>
+    <apparelRequired>
+      <li>WotF_Spellbook_Basic</li>
+    </apparelRequired>
   </PawnKindDef>
 
 </Defs>

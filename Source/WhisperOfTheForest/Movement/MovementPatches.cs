@@ -5,7 +5,7 @@ using RimWorld;
 using Verse;
 using Verse.AI;
 
-namespace WhisperOfTheForest.Experimental.Movement
+namespace WhisperOfTheForest.Movement
 {
     /// <summary>
     /// TerrainStride: the cell base cost passed to <see cref="PathGrid.CalculatedCostAt"/>

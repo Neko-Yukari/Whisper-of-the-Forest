@@ -6,8 +6,9 @@
 
     WotF_ManaMax is the mana bar's capacity. It has no base value: the level's contribution is a
     StatPart, so a spellbook, a staff or a potion later only has to add another modifier to the same
-    stat. PsychicEntropyMax is the vanilla neural-heat limit; the same level contribution is
-    attached to it in C# (see StatPart_ForestBloodline) because it is a Core Def.
+    stat. PsychicEntropyMax and PsychicEntropyRecoveryRate are the vanilla neural-heat stats; the
+    level's contribution is attached to them in C# (see StatPart_ForestBloodline) because they are
+    Core Defs.
   -->
 
   <StatDef>
@@ -23,8 +24,27 @@
     <showOnMechanoids>false</showOnMechanoids>
     <showOnDrones>false</showOnDrones>
     <parts>
-      <li Class="WhisperOfTheForest.Experimental.Race.StatPart_ForestBloodlineMana" />
+      <li Class="WhisperOfTheForest.Race.StatPart_ForestBloodlineMana" />
     </parts>
+  </StatDef>
+
+  <!--
+    Mana restored per second. No base value: the bloodline gene's statOffsets give the base, a
+    spellbook adds to it and a hex halves it, all as ordinary stat modifiers.
+  -->
+  <StatDef>
+    <defName>WotF_ManaRegen</defName>
+    <label>mana recovery</label>
+    <description>How much mana a forest bloodline caster recovers per second.</description>
+    <category>Basics</category>
+    <defaultBaseValue>0</defaultBaseValue>
+    <minValue>0</minValue>
+    <hideAtValue>0</hideAtValue>
+    <toStringStyle>FloatTwo</toStringStyle>
+    <formatString>{0}/s</formatString>
+    <showOnAnimals>false</showOnAnimals>
+    <showOnMechanoids>false</showOnMechanoids>
+    <showOnDrones>false</showOnDrones>
   </StatDef>
 
 </Defs>

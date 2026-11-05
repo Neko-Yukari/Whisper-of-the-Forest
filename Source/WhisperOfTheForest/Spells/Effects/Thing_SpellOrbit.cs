@@ -3,7 +3,7 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 
-namespace WhisperOfTheForest.Experimental.Spells
+namespace WhisperOfTheForest.Spells
 {
     /// <summary>
     /// The Orbit form's projectile: one small Thing that circles its caster and applies its frozen
@@ -27,15 +27,15 @@ namespace WhisperOfTheForest.Experimental.Spells
         /// <summary>Thing ids this orb already touched; one hit per pawn per orb.</summary>
         private List<int> hitThingIds = new List<int>();
 
-        public void Configure(Pawn caster, SpellSegment segment, float startAngleDegrees)
+        public void Configure(Pawn caster, SpellCastPlan plan, float startAngleDegrees)
         {
             this.caster = caster;
-            payload = SpellExecutor.CopySteps(segment.steps);
-            distance = segment.orbitDistance;
-            degreesPerSecond = segment.orbitSpeedDegrees;
-            hitRadius = segment.orbitHitRadius;
+            payload = SpellExecutor.CopySteps(plan.steps);
+            distance = plan.orbit.distance;
+            degreesPerSecond = plan.orbit.angularSpeedDegrees;
+            hitRadius = plan.orbit.hitRadius;
             angleDegrees = startAngleDegrees;
-            expiresTick = Find.TickManager.TicksGame + segment.orbitLifetimeTicks;
+            expiresTick = Find.TickManager.TicksGame + plan.orbit.lifetimeTicks;
             PlaceAroundCaster();
         }
 

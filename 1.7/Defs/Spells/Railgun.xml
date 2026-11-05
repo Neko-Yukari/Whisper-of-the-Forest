@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    The railgun experiment (Experiments/railgun.md).
+
+    Two Defs live here and they are deliberately unaware of each other's internals:
+      1. WotF_Form_Railgun      - a Form rune that is a whole spell on its own. It carries the spell
+                                  numbers (damage, width, range, charge) and the name of the visual
+                                  effect it wants; it carries no look.
+      2. WotF_Vfx_Railgun       - the visual effect. Beam and core widths, the two colour layers,
+                                  the arcs, the afterglow and the screen darkening are all here.
+
+    The darkening is drawn by the effect itself as one full-viewport tinted quad during the game's
+    GUI pass. It never samples the composited frame, so it cannot mirror the picture, and it is sized
+    in device pixels, so it cannot cover only part of the viewport. There is no screen ShaderDef here.
+
+    The spell layer reaches the effect only through a semantic VfxRequest (origin, direction, length,
+    width, charge ticks); it never creates a GameObject, a material, a particle or an EfxClip.
+  -->
+
+  <!-- ============================================================ The rune -->
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Form_Railgun</defName>
+    <label>railgun</label>
+    <description>A single rune that is a complete spell: it charges for a moment and then fires one straight shot through everything in its path, walls and mountains included. Nobody in the line is spared, the caster excepted.</description>
+    <kind>Form</kind>
+    <!-- A composite form is already complete: no effect, augment or trigger rune may follow it. -->
+    <compatibleAugments />
+    <!--
+      The charge is this rune's channel: windup 0 means the orb starts forming the moment the player
+      releases the cast, 90 ticks later the corridor resolves, and the caster is rooted for the
+      recovery that follows. The three fields work like every other rune's (Spellbook.xml).
+    -->
+    <windupTicks>0</windupTicks>
+    <channelTicks>90</channelTicks>
+    <recoveryTicks>25</recoveryTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Form_Railgun</iconPath>
+    <!--
+      Spell numbers only. damage is a placeholder value from the experiment sheet, not a balance
+      conclusion; hitWidth is the full corridor width (2.5 cells). range 0 means the whole map: the
+      shot is clipped only by the map edge, so the player can aim at any visible cell. The delay
+      between the cast and the damage is the channel above, not a number here.
+    -->
+    <railgun>
+      <damage>120</damage>
+      <armorPenetration>0.5</armorPenetration>
+      <hitWidth>2.5</hitWidth>
+      <range>0</range>
+      <vfxDef>WotF_Vfx_Railgun</vfxDef>
+    </railgun>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <!-- ============================================================ The effect -->
+
+  <WhisperOfTheForest.Vfx.RailgunVfxDef>
+    <defName>WotF_Vfx_Railgun</defName>
+    <label>railgun effect</label>
+    <workerClass>WhisperOfTheForest.Vfx.RailgunVfxWorker</workerClass>
+    <!-- The shot owns its clock: it plays for its own fixed duration and ends by itself. -->
+    <lifetime>FixedDuration</lifetime>
+    <!-- Beam: a white-hot core inside a wider warm glow, both drawn above the darkening pass. -->
+    <coreWidthCells>0.55</coreWidthCells>
+    <coreColor>#FFFDF2</coreColor>
+    <glowWidthCells>2.5</glowWidthCells>
+    <glowColor>#FFB347</glowColor>
+    <beamHeight>1.2</beamHeight>
+    <!-- Timing: the beam holds, fades, then leaves a narrowing band behind. -->
+    <beamHoldSeconds>0.45</beamHoldSeconds>
+    <beamFadeSeconds>0.35</beamFadeSeconds>
+    <afterglowSeconds>1.6</afterglowSeconds>
+    <afterglowWidthCells>3.4</afterglowWidthCells>
+    <afterglowColor>#FF9A3C</afterglowColor>
+    <!-- Arcs: a few jittered filaments along the beam, re-rolled about 22 times per second. -->
+    <arcColor>#FFE2B0</arcColor>
+    <arcCount>3</arcCount>
+    <arcWidthCells>0.09</arcWidthCells>
+    <arcAmplitudeCells>0.7</arcAmplitudeCells>
+    <arcFps>22</arcFps>
+    <!-- Darkening: the map drops away for a moment so the beam is the only light left.
+         Peak alpha of the full-viewport tint; 0 disables it. -->
+    <darkenStrength>0.62</darkenStrength>
+    <darkenTint>#120B04</darkenTint>
+    <darkenInSeconds>0.05</darkenInSeconds>
+    <darkenHoldSeconds>0.22</darkenHoldSeconds>
+    <darkenOutSeconds>0.55</darkenOutSeconds>
+    <!-- Charge: an orb at the caster that brightens and pulses while the shot is gathering. -->
+    <chargeRadiusCells>1.1</chargeRadiusCells>
+    <chargeColor>#FFD9A0</chargeColor>
+    <chargePulseHz>3.2</chargePulseHz>
+  </WhisperOfTheForest.Vfx.RailgunVfxDef>
+
+</Defs>

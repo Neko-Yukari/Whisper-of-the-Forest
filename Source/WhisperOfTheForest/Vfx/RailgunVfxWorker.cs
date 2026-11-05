@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Verse;
 
-namespace WhisperOfTheForest.Experimental.Vfx
+namespace WhisperOfTheForest.Vfx
 {
     /// <summary>
     /// The railgun effect: a charging orb at the caster, then one full-length beam with a bright core,

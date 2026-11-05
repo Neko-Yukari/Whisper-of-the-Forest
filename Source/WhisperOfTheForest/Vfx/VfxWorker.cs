@@ -1,4 +1,4 @@
-namespace WhisperOfTheForest.Experimental.Vfx
+namespace WhisperOfTheForest.Vfx
 {
     /// <summary>
     /// One running visual effect. <see cref="VfxService"/> creates it, <see cref="MapComponent_Vfx"/>

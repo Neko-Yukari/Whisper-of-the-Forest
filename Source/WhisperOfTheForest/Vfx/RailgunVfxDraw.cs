@@ -4,7 +4,7 @@ using System.Globalization;
 using UnityEngine;
 using Verse;
 
-namespace WhisperOfTheForest.Experimental.Vfx
+namespace WhisperOfTheForest.Vfx
 {
     /// <summary>
     /// Drawing for the railgun worker: the two procedural textures, the shared additive material and

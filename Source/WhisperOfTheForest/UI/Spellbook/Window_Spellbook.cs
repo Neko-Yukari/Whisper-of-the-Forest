@@ -1,9 +1,9 @@
 using RimWorld;
 using UnityEngine;
 using Verse;
-using WhisperOfTheForest.Experimental.Spells;
+using WhisperOfTheForest.Spells;
 
-namespace WhisperOfTheForest.Experimental
+namespace WhisperOfTheForest
 {
     /// <summary>
     /// The two-page magic book: rune catalogue on the left page, the spell bar on the right page,
@@ -48,6 +48,7 @@ namespace WhisperOfTheForest.Experimental
 
         /// <summary>What "create" would freeze for the bar as it stands (the same derivation the slot uses).</summary>
         private SpellTiming barTiming;
+        private SpellCost barCost;
 
         public Window_Spellbook(Pawn caster)
         {
@@ -143,7 +144,7 @@ namespace WhisperOfTheForest.Experimental
             // used one (or slot 1 when the book is empty).
             GameComponent_Spellbook component = GameComponent_Spellbook.Current;
             activeSlot = component == null ? -1 : component.GetActiveSlot(caster);
-            if (activeSlot < 0 || activeSlot >= GameComponent_Spellbook.SlotCount)
+            if (!GameComponent_Spellbook.IsSlotOpen(caster, activeSlot))
             {
                 activeSlot = FirstUsedSlot();
                 component?.SetActiveSlot(caster, activeSlot);
@@ -170,6 +171,13 @@ namespace WhisperOfTheForest.Experimental
         {
             if (index < 0 || index >= GameComponent_Spellbook.SlotCount)
             {
+                return;
+            }
+
+            if (!GameComponent_Spellbook.IsSlotOpen(caster, index))
+            {
+                anim.Shake();
+                SetStatus(TF("WotF_Spells.Reason.SlotSealed", index + 1), true);
                 return;
             }
 
@@ -220,6 +228,7 @@ namespace WhisperOfTheForest.Experimental
 
             chainValid = SpellService.Validate(chain.ToRecipe(), out chainReason);
             barTiming = SpellTiming.Derive(chain.glyphs);
+            barCost = SpellCost.Derive(chain.glyphs);
 
             castable = false;
             SpellRecipe saved = SavedRecipe(slot);
@@ -308,12 +317,17 @@ namespace WhisperOfTheForest.Experimental
                 Rect tab = SpellbookLayout.BookmarkTab(rect, i, GameComponent_Spellbook.SlotCount);
                 bool selected = i == activeSlot;
                 bool used = !slotNames[i].NullOrEmpty();
+                bool open = GameComponent_Spellbook.IsSlotOpen(caster, i);
                 bool over = Mouse.IsOver(tab);
 
                 Rect ribbon = selected ? tab : new Rect(tab.x + tuck, tab.y, tab.width - tuck, tab.height);
                 Color cloth = selected ? SpellbookStyle.RibbonActive
                     : used ? SpellbookStyle.RibbonUsed
                     : SpellbookStyle.RibbonEmpty;
+                if (!open)
+                {
+                    cloth = SpellbookStyle.Fade(cloth, SpellbookStyle.BlockedAlpha);
+                }
                 if (over && !selected)
                 {
                     cloth = SpellbookStyle.Lighten(cloth, 0.15f);
@@ -341,9 +355,11 @@ namespace WhisperOfTheForest.Experimental
                         slotIcons[i], Color.white);
                 }
 
-                string tip = TF("WotF_Spellbook.SlotTitle", i + 1) + " · " +
-                             (used ? TF("WotF_Spellbook.SlotTooltipUsed", slotNames[i]) : T("WotF_Spellbook.SlotEmpty"))
-                             + "\n" + T("WotF_Spellbook.SwitchBookmark");
+                string tip = !open
+                    ? TF("WotF_Spellbook.SlotTitle", i + 1) + " · " + TF("WotF_Spells.Reason.SlotSealed", i + 1)
+                    : TF("WotF_Spellbook.SlotTitle", i + 1) + " · " +
+                      (used ? TF("WotF_Spellbook.SlotTooltipUsed", slotNames[i]) : T("WotF_Spellbook.SlotEmpty"))
+                      + "\n" + T("WotF_Spellbook.SwitchBookmark");
                 TooltipHandler.TipRegion(tab, tip);
 
                 if (Widgets.ButtonInvisible(tab, true))
@@ -387,7 +403,7 @@ namespace WhisperOfTheForest.Experimental
 
             // No overwrite prompt: the bar is written straight into the current slot.
             string reason;
-            if (!component.SaveSlot(slot, chain.ToRecipe(), out reason))
+            if (!component.SaveSlot(caster, slot, chain.ToRecipe(), out reason))
             {
                 anim.Shake();
                 SetStatus(TF("WotF_Spellbook.CreateRefused", ReasonOrUnknown(reason)), true);
@@ -435,7 +451,7 @@ namespace WhisperOfTheForest.Experimental
                 return;
             }
 
-            component.ClearSlot(slot);
+            component.ClearSlot(caster, slot);
             RefreshSlotNames();
             activeSlot = component.GetActiveSlot(caster);
             LoadChainFromSlot();
@@ -475,7 +491,7 @@ namespace WhisperOfTheForest.Experimental
                 return null;
             }
 
-            return component.GetSlot(index);
+            return component.GetSlot(caster, index);
         }
 
         private void RefreshSlotNames()
@@ -483,7 +499,7 @@ namespace WhisperOfTheForest.Experimental
             GameComponent_Spellbook component = GameComponent_Spellbook.Current;
             for (int i = 0; i < slotNames.Length; i++)
             {
-                SpellRecipe recipe = component?.GetSlot(i);
+                SpellRecipe recipe = component?.GetSlot(caster, i);
                 slotNames[i] = recipe?.name;
                 slotIcons[i] = recipe != null && recipe.glyphs != null && recipe.glyphs.Count > 0
                     ? SpellbookStyle.GlyphIcon(SpellDefs.Glyph(recipe.glyphs[0]))

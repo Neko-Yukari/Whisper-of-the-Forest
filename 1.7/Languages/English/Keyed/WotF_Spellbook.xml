@@ -18,7 +18,6 @@
   <WotF_Spellbook.KindForm>Form</WotF_Spellbook.KindForm>
   <WotF_Spellbook.KindEffect>Effect</WotF_Spellbook.KindEffect>
   <WotF_Spellbook.KindAugment>Augment</WotF_Spellbook.KindAugment>
-  <WotF_Spellbook.KindTrigger>Trigger</WotF_Spellbook.KindTrigger>
 
   <WotF_Spellbook.FieldName>Spell name</WotF_Spellbook.FieldName>
   <WotF_Spellbook.ChainHeader>Spell bar {0}/{1}</WotF_Spellbook.ChainHeader>
@@ -31,6 +30,8 @@
   <WotF_Spellbook.NoSelection>Hover a glyph in the catalogue or in the bar to read it here. Click a catalogue glyph to add it; click a glyph in the bar to remove it.</WotF_Spellbook.NoSelection>
   <WotF_Spellbook.Timing>Windup {0}s · Channel {1}s · Recovery {2}s</WotF_Spellbook.Timing>
   <WotF_Spellbook.TimingTip>Cast time that Create freezes into the slot: windup {0} ticks, channel {1} ticks, recovery {2} ticks (60 ticks = 1 second). Every glyph adds its own share. The caster may walk during windup, is slowed while channelling and stands still during recovery.</WotF_Spellbook.TimingTip>
+  <WotF_Spellbook.Cost>mana {0} · neural heat {1}</WotF_Spellbook.Cost>
+  <WotF_Spellbook.Experience>experience {0}</WotF_Spellbook.Experience>
   <WotF_Spellbook.GlyphTiming>+{0}s / +{1}s / +{2}s (windup/channel/recovery)</WotF_Spellbook.GlyphTiming>
   <WotF_Spellbook.ClickToRemove>Click to remove: {0}</WotF_Spellbook.ClickToRemove>
 

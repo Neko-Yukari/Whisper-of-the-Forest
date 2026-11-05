@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using Verse;
-using WhisperOfTheForest.Experimental.Spells;
+using WhisperOfTheForest.Spells;
 
-namespace WhisperOfTheForest.Experimental
+namespace WhisperOfTheForest
 {
     /// <summary>
     /// The spell bar: the glyph sequence being composed for the current slot, plus the name typed

@@ -69,12 +69,12 @@
   <WotF_Augment_BreakArmor.label>break armor</WotF_Augment_BreakArmor.label>
   <WotF_Augment_BreakArmor.description>Adds armour penetration to the damage effect on its left.</WotF_Augment_BreakArmor.description>
   <WotF_Augment_Pierce.label>pierce</WotF_Augment_Pierce.label>
-  <WotF_Augment_Pierce.description>Lets the projectile on its left keep flying after a hit. Each extra hit spends one pierce.</WotF_Augment_Pierce.description>
+  <WotF_Augment_Pierce.description>Lets the projectile on its left keep flying after a hit. Each extra hit spends one pierce. Cannot be combined with split.</WotF_Augment_Pierce.description>
   <WotF_Augment_Accelerate.label>accelerate</WotF_Augment_Accelerate.label>
   <WotF_Augment_Accelerate.description>Faster projectile, faster orbit, or a shorter Linger interval.</WotF_Augment_Accelerate.description>
   <WotF_Augment_Decelerate.label>decelerate</WotF_Augment_Decelerate.label>
   <WotF_Augment_Decelerate.description>Slower projectile, slower orbit, or a longer Linger interval.</WotF_Augment_Decelerate.description>
   <WotF_Augment_Split.label>split</WotF_Augment_Split.label>
-  <WotF_Augment_Split.description>Adds more darts to the projectile on its left, or one more orb to an orbit.</WotF_Augment_Split.description>
+  <WotF_Augment_Split.description>Adds more darts to the projectile on its left, or one more orb to an orbit. On a projectile it cannot be combined with pierce.</WotF_Augment_Split.description>
 
 </LanguageData>

@@ -1,6 +1,6 @@
 using Verse;
 
-namespace WhisperOfTheForest.Experimental
+namespace WhisperOfTheForest
 {
     /// <summary>Profile-wide settings of the mod. Only what outlives a session belongs here.</summary>
     public class WotfSettings : ModSettings

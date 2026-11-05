@@ -3,5 +3,7 @@
 
   <WotF_ManaMax.label>mana capacity</WotF_ManaMax.label>
   <WotF_ManaMax.description>The maximum mana a forest bloodline caster can hold. The bloodline level sets the base amount and equipment can add to it.</WotF_ManaMax.description>
+  <WotF_ManaRegen.label>mana recovery</WotF_ManaRegen.label>
+  <WotF_ManaRegen.description>How much mana a forest bloodline caster recovers per second.</WotF_ManaRegen.description>
 
 </LanguageData>

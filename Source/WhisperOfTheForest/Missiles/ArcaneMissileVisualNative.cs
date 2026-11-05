@@ -1,9 +1,9 @@
 using System;
 using RimWorld;
 using Verse;
-using WhisperOfTheForest.Experimental.Vfx;
+using WhisperOfTheForest.Vfx;
 
-namespace WhisperOfTheForest.Experimental.Missiles
+namespace WhisperOfTheForest.Missiles
 {
     /// <summary>
     /// Native backend for one flying missile: no GameObject at all. It drops vanilla glow flecks along

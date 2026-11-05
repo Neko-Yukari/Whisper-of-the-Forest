@@ -2,7 +2,7 @@ using System;
 using HarmonyLib;
 using Verse;
 
-namespace WhisperOfTheForest.Experimental
+namespace WhisperOfTheForest
 {
     /// <summary>
     /// Single entry point for the experiment assembly. Patches Harmony exactly once so feature
@@ -24,13 +24,18 @@ namespace WhisperOfTheForest.Experimental
 
             initialized = true;
 
-            // Command-line configuration must not depend on a loaded game.
+#if WOTF_LAB
+            // Command-line configuration must not depend on a loaded game. The lab is not part of
+            // a release build, so neither is this call.
             LabHost.ConfigureFromCommandLine();
+#endif
 
             try
             {
                 new Harmony(HarmonyId).PatchAll();
+#if WOTF_LAB
                 LabHost.MarkHarmonyPatched();
+#endif
                 WotfLog.Info(WotfLog.ModuleBoot, "Harmony patched with id " + HarmonyId);
             }
             catch (Exception exception)
@@ -41,6 +46,7 @@ namespace WhisperOfTheForest.Experimental
         }
     }
 
+#if WOTF_LAB
     [HarmonyPatch(typeof(Root_Play), nameof(Root_Play.Update))]
     internal static class Patch_RootPlay_Update
     {
@@ -50,4 +56,5 @@ namespace WhisperOfTheForest.Experimental
             LabHost.OnMainThreadUpdate();
         }
     }
+#endif
 }

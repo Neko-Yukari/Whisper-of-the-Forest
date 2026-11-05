@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using RimWorld;
 using Verse;
-using WhisperOfTheForest.Experimental.Missiles;
+using WhisperOfTheForest.Missiles;
 
-namespace WhisperOfTheForest.Experimental.Spells
+namespace WhisperOfTheForest.Spells
 {
     /// <summary>
     /// Startup wiring for the spellbook: normalises the carrier AbilityDef and reports a broken
@@ -54,7 +54,7 @@ namespace WhisperOfTheForest.Experimental.Spells
             if (tuning == null)
             {
                 SpellDiagnostics.Error("tuning def " + SpellDefs.TuningDefName
-                                       + " is missing; spells fall back to built-in defaults.");
+                                       + " is missing; spells are disabled.");
             }
 
             string[] required =
@@ -107,10 +107,10 @@ namespace WhisperOfTheForest.Experimental.Spells
                 }
             }
 
-            if (DefDatabase<ArcaneMissileImpactDef>.GetNamedSilentFail(SpellDefs.SpellImpactDefName) == null)
+            if (DefDatabase<DamageDef>.GetNamedSilentFail(SpellDefs.ArcaneForceDamageDefName) == null)
             {
-                SpellDiagnostics.Error("impact def " + SpellDefs.SpellImpactDefName
-                                       + " is missing; projectile spells cannot be cast.");
+                SpellDiagnostics.Error("damage def " + SpellDefs.ArcaneForceDamageDefName
+                                       + " is missing; every damaging spell skips its hit.");
             }
         }
     }

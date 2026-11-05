@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Verse;
 
-namespace WhisperOfTheForest.Experimental.Movement
+namespace WhisperOfTheForest.Movement
 {
     /// <summary>
     /// Read-only snapshot of one pawn's movement experiment counters. Used by in-game

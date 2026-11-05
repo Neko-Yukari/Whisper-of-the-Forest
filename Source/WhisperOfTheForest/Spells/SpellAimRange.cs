@@ -1,12 +1,11 @@
-namespace WhisperOfTheForest.Experimental.Spells
+namespace WhisperOfTheForest.Spells
 {
     /// <summary>
     /// The one aim-distance rule: how far from the caster a compiled spell may still be aimed.
     ///
     /// A limit of 0 or less means the whole map - only the map edge stops the aim. That is how a
-    /// composite form declares an unlimited aim (<see cref="SpellRailgunSpec.range"/>); every other
-    /// form passes the bounded <see cref="SpellTuningDef.castRange"/>, so they keep the 24.9 cells
-    /// they always had. Keeping the decision here means the targeter and the cast service cannot
+    /// composite form declares an unlimited aim (<see cref="SpellRailgunSpec.range"/>); a projectile
+    /// passes the bounded <see cref="SpellGlyphDef.range"/> of its form Def. Keeping the decision here means the targeter and the cast service cannot
     /// drift into two different answers.
     ///
     /// The arithmetic is the same as <c>IntVec3.InHorDistOf</c> (inclusive squared horizontal

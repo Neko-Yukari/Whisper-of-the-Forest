@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Verse;
 
-namespace WhisperOfTheForest.Experimental.Spells
+namespace WhisperOfTheForest.Spells
 {
     /// <summary>
     /// One saved spell: a display name plus the ordered glyph defNames. The class only holds data
@@ -22,6 +22,9 @@ namespace WhisperOfTheForest.Experimental.Spells
         /// </summary>
         public SpellTiming timing;
 
+        /// <summary>The cost this spell was created with; frozen and carried like <see cref="timing"/>.</summary>
+        public SpellCost cost;
+
         /// <summary>An independent recipe; editing the copy never touches the source slot.</summary>
         public SpellRecipe Copy()
         {
@@ -29,7 +32,8 @@ namespace WhisperOfTheForest.Experimental.Spells
             {
                 name = name,
                 glyphs = glyphs == null ? new List<string>() : new List<string>(glyphs),
-                timing = timing?.Copy()
+                timing = timing?.Copy(),
+                cost = cost?.Copy()
             };
         }
 
@@ -38,6 +42,7 @@ namespace WhisperOfTheForest.Experimental.Spells
             Scribe_Values.Look(ref name, "name");
             Scribe_Collections.Look(ref glyphs, "glyphs", LookMode.Value);
             Scribe_Deep.Look(ref timing, "timing");
+            Scribe_Deep.Look(ref cost, "cost");
 
             // Scribing only clears this while loading; a null list would break every later check.
             if (glyphs == null)
@@ -50,6 +55,11 @@ namespace WhisperOfTheForest.Experimental.Spells
             if (timing == null && Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 timing = SpellTiming.Derive(glyphs);
+            }
+
+            if (cost == null && Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                cost = SpellCost.Derive(glyphs);
             }
         }
 

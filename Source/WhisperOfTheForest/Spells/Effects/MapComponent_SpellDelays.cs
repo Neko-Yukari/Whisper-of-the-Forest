@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Verse;
 
-namespace WhisperOfTheForest.Experimental.Spells
+namespace WhisperOfTheForest.Spells
 {
     /// <summary>One "run these steps on this cell later" registration, saved with the map.</summary>
     public class SpellDelayedPayload : IExposable

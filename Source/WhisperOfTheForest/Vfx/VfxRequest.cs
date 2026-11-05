@@ -1,7 +1,7 @@
 using UnityEngine;
 using Verse;
 
-namespace WhisperOfTheForest.Experimental.Vfx
+namespace WhisperOfTheForest.Vfx
 {
     /// <summary>
     /// The whole interface between a spell and the visual system: what happened, where, how wide and

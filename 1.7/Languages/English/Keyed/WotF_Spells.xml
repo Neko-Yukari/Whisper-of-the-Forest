@@ -14,22 +14,14 @@
   <WotF_Spells.Reason.AoeNeedsEffect>Area needs an effect on its left to widen.</WotF_Spells.Reason.AoeNeedsEffect>
   <WotF_Spells.Reason.ProjectileAugmentNeedsProjectile>Accelerate, decelerate and split only modify a projectile form.</WotF_Spells.Reason.ProjectileAugmentNeedsProjectile>
   <WotF_Spells.Reason.AugmentNotAccepted>That augment cannot attach to the rune on its left.</WotF_Spells.Reason.AugmentNotAccepted>
+  <WotF_Spells.Reason.AugmentExcluded>{0} cannot be used together with {1} on the same rune.</WotF_Spells.Reason.AugmentExcluded>
   <WotF_Spells.Reason.TimingNeedsEffect>Linger, rune and delay need at least one effect to their right; otherwise nothing would happen.</WotF_Spells.Reason.TimingNeedsEffect>
 
   <!-- ============================================================ Composite form -->
 
   <WotF_Spells.Reason.RailgunOutOfRange>Nothing to aim at inside the railgun's {0} cells.</WotF_Spells.Reason.RailgunOutOfRange>
   <WotF_Spells.Reason.CompleteFormNoEffect>The railgun rune is already a whole spell; it takes no effect rune.</WotF_Spells.Reason.CompleteFormNoEffect>
-  <WotF_Spells.Reason.CompleteFormNotAfterTrigger>The railgun rune cannot follow an on-hit rune: it is a spell of its own.</WotF_Spells.Reason.CompleteFormNotAfterTrigger>
-
-  <!-- ============================================================ Trigger grammar -->
-
-  <WotF_Spells.Reason.TriggerNotFirst>An on-hit rune cannot be the first rune: it ends a segment.</WotF_Spells.Reason.TriggerNotFirst>
-  <WotF_Spells.Reason.TriggerNotLast>An on-hit rune must be followed by a form that starts the next segment.</WotF_Spells.Reason.TriggerNotLast>
-  <WotF_Spells.Reason.TriggerNeedsForm>An on-hit rune must be followed directly by a form.</WotF_Spells.Reason.TriggerNeedsForm>
-  <WotF_Spells.Reason.TriggerOnlyAfterProjectile>An on-hit rune only works after a projectile segment: self and touch resolve at once and have no hit to continue from.</WotF_Spells.Reason.TriggerOnlyAfterProjectile>
-  <WotF_Spells.Reason.FormOnlyAfterTrigger>A segment holds exactly one form; a new form can only start after an on-hit rune.</WotF_Spells.Reason.FormOnlyAfterTrigger>
-  <WotF_Spells.Reason.LastSegmentNeedsEffect>The last segment needs at least one effect to do anything.</WotF_Spells.Reason.LastSegmentNeedsEffect>
+  <WotF_Spells.Reason.OneForm>A spell has exactly one form, and it is the first rune.</WotF_Spells.Reason.OneForm>
 
   <!-- ============================================================ Saving reasons -->
 
@@ -43,9 +35,16 @@
   <WotF_Spells.Reason.PawnNotSpawned>The caster must be on a map.</WotF_Spells.Reason.PawnNotSpawned>
   <WotF_Spells.Reason.PawnDowned>A downed pawn cannot cast.</WotF_Spells.Reason.PawnDowned>
   <WotF_Spells.Reason.NotPlayerControlled>Only a pawn you control can use the spellbook.</WotF_Spells.Reason.NotPlayerControlled>
-  <WotF_Spells.Reason.NoPsylink>This pawn needs psylink level 1 or higher to cast.</WotF_Spells.Reason.NoPsylink>
+  <WotF_Spells.Reason.NoBloodline>Only a pawn of the forest bloodline can cast.</WotF_Spells.Reason.NoBloodline>
+  <WotF_Spells.Reason.NoSpellbook>Casting needs a worn spellbook.</WotF_Spells.Reason.NoSpellbook>
+  <WotF_Spells.Reason.SlotSealed>The worn spellbook does not open bookmark {0}; its spell is kept and returns with a book that has more bookmarks.</WotF_Spells.Reason.SlotSealed>
+  <WotF_Spells.Reason.NotEnoughMana>Not enough mana: needs {0}, has {1}.</WotF_Spells.Reason.NotEnoughMana>
+  <WotF_Spells.Reason.NoNeuralHeat>This pawn has no neural heat to bear this spell's cost.</WotF_Spells.Reason.NoNeuralHeat>
+  <WotF_Spells.Reason.NeuralHeatOverflow>{0} more neural heat would go over the limit.</WotF_Spells.Reason.NeuralHeatOverflow>
+  <WotF_Spells.Reason.GlyphLocked>The colony has not unlocked this rune yet: {0}</WotF_Spells.Reason.GlyphLocked>
   <WotF_Spells.Reason.AlreadyCasting>This pawn is already casting.</WotF_Spells.Reason.AlreadyCasting>
   <WotF_Spells.Reason.NoGameComponent>The spellbook is not ready in this game.</WotF_Spells.Reason.NoGameComponent>
+  <WotF_Spells.Reason.TuningMissing>Spells are disabled: the spell tuning data failed to load (see the log).</WotF_Spells.Reason.TuningMissing>
   <WotF_Spells.Reason.Cooldown>Still gathering focus: {0} s until the next cast.</WotF_Spells.Reason.Cooldown>
   <WotF_Spells.Reason.NoSpellSelected>No spell is selected for this pawn. Choose one in the spellbook.</WotF_Spells.Reason.NoSpellSelected>
   <WotF_Spells.Reason.NoTargeter>The game is not ready for target selection.</WotF_Spells.Reason.NoTargeter>

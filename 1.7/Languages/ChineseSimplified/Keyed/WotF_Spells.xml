@@ -14,22 +14,14 @@
   <WotF_Spells.Reason.AoeNeedsEffect>范围左侧需要一个效果才能扩大。</WotF_Spells.Reason.AoeNeedsEffect>
   <WotF_Spells.Reason.ProjectileAugmentNeedsProjectile>加速、减速和分裂只能修改射弹形式。</WotF_Spells.Reason.ProjectileAugmentNeedsProjectile>
   <WotF_Spells.Reason.AugmentNotAccepted>该增幅不能接在左侧这个符文上。</WotF_Spells.Reason.AugmentNotAccepted>
+  <WotF_Spells.Reason.AugmentExcluded>{0}和{1}不能接在同一个符文上。</WotF_Spells.Reason.AugmentExcluded>
   <WotF_Spells.Reason.TimingNeedsEffect>滞留、地印和延迟需要右侧至少有一个效果，否则什么也不会发生。</WotF_Spells.Reason.TimingNeedsEffect>
 
   <!-- ============================================================ 复合形式 -->
 
   <WotF_Spells.Reason.RailgunOutOfRange>轨道炮的 {0} 格射程内没有可以瞄准的东西。</WotF_Spells.Reason.RailgunOutOfRange>
   <WotF_Spells.Reason.CompleteFormNoEffect>轨道炮符文本身就是一整个法术，不能再接效果符文。</WotF_Spells.Reason.CompleteFormNoEffect>
-  <WotF_Spells.Reason.CompleteFormNotAfterTrigger>轨道炮符文不能接在触发符文之后：它自己就是一个完整的法术。</WotF_Spells.Reason.CompleteFormNotAfterTrigger>
-
-  <!-- ============================================================ 触发语法 -->
-
-  <WotF_Spells.Reason.TriggerNotFirst>触发符文不能放在首位，它用来结束前面那一段。</WotF_Spells.Reason.TriggerNotFirst>
-  <WotF_Spells.Reason.TriggerNotLast>触发符文后面必须紧跟一个形式，用来开始下一段。</WotF_Spells.Reason.TriggerNotLast>
-  <WotF_Spells.Reason.TriggerNeedsForm>触发符文后面必须直接跟一个形式。</WotF_Spells.Reason.TriggerNeedsForm>
-  <WotF_Spells.Reason.TriggerOnlyAfterProjectile>触发符文只能接在射弹段之后：自身和接触会立刻结算，没有可以继续的命中。</WotF_Spells.Reason.TriggerOnlyAfterProjectile>
-  <WotF_Spells.Reason.FormOnlyAfterTrigger>一段法术只能有一个形式，新形式只能在触发符文之后开始。</WotF_Spells.Reason.FormOnlyAfterTrigger>
-  <WotF_Spells.Reason.LastSegmentNeedsEffect>最后一段至少需要一个效果，否则这一段什么也不会做。</WotF_Spells.Reason.LastSegmentNeedsEffect>
+  <WotF_Spells.Reason.OneForm>一个法术只有一个形式，而且必须放在第一位。</WotF_Spells.Reason.OneForm>
 
   <!-- ============================================================ 保存原因 -->
 
@@ -43,9 +35,16 @@
   <WotF_Spells.Reason.PawnNotSpawned>施法者必须已生成在地图上。</WotF_Spells.Reason.PawnNotSpawned>
   <WotF_Spells.Reason.PawnDowned>倒地的小人无法施法。</WotF_Spells.Reason.PawnDowned>
   <WotF_Spells.Reason.NotPlayerControlled>只有你控制的小人可以使用魔术书。</WotF_Spells.Reason.NotPlayerControlled>
-  <WotF_Spells.Reason.NoPsylink>这个小人的灵能链接等级需要达到 1 级才能施法。</WotF_Spells.Reason.NoPsylink>
+  <WotF_Spells.Reason.NoBloodline>只有林庭血脉的小人才能施法。</WotF_Spells.Reason.NoBloodline>
+  <WotF_Spells.Reason.NoSpellbook>需要佩戴魔术书才能施法。</WotF_Spells.Reason.NoSpellbook>
+  <WotF_Spells.Reason.SlotSealed>当前佩戴的魔术书打不开第 {0} 个书签；里面的法术仍然保留，换上书签更多的魔术书即可使用。</WotF_Spells.Reason.SlotSealed>
+  <WotF_Spells.Reason.NotEnoughMana>魔力不足：需要 {0}，现有 {1}。</WotF_Spells.Reason.NotEnoughMana>
+  <WotF_Spells.Reason.NoNeuralHeat>这个小人没有神经热，无法承担这个法术的消耗。</WotF_Spells.Reason.NoNeuralHeat>
+  <WotF_Spells.Reason.NeuralHeatOverflow>再增加 {0} 点神经热就会超过上限。</WotF_Spells.Reason.NeuralHeatOverflow>
+  <WotF_Spells.Reason.GlyphLocked>殖民地尚未解锁符文：{0}</WotF_Spells.Reason.GlyphLocked>
   <WotF_Spells.Reason.AlreadyCasting>这个小人正在施法。</WotF_Spells.Reason.AlreadyCasting>
   <WotF_Spells.Reason.NoGameComponent>魔术书在当前游戏中尚未就绪。</WotF_Spells.Reason.NoGameComponent>
+  <WotF_Spells.Reason.TuningMissing>法术已停用：法术参数数据加载失败（详见日志）。</WotF_Spells.Reason.TuningMissing>
   <WotF_Spells.Reason.Cooldown>仍在凝聚灵能：距离下次施法还有 {0} 秒。</WotF_Spells.Reason.Cooldown>
   <WotF_Spells.Reason.NoSpellSelected>这个小人的当前法术是空的，请在魔术书中选择。</WotF_Spells.Reason.NoSpellSelected>
   <WotF_Spells.Reason.NoTargeter>游戏尚未准备好目标选择。</WotF_Spells.Reason.NoTargeter>

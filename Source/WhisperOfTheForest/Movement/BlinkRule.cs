@@ -1,7 +1,7 @@
 using RimWorld;
 using Verse;
 
-namespace WhisperOfTheForest.Experimental.Movement
+namespace WhisperOfTheForest.Movement
 {
     /// <summary>
     /// Legality rules for a single blink hop. A hop may only target the pawn's own next

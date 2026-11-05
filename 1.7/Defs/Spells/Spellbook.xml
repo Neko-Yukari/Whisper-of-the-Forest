@@ -1,0 +1,643 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    Spellbook catalogue and tuning.
+
+    A glyph Def only carries the kind and the bounded numbers; every behaviour lives in
+    Source/WhisperOfTheForest/Spells (SpellCompiler validates the grammar and freezes the steps,
+    SpellExecutor applies them). A new XML entry therefore tunes a spell but cannot invent behaviour.
+
+    Grammar (Experiments/spellbook.md §1): exactly one Form at position 0, Effects in order, an
+    Augment modifies the nearest Form/Effect on its left and never another Augment. Linger, Rune and
+    Delay are Effects that take everything to their right as a deferred payload, as the spell table
+    describes; the old on-hit trigger rune is deprecated and not part of the catalogue.
+
+    Icons follow the interface contract: Textures/Spellbook/Glyphs/<defName>. A missing
+    texture only loses the picture, never the entry.
+  -->
+
+  <!-- ============================================================ Forms -->
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Form_Self</defName>
+    <label>self</label>
+    <description>Cast on the caster and the caster's own cell. Nothing else is targeted.</description>
+    <kind>Form</kind>
+    <!-- Self resolves on the caster at once, so no augment can modify its delivery. -->
+    <compatibleAugments />
+    <!--
+      Cast timings, in ticks, summed along the whole chain. windup: the caster gathers the spell and
+      may walk freely. channel: the spell forms, movement is slowed, release happens when it ends (0
+      means already over, which is how an instant spell takes the same path). recovery: the caster is
+      rooted while the cast settles. Every rune contributes its own numbers; the sum is frozen into
+      the spell when it is saved in the book.
+    -->
+    <windupTicks>45</windupTicks>
+    <channelTicks>0</channelTicks>
+    <recoveryTicks>20</recoveryTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Form_Self</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Form_Touch</defName>
+    <label>touch</label>
+    <description>Cast on one adjacent, reachable target. A wall blocks it and it never reaches further than the neighbouring cells.</description>
+    <kind>Form</kind>
+    <!-- Touch only reaches the neighbouring cells; nothing about that is augmentable. -->
+    <compatibleAugments />
+    <!-- Reach in king moves: 1.45 is the 8 neighbours and the caster's own cell. -->
+    <range>1.45</range>
+    <windupTicks>40</windupTicks>
+    <channelTicks>0</channelTicks>
+    <recoveryTicks>20</recoveryTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Form_Touch</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Form_Projectile</defName>
+    <label>projectile</label>
+    <description>Flies as the existing homing arcane dart and resolves where it really hits. Only this form accepts pierce, accelerate, decelerate and split.</description>
+    <kind>Form</kind>
+    <!-- Ars Nouveau 5.13.3: only a projectile takes accelerate, decelerate and split; pierce is this mod's addition. -->
+    <compatibleAugments>
+      <li>WotF_Augment_Pierce</li>
+      <li>WotF_Augment_Accelerate</li>
+      <li>WotF_Augment_Decelerate</li>
+      <li>WotF_Augment_Split</li>
+    </compatibleAugments>
+    <windupTicks>35</windupTicks>
+    <channelTicks>15</channelTicks>
+    <recoveryTicks>15</recoveryTicks>
+    <!-- How far the caster may aim, in cells. -->
+    <range>24.9</range>
+    <!--
+      This form's dart. A form carrying a projectile block is a projectile; another projectile type
+      is another form Def with its own block. Split adds to missileCount, Accelerate/Decelerate scale
+      speedCellsPerSecond; the arranged effects decide what a hit does, so no damage number is here.
+    -->
+    <projectile>
+      <missileCount>1</missileCount>
+      <speedCellsPerSecond>16</speedCellsPerSecond>
+      <maxTurnDegreesPerSecond>300</maxTurnDegreesPerSecond>
+      <maxRangeCells>64</maxRangeCells>
+      <lifetimeSeconds>10</lifetimeSeconds>
+      <launchSpreadDegrees>8</launchSpreadDegrees>
+      <wobbleAmplitude>0.14</wobbleAmplitude>
+      <wobbleFrequency>2.2</wobbleFrequency>
+      <flightHeight>1.2</flightHeight>
+      <hitRadius>0.45</hitRadius>
+      <expireOnTargetLost>false</expireOnTargetLost>
+      <visualDef>WotF_Visual_RimUnity</visualDef>
+      <missileSize>0.55</missileSize>
+      <trailTime>0.35</trailTime>
+      <missileColorHex>#7FE3C7</missileColorHex>
+      <trailColorHex>#2FA98C</trailColorHex>
+    </projectile>
+    <iconPath>Spellbook/Glyphs/WotF_Form_Projectile</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Form_Orbit</defName>
+    <label>orbit</label>
+    <description>Places orbs that circle the caster and apply the arranged effects to the first pawn they touch. No target selection: the orbs follow the caster.</description>
+    <kind>Form</kind>
+    <!-- Ars Nouveau's orbit is a Form; the compatibility list follows the spell table (unverified there). -->
+    <compatibleAugments>
+      <li>WotF_Augment_Split</li>
+      <li>WotF_Augment_AOE</li>
+      <li>WotF_Augment_Extend</li>
+      <li>WotF_Augment_Shorten</li>
+      <li>WotF_Augment_Accelerate</li>
+      <li>WotF_Augment_Decelerate</li>
+    </compatibleAugments>
+    <windupTicks>40</windupTicks>
+    <channelTicks>20</channelTicks>
+    <recoveryTicks>15</recoveryTicks>
+    <!-- Split adds orbs, AOE widens hitRadius, Extend/Shorten scale lifetimeTicks, Accelerate/Decelerate the turn rate. -->
+    <orbit>
+      <count>1</count>
+      <distance>1.9</distance>
+      <angularSpeedDegrees>180</angularSpeedDegrees>
+      <hitRadius>0.7</hitRadius>
+      <lifetimeTicks>600</lifetimeTicks>
+    </orbit>
+    <iconPath>Spellbook/Glyphs/WotF_Form_Orbit</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <!-- ============================================================ Effects -->
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Effect_Harm</defName>
+    <label>harm</label>
+    <description>Deals arcane force damage to what the spell reaches, through the same damage type the arcane missiles already use. With Extend Time it becomes a sustained wound instead of a bigger hit.</description>
+    <kind>Effect</kind>
+    <amount>9</amount>
+    <armorPenetration>0.5</armorPenetration>
+    <!-- Only used when Extend Time turns the hit into a sustained wound. -->
+    <durationTicks>600</durationTicks>
+    <pulseIntervalTicks>60</pulseIntervalTicks>
+    <compatibleAugments>
+      <li>WotF_Augment_Amplify</li>
+      <li>WotF_Augment_Dampen</li>
+      <li>WotF_Augment_Extend</li>
+      <li>WotF_Augment_Shorten</li>
+      <li>WotF_Augment_BreakArmor</li>
+    </compatibleAugments>
+    <windupTicks>5</windupTicks>
+    <recoveryTicks>5</recoveryTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Effect_Harm</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Effect_Heal</defName>
+    <label>clot</label>
+    <description>Does not restore health directly: it immediately bandages every wound on the target with no medicine and leaves a boost that speeds natural healing for a while.</description>
+    <kind>Effect</kind>
+    <requiresAmount>false</requiresAmount>
+    <!-- Tend quality 0..1, and how long the healing boost lasts. -->
+    <factor>0.6</factor>
+    <durationTicks>2500</durationTicks>
+    <compatibleAugments>
+      <li>WotF_Augment_Amplify</li>
+      <li>WotF_Augment_Dampen</li>
+      <li>WotF_Augment_Extend</li>
+    </compatibleAugments>
+    <windupTicks>5</windupTicks>
+    <recoveryTicks>5</recoveryTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Effect_Heal</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Effect_Explosion</defName>
+    <label>explosion</label>
+    <description>One native explosion at the spell's point. A range augment widens that single explosion instead of adding more of them; Sensitive keeps the blast from damaging buildings.</description>
+    <kind>Effect</kind>
+    <amount>12</amount>
+    <armorPenetration>0.5</armorPenetration>
+    <radius>1.9</radius>
+    <compatibleAugments>
+      <li>WotF_Augment_Amplify</li>
+      <li>WotF_Augment_Dampen</li>
+      <li>WotF_Augment_AOE</li>
+      <li>WotF_Augment_Sensitive</li>
+      <li>WotF_Augment_BreakArmor</li>
+    </compatibleAugments>
+    <windupTicks>5</windupTicks>
+    <recoveryTicks>5</recoveryTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Effect_Explosion</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Effect_Grow</defName>
+    <label>grow</label>
+    <description>Does not mature anything: the hit cell (or every cell in range) grows plants faster for a while, on top of whatever fertility the terrain already has.</description>
+    <kind>Effect</kind>
+    <requiresAmount>false</requiresAmount>
+    <!-- Growth-rate multiplier and its lifetime. -->
+    <factor>1.6</factor>
+    <durationTicks>3000</durationTicks>
+    <radius>1.9</radius>
+    <compatibleAugments>
+      <li>WotF_Augment_AOE</li>
+      <li>WotF_Augment_Extend</li>
+    </compatibleAugments>
+    <windupTicks>5</windupTicks>
+    <recoveryTicks>5</recoveryTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Effect_Grow</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <!-- ============================================================ harm family -->
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Effect_Ignite</defName>
+    <label>ignite</label>
+    <description>Sets the target alight. The plain version starts real fire that can spread; Sensitive never spawns fire and uses a non-spreading burn instead.</description>
+    <kind>Effect</kind>
+    <requiresAmount>false</requiresAmount>
+    <fireSize>0.6</fireSize>
+    <burnAmount>4</burnAmount>
+    <durationTicks>600</durationTicks>
+    <radius>1.9</radius>
+    <pulseIntervalTicks>60</pulseIntervalTicks>
+    <compatibleAugments>
+      <li>WotF_Augment_AOE</li>
+      <li>WotF_Augment_Extend</li>
+      <li>WotF_Augment_Sensitive</li>
+    </compatibleAugments>
+    <windupTicks>5</windupTicks>
+    <recoveryTicks>5</recoveryTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Effect_Ignite</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Effect_Lightning</defName>
+    <label>lightning</label>
+    <description>A strike of EMP and burn damage. Every strike leaves a charge stack, and later strikes hurt more for each stack the target already carries.</description>
+    <kind>Effect</kind>
+    <amount>12</amount>
+    <armorPenetration>0.5</armorPenetration>
+    <empAmount>8</empAmount>
+    <perStackFactor>0.25</perStackFactor>
+    <durationTicks>600</durationTicks>
+    <compatibleAugments>
+      <li>WotF_Augment_Amplify</li>
+      <li>WotF_Augment_Dampen</li>
+      <li>WotF_Augment_Extend</li>
+    </compatibleAugments>
+    <windupTicks>5</windupTicks>
+    <recoveryTicks>5</recoveryTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Effect_Lightning</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Effect_ColdSnap</defName>
+    <label>cold snap</label>
+    <description>Bursts against a target that is already slowed, dealing bonus damage on top of the base amount.</description>
+    <kind>Effect</kind>
+    <amount>10</amount>
+    <vulnerableFactor>2</vulnerableFactor>
+    <radius>1.9</radius>
+    <compatibleAugments>
+      <li>WotF_Augment_Amplify</li>
+      <li>WotF_Augment_Dampen</li>
+      <li>WotF_Augment_AOE</li>
+    </compatibleAugments>
+    <windupTicks>5</windupTicks>
+    <recoveryTicks>5</recoveryTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Effect_ColdSnap</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <!-- ============================================================ control -->
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Effect_Freeze</defName>
+    <label>freeze</label>
+    <description>Slows the target's movement for a while through a HediffDef's capacity modifier. Nothing else about the target is changed.</description>
+    <kind>Effect</kind>
+    <requiresAmount>false</requiresAmount>
+    <durationTicks>300</durationTicks>
+    <radius>1.9</radius>
+    <compatibleAugments>
+      <li>WotF_Augment_AOE</li>
+      <li>WotF_Augment_Extend</li>
+    </compatibleAugments>
+    <windupTicks>5</windupTicks>
+    <recoveryTicks>5</recoveryTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Effect_Freeze</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Effect_Knockback</defName>
+    <label>knockback</label>
+    <description>Throws the target away from the impact point through the vanilla flying carrier. The amount is the distance in cells; Range widens who is thrown.</description>
+    <kind>Effect</kind>
+    <amount>4</amount>
+    <radius>1.9</radius>
+    <compatibleAugments>
+      <li>WotF_Augment_Amplify</li>
+      <li>WotF_Augment_Dampen</li>
+      <li>WotF_Augment_AOE</li>
+    </compatibleAugments>
+    <windupTicks>5</windupTicks>
+    <recoveryTicks>5</recoveryTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Effect_Knockback</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Effect_Pull</defName>
+    <label>pull</label>
+    <description>Drags the target towards the impact point through the vanilla flying carrier. The amount is the distance in cells.</description>
+    <kind>Effect</kind>
+    <amount>4</amount>
+    <radius>1.9</radius>
+    <compatibleAugments>
+      <li>WotF_Augment_Amplify</li>
+      <li>WotF_Augment_Dampen</li>
+      <li>WotF_Augment_AOE</li>
+    </compatibleAugments>
+    <windupTicks>5</windupTicks>
+    <recoveryTicks>5</recoveryTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Effect_Pull</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Effect_Snare</defName>
+    <label>snare</label>
+    <description>Pins the target in place: movement is zeroed but attacking is untouched, so it is not a stun.</description>
+    <kind>Effect</kind>
+    <requiresAmount>false</requiresAmount>
+    <durationTicks>300</durationTicks>
+    <compatibleAugments>
+      <li>WotF_Augment_Extend</li>
+      <li>WotF_Augment_Shorten</li>
+    </compatibleAugments>
+    <windupTicks>5</windupTicks>
+    <recoveryTicks>5</recoveryTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Effect_Snare</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Effect_Hex</defName>
+    <label>hex</label>
+    <description>Marks the target: it takes more damage and heals more slowly for a while. The numbers live on the Hex HediffDef.</description>
+    <kind>Effect</kind>
+    <requiresAmount>false</requiresAmount>
+    <durationTicks>600</durationTicks>
+    <compatibleAugments>
+      <li>WotF_Augment_Extend</li>
+      <li>WotF_Augment_Shorten</li>
+    </compatibleAugments>
+    <windupTicks>5</windupTicks>
+    <recoveryTicks>5</recoveryTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Effect_Hex</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <!-- ============================================================ support -->
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Effect_Magelight</defName>
+    <label>magelight</label>
+    <description>Places a temporary light at the spell's point. Radius, colour and lifetime are all frozen from this rune and the augments bound to it.</description>
+    <kind>Effect</kind>
+    <requiresAmount>false</requiresAmount>
+    <durationTicks>2500</durationTicks>
+    <glowRadius>8</glowRadius>
+    <glowColor>#FFE9A0</glowColor>
+    <compatibleAugments>
+      <li>WotF_Augment_Amplify</li>
+      <li>WotF_Augment_Dampen</li>
+      <li>WotF_Augment_Extend</li>
+      <li>WotF_Augment_Shorten</li>
+    </compatibleAugments>
+    <windupTicks>5</windupTicks>
+    <recoveryTicks>5</recoveryTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Effect_Magelight</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Effect_Blink</defName>
+    <label>blink</label>
+    <description>From a self cast the caster flickers forward; delivered by a dart or a touch, the caster lands at the spell's point.</description>
+    <kind>Effect</kind>
+    <amount>5</amount>
+    <compatibleAugments>
+      <li>WotF_Augment_Amplify</li>
+      <li>WotF_Augment_Dampen</li>
+    </compatibleAugments>
+    <windupTicks>5</windupTicks>
+    <recoveryTicks>5</recoveryTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Effect_Blink</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <!-- ============================================================ when and where -->
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Effect_Linger</defName>
+    <label>linger</label>
+    <description>Leaves a force field at the spell's point. Every interval it applies everything arranged to its right to every pawn inside. Accelerate shortens the interval, Decelerate lengthens it.</description>
+    <kind>Effect</kind>
+    <requiresAmount>false</requiresAmount>
+    <radius>2.5</radius>
+    <durationTicks>600</durationTicks>
+    <pulseIntervalTicks>60</pulseIntervalTicks>
+    <compatibleAugments>
+      <li>WotF_Augment_AOE</li>
+      <li>WotF_Augment_Extend</li>
+      <li>WotF_Augment_Shorten</li>
+      <li>WotF_Augment_Accelerate</li>
+      <li>WotF_Augment_Decelerate</li>
+    </compatibleAugments>
+    <windupTicks>10</windupTicks>
+    <recoveryTicks>10</recoveryTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Effect_Linger</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Effect_Rune</defName>
+    <label>rune</label>
+    <description>Leaves a seal on the ground that takes no building space. The first pawn stepping onto it gets everything arranged to its right, then the seal is gone.</description>
+    <kind>Effect</kind>
+    <requiresAmount>false</requiresAmount>
+    <durationTicks>3000</durationTicks>
+    <compatibleAugments />
+    <windupTicks>10</windupTicks>
+    <recoveryTicks>10</recoveryTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Effect_Rune</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Effect_Delay</defName>
+    <label>delay</label>
+    <description>Everything arranged to its right resolves a few seconds later at the same target point.</description>
+    <kind>Effect</kind>
+    <requiresAmount>false</requiresAmount>
+    <durationTicks>180</durationTicks>
+    <compatibleAugments>
+      <li>WotF_Augment_Extend</li>
+      <li>WotF_Augment_Shorten</li>
+    </compatibleAugments>
+    <windupTicks>5</windupTicks>
+    <recoveryTicks>5</recoveryTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Effect_Delay</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+
+  <!-- ============================================================ Augments -->
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Augment_Amplify</defName>
+    <label>amplify</label>
+    <description>Strengthens the effect on its left. A damage number, a healing rate, a glow, a throw distance and an explosion's radius all scale with it.</description>
+    <kind>Augment</kind>
+    <factor>1.5</factor>
+    <!-- Extra blast radius when it is bound to an Explosion; harmless on every other effect. -->
+    <radius>0.4</radius>
+    <compatibleAugments />
+    <windupTicks>3</windupTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Augment_Amplify</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Augment_Dampen</defName>
+    <label>dampen</label>
+    <description>Weakens the effect on its left: less damage, shorter throw, dimmer light.</description>
+    <kind>Augment</kind>
+    <factor>0.6</factor>
+    <compatibleAugments />
+    <windupTicks>3</windupTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Augment_Dampen</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Augment_Extend</defName>
+    <label>extend time</label>
+    <description>Makes the effect last longer. On Harm it turns the one hit into a sustained wound of the same total damage.</description>
+    <kind>Augment</kind>
+    <factor>2</factor>
+    <compatibleAugments />
+    <windupTicks>3</windupTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Augment_Extend</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Augment_Shorten</defName>
+    <label>shorten time</label>
+    <description>Makes the effect last a shorter time.</description>
+    <kind>Augment</kind>
+    <factor>0.5</factor>
+    <compatibleAugments />
+    <windupTicks>3</windupTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Augment_Shorten</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Augment_Sensitive</defName>
+    <label>sensitive</label>
+    <description>Keeps only the controlled half of the effect: an explosion no longer damages buildings and an ignite no longer starts spreading fire.</description>
+    <kind>Augment</kind>
+    <compatibleAugments />
+    <windupTicks>3</windupTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Augment_Sensitive</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Augment_BreakArmor</defName>
+    <label>break armor</label>
+    <description>Adds armour penetration to the damage effect on its left. This is this mod's own augment, not an Ars Nouveau rune.</description>
+    <kind>Augment</kind>
+    <factor>0.35</factor>
+    <compatibleAugments />
+    <windupTicks>3</windupTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Augment_BreakArmor</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Augment_Pierce</defName>
+    <label>pierce</label>
+    <description>Lets the projectile on its left keep flying after a hit, so it can strike whatever stands behind it. Each extra hit costs one pierce. Cannot be combined with split.</description>
+    <kind>Augment</kind>
+    <!-- Number of additional hits the projectile may resolve. -->
+    <missiles>1</missiles>
+    <compatibleAugments />
+    <excludesAugments>
+      <li>WotF_Augment_Split</li>
+    </excludesAugments>
+    <windupTicks>3</windupTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Augment_Pierce</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Augment_AOE</defName>
+    <label>area</label>
+    <description>Widens the effect on its left over nearby targets. Each target is affected once, and an explosion still detonates once.</description>
+    <kind>Augment</kind>
+    <radius>1.2</radius>
+    <compatibleAugments />
+    <windupTicks>3</windupTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Augment_AOE</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Augment_Accelerate</defName>
+    <label>accelerate</label>
+    <description>Makes the projectile on its left fly faster.</description>
+    <kind>Augment</kind>
+    <factor>1.8</factor>
+    <compatibleAugments />
+    <windupTicks>3</windupTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Augment_Accelerate</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Augment_Decelerate</defName>
+    <label>decelerate</label>
+    <description>Makes the projectile on its left fly slower.</description>
+    <kind>Augment</kind>
+    <factor>0.55</factor>
+    <compatibleAugments />
+    <windupTicks>3</windupTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Augment_Decelerate</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Augment_Split</defName>
+    <label>split</label>
+    <description>Adds more darts to the projectile on its left, using the existing launch spread and one hit per dart. Cannot be combined with pierce.</description>
+    <kind>Augment</kind>
+    <missiles>2</missiles>
+    <compatibleAugments />
+    <windupTicks>3</windupTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Augment_Split</iconPath>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <!-- ============================================================ Tuning -->
+
+  <!--
+    The numbers that belong to the book and the caster, not to a rune. Ranges, darts, orbs, radii and
+    armour penetration live on the glyph that owns them.
+  -->
+  <WhisperOfTheForest.Spells.SpellTuningDef>
+    <defName>WotF_SpellTuning</defName>
+    <label>spellbook tuning</label>
+    <maxGlyphs>10</maxGlyphs>
+    <cooldownTicks>120</cooldownTicks>
+    <!-- Movement during a cast's channel phase, as a fraction of normal speed. Windup is never
+         slowed and recovery roots the caster, so this is the only movement number of the system. -->
+    <channelMoveSpeedFactor>0.55</channelMoveSpeedFactor>
+    <!-- Upper bound on darts or orbs after Split. -->
+    <maxMissiles>5</maxMissiles>
+  </WhisperOfTheForest.Spells.SpellTuningDef>
+
+  <!-- ============================================================ Carrier ability -->
+
+  <!--
+    Puts the book button and the cast button into the pawn's native gizmo row. Granted by
+    SpellService to player-controlled spawned pawns with psylink level 1 or higher; the ability
+    itself draws the gizmos, so no Harmony patch touches the pawn gizmo enumerators.
+    Cooldown is owned by GameComponent_Spellbook, so this Def carries zero cooldown.
+  -->
+  <AbilityDef>
+    <defName>WotF_SpellbookCast</defName>
+    <label>spellbook</label>
+    <description>An arcane book of arranged glyphs. Open it to choose, name and save one of ten spells, then cast the selected spell on an adjacent target, as a homing dart, or on the caster.</description>
+    <abilityClass>WhisperOfTheForest.Spells.SpellAbility</abilityClass>
+    <iconPath>UI/TechLabIcon</iconPath>
+    <level>1</level>
+    <hotKey>Misc12</hotKey>
+    <hostile>false</hostile>
+    <aiCanUse>false</aiCanUse>
+    <showOnCharacterCard>false</showOnCharacterCard>
+    <displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+    <disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>
+    <showCastingProgressBar>false</showCastingProgressBar>
+    <cooldownTicksRange>0~0</cooldownTicksRange>
+    <statBases>
+      <Ability_EntropyGain>0</Ability_EntropyGain>
+      <Ability_PsyfocusCost>0</Ability_PsyfocusCost>
+    </statBases>
+    <verbProperties>
+      <!--
+        A real, instantiable verb class. Verse.VerbProperties.verbClass defaults to the abstract
+        Verse.Verb, so an AbilityDef that declares verbProperties without an override makes
+        VerbTracker log "Could not instantiate Verb ... Cannot create an abstract class" and leaves
+        ability.verb null, which then NullReferenceExceptions in Ability.WarmupTick every tick.
+        Verb_CastAbility is the vanilla concrete verb abilities use; it only satisfies Ability's
+        verb machinery here (SpellAbility draws its own gizmos and SpellService does the casting),
+        so no player action can reach the vanilla warmup/activate path.
+      -->
+      <verbClass>Verb_CastAbility</verbClass>
+      <warmupTime>0</warmupTime>
+      <range>24.9</range>
+      <targetParams>
+        <canTargetPawns>true</canTargetPawns>
+        <canTargetAnimals>true</canTargetAnimals>
+        <canTargetBuildings>true</canTargetBuildings>
+        <canTargetPlants>true</canTargetPlants>
+        <canTargetLocations>true</canTargetLocations>
+        <canTargetSelf>false</canTargetSelf>
+        <neverTargetIncapacitated>false</neverTargetIncapacitated>
+      </targetParams>
+    </verbProperties>
+  </AbilityDef>
+</Defs>

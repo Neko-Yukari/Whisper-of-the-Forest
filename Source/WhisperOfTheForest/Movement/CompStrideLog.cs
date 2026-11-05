@@ -1,6 +1,6 @@
 using Verse;
 
-namespace WhisperOfTheForest.Experimental.Movement
+namespace WhisperOfTheForest.Movement
 {
     /// <summary>
     /// Logs equip/unequip of the movement experiment items together with the pawn's

@@ -2,7 +2,7 @@ using HarmonyLib;
 using Verse;
 using Verse.AI;
 
-namespace WhisperOfTheForest.Experimental.Spells
+namespace WhisperOfTheForest.Spells
 {
     /// <summary>
     /// Channelling slows movement; windup does not. 1.7's <c>Pawn.TicksPerMove(bool)</c> is private

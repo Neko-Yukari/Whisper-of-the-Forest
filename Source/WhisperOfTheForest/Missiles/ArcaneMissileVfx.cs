@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
 using Verse;
-using WhisperOfTheForest.Experimental.Vfx;
+using WhisperOfTheForest.Vfx;
 
-namespace WhisperOfTheForest.Experimental.Missiles
+namespace WhisperOfTheForest.Missiles
 {
     /// <summary>
     /// A visual request for one missile effect. The look of a volley lives in the settings that were
