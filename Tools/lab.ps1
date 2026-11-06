@@ -2,7 +2,7 @@
 <#
   Sends one whitelisted command to a running lab session and waits for its JSON result.
 
-  Protocol (see Experiments/integration.md):
+  Protocol (commands are implemented in Source/Lab/LabCommands.cs):
     request line : <id> <command> [key=value ...]
     result line  : one JSON object per command, keyed by the same id
 #>

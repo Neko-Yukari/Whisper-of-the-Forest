@@ -13,8 +13,11 @@ namespace WhisperOfTheForest.Missiles
     /// </summary>
     public class ArcaneMissileRimUnityVfxWorker : VfxWorker
     {
-        /// <summary>Built-in RimUnity additive particle shader (ShaderDef RimUnity_StandardParticle4).</summary>
-        private const string ParticleShaderName = "RimUnity_StandardParticle4";
+        /// <summary>
+        /// Additive particle shader without depth testing: a flying comet must stay visible above grass
+        /// and tree canopies instead of being clipped by their depth.
+        /// </summary>
+        private const string ParticleShaderName = "WotF_ParticleAdditiveNoDepth";
 
         private static RimUnity.Material particleMaterial;
         private static RimUnity.Material trailMaterial;

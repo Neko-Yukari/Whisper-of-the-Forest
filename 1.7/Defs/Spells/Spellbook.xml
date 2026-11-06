@@ -8,7 +8,7 @@
     Source/WhisperOfTheForest/Spells (SpellCompiler validates the grammar and freezes the steps,
     SpellExecutor applies them). A new XML entry therefore tunes a spell but cannot invent behaviour.
 
-    Grammar (Experiments/spellbook.md §1): exactly one Form at position 0, Effects in order, an
+    Grammar: exactly one Form at position 0, Effects in order, an
     Augment modifies the nearest Form/Effect on its left and never another Augment. Linger, Rune and
     Delay are Effects that take everything to their right as a deferred payload, as the spell table
     describes; the old on-hit trigger rune is deprecated and not part of the catalogue.

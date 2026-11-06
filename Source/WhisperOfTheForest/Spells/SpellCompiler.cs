@@ -10,7 +10,7 @@ namespace WhisperOfTheForest.Spells
     /// save path and the runtime all call it, so arranging, saving and casting can never accept
     /// different chains.
     ///
-    /// Documented rules (Experiments/spellbook.md §8):
+    /// Rules:
     /// the chain starts with its only Form; Effects follow; an Augment binds to the nearest
     /// non-Augment on its left and only when that rune lists it in
     /// <see cref="SpellGlyphDef.compatibleAugments"/>, and two augments on the same rune may not

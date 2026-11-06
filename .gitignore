@@ -8,6 +8,7 @@ Source/**/bin/
 .vs/
 .idea/
 *.log
+1.7/Data/RimUnity/.export.lock
 
 # Local lab runs (requests/results/logs), never part of the mod
 LabRuns/

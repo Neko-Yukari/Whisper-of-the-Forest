@@ -191,6 +191,29 @@
           <customHeadDrawSize>(1,1)</customHeadDrawSize>
           <customPortraitDrawSize>(1,1)</customPortraitDrawSize>
 
+          <!-- The Milira placeholder body is already painted in flesh tones; this channel only
+               applies a narrow warm tint, so every elf stays within a few pale flesh shades
+               instead of rolling arbitrary HAR skin colours. -->
+          <colorChannels>
+            <li>
+              <name>skin</name>
+              <first Class="ColorGenerator_Options">
+                <options>
+                  <li><weight>20</weight><only>RGBA(1.000, 1.000, 1.000, 1.000)</only></li>
+                  <li><weight>20</weight><only>RGBA(0.992, 0.933, 0.882, 1.000)</only></li>
+                  <li><weight>20</weight><only>RGBA(0.976, 0.894, 0.839, 1.000)</only></li>
+                  <li><weight>20</weight><only>RGBA(0.945, 0.847, 0.780, 1.000)</only></li>
+                  <li><weight>20</weight><only>RGBA(0.898, 0.784, 0.706, 1.000)</only></li>
+                </options>
+              </first>
+              <second Class="ColorGenerator_Options">
+                <options>
+                  <li><weight>1</weight><only>RGBA(1.000, 1.000, 1.000, 1.000)</only></li>
+                </options>
+              </second>
+            </li>
+          </colorChannels>
+
           <bodyAddons>
             <!-- Placeholder hair, front layer. Layer depth copied from Milira's own addon. -->
             <li>
@@ -307,7 +330,11 @@
           <li>BodyType</li>
           <li>Furskin</li>
           <li>HairStyle</li>
+          <li>SkinColorOverride</li>
         </blackGeneTags>
+        <blackEndoCategories>
+          <li>Melanin</li>
+        </blackEndoCategories>
       </raceRestriction>
     </alienRace>
   </AlienRace.ThingDef_AlienRace>
@@ -316,6 +343,7 @@
     <defName>WotF_Elf_Colonist</defName>
     <label>elf</label>
     <race>WotF_Elf</race>
+    <fixedGender>Female</fixedGender>
     <defaultFactionDef>PlayerColony</defaultFactionDef>
     <initialResistanceRange>13~21</initialResistanceRange>
     <apparelRequired>

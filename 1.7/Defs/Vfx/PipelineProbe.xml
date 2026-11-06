@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- Minimal exported-prefab probe for the RimUnity authoring pipeline. -->
+  <WhisperOfTheForest.Vfx.PrefabVfxDef>
+    <defName>WotF_Vfx_PipelineProbe</defName>
+    <workerClass>WhisperOfTheForest.Vfx.PrefabVfxWorker</workerClass>
+    <prefabPath>Effects/Probe</prefabPath>
+    <height>1.2</height>
+    <durationTicks>300</durationTicks>
+  </WhisperOfTheForest.Vfx.PrefabVfxDef>
+
+  <WhisperOfTheForest.Vfx.ScreenDarkenVfxDef>
+    <defName>WotF_Vfx_DarkenProbe</defName>
+    <workerClass>WhisperOfTheForest.Vfx.ScreenDarkenVfxWorker</workerClass>
+    <materialPath>Materials/SelectiveDarken</materialPath>
+    <strength>0.62</strength>
+    <keepLow>0.55</keepLow>
+    <keepHigh>1.2</keepHigh>
+    <durationTicks>180</durationTicks>
+  </WhisperOfTheForest.Vfx.ScreenDarkenVfxDef>
+</Defs>

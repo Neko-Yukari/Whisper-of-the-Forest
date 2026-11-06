@@ -11,6 +11,7 @@ using Verse.AI;
 using WhisperOfTheForest.Missiles;
 using WhisperOfTheForest.Movement;
 using WhisperOfTheForest.Spells;
+using WhisperOfTheForest.Vfx;
 
 namespace WhisperOfTheForest
 {
@@ -76,6 +77,8 @@ namespace WhisperOfTheForest
                     return Hurt(id, args);
                 case "camera":
                     return Camera(id, args);
+                case "vfx":
+                    return Vfx(id, args);
                 case "spellbook":
                     return Spellbook(id, args);
                 case "time":
@@ -97,6 +100,12 @@ namespace WhisperOfTheForest
 
         private static string LogLevel(string id, Dictionary<string, string> args)
         {
+            if (args.ContainsKey("close"))
+            {
+                Find.WindowStack.TryRemove(typeof(LudeonTK.EditWindow_Log));
+                return Ok(id, "\"closed\":true");
+            }
+
             if (args.ContainsKey("tail"))
             {
                 int count = Math.Min(Math.Max(1, RequireInt(args, "tail")), 200);
@@ -622,9 +631,14 @@ namespace WhisperOfTheForest
                 ok = LabActions.TryEquipBlinkStride(pawn);
                 action = "equip-blink";
             }
+            else if (which == "book")
+            {
+                ok = Testing.TestContext.WearSpellbook(pawn) != null;
+                action = "equip-book";
+            }
             else
             {
-                throw new LabCommandException("which must be 'terrain' or 'blink'");
+                throw new LabCommandException("which must be 'terrain', 'blink' or 'book'");
             }
 
             return ActionResult(id, ok, action, pawn);
@@ -1598,6 +1612,71 @@ namespace WhisperOfTheForest
 
             Find.CameraDriver.JumpToCurrentMapLoc(pawn.Position);
             return Ok(id, "\"cameraPos\":" + Json.Cell(pawn.Position));
+        }
+
+        private static string Vfx(string id, Dictionary<string, string> args)
+        {
+            Map map = RequireMap();
+            string bloom = Get(args, "bloom", null);
+            if (bloom != null)
+            {
+                if (bloom == "on")
+                {
+                    RimUnity.RimUnityMod.Bloom.SetLayerEnabled(29, true);
+                }
+                else if (bloom == "off")
+                {
+                    RimUnity.RimUnityMod.Bloom.ReleaseLayer(29);
+                }
+                else
+                {
+                    throw new LabCommandException("bloom must be on or off");
+                }
+
+                return Ok(id, "\"bloom\":" + Json.Str(bloom));
+            }
+
+            Pawn pawn = RequireSelectedPawn();
+            int x = args.ContainsKey("x") ? RequireInt(args, "x") : pawn.Position.x;
+            int z = args.ContainsKey("z") ? RequireInt(args, "z") : pawn.Position.z;
+            string defName = Get(args, "def", "WotF_Vfx_PipelineProbe");
+
+            var origin = new UnityEngine.Vector3(x, 0f, z);
+            UnityEngine.Vector3 target = origin;
+            string targetRaw = Get(args, "target", null);
+            if (targetRaw != null)
+            {
+                string[] parts = targetRaw.Split(',');
+                if (parts.Length != 2
+                    || !float.TryParse(parts[0].Trim(), NumberStyles.Float, CultureInfo.InvariantCulture, out float targetX)
+                    || !float.TryParse(parts[1].Trim(), NumberStyles.Float, CultureInfo.InvariantCulture, out float targetZ))
+                {
+                    throw new LabCommandException("target must be x,z");
+                }
+
+                target = new UnityEngine.Vector3(targetX, 0f, targetZ);
+            }
+
+            UnityEngine.Vector3 direction = target - origin;
+            direction.y = 0f;
+            float length = args.ContainsKey("length") ? RequireFloat(args, "length") : 0f;
+            if (length <= 0f)
+            {
+                length = direction.magnitude;
+            }
+
+            VfxService.Play(new VfxRequest
+            {
+                map = map,
+                origin = origin,
+                target = target,
+                direction = direction.sqrMagnitude > 0.0001f ? direction.normalized : new UnityEngine.Vector3(1f, 0f, 0f),
+                length = length,
+                vfxDefName = defName
+            });
+            return Ok(id, "\"def\":" + Json.Str(defName) + ",\"at\":[" + x + ",0," + z + "]"
+                          + ",\"target\":[" + target.x + ",0," + target.z + "]"
+                          + ",\"length\":" + Json.Num(length));
         }
 
         /// <summary>

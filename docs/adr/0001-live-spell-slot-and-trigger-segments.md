@@ -3,9 +3,8 @@
 - 状态：已被取代（2026-11-05）
 - 日期：2026-10-30
 
-> **取代说明（2026-11-05）**：命中触发符文 `WotF_Trigger_OnHit` 已废弃，时机类效果改由法术表里的滞留、地印、延迟三种机制表达。
-> 决策 1、2、5 仍然有效；决策 3、4 描述的“分段 + 前向指针”作为底层载荷机制保留（`SpellSegment`、`spellSegmentIndex`、`SpellTriggerService`、`SpellTriggerGeometry`），
-> 但不再有入口符文，后续由上述三种机制当作载荷使用。原符文见 `_Deprecated/1.7/Defs/Experiments/Spellbook.Trigger.xml`。
+> **取代说明（2026-11-05）**：决策 1、2、5 仍然有效。决策 3、4 已全部移除：命中触发符文废弃，`SpellSegment`、`spellSegmentIndex`、触发服务都已删除，法术计划只有一段。
+> 时机类效果改由滞留、地印、延迟把右侧效果编成嵌套载荷来表达。原符文见 `_Deprecated/1.7/Defs/Experiments/Spellbook.Trigger.xml`。
 
 ## 背景
 
