@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>WotF_ManaNode</defName>
+    <label>mana node</label>
+    <description>A rune-carved pillar that links nearby producers, consumers and mana batteries. The node itself stores no mana.</description>
+    <thingClass>Building</thingClass>
+    <category>Building</category>
+    <designationCategory>Misc</designationCategory>
+    <uiOrder>2500</uiOrder>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.15</fillPercent>
+    <pathCost>14</pathCost>
+    <tickerType>Normal</tickerType>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <selectable>true</selectable>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <graphicData>
+      <texPath>Buildings/ManaNode</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>150</MaxHitPoints>
+      <WorkToBuild>200</WorkToBuild>
+      <Flammability>0</Flammability>
+      <Beauty>8</Beauty>
+    </statBases>
+    <costList>
+      <Steel>40</Steel>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
+    <placeWorkers>
+      <li>PlaceWorker_GlowRadius</li>
+    </placeWorkers>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>8</glowRadius>
+        <glowColor>(80,200,180,0)</glowColor>
+      </li>
+      <li Class="WhisperOfTheForest.Mana.CompProperties_ManaNode">
+        <linkRadius>12.9</linkRadius>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>WotF_ManaFurnace</defName>
+    <label>mana furnace</label>
+    <description>A stone furnace that burns wood to feed the nearest mana network.</description>
+    <thingClass>Building</thingClass>
+    <category>Building</category>
+    <designationCategory>Misc</designationCategory>
+    <uiOrder>2510</uiOrder>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.25</fillPercent>
+    <pathCost>14</pathCost>
+    <tickerType>Normal</tickerType>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <selectable>true</selectable>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <graphicData>
+      <texPath>Buildings/ManaFurnace</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>200</MaxHitPoints>
+      <WorkToBuild>300</WorkToBuild>
+      <Flammability>0</Flammability>
+    </statBases>
+    <costList>
+      <Steel>60</Steel>
+      <ComponentIndustrial>2</ComponentIndustrial>
+    </costList>
+    <placeWorkers>
+      <li>PlaceWorker_GlowRadius</li>
+    </placeWorkers>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>0.5</fuelConsumptionRate>
+        <fuelCapacity>30</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>WoodLog</li>
+          </thingDefs>
+        </fuelFilter>
+        <initialFuelPercent>0</initialFuelPercent>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>5</glowRadius>
+        <glowColor>(220,130,50,0)</glowColor>
+      </li>
+      <li Class="WhisperOfTheForest.Mana.CompProperties_ManaProducer">
+        <manaPerSecond>1.5</manaPerSecond>
+        <linkRadius>12.9</linkRadius>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>WotF_ManaGrove</defName>
+    <label>mana grove</label>
+    <description>A ring of standing stones that draws on the growth of nearby trees. Mature trees inside its radius feed the nearest mana network without being consumed.</description>
+    <thingClass>Building</thingClass>
+    <category>Building</category>
+    <designationCategory>Misc</designationCategory>
+    <uiOrder>2520</uiOrder>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.2</fillPercent>
+    <pathCost>14</pathCost>
+    <tickerType>Normal</tickerType>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <selectable>true</selectable>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <graphicData>
+      <texPath>Buildings/ManaNode</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>200</MaxHitPoints>
+      <WorkToBuild>400</WorkToBuild>
+      <Flammability>0</Flammability>
+      <Beauty>4</Beauty>
+    </statBases>
+    <costList>
+      <Steel>80</Steel>
+      <ComponentIndustrial>2</ComponentIndustrial>
+    </costList>
+    <placeWorkers>
+      <li>PlaceWorker_GlowRadius</li>
+    </placeWorkers>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>6</glowRadius>
+        <glowColor>(120,220,150,0)</glowColor>
+      </li>
+      <li Class="WhisperOfTheForest.Mana.CompProperties_ManaPlantProducer">
+        <manaPerSecondPerGrowth>0.05</manaPerSecondPerGrowth>
+        <maxManaPerSecond>1.5</maxManaPerSecond>
+        <radius>12.9</radius>
+        <minGrowth>0.5</minGrowth>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>WotF_ManaConverter</defName>
+    <label>mana converter</label>
+    <description>A plasteel converter that drains the colony's power grid and condenses the current into mana for the nearest network.</description>
+    <thingClass>Building</thingClass>
+    <category>Building</category>
+    <designationCategory>Misc</designationCategory>
+    <uiOrder>2530</uiOrder>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.25</fillPercent>
+    <pathCost>14</pathCost>
+    <tickerType>Normal</tickerType>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <selectable>true</selectable>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <graphicData>
+      <texPath>Buildings/ManaFurnace</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>250</MaxHitPoints>
+      <WorkToBuild>500</WorkToBuild>
+      <Flammability>0</Flammability>
+    </statBases>
+    <costList>
+      <Steel>100</Steel>
+      <ComponentIndustrial>4</ComponentIndustrial>
+    </costList>
+    <placeWorkers>
+      <li>PlaceWorker_GlowRadius</li>
+    </placeWorkers>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>1000</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>5</glowRadius>
+        <glowColor>(80,180,255,0)</glowColor>
+      </li>
+      <li Class="WhisperOfTheForest.Mana.CompProperties_ManaPowerProducer">
+        <manaPerSecond>1</manaPerSecond>
+        <linkRadius>12.9</linkRadius>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>WotF_ManaBattery</defName>
+    <label>mana battery</label>
+    <description>Stores mana and joins the network of the nearest node within reach. Charge is retained while disconnected and lost when the battery is destroyed.</description>
+    <thingClass>Building</thingClass>
+    <category>Building</category>
+    <designationCategory>Misc</designationCategory>
+    <uiOrder>2505</uiOrder>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.25</fillPercent>
+    <pathCost>14</pathCost>
+    <tickerType>Normal</tickerType>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <selectable>true</selectable>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <graphicData>
+      <texPath>Buildings/ManaNode</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>200</MaxHitPoints>
+      <WorkToBuild>400</WorkToBuild>
+      <Flammability>0</Flammability>
+    </statBases>
+    <costList>
+      <Steel>80</Steel>
+      <ComponentIndustrial>2</ComponentIndustrial>
+    </costList>
+    <comps>
+      <li Class="WhisperOfTheForest.Mana.CompProperties_ManaBattery">
+        <capacity>200</capacity>
+        <linkRadius>12.9</linkRadius>
+      </li>
+    </comps>
+  </ThingDef>
+</Defs>

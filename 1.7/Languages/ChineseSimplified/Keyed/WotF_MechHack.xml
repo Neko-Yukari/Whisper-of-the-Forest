@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_Hack_HostileMechOnly>只能同化敌对机械体。</WotF_Hack_HostileMechOnly>
+  <WotF_Hack_AlreadyAffected>目标已经在同化或受控中。</WotF_Hack_AlreadyAffected>
+  <WotF_Hack_Remaining>剩余时间：{0}</WotF_Hack_Remaining>
+</LanguageData>

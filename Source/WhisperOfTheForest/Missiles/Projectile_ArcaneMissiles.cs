@@ -38,7 +38,7 @@ namespace WhisperOfTheForest.Missiles
         /// code may read. The vanilla launch countdown is pinned to zero because this projectile
         /// steers itself: nothing may treat it as a straight dart in flight.
         /// </summary>
-        internal void Initialize(ArcaneMissile missile, Pawn caster, LocalTargetInfo firedAt, LocalTargetInfo aimedAt)
+        internal void Initialize(ArcaneMissile missile, Thing caster, LocalTargetInfo firedAt, LocalTargetInfo aimedAt)
         {
             state = missile;
             launcher = caster;

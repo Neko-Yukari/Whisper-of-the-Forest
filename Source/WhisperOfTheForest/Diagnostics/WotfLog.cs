@@ -16,6 +16,7 @@ namespace WhisperOfTheForest
         public const string ModuleVfx = "Vfx";
         public const string ModuleMissile = "Missile";
         public const string ModuleMovement = "Movement";
+        public const string ModuleRitual = "Ritual";
         public const string ModuleUI = "UI";
         public const string ModuleBoot = "Boot";
 

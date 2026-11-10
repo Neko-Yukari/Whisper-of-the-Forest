@@ -77,4 +77,6 @@
   <WotF_Augment_Split.label>分裂</WotF_Augment_Split.label>
   <WotF_Augment_Split.description>为左侧的弹射物增加弹数，或为环绕形式多放一枚法球。用在弹射物上时不能与穿透同用。</WotF_Augment_Split.description>
 
+  <WotF_Effect_Hack.label>骇入</WotF_Effect_Hack.label>
+  <WotF_Effect_Hack.description>命中后持续引导，同化敌对机械体。同化时目标眩晕，引导中断则失败；成功后暂时控制，不占机械师带宽，到期恢复原阵营。</WotF_Effect_Hack.description>
 </LanguageData>

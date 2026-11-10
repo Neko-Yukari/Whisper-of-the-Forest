@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <RulePackDef>
+    <defName>WotF_ElfNames</defName>
+    <modExtensions>
+      <li Class="WhisperOfTheForest.Race.ElfNameRules">
+        <reservedNames>
+          <li>Naivara Amastacia</li>
+        </reservedNames>
+      </li>
+    </modExtensions>
+    <rulePack>
+      <rulesStrings>
+        <li>name->[elfFirst] [elfLast]</li>
+      </rulesStrings>
+      <rulesRaw>
+        <li Class="Rule_File">
+          <keyword>elfFirst</keyword>
+          <path>Names/WotF_ElfFemale</path>
+        </li>
+        <li Class="Rule_File">
+          <keyword>elfLast</keyword>
+          <path>Names/WotF_ElfClan</path>
+        </li>
+      </rulesRaw>
+    </rulePack>
+  </RulePackDef>
+</Defs>

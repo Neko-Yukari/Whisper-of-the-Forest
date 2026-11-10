@@ -2,5 +2,10 @@
 <LanguageData>
 
   <WotF_Elf_Colonist.label>elf</WotF_Elf_Colonist.label>
+  <WotF_Elf_Villager.label>forest elf</WotF_Elf_Villager.label>
+  <WotF_Elf_Warrior.label>forest warden</WotF_Elf_Warrior.label>
+  <WotF_Elf_Archer.label>forest archer</WotF_Elf_Archer.label>
+  <WotF_Elf_Trader.label>forest trader</WotF_Elf_Trader.label>
+  <WotF_Elf_Leader.label>archon</WotF_Elf_Leader.label>
 
 </LanguageData>

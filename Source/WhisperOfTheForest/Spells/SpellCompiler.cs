@@ -202,7 +202,32 @@ namespace WhisperOfTheForest.Spells
             };
 
             CompileBody(plan, defs, tuning);
+
+            // A saved spell carries the categories it was created with; only an in-memory recipe
+            // (lab or tooling) was never frozen, so the chain supplies them once.
+            if (recipe.targets != null)
+            {
+                plan.targets = new List<SpellTargetClass>(recipe.targets);
+            }
+
             return plan;
+        }
+
+        /// <summary>
+        /// The union of every effect's categories, with a cell added for each AOE'd effect and for
+        /// each timing rune (which only places a field, seal or timer). Creation freezes this into
+        /// the recipe; it is not recomputed at cast time.
+        /// </summary>
+        public static List<SpellTargetClass> DeriveTargets(SpellRecipe recipe)
+        {
+            if (!TryResolve(recipe, SpellDefs.Tuning, out List<SpellGlyphDef> defs, out _))
+            {
+                return new List<SpellTargetClass>();
+            }
+
+            var scratch = new SpellCastPlan();
+            CompileBody(scratch, defs, SpellDefs.Tuning);
+            return scratch.targets;
         }
 
         /// <summary>
@@ -226,6 +251,7 @@ namespace WhisperOfTheForest.Spells
             if (form.IsCompleteForm)
             {
                 plan.railgun = form.railgun.Copy();
+                SpellTargeting.AddAll(plan.targets, form.targets);
                 return;
             }
 
@@ -239,7 +265,7 @@ namespace WhisperOfTheForest.Spells
                 i++;
             }
 
-            BuildSteps(defs, i, defs.Count, plan.steps);
+            BuildSteps(defs, i, defs.Count, plan.steps, plan.targets);
         }
 
         /// <summary>
@@ -311,7 +337,8 @@ namespace WhisperOfTheForest.Spells
             List<SpellGlyphDef> defs,
             int start,
             int end,
-            List<SpellPlanStep> into)
+            List<SpellPlanStep> into,
+            List<SpellTargetClass> targets)
         {
             int i = start;
             while (i < end)
@@ -337,9 +364,18 @@ namespace WhisperOfTheForest.Spells
 
                 if (IsTimingEffect(step.effect))
                 {
+                    // A timing rune only ever places its field, seal or timer, so its payload's
+                    // categories do not become aim targets.
+                    SpellTargeting.Add(targets, SpellTargetClass.Cell);
                     step.payload = new SpellPayload();
-                    BuildSteps(defs, j, end, step.payload.steps);
+                    BuildSteps(defs, j, end, step.payload.steps, new List<SpellTargetClass>());
                     return;
+                }
+
+                SpellTargeting.AddAll(targets, glyph.targets);
+                if (step.aoe)
+                {
+                    SpellTargeting.Add(targets, SpellTargetClass.Cell);
                 }
 
                 i = j;
@@ -553,6 +589,8 @@ namespace WhisperOfTheForest.Spells
                     return SpellEffectKind.Snare;
                 case SpellDefs.EffectHex:
                     return SpellEffectKind.Hex;
+                case MechHackService.GlyphName:
+                    return SpellEffectKind.Hack;
                 case SpellDefs.EffectMagelight:
                     return SpellEffectKind.Magelight;
                 case SpellDefs.EffectBlink:

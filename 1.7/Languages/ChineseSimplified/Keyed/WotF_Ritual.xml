@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_Ritual_Start>举行仪式：{0}</WotF_Ritual_Start>
+  <WotF_Ritual_InProgress>{0}（进行中）</WotF_Ritual_InProgress>
+  <WotF_Ritual_InspectActive>仪式进行中：{0}</WotF_Ritual_InspectActive>
+  <WotF_Ritual_InspectIdle>尚未举行仪式</WotF_Ritual_InspectIdle>
+  <WotF_Ritual_AutoRepeat>自动重复仪式</WotF_Ritual_AutoRepeat>
+  <WotF_Ritual_AutoRepeat_Current>自动重复：{0}</WotF_Ritual_AutoRepeat_Current>
+  <WotF_Ritual_AutoRepeat_Desc>祭坛空闲时自动重复所选生产仪式；主持者、魔源或材料不足时暂停等待。</WotF_Ritual_AutoRepeat_Desc>
+  <WotF_Ritual_AutoRepeat_Off>停止自动重复</WotF_Ritual_AutoRepeat_Off>
+  <WotF_Ritual_AutoRepeat_None>没有可自动重复的生产仪式。</WotF_Ritual_AutoRepeat_None>
+  <WotF_Ritual_AlreadyRunning>{0} 已在举行中。</WotF_Ritual_AlreadyRunning>
+  <WotF_Ritual_NoCaster>没有可主持仪式的林庭血脉成员。</WotF_Ritual_NoCaster>
+  <WotF_Ritual_Drafted>主持者不能处于征召状态。</WotF_Ritual_Drafted>
+  <WotF_Ritual_NoBloodline>{0} 没有林庭血脉，无法主持仪式。</WotF_Ritual_NoBloodline>
+  <WotF_Ritual_RingIncomplete>粉笔环不完整：缺少 {0} 道粉笔记号。</WotF_Ritual_RingIncomplete>
+  <WotF_Ritual_NoMana>祭坛未接入魔源网络，或网络中的魔源不足。</WotF_Ritual_NoMana>
+  <WotF_Ritual_ManaSpring_Done>灵泉回充完成：{0} 名成员恢复了魔力。</WotF_Ritual_ManaSpring_Done>
+  <WotF_Ritual_Healing_Done>生命再生完成：{0} 人得到治疗。</WotF_Ritual_Healing_Done>
+  <WotF_Ritual_FertileSoil_Done>沃土活化完成：{0} 格土壤化为沃土。</WotF_Ritual_FertileSoil_Done>
+  <WotF_Ritual_RuneAwakening>符文唤醒</WotF_Ritual_RuneAwakening>
+  <WotF_Ritual_RuneAwakening_Desc>选择一枚尚未为殖民地开启的符文。祭坛会消耗其周围地面上的对应材料。</WotF_Ritual_RuneAwakening_Desc>
+  <WotF_Ritual_AllRunesUnlocked>所有符文都已唤醒。</WotF_Ritual_AllRunesUnlocked>
+  <WotF_Ritual_ChooseRune>选择要唤醒的符文。</WotF_Ritual_ChooseRune>
+  <WotF_Ritual_NoMaterials>祭坛周围缺少材料：{0}</WotF_Ritual_NoMaterials>
+  <WotF_Ritual_RuneAlreadyUnlocked>{0} 已经唤醒。</WotF_Ritual_RuneAlreadyUnlocked>
+  <WotF_Ritual_RuneAwakening_Done>{0} 已对整个殖民地唤醒。</WotF_Ritual_RuneAwakening_Done>
+  <WotF_Ritual_SpellbookAwakening_Done>祭坛旁唤醒了一本魔术书。</WotF_Ritual_SpellbookAwakening_Done>
+  <WotF_Ritual_Transmute_Done>点化完成，产物落在祭坛旁。</WotF_Ritual_Transmute_Done>
+  <WotF_Ritual_Transmute_NoRoom>祭坛旁没有空间放置点化产物。</WotF_Ritual_Transmute_NoRoom>
+  <WotF_Ritual_Weather_Done>{0} 完成：天色转为{1}。</WotF_Ritual_Weather_Done>
+  <WotF_Ritual_ShieldDome_Done>古树护盾在祭坛上方展开。</WotF_Ritual_ShieldDome_Done>
+  <WotF_Ritual_LeylineMining_Done>地脉献出 {0} 单位矿物。</WotF_Ritual_LeylineMining_Done>
+  <WotF_Ritual_LeylineMining_NoResource>祭坛下方没有可汲取的深层矿脉。</WotF_Ritual_LeylineMining_NoResource>
+  <WotF_Ritual_BeastCall_Tamed>{0} 接受了召契，加入殖民地。</WotF_Ritual_BeastCall_Tamed>
+  <WotF_Ritual_BeastCall_Left>{0} 没有回应召契，转身离开了。</WotF_Ritual_BeastCall_Left>
+  <WotF_Ritual_Cancelled>{0}被打断，已消耗的魔源和祭品不会退还。</WotF_Ritual_Cancelled>
+  <WotF_Ritual_BeastCall_NoRoom>祭坛旁没有空间容纳召来的灵兽。</WotF_Ritual_BeastCall_NoRoom>
+  <WotF_Ritual_Teleport_NoNode>没有可用的传送节点。</WotF_Ritual_Teleport_NoNode>
+  <WotF_Ritual_Teleport_NoPassengers>祭坛附近没有可传送的殖民者。</WotF_Ritual_Teleport_NoPassengers>
+  <WotF_Ritual_Teleport_Done>{0} 名殖民者被送到{1}。</WotF_Ritual_Teleport_Done>
+  <WotF_ManaVial_NoBloodline>只有林庭血脉成员才能饮下魔源蓝瓶。</WotF_ManaVial_NoBloodline>
+  <WotF_ManaVial_Full>该成员的魔力已满。</WotF_ManaVial_Full>
+  <WotF_Ritual_Participants>环上参与者：{0} 人</WotF_Ritual_Participants>
+  <WotF_Ritual_ParticipantsHint>额外站在粉笔环上的林庭血脉成员会扩大仪式范围，最多四人。</WotF_Ritual_ParticipantsHint>
+  <WotF_Ritual_MinParticipants>至少需要 {0} 名林庭血脉成员站在环上。</WotF_Ritual_MinParticipants>
+  <WotF_Ritual_NeedsParticipants>这场仪式需要 {0} 名林庭血脉成员站在环上，目前只有 {1} 名。</WotF_Ritual_NeedsParticipants>
+</LanguageData>

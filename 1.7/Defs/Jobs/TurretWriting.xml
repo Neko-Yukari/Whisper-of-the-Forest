@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <JobDef>
+    <defName>WotF_WriteTurretSpell</defName>
+    <driverClass>WhisperOfTheForest.Turrets.JobDriver_WriteTurretSpell</driverClass>
+    <reportString>inscribing a spell into TargetA.</reportString>
+    <playerInterruptible>true</playerInterruptible>
+    <casualInterruptible>true</casualInterruptible>
+  </JobDef>
+  <WorkGiverDef>
+    <defName>WotF_WriteTurretSpell</defName>
+    <label>inscribe turret spells</label>
+    <giverClass>WhisperOfTheForest.Turrets.WorkGiver_WriteTurretSpell</giverClass>
+    <workType>BasicWorker</workType>
+    <priorityInType>40</priorityInType>
+    <verb>inscribe spell into</verb>
+    <gerund>inscribing spell into</gerund>
+    <scanThings>true</scanThings>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+</Defs>

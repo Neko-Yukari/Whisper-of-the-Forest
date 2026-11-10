@@ -24,8 +24,8 @@ namespace WhisperOfTheForest.Spells
     }
 
     /// <summary>
-    /// Recovery roots the caster: the pather does not advance while the last phase runs, and the
-    /// existing path continues by itself afterwards. A stance cannot express this - StanceBusy only
+    /// Recovery and snare root the pawn without affecting health or attacks; the existing path
+    /// continues afterwards. A stance cannot express this - StanceBusy only
     /// blocks new jobs and attacks and never stops a pawn that is already walking.
     /// </summary>
     [HarmonyPatch(typeof(Pawn_PathFollower), nameof(Pawn_PathFollower.PatherTick))]

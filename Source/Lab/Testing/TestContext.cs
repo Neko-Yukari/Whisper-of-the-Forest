@@ -78,6 +78,21 @@ namespace WhisperOfTheForest.Testing
             return pawn;
         }
 
+        /// <summary>
+        /// A player elf of the mod's own race. SpawnCaster is a human carrying the gene, so anything
+        /// that depends on the race itself (food type, body, appearance) needs this one.
+        /// </summary>
+        public Pawn SpawnElf(int indexX, int indexZ)
+        {
+            Pawn elf = PawnGenerator.GeneratePawn(new PawnGenerationRequest(
+                DefDatabase<PawnKindDef>.GetNamed("WotF_Elf_Colonist"),
+                Faction.OfPlayer,
+                PawnGenerationContext.NonPlayer,
+                canGeneratePawnRelations: false));
+            GenSpawn.Spawn(elf, Arena.Cell(indexX, indexZ), Map, WipeMode.Vanish);
+            return Arena.Track(elf);
+        }
+
         private Pawn SpawnColonist(int indexX, int indexZ, string name)
         {
             IntVec3 cell = Arena.Cell(indexX, indexZ);
@@ -239,6 +254,20 @@ namespace WhisperOfTheForest.Testing
         }
 
         public static SpellTuningDef Tuning => SpellDefs.Tuning;
+
+        // ------------------------------------------------------------------ player entry points
+
+        /// <summary>The menu the player gets right-clicking the thing with only this pawn selected.</summary>
+        public List<FloatMenuOption> RightClick(Pawn pawn, Thing target)
+        {
+            return FloatMenuMakerMap.GetOptions(new List<Pawn> { pawn }, target.DrawPos, out _);
+        }
+
+        /// <summary>The check the build designator runs every frame before it places a blueprint.</summary>
+        public AcceptanceReport CanPlace(ThingDef def, int indexX, int indexZ, ThingDef stuff = null)
+        {
+            return GenConstruct.CanPlaceBlueprintAt(def, Arena.Cell(indexX, indexZ), Rot4.North, Map, stuffDef: stuff);
+        }
 
         // ------------------------------------------------------------------ casting
 
@@ -436,6 +465,18 @@ namespace WhisperOfTheForest.Testing
         public int MissileImpacts()
         {
             return Map.GetComponent<MapComponent_ArcaneMissiles>()?.TotalImpacts ?? 0;
+        }
+
+        /// <summary>Impacts whose cell lies inside one arena, for tests sharing a save with other scenes.</summary>
+        public int MissileImpactsIn(CellRect area)
+        {
+            return Map.GetComponent<MapComponent_MissileImpactWatch>()?.CountIn(area) ?? 0;
+        }
+
+        /// <summary>Where impacts landed since this map loaded, as "cell=count" pairs.</summary>
+        public string MissileImpactLocations()
+        {
+            return Map.GetComponent<MapComponent_MissileImpactWatch>()?.Locations ?? "";
         }
 
         public static bool Wears(Pawn pawn, string apparelDefName)

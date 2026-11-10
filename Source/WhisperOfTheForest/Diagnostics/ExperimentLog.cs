@@ -43,7 +43,7 @@ namespace WhisperOfTheForest
             }
         }
 
-        public static void Record(string category, Pawn actor, string detail)
+        public static void Record(string category, Thing actor, string detail)
         {
             // Only the lab configures a writer; a normal game records nothing.
             BoundedJsonlWriter active = writer;
@@ -99,15 +99,20 @@ namespace WhisperOfTheForest
             }
         }
 
-        private static string SafeName(Pawn pawn)
+        private static string SafeName(Thing thing)
         {
             try
             {
-                return pawn.Name != null ? pawn.Name.ToStringShort : pawn.LabelShort;
+                if (thing is Pawn pawn)
+                {
+                    return pawn.Name != null ? pawn.Name.ToStringShort : pawn.LabelShort;
+                }
+
+                return thing.LabelShort;
             }
             catch
             {
-                return "pawn-" + pawn.thingIDNumber;
+                return "thing-" + thing.thingIDNumber;
             }
         }
     }

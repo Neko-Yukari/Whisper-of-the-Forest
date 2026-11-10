@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <WotF_ManaNode_Inspect>已连接节点 {0}</WotF_ManaNode_Inspect>
+  <WotF_ManaBattery_Inspect>储存魔源 {0} / {1}</WotF_ManaBattery_Inspect>
+  <WotF_ManaProducer_Linked>已接入 {0} 个节点组成的魔源网络</WotF_ManaProducer_Linked>
+  <WotF_ManaProducer_Unlinked>未接入任何魔源节点</WotF_ManaProducer_Unlinked>
+  <WotF_ManaGrove_Inspect>树木 {0} 棵 · 魔源 {1}/秒</WotF_ManaGrove_Inspect>
+  <WotF_ManaConverter_On>已通电 · 魔源 {0}/秒</WotF_ManaConverter_On>
+  <WotF_ManaConverter_Off>未通电 · 停止转化</WotF_ManaConverter_Off>
+  <WotF_SpellTurret_Inspect>网络魔源 {0} · 每发 {1}</WotF_SpellTurret_Inspect>
+</LanguageData>

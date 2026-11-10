@@ -26,6 +26,13 @@ namespace WhisperOfTheForest.Equipment
         public int Slot => slot;
 
         /// <summary>
+        /// What this staff's material adds to the cast. Recomputed on every attack from the thing's
+        /// current stuff, so a stuff change (dev mode, a mod) is visible immediately and nothing is
+        /// copied into a save.
+        /// </summary>
+        public SpellStaffModifiers Modifiers => SpellStaffModifiers.For(parent.Stuff);
+
+        /// <summary>
         /// The wielder's recipe in the chosen bookmark, or null when nobody holds the staff or the
         /// slot is empty or sealed.
         /// </summary>
@@ -64,14 +71,6 @@ namespace WhisperOfTheForest.Equipment
         {
             base.PostExposeData();
             Scribe_Values.Look(ref slot, "spellSlot", NoSlot);
-
-            // A save from a build with a different bookmark count must not leave the staff pointing
-            // at a slot that no longer exists.
-            if (Scribe.mode == LoadSaveMode.PostLoadInit
-                && (slot < 0 || slot >= GameComponent_Spellbook.SlotCount))
-            {
-                slot = NoSlot;
-            }
         }
 
         private Gizmo SlotCommand()

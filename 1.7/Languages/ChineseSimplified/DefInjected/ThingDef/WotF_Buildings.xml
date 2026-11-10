@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <ThingDef>
+    <WotF_ManaNode.label>魔源节点</WotF_ManaNode.label>
+    <WotF_ManaNode.description>刻着符文的石柱。相邻节点连成网络，连接产魔、用魔设备和魔源电池。节点本身不储存魔源。</WotF_ManaNode.description>
+    <WotF_ManaFurnace.label>魔源熔炉</WotF_ManaFurnace.label>
+    <WotF_ManaFurnace.description>燃烧木材，为最近的魔源网络持续供能的石炉。</WotF_ManaFurnace.description>
+    <WotF_ManaGrove.label>灵木苗圃</WotF_ManaGrove.label>
+    <WotF_ManaGrove.description>立着符文石的林地苗圃。半径内成活的树木会把生长之力汇入最近的魔源网络，树木本身不会被消耗。</WotF_ManaGrove.description>
+    <WotF_ManaConverter.label>魔源转化器</WotF_ManaConverter.label>
+    <WotF_ManaConverter.description>消耗殖民地电力的玻璃钢装置，把电流凝成魔源送入最近的网络。</WotF_ManaConverter.description>
+    <WotF_RitualAltar.label>古林祭坛</WotF_RitualAltar.label>
+    <WotF_RitualAltar.description>低矮的石制祭坛，用于举行森林仪式。它从附近的魔源网络汲取魔源，只有被完整粉笔环围住时才会接受仪式。</WotF_RitualAltar.description>
+    <WotF_TeleportNode.label>传送节点</WotF_TeleportNode.label>
+    <WotF_TeleportNode.description>刻满空间符文的沉重石锚。在祭坛举行传送仪式时，可以把附近的殖民者送到这里。</WotF_TeleportNode.description>
+    <WotF_ChalkMark_White.label>白色粉笔痕</WotF_ChalkMark_White.label>
+    <WotF_ChalkMark_White.description>一道浅色仪式粉笔。围绕祭坛画成一圈，就能承载仪式。</WotF_ChalkMark_White.description>
+    <WotF_ChalkMark_Green.label>绿色粉笔痕</WotF_ChalkMark_Green.label>
+    <WotF_ChalkMark_Green.description>一道绿色仪式粉笔。围绕祭坛画成一圈，就能承载仪式。</WotF_ChalkMark_Green.description>
+    <WotF_ChalkMark_Star.label>星辉粉笔痕</WotF_ChalkMark_Star.label>
+    <WotF_ChalkMark_Star.description>一道银色仪式粉笔。围绕祭坛画成一圈，就能承载仪式。</WotF_ChalkMark_Star.description>
+    <WotF_Chalk.label>仪式粉笔</WotF_Chalk.label>
+    <WotF_Chalk.description>浅色的仪式粉笔棒。由木灰和少量钢铁制成，可围绕祭坛画成粉笔环。</WotF_Chalk.description>
+    <WotF_ChalkGreen.label>翠叶粉笔</WotF_ChalkGreen.label>
+    <WotF_ChalkGreen.description>由白色粉笔与草药点化而成的翠绿粉笔棒，用来画林木与守护的环。</WotF_ChalkGreen.description>
+    <WotF_ChalkStar.label>星辉粉笔</WotF_ChalkStar.label>
+    <WotF_ChalkStar.description>由翠叶粉笔、白银与翡翠点化而成的银白粉笔棒，用来画空间与天象的环。</WotF_ChalkStar.description>
+    <WotF_SpellTurret.label>符咒炮塔</WotF_SpellTurret.label>
+    <WotF_SpellTurret.description>围绕符文聚焦器建成的炮塔。它从最近的魔源网络汲取魔源，发射追踪的奥术飞镖；附近没有网络时保持沉默。</WotF_SpellTurret.description>
+    <WotF_Gun_SpellTurret.label>符咒炮塔聚焦器</WotF_Gun_SpellTurret.label>
+    <WotF_Gun_SpellTurret.description>装在炮塔上的符文聚焦器。它像施法者一样发射奥术飞镖，却没有自己的意志。</WotF_Gun_SpellTurret.description>
+  </ThingDef>
+  <WotF_ManaBattery.label>魔源电池</WotF_ManaBattery.label>
+  <WotF_ManaBattery.description>储存魔源的电池，会接入连接半径内最近节点所在的网络。断开连接时保留存量，拆毁后存量消失。</WotF_ManaBattery.description>
+</LanguageData>

@@ -10,8 +10,9 @@
     casting system therefore owns windup, channel, recovery, cooldown and the payload.
 
     Numbers that belong to the casting system (range, cooldown, payload) are NOT copied here:
-      * range is only the fallback for vanilla UI that reads verbProps.range directly; the real
-        reach comes from the selected bookmark's compiled plan (Verb_CastSpellStaff.EffectiveRange);
+      * range is the fallback before a bookmark is chosen; once EffectiveRange runs it clones this
+        VerbProperties and keeps range in step with the selected bookmark, because both the range
+        test and CastPositionFinder read verbProps.range as well as EffectiveRange;
       * RangedWeapon_Cooldown is the attack cycle of the weapon. It is set to the same 2 s as the
         book's WotF_SpellTuning.cooldownTicks so a drafted attack order retries at the same pace
         the casting service allows another cast. The casting service stays the authority: if the
@@ -30,10 +31,20 @@
     </graphicData>
     <statBases>
       <Mass>2.5</Mass>
-      <Flammability>0.3</Flammability>
       <!-- 2 s: the weapon's own attack cycle, matching WotF_SpellTuning.cooldownTicks. -->
       <RangedWeapon_Cooldown>2</RangedWeapon_Cooldown>
     </statBases>
+    <!--
+      Stuffable on purpose: the material is the third input of the staff, next to the rune chain
+      and the book. Every stuff category the game already uses works; the material's vanilla
+      armour stats are mapped to mana, duration and damage by WotF_SpellTuning.
+    -->
+    <stuffCategories>
+      <li>Metallic</li>
+      <li>Woody</li>
+      <li>Leathery</li>
+    </stuffCategories>
+    <costStuffCount>20</costStuffCount>
     <!-- Lab-granted placeholder, like the movement experiment items: nothing to smelt back. -->
     <smeltable>false</smeltable>
     <weaponClasses>
@@ -88,5 +99,96 @@
       </li>
     </comps>
   </ThingDef>
+
+  <!--
+    Short staff: a cheap, single-purpose short-range weapon for breaking a skip-abduction ritual.
+    Its verb accepts only pawns that are currently participants in a psychic ritual, and the
+    C# side narrows that to the two skip-abduction defs. A hit stuns every assigned participant
+    for stunTicks and then cancels the ritual. It is not a general-purpose weapon.
+  -->
+  <ThingDef ParentName="BaseGun">
+    <defName>WotF_SpellStaffShort</defName>
+    <label>short spell staff</label>
+    <description>A short, plain staff carried for one job: breaking a ritual that reaches into the colony from outside. Its strike only lands on someone taking part in a psychic ritual, and a hit stuns the participants and cancels a skip abduction.</description>
+    <thingClass>ThingWithComps</thingClass>
+    <techLevel>Industrial</techLevel>
+    <graphicData>
+      <texPath>Equipment/SpellStaffShort</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <Mass>1.5</Mass>
+      <RangedWeapon_Cooldown>1.2</RangedWeapon_Cooldown>
+    </statBases>
+    <smeltable>false</smeltable>
+    <weaponClasses>
+      <li>Ranged</li>
+    </weaponClasses>
+    <verbs>
+      <li>
+        <verbClass>WhisperOfTheForest.Equipment.Verb_DisruptPsychicRitual</verbClass>
+        <label>disrupt ritual</label>
+        <isPrimary>true</isPrimary>
+        <hasStandardCommand>true</hasStandardCommand>
+        <warmupTime>0.2</warmupTime>
+        <range>6.9</range>
+        <requireLineOfSight>true</requireLineOfSight>
+        <targetParams>
+          <canTargetPawns>true</canTargetPawns>
+          <canTargetAnimals>false</canTargetAnimals>
+          <canTargetHumans>true</canTargetHumans>
+          <canTargetMechs>false</canTargetMechs>
+          <canTargetSubhumans>true</canTargetSubhumans>
+          <canTargetBuildings>false</canTargetBuildings>
+          <canTargetPlants>false</canTargetPlants>
+          <canTargetLocations>false</canTargetLocations>
+          <canTargetSelf>false</canTargetSelf>
+          <neverTargetIncapacitated>false</neverTargetIncapacitated>
+        </targetParams>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="WhisperOfTheForest.Equipment.CompProperties_ShortStaff">
+        <stunTicks>600</stunTicks>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <RecipeDef>
+    <defName>WotF_MakeShortSpellStaff</defName>
+    <label>make short spell staff</label>
+    <description>Craft a short staff for disrupting skip-abduction rituals.</description>
+    <jobString>making a short spell staff.</jobString>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <workAmount>1200</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>WoodLog</li>
+          </thingDefs>
+        </filter>
+        <count>20</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>8</count>
+      </li>
+    </ingredients>
+    <products>
+      <WotF_SpellStaffShort>1</WotF_SpellStaffShort>
+    </products>
+    <skillRequirements>
+      <Crafting>4</Crafting>
+    </skillRequirements>
+    <recipeUsers>
+      <li>TableMachining</li>
+    </recipeUsers>
+  </RecipeDef>
 
 </Defs>

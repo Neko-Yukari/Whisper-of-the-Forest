@@ -12,4 +12,9 @@
   <WotF_Equipment.Inspect.NoSpell>法术：无</WotF_Equipment.Inspect.NoSpell>
   <WotF_Equipment.Inspect.Current>法术：{0}</WotF_Equipment.Inspect.Current>
 
+  <WotF_ShortStaff.Reason.NoRitual>目标没有参加灵能仪式。</WotF_ShortStaff.Reason.NoRitual>
+  <WotF_ShortStaff.Reason.NotAbduction>该仪式不是跃迁绑架。</WotF_ShortStaff.Reason.NotAbduction>
+  <WotF_ShortStaff.CancelReason>{CASTER_nameDef} 用短法杖打断了仪式。</WotF_ShortStaff.CancelReason>
+  <WotF_ShortStaff.Disrupted>短法杖打断了仪式，{TARGET_nameDef} 被震晕。</WotF_ShortStaff.Disrupted>
+
 </LanguageData>

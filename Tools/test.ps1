@@ -2,7 +2,8 @@
 <#
   One command for the mod's L1 and L2 acceptance:
 
-    1. build when the assembly is older than any source/def file (L0), unless -NoBuild
+    1. build when the assembly is older than any source/def file or is a product build without the Lab
+       host (L0), unless -NoBuild; then run check-defs before the game starts
     2. start the isolated lab instance, or reuse the one this lab folder already has running
     3. run every LabTest inside that instance (optionally repeated) and load the fixture once
     4. print per-test results, the L1 load checks, the L1 disk-log scan and a nonzero exit code when
@@ -113,6 +114,22 @@ function Get-PlayerLogPaths {
 }
 
 <#
+  A declared expected error reaches this script as one sample from the run report: the queue's copy
+  of the entry, whose first line is the message and whose remaining lines are joined with " | " and
+  cut at 1200 characters. A block is exempt only when that first line equals the block head exactly;
+  a prefix test would let one sample excuse a different message that merely starts the same way.
+#>
+function Test-ExpectedLogBlock([string]$head, [string[]]$samples) {
+    foreach ($sample in $samples) {
+        if (-not $sample) { continue }
+        $first = ($sample -split ' \| ')[0].Trim()
+        if ($first -and $first -eq $head) { return $true }
+    }
+
+    return $false
+}
+
+<#
   The in-game queue only keeps the last 1000 lines, so a Def error logged while the mods load can
   be pushed out before the run starts. The disk log keeps the whole process, so it is the authority
   for load-time errors.
@@ -121,7 +138,7 @@ function Get-PlayerLogPaths {
   lines as one block; the block counts as ours when any of its lines names this mod (an exception
   thrown inside our assembly has its name only in the stack).
 #>
-function Read-WotfLogErrors([string]$path, [int]$SkipLines = 0) {
+function Read-WotfLogErrors([string]$path, [int]$SkipLines = 0, [string[]]$ExpectedSamples = @()) {
     $result = [pscustomobject]@{
         Path = $path
         Status = 'missing'
@@ -130,6 +147,7 @@ function Read-WotfLogErrors([string]$path, [int]$SkipLines = 0) {
         TotalLines = 0
         ScannedLines = 0
         ErrorBlocks = 0
+        Exempted = 0
         Messages = @()
     }
 
@@ -185,14 +203,27 @@ function Read-WotfLogErrors([string]$path, [int]$SkipLines = 0) {
             $index++
         }
 
+        # The project does not support old saves. A pre-rename save still names the old
+        # WhisperOfTheForest.Experimental.* classes; those load errors (and the abstract-class
+        # failures they cause) are expected and are not this run's defects.
+        if (($block -match 'WhisperOfTheForest\.Experimental\.') -or
+            ($block -match "Can't load abstract class Verse\.(GameComponent|MapComponent)")) {
+            continue
+        }
+
         $result.ErrorBlocks++
+        $head = ($block[0] -replace '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d+\s+', '') -replace '^ERROR\s+(\[[^\]]*\]\s+)?', ''
+        $head = $head.Trim()
+        if (Test-ExpectedLogBlock $head $ExpectedSamples) {
+            $result.Exempted++
+            continue
+        }
+
         $ours = $block | Where-Object { $_ -match 'WotF|WhisperOfTheForest' }
         if (-not $ours) {
             continue
         }
 
-        $head = $block[0] -replace '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d+\s+', ''
-        $head = $head -replace '^ERROR\s+(\[[^\]]*\]\s+)?', ''
         $frame = $ours | Where-Object { $_ -match 'at .*(WotF|WhisperOfTheForest)' } | Select-Object -First 1
         $entry = if ($frame -and $frame -ne $block[0]) { $head + ' << ' + $frame.Trim() } else { $head }
         if (-not $messages.Contains($entry)) {
@@ -376,6 +407,15 @@ function Test-BuildStale {
     return $newest.LastWriteTimeUtc -gt $built
 }
 
+# A product build (build.ps1 without -Lab) is newer than the sources but has no test host to run.
+function Test-LabAssembly {
+    if (-not (Test-Path -LiteralPath $dll)) {
+        return $false
+    }
+
+    return [Text.Encoding]::ASCII.GetString([IO.File]::ReadAllBytes($dll)).Contains('LabTestRunner')
+}
+
 # --- read-only log inspection ----------------------------------------------------
 if ($InspectLog) {
     $found = Read-WotfLogErrors $InspectLog
@@ -398,9 +438,11 @@ if (-not (Test-Path -LiteralPath $dotnet)) {
 $callStarted = Get-Date
 
 # --- L0 build -----------------------------------------------------------------
+$rebuilt = $false
 if (-not $NoBuild) {
-    if (Test-BuildStale) {
-        Write-Step 'L0 build (assembly is older than the sources)'
+    $productDll = (Test-Path -LiteralPath $dll) -and -not (Test-LabAssembly)
+    if ($productDll -or (Test-BuildStale)) {
+        Write-Step ('L0 build ({0})' -f $(if ($productDll) { 'the assembly is a product build without the Lab host' } else { 'assembly is older than the sources' }))
         # The running game holds the DLL: only a rebuild may stop an instance by itself.
         Stop-LabInstance 'rebuild needs the assembly'
 
@@ -417,10 +459,22 @@ if (-not $NoBuild) {
         if (-not (Test-Path -LiteralPath $dll)) {
             throw "build.ps1 finished but $dll is missing"
         }
+        $rebuilt = $true
     }
     else {
         Write-Host "L0 build: up to date ($dll)"
     }
+}
+elseif (-not (Test-LabAssembly)) {
+    throw "-NoBuild was given but $dll has no Lab host (the last build was a product build); run without -NoBuild."
+}
+
+# --- static Def checks ------------------------------------------------------------
+# Seconds, and it catches what would otherwise cost a game start (missing types, textures, verb shapes).
+Write-Step 'check-defs'
+& (Join-Path $PSScriptRoot 'check-defs.ps1') -Repo $repo
+if ($LASTEXITCODE -ne 0) {
+    throw 'check-defs.ps1 failed; fix the Defs before starting the game.'
 }
 
 # --- instance -----------------------------------------------------------------
@@ -440,6 +494,21 @@ if ($labProcess) {
             Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue
         }
         Start-Sleep -Seconds 3
+        $labProcess = Get-LabProcesses
+    }
+}
+
+# Translations and textures load only at game start: a reused instance would test the old ones.
+if ($labProcess) {
+    $labStarted = (Get-Process -Id @($labProcess)[0].ProcessId).StartTime
+    $changedAsset = @(foreach ($dir in 'Languages', 'Textures', '1.7/Languages', '1.7/Textures') {
+        $path = Join-Path $repo $dir
+        if (Test-Path -LiteralPath $path) {
+            Get-ChildItem -LiteralPath $path -Recurse -File | Where-Object { $_.LastWriteTime -gt $labStarted }
+        }
+    }) | Select-Object -First 1
+    if ($changedAsset) {
+        Stop-LabInstance "asset changed after the instance started: $($changedAsset.Name)"
         $labProcess = Get-LabProcesses
     }
 }
@@ -612,7 +681,14 @@ try {
         }
     }
 
-    $disk = Read-WotfLogErrors $logPaths.Current -SkipLines $skipLines
+    # A test may declare an error it is meant to trigger; the report lists the entries whose text
+    # matched such a declaration, and only those blocks are exempt from the L1 gate.
+    $expectedSamples = @()
+    if ($report.load -and $report.load.expectedErrorSamples) {
+        $expectedSamples = @($report.load.expectedErrorSamples)
+    }
+
+    $disk = Read-WotfLogErrors $logPaths.Current -SkipLines $skipLines -ExpectedSamples $expectedSamples
     $diskGate = 'ok'
     $diskNote = ''
     switch ($disk.Status) {
@@ -628,8 +704,8 @@ try {
     }
 
     $diskColor = if ($diskGate -eq 'ok' -and $disk.Messages.Count -eq 0) { 'Green' } else { 'Red' }
-    Write-Host ("status={0} pid={1} started={2} lines={3} (new this call={4}) errorBlocks={5} ourErrors={6}" -f `
-        $diskGate, $disk.ProcessId, $disk.Started, $disk.TotalLines, $disk.ScannedLines, $disk.ErrorBlocks, $disk.Messages.Count) -ForegroundColor $diskColor
+    Write-Host ("status={0} pid={1} started={2} lines={3} (new this call={4}) errorBlocks={5} exempted={6} ourErrors={7}" -f `
+        $diskGate, $disk.ProcessId, $disk.Started, $disk.TotalLines, $disk.ScannedLines, $disk.ErrorBlocks, $disk.Exempted, $disk.Messages.Count) -ForegroundColor $diskColor
     if ($diskNote) { Write-Host "  $diskNote" -ForegroundColor Red }
 
     # One failure list: the disk log covers the whole process (including mod loading, which the
@@ -647,6 +723,12 @@ try {
 
     foreach ($sample in @($report.load.errorSamples)) {
         if (-not $sample) { continue }
+        # Old-save class names are unsupported; they are not this run's failures.
+        if (($sample -match 'WhisperOfTheForest\.Experimental\.') -or
+            ($sample -match "Can't load abstract class Verse\.(GameComponent|MapComponent)")) {
+            continue
+        }
+
         $key = Get-LogMessageKey $sample
         if ($logKeys.ContainsKey($key)) { continue }
         $logKeys[$key] = $true
@@ -685,6 +767,7 @@ try {
         started = $disk.Started
         scannedLines = $disk.ScannedLines
         errorBlocks = $disk.ErrorBlocks
+        exempted = $disk.Exempted
         ourErrors = $disk.Messages
         queueSamples = @($report.load.errorSamples)
         failures = $logFailures
@@ -697,6 +780,14 @@ try {
     Write-Host ("Report: {0}" -f $latestReport)
     Write-Host ("lab pid={0}  run={1:N1}s  call={2:N1}s  (run {3})" -f `
         (Get-LabPid), $runSeconds, $elapsed, $report.run)
+
+    # One line per call, so the time spent on tests can be counted without opening every report.
+    $ledger = Join-Path $resultDir 'ledger.tsv'
+    if (-not (Test-Path -LiteralPath $ledger)) {
+        Set-Content -LiteralPath $ledger -Encoding utf8 -Value "run`tfilter`ttotal`tfailed`trunSec`tcallSec`trebuilt`treusedInstance"
+    }
+    Add-Content -LiteralPath $ledger -Encoding utf8 -Value ("{0}`t{1}`t{2}`t{3}`t{4:F1}`t{5:F1}`t{6}`t{7}" -f `
+        $report.run, $(if ($Filter) { $Filter } else { '*' }), $report.summary.total, $report.summary.failed, $runSeconds, $elapsed, $rebuilt, $wasReused)
 
     $failed = ($report.summary.failed -gt 0) -or (-not $report.load.passed) `
         -or ([int]$report.load.ownErrorsDuringLoad -gt 0) -or ([int]$report.load.ownErrorsDuringRun -gt 0) `

@@ -105,7 +105,7 @@
       <renderTree>Humanlike</renderTree>
       <baseBodySize>1</baseBodySize>
       <baseHealthScale>1</baseHealthScale>
-      <foodType>OmnivoreHuman</foodType>
+      <foodType>VegetarianAnimal,Plant,Tree</foodType>
       <gestationPeriodDays>18</gestationPeriodDays>
       <meatMarketValue>0.8</meatMarketValue>
       <manhunterOnDamageChance>0.50</manhunterOnDamageChance>
@@ -175,6 +175,7 @@
 
     <alienRace>
       <generalSettings>
+        <maleGenderProbability>0</maleGenderProbability>
         <minAgeForAdulthood>20</minAgeForAdulthood>
         <humanRecipeImport>true</humanRecipeImport>
 
@@ -344,6 +345,7 @@
     <label>elf</label>
     <race>WotF_Elf</race>
     <fixedGender>Female</fixedGender>
+    <nameMakerFemale>WotF_ElfNames</nameMakerFemale>
     <defaultFactionDef>PlayerColony</defaultFactionDef>
     <initialResistanceRange>13~21</initialResistanceRange>
     <apparelRequired>

@@ -9,7 +9,7 @@ namespace WhisperOfTheForest.Missiles
     public struct ArcaneMissileImpactContext
     {
         public Map Map;
-        public Pawn Caster;
+        public Thing Caster;
 
         /// <summary>Thing actually struck. Null for a ground impact; may be a building or wall.</summary>
         public Thing Hit;

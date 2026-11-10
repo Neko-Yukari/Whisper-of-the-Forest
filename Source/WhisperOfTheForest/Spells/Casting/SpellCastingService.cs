@@ -69,6 +69,8 @@ namespace WhisperOfTheForest.Spells
             {
                 caster = caster,
                 map = caster.Map,
+                targetKind = plan.form == SpellFormKind.Self || plan.form == SpellFormKind.Orbit || target.HasThing
+                    ? SpellTargetKind.Thing : SpellTargetKind.Cell,
                 targetThing = targetThing,
                 cell = cell,
                 plan = plan,
@@ -127,9 +129,11 @@ namespace WhisperOfTheForest.Spells
             return SpellDefs.Tuning.channelMoveSpeedFactor;
         }
 
-        /// <summary>True while the pawn's cast sits in recovery, the phase that roots it.</summary>
+        /// <summary>Root pathing without disabling Moving capacity (which would down the pawn).</summary>
         public static bool IsRooted(Pawn pawn)
         {
+            if (pawn.health.hediffSet.HasHediff(DefDatabase<HediffDef>.GetNamed(SpellEffectDefs.HediffEnsnare)))
+                return true;
             SpellCast cast = FindCast(pawn);
             return cast != null && cast.phase == SpellCastPhase.Recovery;
         }
@@ -186,8 +190,8 @@ namespace WhisperOfTheForest.Spells
         }
 
         /// <summary>
-        /// Resolves the target the entry point passed. Self runs on the caster; Touch needs a thing in
-        /// reach; Projectile and Railgun aim at a cell (and keep the picked thing for re-homing).
+        /// Resolves the target the entry point passed. Self runs on the caster; Touch needs a thing or
+        /// cell in reach; Projectile and Railgun keep the aim cell and any thing picked for re-homing.
         /// Everything that can be refused up front is refused here, with player-facing text.
         /// </summary>
         private static bool TryLockTarget(
@@ -294,8 +298,8 @@ namespace WhisperOfTheForest.Spells
                 return false;
             }
 
-            if (cast.plan.form == SpellFormKind.Touch && cast.targetThing != null
-                && (cast.targetThing.Destroyed || !cast.targetThing.Spawned))
+            if (cast.plan.form == SpellFormKind.Touch && cast.targetKind == SpellTargetKind.Thing
+                && (cast.targetThing == null || cast.targetThing.Destroyed || !cast.targetThing.Spawned))
             {
                 reason = "the touched thing is gone";
                 return false;
@@ -365,7 +369,8 @@ namespace WhisperOfTheForest.Spells
 
                     // A live picked thing is re-homed on; a dead or despawned one leaves only the
                     // locked cell, so the dart still flies where the player aimed.
-                    LocalTargetInfo aim = cast.targetThing != null && cast.targetThing.Spawned
+                    LocalTargetInfo aim = cast.targetKind == SpellTargetKind.Thing
+                        && cast.targetThing != null && cast.targetThing.Spawned
                         ? new LocalTargetInfo(cast.targetThing)
                         : new LocalTargetInfo(cast.cell);
 
@@ -417,8 +422,8 @@ namespace WhisperOfTheForest.Spells
         }
 
         /// <summary>
-        /// Self resolves on the caster where it stands at release; Touch resolves on the thing that was
-        /// picked, and only while it is still adjacent and visible.
+        /// Self resolves on the caster; Touch retains the picked Thing or cell identity and checks
+        /// reach and sight again at release. A lost Thing never falls back to its last cell.
         /// </summary>
         private static bool TryResolveContact(SpellCast cast, out Thing primary, out IntVec3 cell, out string failure)
         {
@@ -433,15 +438,20 @@ namespace WhisperOfTheForest.Spells
                 return true;
             }
 
-            Thing target = cast.targetThing;
-            if (target == null || target.Destroyed || !target.Spawned || target.Map != cast.map)
+            cell = cast.cell;
+            if (cast.targetKind == SpellTargetKind.Thing)
             {
-                cell = IntVec3.Invalid;
-                failure = "the touched thing is gone";
-                return false;
-            }
+                Thing target = cast.targetThing;
+                if (target == null || target.Destroyed || !target.Spawned || target.Map != cast.map)
+                {
+                    cell = IntVec3.Invalid;
+                    failure = "the touched thing is gone";
+                    return false;
+                }
 
-            cell = target.Position;
+                primary = target;
+                cell = target.Position;
+            }
             if (!SpellService.IsInTouchReach(caster.Position, cell, cast.plan.range))
             {
                 failure = "the caster is no longer next to the target";
@@ -454,8 +464,22 @@ namespace WhisperOfTheForest.Spells
                 return false;
             }
 
-            primary = target;
             return true;
+        }
+
+        /// <summary>
+        /// Launches a projectile-form plan from anything that can hold a verb, not only a pawn. The
+        /// turret uses this: it has no casting phases and no spellbook slot, only a frozen plan and a
+        /// target. Returns the number of darts actually launched.
+        /// </summary>
+        public static int LaunchProjectile(Thing caster, LocalTargetInfo aim, SpellCastPlan plan)
+        {
+            if (caster == null || !caster.Spawned || caster.Map == null || !aim.IsValid || plan == null)
+            {
+                return 0;
+            }
+
+            return ArcaneMissileLauncher.Fire(caster, aim, BuildMissileSettings(plan));
         }
 
         /// <summary>

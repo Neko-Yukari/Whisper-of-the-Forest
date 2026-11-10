@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <JobDef>
+    <defName>WotF_ChannelMechHack</defName>
+    <driverClass>WhisperOfTheForest.Spells.JobDriver_ChannelMechHack</driverClass>
+    <reportString>Channeling mech assimilation.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+    <checkOverrideOnDamage>Never</checkOverrideOnDamage>
+  </JobDef>
+</Defs>

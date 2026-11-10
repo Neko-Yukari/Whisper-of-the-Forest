@@ -65,9 +65,11 @@ namespace WhisperOfTheForest.LabTests
 
             bool hit = t.StepUntil(() => t.InjurySeverity(target) > severityBefore, 600);
             t.Step(5);
-            int impacts = t.MissileImpacts();
+            // Other reload scenes are parked in the same save; count only hits inside this arena.
+            int impacts = t.MissileImpactsIn(t.Arena.Rect);
             t.Note("hitWithin600Ticks", hit);
             t.Note("impactsAfterLoad", impacts);
+            t.Measure("impactLocations", t.MissileImpactLocations());
             t.Note("targetSeverity", t.InjurySeverity(target));
 
             t.Expect(hit, "the restored dart never hit its target");

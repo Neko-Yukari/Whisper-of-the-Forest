@@ -28,7 +28,7 @@ namespace WhisperOfTheForest.Missiles
         /// <summary>The caster cannot be hit while the volley is still leaving their cell.</summary>
         private const int CasterIgnoreTicks = 12;
 
-        public Pawn caster;
+        public Thing caster;
 
         /// <summary>Live tracking target; becomes null when it dies or leaves the map.</summary>
         public Thing targetThing;
@@ -63,7 +63,7 @@ namespace WhisperOfTheForest.Missiles
         public Thing lastHit;
 
         public void Initialize(
-            Pawn caster,
+            Thing caster,
             Thing targetThing,
             IntVec3 targetCell,
             float startX,

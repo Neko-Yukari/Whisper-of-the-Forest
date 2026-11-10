@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    The Verdant Court: the forest elves' loose settlement league.
+    Neolithic tech, tribal backstories, peaceful by default; a player who attacks them turns them hostile.
+    The leader is called the archon, matching the setting's "执政官".
+  -->
+  <FactionDef ParentName="FactionBase">
+    <defName>WotF_GreenCourt</defName>
+    <label>Verdant Court</label>
+    <description>A loose league of forest elf settlements. They trade herbs, woven cloth and old transcriptions at their border posts, and they keep strangers away from the buried relics at the heart of the woods. Their leader is the archon, first voice of the elders rather than a king.</description>
+    <pawnSingular>forest elf</pawnSingular>
+    <pawnsPlural>forest elves</pawnsPlural>
+    <categoryTag>Tribal</categoryTag>
+    <listOrderPriority>25</listOrderPriority>
+    <settlementGenerationWeight>1</settlementGenerationWeight>
+    <requiredCountAtGameStart>1</requiredCountAtGameStart>
+    <maxConfigurableAtWorldCreation>9999</maxConfigurableAtWorldCreation>
+    <configurationListOrderPriority>25</configurationListOrderPriority>
+    <humanlikeFaction>true</humanlikeFaction>
+    <techLevel>Neolithic</techLevel>
+    <factionIconPath>World/WorldObjects/Expanding/Village</factionIconPath>
+    <factionNameMaker>NamerFactionTribal</factionNameMaker>
+    <settlementNameMaker>NamerSettlementTribal</settlementNameMaker>
+    <leaderTitle>archon</leaderTitle>
+    <leaderTitleFemale>archon</leaderTitleFemale>
+    <basicMemberKind>WotF_Elf_Villager</basicMemberKind>
+    <fixedLeaderKinds>
+      <li>WotF_Elf_Leader</li>
+    </fixedLeaderKinds>
+
+    <canSiege>false</canSiege>
+    <canStageAttacks>true</canStageAttacks>
+    <canPsychicRitualSiege>false</canPsychicRitualSiege>
+    <canRequestTraders>true</canRequestTraders>
+    <canRequestMilitaryAid>false</canRequestMilitaryAid>
+    <canGenerateQuestSites>true</canGenerateQuestSites>
+    <allowedArrivalTemperatureRange>0~40</allowedArrivalTemperatureRange>
+
+    <colorSpectrum>
+      <li>(0.20, 0.55, 0.30)</li>
+      <li>(0.35, 0.75, 0.42)</li>
+      <li>(0.15, 0.42, 0.28)</li>
+    </colorSpectrum>
+
+    <classicIdeo>true</classicIdeo>
+    <allowedCultures>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Corunan</li>
+    </allowedCultures>
+    <disallowedMemes>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Structure_Ideological</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Transhumanist</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Blindsight</li>
+    </disallowedMemes>
+    <backstoryFilters>
+      <li>
+        <categories>
+          <li>Tribal</li>
+        </categories>
+      </li>
+    </backstoryFilters>
+
+    <caravanTraderKinds>
+      <li>Caravan_Neolithic_BulkGoods</li>
+      <li>Caravan_Neolithic_ShamanMerchant</li>
+    </caravanTraderKinds>
+    <visitorTraderKinds>
+      <li>Visitor_Neolithic_Standard</li>
+    </visitorTraderKinds>
+    <baseTraderKinds>
+      <li>Base_Neolithic_Standard</li>
+    </baseTraderKinds>
+
+    <raidCommonalityFromPointsCurve>
+      <points>
+        <li>(0, 1)</li>
+      </points>
+    </raidCommonalityFromPointsCurve>
+    <raidLootMaker>TribeRaidLootMaker</raidLootMaker>
+    <maxPawnCostPerTotalPointsCurve>
+      <points>
+        <li>(0, 35)</li>
+        <li>(70, 50)</li>
+        <li>(800, 100)</li>
+        <li>(1300, 150)</li>
+        <li>(100000, 10000)</li>
+      </points>
+    </maxPawnCostPerTotalPointsCurve>
+
+    <pawnGroupMakers>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <WotF_Elf_Warrior>10</WotF_Elf_Warrior>
+          <WotF_Elf_Archer>10</WotF_Elf_Archer>
+        </options>
+      </li>
+      <li>
+        <kindDef>Peaceful</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <WotF_Elf_Villager>20</WotF_Elf_Villager>
+        </options>
+      </li>
+      <li>
+        <kindDef>Trader</kindDef>
+        <traders>
+          <WotF_Elf_Trader>1</WotF_Elf_Trader>
+        </traders>
+        <carriers>
+          <Horse>4</Horse>
+        </carriers>
+      </li>
+    </pawnGroupMakers>
+  </FactionDef>
+
+</Defs>

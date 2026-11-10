@@ -19,7 +19,7 @@ namespace WhisperOfTheForest.Missiles
         /// Fires one volley from the caster at a thing or a cell. Returns the number of missiles
         /// actually launched.
         /// </summary>
-        public static int Fire(Pawn caster, LocalTargetInfo target, ArcaneMissileSettings settings)
+        public static int Fire(Thing caster, LocalTargetInfo target, ArcaneMissileSettings settings)
         {
             if (caster == null || !caster.Spawned || caster.Map == null || !target.IsValid)
             {
@@ -52,7 +52,7 @@ namespace WhisperOfTheForest.Missiles
         /// never home back onto the thing that was already hit. Returns the number launched.
         /// </summary>
         public static int FireFrom(
-            Pawn caster,
+            Thing caster,
             ArcaneMissileSettings settings,
             Vector3 origin,
             float dirX,
@@ -86,7 +86,7 @@ namespace WhisperOfTheForest.Missiles
         }
 
         private static int Launch(
-            Pawn caster,
+            Thing caster,
             ArcaneMissileSettings settings,
             Vector3 origin,
             float dirX,

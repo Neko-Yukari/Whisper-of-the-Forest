@@ -9,9 +9,9 @@ using WhisperOfTheForest.Testing;
 namespace WhisperOfTheForest.LabTests
 {
     /// <summary>
-    /// Shared helpers for the resource tests. Rune costs are still all 0 in XML, so a test gives a
-    /// rune a cost only for the moment the spell is created and puts the Def back right after: the
-    /// slot keeps the frozen cost, which is exactly what is being tested.
+    /// Shared helpers for the resource tests. A test overlays its own numbers on one rune only for
+    /// the moment the spell is created and puts the Def back right after: the slot keeps the frozen
+    /// cost, which is exactly what is being tested.
     /// </summary>
     internal static class ResourceTestUtil
     {
@@ -113,6 +113,7 @@ namespace WhisperOfTheForest.LabTests
             Pawn target = t.SpawnTarget(9, 5);
             Gene_ForestBloodline gene = Gene_ForestBloodline.Get(caster);
 
+            float defMana = TestContext.Glyph(SpellDefs.EffectHarm).manaCost;
             SpellRecipe recipe = ResourceTestUtil.SaveCosted(t, caster, 0, "costed-dart", SpellDefs.EffectHarm,
                 30f, 12f, 7f, SpellDefs.FormProjectile, SpellDefs.EffectHarm);
             if (recipe == null)
@@ -121,7 +122,7 @@ namespace WhisperOfTheForest.LabTests
             }
 
             t.Measure("frozenCost", recipe.cost == null ? "null" : recipe.cost.ToString());
-            t.Expect(TestContext.Glyph(SpellDefs.EffectHarm).manaCost == 0f, "the Def was not restored");
+            t.Expect(TestContext.Glyph(SpellDefs.EffectHarm).manaCost == defMana, "the Def was not restored");
 
             gene.RefreshMaxFromStats();
             gene.Value = gene.MaxMana;
@@ -149,11 +150,12 @@ namespace WhisperOfTheForest.LabTests
             t.Note("experienceGained", gene.Experience - xpBefore);
 
             // One tick of recovery may already have run after the release.
-            t.Expect(Mathf.Abs(spent - 30f) < 0.5f, "mana spent " + spent + ", expected the frozen 30");
-            t.Expect(Mathf.Abs(caster.psychicEntropy.EntropyValue - 12f * gain) < 0.2f,
-                "neural heat " + caster.psychicEntropy.EntropyValue + ", expected 12 x gain " + gain);
-            t.Expect(Mathf.Abs(gene.Experience - xpBefore - 7f) < 0.01f,
-                "experience gained " + (gene.Experience - xpBefore) + ", expected 7");
+            t.Expect(Mathf.Abs(spent - recipe.cost.mana) < 0.5f,
+                "mana spent " + spent + ", expected the frozen " + recipe.cost.mana);
+            t.Expect(Mathf.Abs(caster.psychicEntropy.EntropyValue - recipe.cost.entropy * gain) < 0.2f,
+                "neural heat " + caster.psychicEntropy.EntropyValue + ", expected " + recipe.cost.entropy + " x gain " + gain);
+            t.Expect(Mathf.Abs(gene.Experience - xpBefore - recipe.cost.experience) < 0.01f,
+                "experience gained " + (gene.Experience - xpBefore) + ", expected " + recipe.cost.experience);
         }
     }
 

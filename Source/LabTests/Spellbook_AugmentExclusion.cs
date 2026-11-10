@@ -19,6 +19,22 @@ namespace WhisperOfTheForest.LabTests
         {
             SpellGlyphDef pierce = TestContext.Glyph(SpellDefs.AugmentPierce);
             SpellGlyphDef split = TestContext.Glyph(SpellDefs.AugmentSplit);
+            GameComponent_Spellbook book = GameComponent_Spellbook.Current;
+            if (book == null)
+            {
+                t.Fail("GameComponent_Spellbook is not present in this game");
+                return;
+            }
+
+            if (!GameComponent_Spellbook.IsUnlocked(pierce))
+            {
+                book.Unlock(pierce);
+            }
+
+            if (!GameComponent_Spellbook.IsUnlocked(split))
+            {
+                book.Unlock(split);
+            }
 
             var afterPierce = new List<string> { SpellDefs.FormProjectile, SpellDefs.AugmentPierce };
             bool splitAccepted = SpellCompiler.CanAppend(afterPierce, split, out string splitReason);

@@ -25,6 +25,12 @@ namespace WhisperOfTheForest.Spells
         /// <summary>The cost this spell was created with; frozen and carried like <see cref="timing"/>.</summary>
         public SpellCost cost;
 
+        /// <summary>
+        /// The union of every effect's target categories, frozen when the spell was created. Casting,
+        /// the player targeter, AI and turrets read only this list.
+        /// </summary>
+        public List<SpellTargetClass> targets;
+
         /// <summary>An independent recipe; editing the copy never touches the source slot.</summary>
         public SpellRecipe Copy()
         {
@@ -33,7 +39,8 @@ namespace WhisperOfTheForest.Spells
                 name = name,
                 glyphs = glyphs == null ? new List<string>() : new List<string>(glyphs),
                 timing = timing?.Copy(),
-                cost = cost?.Copy()
+                cost = cost?.Copy(),
+                targets = targets == null ? null : new List<SpellTargetClass>(targets)
             };
         }
 
@@ -43,23 +50,12 @@ namespace WhisperOfTheForest.Spells
             Scribe_Collections.Look(ref glyphs, "glyphs", LookMode.Value);
             Scribe_Deep.Look(ref timing, "timing");
             Scribe_Deep.Look(ref cost, "cost");
+            Scribe_Collections.Look(ref targets, "targets", LookMode.Value);
 
             // Scribing only clears this while loading; a null list would break every later check.
             if (glyphs == null)
             {
                 glyphs = new List<string>();
-            }
-
-            // A slot saved before timings existed carries none; the chain is its only source, so it
-            // is derived once at the save boundary and written back by the next save.
-            if (timing == null && Scribe.mode == LoadSaveMode.PostLoadInit)
-            {
-                timing = SpellTiming.Derive(glyphs);
-            }
-
-            if (cost == null && Scribe.mode == LoadSaveMode.PostLoadInit)
-            {
-                cost = SpellCost.Derive(glyphs);
             }
         }
 

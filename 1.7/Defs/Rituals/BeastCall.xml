@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <WhisperOfTheForest.Rituals.RitualDef>
+    <defName>WotF_Ritual_BeastCall</defName>
+    <label>rite of beast calling</label>
+    <description>The caster lays out a green chalk ring and offers hay to the grove. A single animal answers beside the altar; one taming attempt follows, and the animal leaves if it refuses.</description>
+    <ringSize>5</ringSize>
+    <chalkColor>Green</chalkColor>
+    <manaCost>120</manaCost>
+    <durationTicks>900</durationTicks>
+    <effectRadius>12.9</effectRadius>
+    <participantRadiusPerExtra>0.1</participantRadiusPerExtra>
+    <maxParticipants>4</maxParticipants>
+    <summonedAnimal>Horse</summonedAnimal>
+    <tameChanceBase>0.4</tameChanceBase>
+    <tameChancePerSkill>0.05</tameChancePerSkill>
+    <tameWildnessFactor>0.5</tameWildnessFactor>
+    <inputCosts>
+      <Hay>50</Hay>
+    </inputCosts>
+    <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_BeastCall</effectWorkerClass>
+  </WhisperOfTheForest.Rituals.RitualDef>
+</Defs>

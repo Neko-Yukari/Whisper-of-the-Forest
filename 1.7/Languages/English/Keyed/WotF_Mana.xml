@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <WotF_ManaNode_Inspect>Linked nodes {0}</WotF_ManaNode_Inspect>
+  <WotF_ManaBattery_Inspect>Stored mana {0} / {1}</WotF_ManaBattery_Inspect>
+  <WotF_ManaProducer_Linked>Linked to a network of {0} nodes</WotF_ManaProducer_Linked>
+  <WotF_ManaProducer_Unlinked>Not linked to any mana node</WotF_ManaProducer_Unlinked>
+  <WotF_ManaGrove_Inspect>Trees {0} · mana {1}/s</WotF_ManaGrove_Inspect>
+  <WotF_ManaConverter_On>Powered · {0} mana/s</WotF_ManaConverter_On>
+  <WotF_ManaConverter_Off>No power · not converting</WotF_ManaConverter_Off>
+  <WotF_SpellTurret_Inspect>Network mana {0} · {1} per shot</WotF_SpellTurret_Inspect>
+</LanguageData>

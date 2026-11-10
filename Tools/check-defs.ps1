@@ -21,6 +21,9 @@
     6. Verse/Game.cs:475-486 instantiates every non-abstract GameComponent with
        Activator.CreateInstance(type, game); StaticConstructorOnStartupUtility.cs:32-51
        warns about types with static asset fields and no StaticConstructorOnStartup.
+    7. Vanilla classes that look up one hard-coded verb type and use the result without a null
+       check never match a mod verb ($hardVerbConsumers, each with its source line). Today only
+       RimWorld/PlaceWorker_ShowTurretRadius.cs:9 (exactly Verb_Shoot, or a Verb_Spray subclass).
 #>
 [CmdletBinding()]
 param(
@@ -54,6 +57,20 @@ $bodyTypes = @('Male', 'Female', 'Thin', 'Hulk', 'Fat')
 $assetFieldTypes = @(
     'UnityEngine.Texture', 'UnityEngine.Material', 'UnityEngine.Shader', 'Verse.Graphic',
     'UnityEngine.GameObject', 'UnityEngine.MaterialPropertyBlock'
+)
+
+# Vanilla classes that look up one hard-coded verb type and dereference the result without a null
+# check. A mod verb never matches, so using one of these with our verbs throws. The other vanilla
+# verb-type checks (CompShield.CompAllowVerbCast, AttackTargetFinder, VerbUtility.GetProjectile...)
+# skip a non-matching verb and do not belong here.
+$hardVerbConsumers = @(
+    @{
+        Class   = 'RimWorld.PlaceWorker_ShowTurretRadius'
+        Source  = 'RimWorld/PlaceWorker_ShowTurretRadius.cs:9'
+        Needs   = 'a verb whose class is exactly Verb_Shoot or derives from Verb_Spray'
+        Accepts = { param($verbType) ($verbType.Full -ieq 'Verse.Verb_Shoot') -or (Test-IsA $verbType 'Verse.Verb_Spray') }
+        Fix     = 'Build placement throws every frame in UIRootUpdate; draw the range ring with a mod PlaceWorker that reads the gun verb itself.'
+    }
 )
 
 $modAssemblyPath = Join-Path $repo '1.7/Assemblies/WhisperOfTheForest.dll'
@@ -429,6 +446,44 @@ foreach ($entry in $modDefs) {
                 ($null -ne $stuffProps) -or ($stuffCategories.Count -gt 0) -or $destroyOnDrop
             if (-not $givesSomething) {
                 Add-Failure "ThingDef '$($entry.DefName)' is smeltable but does not give anything for smelting" $entry.File
+            }
+        }
+
+        # Rule 7: vanilla classes that need one hard-coded verb type on the turret gun.
+        foreach ($consumer in $hardVerbConsumers) {
+            $usesConsumer = $false
+            foreach ($placeWorker in (Get-ListAt $chain @('placeWorkers'))) {
+                $placeWorkerType = Resolve-TypeName $placeWorker.InnerText
+                if ($null -ne $placeWorkerType -and $placeWorkerType.Full -ieq $consumer.Class) {
+                    $usesConsumer = $true
+                    break
+                }
+            }
+            if (-not $usesConsumer) { continue }
+
+            $ruleChecks++
+            $consumerName = $consumer.Class.Substring($consumer.Class.LastIndexOf('.') + 1)
+            $gunDefName = Get-ScalarAt $chain @('building', 'turretGunDef')
+            $gunEntry = $null
+            if ([string]::IsNullOrEmpty($gunDefName) -or -not $defIndex.TryGetValue($gunDefName, [ref]$gunEntry)) {
+                Add-Failure "turret '$($entry.DefName)' uses $consumerName but turretGunDef '$gunDefName' was not found" $entry.File
+                continue
+            }
+
+            $accepted = $false
+            $verbNames = @()
+            foreach ($verb in (Get-ListAt (Get-DefChain $gunEntry) @('verbs'))) {
+                $verbClassNode = $verb.SelectSingleNode('verbClass')
+                if ($null -eq $verbClassNode) { continue }
+                $verbNames += $verbClassNode.InnerText.Trim()
+                $verbType = Resolve-TypeName $verbClassNode.InnerText
+                if ($null -ne $verbType -and (& $consumer.Accepts $verbType)) {
+                    $accepted = $true
+                    break
+                }
+            }
+            if (-not $accepted) {
+                Add-Failure "turret '$($entry.DefName)' uses $consumerName, which needs $($consumer.Needs) on turretGunDef '$gunDefName' ($($consumer.Source)); found: $($verbNames -join ', '). $($consumer.Fix)" $entry.File
             }
         }
     }

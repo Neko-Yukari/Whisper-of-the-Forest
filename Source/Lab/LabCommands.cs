@@ -8,8 +8,12 @@ using System.Text;
 using RimWorld;
 using Verse;
 using Verse.AI;
+using WhisperOfTheForest.Equipment;
 using WhisperOfTheForest.Missiles;
 using WhisperOfTheForest.Movement;
+using WhisperOfTheForest.Mana;
+using WhisperOfTheForest.Race;
+using WhisperOfTheForest.Rituals;
 using WhisperOfTheForest.Spells;
 using WhisperOfTheForest.Vfx;
 
@@ -47,10 +51,14 @@ namespace WhisperOfTheForest
                     return SelectPawn(id, args);
                 case "spawn":
                     return SpawnSubject(id, args);
+                case "place":
+                    return Place(id, args);
                 case "grant":
-                    return Grant(id);
+                    return Grant(id, args);
                 case "equip":
                     return Equip(id, args);
+                case "staff":
+                    return Staff(id, args);
                 case "unequip":
                     return Unequip(id);
                 case "move":
@@ -81,6 +89,8 @@ namespace WhisperOfTheForest
                     return Vfx(id, args);
                 case "spellbook":
                     return Spellbook(id, args);
+                case "ritual":
+                    return Ritual(id, args);
                 case "time":
                     return Time(id, args);
                 case "save":
@@ -148,6 +158,127 @@ namespace WhisperOfTheForest
 
             return Ok(id, "\"level\":" + Json.Str(WotfLog.LevelName)
                           + ",\"debug\":" + Json.Bool(WotfLog.DebugEnabled));
+        }
+
+        private static string Ritual(string id, Dictionary<string, string> args)
+        {
+            Map map = RequireMap();
+            string action = Get(args, "action", "state").ToLowerInvariant();
+            if (action == "build")
+            {
+                if (Get(args, "confirm", "0") != "1")
+                {
+                    throw new LabCommandException("ritual build mutates the map; pass confirm=1");
+                }
+
+                Pawn selected = RequireSelectedPawn();
+                IntVec3 origin = FindRitualOrigin(map, selected.Position);
+                ClearPlantsAndFilth(map, origin, 7, 7);
+                IntVec3 center = new IntVec3(origin.x + 2, 0, origin.z + 2);
+
+                Thing altar = ThingMaker.MakeThing(ThingDef.Named("WotF_RitualAltar"));
+                GenSpawn.Spawn(altar, center, map, Rot4.North, WipeMode.Vanish);
+
+                SpawnRitualChalk(map, center, 3, ChalkColor.White);
+                Thing node = ThingMaker.MakeThing(ThingDef.Named("WotF_ManaNode"));
+                GenSpawn.Spawn(node, new IntVec3(center.x + 3, 0, center.z), map, Rot4.North, WipeMode.Vanish);
+                Thing furnace = ThingMaker.MakeThing(ThingDef.Named("WotF_ManaFurnace"));
+                GenSpawn.Spawn(furnace, new IntVec3(center.x + 3, 0, center.z + 2), map, Rot4.North, WipeMode.Vanish);
+                furnace.TryGetComp<CompRefuelable>()?.Refuel(200f);
+                map.reachability.ClearCache();
+                WotfLog.Info(WotfLog.ModuleRitual, "lab built altar at " + center);
+            }
+
+            CompRitualAltar altarComp = map.listerThings.AllThings
+                .Select(t => t.TryGetComp<CompRitualAltar>())
+                .FirstOrDefault(c => c != null);
+            if (altarComp == null)
+            {
+                throw new LabCommandException("no ritual altar on the map; run ritual action=build confirm=1 first");
+            }
+
+            Pawn caster = map.mapPawns.FreeColonistsSpawned
+                .FirstOrDefault(p => Gene_ForestBloodline.Get(p) != null);
+            RitualDef def = DefDatabase<RitualDef>.GetNamed("WotF_Ritual_ManaSpring");
+            bool started = false;
+            if (action == "drain")
+            {
+                if (caster == null)
+                {
+                    throw new LabCommandException("no bloodline colonist for the ritual");
+                }
+
+                float amount = args.ContainsKey("amount") ? RequireFloat(args, "amount") : 60f;
+                Gene_ForestBloodline.Get(caster).OffsetMana(-Math.Abs(amount));
+            }
+
+            if (action == "start")
+            {
+                if (caster == null)
+                {
+                    throw new LabCommandException("no bloodline colonist for the ritual");
+                }
+
+                started = altarComp.TryStart(def, caster);
+            }
+
+            ManaNetwork network = MapComponent_ManaNetwork.For(map)
+                .NetworkNear(altarComp.parent.Position, altarComp.Props.linkRadius);
+            int missing;
+            bool ringComplete = RitualRing.IsComplete(
+                map, altarComp.parent.Position, def.ringSize, def.chalkColor, out missing);
+
+            StringBuilder json = new StringBuilder(512);
+            json.Append("\"action\":").Append(Json.Str(action));
+            json.Append(",\"altarId\":").Append(Json.Num(altarComp.parent.thingIDNumber));
+            json.Append(",\"ringComplete\":").Append(Json.Bool(ringComplete));
+            json.Append(",\"ringMissing\":").Append(Json.Num(missing));
+            json.Append(",\"active\":").Append(Json.Bool(altarComp.IsActive));
+            json.Append(",\"activeDef\":").Append(Json.Str(altarComp.ActiveDef?.defName));
+            json.Append(",\"started\":").Append(Json.Bool(started));
+            json.Append(",\"networkStored\":").Append(Json.Num(network?.Stored ?? -1f));
+            json.Append(",\"casterId\":").Append(caster == null ? "null" : Json.Num(caster.thingIDNumber));
+            json.Append(",\"casterMana\":").Append(caster == null ? "null" : Json.Num(Gene_ForestBloodline.Get(caster)?.CurrentMana ?? -1f));
+            return Ok(id, json.ToString());
+        }
+
+        private static IntVec3 FindRitualOrigin(Map map, IntVec3 near)
+        {
+            for (int radius = 0; radius <= 12; radius += 2)
+            {
+                for (int dx = -radius; dx <= radius; dx += 2)
+                {
+                    for (int dz = -radius; dz <= radius; dz += 2)
+                    {
+                        IntVec3 candidate = new IntVec3(near.x + dx, 0, near.z + dz);
+                        if (RectClear(map, candidate, 7, 7))
+                        {
+                            return candidate;
+                        }
+                    }
+                }
+            }
+
+            throw new LabCommandException("no clear 7x7 area for the ritual altar");
+        }
+
+        private static void SpawnRitualChalk(Map map, IntVec3 center, int size, ChalkColor color)
+        {
+            string defName = "WotF_ChalkMark_" + color;
+            int radius = (size - 1) / 2;
+            for (int dx = -radius; dx <= radius; dx++)
+            {
+                for (int dz = -radius; dz <= radius; dz++)
+                {
+                    if (Math.Max(Math.Abs(dx), Math.Abs(dz)) != radius)
+                    {
+                        continue;
+                    }
+
+                    Thing mark = ThingMaker.MakeThing(ThingDef.Named(defName));
+                    GenSpawn.Spawn(mark, center + new IntVec3(dx, 0, dz), map, Rot4.North, WipeMode.Vanish);
+                }
+            }
         }
 
         private static string Status(string id)
@@ -587,30 +718,99 @@ namespace WhisperOfTheForest
                 cell = FindFreeCell(map);
             }
 
-            PawnKindDef kind = DefDatabase<PawnKindDef>.GetNamedSilentFail(ElfPawnKindDefName);
+            string kindName = Get(args, "def", ElfPawnKindDefName);
+            PawnKindDef kind = DefDatabase<PawnKindDef>.GetNamedSilentFail(kindName);
             if (kind == null)
             {
-                Log.Error("[WotF-Lab] pawn kind " + ElfPawnKindDefName + " is missing; spawn skipped.");
-                throw new LabCommandException("pawn kind " + ElfPawnKindDefName + " is missing");
+                throw new LabCommandException("pawn kind " + kindName + " is missing");
             }
 
-            Pawn pawn = PawnGenerator.GeneratePawn(kind, Faction.OfPlayer, null);
+            Faction faction = Faction.OfPlayer;
+            string factionName = Get(args, "faction", null);
+            if (factionName != null)
+            {
+                FactionDef factionDef = DefDatabase<FactionDef>.GetNamedSilentFail(factionName);
+                faction = factionDef == null ? null : Find.FactionManager.FirstFactionOfDef(factionDef);
+                if (faction == null)
+                {
+                    throw new LabCommandException("faction " + factionName + " is not present on this map");
+                }
+            }
+
+            Pawn pawn = PawnGenerator.GeneratePawn(kind, faction, null);
             if (pawn == null)
             {
                 throw new LabCommandException("PawnGenerator returned null for " + kind.defName);
             }
 
             GenSpawn.Spawn(pawn, cell, map, WipeMode.Vanish);
-            pawn.Name = new NameSingle("Lab Subject " + pawn.thingIDNumber);
+            if (Get(args, "name", "lab") != "generated")
+            {
+                pawn.Name = new NameSingle("Lab Subject " + pawn.thingIDNumber);
+            }
             Find.Selector.ClearSelection();
             Find.Selector.Select(pawn, false, false);
             ExperimentLog.Record("lab", pawn, "spawned experiment subject kind=" + kind.defName + " at " + cell);
-            return Ok(id, "\"pawn\":{" + "\"id\":" + Json.Num(pawn.thingIDNumber) + ",\"name\":" + Json.Str(pawn.Name.ToStringShort) + ",\"def\":" + Json.Str(pawn.def.defName) + ",\"pos\":" + Json.Cell(pawn.Position) + "}");
+            return Ok(id, "\"pawn\":{\"id\":" + Json.Num(pawn.thingIDNumber) + ",\"name\":" +
+                Json.Str(pawn.Name?.ToStringShort ?? pawn.LabelShort) + ",\"def\":" + Json.Str(pawn.def.defName) +
+                ",\"pos\":" + Json.Cell(pawn.Position) + "}");
         }
 
-        private static string Grant(string id)
+        /// <summary>
+        /// Places one finished, player-owned building: def=, then x=/z= on the map or dx=/dz= from the
+        /// selected pawn, optional stuff=. A refuelable building is filled so a demo scene runs at once.
+        /// </summary>
+        private static string Place(string id, Dictionary<string, string> args)
+        {
+            Map map = RequireMap();
+            string defName = Get(args, "def", null);
+            ThingDef def = defName == null ? null : DefDatabase<ThingDef>.GetNamedSilentFail(defName);
+            if (def == null || def.category != ThingCategory.Building)
+            {
+                throw new LabCommandException("def must name a loaded building def, got " + defName);
+            }
+
+            IntVec3 cell = args.ContainsKey("x")
+                ? new IntVec3(RequireInt(args, "x"), 0, RequireInt(args, "z"))
+                : RequireSelectedPawn().Position + new IntVec3(RequireInt(args, "dx"), 0, RequireInt(args, "dz"));
+            if (!cell.InBounds(map))
+            {
+                throw new LabCommandException("cell out of bounds");
+            }
+
+            ThingDef stuff = null;
+            if (def.MadeFromStuff)
+            {
+                string stuffName = Get(args, "stuff", null);
+                stuff = stuffName == null ? GenStuff.DefaultStuffFor(def) : DefDatabase<ThingDef>.GetNamedSilentFail(stuffName);
+                if (stuff == null || !stuff.IsStuff)
+                {
+                    throw new LabCommandException("stuff must name a loaded stuff def, got " + stuffName);
+                }
+            }
+
+            Thing thing = ThingMaker.MakeThing(def, stuff);
+            thing.SetFaction(Faction.OfPlayer);
+            GenSpawn.Spawn(thing, cell, map, WipeMode.Vanish);
+            CompRefuelable fuel = thing.TryGetComp<CompRefuelable>();
+            fuel?.Refuel(fuel.Props.fuelCapacity);
+            return Ok(id, "\"thing\":{\"id\":" + Json.Num(thing.thingIDNumber) + ",\"def\":" + Json.Str(def.defName) + ",\"pos\":" + Json.Cell(thing.Position) + "}");
+        }
+
+        private static string Grant(string id, Dictionary<string, string> args)
         {
             Pawn pawn = RequireSelectedPawn();
+            if (Get(args, "which", "psylink") == "bloodline")
+            {
+                if (Gene_ForestBloodline.Get(pawn) == null)
+                {
+                    pawn.genes.AddGene(DefDatabase<GeneDef>.GetNamed("WotF_ForestBloodline"), false);
+                }
+
+                SpellService.GrantCastAbilityToEligiblePawns();
+                return Ok(id, "\"action\":\"grant-bloodline\",\"pawn\":" + Json.Num(pawn.thingIDNumber));
+            }
+
             bool ok = LabActions.TryGrantPsylink(pawn);
             return ActionResult(id, ok, "grant-psylink", pawn);
         }
@@ -636,12 +836,53 @@ namespace WhisperOfTheForest
                 ok = Testing.TestContext.WearSpellbook(pawn) != null;
                 action = "equip-book";
             }
+            else if (which == "staff")
+            {
+                string stuffName = Get(args, "stuff", "Steel");
+                ThingDef stuff = DefDatabase<ThingDef>.GetNamedSilentFail(stuffName);
+                if (stuff == null || !stuff.IsStuff)
+                {
+                    throw new LabCommandException("stuff must name a loaded stuff def, got " + stuffName);
+                }
+
+                ok = LabActions.TryEquipSpellStaff(pawn, stuff);
+                action = "equip-staff";
+            }
             else
             {
-                throw new LabCommandException("which must be 'terrain', 'blink' or 'book'");
+                throw new LabCommandException("which must be 'terrain', 'blink', 'book' or 'staff'");
             }
 
             return ActionResult(id, ok, action, pawn);
+        }
+
+        private static string Staff(string id, Dictionary<string, string> args)
+        {
+            Pawn pawn = RequireSelectedPawn();
+            CompSpellStaff comp = pawn.equipment?.Primary?.TryGetComp<CompSpellStaff>();
+            if (comp == null)
+            {
+                throw new LabCommandException("selected pawn does not carry a spell staff");
+            }
+
+            string action = Get(args, "action", "status").ToLowerInvariant();
+            if (action == "slot")
+            {
+                comp.SetSlot(RequireSpellSlot(args));
+            }
+            else if (action != "status")
+            {
+                throw new LabCommandException("staff action must be 'status' or 'slot'");
+            }
+
+            SpellStaffModifiers modifiers = comp.Modifiers;
+            StringBuilder json = new StringBuilder(256);
+            json.Append("\"slot\":").Append(Json.Num(comp.Slot));
+            json.Append(",\"stuff\":").Append(Json.Str(pawn.equipment.Primary.Stuff?.defName ?? "null"));
+            json.Append(",\"manaFactor\":").Append(Json.Num(modifiers.manaFactor));
+            json.Append(",\"durationFactor\":").Append(Json.Num(modifiers.durationFactor));
+            json.Append(",\"damageFactor\":").Append(Json.Num(modifiers.damageFactor));
+            return Ok(id, json.ToString());
         }
 
         private static string Unequip(string id)
@@ -1704,6 +1945,16 @@ namespace WhisperOfTheForest
             {
                 case "status":
                     break;
+
+                case "unlock":
+                {
+                    RequireSpellbookComponent(component);
+                    string glyphName = Get(args, "glyph", null);
+                    SpellGlyphDef glyph = glyphName == null ? null : SpellDefs.Glyph(glyphName);
+                    if (glyph == null) throw new LabCommandException("unknown glyph def '" + glyphName + "'");
+                    json.Append(",\"unlocked\":").Append(Json.Bool(component.Unlock(glyph)));
+                    break;
+                }
 
                 case "save":
                 {

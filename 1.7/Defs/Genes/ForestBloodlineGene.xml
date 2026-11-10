@@ -15,6 +15,7 @@
     <labelShortAdj>forest-blooded</labelShortAdj>
     <description>An inherited bond with the forest's old magic. Carriers hold mana, learn their own kind of casting, and can wake a spellbook that is dead in anyone else's hands. The bond also raises how much neural heat the body can bear.</description>
     <displayCategory>Ability</displayCategory>
+    <dontMindRawFood>true</dontMindRawFood>
     <biostatCpx>2</biostatCpx>
     <geneClass>WhisperOfTheForest.Race.Gene_ForestBloodline</geneClass>
     <resourceGizmoType>WhisperOfTheForest.Race.GeneGizmo_ForestMana</resourceGizmoType>
@@ -31,6 +32,10 @@
     <manaBarColor>(0.36, 0.62, 0.92)</manaBarColor>
     <manaBarHighlightColor>(0.62, 0.85, 1)</manaBarHighlightColor>
     <resourceGizmoThresholds />
+
+    <poweredWorkTableSpeedFactor>0.7</poweredWorkTableSpeedFactor>
+    <handcraftQualityBonus>1</handcraftQualityBonus>
+    <elfRepairEffect>WotF_ElfRepair</elfRepairEffect>
 
     <maxLevel>20</maxLevel>
     <!-- Placeholders: the old six-level table's numbers, flat beyond them. -->

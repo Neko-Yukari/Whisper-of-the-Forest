@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_Ritual_Start>Perform {0}</WotF_Ritual_Start>
+  <WotF_Ritual_InProgress>{0} (in progress)</WotF_Ritual_InProgress>
+  <WotF_Ritual_InspectActive>Ritual in progress: {0}</WotF_Ritual_InspectActive>
+  <WotF_Ritual_InspectIdle>No ritual in progress</WotF_Ritual_InspectIdle>
+  <WotF_Ritual_AutoRepeat>Auto-repeat rite</WotF_Ritual_AutoRepeat>
+  <WotF_Ritual_AutoRepeat_Current>Auto-repeat: {0}</WotF_Ritual_AutoRepeat_Current>
+  <WotF_Ritual_AutoRepeat_Desc>Keep performing this production rite whenever the altar is idle, as long as a caster, mana and materials are available.</WotF_Ritual_AutoRepeat_Desc>
+  <WotF_Ritual_AutoRepeat_Off>Stop auto-repeat</WotF_Ritual_AutoRepeat_Off>
+  <WotF_Ritual_AutoRepeat_None>No production rite can be auto-repeated.</WotF_Ritual_AutoRepeat_None>
+  <WotF_Ritual_AlreadyRunning>{0} is already in progress.</WotF_Ritual_AlreadyRunning>
+  <WotF_Ritual_NoCaster>No bloodline member is available to perform the ritual.</WotF_Ritual_NoCaster>
+  <WotF_Ritual_Drafted>The caster cannot be drafted.</WotF_Ritual_Drafted>
+  <WotF_Ritual_NoBloodline>{0} has no forest bloodline and cannot perform the ritual.</WotF_Ritual_NoBloodline>
+  <WotF_Ritual_RingIncomplete>The chalk ring is incomplete: {0} marks are missing.</WotF_Ritual_RingIncomplete>
+  <WotF_Ritual_NoMana>The altar is not connected to a mana network, or the network has too little mana.</WotF_Ritual_NoMana>
+  <WotF_Ritual_ManaSpring_Done>The mana spring is restored: {0} members recovered mana.</WotF_Ritual_ManaSpring_Done>
+  <WotF_Ritual_Healing_Done>The rite of mending restores {0} people.</WotF_Ritual_Healing_Done>
+  <WotF_Ritual_FertileSoil_Done>The fertile awakening raises {0} cells to rich soil.</WotF_Ritual_FertileSoil_Done>
+  <WotF_Ritual_RuneAwakening>Awaken a rune</WotF_Ritual_RuneAwakening>
+  <WotF_Ritual_RuneAwakening_Desc>Choose a rune the colony has not opened yet. The altar consumes the rune's materials from the ground around it.</WotF_Ritual_RuneAwakening_Desc>
+  <WotF_Ritual_AllRunesUnlocked>Every rune is already awakened.</WotF_Ritual_AllRunesUnlocked>
+  <WotF_Ritual_ChooseRune>Choose a rune to awaken.</WotF_Ritual_ChooseRune>
+  <WotF_Ritual_NoMaterials>The altar lacks materials: {0}</WotF_Ritual_NoMaterials>
+  <WotF_Ritual_RuneAlreadyUnlocked>{0} is already awakened.</WotF_Ritual_RuneAlreadyUnlocked>
+  <WotF_Ritual_RuneAwakening_Done>{0} is awakened for the whole colony.</WotF_Ritual_RuneAwakening_Done>
+  <WotF_Ritual_SpellbookAwakening_Done>A spellbook is awakened beside the altar.</WotF_Ritual_SpellbookAwakening_Done>
+  <WotF_Ritual_SpellbookAwakening_NoRoom>There is no room beside the altar for the awakened spellbook.</WotF_Ritual_SpellbookAwakening_NoRoom>
+  <WotF_Ritual_Transmute_Done>The transmutation is complete; its products lie beside the altar.</WotF_Ritual_Transmute_Done>
+  <WotF_Ritual_Transmute_NoRoom>There is no room beside the altar for the products.</WotF_Ritual_Transmute_NoRoom>
+  <WotF_Ritual_Weather_Done>{0} settles in: {1}.</WotF_Ritual_Weather_Done>
+  <WotF_Ritual_ShieldDome_Done>The grove shield closes over the altar.</WotF_Ritual_ShieldDome_Done>
+  <WotF_Ritual_LeylineMining_Done>The leyline yields {0} units of ore.</WotF_Ritual_LeylineMining_Done>
+  <WotF_Ritual_LeylineMining_NoResource>No deep resource lies beneath the altar.</WotF_Ritual_LeylineMining_NoResource>
+  <WotF_Ritual_LeylineMining_NoRoom>There is no room beside the altar for the ore.</WotF_Ritual_LeylineMining_NoRoom>
+  <WotF_Ritual_BeastCall_Tamed>{0} accepts the call and joins the colony.</WotF_Ritual_BeastCall_Tamed>
+  <WotF_Ritual_BeastCall_Left>{0} refuses the call and leaves.</WotF_Ritual_BeastCall_Left>
+  <WotF_Ritual_Cancelled>{0} was interrupted. The mana and offerings already spent are lost.</WotF_Ritual_Cancelled>
+  <WotF_Ritual_BeastCall_NoRoom>There is no room beside the altar for the summoned beast.</WotF_Ritual_BeastCall_NoRoom>
+  <WotF_Ritual_Teleport_NoNode>There is no teleport node to reach.</WotF_Ritual_Teleport_NoNode>
+  <WotF_Ritual_Teleport_NoPassengers>No colonists stand near the altar to carry.</WotF_Ritual_Teleport_NoPassengers>
+  <WotF_Ritual_Teleport_Done>{0} colonists arrive at {1}.</WotF_Ritual_Teleport_Done>
+  <WotF_ManaVial_NoBloodline>Only a forest-blooded pawn can drink a mana vial.</WotF_ManaVial_NoBloodline>
+  <WotF_ManaVial_Full>That pawn's mana is already full.</WotF_ManaVial_Full>
+  <WotF_Ritual_Participants>Participants on the ring: {0}</WotF_Ritual_Participants>
+  <WotF_Ritual_ParticipantsHint>Extra bloodline members standing on the chalk ring widen the rite's reach, up to four.</WotF_Ritual_ParticipantsHint>
+  <WotF_Ritual_MinParticipants>At least {0} bloodline members must stand on the ring.</WotF_Ritual_MinParticipants>
+  <WotF_Ritual_NeedsParticipants>This rite needs {0} bloodline members on the ring; {1} stand there now.</WotF_Ritual_NeedsParticipants>
+</LanguageData>

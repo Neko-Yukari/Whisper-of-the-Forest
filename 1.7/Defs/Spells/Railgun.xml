@@ -25,6 +25,17 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Form_Railgun</defName>
+    <targets>
+      <li>Humanlike</li>
+      <li>Animal</li>
+      <li>Mechanoid</li>
+      <li>Entity</li>
+      <li>Building</li>
+      <li>Rock</li>
+      <li>Plant</li>
+      <li>Item</li>
+      <li>Cell</li>
+    </targets>
     <label>railgun</label>
     <description>A single rune that is a complete spell: it charges for a moment and then fires one straight shot through everything in its path, walls and mountains included. Nobody in the line is spared, the caster excepted.</description>
     <kind>Form</kind>
@@ -52,6 +63,9 @@
       <range>0</range>
       <vfxDef>WotF_Vfx_Railgun</vfxDef>
     </railgun>
+    <manaCost>80</manaCost>
+    <entropyCost>40</entropyCost>
+    <experience>25</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <!-- ============================================================ The effect (RimUnity, 30° rings) -->

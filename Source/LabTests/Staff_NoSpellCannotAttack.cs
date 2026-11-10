@@ -74,7 +74,7 @@ namespace WhisperOfTheForest.LabTests
 
             // Same as the other staff test: equip from the maker. A spawned thing still belongs to
             // the map's ThingOwner, so TryAdd would refuse it and the pawn would stay unarmed.
-            var staff = (ThingWithComps)ThingMaker.MakeThing(def);
+            var staff = (ThingWithComps)ThingMaker.MakeThing(def, ThingDefOf.Steel);
             caster.equipment.AddEquipment(staff);
             if (caster.equipment.Primary != staff)
             {

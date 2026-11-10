@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="ResourceBase">
+    <defName>WotF_ManaVial</defName>
+    <label>mana vial</label>
+    <description>A stoppered vial of blue mana drawn from the colony's network. Drinking it restores mana to a forest-blooded pawn.</description>
+    <thingClass>ThingWithComps</thingClass>
+    <category>Item</category>
+    <thingCategories>
+      <li>ResourcesRaw</li>
+    </thingCategories>
+    <stackLimit>10</stackLimit>
+    <useHitPoints>false</useHitPoints>
+    <graphicData>
+      <texPath>Things/Item/WotF_ManaVial</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.9,0.9)</drawSize>
+    </graphicData>
+    <statBases>
+      <MarketValue>12</MarketValue>
+      <Mass>0.2</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Usable">
+        <useJob>UseItem</useJob>
+        <useLabel>Drink {0_label}</useLabel>
+        <useDuration>60</useDuration>
+        <showUseGizmo>true</showUseGizmo>
+      </li>
+      <li Class="WhisperOfTheForest.Mana.CompProperties_ManaVial">
+        <mana>50</mana>
+      </li>
+      <li Class="CompProperties_UseEffectDestroySelf" />
+    </comps>
+  </ThingDef>
+</Defs>

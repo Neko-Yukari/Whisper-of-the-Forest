@@ -37,6 +37,14 @@ namespace WhisperOfTheForest.Spells
         public bool requiresAmount = true;
 
         /// <summary>
+        /// What this rune's effect may be aimed at, in the spell system's own categories. Required
+        /// for every Effect rune and for a composite form (which is a whole spell on its own); other
+        /// forms take their categories from the effects they carry. The book freezes the union into
+        /// the recipe when the spell is created, so editing this Def cannot change a saved spell.
+        /// </summary>
+        public List<SpellTargetClass> targets;
+
+        /// <summary>
         /// Effect: working radius - the blast of an explosion, the field of a linger, and the area an
         /// AOE'd effect covers before its AOE stacks. Augment AOE: radius added per stack.
         /// </summary>
@@ -115,6 +123,12 @@ namespace WhisperOfTheForest.Spells
         /// shared by the whole colony (<see cref="GameComponent_Spellbook.Unlock"/>).
         /// </summary>
         public bool requiresUnlock;
+
+        /// <summary>
+        /// Materials the altar consumes from its surroundings when a rune awakening opens this rune.
+        /// Empty means the rune needs no materials beyond the ritual's mana.
+        /// </summary>
+        public List<ThingDefCountClass> unlockCost = new List<ThingDefCountClass>();
 
         /// <summary>
         /// How long the effect keeps lasting (Freeze, Snare, Hex, Ignite, Clotting, Magelight, a
@@ -213,6 +227,18 @@ namespace WhisperOfTheForest.Spells
                 yield return "manaCost, entropyCost and experience must not be negative";
             }
 
+            if (unlockCost != null)
+            {
+                for (int i = 0; i < unlockCost.Count; i++)
+                {
+                    ThingDefCountClass cost = unlockCost[i];
+                    if (cost == null || cost.thingDef == null || cost.count <= 0)
+                    {
+                        yield return "unlockCost has a missing thing or a non-positive count";
+                    }
+                }
+            }
+
             if (durationTicks < 0 || pulseIntervalTicks < 0)
             {
                 yield return "durationTicks and pulseIntervalTicks must not be negative";
@@ -278,6 +304,15 @@ namespace WhisperOfTheForest.Spells
                         yield return "only an Effect glyph may set requiresAmount to false";
                     }
 
+                    if (railgun != null && (targets == null || targets.Count == 0))
+                    {
+                        yield return "a composite form must declare its own targets";
+                    }
+                    else if (railgun == null && targets != null)
+                    {
+                        yield return "only an Effect glyph or a composite form may declare targets";
+                    }
+
                     // The form kind is read from the data blocks; self and touch are the only forms
                     // known by name.
                     int blocks = (railgun != null ? 1 : 0) + (projectile != null ? 1 : 0) + (orbit != null ? 1 : 0);
@@ -338,6 +373,11 @@ namespace WhisperOfTheForest.Spells
 
                     break;
                 case SpellGlyphKind.Effect:
+                    if (targets == null || targets.Count == 0)
+                    {
+                        yield return "an Effect glyph must declare its targets";
+                    }
+
                     if (requiresAmount)
                     {
                         if (amount <= 0f)
@@ -431,6 +471,24 @@ namespace WhisperOfTheForest.Spells
         /// <summary>Hard cap on darts or orbs after Split.</summary>
         public int maxMissiles;
 
+        /// <summary>Base spell strength of a staff, before its material adds anything.</summary>
+        public float staffSpellPower;
+
+        /// <summary>Duration extension per point of the material's heat armour power.</summary>
+        public float staffHeatArmorDurationBonus;
+
+        /// <summary>Lowest mana multiplier a material may reach.</summary>
+        public float staffMinManaFactor;
+
+        /// <summary>Mana-cost reduction per point of the material's blunt armour power.</summary>
+        public float staffBluntArmorCostReduction;
+
+        /// <summary>Highest duration multiplier a material may reach.</summary>
+        public float staffMaxDurationFactor;
+
+        /// <summary>Highest damage multiplier a material may reach.</summary>
+        public float staffMaxDamageFactor;
+
         public override IEnumerable<string> ConfigErrors()
         {
             foreach (string error in base.ConfigErrors())
@@ -456,6 +514,36 @@ namespace WhisperOfTheForest.Spells
             if (maxMissiles < 1)
             {
                 yield return "maxMissiles must be at least 1";
+            }
+
+            if (staffSpellPower <= 0f)
+            {
+                yield return "staffSpellPower must be greater than 0";
+            }
+
+            if (staffHeatArmorDurationBonus < 0f)
+            {
+                yield return "staffHeatArmorDurationBonus must not be negative";
+            }
+
+            if (staffMinManaFactor <= 0f || staffMinManaFactor > 1f)
+            {
+                yield return "staffMinManaFactor must be greater than 0 and at most 1";
+            }
+
+            if (staffBluntArmorCostReduction < 0f || staffBluntArmorCostReduction > 1f)
+            {
+                yield return "staffBluntArmorCostReduction must be between 0 and 1";
+            }
+
+            if (staffMaxDurationFactor < 1f)
+            {
+                yield return "staffMaxDurationFactor must be at least 1";
+            }
+
+            if (staffMaxDamageFactor < 1f)
+            {
+                yield return "staffMaxDamageFactor must be at least 1";
             }
         }
     }

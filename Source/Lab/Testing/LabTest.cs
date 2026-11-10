@@ -25,6 +25,13 @@ namespace WhisperOfTheForest.Testing
         public string ExpectedFailureReason { get; set; }
 
         /// <summary>
+        /// Error-level log entries this test is allowed to cause, as regular expressions matched
+        /// against the entry text. Any error logged while the test runs fails it unless one of these
+        /// patterns matches; a match is reported as expected and does not count against the test.
+        /// </summary>
+        public string[] ExpectedLogErrors { get; set; }
+
+        /// <summary>
         /// The test needs a real save/load in the middle: the runner saves, loads the same save and
         /// then calls <see cref="LabTest.AfterReload"/>. Only these tests pay the reload cost.
         /// </summary>
@@ -84,6 +91,8 @@ namespace WhisperOfTheForest.Testing
         internal long TickStart;
         internal long TickEnd;
         internal int LogErrors;
+        internal int LogExpectedErrors;
+        internal int LogUnexpectedErrors;
         internal int LogOwnErrors;
         internal bool LogTruncated;
         internal string Phase;

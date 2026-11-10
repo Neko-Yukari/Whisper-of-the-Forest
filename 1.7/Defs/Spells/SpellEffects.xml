@@ -15,6 +15,31 @@
     SpellEffectDefs, which keeps the names in one place.
   -->
 
+  <HediffDef>
+    <defName>WotF_Hediff_MechAssimilation</defName>
+    <label>being assimilated</label>
+    <description>Stunned while a caster channels mech assimilation. Interrupting the caster breaks the effect.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <initialSeverity>1</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <isBad>true</isBad>
+    <comps>
+      <li Class="WhisperOfTheForest.Spells.HediffCompProperties_MechAssimilation" />
+    </comps>
+  </HediffDef>
+  <HediffDef>
+    <defName>WotF_Hediff_MechControlled</defName>
+    <label>temporarily controlled</label>
+    <description>Temporarily follows the caster's faction without mechanitor bandwidth. Returns to its original faction when control expires.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <initialSeverity>1</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="WhisperOfTheForest.Spells.HediffCompProperties_MechControlled" />
+    </comps>
+  </HediffDef>
+
   <!-- ============================================================ Lasting states -->
 
   <HediffDef>
@@ -75,21 +100,14 @@
     <initialSeverity>1</initialSeverity>
     <maxSeverity>1</maxSeverity>
     <comps>
+      <li Class="HediffCompProperties">
+        <compClass>WhisperOfTheForest.Spells.HediffComp_Ensnare</compClass>
+      </li>
       <li Class="HediffCompProperties_Disappears">
         <disappearsAfterTicks>300~300</disappearsAfterTicks>
         <showRemainingTime>true</showRemainingTime>
       </li>
     </comps>
-    <stages>
-      <li>
-        <capMods>
-          <li>
-            <capacity>Moving</capacity>
-            <setMax>0</setMax>
-          </li>
-        </capMods>
-      </li>
-    </stages>
   </HediffDef>
 
   <HediffDef>

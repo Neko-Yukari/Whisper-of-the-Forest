@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using WhisperOfTheForest.Race;
 
 namespace WhisperOfTheForest.Spells
 {
@@ -78,6 +79,13 @@ namespace WhisperOfTheForest.Spells
 
         public override IEnumerable<Command> GetGizmos()
         {
+            // The carrier ability stays on the pawn, but its buttons only exist while the pawn is a
+            // bloodline caster wearing a spellbook; equipment changes show or hide them immediately.
+            if (Gene_ForestBloodline.Get(pawn) == null || SpellService.WornSpellbook(pawn) == null)
+            {
+                yield break;
+            }
+
             yield return OpenBookCommand();
 
             Command cast = CastCommand();

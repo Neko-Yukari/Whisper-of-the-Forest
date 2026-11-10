@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <RecipeDef>
+    <WotF_MakeChalk.label>制作仪式粉笔</WotF_MakeChalk.label>
+    <WotF_MakeChalk.description>用木灰和少量钢铁制作仪式粉笔。</WotF_MakeChalk.description>
+    <WotF_MakeChalk.jobString>正在制作仪式粉笔。</WotF_MakeChalk.jobString>
+    <WotF_MakeShortSpellStaff.label>制作短法术法杖</WotF_MakeShortSpellStaff.label>
+    <WotF_MakeShortSpellStaff.description>制作一根用于打断跃迁绑架仪式的短法杖。</WotF_MakeShortSpellStaff.description>
+    <WotF_MakeShortSpellStaff.jobString>正在制作短法术法杖。</WotF_MakeShortSpellStaff.jobString>
+  </RecipeDef>
+</LanguageData>

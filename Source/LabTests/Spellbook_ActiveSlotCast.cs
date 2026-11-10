@@ -28,7 +28,23 @@ namespace WhisperOfTheForest.LabTests
             Pawn target = t.SpawnTarget(9, 5);
 
             SpellRecipe self = TestContext.Recipe("self-mark", SpellDefs.FormSelf, SpellDefs.EffectHarm);
-            SpellRecipe dart = TestContext.Recipe("dart-mark", SpellDefs.FormProjectile, SpellDefs.EffectHarm);
+            // The dart rolls an 8° launch spread, so a legitimate cast can miss and make this
+            // handoff test flaky. Compile this one recipe with a straight launch.
+            SpellGlyphDef projectileForm = DefDatabase<SpellGlyphDef>.GetNamed(SpellDefs.FormProjectile);
+            float spread = projectileForm.projectile.launchSpreadDegrees;
+            float wobble = projectileForm.projectile.wobbleAmplitude;
+            projectileForm.projectile.launchSpreadDegrees = 0f;
+            projectileForm.projectile.wobbleAmplitude = 0f;
+            SpellRecipe dart;
+            try
+            {
+                dart = TestContext.Recipe("dart-mark", SpellDefs.FormProjectile, SpellDefs.EffectHarm);
+            }
+            finally
+            {
+                projectileForm.projectile.launchSpreadDegrees = spread;
+                projectileForm.projectile.wobbleAmplitude = wobble;
+            }
 
             t.Expect(book.SaveSlot(caster, 2, self, out string reasonSelf), "save slot 2 refused: " + reasonSelf);
             t.Expect(book.SaveSlot(caster, 4, dart, out string reasonDart), "save slot 4 refused: " + reasonDart);
@@ -64,7 +80,7 @@ namespace WhisperOfTheForest.LabTests
                 return;
             }
 
-            t.Expect(targeting.targetingParams.validator(new TargetInfo(target.Position, target.Map)),
+            t.Expect(targeting.targetingParams.validator(new TargetInfo(target)),
                 "the slot 4 target gizmo refuses a pawn 8 cells away");
             t.Expect(!targeting.Disabled, "slot 4 cast gizmo is disabled: " + targeting.disabledReason);
 

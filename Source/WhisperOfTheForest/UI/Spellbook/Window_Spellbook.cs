@@ -1,3 +1,4 @@
+using System;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -20,6 +21,13 @@ namespace WhisperOfTheForest
     /// </summary>
     public partial class Window_Spellbook : Window
     {
+        protected delegate bool SubmitRecipe(SpellRecipe recipe, out string reason);
+        private readonly SubmitRecipe submitRecipe;
+        private readonly Func<SpellRecipe, float> previewMana;
+        private readonly string composeTitle;
+        private readonly string submitLabel;
+        private bool IsStandalone => submitRecipe != null;
+
         private readonly Pawn caster;
         private readonly SpellbookChain chain = new SpellbookChain();
         private readonly SpellbookAnim anim = new SpellbookAnim();
@@ -50,9 +58,22 @@ namespace WhisperOfTheForest
         private SpellTiming barTiming;
         private SpellCost barCost;
 
-        public Window_Spellbook(Pawn caster)
+        public Window_Spellbook(Pawn caster) : this()
         {
             this.caster = caster;
+        }
+
+        protected Window_Spellbook(SubmitRecipe submit, string title, string buttonLabel,
+            Func<SpellRecipe, float> manaPreview) : this()
+        {
+            submitRecipe = submit;
+            composeTitle = title;
+            submitLabel = buttonLabel;
+            previewMana = manaPreview;
+        }
+
+        private Window_Spellbook()
+        {
             anim.enabled = animationsEnabled;
 
             // The cover is the window: no vanilla title bar, background or close X, all of which
@@ -118,7 +139,7 @@ namespace WhisperOfTheForest
             {
                 for (int i = 0; i < stack.Windows.Count; i++)
                 {
-                    if (stack.Windows[i] is Window_Spellbook)
+                    if (stack.Windows[i].GetType() == GetType())
                     {
                         open++;
                         break;
@@ -132,7 +153,7 @@ namespace WhisperOfTheForest
         public override void PostOpen()
         {
             base.PostOpen();
-            if (refuseAsDuplicate)
+            if (refuseAsDuplicate || IsStandalone)
             {
                 return;
             }
@@ -169,7 +190,7 @@ namespace WhisperOfTheForest
         /// </summary>
         public void SelectBookmark(int index)
         {
-            if (index < 0 || index >= GameComponent_Spellbook.SlotCount)
+            if (IsStandalone || index < 0 || index >= GameComponent_Spellbook.SlotCount)
             {
                 return;
             }
@@ -212,7 +233,8 @@ namespace WhisperOfTheForest
                 DrawHeader(layout.Header);
                 DrawCatalogPage(layout.LeftPage);
                 DrawEditorPage(layout.RightPage);
-                DrawBookmarks(layout.Bookmarks);
+                if (!IsStandalone)
+                    DrawBookmarks(layout.Bookmarks);
                 DrawFooter(layout.Footer);
                 DrawAnimations(layout);
                 DrawBlockedTooltip(new Rect(0f, 0f, inRect.width, inRect.height));
@@ -223,13 +245,14 @@ namespace WhisperOfTheForest
 
         private void RefreshFrameState()
         {
-            GameComponent_Spellbook component = GameComponent_Spellbook.Current;
-            activeSlot = component == null ? -1 : component.GetActiveSlot(caster);
-
             chainValid = SpellService.Validate(chain.ToRecipe(), out chainReason);
             barTiming = SpellTiming.Derive(chain.glyphs);
             barCost = SpellCost.Derive(chain.glyphs);
+            if (IsStandalone)
+                return;
 
+            GameComponent_Spellbook component = GameComponent_Spellbook.Current;
+            activeSlot = component == null ? -1 : component.GetActiveSlot(caster);
             castable = false;
             SpellRecipe saved = SavedRecipe(slot);
             if (saved == null)
@@ -257,19 +280,11 @@ namespace WhisperOfTheForest
             float sideWidth = Mathf.Max(0f, animRect.x - rect.x - 8f);
             float titleWidth = Mathf.Min(rect.width * 0.34f, 300f);
             Rect titleRect = new Rect(rect.center.x - titleWidth * 0.5f, rect.y, titleWidth, rect.height);
-            SpellbookStyle.DrawLabel(titleRect, T("WotF_Spellbook.WindowTitle"), GameFont.Medium,
+            SpellbookStyle.DrawLabel(titleRect, IsStandalone ? composeTitle : T("WotF_Spellbook.WindowTitle"), GameFont.Medium,
                 SpellbookStyle.CoverGold, TextAnchor.MiddleCenter);
 
-            float leftWidth = Mathf.Min(sideWidth, titleRect.x - rect.x - 8f);
-            string casterLabel = caster != null ? caster.LabelShort : T("WotF_Spellbook.NoCaster");
-            string currentName = slotNames[slot];
-            string slotText = TF("WotF_Spellbook.CurrentSlot", slot + 1) + " · " +
-                              (currentName.NullOrEmpty() ? T("WotF_Spellbook.SlotEmpty") : currentName);
-            SpellbookStyle.DrawLabel(new Rect(rect.x, rect.y, leftWidth, rect.height * 0.5f + 2f),
-                TF("WotF_Spellbook.Caster", casterLabel), GameFont.Tiny, SpellbookStyle.CoverText,
-                TextAnchor.LowerLeft);
-            SpellbookStyle.DrawLabel(new Rect(rect.x, rect.y + rect.height * 0.5f, leftWidth, rect.height * 0.5f),
-                slotText, GameFont.Tiny, SpellbookStyle.CoverTextDim, TextAnchor.UpperLeft);
+            if (!IsStandalone)
+                DrawCasterHeader(rect, Mathf.Min(sideWidth, titleRect.x - rect.x - 8f));
 
             string animLabel = anim.enabled ? T("WotF_Spellbook.AnimOn") : T("WotF_Spellbook.AnimOff");
             if (SpellbookStyle.Button(animRect, animLabel, SpellbookButtonRole.Secondary, true))
@@ -290,9 +305,23 @@ namespace WhisperOfTheForest
             }
         }
 
+        private void DrawCasterHeader(Rect rect, float leftWidth)
+        {
+            string casterLabel = caster != null ? caster.LabelShort : T("WotF_Spellbook.NoCaster");
+            string currentName = slotNames[slot];
+            string slotText = TF("WotF_Spellbook.CurrentSlot", slot + 1) + " · " +
+                              (currentName.NullOrEmpty() ? T("WotF_Spellbook.SlotEmpty") : currentName);
+            SpellbookStyle.DrawLabel(new Rect(rect.x, rect.y, leftWidth, rect.height * 0.5f + 2f),
+                TF("WotF_Spellbook.Caster", casterLabel), GameFont.Tiny, SpellbookStyle.CoverText,
+                TextAnchor.LowerLeft);
+            SpellbookStyle.DrawLabel(new Rect(rect.x, rect.y + rect.height * 0.5f, leftWidth, rect.height * 0.5f),
+                slotText, GameFont.Tiny, SpellbookStyle.CoverTextDim, TextAnchor.UpperLeft);
+
+        }
+
         private void DrawFooter(Rect rect)
         {
-            string text = statusText ?? T("WotF_Spellbook.StatusReady");
+            string text = statusText ?? T(IsStandalone ? "WotF_Turret_ComposeHint" : "WotF_Spellbook.StatusReady");
             Color color = statusIsError ? SpellbookStyle.CoverWarning : SpellbookStyle.CoverTextDim;
             const float iconSize = 14f;
             Texture2D icon = statusIsError ? SpellbookStyle.IconWarn : SpellbookStyle.IconOk;
@@ -379,6 +408,18 @@ namespace WhisperOfTheForest
 
         private void RequestCreate()
         {
+            if (IsStandalone)
+            {
+                if (!submitRecipe(chain.ToRecipe(), out string refusal))
+                {
+                    anim.Shake();
+                    SetStatus(refusal, true);
+                    return;
+                }
+                Close();
+                return;
+            }
+
             GameComponent_Spellbook component = GameComponent_Spellbook.Current;
             if (component == null)
             {

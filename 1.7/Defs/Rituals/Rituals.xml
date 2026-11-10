@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Ritual definitions. The altar is a mana-network consumer: it pays the cost into the network
+       before the caster starts, and the effect runs once when the performance ends. -->
+  <WhisperOfTheForest.Rituals.RitualDef>
+    <defName>WotF_Ritual_ManaSpring</defName>
+    <label>rite of the mana spring</label>
+    <description>The caster traces a white chalk ring around the altar and calls the forest's reserve back into the blood. Every bloodline member near the altar recovers mana.</description>
+    <ringSize>3</ringSize>
+    <chalkColor>White</chalkColor>
+    <manaCost>60</manaCost>
+    <durationTicks>600</durationTicks>
+    <effectRadius>12.9</effectRadius>
+    <participantRadiusPerExtra>0.1</participantRadiusPerExtra>
+    <maxParticipants>4</maxParticipants>
+    <manaRestore>40</manaRestore>
+    <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_ManaSpring</effectWorkerClass>
+  </WhisperOfTheForest.Rituals.RitualDef>
+
+  <WhisperOfTheForest.Rituals.RitualDef>
+    <defName>WotF_Ritual_HealingMinor</defName>
+    <label>rite of mending</label>
+    <description>The caster traces a white chalk ring around the altar and closes the ordinary wounds of everyone nearby. Fresh injuries and blood loss are healed; old scars are not.</description>
+    <ringSize>3</ringSize>
+    <chalkColor>White</chalkColor>
+    <manaCost>50</manaCost>
+    <durationTicks>600</durationTicks>
+    <effectRadius>12.9</effectRadius>
+    <participantRadiusPerExtra>0.1</participantRadiusPerExtra>
+    <maxParticipants>4</maxParticipants>
+    <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_Healing</effectWorkerClass>
+  </WhisperOfTheForest.Rituals.RitualDef>
+
+  <WhisperOfTheForest.Rituals.RitualDef>
+    <defName>WotF_Ritual_HealingMedium</defName>
+    <label>rite of mending (green ring)</label>
+    <description>The caster traces a green chalk ring around the altar. Everyone nearby is healed of fresh and old injuries, and lost limbs grow back. Organs are left to the greater rite.</description>
+    <ringSize>5</ringSize>
+    <chalkColor>Green</chalkColor>
+    <manaCost>120</manaCost>
+    <durationTicks>900</durationTicks>
+    <effectRadius>12.9</effectRadius>
+    <participantRadiusPerExtra>0.1</participantRadiusPerExtra>
+    <maxParticipants>4</maxParticipants>
+    <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_Healing</effectWorkerClass>
+  </WhisperOfTheForest.Rituals.RitualDef>
+
+  <WhisperOfTheForest.Rituals.RitualDef>
+    <defName>WotF_Ritual_HealingGrand</defName>
+    <label>rite of mending (star ring)</label>
+    <description>The caster traces a silver star-chalk ring around the altar. Everyone nearby is restored whole: wounds, scars, lost limbs and lost organs. Addictions and other curable lasting conditions are lifted, including some no healer mech serum can cure. Psychic entropy, anesthetic and artificial parts remain.</description>
+    <ringSize>7</ringSize>
+    <chalkColor>Star</chalkColor>
+    <manaCost>300</manaCost>
+    <durationTicks>1500</durationTicks>
+    <effectRadius>12.9</effectRadius>
+    <participantRadiusPerExtra>0.1</participantRadiusPerExtra>
+    <maxParticipants>4</maxParticipants>
+    <minParticipants>1</minParticipants>
+    <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_Healing</effectWorkerClass>
+  </WhisperOfTheForest.Rituals.RitualDef>
+
+  <WhisperOfTheForest.Rituals.RitualDef>
+    <defName>WotF_Ritual_FertileSoil</defName>
+    <label>rite of fertile awakening</label>
+    <description>The caster traces a green chalk ring around the altar and wakes the soil beneath it. Natural soil within 12.9 cells is raised to rich soil; floors, rock, buildings and growing plants are left untouched.</description>
+    <ringSize>5</ringSize>
+    <chalkColor>Green</chalkColor>
+    <manaCost>100</manaCost>
+    <durationTicks>900</durationTicks>
+    <effectRadius>12.9</effectRadius>
+    <participantRadiusPerExtra>0.1</participantRadiusPerExtra>
+    <maxParticipants>4</maxParticipants>
+    <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_FertileSoil</effectWorkerClass>
+  </WhisperOfTheForest.Rituals.RitualDef>
+
+  <WhisperOfTheForest.Rituals.RitualDef>
+    <defName>WotF_Ritual_SpellbookAwakening</defName>
+    <label>rite of spellbook awakening</label>
+    <description>The caster traces a white chalk ring around the altar and calls a dormant spellbook out of the old world's remnants. One basic spellbook is left beside the altar for any forest-blooded pawn to wear.</description>
+    <ringSize>3</ringSize>
+    <chalkColor>White</chalkColor>
+    <manaCost>150</manaCost>
+    <durationTicks>900</durationTicks>
+    <effectRadius>12.9</effectRadius>
+    <participantRadiusPerExtra>0.1</participantRadiusPerExtra>
+    <maxParticipants>4</maxParticipants>
+    <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_SpellbookAwakening</effectWorkerClass>
+  </WhisperOfTheForest.Rituals.RitualDef>
+
+  <WhisperOfTheForest.Rituals.RitualDef>
+    <defName>WotF_Ritual_RuneAwakening</defName>
+    <label>rite of rune awakening</label>
+    <description>The caster traces a white chalk ring around the altar and opens one rune for the whole colony. The altar consumes the rune's materials from the ground around it; the rite itself costs only the network's mana.</description>
+    <ringSize>3</ringSize>
+    <chalkColor>White</chalkColor>
+    <manaCost>80</manaCost>
+    <durationTicks>600</durationTicks>
+    <effectRadius>12.9</effectRadius>
+    <participantRadiusPerExtra>0.1</participantRadiusPerExtra>
+    <maxParticipants>4</maxParticipants>
+    <chooseRune>true</chooseRune>
+    <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_UnlockRune</effectWorkerClass>
+  </WhisperOfTheForest.Rituals.RitualDef>
+
+  <JobDef>
+    <defName>WotF_PerformRitual</defName>
+    <driverClass>WhisperOfTheForest.Rituals.JobDriver_PerformRitual</driverClass>
+    <reportString>performing a ritual.</reportString>
+    <playerInterruptible>true</playerInterruptible>
+    <casualInterruptible>false</casualInterruptible>
+    <suspendable>false</suspendable>
+    <checkOverrideOnDamage>Always</checkOverrideOnDamage>
+    <ignoreFenceBlocked>true</ignoreFenceBlocked>
+  </JobDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>WotF_RitualAltar</defName>
+    <label>grove altar</label>
+    <description>A low stone altar for the forest rites. It draws mana from a nearby network and only accepts a ritual when a complete chalk ring surrounds it.</description>
+    <thingClass>Building</thingClass>
+    <category>Building</category>
+    <designationCategory>Misc</designationCategory>
+    <uiOrder>2520</uiOrder>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.35</fillPercent>
+    <pathCost>20</pathCost>
+    <tickerType>Rare</tickerType>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <selectable>true</selectable>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <graphicData>
+      <texPath>Buildings/RitualAltar</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>250</MaxHitPoints>
+      <WorkToBuild>350</WorkToBuild>
+      <Flammability>0</Flammability>
+      <Beauty>10</Beauty>
+    </statBases>
+    <costList>
+      <Steel>50</Steel>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
+    <comps>
+      <li Class="CompProperties_ProjectileInterceptor">
+        <radius>12.9</radius>
+        <interceptGroundProjectiles>true</interceptGroundProjectiles>
+        <interceptAirProjectiles>true</interceptAirProjectiles>
+        <drawWithNoSelection>true</drawWithNoSelection>
+        <hitPoints>600</hitPoints>
+        <startWithMaxHitPoints>true</startWithMaxHitPoints>
+        <activated>true</activated>
+        <activeDuration>60000</activeDuration>
+        <color>(0.45,0.85,0.55,1)</color>
+        <minAlpha>0.12</minAlpha>
+      </li>
+      <li Class="WhisperOfTheForest.Rituals.CompProperties_RitualAltar">
+        <linkRadius>12.9</linkRadius>
+        <ritualDefNames>
+          <li>WotF_Ritual_ManaSpring</li>
+          <li>WotF_Ritual_HealingMinor</li>
+          <li>WotF_Ritual_HealingMedium</li>
+          <li>WotF_Ritual_HealingGrand</li>
+          <li>WotF_Ritual_FertileSoil</li>
+          <li>WotF_Ritual_TransmuteGreenChalk</li>
+          <li>WotF_Ritual_TransmuteStarChalk</li>
+          <li>WotF_Ritual_TransmuteComponent</li>
+          <li>WotF_Ritual_BottleMana</li>
+          <li>WotF_Ritual_SpellbookAwakening</li>
+          <li>WotF_Ritual_RuneAwakening</li>
+          <li>WotF_Ritual_RainCall</li>
+          <li>WotF_Ritual_SkyWrath</li>
+          <li>WotF_Ritual_ShieldDome</li>
+          <li>WotF_Ritual_LeylineMining</li>
+          <li>WotF_Ritual_BeastCall</li>
+          <li>WotF_Ritual_Teleport</li>
+        </ritualDefNames>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>WotF_ChalkMark_White</defName>
+    <label>white chalk mark</label>
+    <description>A line of pale ritual chalk. A ring of these around an altar carries the rite.</description>
+    <thingClass>Building</thingClass>
+    <category>Building</category>
+    <designationCategory>Misc</designationCategory>
+    <uiOrder>2530</uiOrder>
+    <costList>
+      <WotF_Chalk>1</WotF_Chalk>
+    </costList>
+    <altitudeLayer>Filth</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.01</fillPercent>
+    <pathCost>0</pathCost>
+    <rotatable>false</rotatable>
+    <selectable>true</selectable>
+    <neverMultiSelect>true</neverMultiSelect>
+    <drawerType>MapMeshOnly</drawerType>
+    <graphicData>
+      <texPath>Buildings/ChalkMark</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <color>(235,235,225,1)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>1</MaxHitPoints>
+      <Flammability>0</Flammability>
+    </statBases>
+    <building>
+      <isInert>true</isInert>
+      <deconstructible>true</deconstructible>
+    </building>
+    <comps>
+      <li Class="WhisperOfTheForest.Rituals.CompProperties_ChalkMark">
+        <color>White</color>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>WotF_ChalkMark_Green</defName>
+    <label>green chalk mark</label>
+    <description>A line of green ritual chalk. A ring of these around an altar carries the rite.</description>
+    <thingClass>Building</thingClass>
+    <category>Building</category>
+    <designationCategory>Misc</designationCategory>
+    <uiOrder>2540</uiOrder>
+    <costList>
+      <WotF_ChalkGreen>1</WotF_ChalkGreen>
+    </costList>
+    <altitudeLayer>Filth</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.01</fillPercent>
+    <pathCost>0</pathCost>
+    <rotatable>false</rotatable>
+    <selectable>true</selectable>
+    <neverMultiSelect>true</neverMultiSelect>
+    <drawerType>MapMeshOnly</drawerType>
+    <graphicData>
+      <texPath>Buildings/ChalkMark</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <color>(150,230,150,1)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>1</MaxHitPoints>
+      <Flammability>0</Flammability>
+    </statBases>
+    <building>
+      <isInert>true</isInert>
+      <deconstructible>true</deconstructible>
+    </building>
+    <comps>
+      <li Class="WhisperOfTheForest.Rituals.CompProperties_ChalkMark">
+        <color>Green</color>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>WotF_ChalkMark_Star</defName>
+    <label>star chalk mark</label>
+    <description>A line of silver ritual chalk. A ring of these around an altar carries the rite.</description>
+    <thingClass>Building</thingClass>
+    <category>Building</category>
+    <designationCategory>Misc</designationCategory>
+    <uiOrder>2550</uiOrder>
+    <costList>
+      <WotF_ChalkStar>1</WotF_ChalkStar>
+    </costList>
+    <altitudeLayer>Filth</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.01</fillPercent>
+    <pathCost>0</pathCost>
+    <rotatable>false</rotatable>
+    <selectable>true</selectable>
+    <neverMultiSelect>true</neverMultiSelect>
+    <drawerType>MapMeshOnly</drawerType>
+    <graphicData>
+      <texPath>Buildings/ChalkMark</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <color>(220,220,255,1)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>1</MaxHitPoints>
+      <Flammability>0</Flammability>
+    </statBases>
+    <building>
+      <isInert>true</isInert>
+      <deconstructible>true</deconstructible>
+    </building>
+    <comps>
+      <li Class="WhisperOfTheForest.Rituals.CompProperties_ChalkMark">
+        <color>Star</color>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>WotF_Chalk</defName>
+    <label>ritual chalk</label>
+    <description>Pale sticks of ritual chalk. Crafted from wood ash and a little steel, then drawn into rings around an altar.</description>
+    <thingClass>ThingWithComps</thingClass>
+    <category>Item</category>
+    <thingCategories>
+      <li>ResourcesRaw</li>
+    </thingCategories>
+    <stackLimit>75</stackLimit>
+    <useHitPoints>false</useHitPoints>
+    <graphicData>
+      <texPath>Things/Item/Chalk</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.9,0.9)</drawSize>
+    </graphicData>
+    <statBases>
+      <MarketValue>1.2</MarketValue>
+      <Mass>0.02</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+  </ThingDef>
+
+  <RecipeDef>
+    <defName>WotF_MakeChalk</defName>
+    <label>make ritual chalk</label>
+    <description>Craft ritual chalk from wood ash and a little steel.</description>
+    <jobString>making ritual chalk.</jobString>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <workAmount>600</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>WoodLog</li>
+          </thingDefs>
+        </filter>
+        <count>10</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <products>
+      <WotF_Chalk>10</WotF_Chalk>
+    </products>
+    <skillRequirements>
+      <Crafting>2</Crafting>
+    </skillRequirements>
+    <recipeUsers>
+      <li>CraftingSpot</li>
+      <li>TableMachining</li>
+    </recipeUsers>
+  </RecipeDef>
+
+</Defs>

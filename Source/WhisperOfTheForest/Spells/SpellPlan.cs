@@ -53,7 +53,8 @@ namespace WhisperOfTheForest.Spells
         Blink,
         Linger,
         Rune,
-        Delay
+        Delay,
+        Hack
     }
 
     /// <summary>
@@ -257,6 +258,12 @@ namespace WhisperOfTheForest.Spells
         /// <summary>Cost of this cast, copied from the recipe when it was compiled.</summary>
         public SpellCost cost;
 
+        /// <summary>
+        /// The categories this cast may be aimed at, frozen into the recipe when the spell was
+        /// created. Every targeter - player, AI and turret - reads only this list.
+        /// </summary>
+        public List<SpellTargetClass> targets = new List<SpellTargetClass>();
+
         public SpellFormKind form;
 
         /// <summary>Projectile and Touch: aim or reach in cells, copied from the form Def.</summary>
@@ -318,6 +325,7 @@ namespace WhisperOfTheForest.Spells
                 glyphs = new List<string>(glyphs),
                 timing = timing?.Copy(),
                 cost = cost?.Copy(),
+                targets = new List<SpellTargetClass>(targets),
                 form = form,
                 range = range,
                 projectile = projectile?.Copy(),
@@ -334,6 +342,7 @@ namespace WhisperOfTheForest.Spells
             Scribe_Collections.Look(ref glyphs, "glyphs", LookMode.Value);
             Scribe_Deep.Look(ref timing, "timing");
             Scribe_Deep.Look(ref cost, "cost");
+            Scribe_Collections.Look(ref targets, "targets", LookMode.Value);
             Scribe_Values.Look(ref form, "form");
             Scribe_Values.Look(ref range, "range");
             Scribe_Deep.Look(ref projectile, "projectile");
@@ -351,6 +360,11 @@ namespace WhisperOfTheForest.Spells
             if (steps == null)
             {
                 steps = new List<SpellPlanStep>();
+            }
+
+            if (targets == null)
+            {
+                targets = new List<SpellTargetClass>();
             }
         }
     }

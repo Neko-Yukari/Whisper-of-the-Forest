@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    Famine foraging leaves a small mood penalty and its own log entry. The mood and the tale are
+    separate Defs so the foraging patch never carries display text.
+  -->
+
+  <JobDef>
+    <defName>WotF_FamineEat</defName>
+    <driverClass>WhisperOfTheForest.Race.JobDriver_FamineEat</driverClass>
+    <reportString>eating wild grass.</reportString>
+    <playerInterruptible>true</playerInterruptible>
+    <casualInterruptible>true</casualInterruptible>
+    <suspendable>true</suspendable>
+  </JobDef>
+
+  <ThoughtDef>
+    <defName>WotF_AteWildGrass</defName>
+    <durationDays>1</durationDays>
+    <stackLimit>1</stackLimit>
+    <stages>
+      <li>
+        <label>ate wild grass</label>
+        <description>I was hungry enough to eat the weeds growing outside the fields. It kept me standing, but it was not food.</description>
+        <baseMoodEffect>-1</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <TaleDef>
+    <defName>WotF_Tale_AteWildGrass</defName>
+    <label>ate wild grass</label>
+    <taleClass>Tale_SinglePawn</taleClass>
+    <type>Volatile</type>
+    <baseInterest>0.3</baseInterest>
+    <ignoreChance>0</ignoreChance>
+    <colonistOnly>true</colonistOnly>
+    <usableWithChildren>true</usableWithChildren>
+    <rulePack>
+      <rulesStrings>
+        <li>tale_noun-&gt;[PAWN_nameDef] eating wild grass</li>
+        <li>image-&gt;[PAWN_nameFull] crouched among the weeds, chewing wild grass [circumstance_group]</li>
+        <li>circumstance_phrase-&gt;with a grim expression</li>
+        <li>circumstance_phrase-&gt;while glancing toward the fields</li>
+        <li>desc_sentence-&gt;[PAWN_pronoun] looks like [PAWN_pronoun] would rather be anywhere else.</li>
+      </rulesStrings>
+    </rulePack>
+  </TaleDef>
+
+</Defs>

@@ -15,6 +15,9 @@
 
     Icons follow the interface contract: Textures/Spellbook/Glyphs/<defName>. A missing
     texture only loses the picture, never the entry.
+
+    manaCost and experience are summed along the chain and frozen into the spell when it is saved;
+    entropyCost stays 0 for every normal rune, and only the over-level railgun charges neural heat.
   -->
 
   <!-- ============================================================ Forms -->
@@ -37,6 +40,9 @@
     <channelTicks>0</channelTicks>
     <recoveryTicks>20</recoveryTicks>
     <iconPath>Spellbook/Glyphs/WotF_Form_Self</iconPath>
+    <manaCost>6</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>2</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
@@ -52,6 +58,9 @@
     <channelTicks>0</channelTicks>
     <recoveryTicks>20</recoveryTicks>
     <iconPath>Spellbook/Glyphs/WotF_Form_Touch</iconPath>
+    <manaCost>8</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>3</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
@@ -95,11 +104,18 @@
       <trailColorHex>#2FA98C</trailColorHex>
     </projectile>
     <iconPath>Spellbook/Glyphs/WotF_Form_Projectile</iconPath>
+    <manaCost>12</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>5</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Form_Orbit</defName>
     <label>orbit</label>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <Steel>20</Steel>
+    </unlockCost>
     <description>Places orbs that circle the caster and apply the arranged effects to the first pawn they touch. No target selection: the orbs follow the caster.</description>
     <kind>Form</kind>
     <!-- Ars Nouveau's orbit is a Form; the compatibility list follows the spell table (unverified there). -->
@@ -123,12 +139,24 @@
       <lifetimeTicks>600</lifetimeTicks>
     </orbit>
     <iconPath>Spellbook/Glyphs/WotF_Form_Orbit</iconPath>
+    <manaCost>16</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>6</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <!-- ============================================================ Effects -->
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Effect_Harm</defName>
+    <targets>
+      <li>Humanlike</li>
+      <li>Animal</li>
+      <li>Mechanoid</li>
+      <li>Entity</li>
+      <li>Building</li>
+      <li>Rock</li>
+      <li>Plant</li>
+    </targets>
     <label>harm</label>
     <description>Deals arcane force damage to what the spell reaches, through the same damage type the arcane missiles already use. With Extend Time it becomes a sustained wound instead of a bigger hit.</description>
     <kind>Effect</kind>
@@ -147,10 +175,19 @@
     <windupTicks>5</windupTicks>
     <recoveryTicks>5</recoveryTicks>
     <iconPath>Spellbook/Glyphs/WotF_Effect_Harm</iconPath>
+    <manaCost>10</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>3</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Effect_Heal</defName>
+    <targets>
+      <li>Humanlike</li>
+      <li>Animal</li>
+      <li>Mechanoid</li>
+      <li>Entity</li>
+    </targets>
     <label>clot</label>
     <description>Does not restore health directly: it immediately bandages every wound on the target with no medicine and leaves a boost that speeds natural healing for a while.</description>
     <kind>Effect</kind>
@@ -166,11 +203,21 @@
     <windupTicks>5</windupTicks>
     <recoveryTicks>5</recoveryTicks>
     <iconPath>Spellbook/Glyphs/WotF_Effect_Heal</iconPath>
+    <manaCost>14</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>4</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Effect_Explosion</defName>
+    <targets>
+      <li>Cell</li>
+    </targets>
     <label>explosion</label>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <Chemfuel>30</Chemfuel>
+    </unlockCost>
     <description>One native explosion at the spell's point. A range augment widens that single explosion instead of adding more of them; Sensitive keeps the blast from damaging buildings.</description>
     <kind>Effect</kind>
     <amount>12</amount>
@@ -186,10 +233,17 @@
     <windupTicks>5</windupTicks>
     <recoveryTicks>5</recoveryTicks>
     <iconPath>Spellbook/Glyphs/WotF_Effect_Explosion</iconPath>
+    <manaCost>16</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>5</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Effect_Grow</defName>
+    <targets>
+      <li>Plant</li>
+      <li>Cell</li>
+    </targets>
     <label>grow</label>
     <description>Does not mature anything: the hit cell (or every cell in range) grows plants faster for a while, on top of whatever fertility the terrain already has.</description>
     <kind>Effect</kind>
@@ -205,12 +259,23 @@
     <windupTicks>5</windupTicks>
     <recoveryTicks>5</recoveryTicks>
     <iconPath>Spellbook/Glyphs/WotF_Effect_Grow</iconPath>
+    <manaCost>10</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>3</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <!-- ============================================================ harm family -->
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Effect_Ignite</defName>
+    <targets>
+      <li>Humanlike</li>
+      <li>Animal</li>
+      <li>Mechanoid</li>
+      <li>Entity</li>
+      <li>Building</li>
+      <li>Plant</li>
+    </targets>
     <label>ignite</label>
     <description>Sets the target alight. The plain version starts real fire that can spread; Sensitive never spawns fire and uses a non-spreading burn instead.</description>
     <kind>Effect</kind>
@@ -228,11 +293,25 @@
     <windupTicks>5</windupTicks>
     <recoveryTicks>5</recoveryTicks>
     <iconPath>Spellbook/Glyphs/WotF_Effect_Ignite</iconPath>
+    <manaCost>8</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>3</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Effect_Lightning</defName>
+    <targets>
+      <li>Humanlike</li>
+      <li>Animal</li>
+      <li>Mechanoid</li>
+      <li>Entity</li>
+      <li>Building</li>
+    </targets>
     <label>lightning</label>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <ComponentIndustrial>20</ComponentIndustrial>
+    </unlockCost>
     <description>A strike of EMP and burn damage. Every strike leaves a charge stack, and later strikes hurt more for each stack the target already carries.</description>
     <kind>Effect</kind>
     <amount>12</amount>
@@ -248,10 +327,19 @@
     <windupTicks>5</windupTicks>
     <recoveryTicks>5</recoveryTicks>
     <iconPath>Spellbook/Glyphs/WotF_Effect_Lightning</iconPath>
+    <manaCost>14</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>4</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Effect_ColdSnap</defName>
+    <targets>
+      <li>Humanlike</li>
+      <li>Animal</li>
+      <li>Mechanoid</li>
+      <li>Entity</li>
+    </targets>
     <label>cold snap</label>
     <description>Bursts against a target that is already slowed, dealing bonus damage on top of the base amount.</description>
     <kind>Effect</kind>
@@ -266,12 +354,21 @@
     <windupTicks>5</windupTicks>
     <recoveryTicks>5</recoveryTicks>
     <iconPath>Spellbook/Glyphs/WotF_Effect_ColdSnap</iconPath>
+    <manaCost>12</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>4</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <!-- ============================================================ control -->
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Effect_Freeze</defName>
+    <targets>
+      <li>Humanlike</li>
+      <li>Animal</li>
+      <li>Mechanoid</li>
+      <li>Entity</li>
+    </targets>
     <label>freeze</label>
     <description>Slows the target's movement for a while through a HediffDef's capacity modifier. Nothing else about the target is changed.</description>
     <kind>Effect</kind>
@@ -285,10 +382,19 @@
     <windupTicks>5</windupTicks>
     <recoveryTicks>5</recoveryTicks>
     <iconPath>Spellbook/Glyphs/WotF_Effect_Freeze</iconPath>
+    <manaCost>8</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>3</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Effect_Knockback</defName>
+    <targets>
+      <li>Humanlike</li>
+      <li>Animal</li>
+      <li>Mechanoid</li>
+      <li>Entity</li>
+    </targets>
     <label>knockback</label>
     <description>Throws the target away from the impact point through the vanilla flying carrier. The amount is the distance in cells; Range widens who is thrown.</description>
     <kind>Effect</kind>
@@ -302,10 +408,19 @@
     <windupTicks>5</windupTicks>
     <recoveryTicks>5</recoveryTicks>
     <iconPath>Spellbook/Glyphs/WotF_Effect_Knockback</iconPath>
+    <manaCost>6</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>2</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Effect_Pull</defName>
+    <targets>
+      <li>Humanlike</li>
+      <li>Animal</li>
+      <li>Mechanoid</li>
+      <li>Entity</li>
+    </targets>
     <label>pull</label>
     <description>Drags the target towards the impact point through the vanilla flying carrier. The amount is the distance in cells.</description>
     <kind>Effect</kind>
@@ -319,10 +434,19 @@
     <windupTicks>5</windupTicks>
     <recoveryTicks>5</recoveryTicks>
     <iconPath>Spellbook/Glyphs/WotF_Effect_Pull</iconPath>
+    <manaCost>6</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>2</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Effect_Snare</defName>
+    <targets>
+      <li>Humanlike</li>
+      <li>Animal</li>
+      <li>Mechanoid</li>
+      <li>Entity</li>
+    </targets>
     <label>snare</label>
     <description>Pins the target in place: movement is zeroed but attacking is untouched, so it is not a stun.</description>
     <kind>Effect</kind>
@@ -335,10 +459,19 @@
     <windupTicks>5</windupTicks>
     <recoveryTicks>5</recoveryTicks>
     <iconPath>Spellbook/Glyphs/WotF_Effect_Snare</iconPath>
+    <manaCost>8</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>3</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Effect_Hex</defName>
+    <targets>
+      <li>Humanlike</li>
+      <li>Animal</li>
+      <li>Mechanoid</li>
+      <li>Entity</li>
+    </targets>
     <label>hex</label>
     <description>Marks the target: it takes more damage and heals more slowly for a while. The numbers live on the Hex HediffDef.</description>
     <kind>Effect</kind>
@@ -351,12 +484,51 @@
     <windupTicks>5</windupTicks>
     <recoveryTicks>5</recoveryTicks>
     <iconPath>Spellbook/Glyphs/WotF_Effect_Hex</iconPath>
+    <manaCost>10</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>4</experience>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Effect_Hack</defName>
+    <targets>
+      <li>Mechanoid</li>
+    </targets>
+    <label>hack</label>
+    <description>Channel after impact to assimilate hostile mechs. The target is stunned during assimilation; interruption fails it. Control is temporary and uses no mechanitor bandwidth.</description>
+    <kind>Effect</kind>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost><ComponentIndustrial>20</ComponentIndustrial></unlockCost>
+    <amount>100</amount>
+    <radius>1.9</radius>
+    <compatibleAugments>
+      <li>WotF_Augment_Amplify</li>
+      <li>WotF_Augment_Dampen</li>
+      <li>WotF_Augment_AOE</li>
+    </compatibleAugments>
+    <windupTicks>5</windupTicks>
+    <recoveryTicks>5</recoveryTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Effect_Lightning</iconPath>
+    <manaCost>25</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>6</experience>
+    <modExtensions>
+      <li Class="WhisperOfTheForest.Spells.MechHackExtension">
+        <baseTicks>300</baseTicks>
+        <minTicks>120</minTicks>
+        <maxTicks>1800</maxTicks>
+        <controlTicks>3600</controlTicks>
+      </li>
+    </modExtensions>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <!-- ============================================================ support -->
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Effect_Magelight</defName>
+    <targets>
+      <li>Cell</li>
+    </targets>
     <label>magelight</label>
     <description>Places a temporary light at the spell's point. Radius, colour and lifetime are all frozen from this rune and the augments bound to it.</description>
     <kind>Effect</kind>
@@ -373,11 +545,21 @@
     <windupTicks>5</windupTicks>
     <recoveryTicks>5</recoveryTicks>
     <iconPath>Spellbook/Glyphs/WotF_Effect_Magelight</iconPath>
+    <manaCost>4</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>1</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Effect_Blink</defName>
+    <targets>
+      <li>Cell</li>
+    </targets>
     <label>blink</label>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <Jade>10</Jade>
+    </unlockCost>
     <description>From a self cast the caster flickers forward; delivered by a dart or a touch, the caster lands at the spell's point.</description>
     <kind>Effect</kind>
     <amount>5</amount>
@@ -388,13 +570,23 @@
     <windupTicks>5</windupTicks>
     <recoveryTicks>5</recoveryTicks>
     <iconPath>Spellbook/Glyphs/WotF_Effect_Blink</iconPath>
+    <manaCost>12</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>4</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <!-- ============================================================ when and where -->
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Effect_Linger</defName>
+    <targets>
+      <li>Cell</li>
+    </targets>
     <label>linger</label>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <Cloth>20</Cloth>
+    </unlockCost>
     <description>Leaves a force field at the spell's point. Every interval it applies everything arranged to its right to every pawn inside. Accelerate shortens the interval, Decelerate lengthens it.</description>
     <kind>Effect</kind>
     <requiresAmount>false</requiresAmount>
@@ -411,11 +603,21 @@
     <windupTicks>10</windupTicks>
     <recoveryTicks>10</recoveryTicks>
     <iconPath>Spellbook/Glyphs/WotF_Effect_Linger</iconPath>
+    <manaCost>10</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>4</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Effect_Rune</defName>
+    <targets>
+      <li>Cell</li>
+    </targets>
     <label>rune</label>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <Jade>5</Jade>
+    </unlockCost>
     <description>Leaves a seal on the ground that takes no building space. The first pawn stepping onto it gets everything arranged to its right, then the seal is gone.</description>
     <kind>Effect</kind>
     <requiresAmount>false</requiresAmount>
@@ -424,11 +626,21 @@
     <windupTicks>10</windupTicks>
     <recoveryTicks>10</recoveryTicks>
     <iconPath>Spellbook/Glyphs/WotF_Effect_Rune</iconPath>
+    <manaCost>8</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>3</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Effect_Delay</defName>
+    <targets>
+      <li>Cell</li>
+    </targets>
     <label>delay</label>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <Silver>10</Silver>
+    </unlockCost>
     <description>Everything arranged to its right resolves a few seconds later at the same target point.</description>
     <kind>Effect</kind>
     <requiresAmount>false</requiresAmount>
@@ -440,6 +652,9 @@
     <windupTicks>5</windupTicks>
     <recoveryTicks>5</recoveryTicks>
     <iconPath>Spellbook/Glyphs/WotF_Effect_Delay</iconPath>
+    <manaCost>4</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>2</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
 
@@ -456,6 +671,9 @@
     <compatibleAugments />
     <windupTicks>3</windupTicks>
     <iconPath>Spellbook/Glyphs/WotF_Augment_Amplify</iconPath>
+    <manaCost>8</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>2</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
@@ -467,6 +685,9 @@
     <compatibleAugments />
     <windupTicks>3</windupTicks>
     <iconPath>Spellbook/Glyphs/WotF_Augment_Dampen</iconPath>
+    <manaCost>0</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>1</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
@@ -478,6 +699,9 @@
     <compatibleAugments />
     <windupTicks>3</windupTicks>
     <iconPath>Spellbook/Glyphs/WotF_Augment_Extend</iconPath>
+    <manaCost>5</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>2</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
@@ -489,6 +713,9 @@
     <compatibleAugments />
     <windupTicks>3</windupTicks>
     <iconPath>Spellbook/Glyphs/WotF_Augment_Shorten</iconPath>
+    <manaCost>0</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>1</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
@@ -499,22 +726,36 @@
     <compatibleAugments />
     <windupTicks>3</windupTicks>
     <iconPath>Spellbook/Glyphs/WotF_Augment_Sensitive</iconPath>
+    <manaCost>2</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>1</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Augment_BreakArmor</defName>
     <label>break armor</label>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <Steel>25</Steel>
+    </unlockCost>
     <description>Adds armour penetration to the damage effect on its left. This is this mod's own augment, not an Ars Nouveau rune.</description>
     <kind>Augment</kind>
     <factor>0.35</factor>
     <compatibleAugments />
     <windupTicks>3</windupTicks>
     <iconPath>Spellbook/Glyphs/WotF_Augment_BreakArmor</iconPath>
+    <manaCost>6</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>2</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Augment_Pierce</defName>
     <label>pierce</label>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <ComponentIndustrial>15</ComponentIndustrial>
+    </unlockCost>
     <description>Lets the projectile on its left keep flying after a hit, so it can strike whatever stands behind it. Each extra hit costs one pierce. Cannot be combined with split.</description>
     <kind>Augment</kind>
     <!-- Number of additional hits the projectile may resolve. -->
@@ -525,17 +766,27 @@
     </excludesAugments>
     <windupTicks>3</windupTicks>
     <iconPath>Spellbook/Glyphs/WotF_Augment_Pierce</iconPath>
+    <manaCost>8</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>3</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Augment_AOE</defName>
     <label>area</label>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <Chemfuel>20</Chemfuel>
+    </unlockCost>
     <description>Widens the effect on its left over nearby targets. Each target is affected once, and an explosion still detonates once.</description>
     <kind>Augment</kind>
     <radius>1.2</radius>
     <compatibleAugments />
     <windupTicks>3</windupTicks>
     <iconPath>Spellbook/Glyphs/WotF_Augment_AOE</iconPath>
+    <manaCost>10</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>3</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
@@ -547,6 +798,9 @@
     <compatibleAugments />
     <windupTicks>3</windupTicks>
     <iconPath>Spellbook/Glyphs/WotF_Augment_Accelerate</iconPath>
+    <manaCost>3</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>1</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
@@ -558,17 +812,27 @@
     <compatibleAugments />
     <windupTicks>3</windupTicks>
     <iconPath>Spellbook/Glyphs/WotF_Augment_Decelerate</iconPath>
+    <manaCost>0</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>1</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Augment_Split</defName>
     <label>split</label>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <Jade>10</Jade>
+    </unlockCost>
     <description>Adds more darts to the projectile on its left, using the existing launch spread and one hit per dart. Cannot be combined with pierce.</description>
     <kind>Augment</kind>
     <missiles>2</missiles>
     <compatibleAugments />
     <windupTicks>3</windupTicks>
     <iconPath>Spellbook/Glyphs/WotF_Augment_Split</iconPath>
+    <manaCost>12</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>4</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <!-- ============================================================ Tuning -->
@@ -587,6 +851,24 @@
     <channelMoveSpeedFactor>0.55</channelMoveSpeedFactor>
     <!-- Upper bound on darts or orbs after Split. -->
     <maxMissiles>5</maxMissiles>
+
+    <!--
+      Staff material bridge. The staff is stuffable; its material's vanilla armour stats are the
+      only input, so every stuffable material in the game (vanilla or modded) works without a table:
+
+        heat armour  -> effect duration (steel 0.60 -> x1.12, wood 0.40 -> x1.08)
+        blunt armour -> mana cost       (wood 0.54 -> x0.78, steel 0.45 -> x0.82)
+        sharp/blunt damage multiplier average -> damage (wood 0.65 -> x0.65, steel 1.00 -> x1.00)
+
+      staffSpellPower is the neutral base; caps keep a future 3.0-heat material from becoming a
+      free spell or an endless field. These are first-pass numbers, not a balance conclusion.
+    -->
+    <staffSpellPower>1</staffSpellPower>
+    <staffHeatArmorDurationBonus>0.2</staffHeatArmorDurationBonus>
+    <staffMinManaFactor>0.6</staffMinManaFactor>
+    <staffBluntArmorCostReduction>0.4</staffBluntArmorCostReduction>
+    <staffMaxDurationFactor>1.75</staffMaxDurationFactor>
+    <staffMaxDamageFactor>1.5</staffMaxDamageFactor>
   </WhisperOfTheForest.Spells.SpellTuningDef>
 
   <!-- ============================================================ Carrier ability -->

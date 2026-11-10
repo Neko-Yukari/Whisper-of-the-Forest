@@ -75,9 +75,12 @@ namespace WhisperOfTheForest.LabTests
 
         protected override void Run(TestContext t)
         {
+            GameComponent_Spellbook.Current.Unlock(TestContext.Glyph(SpellDefs.AugmentPierce));
             Pawn caster = t.SpawnCaster(2, 5);
             Pawn front = t.SpawnTarget(8, 5);
             Pawn behind = t.SpawnTarget(12, 5);
+            float frontHealth = front.health.summaryHealth.SummaryHealthPercent;
+            float behindHealth = behind.health.summaryHealth.SummaryHealthPercent;
             MapComponent_ArcaneMissiles missiles = t.Map.GetComponent<MapComponent_ArcaneMissiles>();
             int impactsBefore = missiles.TotalImpacts;
 
@@ -88,18 +91,25 @@ namespace WhisperOfTheForest.LabTests
                 return;
             }
 
-            bool frontHit = t.StepUntil(() => t.InjurySeverity(front) > 0f, 600);
+            // A hit that destroys a small part leaves only Hediff_MissingPart, which the severity
+            // sum does not count; the summary health drops either way.
+            bool frontHit = t.StepUntil(() => t.InjurySeverity(front) > 0f
+                || front.health.summaryHealth.SummaryHealthPercent < frontHealth, 600);
             bool relaunched = t.StepUntil(() => missiles.TotalImpacts - impactsBefore >= 2, 600);
 
             // Let anything that might still be flying land before counting.
             t.StepUntil(() => t.LiveMissiles() == 0, 600);
             int impacts = missiles.TotalImpacts - impactsBefore;
             t.Note("frontSeverity", t.InjurySeverity(front));
+            t.Note("frontHealth", front.health.summaryHealth.SummaryHealthPercent);
             t.Note("behindSeverity", t.InjurySeverity(behind));
+            t.Note("behindHealth", behind.health.summaryHealth.SummaryHealthPercent);
             t.Note("impacts", impacts);
             t.Expect(frontHit, "the aimed target was not hit");
             t.Expect(relaunched, "the pierced dart was not relaunched past the first hit");
-            t.Expect(t.InjurySeverity(behind) > 0f, "the pawn behind the aimed target was not hit by the pierced dart");
+            t.Expect(t.InjurySeverity(behind) > 0f
+                     || behind.health.summaryHealth.SummaryHealthPercent < behindHealth,
+                "the pawn behind the aimed target was not hit by the pierced dart");
             t.Expect(impacts == 2, "one Pierce must resolve exactly two impacts, got " + impacts);
         }
     }
@@ -113,6 +123,7 @@ namespace WhisperOfTheForest.LabTests
         protected override void Run(TestContext t)
         {
             SpellGlyphDef form = TestContext.Glyph(SpellDefs.FormOrbit);
+            GameComponent_Spellbook.Current.Unlock(form);
             Pawn caster = t.SpawnCaster(4, 5);
 
             // Two cells east: the orbit passes within its hit radius of this cell's centre.

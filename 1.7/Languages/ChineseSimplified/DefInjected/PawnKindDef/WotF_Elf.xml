@@ -2,5 +2,10 @@
 <LanguageData>
 
   <WotF_Elf_Colonist.label>精灵</WotF_Elf_Colonist.label>
+  <WotF_Elf_Villager.label>林庭居民</WotF_Elf_Villager.label>
+  <WotF_Elf_Warrior.label>林庭守望者</WotF_Elf_Warrior.label>
+  <WotF_Elf_Archer.label>林庭弓手</WotF_Elf_Archer.label>
+  <WotF_Elf_Trader.label>林庭行商</WotF_Elf_Trader.label>
+  <WotF_Elf_Leader.label>执政官</WotF_Elf_Leader.label>
 
 </LanguageData>

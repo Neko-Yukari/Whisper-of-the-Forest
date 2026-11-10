@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>WotF_Gun_SpellTurret</defName>
+    <label>spell turret focus</label>
+    <description>A rune-etched focus mounted on a turret. It fires the same arcane dart a caster would, but has no will of its own.</description>
+    <graphicData>
+      <texPath>Buildings/ManaFurnace</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>0.96</AccuracyTouch>
+      <AccuracyShort>0.96</AccuracyShort>
+      <AccuracyMedium>0.96</AccuracyMedium>
+      <AccuracyLong>0.96</AccuracyLong>
+      <RangedWeapon_Cooldown>2.0</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>5</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>WhisperOfTheForest.Turrets.Verb_CastTurretSpell</verbClass>
+        <warmupTime>0.5</warmupTime>
+        <range>24.9</range>
+        <defaultCooldownTime>2.0</defaultCooldownTime>
+        <soundCast>GunShotA</soundCast>
+        <soundCastTail>GunTail_Light</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>WotF_SpellTurret</defName>
+    <label>spell turret</label>
+    <description>A turret built around a rune focus. It draws mana from the nearest network and fires a homing arcane dart; with no network in range it stays silent.</description>
+    <thingClass>WhisperOfTheForest.Turrets.Building_SpellTurret</thingClass>
+    <inspectorTabs>
+      <li>WhisperOfTheForest.Turrets.ITab_SpellTurretTargets</li>
+    </inspectorTabs>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <drawHighlight>true</drawHighlight>
+    <drawHighlightOnlyForHostile>true</drawHighlightOnlyForHostile>
+    <graphicData>
+      <texPath>Buildings/ManaNode</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(0.27,0.25,0.27)</volume>
+        <offset>(0,0,0)</offset>
+      </shadowData>
+    </graphicData>
+    <uiIconPath>Buildings/ManaNode</uiIconPath>
+    <uiIconScale>0.90</uiIconScale>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <altitudeLayer>Building</altitudeLayer>
+    <stealable>false</stealable>
+    <rotatable>false</rotatable>
+    <thingCategories>
+      <li>BuildingsSecurity</li>
+    </thingCategories>
+    <statBases>
+      <MaxHitPoints>150</MaxHitPoints>
+      <Flammability>0.7</Flammability>
+      <WorkToBuild>1600</WorkToBuild>
+      <Mass>12</Mass>
+      <Beauty>-10</Beauty>
+      <ShootingAccuracyTurret>0.96</ShootingAccuracyTurret>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="WhisperOfTheForest.Turrets.CompProperties_SpellTurret">
+        <manaCostFactor>1.0</manaCostFactor>
+        <inscriptionTicks>600</inscriptionTicks>
+        <inscriptionJob>WotF_WriteTurretSpell</inscriptionJob>
+        <linkRadius>12.9</linkRadius>
+      </li>
+    </comps>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.4</fillPercent>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <costStuffCount>40</costStuffCount>
+    <costList>
+      <Steel>80</Steel>
+      <ComponentIndustrial>4</ComponentIndustrial>
+    </costList>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+    <building>
+      <combatPower>45</combatPower>
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretGunDef>WotF_Gun_SpellTurret</turretGunDef>
+      <turretBurstWarmupTime>0.5</turretBurstWarmupTime>
+      <turretBurstCooldownTime>2.0</turretBurstCooldownTime>
+      <turretInitialCooldownTime>0</turretInitialCooldownTime>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>WhisperOfTheForest.Turrets.PlaceWorker_SpellTurretRadius</li>
+    </placeWorkers>
+  </ThingDef>
+
+</Defs>

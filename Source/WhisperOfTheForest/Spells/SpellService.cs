@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using WhisperOfTheForest.Equipment;
 using WhisperOfTheForest.Race;
 
 namespace WhisperOfTheForest.Spells
@@ -204,17 +205,33 @@ namespace WhisperOfTheForest.Spells
         /// the payload. The recipe is compiled into a frozen plan first; the plan carries its timings,
         /// so editing the book afterwards cannot change a cast that is already running.
         /// </summary>
-        public static bool TryCast(Pawn pawn, SpellRecipe recipe, LocalTargetInfo target, out string reason)
+        public static bool TryCast(Pawn pawn, SpellRecipe recipe, LocalTargetInfo target, out string reason,
+            SpellStaffModifiers staff = null)
         {
-            if (!CanCast(pawn, recipe, out reason))
+            SpellRecipe castRecipe = recipe;
+            if (staff != null)
+            {
+                // The material changes what this cast costs before affordability is checked; the
+                // frozen plan carries the same discounted cost, so the save and the spend agree.
+                castRecipe = recipe.Copy();
+                castRecipe.cost = (castRecipe.cost ?? SpellCost.Derive(castRecipe.glyphs)).Copy();
+                staff.ApplyCost(castRecipe.cost);
+            }
+
+            if (!CanCast(pawn, castRecipe, out reason))
             {
                 return false;
             }
 
-            SpellCastPlan plan = SpellCompiler.Compile(recipe, out reason);
+            SpellCastPlan plan = SpellCompiler.Compile(castRecipe, out reason);
             if (plan == null)
             {
                 return false;
+            }
+
+            if (staff != null)
+            {
+                staff.ApplyEffects(plan);
             }
 
             return SpellCastingService.Begin(pawn, plan, target, out reason);
@@ -293,56 +310,35 @@ namespace WhisperOfTheForest.Spells
         // ---------------------------------------------------------------- targeting
 
         /// <summary>
-        /// Native targeter filter built from what the chain can really act on: pawns for Harm/Heal,
-        /// buildings for Harm, plants for Grow/Harm, bare cells for Explosion/Grow. Range, line of
-        /// sight and Touch adjacency are enforced by the validator, so the game draws its own
-        /// accept/reject feedback.
+        /// Native targeter filter built from the plan's frozen whitelist. The vanilla switches are
+        /// only a coarse pre-filter: they cannot tell a factionless mech from an animal, and their
+        /// animal switch also hides wild men and entities. The exact category check lives in
+        /// <see cref="SpellTargeting"/> and runs through the validator first.
         /// </summary>
         public static TargetingParameters BuildTargetingParameters(Pawn caster, SpellCastPlan plan)
         {
-            bool harm = plan.HasEffect(SpellEffectKind.Harm);
-            bool heal = plan.HasEffect(SpellEffectKind.Heal);
-            bool grow = plan.HasEffect(SpellEffectKind.Grow);
-            bool explosion = plan.HasEffect(SpellEffectKind.Explosion);
-            bool railgun = plan.form == SpellFormKind.Railgun;
-
-            // Anything that resolves on a body or a structure, and anything that needs a bare cell.
-            // Payload effects count: a delayed or lingered Harm still needs a body at that spot.
-            bool body = heal
-                        || harm
-                        || plan.HasEffect(SpellEffectKind.Ignite)
-                        || plan.HasEffect(SpellEffectKind.Lightning)
-                        || plan.HasEffect(SpellEffectKind.Freeze)
-                        || plan.HasEffect(SpellEffectKind.ColdSnap)
-                        || plan.HasEffect(SpellEffectKind.Knockback)
-                        || plan.HasEffect(SpellEffectKind.Pull)
-                        || plan.HasEffect(SpellEffectKind.Snare)
-                        || plan.HasEffect(SpellEffectKind.Hex);
-            bool structure = harm
-                             || plan.HasEffect(SpellEffectKind.Ignite)
-                             || plan.HasEffect(SpellEffectKind.Lightning);
-            bool plant = grow || harm || plan.HasEffect(SpellEffectKind.Ignite);
-            bool cell = explosion
-                        || grow
-                        || plan.HasEffect(SpellEffectKind.Magelight)
-                        || plan.HasEffect(SpellEffectKind.Blink)
-                        || plan.HasEffect(SpellEffectKind.Linger)
-                        || plan.HasEffect(SpellEffectKind.Rune)
-                        || plan.HasEffect(SpellEffectKind.Delay);
+            List<SpellTargetClass> targets = plan.targets;
+            bool pawn = targets.Contains(SpellTargetClass.Humanlike)
+                        || targets.Contains(SpellTargetClass.Animal)
+                        || targets.Contains(SpellTargetClass.Mechanoid)
+                        || targets.Contains(SpellTargetClass.Entity);
 
             var parameters = new TargetingParameters
             {
-                canTargetPawns = railgun || body,
-                canTargetAnimals = railgun || body,
-                canTargetHumans = railgun || body,
-                canTargetMechs = railgun || body,
-                canTargetSubhumans = railgun || body,
-                canTargetBuildings = railgun || structure,
-                canTargetPlants = railgun || plant,
-                canTargetItems = false,
+                canTargetPawns = pawn,
+                canTargetAnimals = pawn,
+                canTargetHumans = pawn,
+                canTargetMechs = pawn,
+                canTargetSubhumans = pawn,
+                canTargetEntities = pawn,
+                canTargetBloodfeeders = pawn,
+                canTargetBuildings = targets.Contains(SpellTargetClass.Building)
+                                     || targets.Contains(SpellTargetClass.Rock),
+                canTargetPlants = targets.Contains(SpellTargetClass.Plant),
+                canTargetItems = targets.Contains(SpellTargetClass.Item),
                 canTargetCorpses = false,
                 canTargetFires = false,
-                canTargetLocations = railgun || cell,
+                canTargetLocations = targets.Contains(SpellTargetClass.Cell),
                 canTargetSelf = false,
                 neverTargetIncapacitated = false,
                 neverTargetDoors = false,
@@ -361,24 +357,39 @@ namespace WhisperOfTheForest.Spells
         /// </summary>
         public static bool IsTargetable(Pawn caster, SpellCastPlan plan, TargetInfo pick)
         {
-            if (plan != null && plan.form == SpellFormKind.Railgun)
+            return IsTargetableFrom(caster, plan, caster?.Position ?? IntVec3.Invalid, pick);
+        }
+
+        /// <summary>
+        /// The same test from a hypothetical caster cell. AI stationing asks whether a candidate
+        /// cell can hit the target, so the range and sight test must start there rather than at
+        /// the caster's current position.
+        /// </summary>
+        public static bool IsTargetableFrom(Pawn caster, SpellCastPlan plan, IntVec3 origin, TargetInfo pick)
+        {
+            if (plan == null || caster == null || !caster.Spawned || caster.Map == null || !pick.IsValid)
             {
-                if (caster == null || !caster.Spawned || caster.Map == null || !pick.IsValid)
-                {
-                    return false;
-                }
-
-                if (pick.Map != caster.Map || !GenGrid.InBounds(pick.Cell, caster.Map))
-                {
-                    return false;
-                }
-
-                // A composite form owns its own aim limit; 0 or less is the whole map.
-                IntVec3 from = caster.Position;
-                return SpellAimRange.Within(plan.railgun.range, from.x, from.z, pick.Cell.x, pick.Cell.z);
+                return false;
             }
 
-            return plan != null && IsTargetable(caster, plan.form, plan.range, pick);
+            Map map = caster.Map;
+            if (!GenGrid.InBounds(origin, map) || pick.Map != map || !GenGrid.InBounds(pick.Cell, map))
+            {
+                return false;
+            }
+
+            if (!SpellTargeting.Accepts(plan, pick))
+            {
+                return false;
+            }
+
+            if (plan.form == SpellFormKind.Railgun)
+            {
+                // A composite form owns its own aim limit; 0 or less is the whole map.
+                return SpellAimRange.Within(plan.railgun.range, origin.x, origin.z, pick.Cell.x, pick.Cell.z);
+            }
+
+            return IsTargetableFrom(caster, plan.form, plan.range, origin, pick);
         }
 
         /// <summary>
@@ -387,13 +398,19 @@ namespace WhisperOfTheForest.Spells
         /// </summary>
         public static bool IsTargetable(Pawn caster, SpellFormKind form, float range, TargetInfo pick)
         {
+            return IsTargetableFrom(caster, form, range, caster?.Position ?? IntVec3.Invalid, pick);
+        }
+
+        public static bool IsTargetableFrom(Pawn caster, SpellFormKind form, float range, IntVec3 origin,
+            TargetInfo pick)
+        {
             if (caster == null || !caster.Spawned || caster.Map == null || !pick.IsValid)
             {
                 return false;
             }
 
             Map map = caster.Map;
-            if (pick.Map != map)
+            if (!GenGrid.InBounds(origin, map) || pick.Map != map)
             {
                 return false;
             }
@@ -406,17 +423,16 @@ namespace WhisperOfTheForest.Spells
 
             if (form == SpellFormKind.Self || form == SpellFormKind.Orbit)
             {
-                return cell == caster.Position;
+                return cell == origin;
             }
 
             if (form == SpellFormKind.Touch)
             {
-                return IsInTouchReach(caster.Position, cell, range) && HasLineOfSight(caster, cell, map);
+                return IsInTouchReach(origin, cell, range) && HasLineOfSightFrom(origin, cell, map);
             }
 
-            IntVec3 origin = caster.Position;
             return SpellAimRange.Within(range, origin.x, origin.z, cell.x, cell.z)
-                   && HasLineOfSight(caster, cell, map);
+                   && HasLineOfSightFrom(origin, cell, map);
         }
 
         /// <summary>
@@ -436,7 +452,12 @@ namespace WhisperOfTheForest.Spells
         /// </summary>
         public static bool HasLineOfSight(Pawn caster, IntVec3 cell, Map map)
         {
-            return cell == caster.Position || GenSight.LineOfSight(caster.Position, cell, map, true);
+            return HasLineOfSightFrom(caster.Position, cell, map);
+        }
+
+        public static bool HasLineOfSightFrom(IntVec3 origin, IntVec3 cell, Map map)
+        {
+            return cell == origin || GenSight.LineOfSight(origin, cell, map, true);
         }
 
         // ---------------------------------------------------------------- book entry and ability grant

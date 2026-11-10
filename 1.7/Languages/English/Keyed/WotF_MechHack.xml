@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_Hack_HostileMechOnly>Requires a living hostile mechanoid.</WotF_Hack_HostileMechOnly>
+  <WotF_Hack_AlreadyAffected>Already assimilating or controlled.</WotF_Hack_AlreadyAffected>
+  <WotF_Hack_Remaining>Remaining: {0}</WotF_Hack_Remaining>
+</LanguageData>

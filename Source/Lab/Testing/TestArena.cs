@@ -32,6 +32,10 @@ namespace WhisperOfTheForest.Testing
 
         private CellRect rect;
 
+        // Rectangles of the arenas that are still alive. A reload run parks several arenas at once,
+        // so a new one must not land on a parked one and clear the scene another test still needs.
+        private static readonly List<CellRect> Occupied = new List<CellRect>();
+
         private TestArena(Map map)
         {
             this.map = map;
@@ -58,6 +62,17 @@ namespace WhisperOfTheForest.Testing
         }
 
         /// <summary>Prepares a fresh rectangle for this test and records everything it destroys.</summary>
+        /// <summary>Keeps a parked arena's rectangle out of reach of the next test's arena.</summary>
+        public static void Reserve(CellRect rect)
+        {
+            Occupied.Add(rect);
+        }
+
+        public static void ReleaseAll()
+        {
+            Occupied.Clear();
+        }
+
         public static TestArena Create(Map map, string testName)
         {
             var arena = new TestArena(map);
@@ -129,6 +144,7 @@ namespace WhisperOfTheForest.Testing
         /// <summary>Destroys what the test spawned and puts the ground back exactly as it was.</summary>
         public void Dispose()
         {
+            Occupied.Remove(rect);
             // Pawns first: destroying a standing pawn leaves no corpse behind.
             foreach (int id in new List<int>(things))
             {
@@ -198,6 +214,7 @@ namespace WhisperOfTheForest.Testing
             int width = System.Math.Min(PreferredWidth, map.Size.x - 8);
             int z = (map.Size.z - height) / 2;
 
+            // The strips a normal run has always used: east edge first, then west.
             for (int attempt = 0; attempt < 2; attempt++)
             {
                 bool east = attempt == 0;
@@ -206,27 +223,49 @@ namespace WhisperOfTheForest.Testing
                 {
                     int x = east ? map.Size.x - dx - width : dx;
                     var candidate = new CellRect(x, z, width, height);
-                    if (StripClear(map, candidate))
+                    if (!OverlapsOccupied(candidate) && StripClear(map, candidate))
                     {
                         return candidate;
                     }
                 }
             }
 
-            // Fall back to the immediate surroundings of the map centre.
-            for (int dz = -12; dz <= 12; dz += 4)
+            // A reload run parks several arenas at once, so walk the whole map in arena-sized steps.
+            for (int x2 = 2; x2 + width <= map.Size.x - 2; x2 += width + 2)
             {
-                for (int dx = -20; dx <= 20; dx += 4)
+                var strip = new CellRect(x2, z, width, height);
+                if (!OverlapsOccupied(strip) && StripClear(map, strip))
                 {
-                    var candidate = new CellRect(map.Center.x + dx, map.Center.z + dz - height / 2, width, height);
-                    if (StripClear(map, candidate))
+                    return strip;
+                }
+            }
+
+            for (int z2 = 2; z2 + height <= map.Size.z - 2; z2 += height + 2)
+            {
+                for (int x2 = 2; x2 + width <= map.Size.x - 2; x2 += width + 2)
+                {
+                    var cell = new CellRect(x2, z2, width, height);
+                    if (!OverlapsOccupied(cell) && StripClear(map, cell))
                     {
-                        return candidate;
+                        return cell;
                     }
                 }
             }
 
             return CellRect.Empty;
+        }
+
+        private static bool OverlapsOccupied(CellRect candidate)
+        {
+            for (int i = 0; i < Occupied.Count; i++)
+            {
+                if (Occupied[i].Overlaps(candidate))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private static bool StripClear(Map map, CellRect candidate)

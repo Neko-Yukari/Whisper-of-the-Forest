@@ -119,11 +119,12 @@ namespace WhisperOfTheForest.Spells
                 return false;
             }
 
-            // Creation is what freezes the numbers: the chain's timing and cost become this spell's
-            // own, so a later Def edit cannot change a spell that is already in the book.
+            // Creation is what freezes the numbers: the chain's timing, cost and target categories
+            // become this spell's own, so a later Def edit cannot change a spell already in the book.
             SpellRecipe stored = recipe.Copy();
             stored.timing = SpellTiming.Derive(stored.glyphs);
             stored.cost = SpellCost.Derive(stored.glyphs);
+            stored.targets = SpellCompiler.DeriveTargets(stored);
             BookOf(pawn, true).slots[slot] = stored;
             return true;
         }
@@ -339,25 +340,6 @@ namespace WhisperOfTheForest.Spells
             Scribe_Collections.Look(ref slots, "slots", LookMode.Deep);
             Scribe_Values.Look(ref activeSlot, "activeSlot", -1);
             Scribe_Values.Look(ref lastCastTick, "lastCastTick", -1);
-
-            if (Scribe.mode == LoadSaveMode.PostLoadInit)
-            {
-                // A save written with a different slot count must not shift the bookmarks around.
-                if (slots == null)
-                {
-                    slots = NewSlots();
-                }
-
-                while (slots.Count < GameComponent_Spellbook.SlotCount)
-                {
-                    slots.Add(null);
-                }
-
-                while (slots.Count > GameComponent_Spellbook.SlotCount)
-                {
-                    slots.RemoveAt(slots.Count - 1);
-                }
-            }
         }
 
         private static List<SpellRecipe> NewSlots()

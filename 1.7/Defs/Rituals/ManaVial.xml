@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <WhisperOfTheForest.Rituals.RitualDef>
+    <defName>WotF_Ritual_BottleMana</defName>
+    <label>rite of bottling</label>
+    <description>The caster traces a white chalk ring and draws mana from the network into a steel-and-plasteel vial. The vial holds less than the rite spends, so bottling stores power for later rather than creating it.</description>
+    <ringSize>3</ringSize>
+    <chalkColor>White</chalkColor>
+    <manaCost>60</manaCost>
+    <durationTicks>300</durationTicks>
+    <effectRadius>12.9</effectRadius>
+    <participantRadiusPerExtra>0.1</participantRadiusPerExtra>
+    <maxParticipants>4</maxParticipants>
+    <inputCosts>
+      <Steel>10</Steel>
+      <Plasteel>2</Plasteel>
+    </inputCosts>
+    <outputProducts>
+      <WotF_ManaVial>1</WotF_ManaVial>
+    </outputProducts>
+    <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_Transmute</effectWorkerClass>
+  </WhisperOfTheForest.Rituals.RitualDef>
+</Defs>

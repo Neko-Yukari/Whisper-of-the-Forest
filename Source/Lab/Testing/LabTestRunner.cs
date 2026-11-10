@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using Verse;
 
 namespace WhisperOfTheForest.Testing
@@ -18,7 +19,7 @@ namespace WhisperOfTheForest.Testing
     /// save/load are the only ones that pause the run for a frame: the save is written, the game
     /// loads it, and the same test continues in phase two.
     /// </summary>
-    internal static class LabTestRunner
+    internal static partial class LabTestRunner
     {
         private const int ReadyUpdateTimeout = 6000;
         private const int MaxSamplesInReport = 6;
@@ -29,6 +30,7 @@ namespace WhisperOfTheForest.Testing
             internal Type Type;
             internal bool ExpectedFailure;
             internal string ExpectedFailureReason;
+            internal string[] ExpectedLogErrors;
             internal bool Reload;
         }
 
@@ -51,8 +53,12 @@ namespace WhisperOfTheForest.Testing
             internal TestLogWatch RunLog;
             internal TestLogWatch LoadLog;
             internal LabLoadCheck.Result Load;
+            internal readonly HashSet<string> ExpectedLogSamples = new HashSet<string>();
             internal readonly List<TestOutcome> Outcomes = new List<TestOutcome>();
             internal readonly List<Entry> Pending = new List<Entry>();
+            // Colony-wide state as the fixture left it; put back before every test so one test's
+            // permanent-looking change (a rune unlock) cannot reach the next one or a later pass.
+            internal List<string> RuneBaseline = new List<string>();
             internal int Index = -1;
             internal int UpdatesWaiting;
             internal bool CancelRequested;
@@ -69,6 +75,17 @@ namespace WhisperOfTheForest.Testing
             internal int ArenaHeight;
             internal Game GameBeforeReload;
             internal long PhaseStartedMilliseconds;
+            internal readonly List<PendingReload> PendingReloads = new List<PendingReload>();
+            internal int ResumeIndex;
+        }
+
+        private sealed class PendingReload
+        {
+            internal Entry Entry;
+            internal LabTest Instance;
+            internal TestOutcome Outcome;
+            internal TestContext Context;
+            internal TestArena Arena;
         }
 
         private enum Stage
@@ -115,6 +132,25 @@ namespace WhisperOfTheForest.Testing
             {
                 error = "no test matches filter '" + filter + "'";
                 return false;
+            }
+
+            // A declaration is an authoring input like the filter: a pattern that does not compile
+            // is rejected here, before the run, instead of aborting the whole run mid-test.
+            foreach (Entry entry in entries)
+            {
+                foreach (string pattern in entry.ExpectedLogErrors)
+                {
+                    try
+                    {
+                        new Regex(pattern);
+                    }
+                    catch (ArgumentException exception)
+                    {
+                        error = "test '" + entry.Name + "' declares an invalid expected-log-error pattern '"
+                                + pattern + "': " + exception.Message;
+                        return false;
+                    }
+                }
             }
 
             var run = new RunState
@@ -273,12 +309,11 @@ namespace WhisperOfTheForest.Testing
                 case Stage.AwaitReload:
                     if (TryEnterLoadedGame(ref state.GameBeforeReload))
                     {
-                        CompleteReloadedTest();
+                        RunMergedReloads();
                     }
                     else if (!WaitForMoreFrames("reload"))
                     {
-                        state.Context.Fail("save/load did not finish within the frame budget");
-                        FinishCurrent("reload timeout");
+                        FailPendingReloads("save/load did not finish within the frame budget");
                     }
 
                     return;
@@ -301,6 +336,7 @@ namespace WhisperOfTheForest.Testing
             state.RunLog = TestLogWatch.Now();
             state.Pending.Clear();
             state.Pending.AddRange(state.Entries);
+            state.RuneBaseline = ColonyState.CaptureRunes();
             state.Index = 0;
             stage = Stage.RunTest;
         }
@@ -406,6 +442,13 @@ namespace WhisperOfTheForest.Testing
             state.Current = state.Pending[state.Index];
             state.UpdatesWaiting = 0;
 
+            // Every test starts from the colony state the fixture was loaded with, except inside a
+            // merged reload batch: there the parked tests' own changes must reach the single save.
+            if (state.PendingReloads.Count == 0)
+            {
+                ColonyState.RestoreRunes(state.RuneBaseline);
+            }
+
             if (Find.TickManager == null || Current.Game == null || Find.CurrentMap == null)
             {
                 FailCurrentWithoutScene("no game/map is loaded");
@@ -448,7 +491,7 @@ namespace WhisperOfTheForest.Testing
 
         private static void RunBody()
         {
-            TestLogWatch watch = TestLogWatch.Now();
+            TestLogWatch watch = TestLogWatch.Now(state.Current.ExpectedLogErrors);
             LabTest instance = CreateTest(state.Current, out string error);
             if (instance == null)
             {
@@ -460,6 +503,9 @@ namespace WhisperOfTheForest.Testing
 
             state.Instance = instance;
 
+            // One fixed seed per test name: what a test rolls no longer depends on which tests ran
+            // before it, and a -Filter run reproduces the same scene as a full run.
+            Rand.PushState(GenText.StableStringHash(state.Current.Name));
             try
             {
                 instance.Execute(state.Context);
@@ -470,6 +516,7 @@ namespace WhisperOfTheForest.Testing
                 Log.Warning("[WotF-Lab] test '" + state.Current.Name + "' threw: " + exception);
             }
 
+            Rand.PopState();
             RecordWatch(watch);
             FinishCurrent(null);
         }
@@ -483,6 +530,8 @@ namespace WhisperOfTheForest.Testing
 
             watch.Capture();
             state.Outcome.LogErrors += watch.Errors;
+            state.Outcome.LogExpectedErrors += watch.Expected;
+            state.Outcome.LogUnexpectedErrors += watch.Unexpected;
             state.Outcome.LogOwnErrors += watch.OwnErrors;
             state.Outcome.LogTruncated |= watch.Truncated;
             for (int i = 0; i < watch.Samples.Count && state.Outcome.ErrorTexts.Count < MaxSamplesInReport; i++)
@@ -490,10 +539,30 @@ namespace WhisperOfTheForest.Testing
                 state.Outcome.ErrorTexts.Add(watch.Samples[i]);
             }
 
-            if (watch.OwnErrors > 0)
+            // The run-wide sample list drives the script's own failure gate; an error the owning
+            // test declared as expected must not resurface there as an unexplained failure.
+            foreach (string sample in watch.ExpectedSamples)
             {
-                state.Context.Fail("the game logged " + watch.OwnErrors + " error(s) from this mod during this test");
+                state.ExpectedLogSamples.Add(sample);
             }
+
+            if (watch.Unexpected > 0)
+            {
+                state.Context.Fail("the game logged " + watch.Unexpected + " error(s) during this test"
+                                   + (watch.Expected > 0 ? " (" + watch.Expected + " more were declared expected)" : string.Empty)
+                                   + ": " + Clip(watch.UnexpectedSamples[0]));
+            }
+        }
+
+        /// <summary>Enough of a log entry to find it in Player.log, without a full stack trace in the report.</summary>
+        private static string Clip(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return "(empty entry)";
+            }
+
+            return text.Length > 300 ? text.Substring(0, 300) + "..." : text;
         }
 
         /// <summary>Ends one test: disposes its arena and decides between reload and pass/fail.</summary>
@@ -520,41 +589,17 @@ namespace WhisperOfTheForest.Testing
                 // A reload only adds information when phase one did everything it meant to do.
                 if (!state.Context.Failed && forcedError == null)
                 {
-                    BeginReloadOfCurrent();
+                    ParkForReload();
+                    if (!ReloadPending())
+                    {
+                        BeginMergedReload();
+                    }
+
                     return;
                 }
             }
 
             CompleteOutcome();
-        }
-
-        private static void BeginReloadOfCurrent()
-        {
-            // Clean up what phase one created so the save contains only the reload scenario's own
-            // scene: the test body decides what must survive, everything else is removed here.
-            state.ArenaOrigin = state.Arena.Origin;
-            state.ArenaWidth = state.Arena.Width;
-            state.ArenaHeight = state.Arena.Height;
-            state.Outcome.Phase = "reload";
-
-            string save = "wotf-l2-" + state.RunId;
-            state.ReloadSaveName = save;
-            try
-            {
-                GameDataSaveLoader.SaveGame(save);
-            }
-            catch (Exception exception)
-            {
-                state.Context.Fail("save failed: " + exception.Message);
-                CompleteOutcome();
-                return;
-            }
-
-            state.GameBeforeReload = Current.Game;
-            state.UpdatesWaiting = 0;
-            Log.Message("[WotF-Lab] test '" + state.Current.Name + "' reloading save " + save);
-            GameDataSaveLoader.LoadGame(save);
-            stage = Stage.AwaitReload;
         }
 
         private static void CompleteReloadedTest()
@@ -578,7 +623,7 @@ namespace WhisperOfTheForest.Testing
 
             state.Context = new TestContext(state.Arena, "after-reload", true);
             Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
-            TestLogWatch watch = TestLogWatch.Now();
+            TestLogWatch watch = TestLogWatch.Now(state.Current.ExpectedLogErrors);
             LabTest instance = state.Instance;
             string error = null;
             if (instance == null)
@@ -586,6 +631,7 @@ namespace WhisperOfTheForest.Testing
                 instance = CreateTest(state.Current, out error);
             }
 
+            Rand.PushState(GenText.StableStringHash(state.Current.Name + ":after"));
             if (instance == null)
             {
                 state.Context.Fail(error);
@@ -603,6 +649,7 @@ namespace WhisperOfTheForest.Testing
                 }
             }
 
+            Rand.PopState();
             RecordWatch(watch);
             stage = Stage.RunTest;
             CompleteOutcome();
@@ -815,14 +862,22 @@ namespace WhisperOfTheForest.Testing
             json.EndArray();
             json.Key("errorSamples").StartArray();
             var samples = new List<string>();
-            if (state.LoadLog != null)
+            // Both watches span the run (the load watch starts before the fixture load and is
+            // captured with the report), so a declared expected error must be filtered from either.
+            foreach (TestLogWatch watch in new[] { state.LoadLog, state.RunLog })
             {
-                samples.AddRange(state.LoadLog.Samples);
-            }
+                if (watch == null)
+                {
+                    continue;
+                }
 
-            if (state.RunLog != null)
-            {
-                samples.AddRange(state.RunLog.Samples);
+                foreach (string sample in watch.Samples)
+                {
+                    if (!state.ExpectedLogSamples.Contains(sample))
+                    {
+                        samples.Add(sample);
+                    }
+                }
             }
 
             var seenSample = new HashSet<string>();
@@ -832,6 +887,13 @@ namespace WhisperOfTheForest.Testing
                 {
                     json.Value(sample);
                 }
+            }
+
+            json.EndArray();
+            json.Key("expectedErrorSamples").StartArray();
+            foreach (string sample in state.ExpectedLogSamples)
+            {
+                json.Value(sample);
             }
 
             json.EndArray();
@@ -914,6 +976,8 @@ namespace WhisperOfTheForest.Testing
                     .Property("tickStart", outcome.TickStart)
                     .Property("tickEnd", outcome.TickEnd)
                     .Property("logErrors", outcome.LogErrors)
+                    .Property("logExpectedErrors", outcome.LogExpectedErrors)
+                    .Property("logUnexpectedErrors", outcome.LogUnexpectedErrors)
                     .Property("logOwnErrors", outcome.LogOwnErrors)
                     .Property("logTruncated", outcome.LogTruncated);
                 json.Key("measurements").StartArray();
@@ -950,6 +1014,10 @@ namespace WhisperOfTheForest.Testing
             {
                 Log.Warning("[WotF-Lab] could not restore game speed: " + exception.Message);
             }
+
+            // The instance outlives the run: leave the colony the way the fixture had it.
+            ColonyState.RestoreRunes(state?.RuneBaseline);
+            TestArena.ReleaseAll();
 
             state = null;
             stage = Stage.Done;
@@ -1054,11 +1122,18 @@ namespace WhisperOfTheForest.Testing
                     Type = type,
                     ExpectedFailure = attribute != null && attribute.ExpectedFailure,
                     ExpectedFailureReason = attribute?.ExpectedFailureReason,
+                    ExpectedLogErrors = attribute?.ExpectedLogErrors ?? Array.Empty<string>(),
                     Reload = attribute != null && attribute.Reload
                 });
             }
 
-            entries.Sort((a, b) => string.CompareOrdinal(a.Type.FullName, b.Type.FullName));
+            // Reload tests run last and back to back: their parked scenes must reach one save before
+            // any other test can advance the clock, and no other test may want their arena strip.
+            entries.Sort((a, b) =>
+            {
+                int byReload = (a.Reload ? 1 : 0).CompareTo(b.Reload ? 1 : 0);
+                return byReload != 0 ? byReload : string.CompareOrdinal(a.Type.FullName, b.Type.FullName);
+            });
             return entries;
         }
 

@@ -38,7 +38,8 @@ namespace WhisperOfTheForest
             DrawGlyphInfo(layout.Detail);
             DrawValidation(layout.Validation);
             DrawActionRow(layout.ActionRow);
-            DrawCastRow(layout.CastRow);
+            if (!IsStandalone)
+                DrawCastRow(layout.CastRow);
         }
 
         // ---------------------------------------------------------------- spell bar
@@ -65,6 +66,14 @@ namespace WhisperOfTheForest
 
             if (!chain.HasGlyphs)
             {
+                return;
+            }
+
+            if (IsStandalone)
+            {
+                string mana = TF("WotF_Turret_ManaPreview", previewMana(chain.ToRecipe()).ToString("0.#"));
+                SpellbookStyle.DrawLabel(new Rect(rect.x + countWidth, rect.y, rect.width - countWidth, rect.height),
+                    mana, GameFont.Tiny, SpellbookStyle.InkDim, TextAnchor.MiddleRight);
                 return;
             }
 
@@ -281,6 +290,13 @@ namespace WhisperOfTheForest
                 : TF("WotF_Spellbook.ValidationFailed", ReasonOrUnknown(chainReason));
             SpellbookStyle.DrawLabel(new Rect(textX, rect.y + 5f, textWidth, 20f), firstLine, GameFont.Small, color);
 
+            if (IsStandalone)
+            {
+                SpellbookStyle.DrawParagraph(new Rect(textX, rect.y + 25f, textWidth, Mathf.Max(0f, rect.height - 27f)),
+                    T("WotF_Turret_ComposeHint"), GameFont.Tiny, SpellbookStyle.InkDim);
+                return;
+            }
+
             string secondLine;
             Color secondColor;
             if (slotNames[slot].NullOrEmpty())
@@ -308,6 +324,17 @@ namespace WhisperOfTheForest
 
         private void DrawActionRow(Rect rect)
         {
+            if (IsStandalone)
+            {
+                Rect submitRect = new Rect(rect.x, rect.y, rect.width * 0.6f - 3f, rect.height);
+                Rect standaloneClearRect = new Rect(submitRect.xMax + 6f, rect.y, rect.xMax - submitRect.xMax - 6f, rect.height);
+                if (SpellbookStyle.Button(submitRect, submitLabel, SpellbookButtonRole.Primary, chainValid))
+                    RequestCreate();
+                if (SpellbookStyle.Button(standaloneClearRect, T("WotF_Spellbook.ClearBar"), SpellbookButtonRole.Secondary, chain.HasGlyphs))
+                    RequestClearBar();
+                return;
+            }
+
             const float gap = 6f;
             float width = (rect.width - 2f * gap) / 3f;
             Rect createRect = new Rect(rect.x, rect.y, width, rect.height);

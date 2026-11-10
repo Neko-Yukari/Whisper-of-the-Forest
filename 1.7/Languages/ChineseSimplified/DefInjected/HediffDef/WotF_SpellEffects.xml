@@ -16,4 +16,8 @@
   <WotF_Hediff_Scorch.label>灼烧</WotF_Hediff_Scorch.label>
   <WotF_Hediff_Scorch.description>受控的灼烧持续炙烤目标，但不会变成四处蔓延的火灾。</WotF_Hediff_Scorch.description>
 
+  <WotF_Hediff_MechAssimilation.label>同化中</WotF_Hediff_MechAssimilation.label>
+  <WotF_Hediff_MechAssimilation.description>机械体被眩晕，正在被持续引导的法术同化。引导中断则同化失败。</WotF_Hediff_MechAssimilation.description>
+  <WotF_Hediff_MechControlled.label>临时骇入</WotF_Hediff_MechControlled.label>
+  <WotF_Hediff_MechControlled.description>暂时听命于施法者阵营，不占机械师带宽。到期恢复原阵营并取消征召。</WotF_Hediff_MechControlled.description>
 </LanguageData>

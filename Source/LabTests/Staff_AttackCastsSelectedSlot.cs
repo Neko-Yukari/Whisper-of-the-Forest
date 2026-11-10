@@ -127,7 +127,7 @@ namespace WhisperOfTheForest.LabTests
             // already belongs to the map's ThingOwner and Pawn.equipment.TryAdd refuses it
             // ("already in another container"), which leaves the pawn unarmed. Same path as
             // PawnGenerator. The pawn is what the arena cleans up, and it destroys its equipment.
-            var staff = (ThingWithComps)ThingMaker.MakeThing(def);
+            var staff = (ThingWithComps)ThingMaker.MakeThing(def, ThingDefOf.Steel);
             caster.equipment.AddEquipment(staff);
             if (caster.equipment.Primary != staff)
             {

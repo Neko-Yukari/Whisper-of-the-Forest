@@ -10,6 +10,12 @@ namespace WhisperOfTheForest.Spells
         Recovery
     }
 
+    public enum SpellTargetKind
+    {
+        Cell,
+        Thing
+    }
+
     /// <summary>
     /// One cast in progress. Everything a cast needs after the player picked a target is frozen here:
     /// the compiled plan (numbers, payload, timings), the locked aim cell and the thing that was
@@ -24,7 +30,8 @@ namespace WhisperOfTheForest.Spells
 
         public Map map;
 
-        /// <summary>Thing the player picked; null for the caster itself or a bare cell.</summary>
+        // Identity survives a missing Thing reference after loading; null never means "picked a cell".
+        public SpellTargetKind targetKind;
         public Thing targetThing;
 
         /// <summary>Aim cell locked at cast time; the caster's live position is the firing point.</summary>
@@ -46,6 +53,7 @@ namespace WhisperOfTheForest.Spells
         {
             Scribe_References.Look(ref caster, "caster");
             Scribe_References.Look(ref map, "map");
+            Scribe_Values.Look(ref targetKind, "targetKind");
             Scribe_References.Look(ref targetThing, "targetThing");
             Scribe_Values.Look(ref cell, "cell");
             Scribe_Deep.Look(ref plan, "plan");

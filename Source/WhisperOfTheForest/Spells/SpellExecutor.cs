@@ -100,6 +100,8 @@ namespace WhisperOfTheForest.Spells
                     return ApplyTimedState(step, primary, cell, map, SpellEffectDefs.HediffFreeze);
                 case SpellEffectKind.Snare:
                     return ApplyTimedState(step, primary, cell, map, SpellEffectDefs.HediffEnsnare);
+                case SpellEffectKind.Hack:
+                    return MechHackService.Apply(step, caster, primary, cell, map);
                 case SpellEffectKind.Hex:
                     return ApplyTimedState(step, primary, cell, map, SpellEffectDefs.HediffHex);
                 case SpellEffectKind.ColdSnap:

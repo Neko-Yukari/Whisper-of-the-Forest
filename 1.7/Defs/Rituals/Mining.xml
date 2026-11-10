@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <WhisperOfTheForest.Rituals.RitualDef>
+    <defName>WotF_Ritual_LeylineMining</defName>
+    <label>rite of leyline mining</label>
+    <description>The caster traces a star chalk ring and drives the grove's roots into the deep veins below. The rite brings up one portion of each of the first few deep resources under the altar, and refuses to start if the ground beneath holds none.</description>
+    <ringSize>7</ringSize>
+    <chalkColor>Star</chalkColor>
+    <manaCost>180</manaCost>
+    <durationTicks>1200</durationTicks>
+    <effectRadius>12.9</effectRadius>
+    <participantRadiusPerExtra>0.1</participantRadiusPerExtra>
+    <maxParticipants>4</maxParticipants>
+    <minParticipants>1</minParticipants>
+    <requiresDeepResources>true</requiresDeepResources>
+    <maxResourceTypes>3</maxResourceTypes>
+    <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_LeylineMining</effectWorkerClass>
+  </WhisperOfTheForest.Rituals.RitualDef>
+</Defs>

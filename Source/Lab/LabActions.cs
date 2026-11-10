@@ -92,6 +92,39 @@ namespace WhisperOfTheForest
             return Equip(pawn, BlinkStrideDefName);
         }
 
+        /// <summary>Equips a staff made of the given material, so the lab can exercise a real material.</summary>
+        public static bool TryEquipSpellStaff(Pawn pawn, ThingDef stuff)
+        {
+            return Run(pawn, "equip-staff", delegate(Pawn target)
+            {
+                ThingDef def = DefDatabase<ThingDef>.GetNamedSilentFail(WhisperOfTheForest.Equipment.StaffDefs.ThingDefName);
+                if (def == null)
+                {
+                    return FailMessage("staff def is not loaded");
+                }
+
+                if (target.equipment == null)
+                {
+                    return FailMessage("pawn has no equipment tracker");
+                }
+
+                if (target.equipment.Primary != null)
+                {
+                    return FailMessage("pawn already carries " + target.equipment.Primary.def.defName);
+                }
+
+                if (!(ThingMaker.MakeThing(def, stuff) is ThingWithComps staff))
+                {
+                    return FailMessage("staff def did not create ThingWithComps");
+                }
+
+                target.equipment.AddEquipment(staff);
+                return target.equipment.Primary == staff
+                    ? "staff=" + def.defName + " stuff=" + (stuff?.defName ?? "null")
+                    : FailMessage("the staff was not equipped");
+            });
+        }
+
         /// <summary>Drops only the two experiment apparel defs; all other gear is untouched.</summary>
         public static void RemoveExperimentApparel(Pawn pawn)
         {

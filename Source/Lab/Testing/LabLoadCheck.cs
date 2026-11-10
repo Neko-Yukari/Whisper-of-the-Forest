@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using HarmonyLib;
 using Verse;
@@ -16,11 +17,34 @@ namespace WhisperOfTheForest.Testing
     /// </summary>
     internal sealed class TestLogWatch
     {
+        private readonly Regex[] expected;
         private LogMessage anchor;
         private int anchorRepeats;
         private int queueCount;
 
+        internal TestLogWatch(string[] expectedLogErrors)
+        {
+            if (expectedLogErrors == null || expectedLogErrors.Length == 0)
+            {
+                expected = Array.Empty<Regex>();
+                return;
+            }
+
+            expected = new Regex[expectedLogErrors.Length];
+            for (int i = 0; i < expectedLogErrors.Length; i++)
+            {
+                expected[i] = new Regex(expectedLogErrors[i]);
+            }
+        }
+
+        /// <summary>Errors (and exception text logged as errors) added after the snapshot.</summary>
         internal int Errors { get; private set; }
+
+        /// <summary>Errors matched by a declaration of the test that owns this watch.</summary>
+        internal int Expected { get; private set; }
+
+        /// <summary>Errors no declaration matched: every one of these fails the test.</summary>
+        internal int Unexpected { get; private set; }
 
         /// <summary>Errors that name this mod; the L1 gate is zero of these.</summary>
         internal int OwnErrors { get; private set; }
@@ -29,9 +53,13 @@ namespace WhisperOfTheForest.Testing
 
         internal List<string> Samples { get; } = new List<string>();
 
-        internal static TestLogWatch Now()
+        internal List<string> ExpectedSamples { get; } = new List<string>();
+
+        internal List<string> UnexpectedSamples { get; } = new List<string>();
+
+        internal static TestLogWatch Now(string[] expectedLogErrors = null)
         {
-            var watch = new TestLogWatch();
+            var watch = new TestLogWatch(expectedLogErrors);
             var messages = new List<LogMessage>(Log.Messages);
             watch.queueCount = messages.Count;
             if (messages.Count > 0)
@@ -48,8 +76,12 @@ namespace WhisperOfTheForest.Testing
         {
             int errors = 0;
             int ownErrors = 0;
+            int expectedCount = 0;
+            int unexpectedCount = 0;
             bool sawAnchor = anchor == null;
             Samples.Clear();
+            ExpectedSamples.Clear();
+            UnexpectedSamples.Clear();
             foreach (LogMessage message in Log.Messages)
             {
                 if (!sawAnchor)
@@ -57,44 +89,20 @@ namespace WhisperOfTheForest.Testing
                     if (ReferenceEquals(message, anchor))
                     {
                         sawAnchor = true;
-                        int repeated = Math.Max(0, message.repeats - anchorRepeats);
-                        errors += repeated;
-                        if (message.type == LogMessageType.Error)
-                        {
-                            if (IsOwn(message.text))
-                            {
-                                ownErrors += repeated;
-                            }
-
-                            if (Samples.Count < 8)
-                            {
-                                Samples.Add(Sample(message.text));
-                            }
-                        }
+                        Count(message, Math.Max(0, message.repeats - anchorRepeats),
+                            ref errors, ref ownErrors, ref expectedCount, ref unexpectedCount);
                     }
 
                     continue;
                 }
 
-                if (message.type != LogMessageType.Error)
-                {
-                    continue;
-                }
-
-                errors += message.repeats;
-                if (IsOwn(message.text))
-                {
-                    ownErrors += message.repeats;
-                }
-
-                if (Samples.Count < 8)
-                {
-                    Samples.Add(Sample(message.text));
-                }
+                Count(message, message.repeats, ref errors, ref ownErrors, ref expectedCount, ref unexpectedCount);
             }
 
             Errors = errors;
             OwnErrors = ownErrors;
+            Expected = expectedCount;
+            Unexpected = unexpectedCount;
             Truncated = !sawAnchor;
 
             // A rare but real failure case: the queue wrapped past the anchor, so the exact number is
@@ -103,30 +111,95 @@ namespace WhisperOfTheForest.Testing
             {
                 int now = 0;
                 int ownNow = 0;
+                int expectedNow = 0;
+                int unexpectedNow = 0;
                 foreach (LogMessage message in Log.Messages)
                 {
-                    if (message.type != LogMessageType.Error)
-                    {
-                        continue;
-                    }
-
-                    now += message.repeats;
-                    if (IsOwn(message.text))
-                    {
-                        ownNow += message.repeats;
-                    }
+                    Count(message, message.repeats, ref now, ref ownNow, ref expectedNow, ref unexpectedNow);
                 }
 
                 Errors = Math.Max(Errors, now);
                 OwnErrors = Math.Max(OwnErrors, ownNow);
+                Expected = Math.Max(Expected, expectedNow);
+                Unexpected = Math.Max(Unexpected, unexpectedNow);
             }
         }
 
-        /// <summary>True when a log line names this mod, by tag, def or assembly name.</summary>
+        /// <summary>
+        /// One error entry, counted once per repeat. A message that matches a declaration of the test
+        /// is counted as expected instead of failing it; everything else is unexpected.
+        /// </summary>
+        private void Count(LogMessage message, int repeats, ref int errors, ref int ownErrors,
+            ref int expectedCount, ref int unexpectedCount)
+        {
+            if (repeats <= 0 || message.type != LogMessageType.Error || IsLegacy(message.text))
+            {
+                return;
+            }
+
+            errors += repeats;
+            if (IsOwn(message.text))
+            {
+                ownErrors += repeats;
+            }
+
+            if (IsExpected(message.text))
+            {
+                expectedCount += repeats;
+                AddSample(ExpectedSamples, message.text);
+            }
+            else
+            {
+                unexpectedCount += repeats;
+                AddSample(UnexpectedSamples, message.text);
+            }
+
+            AddSample(Samples, message.text);
+        }
+
+        private bool IsExpected(string text)
+        {
+            if (expected.Length == 0)
+            {
+                return false;
+            }
+
+            string value = text ?? string.Empty;
+            for (int i = 0; i < expected.Length; i++)
+            {
+                if (expected[i].IsMatch(value))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static void AddSample(List<string> samples, string text)
+        {
+            if (samples.Count < 8)
+            {
+                samples.Add(Sample(text));
+            }
+        }
+
+        /// <summary>
+        /// True when a log line names this mod, by tag, def or assembly name. The pre-rename
+        /// <c>WhisperOfTheForest.Experimental.*</c> namespace is an unsupported old save, not this
+        /// build, so its load errors are not counted.
+        /// </summary>
         internal static bool IsOwn(string text)
         {
             return text != null
-                   && (text.Contains("WotF") || text.Contains("WhisperOfTheForest"));
+                   && (text.Contains("WotF") || text.Contains("WhisperOfTheForest"))
+                   && !IsLegacy(text);
+        }
+
+        /// <summary>A pre-rename save names classes this build no longer has; not a current defect.</summary>
+        internal static bool IsLegacy(string text)
+        {
+            return text != null && text.Contains("WhisperOfTheForest.Experimental.");
         }
 
         private static string Sample(string text)
