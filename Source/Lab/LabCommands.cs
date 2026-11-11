@@ -109,6 +109,8 @@ namespace WhisperOfTheForest
                     return Shot(id, args);
                 case "portrait":
                     return Portrait(id, args);
+                case "diet":
+                    return Diet(id, args);
                 default:
                     throw new LabCommandException("unknown command '" + command + "'");
             }
@@ -2577,6 +2579,13 @@ namespace WhisperOfTheForest
                 throw new LabCommandException("no faction of def '" + defName + "' in this world");
             }
 
+            // The report reads relations and goodwill towards the player, which vanilla logs as an error
+            // when asked about the player faction itself.
+            if (faction.IsPlayer)
+            {
+                throw new LabCommandException("faction reports NPC factions only");
+            }
+
             var json = new StringBuilder(4096);
             string incidentName = Get(args, "incident", null);
             if (incidentName != null)
@@ -2721,6 +2730,51 @@ namespace WhisperOfTheForest
                           + ",\"faceTattoo\":" + Json.Str(pawn.style?.FaceTattoo?.defName)
                           + ",\"bodyTattoo\":" + Json.Str(pawn.style?.BodyTattoo?.defName)
                           + ",\"beard\":" + Json.Str(pawn.style?.beardDef?.defName));
+        }
+
+        /// <summary>
+        /// "diet": every spawned elf on the current map with its food level, current job and whether a
+        /// living plant sits in its carry slot or inventory. food=&lt;0..1&gt; confirm=1 first sets their
+        /// food level, so the vanilla food search runs on the next think.
+        /// </summary>
+        private static string Diet(string id, Dictionary<string, string> args)
+        {
+            Map map = RequireMap();
+            List<Pawn> elves = map.mapPawns.AllPawnsSpawned.Where(p => p.def.defName == "WotF_Elf" && p.needs?.food != null).ToList();
+            if (args.ContainsKey("food"))
+            {
+                if (Get(args, "confirm", "0") != "1")
+                {
+                    throw new LabCommandException("diet food changes needs; pass confirm=1");
+                }
+
+                float level = RequireFloat(args, "food");
+                foreach (Pawn elf in elves)
+                {
+                    elf.needs.food.CurLevelPercentage = level;
+                }
+            }
+
+            var json = new StringBuilder(2048);
+            json.Append("\"elves\":[");
+            json.Append(string.Join(",", elves.Select(p =>
+            {
+                Job job = p.CurJob;
+                Thing target = job?.targetA.Thing;
+                Thing carried = p.carryTracker?.CarriedThing;
+                return "{\"id\":" + Json.Num(p.thingIDNumber)
+                       + ",\"faction\":" + Json.Str(p.Faction?.def.defName)
+                       + ",\"food\":" + Json.Num(p.needs.food.CurLevelPercentage)
+                       + ",\"job\":" + Json.Str(job?.def.defName)
+                       + ",\"target\":" + Json.Str(target?.def.defName)
+                       + ",\"targetIsPlant\":" + Json.Bool(target is Plant)
+                       + ",\"carried\":" + Json.Str(carried?.def.defName)
+                       + ",\"carriedPlant\":" + Json.Bool(carried is Plant)
+                       + ",\"inventoryPlants\":[" + string.Join(",", (p.inventory?.innerContainer ?? (IEnumerable<Thing>)new List<Thing>())
+                           .Where(t => t is Plant).Select(t => Json.Str(t.def.defName))) + "]}";
+            })));
+            json.Append(']');
+            return Ok(id, json.ToString());
         }
 
         private static string ShotPath(string name)
