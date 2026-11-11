@@ -103,6 +103,12 @@ namespace WhisperOfTheForest
                     return Test(id, args);
                 case "log":
                     return LogLevel(id, args);
+                case "faction":
+                    return FactionReport(id, args);
+                case "shot":
+                    return Shot(id, args);
+                case "portrait":
+                    return Portrait(id, args);
                 default:
                     throw new LabCommandException("unknown command '" + command + "'");
             }
@@ -2543,6 +2549,185 @@ namespace WhisperOfTheForest
             }
 
             return Ok(id, "\"stepped\":" + Json.Num(count) + ",\"tick\":" + Json.Num(Find.TickManager.TicksGame));
+        }
+
+        /// <summary>
+        /// "faction def=X": read-only report of the world's faction of that def (name, leader, ideo,
+        /// settlements, relations, its pawns on the current map). incident=&lt;IncidentDef&gt; confirm=1 first
+        /// fires that incident for the faction the way the dev "Execute incident" menu does
+        /// (DebugActionsIncidents.cs:319-327); hostile=1 first drops goodwill as a player attack would.
+        /// </summary>
+        private static string FactionReport(string id, Dictionary<string, string> args)
+        {
+            if (Current.Game == null || Find.FactionManager == null)
+            {
+                throw new LabCommandException("no game loaded");
+            }
+
+            string defName = Get(args, "def", "WotF_GreenCourt");
+            FactionDef def = DefDatabase<FactionDef>.GetNamedSilentFail(defName);
+            if (def == null)
+            {
+                throw new LabCommandException("unknown faction def '" + defName + "'");
+            }
+
+            Faction faction = Find.FactionManager.FirstFactionOfDef(def);
+            if (faction == null)
+            {
+                throw new LabCommandException("no faction of def '" + defName + "' in this world");
+            }
+
+            var json = new StringBuilder(4096);
+            string incidentName = Get(args, "incident", null);
+            if (incidentName != null)
+            {
+                if (Get(args, "confirm", "0") != "1")
+                {
+                    throw new LabCommandException("faction incident mutates the map; pass confirm=1");
+                }
+
+                Map map = RequireMap();
+                IncidentDef incident = DefDatabase<IncidentDef>.GetNamedSilentFail(incidentName);
+                if (incident == null)
+                {
+                    throw new LabCommandException("unknown incident '" + incidentName + "'");
+                }
+
+                if (Get(args, "hostile", "0") == "1" && !faction.HostileTo(Faction.OfPlayer))
+                {
+                    Faction.OfPlayer.TryAffectGoodwillWith(faction, -200, true, true, HistoryEventDefOf.AttackedSettlement);
+                }
+
+                IncidentParms parms = StorytellerUtility.DefaultParmsNow(incident.category, map);
+                parms.faction = faction;
+                parms.forced = true;
+                bool fired = incident.Worker.TryExecute(parms);
+                json.Append("\"incident\":").Append(Json.Str(incident.defName))
+                    .Append(",\"fired\":").Append(Json.Bool(fired)).Append(',');
+            }
+
+            json.Append("\"name\":").Append(Json.Str(faction.Name));
+            json.Append(",\"settlements\":").Append(Json.Num(Find.WorldObjects.Settlements.Count(s => s.Faction == faction)));
+            json.Append(",\"playerRelation\":").Append(Json.Str(faction.PlayerRelationKind.ToString()));
+            json.Append(",\"playerGoodwill\":").Append(Json.Num(faction.PlayerGoodwill));
+
+            Pawn leader = faction.leader;
+            json.Append(",\"leader\":");
+            if (leader == null)
+            {
+                json.Append("null");
+            }
+            else
+            {
+                json.Append("{\"name\":").Append(Json.Str(leader.Name.ToStringFull))
+                    .Append(",\"title\":").Append(Json.Str(faction.LeaderTitle))
+                    .Append(",\"kind\":").Append(Json.Str(leader.kindDef.defName))
+                    .Append(",\"race\":").Append(Json.Str(leader.def.defName))
+                    .Append(",\"gender\":").Append(Json.Str(leader.gender.ToString())).Append('}');
+            }
+
+            Ideo ideo = faction.ideos?.PrimaryIdeo;
+            json.Append(",\"ideo\":");
+            if (ideo == null)
+            {
+                json.Append("null");
+            }
+            else
+            {
+                json.Append("{\"name\":").Append(Json.Str(ideo.name))
+                    .Append(",\"memes\":[").Append(string.Join(",", ideo.memes.Select(m => Json.Str(m.defName)))).Append(']')
+                    .Append(",\"cannibalOrRaidPrecepts\":[")
+                    .Append(string.Join(",", ideo.PreceptsListForReading
+                        .Where(p => p.def.issue != null && (p.def.issue.defName == "Cannibalism" || p.def.issue.defName == "Raiding"))
+                        .Select(p => Json.Str(p.def.defName))))
+                    .Append("]}");
+            }
+
+            json.Append(",\"relations\":[");
+            bool first = true;
+            foreach (Faction other in Find.FactionManager.AllFactionsListForReading)
+            {
+                if (other == faction || other.IsPlayer || other.Hidden)
+                {
+                    continue;
+                }
+
+                if (!first)
+                {
+                    json.Append(',');
+                }
+
+                first = false;
+                json.Append("{\"def\":").Append(Json.Str(other.def.defName))
+                    .Append(",\"kind\":").Append(Json.Str(faction.RelationKindWith(other).ToString()))
+                    .Append(",\"permanentEnemy\":").Append(Json.Bool(def.PermanentlyHostileTo(other.def))).Append('}');
+            }
+
+            json.Append(']');
+
+            json.Append(",\"mapPawns\":[");
+            if (Find.CurrentMap != null)
+            {
+                IEnumerable<Pawn> pawns = Find.CurrentMap.mapPawns.AllPawnsSpawned.Where(p => p.Faction == faction).Take(32);
+                json.Append(string.Join(",", pawns.Select(p =>
+                    "{\"kind\":" + Json.Str(p.kindDef.defName)
+                    + ",\"race\":" + Json.Str(p.def.defName)
+                    + ",\"gender\":" + Json.Str(p.gender.ToString())
+                    + ",\"childhood\":" + Json.Str(p.story?.Childhood?.title)
+                    + ",\"adulthood\":" + Json.Str(p.story?.Adulthood?.title)
+                    + ",\"weapon\":" + Json.Str(p.equipment?.Primary?.def.defName)
+                    + ",\"apparel\":[" + string.Join(",", (p.apparel?.WornApparel ?? new List<Apparel>()).Select(a => Json.Str(a.def.defName))) + "]"
+                    + ",\"lordJob\":" + Json.Str(Verse.AI.Group.LordUtility.GetLord(p)?.LordJob.GetType().Name)
+                    + ",\"cell\":" + Json.Cell(p.Position) + "}")));
+            }
+
+            json.Append(']');
+            return Ok(id, json.ToString());
+        }
+
+        /// <summary>
+        /// "shot name=X": full game screen to &lt;lab&gt;/shots/X.png. Unity writes it at the end of the frame,
+        /// so the file appears after this command returns.
+        /// </summary>
+        private static string Shot(string id, Dictionary<string, string> args)
+        {
+            string path = ShotPath(Get(args, "name", "shot"));
+            UnityEngine.ScreenCapture.CaptureScreenshot(path);
+            return Ok(id, "\"path\":" + Json.Str(path));
+        }
+
+        /// <summary>
+        /// "portrait name=X": the selected pawn's colonist-bar portrait to &lt;lab&gt;/shots/X.png, plus its
+        /// style items so a stray tattoo or beard shows up in the reply as well as in the picture.
+        /// </summary>
+        private static string Portrait(string id, Dictionary<string, string> args)
+        {
+            Pawn pawn = RequireSelectedPawn();
+            string path = ShotPath(Get(args, "name", "portrait"));
+            UnityEngine.RenderTexture rendered = PortraitsCache.Get(pawn, new UnityEngine.Vector2(256f, 256f), Rot4.South,
+                default(UnityEngine.Vector3), 1f, true, false);
+            UnityEngine.RenderTexture previous = UnityEngine.RenderTexture.active;
+            UnityEngine.RenderTexture.active = rendered;
+            var texture = new UnityEngine.Texture2D(rendered.width, rendered.height, UnityEngine.TextureFormat.ARGB32, false);
+            texture.ReadPixels(new UnityEngine.Rect(0, 0, rendered.width, rendered.height), 0, 0);
+            texture.Apply();
+            UnityEngine.RenderTexture.active = previous;
+            File.WriteAllBytes(path, UnityEngine.ImageConversion.EncodeToPNG(texture));
+            UnityEngine.Object.Destroy(texture);
+
+            return Ok(id, "\"path\":" + Json.Str(path)
+                          + ",\"pawn\":" + Json.Num(pawn.thingIDNumber)
+                          + ",\"race\":" + Json.Str(pawn.def.defName)
+                          + ",\"faceTattoo\":" + Json.Str(pawn.style?.FaceTattoo?.defName)
+                          + ",\"bodyTattoo\":" + Json.Str(pawn.style?.BodyTattoo?.defName)
+                          + ",\"beard\":" + Json.Str(pawn.style?.beardDef?.defName));
+        }
+
+        private static string ShotPath(string name)
+        {
+            string dir = Path.Combine(LabHost.LabDirectory, "shots");
+            Directory.CreateDirectory(dir);
+            return Path.Combine(dir, SanitizeSaveName(name) + ".png");
         }
 
         /// <summary>

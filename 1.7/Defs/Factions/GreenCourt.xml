@@ -9,6 +9,7 @@
   <FactionDef ParentName="FactionBase">
     <defName>WotF_GreenCourt</defName>
     <label>Verdant Court</label>
+    <fixedName>Verdant Court</fixedName>
     <description>A loose league of forest elf settlements. They trade herbs, woven cloth and old transcriptions at their border posts, and they keep strangers away from the buried relics at the heart of the woods. Their leader is the archon, first voice of the elders rather than a king.</description>
     <pawnSingular>forest elf</pawnSingular>
     <pawnsPlural>forest elves</pawnsPlural>
@@ -16,7 +17,7 @@
     <listOrderPriority>25</listOrderPriority>
     <settlementGenerationWeight>1</settlementGenerationWeight>
     <requiredCountAtGameStart>1</requiredCountAtGameStart>
-    <maxConfigurableAtWorldCreation>9999</maxConfigurableAtWorldCreation>
+    <maxConfigurableAtWorldCreation>1</maxConfigurableAtWorldCreation>
     <configurationListOrderPriority>25</configurationListOrderPriority>
     <humanlikeFaction>true</humanlikeFaction>
     <techLevel>Neolithic</techLevel>
@@ -44,15 +45,36 @@
       <li>(0.15, 0.42, 0.28)</li>
     </colorSpectrum>
 
-    <classicIdeo>true</classicIdeo>
+    <!--
+      Fixed core: animist structure ("the forest is the only monarch"), tree connection, nature primacy.
+      NPC ideos roll 1~3 normal memes (IdeoFoundation.MemeCountRangeNPCInitial), so one random normal
+      meme can still join; it goes through disallowedMemes, and disallowedPrecepts catches cannibal/raiding
+      precepts other memes can pull in (e.g. PainIsVirtue → Cannibalism_Acceptable).
+    -->
     <allowedCultures>
       <li MayRequire="Ludeon.RimWorld.Ideology">Corunan</li>
     </allowedCultures>
+    <structureMemeWeights>
+      <Structure_Animist MayRequire="Ludeon.RimWorld.Ideology">1</Structure_Animist>
+    </structureMemeWeights>
+    <requiredMemes>
+      <li MayRequire="Ludeon.RimWorld.Ideology">TreeConnection</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">NaturePrimacy</li>
+    </requiredMemes>
     <disallowedMemes>
-      <li MayRequire="Ludeon.RimWorld.Ideology">Structure_Ideological</li>
       <li MayRequire="Ludeon.RimWorld.Ideology">Transhumanist</li>
       <li MayRequire="Ludeon.RimWorld.Ideology">Blindsight</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Cannibal</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Raider</li>
     </disallowedMemes>
+    <disallowedPrecepts>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Cannibalism_Acceptable</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Cannibalism_Preferred</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Cannibalism_RequiredStrong</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Cannibalism_RequiredRavenous</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Raiding_Respected</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Raiding_Required</li>
+    </disallowedPrecepts>
     <backstoryFilters>
       <li>
         <categories>
@@ -109,9 +131,28 @@
         <traders>
           <WotF_Elf_Trader>1</WotF_Elf_Trader>
         </traders>
+        <!--
+          Carriers are filtered by the tile biome's allowedPackAnimals (PawnGroupKindWorker_Trader.cs:95)
+          and no vanilla biome allows horses, so a horse-only list leaves nothing to pick.
+          Muffalo is allowed in every biome.
+        -->
         <carriers>
-          <Horse>4</Horse>
+          <Muffalo>6</Muffalo>
+          <Dromedary>5</Dromedary>
+          <Alpaca>2.5</Alpaca>
+          <Elephant>2</Elephant>
         </carriers>
+        <guards>
+          <WotF_Elf_Warrior>10</WotF_Elf_Warrior>
+          <WotF_Elf_Archer>10</WotF_Elf_Archer>
+        </guards>
+      </li>
+      <li>
+        <kindDef>Settlement</kindDef>
+        <options>
+          <WotF_Elf_Warrior>10</WotF_Elf_Warrior>
+          <WotF_Elf_Archer>10</WotF_Elf_Archer>
+        </options>
       </li>
     </pawnGroupMakers>
   </FactionDef>
