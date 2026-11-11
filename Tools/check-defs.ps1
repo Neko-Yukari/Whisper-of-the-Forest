@@ -269,11 +269,29 @@ function ConvertTo-XmlBool([string]$text) {
     return ($text -ieq 'true')
 }
 
+# Vanilla textures ship packed in <game>/Assets.zip as Resources/Textures/<path>.<ext...>; a Def may
+# point at one of those (e.g. a culture or faction icon) as well as at the mod's own Textures/.
+$vanillaTextures = New-Object 'System.Collections.Generic.HashSet[string]' ([StringComparer]::OrdinalIgnoreCase)
+Add-Type -AssemblyName System.IO.Compression.FileSystem
+$assetsZip = [IO.Compression.ZipFile]::OpenRead((Join-Path $gameRoot 'Assets.zip'))
+try {
+    foreach ($entry in $assetsZip.Entries) {
+        if (-not $entry.FullName.StartsWith('Resources/Textures/')) { continue }
+        $path = $entry.FullName.Substring('Resources/Textures/'.Length)
+        $dot = $path.IndexOf('.', $path.LastIndexOf('/') + 1)
+        if ($dot -gt 0) { [void]$vanillaTextures.Add($path.Substring(0, $dot)) }
+    }
+}
+finally {
+    $assetsZip.Dispose()
+}
+
 function Test-TextureExists([string]$texturePath) {
     $base = Join-Path (Join-Path $repo 'Textures') $texturePath
     return (Test-Path -LiteralPath ($base + '.png')) -or
            (Test-Path -LiteralPath ($base + '.dds')) -or
-           (Test-Path -LiteralPath ($base + '.jpg'))
+           (Test-Path -LiteralPath ($base + '.jpg')) -or
+           $vanillaTextures.Contains($texturePath)
 }
 
 # ---------------------------------------------------------------- mod Def files

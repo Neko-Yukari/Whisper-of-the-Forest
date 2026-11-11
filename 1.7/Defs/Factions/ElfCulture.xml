@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    The forest elves' culture. Naming and style are vanilla Corunan (the tribal culture); only the
+    leader title is fixed. Memes cannot live here: CultureDef has no meme fields, so the fixed memes
+    stay on each elf FactionDef.
+  -->
+  <CultureDef>
+    <defName>WotF_ElfCulture</defName>
+    <label>sylvan</label>
+    <description>The culture of the forest elves, carried over from the settlements that rose on the ruins of the old civil war.</description>
+    <ideoNameMaker MayRequire="Ludeon.RimWorld.Ideology">NamerIdeoCorunan</ideoNameMaker>
+    <deityNameMaker MayRequire="Ludeon.RimWorld.Ideology">NamerDeityCorunan</deityNameMaker>
+    <deityTypeMaker MayRequire="Ludeon.RimWorld.Ideology">DeityTypeMakerCorunan</deityTypeMaker>
+    <festivalNameMaker MayRequire="Ludeon.RimWorld.Ideology">NamerFestivalCorunan</festivalNameMaker>
+    <leaderTitleMaker MayRequire="Ludeon.RimWorld.Ideology">WotF_LeaderTitleMaker_Elf</leaderTitleMaker>
+    <allowedPlaceTags>
+      <li>OriginTribal</li>
+    </allowedPlaceTags>
+    <iconPath>World/WorldObjects/Expanding/Village</iconPath>
+    <preferredWeaponClasses>
+      <noble>Neolithic</noble>
+      <despised>Ultratech</despised>
+    </preferredWeaponClasses>
+    <thingStyleCategories>
+      <li MayRequire="Ludeon.RimWorld.Ideology">
+        <category>Totemic</category>
+        <priority>2</priority>
+      </li>
+    </thingStyleCategories>
+    <!-- The elf race allows no tattoos (Elf.xml styleSettings), so only NoTattoo is listed. -->
+    <styleItemTags>
+      <li>
+        <tag>Tribal</tag>
+        <baseWeight>1</baseWeight>
+        <weightFactor>1</weightFactor>
+      </li>
+      <li>
+        <tag>NoBeard</tag>
+        <baseWeight>10</baseWeight>
+        <weightFactor>1</weightFactor>
+      </li>
+      <li>
+        <tag>NoTattoo</tag>
+        <baseWeight>1</baseWeight>
+        <weightFactor>1</weightFactor>
+      </li>
+    </styleItemTags>
+  </CultureDef>
+
+  <!--
+    A null leaderTitleMaker would leave the ideo's leader role without a name (Precept_Role.cs:124, :283),
+    so the culture names it explicitly, the same way vanilla fixes the Sophian title.
+  -->
+  <RulePackDef>
+    <defName>WotF_LeaderTitleMaker_Elf</defName>
+    <rulePack>
+      <rulesStrings>
+        <li>r_leaderTitle->archon</li>
+      </rulesStrings>
+    </rulePack>
+  </RulePackDef>
+
+</Defs>

@@ -50,9 +50,10 @@
       NPC ideos roll 1~3 normal memes (IdeoFoundation.MemeCountRangeNPCInitial), so one random normal
       meme can still join; it goes through disallowedMemes, and disallowedPrecepts catches cannibal/raiding
       precepts other memes can pull in (e.g. PainIsVirtue → Cannibalism_Acceptable).
+      The memes sit here rather than on the culture because CultureDef has no meme fields.
     -->
     <allowedCultures>
-      <li MayRequire="Ludeon.RimWorld.Ideology">Corunan</li>
+      <li>WotF_ElfCulture</li>
     </allowedCultures>
     <structureMemeWeights>
       <Structure_Animist MayRequire="Ludeon.RimWorld.Ideology">1</Structure_Animist>
