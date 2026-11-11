@@ -2577,16 +2577,8 @@ namespace WhisperOfTheForest
 
             string fixtureName = Get(args, "fixture", "a25-fixture");
             string fixture = fixtureName.Equals("none", StringComparison.OrdinalIgnoreCase) ? null : fixtureName;
-            int repeats = 1;
-            string repeatRaw = Get(args, "repeat", null);
-            if (!string.IsNullOrEmpty(repeatRaw)
-                && !int.TryParse(repeatRaw, NumberStyles.Integer, CultureInfo.InvariantCulture, out repeats))
-            {
-                throw new LabCommandException("invalid integer 'repeat'");
-            }
-
             bool reloadFixture = Get(args, "reload", "0") == "1";
-            if (!Testing.LabTestRunner.Begin(filter, fixture, repeats, reloadFixture, out string detail, out string error))
+            if (!Testing.LabTestRunner.Begin(filter, fixture, reloadFixture, out string detail, out string error))
             {
                 throw new LabCommandException(error);
             }

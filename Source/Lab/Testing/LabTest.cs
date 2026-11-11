@@ -14,17 +14,6 @@ namespace WhisperOfTheForest.Testing
     public sealed class LabTestAttribute : Attribute
     {
         /// <summary>
-        /// The test is known to fail on the current build and the failure is itself the result
-        /// being tracked. It is reported as "expectedFailure" and does not fail the run, unless it
-        /// starts passing (that is an "unexpectedPass" and does fail the run, because the note below
-        /// became stale).
-        /// </summary>
-        public bool ExpectedFailure { get; set; }
-
-        /// <summary>Why the test is expected to fail; stored in the report.</summary>
-        public string ExpectedFailureReason { get; set; }
-
-        /// <summary>
         /// Error-level log entries this test is allowed to cause, as regular expressions matched
         /// against the entry text. Any error logged while the test runs fails it unless one of these
         /// patterns matches; a match is reported as expected and does not count against the test.
@@ -84,7 +73,6 @@ namespace WhisperOfTheForest.Testing
     internal sealed class TestOutcome
     {
         internal string Name;
-        internal int Pass = 1;
         internal string Status;
         internal string Message;
         internal long ElapsedMilliseconds;
@@ -99,7 +87,7 @@ namespace WhisperOfTheForest.Testing
         internal readonly List<string> Measurements = new List<string>();
         internal readonly List<string> ErrorTexts = new List<string>();
 
-        internal bool Failed => Status == "failed" || Status == "unexpectedPass";
+        internal bool Failed => Status == "failed";
     }
 
     /// <summary>

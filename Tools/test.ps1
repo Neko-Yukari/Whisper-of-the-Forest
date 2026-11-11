@@ -5,7 +5,7 @@
     1. build when the assembly is older than any source/def file or is a product build without the Lab
        host (L0), unless -NoBuild; then run check-defs before the game starts
     2. start the isolated lab instance, or reuse the one this lab folder already has running
-    3. run every LabTest inside that instance (optionally repeated) and load the fixture once
+    3. run every LabTest inside that instance and load the fixture once
     4. print per-test results, the L1 load checks, the L1 disk-log scan and a nonzero exit code when
        anything failed
 
@@ -21,20 +21,18 @@
 
   The run itself is synchronous inside the game: tests advance game time with single ticks. The
   report is written by the game to <lab>/test-runs/<run>.json (and latest.json) and is the
-  authoritative record; with -Repeat N it also carries a per-test stability table.
+  authoritative record.
 
   Examples:
     pwsh -File Tools/test.ps1                          # full suite in the running instance
     pwsh -File Tools/test.ps1 -Filter railgun
-    pwsh -File Tools/test.ps1 -Filter "railgun." -Repeat 8
-    pwsh -File Tools/test.ps1 -Restart -Reload -Repeat 3
+    pwsh -File Tools/test.ps1 -Restart -Reload
     pwsh -File Tools/test.ps1 -StopAfter
 #>
 [CmdletBinding()]
 param(
     [string]$Filter = '',
     [string]$Fixture = 'a25-fixture',
-    [int]$Repeat = 1,
     [switch]$NoBuild,
     [switch]$Restart,
     [switch]$Reload,
@@ -578,7 +576,7 @@ try {
     Write-Host ("pid={0} game loaded={1} harmonyPatched={2} tick={3}" -f $pidNow, $statusJson.gameLoaded, $statusJson.harmonyPatched, $statusJson.tick)
 
     # --- run ----------------------------------------------------------------------
-    Write-Step ("L2 run filter='$Filter' fixture='$Fixture' repeat=$Repeat reload=$([bool]$Reload)")
+    Write-Step ("L2 run filter='$Filter' fixture='$Fixture' reload=$([bool]$Reload)")
     if (Test-Path -LiteralPath $latestReport) {
         Remove-Item -LiteralPath $latestReport -Force
     }
@@ -588,7 +586,6 @@ try {
     if ($Filter) { $command += " filter=$Filter" }
     if ($Fixture) { $command += " fixture=$Fixture" }
     else { $command += ' fixture=none' }
-    if ($Repeat -gt 1) { $command += " repeat=$Repeat" }
     if ($Reload) { $command += ' reload=1' }
 
     $begin = & (Join-Path $PSScriptRoot 'lab.ps1') -LabDir $LabDir -Command $command -TimeoutSec 60
@@ -601,8 +598,8 @@ try {
         throw "The lab rejected the run request: $($beginJson.error)"
     }
 
-    Write-Host ("run {0}: {1} test(s) x{2}, fixture loaded this run={3}" -f `
-        $beginJson.run, $beginJson.tests, $beginJson.repeat, $beginJson.fixtureLoaded)
+    Write-Host ("run {0}: {1} test(s), fixture loaded this run={2}" -f `
+        $beginJson.run, $beginJson.tests, $beginJson.fixtureLoaded)
 
     # --- wait for the report ------------------------------------------------------
     $reportDeadline = (Get-Date).AddSeconds($TimeoutSec)
@@ -641,19 +638,9 @@ try {
 
     # --- summary ------------------------------------------------------------------
     Write-Step 'results'
-    $repeated = [int]$report.summary.repeat -gt 1
     foreach ($test in $report.tests) {
-        if ($repeated -and $test.status -eq 'passed') {
-            continue
-        }
-
-        $color = switch ($test.status) {
-            'passed' { 'Green' }
-            'expectedFailure' { 'Yellow' }
-            default { 'Red' }
-        }
-        $pass = if ($null -ne $test.pass) { "#$($test.pass) " } else { '' }
-        $line = "{0,-16} {1}{2}  {3} ms" -f $test.status.ToUpperInvariant(), $pass, $test.name, $test.elapsedMs
+        $color = if ($test.status -eq 'passed') { 'Green' } else { 'Red' }
+        $line = "{0,-16} {1}  {2} ms" -f $test.status.ToUpperInvariant(), $test.name, $test.elapsedMs
         Write-Host $line -ForegroundColor $color
         if ($test.measurements) {
             Write-Host ("    " + ($test.measurements -join ' ')) -ForegroundColor DarkGray
@@ -669,14 +656,6 @@ try {
             foreach ($logError in $test.errors) {
                 Write-Host ("    log: " + $logError) -ForegroundColor DarkYellow
             }
-        }
-    }
-
-    if ($repeated) {
-        Write-Step 'stability'
-        foreach ($row in $report.stability) {
-            $color = if ($row.failures -eq 0) { 'Green' } else { 'Red' }
-            Write-Host ("{0,-40} {1}/{2} passed" -f $row.name, ($row.runs - $row.failures), $row.runs) -ForegroundColor $color
         }
     }
 
@@ -793,8 +772,8 @@ try {
     Write-Host ("Disk log report: {0}" -f $diskReport)
 
     Write-Host ''
-    Write-Host ("Summary: {0} total, {1} passed, {2} failed, {3} expected failure(s)" -f `
-        $report.summary.total, $report.summary.passed, $report.summary.failed, $report.summary.expectedFailure)
+    Write-Host ("Summary: {0} total, {1} passed, {2} failed" -f `
+        $report.summary.total, $report.summary.passed, $report.summary.failed)
     Write-Host ("Report: {0}" -f $latestReport)
     Write-Host ("lab pid={0}  run={1:N1}s  call={2:N1}s  (run {3})" -f `
         (Get-LabPid), $runSeconds, $elapsed, $report.run)

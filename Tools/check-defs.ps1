@@ -163,14 +163,12 @@ function Resolve-TypeName([string]$name) {
 
 function Test-IsA([object]$type, [string]$targetFullName) {
     $current = $type
-    $guard = 0
-    while ($null -ne $current -and $guard -lt 64) {
+    while ($null -ne $current) {
         if ($current.Full -ieq $targetFullName) { return $true }
         if ([string]::IsNullOrEmpty($current.Base)) { return $false }
         $next = $null
         if (-not $typeByFull.TryGetValue($current.Base, [ref]$next)) { return $false }
         $current = $next
-        $guard++
     }
     return $false
 }
@@ -351,11 +349,7 @@ foreach ($file in Get-ChildItem -LiteralPath $defRoot -Recurse -Filter '*.xml' -
 $coreDefRoot = Join-Path $gameRoot 'Data/Core/Defs'
 if (Test-Path -LiteralPath $coreDefRoot) {
     foreach ($file in Get-ChildItem -LiteralPath $coreDefRoot -Recurse -Filter '*.xml' -File) {
-        try {
-            [xml]$document = Get-Content -LiteralPath $file.FullName -Raw
-        } catch {
-            continue
-        }
+        [xml]$document = Get-Content -LiteralPath $file.FullName -Raw
         $root = $document.DocumentElement
         if ($null -eq $root -or $root.get_Name() -ne 'Defs') { continue }
         foreach ($node in $root.ChildNodes) {
@@ -534,8 +528,7 @@ foreach ($type in $modTypes) {
 foreach ($type in $modTypes) {
     $hasStaticConstructorAttribute = $false
     $current = $type
-    $guard = 0
-    while ($null -ne $current -and $guard -lt 64) {
+    while ($null -ne $current) {
         if ($current.Attributes -contains 'StaticConstructorOnStartup') {
             $hasStaticConstructorAttribute = $true
             break
@@ -544,7 +537,6 @@ foreach ($type in $modTypes) {
         $next = $null
         if (-not $typeByFull.TryGetValue($current.Base, [ref]$next)) { break }
         $current = $next
-        $guard++
     }
     if ($hasStaticConstructorAttribute) { continue }
 

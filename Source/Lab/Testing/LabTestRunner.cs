@@ -28,8 +28,6 @@ namespace WhisperOfTheForest.Testing
         {
             internal string Name;
             internal Type Type;
-            internal bool ExpectedFailure;
-            internal string ExpectedFailureReason;
             internal string[] ExpectedLogErrors;
             internal bool Reload;
         }
@@ -39,8 +37,6 @@ namespace WhisperOfTheForest.Testing
             internal string RunId;
             internal string Filter;
             internal string Fixture;
-            internal int Repeats = 1;
-            internal int Pass = 1;
             internal bool ReloadFixture;
             internal readonly List<Entry> Entries = new List<Entry>();
             internal string Directory;
@@ -57,7 +53,7 @@ namespace WhisperOfTheForest.Testing
             internal readonly List<TestOutcome> Outcomes = new List<TestOutcome>();
             internal readonly List<Entry> Pending = new List<Entry>();
             // Colony-wide state as the fixture left it; put back before every test so one test's
-            // permanent-looking change (a rune unlock) cannot reach the next one or a later pass.
+            // permanent-looking change (a rune unlock) cannot reach the next one.
             internal List<string> RuneBaseline = new List<string>();
             internal int Index = -1;
             internal int UpdatesWaiting;
@@ -116,7 +112,7 @@ namespace WhisperOfTheForest.Testing
 
         // ------------------------------------------------------------------ commands
 
-        internal static bool Begin(string filter, string fixture, int repeats, bool reloadFixture,
+        internal static bool Begin(string filter, string fixture, bool reloadFixture,
             out string json, out string error)
         {
             json = null;
@@ -158,7 +154,6 @@ namespace WhisperOfTheForest.Testing
                 RunId = DateTime.UtcNow.ToString("yyyyMMdd-HHmmss"),
                 Filter = filter,
                 Fixture = fixture,
-                Repeats = Math.Min(Math.Max(1, repeats), 200),
                 ReloadFixture = reloadFixture,
                 StartedUtcTicks = DateTime.UtcNow.Ticks,
                 StartTick = Find.TickManager != null ? Find.TickManager.TicksGame : 0
@@ -181,12 +176,11 @@ namespace WhisperOfTheForest.Testing
             {
                 EnterTesting();
             }
-            lastSummary = "running filter='" + filter + "' tests=" + entries.Count + " repeat=" + run.Repeats;
+            lastSummary = "running filter='" + filter + "' tests=" + entries.Count;
             Log.Message("[WotF-Lab] test run " + run.RunId + " started: filter='" + filter + "' fixture='"
                         + (string.IsNullOrEmpty(fixture) ? "current map" : fixture) + "' tests=" + entries.Count
-                        + " repeat=" + run.Repeats + " reload=" + (reloadFixture ? "yes" : "no"));
+                        + " reload=" + (reloadFixture ? "yes" : "no"));
             json = "\"run\":" + Str(run.RunId) + ",\"tests\":" + entries.Count
-                   + ",\"repeat\":" + run.Repeats
                    + ",\"fixtureLoaded\":" + ((stage == Stage.LoadFixture) ? "true" : "false")
                    + ",\"file\":" + Str(ReportPath(run, run.RunId));
             return true;
@@ -234,7 +228,6 @@ namespace WhisperOfTheForest.Testing
 
                 builder.Append("{\"name\":\"").Append(entries[i].Name).Append('"')
                     .Append(",\"type\":\"").Append(entries[i].Type.Name).Append('"')
-                    .Append(",\"expectedFailure\":").Append(entries[i].ExpectedFailure ? "true" : "false")
                     .Append(",\"reload\":").Append(entries[i].Reload ? "true" : "false")
                     .Append('}');
             }
@@ -325,7 +318,7 @@ namespace WhisperOfTheForest.Testing
             }
         }
 
-        /// <summary>Starts the test phase: L1 checks (about the game as loaded) and the first pass.</summary>
+        /// <summary>Starts the test phase: L1 checks (about the game as loaded) and the test list.</summary>
         private static void EnterTesting()
         {
             if (state.Load == null)
@@ -340,25 +333,6 @@ namespace WhisperOfTheForest.Testing
             state.RuneBaseline = ColonyState.CaptureRunes();
             state.Index = 0;
             stage = Stage.RunTest;
-        }
-
-        /// <summary>
-        /// Advances to the next repetition of the same test list inside this instance, or reports.
-        /// </summary>
-        private static void FinishPass()
-        {
-            if (state.Pass < state.Repeats)
-            {
-                state.Pass++;
-                Log.Message("[WotF-Lab] test run " + state.RunId + " pass " + state.Pass + "/" + state.Repeats);
-                state.Pending.Clear();
-                state.Pending.AddRange(state.Entries);
-                state.Index = 0;
-                stage = Stage.RunTest;
-                return;
-            }
-
-            stage = Stage.Report;
         }
 
         private static void BeginFixtureLoad()
@@ -426,7 +400,7 @@ namespace WhisperOfTheForest.Testing
 
                 if (state.Index >= state.Pending.Count)
                 {
-                    FinishPass();
+                    stage = Stage.Report;
                     return;
                 }
 
@@ -481,7 +455,6 @@ namespace WhisperOfTheForest.Testing
             state.Outcome = new TestOutcome
             {
                 Name = state.Current.Name,
-                Pass = state.Pass,
                 TickStart = Find.TickManager.TicksGame
             };
             state.PhaseStartedMilliseconds = Stopwatch.GetTimestamp();
@@ -684,23 +657,7 @@ namespace WhisperOfTheForest.Testing
                 }
             }
 
-            if (cleanupFailed)
-            {
-                outcome.Status = "failed";
-            }
-            else if (state.Current.ExpectedFailure)
-            {
-                outcome.Status = failed ? "expectedFailure" : "unexpectedPass";
-                if (!failed)
-                {
-                    outcome.Message = "the documented failure no longer reproduces ("
-                                      + state.Current.ExpectedFailureReason + "); update the test and its note";
-                }
-            }
-            else
-            {
-                outcome.Status = failed ? "failed" : "passed";
-            }
+            outcome.Status = cleanupFailed || failed ? "failed" : "passed";
 
             state.Outcomes.Add(outcome);
             lastSummary = outcome.Name + " " + outcome.Status
@@ -748,7 +705,7 @@ namespace WhisperOfTheForest.Testing
             state.Outcome = new TestOutcome
             {
                 Name = state.Current.Name,
-                Status = state.Current.ExpectedFailure ? "expectedFailure" : "failed",
+                Status = "failed",
                 Message = message,
                 TickStart = Find.TickManager != null ? Find.TickManager.TicksGame : 0
             };
@@ -845,7 +802,6 @@ namespace WhisperOfTheForest.Testing
                 .Property("filter", state.Filter)
                 .Property("fixture", state.Fixture ?? string.Empty)
                 .Property("fixtureLoadedThisRun", state.FixtureLoaded)
-                .Property("repeat", state.Repeats)
                 .Property("startedUtc", new DateTime(state.StartedUtcTicks, DateTimeKind.Utc).ToString("o"))
                 .Property("elapsedMs", (long)((DateTime.UtcNow.Ticks - state.StartedUtcTicks) / TimeSpan.TicksPerMillisecond))
                 .Property("tickStart", state.StartTick)
@@ -946,16 +902,11 @@ namespace WhisperOfTheForest.Testing
 
             int passed = 0;
             int failed = 0;
-            int expected = 0;
             foreach (TestOutcome outcome in state.Outcomes)
             {
                 if (outcome.Status == "passed")
                 {
                     passed++;
-                }
-                else if (outcome.Status == "expectedFailure")
-                {
-                    expected++;
                 }
                 else
                 {
@@ -967,45 +918,13 @@ namespace WhisperOfTheForest.Testing
                 .Property("total", state.Outcomes.Count)
                 .Property("passed", passed)
                 .Property("failed", failed)
-                .Property("expectedFailure", expected)
-                .Property("repeat", state.Repeats)
                 .EndObject();
-
-            // Per-test stability across the repeated passes of this same run.
-            json.Key("stability").StartArray();
-            foreach (string name in StableNames())
-            {
-                int runs = 0;
-                int failures = 0;
-                foreach (TestOutcome outcome in state.Outcomes)
-                {
-                    if (outcome.Name != name)
-                    {
-                        continue;
-                    }
-
-                    runs++;
-                    if (outcome.Status != "passed")
-                    {
-                        failures++;
-                    }
-                }
-
-                json.StartObject()
-                    .Property("name", name)
-                    .Property("runs", runs)
-                    .Property("failures", failures)
-                    .EndObject();
-            }
-
-            json.EndArray();
 
             json.Key("tests").StartArray();
             foreach (TestOutcome outcome in state.Outcomes)
             {
                 json.StartObject()
                     .Property("name", outcome.Name)
-                    .Property("pass", outcome.Pass)
                     .Property("status", outcome.Status)
                     .Property("message", outcome.Message)
                     .Property("elapsedMs", outcome.ElapsedMilliseconds)
@@ -1058,21 +977,6 @@ namespace WhisperOfTheForest.Testing
             state = null;
             stage = Stage.Done;
             lastSummary = "run finished";
-        }
-
-        private static List<string> StableNames()
-        {
-            var names = new List<string>();
-            foreach (TestOutcome outcome in state.Outcomes)
-            {
-                if (!names.Contains(outcome.Name))
-                {
-                    names.Add(outcome.Name);
-                }
-            }
-
-            names.Sort(string.CompareOrdinal);
-            return names;
         }
 
         private static string ReportPath(RunState run, string name)
@@ -1156,8 +1060,6 @@ namespace WhisperOfTheForest.Testing
                 {
                     Name = name,
                     Type = type,
-                    ExpectedFailure = attribute != null && attribute.ExpectedFailure,
-                    ExpectedFailureReason = attribute?.ExpectedFailureReason,
                     ExpectedLogErrors = attribute?.ExpectedLogErrors ?? Array.Empty<string>(),
                     Reload = attribute != null && attribute.Reload
                 });
