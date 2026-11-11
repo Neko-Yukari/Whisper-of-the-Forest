@@ -253,7 +253,9 @@ namespace WhisperOfTheForest.Spells
             if (form.kind == SpellGlyphKind.Super)
             {
                 plan.railgun = form.railgun?.Copy();
+                plan.tornado = form.tornado?.Copy();
                 if (staff != null && plan.railgun != null) plan.railgun.damage *= staff.damageFactor;
+                if (staff != null && plan.tornado != null) plan.tornado.damagePerPulse *= staff.damageFactor;
                 SpellTargeting.AddAll(plan.targets, form.targets);
                 return;
             }

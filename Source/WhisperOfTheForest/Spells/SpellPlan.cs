@@ -102,7 +102,8 @@ namespace WhisperOfTheForest.Spells
         /// other form. A composite plan carries no <see cref="steps"/> of its own.
         /// </summary>
         public SpellRailgunSpec railgun;
-        public ISpellSpecialSpec Special => railgun;
+        public SpellTornadoSpec tornado;
+        public ISpellSpecialSpec Special => (ISpellSpecialSpec)railgun ?? tornado;
 
         /// <summary>Pierce: how many further hits the spell may resolve after the first.</summary>
         public int pierceStacks;
@@ -124,6 +125,7 @@ namespace WhisperOfTheForest.Spells
                 projectile = projectile?.Copy(),
                 orbit = orbit?.Copy(),
                 railgun = railgun?.Copy(),
+                tornado = tornado?.Copy(),
                 pierceStacks = pierceStacks,
                 steps = SpellExecutor.CopySteps(steps)
             };
@@ -141,6 +143,7 @@ namespace WhisperOfTheForest.Spells
             Scribe_Deep.Look(ref projectile, "projectile");
             Scribe_Deep.Look(ref orbit, "orbit");
             Scribe_Deep.Look(ref railgun, "railgun");
+            Scribe_Deep.Look(ref tornado, "tornado");
             Scribe_Values.Look(ref pierceStacks, "pierceStacks");
             Scribe_Collections.Look(ref steps, "steps", LookMode.Deep);
             SpellEffect.CheckLoaded(steps, GetType().Name);

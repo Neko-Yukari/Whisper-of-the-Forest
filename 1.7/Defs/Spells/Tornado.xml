@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <WhisperOfTheForest.Spells.SpellGlyphDef>
+    <defName>WotF_Super_Tornado</defName>
+    <label>flame tornado</label>
+    <description>A stationary flame tornado strikes every target in its radius and leaves a lingering scorch after they leave.</description>
+    <kind>Super</kind>
+    <compatibleAugments />
+    <iconPath>Spellbook/Glyphs/WotF_Form_Railgun</iconPath>
+    <targets>
+      <li>Humanlike</li><li>Animal</li><li>Mechanoid</li><li>Entity</li>
+      <li>Building</li><li>Rock</li><li>Plant</li><li>Item</li><li>Cell</li>
+    </targets>
+    <manaCost>70</manaCost>
+    <entropyCost>35</entropyCost>
+    <experience>0</experience>
+    <tornado>
+      <radius>4</radius>
+      <durationTicks>600</durationTicks>
+      <pulseIntervalTicks>60</pulseIntervalTicks>
+      <damagePerPulse>20</damagePerPulse>
+      <armorPenetration>0.3</armorPenetration>
+      <igniteChancePerPulse>0.35</igniteChancePerPulse>
+      <burnRefreshTicks>300</burnRefreshTicks>
+      <fadeTicks>30</fadeTicks>
+      <range>0</range>
+    </tornado>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+  <ThingDef ParentName="EtherealThingBase">
+    <defName>WotF_SpellTornado</defName>
+    <label>flame tornado</label>
+    <thingClass>WhisperOfTheForest.Spells.Thing_SpellTornado</thingClass>
+    <tickerType>Normal</tickerType>
+    <selectable>false</selectable>
+  </ThingDef>
+</Defs>

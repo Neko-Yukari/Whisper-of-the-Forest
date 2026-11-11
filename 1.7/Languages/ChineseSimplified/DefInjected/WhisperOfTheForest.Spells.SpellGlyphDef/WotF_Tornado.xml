@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_Super_Tornado.label>烈焰龙卷</WotF_Super_Tornado.label>
+  <WotF_Super_Tornado.description>在落点形成持续十秒的烈焰龙卷，每秒对范围内所有目标造成伤害。灼烧在龙卷内只刷新时长，离开后继续造成伤害。</WotF_Super_Tornado.description>
+</LanguageData>

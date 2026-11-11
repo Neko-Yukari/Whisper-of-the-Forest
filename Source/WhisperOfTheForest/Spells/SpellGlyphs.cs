@@ -66,6 +66,7 @@ namespace WhisperOfTheForest.Spells
         /// what it casts. Null for every other rune.
         /// </summary>
         public SpellRailgunSpec railgun;
+        public SpellTornadoSpec tornado;
 
         /// <summary>
         /// Projectile and Touch forms: how far the caster may aim (projectile) or reach (touch), in
@@ -148,9 +149,9 @@ namespace WhisperOfTheForest.Spells
                 yield return error;
             }
 
-            if (railgun != null && kind != SpellGlyphKind.Super)
+            if ((railgun != null || tornado != null) && kind != SpellGlyphKind.Super)
             {
-                yield return "only a Super glyph may carry railgun numbers";
+                yield return "only a Super glyph may carry railgun or tornado numbers";
             }
 
             if (excludesAugments != null)
@@ -286,10 +287,12 @@ namespace WhisperOfTheForest.Spells
                         yield return "a Super glyph must declare its own targets";
                     }
 
-                    if (railgun == null)
+                    if ((railgun == null) == (tornado == null))
                     {
-                        yield return "a Super glyph must carry a railgun block";
+                        yield return "a Super glyph must carry exactly one railgun or tornado block";
                     }
+                    if (tornado != null)
+                        foreach (string error in tornado.ConfigErrors()) yield return error;
                     if (railgun != null)
                     {
                         if (railgun.damage <= 0f)
