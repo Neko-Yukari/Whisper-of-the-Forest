@@ -313,10 +313,18 @@
       </graphicPaths>
 
       <!-- The placeholder hair is a body addon; vanilla hair would draw a second layer over it.
-           With hasStyle false HAR only allows HairDefs tagged alienNoStyle, which is Bald. -->
+           With hasStyle false HAR only allows HairDefs tagged alienNoStyle, which is Bald.
+           Vanilla tattoos are masked to vanilla body/head shapes and draw as dark blocks over
+           the Milira placeholder body, so face and body tattoos are off too (NoTattoo only). -->
       <styleSettings>
         <li>
           <key>HairDef</key>
+          <value>
+            <hasStyle>false</hasStyle>
+          </value>
+        </li>
+        <li>
+          <key>TattooDef</key>
           <value>
             <hasStyle>false</hasStyle>
           </value>

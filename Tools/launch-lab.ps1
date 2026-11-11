@@ -30,16 +30,18 @@ param(
 $ErrorActionPreference = 'Stop'
 
 $repo = Split-Path -Parent $PSScriptRoot
+$moddev = Split-Path -Parent $repo
 $gameExe = Join-Path $GameRoot 'RimWorld.exe'
 
 if (-not $DeployedModPath) {
     $DeployedModPath = Join-Path $GameRoot 'Mods/Whisper-of-the-Forest'
 }
+# Same lab folder and profile as test.ps1: one ModsConfig.xml, so the mod list is never a second copy.
 if (-not $LabDir) {
-    $LabDir = Join-Path $repo 'LabRuns/lab'
+    $LabDir = Join-Path $moddev 'lab-run'
 }
 if (-not $SaveDataFolder) {
-    $SaveDataFolder = Join-Path $LabDir 'savedata'
+    $SaveDataFolder = Join-Path $moddev 'lab-profile'
 }
 if (-not $Mods) {
     $Mods = ''
