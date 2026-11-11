@@ -45,9 +45,6 @@
       <wearPerDay>0</wearPerDay>
       <developmentalStageFilter>Adult</developmentalStageFilter>
     </apparel>
-    <comps>
-      <li Class="WhisperOfTheForest.Movement.CompProperties_StrideLog" />
-    </comps>
   </ThingDef>
 
   <ThingDef ParentName="ApparelBase">
@@ -88,9 +85,6 @@
         <li>BeltDefense</li>
       </tags>
     </apparel>
-    <comps>
-      <li Class="WhisperOfTheForest.Movement.CompProperties_StrideLog" />
-    </comps>
   </ThingDef>
 
 </Defs>

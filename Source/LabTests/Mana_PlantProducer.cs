@@ -35,6 +35,18 @@ namespace WhisperOfTheForest.LabTests
                 return;
             }
 
+            float radius = grove.GetComp<CompManaPlantProducer>().Props.radius;
+            foreach (IntVec3 cell in GenRadial.RadialCellsAround(grove.Position, radius, true))
+            {
+                if (cell.InBounds(map))
+                {
+                    cell.GetPlant(map)?.Destroy(DestroyMode.Vanish);
+                }
+            }
+
+            MapComponent_ManaNetwork.For(map)?.MarkDirty();
+            t.Step(60);
+
             List<Plant> trees = new List<Plant>();
             for (int i = 0; i < 10; i++)
             {

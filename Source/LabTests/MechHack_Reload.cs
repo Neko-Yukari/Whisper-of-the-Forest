@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using RimWorld;
 using Verse;
 using Verse.AI;
@@ -15,6 +16,7 @@ namespace WhisperOfTheForest.LabTests
         private int channelId;
         private int startTick;
         private int assimilationTicks;
+        private int hackControlTicks;
 
         public override string Name => "mech-hack.reload";
 
@@ -29,13 +31,14 @@ namespace WhisperOfTheForest.LabTests
 
             // Persistence fixture only; the separate lifecycle test covers reaching these states.
             // No ticks here: all reload scenes share a single save, including in-flight projectiles.
-            MechHackService.TakeControl(controlled, caster, MechHackService.Tuning);
+            MechHackService.TakeControl(controlled, caster, MechHack_TestFixture.Tuning.controlTicks);
             MechHack_TestFixture.Draft(t, controlled);
-            var step = new SpellPlanStep { effect = SpellEffectKind.Hack, amount = TestContext.Glyph("WotF_Effect_Hack").amount };
-            t.Expect(MechHackService.Apply(step, caster, target, target.Position, t.Map) == 1, "reload fixture could not start assimilation");
+            var hack = (HackEffect)((EffectGlyphDef)TestContext.Glyph("WotF_Effect_Hack")).Compile(new List<SpellGlyphDef>(), null);
+            t.Expect(MechHackService.Apply(hack, caster, target, target.Position, t.Map) == 1, "reload fixture could not start assimilation");
+            hackControlTicks = hack.ControlTicks;
             channelId = caster.CurJob.loadID;
             startTick = t.Tick;
-            assimilationTicks = MechHackService.AssimilationTicks(target, step.amount, MechHackService.Tuning);
+            assimilationTicks = MechHackService.AssimilationTicks(target, hack.HackStrength, hack.BaseTicks, hack.MinTicks, hack.MaxTicks);
             t.Note("channelBeforeSave", channelId);
         }
 
@@ -64,7 +67,7 @@ namespace WhisperOfTheForest.LabTests
             string expectedAssimilation = string.Format("WotF_Hack_Remaining".Translate(),
                 (assimilationTicks - elapsed).ToStringTicksToPeriod());
             string expectedControl = string.Format("WotF_Hack_Remaining".Translate(),
-                (MechHackService.Tuning.controlTicks - elapsed).ToStringTicksToPeriod());
+                (hackControlTicks - elapsed).ToStringTicksToPeriod());
             t.Expect(assimilation?.TipStringExtra.Trim() == expectedAssimilation
                 && control?.TipStringExtra.Trim() == expectedControl,
                 "saved remaining time differs from elapsed game time: expected " + expectedAssimilation + "; " + expectedControl);

@@ -5,7 +5,7 @@
     The railgun supra rune.
 
     Two Defs live here and they are deliberately unaware of each other's internals:
-      1. WotF_Form_Railgun  - a Form rune that is a whole spell on its own. It carries the spell
+      1. WotF_Form_Railgun  - a Super rune that is a whole spell on its own. It carries the spell
                               numbers (damage, width, range, charge) and the name of the visual
                               effect it wants; it carries no look.
       2. WotF_Vfx_Railgun   - the visual effect, drawn by RimUnity world geometry: a white-hot core,
@@ -38,8 +38,8 @@
     </targets>
     <label>railgun</label>
     <description>A single rune that is a complete spell: it charges for a moment and then fires one straight shot through everything in its path, walls and mountains included. Nobody in the line is spared, the caster excepted.</description>
-    <kind>Form</kind>
-    <!-- A composite form is already complete: no effect, augment or trigger rune may follow it. -->
+    <kind>Super</kind>
+    <!-- A Super rune is already complete: no effect or augment rune may follow it. -->
     <compatibleAugments />
     <!--
       The charge is this rune's channel: windup 0 means the orb starts forming the moment the player
@@ -65,7 +65,7 @@
     </railgun>
     <manaCost>80</manaCost>
     <entropyCost>40</entropyCost>
-    <experience>25</experience>
+    <experience>0</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <!-- ============================================================ The effect (RimUnity, 30° rings) -->

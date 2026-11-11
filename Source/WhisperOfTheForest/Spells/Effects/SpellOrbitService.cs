@@ -12,14 +12,14 @@ namespace WhisperOfTheForest.Spells
         {
             if (map == null || caster == null || plan.orbit == null)
             {
-                SpellDiagnostics.ErrorOnce("an orbit cast has no orbit block; nothing was placed.");
+                SpellDiagnostics.Error("an orbit cast has no orbit block; nothing was placed.");
                 return 0;
             }
 
             ThingDef def = DefDatabase<ThingDef>.GetNamedSilentFail(SpellEffectDefs.ThingSpellOrbit);
             if (def == null)
             {
-                SpellDiagnostics.ErrorOnce("thing def " + SpellEffectDefs.ThingSpellOrbit + " is missing; no orb was placed.");
+                SpellDiagnostics.Error("thing def " + SpellEffectDefs.ThingSpellOrbit + " is missing; no orb was placed.");
                 return 0;
             }
 

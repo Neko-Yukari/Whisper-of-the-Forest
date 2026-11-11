@@ -10,35 +10,12 @@ namespace WhisperOfTheForest.Spells
     // The post-hit channel is a dedicated Job, not the pre-release SpellCast phase.
     // Biotech is a hard dependency, so EMPResistance always exists.
 
-    /// <summary>Tuning for the hack effect glyph; spell strength is the step's amount after Amplify.</summary>
-    public class MechHackExtension : DefModExtension
-    {
-        /// <summary>Assimilation ticks when the target's combatPower equals the spell strength.</summary>
-        public float baseTicks;
-        public int minTicks;
-        public int maxTicks;
-
-        /// <summary>How long a hacked mech stays under player control.</summary>
-        public int controlTicks;
-
-        // Ensures: one error per non-positive value and when minTicks > maxTicks.
-        public override IEnumerable<string> ConfigErrors()
-        {
-            if (baseTicks <= 0f) yield return "baseTicks must be positive";
-            if (minTicks <= 0) yield return "minTicks must be positive";
-            if (maxTicks <= 0) yield return "maxTicks must be positive";
-            if (controlTicks <= 0) yield return "controlTicks must be positive";
-            if (minTicks > maxTicks) yield return "minTicks must not exceed maxTicks";
-        }
-    }
-
     public static class MechHackService
     {
-        internal const string GlyphName = "WotF_Effect_Hack";
         internal static HediffDef AssimilationDef => DefDatabase<HediffDef>.GetNamed("WotF_Hediff_MechAssimilation");
         internal static HediffDef ControlledDef => DefDatabase<HediffDef>.GetNamed("WotF_Hediff_MechControlled");
         internal static JobDef ChannelDef => DefDatabase<JobDef>.GetNamed("WotF_ChannelMechHack");
-        internal static MechHackExtension Tuning => SpellDefs.Glyph(GlyphName).GetModExtension<MechHackExtension>();
+
         // Requires: target spawned.
         // Ensures: accepted only for a mechanoid hostile to the caster that is not already assimilating or controlled.
         public static AcceptanceReport CanHack(Pawn caster, Pawn target)
@@ -53,28 +30,28 @@ namespace WhisperOfTheForest.Spells
         // Requires: strength > 0.
         // Ensures: baseTicks × (target.kindDef.combatPower ÷ strength) × (1 + target EMPResistance),
         //          clamped to [minTicks, maxTicks].
-        public static int AssimilationTicks(Pawn target, float strength, MechHackExtension tuning)
+        public static int AssimilationTicks(Pawn target, float strength, float baseTicks, int minTicks, int maxTicks)
         {
-            float ticks = tuning.baseTicks * (target.kindDef.combatPower / strength)
+            float ticks = baseTicks * (target.kindDef.combatPower / strength)
                 * (1f + target.GetStatValue(DefDatabase<StatDef>.GetNamed("EMPResistance")));
-            return (int)Math.Ceiling(Math.Max(tuning.minTicks, Math.Min(tuning.maxTicks, ticks)));
+            return (int)Math.Ceiling(Math.Max(minTicks, Math.Min(maxTicks, ticks)));
         }
 
         // Ensures: when the caster is spawned on map and able to act, starts one channel Job on the caster
         //          (interrupting its current job, which also ends any earlier hack channel) and begins
         //          assimilation, tied to that Job's loadID, on every target CanHack accepts. Returns the
         //          number started; 0 and no Job when the caster cannot channel or no target is accepted.
-        //          Tuning comes from the single hack glyph Def's MechHackExtension.
-        public static int Apply(SpellPlanStep step, Pawn caster, Thing primary, IntVec3 cell, Map map)
+        //          Every number comes from the compiled HackEffect, never from a Def lookup.
+        public static int Apply(HackEffect effect, Pawn caster, Thing primary, IntVec3 cell, Map map)
         {
             if (caster == null || !caster.Spawned || caster.Map != map || caster.Dead
                 || caster.Downed || caster.stances.stunner.Stunned) return 0;
 
             var targets = new List<Pawn>();
-            if (step.aoe)
+            if (effect.UseArea)
             {
                 foreach (Pawn target in map.mapPawns.AllPawnsSpawned)
-                    if (target.Position.InHorDistOf(cell, step.radius) && CanHack(caster, target))
+                    if (target.Position.InHorDistOf(cell, effect.TargetRadius) && CanHack(caster, target))
                         targets.Add(target);
             }
             else
@@ -93,7 +70,8 @@ namespace WhisperOfTheForest.Spells
             {
                 Hediff assimilation = HediffMaker.MakeHediff(AssimilationDef, target);
                 assimilation.TryGetComp<HediffComp_MechAssimilation>().Begin(caster, channel.loadID,
-                    AssimilationTicks(target, step.amount, Tuning));
+                    AssimilationTicks(target, effect.HackStrength, effect.BaseTicks, effect.MinTicks, effect.MaxTicks),
+                    effect.ControlTicks);
                 target.health.AddHediff(assimilation);
             }
             SpellDiagnostics.Message("hack channel " + channel.loadID + " started targets=" + targets.Count);
@@ -116,13 +94,13 @@ namespace WhisperOfTheForest.Spells
 
         // Requires: assimilation finished on a still-spawned target.
         // Ensures: target joins the caster's faction for controlTicks and carries HediffComp_MechControlled.
-        internal static void TakeControl(Pawn target, Pawn caster, MechHackExtension tuning)
+        internal static void TakeControl(Pawn target, Pawn caster, int controlTicks)
         {
             Hediff control = HediffMaker.MakeHediff(ControlledDef, target);
-            control.TryGetComp<HediffComp_MechControlled>().Begin(target.Faction, tuning.controlTicks);
+            control.TryGetComp<HediffComp_MechControlled>().Begin(target.Faction, controlTicks);
             target.health.AddHediff(control);
             target.SetFaction(caster.Faction);
-            SpellDiagnostics.Message("hack controlled " + target.LabelShort + " for " + tuning.controlTicks + " ticks");
+            SpellDiagnostics.Message("hack controlled " + target.LabelShort + " for " + controlTicks + " ticks");
         }
     }
 
@@ -140,6 +118,7 @@ namespace WhisperOfTheForest.Spells
         private Pawn caster;
         private int channelJobId;
         private int ticksLeft;
+        private int controlTicks;
 
         public Pawn Caster => caster;
         public int ChannelJobId => channelJobId;
@@ -147,10 +126,11 @@ namespace WhisperOfTheForest.Spells
 
         // Requires: ticks > 0; channelJobId is the loadID of the caster's hack channel Job.
         // Ensures: the countdown starts from ticks and remembers who channels it and under which Job.
-        public void Begin(Pawn channeler, int channelJobId, int ticks)
+        public void Begin(Pawn channeler, int channelJobId, int ticks, int controlTicks)
         {
             caster = channeler;
             this.channelJobId = channelJobId;
+            this.controlTicks = controlTicks;
             ticksLeft = ticks;
             Pawn.stances.stunner.StunFor(2, caster, addBattleLog: false, showMote: false);
         }
@@ -168,7 +148,7 @@ namespace WhisperOfTheForest.Spells
             }
             if (--ticksLeft <= 0)
             {
-                MechHackService.TakeControl(Pawn, caster, MechHackService.Tuning);
+                MechHackService.TakeControl(Pawn, caster, controlTicks);
                 Pawn.health.RemoveHediff(parent);
                 return;
             }
@@ -186,6 +166,7 @@ namespace WhisperOfTheForest.Spells
             Scribe_References.Look(ref caster, "caster");
             Scribe_Values.Look(ref channelJobId, "channelJobId");
             Scribe_Values.Look(ref ticksLeft, "ticksLeft");
+            Scribe_Values.Look(ref controlTicks, "controlTicks");
         }
     }
 

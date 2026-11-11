@@ -61,7 +61,7 @@ namespace WhisperOfTheForest.Spells
             {
                 SpellDefs.FormSelf, SpellDefs.FormTouch, SpellDefs.FormProjectile, SpellDefs.FormOrbit,
                 SpellDefs.EffectHarm, SpellDefs.EffectHeal, SpellDefs.EffectExplosion, SpellDefs.EffectGrow,
-                SpellDefs.EffectIgnite, SpellDefs.EffectLightning, SpellDefs.EffectFreeze,
+                SpellDefs.EffectLightning, SpellDefs.EffectFreeze,
                 SpellDefs.EffectColdSnap, SpellDefs.EffectKnockback, SpellDefs.EffectPull,
                 SpellDefs.EffectSnare, SpellDefs.EffectHex, SpellDefs.EffectMagelight,
                 SpellDefs.EffectBlink, SpellDefs.EffectLinger, SpellDefs.EffectRune, SpellDefs.EffectDelay,
@@ -83,7 +83,7 @@ namespace WhisperOfTheForest.Spells
             {
                 SpellEffectDefs.HediffClotting, SpellEffectDefs.HediffFreeze, SpellEffectDefs.HediffEnsnare,
                 SpellEffectDefs.HediffHex, SpellEffectDefs.HediffLightningCharge,
-                SpellEffectDefs.HediffArcaneDot, SpellEffectDefs.HediffScorch
+                SpellEffectDefs.HediffScorch
             };
 
             for (int i = 0; i < hediffs.Length; i++)

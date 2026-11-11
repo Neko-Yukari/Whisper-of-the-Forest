@@ -13,7 +13,6 @@ namespace WhisperOfTheForest.Spells
         public const string HediffEnsnare = "WotF_Hediff_Ensnare";
         public const string HediffHex = "WotF_Hediff_Hex";
         public const string HediffLightningCharge = "WotF_Hediff_LightningCharge";
-        public const string HediffArcaneDot = "WotF_Hediff_ArcaneDot";
         public const string HediffScorch = "WotF_Hediff_Scorch";
 
         // Temporary map objects.

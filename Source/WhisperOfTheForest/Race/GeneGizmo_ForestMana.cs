@@ -24,9 +24,32 @@ namespace WhisperOfTheForest.Race
             set { draggingBar = value; }
         }
 
+        /// <summary>The header carries the bloodline level, so the ladder is visible without hovering.</summary>
+        protected override string Title
+        {
+            get
+            {
+                string title = base.Title;
+                Gene_ForestBloodline bloodline = gene as Gene_ForestBloodline;
+                return bloodline == null
+                    ? title
+                    : title + " · " + "WotF_Race.GizmoLevel".Translate(bloodline.Level);
+            }
+        }
+
         protected override string GetTooltip()
         {
             string text = gene.ResourceLabel.CapitalizeFirst() + ": " + gene.ValueForDisplay + " / " + gene.MaxForDisplay;
+            Gene_ForestBloodline bloodline = gene as Gene_ForestBloodline;
+            if (bloodline != null)
+            {
+                text += "\n\n" + "WotF_Race.GizmoLevel".Translate(bloodline.Level);
+                text += "\n" + (bloodline.Level >= bloodline.MaxLevel
+                    ? "WotF_Race.GizmoMaxLevel".Translate().Resolve()
+                    : "WotF_Race.GizmoExperience".Translate(
+                        bloodline.Experience.ToString("0"), bloodline.ExperienceToNextLevel.ToString("0")).Resolve());
+            }
+
             if (!gene.def.resourceDescription.NullOrEmpty())
             {
                 text += "\n\n" + gene.def.resourceDescription.Formatted(gene.pawn.Named("PAWN")).Resolve();

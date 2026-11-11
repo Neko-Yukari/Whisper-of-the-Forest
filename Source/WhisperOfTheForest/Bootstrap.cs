@@ -1,4 +1,3 @@
-using System;
 using HarmonyLib;
 using Verse;
 
@@ -30,19 +29,11 @@ namespace WhisperOfTheForest
             LabHost.ConfigureFromCommandLine();
 #endif
 
-            try
-            {
-                new Harmony(HarmonyId).PatchAll();
+            new Harmony(HarmonyId).PatchAll();
 #if WOTF_LAB
-                LabHost.MarkHarmonyPatched();
+            LabHost.MarkHarmonyPatched();
 #endif
-                WotfLog.Info(WotfLog.ModuleBoot, "Harmony patched with id " + HarmonyId);
-            }
-            catch (Exception exception)
-            {
-                // A failed patch must stay visible in the log and in `status`, but must not break startup.
-                WotfLog.Error(WotfLog.ModuleBoot, "Harmony PatchAll failed: " + exception);
-            }
+            WotfLog.Info(WotfLog.ModuleBoot, "Harmony patched with id " + HarmonyId);
         }
     }
 

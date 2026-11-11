@@ -14,7 +14,7 @@ namespace WhisperOfTheForest.Turrets
             CompSpellTurret turret = caster.TryGetComp<CompSpellTurret>();
             if (turret == null)
             {
-                SpellDiagnostics.ErrorOnce("turret verb used on " + caster.LabelShort
+                SpellDiagnostics.Error("turret verb used on " + caster.LabelShort
                                            + " without CompSpellTurret.");
                 return false;
             }

@@ -199,6 +199,25 @@ namespace WhisperOfTheForest.Spells
                 return true;
             }
 
+            WotfSettings settings = WotfMod.Settings;
+            if (settings != null && settings.unlockAllGlyphs)
+            {
+                return true;
+            }
+
+            return IsUnlockedInData(glyph);
+        }
+
+        /// <summary>
+        /// The colony's own unlock list, ignoring the development override.
+        /// </summary>
+        public static bool IsUnlockedInData(SpellGlyphDef glyph)
+        {
+            if (glyph == null || !glyph.requiresUnlock)
+            {
+                return true;
+            }
+
             GameComponent_Spellbook component = Current;
             return component != null && component.unlockedGlyphs.Contains(glyph.defName);
         }

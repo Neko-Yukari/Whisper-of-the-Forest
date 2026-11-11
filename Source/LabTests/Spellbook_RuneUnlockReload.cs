@@ -22,9 +22,9 @@ namespace WhisperOfTheForest.LabTests
                 return;
             }
 
-            t.Expect(!GameComponent_Spellbook.IsUnlocked(rune), "the rune was already unlocked before the test");
+            t.Expect(!GameComponent_Spellbook.IsUnlockedInData(rune), "the rune was already unlocked before the test");
             t.Expect(book.Unlock(rune), "the rune could not be unlocked");
-            t.Expect(GameComponent_Spellbook.IsUnlocked(rune), "the rune is not unlocked before the save");
+            t.Expect(GameComponent_Spellbook.IsUnlockedInData(rune), "the rune is not unlocked before the save");
         }
 
         protected override void AfterReload(TestContext t)
@@ -36,7 +36,7 @@ namespace WhisperOfTheForest.LabTests
                 return;
             }
 
-            t.Expect(GameComponent_Spellbook.IsUnlocked(rune), "the unlocked rune was lost in the save/load");
+            t.Expect(GameComponent_Spellbook.IsUnlockedInData(rune), "the unlocked rune was lost in the save/load");
         }
     }
 }

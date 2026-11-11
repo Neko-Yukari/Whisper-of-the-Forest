@@ -117,6 +117,21 @@ namespace WhisperOfTheForest.Race
             if (pawn.IsHashIntervalTick(MaxSyncIntervalTicks, delta))
             {
                 RefreshMaxFromStats();
+                FollowPsylinkGain();
+            }
+        }
+
+        /// <summary>
+        /// Raises the level to match a psylink that grew without passing through ChangeLevel, such as
+        /// a character editor or another mod writing the hediff directly. Those writes never reach the
+        /// psylink patches, so this periodic read is the only path-agnostic catch.
+        /// </summary>
+        private void FollowPsylinkGain()
+        {
+            int psylink = pawn.GetPsylinkLevel();
+            if (psylink > MirrorPsylinkLevel)
+            {
+                SetLevel(Mathf.Max(level, LevelForPsylink(psylink)));
             }
         }
 

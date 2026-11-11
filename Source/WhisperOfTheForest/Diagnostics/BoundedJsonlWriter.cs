@@ -21,7 +21,6 @@ namespace WhisperOfTheForest
         private static readonly Encoding Utf8NoBom = new UTF8Encoding(false);
 
         private long lastFlushTicks = DateTime.UtcNow.Ticks;
-        private bool failedLogged;
 
         public BoundedJsonlWriter(string path, long maxBytes, bool flushEachLine)
         {
@@ -34,7 +33,7 @@ namespace WhisperOfTheForest
         {
             if (string.IsNullOrEmpty(json))
             {
-                return;
+                throw new ArgumentException("A JSONL record must not be null or empty.", nameof(json));
             }
 
             lock (gate)
@@ -75,43 +74,23 @@ namespace WhisperOfTheForest
                 return;
             }
 
-            try
+            EnsureDirectory();
+            string text = buffer.ToString();
+            if (File.Exists(path) && new FileInfo(path).Length + Encoding.UTF8.GetByteCount(text) > maxBytes)
             {
-                EnsureDirectory();
-                string text = buffer.ToString();
-                if (File.Exists(path) && new FileInfo(path).Length + Encoding.UTF8.GetByteCount(text) > maxBytes)
+                // Keep exactly one previous file. The pending batch starts the new file.
+                string backup = path + ".1";
+                if (File.Exists(backup))
                 {
-                    // Keep exactly one previous file. The pending batch starts the new file.
-                    string backup = path + ".1";
-                    if (File.Exists(backup))
-                    {
-                        File.Delete(backup);
-                    }
-
-                    File.Move(path, backup);
+                    File.Delete(backup);
                 }
 
-                File.AppendAllText(path, text, Utf8NoBom);
-                buffer.Clear();
+                File.Move(path, backup);
             }
-            catch (Exception exception)
-            {
-                // Keep the buffer so a later flush can retry, but never let it grow without bound.
-                if (buffer.Length > 256 * 1024)
-                {
-                    buffer.Clear();
-                }
 
-                if (!failedLogged)
-                {
-                    failedLogged = true;
-                    Verse.Log.Error("[WotF-Lab] Failed writing " + path + ": " + exception);
-                }
-            }
-            finally
-            {
-                lastFlushTicks = DateTime.UtcNow.Ticks;
-            }
+            File.AppendAllText(path, text, Utf8NoBom);
+            buffer.Clear();
+            lastFlushTicks = DateTime.UtcNow.Ticks;
         }
 
         private void EnsureDirectory()

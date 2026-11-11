@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using WhisperOfTheForest.Spells;
 
 namespace WhisperOfTheForest
 {
@@ -241,8 +243,10 @@ namespace WhisperOfTheForest
     /// <summary>Vertical bands of the left page, and the card grid of the rune list.</summary>
     internal readonly struct CatalogLayout
     {
-        /// <summary>All / Form / Effect / Augment. The lab's category probe indexes the same row.</summary>
-        public const int CategoryCount = 4;
+        public static readonly SpellGlyphKind[] Kinds = Enum.GetValues<SpellGlyphKind>();
+
+        /// <summary>All plus each rune kind. The lab's category probe indexes the same row.</summary>
+        public static int CategoryCount => 1 + Kinds.Length;
 
         public const float SearchHeight = 26f;
         public const float SearchStep = 32f;

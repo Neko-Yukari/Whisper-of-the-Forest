@@ -11,8 +11,6 @@
   <WotF_Hediff_Hex.description>A mark that makes the body take more damage and mend more slowly.</WotF_Hediff_Hex.description>
   <WotF_Hediff_LightningCharge.label>charged</WotF_Hediff_LightningCharge.label>
   <WotF_Hediff_LightningCharge.description>Residual charge from a lightning strike. The next strike hurts more for every stack carried.</WotF_Hediff_LightningCharge.description>
-  <WotF_Hediff_ArcaneDot.label>sustained arcane wound</WotF_Hediff_ArcaneDot.label>
-  <WotF_Hediff_ArcaneDot.description>Arcane force keeps working through the wound instead of passing in one blow.</WotF_Hediff_ArcaneDot.description>
   <WotF_Hediff_Scorch.label>scorched</WotF_Hediff_Scorch.label>
   <WotF_Hediff_Scorch.description>A controlled burn that keeps searing the target without ever becoming a spreading fire.</WotF_Hediff_Scorch.description>
 

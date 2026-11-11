@@ -4,5 +4,8 @@
   <WotF_Race.ManaFromLevel>林庭血脉等级 {0} 提供</WotF_Race.ManaFromLevel>
   <WotF_Race.EntropyFromLevel>林庭血脉等级 {0} 提供</WotF_Race.EntropyFromLevel>
   <WotF_Race.EntropyRecoveryFromLevel>林庭血脉等级 {0} 提供</WotF_Race.EntropyRecoveryFromLevel>
+  <WotF_Race.GizmoLevel>林庭血脉 Lv.{0}</WotF_Race.GizmoLevel>
+  <WotF_Race.GizmoExperience>经验 {0} / {1}</WotF_Race.GizmoExperience>
+  <WotF_Race.GizmoMaxLevel>经验已达最高级</WotF_Race.GizmoMaxLevel>
 
 </LanguageData>

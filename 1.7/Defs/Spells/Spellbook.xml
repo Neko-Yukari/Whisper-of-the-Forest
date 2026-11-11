@@ -146,7 +146,16 @@
 
   <!-- ============================================================ Effects -->
 
-  <WhisperOfTheForest.Spells.SpellGlyphDef>
+  <!-- Only the fields every effect shares. A concrete effect Def must repeat Class itself:
+       XmlInheritance clears a parent node's attributes when it merges a child node. -->
+  <WhisperOfTheForest.Spells.SpellGlyphDef Name="WotF_EffectGlyphBase" Abstract="True">
+    <kind>Effect</kind>
+    <windupTicks>5</windupTicks>
+    <recoveryTicks>5</recoveryTicks>
+    <entropyCost>0</entropyCost>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
+  <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.HarmGlyphDef">
     <defName>WotF_Effect_Harm</defName>
     <targets>
       <li>Humanlike</li>
@@ -158,18 +167,13 @@
       <li>Plant</li>
     </targets>
     <label>harm</label>
-    <description>Deals arcane force damage to what the spell reaches, through the same damage type the arcane missiles already use. With Extend Time it becomes a sustained wound instead of a bigger hit.</description>
+    <description>Deals arcane force damage to what the spell reaches, through the same damage type the arcane missiles already use.</description>
     <kind>Effect</kind>
-    <amount>9</amount>
+    <damage>9</damage>
     <armorPenetration>0.5</armorPenetration>
-    <!-- Only used when Extend Time turns the hit into a sustained wound. -->
-    <durationTicks>600</durationTicks>
-    <pulseIntervalTicks>60</pulseIntervalTicks>
     <compatibleAugments>
       <li>WotF_Augment_Amplify</li>
       <li>WotF_Augment_Dampen</li>
-      <li>WotF_Augment_Extend</li>
-      <li>WotF_Augment_Shorten</li>
       <li>WotF_Augment_BreakArmor</li>
     </compatibleAugments>
     <windupTicks>5</windupTicks>
@@ -180,7 +184,7 @@
     <experience>3</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
-  <WhisperOfTheForest.Spells.SpellGlyphDef>
+  <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.HealGlyphDef">
     <defName>WotF_Effect_Heal</defName>
     <targets>
       <li>Humanlike</li>
@@ -191,10 +195,9 @@
     <label>clot</label>
     <description>Does not restore health directly: it immediately bandages every wound on the target with no medicine and leaves a boost that speeds natural healing for a while.</description>
     <kind>Effect</kind>
-    <requiresAmount>false</requiresAmount>
     <!-- Tend quality 0..1, and how long the healing boost lasts. -->
-    <factor>0.6</factor>
-    <durationTicks>2500</durationTicks>
+    <baseTendQuality>0.6</baseTendQuality>
+    <clottingDurationTicks>2500</clottingDurationTicks>
     <compatibleAugments>
       <li>WotF_Augment_Amplify</li>
       <li>WotF_Augment_Dampen</li>
@@ -208,7 +211,7 @@
     <experience>4</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
-  <WhisperOfTheForest.Spells.SpellGlyphDef>
+  <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.ExplosionGlyphDef">
     <defName>WotF_Effect_Explosion</defName>
     <targets>
       <li>Cell</li>
@@ -220,7 +223,7 @@
     </unlockCost>
     <description>One native explosion at the spell's point. A range augment widens that single explosion instead of adding more of them; Sensitive keeps the blast from damaging buildings.</description>
     <kind>Effect</kind>
-    <amount>12</amount>
+    <blastDamage>12</blastDamage>
     <armorPenetration>0.5</armorPenetration>
     <radius>1.9</radius>
     <compatibleAugments>
@@ -238,7 +241,7 @@
     <experience>5</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
-  <WhisperOfTheForest.Spells.SpellGlyphDef>
+  <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.GrowGlyphDef">
     <defName>WotF_Effect_Grow</defName>
     <targets>
       <li>Plant</li>
@@ -247,10 +250,9 @@
     <label>grow</label>
     <description>Does not mature anything: the hit cell (or every cell in range) grows plants faster for a while, on top of whatever fertility the terrain already has.</description>
     <kind>Effect</kind>
-    <requiresAmount>false</requiresAmount>
     <!-- Growth-rate multiplier and its lifetime. -->
-    <factor>1.6</factor>
-    <durationTicks>3000</durationTicks>
+    <growthRate>1.6</growthRate>
+    <fertilityDurationTicks>3000</fertilityDurationTicks>
     <radius>1.9</radius>
     <compatibleAugments>
       <li>WotF_Augment_AOE</li>
@@ -266,39 +268,8 @@
 
   <!-- ============================================================ harm family -->
 
-  <WhisperOfTheForest.Spells.SpellGlyphDef>
-    <defName>WotF_Effect_Ignite</defName>
-    <targets>
-      <li>Humanlike</li>
-      <li>Animal</li>
-      <li>Mechanoid</li>
-      <li>Entity</li>
-      <li>Building</li>
-      <li>Plant</li>
-    </targets>
-    <label>ignite</label>
-    <description>Sets the target alight. The plain version starts real fire that can spread; Sensitive never spawns fire and uses a non-spreading burn instead.</description>
-    <kind>Effect</kind>
-    <requiresAmount>false</requiresAmount>
-    <fireSize>0.6</fireSize>
-    <burnAmount>4</burnAmount>
-    <durationTicks>600</durationTicks>
-    <radius>1.9</radius>
-    <pulseIntervalTicks>60</pulseIntervalTicks>
-    <compatibleAugments>
-      <li>WotF_Augment_AOE</li>
-      <li>WotF_Augment_Extend</li>
-      <li>WotF_Augment_Sensitive</li>
-    </compatibleAugments>
-    <windupTicks>5</windupTicks>
-    <recoveryTicks>5</recoveryTicks>
-    <iconPath>Spellbook/Glyphs/WotF_Effect_Ignite</iconPath>
-    <manaCost>8</manaCost>
-    <entropyCost>0</entropyCost>
-    <experience>3</experience>
-  </WhisperOfTheForest.Spells.SpellGlyphDef>
 
-  <WhisperOfTheForest.Spells.SpellGlyphDef>
+  <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.LightningGlyphDef">
     <defName>WotF_Effect_Lightning</defName>
     <targets>
       <li>Humanlike</li>
@@ -314,11 +285,11 @@
     </unlockCost>
     <description>A strike of EMP and burn damage. Every strike leaves a charge stack, and later strikes hurt more for each stack the target already carries.</description>
     <kind>Effect</kind>
-    <amount>12</amount>
+    <burnDamage>12</burnDamage>
     <armorPenetration>0.5</armorPenetration>
     <empAmount>8</empAmount>
     <perStackFactor>0.25</perStackFactor>
-    <durationTicks>600</durationTicks>
+    <extendBaseChargeDurationTicks>600</extendBaseChargeDurationTicks>
     <compatibleAugments>
       <li>WotF_Augment_Amplify</li>
       <li>WotF_Augment_Dampen</li>
@@ -332,7 +303,7 @@
     <experience>4</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
-  <WhisperOfTheForest.Spells.SpellGlyphDef>
+  <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.ColdSnapGlyphDef">
     <defName>WotF_Effect_ColdSnap</defName>
     <targets>
       <li>Humanlike</li>
@@ -343,7 +314,7 @@
     <label>cold snap</label>
     <description>Bursts against a target that is already slowed, dealing bonus damage on top of the base amount.</description>
     <kind>Effect</kind>
-    <amount>10</amount>
+    <damage>10</damage>
     <vulnerableFactor>2</vulnerableFactor>
     <radius>1.9</radius>
     <compatibleAugments>
@@ -361,7 +332,7 @@
 
   <!-- ============================================================ control -->
 
-  <WhisperOfTheForest.Spells.SpellGlyphDef>
+  <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.FreezeGlyphDef">
     <defName>WotF_Effect_Freeze</defName>
     <targets>
       <li>Humanlike</li>
@@ -372,8 +343,7 @@
     <label>freeze</label>
     <description>Slows the target's movement for a while through a HediffDef's capacity modifier. Nothing else about the target is changed.</description>
     <kind>Effect</kind>
-    <requiresAmount>false</requiresAmount>
-    <durationTicks>300</durationTicks>
+    <freezeDurationTicks>300</freezeDurationTicks>
     <radius>1.9</radius>
     <compatibleAugments>
       <li>WotF_Augment_AOE</li>
@@ -387,7 +357,7 @@
     <experience>3</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
-  <WhisperOfTheForest.Spells.SpellGlyphDef>
+  <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.KnockbackGlyphDef">
     <defName>WotF_Effect_Knockback</defName>
     <targets>
       <li>Humanlike</li>
@@ -398,7 +368,7 @@
     <label>knockback</label>
     <description>Throws the target away from the impact point through the vanilla flying carrier. The amount is the distance in cells; Range widens who is thrown.</description>
     <kind>Effect</kind>
-    <amount>4</amount>
+    <pushDistance>4</pushDistance>
     <radius>1.9</radius>
     <compatibleAugments>
       <li>WotF_Augment_Amplify</li>
@@ -413,7 +383,7 @@
     <experience>2</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
-  <WhisperOfTheForest.Spells.SpellGlyphDef>
+  <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.PullGlyphDef">
     <defName>WotF_Effect_Pull</defName>
     <targets>
       <li>Humanlike</li>
@@ -424,7 +394,7 @@
     <label>pull</label>
     <description>Drags the target towards the impact point through the vanilla flying carrier. The amount is the distance in cells.</description>
     <kind>Effect</kind>
-    <amount>4</amount>
+    <pullDistance>4</pullDistance>
     <radius>1.9</radius>
     <compatibleAugments>
       <li>WotF_Augment_Amplify</li>
@@ -439,7 +409,7 @@
     <experience>2</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
-  <WhisperOfTheForest.Spells.SpellGlyphDef>
+  <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.SnareGlyphDef">
     <defName>WotF_Effect_Snare</defName>
     <targets>
       <li>Humanlike</li>
@@ -450,8 +420,7 @@
     <label>snare</label>
     <description>Pins the target in place: movement is zeroed but attacking is untouched, so it is not a stun.</description>
     <kind>Effect</kind>
-    <requiresAmount>false</requiresAmount>
-    <durationTicks>300</durationTicks>
+    <rootDurationTicks>300</rootDurationTicks>
     <compatibleAugments>
       <li>WotF_Augment_Extend</li>
       <li>WotF_Augment_Shorten</li>
@@ -464,7 +433,7 @@
     <experience>3</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
-  <WhisperOfTheForest.Spells.SpellGlyphDef>
+  <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.HexGlyphDef">
     <defName>WotF_Effect_Hex</defName>
     <targets>
       <li>Humanlike</li>
@@ -475,8 +444,7 @@
     <label>hex</label>
     <description>Marks the target: it takes more damage and heals more slowly for a while. The numbers live on the Hex HediffDef.</description>
     <kind>Effect</kind>
-    <requiresAmount>false</requiresAmount>
-    <durationTicks>600</durationTicks>
+    <hexDurationTicks>600</hexDurationTicks>
     <compatibleAugments>
       <li>WotF_Augment_Extend</li>
       <li>WotF_Augment_Shorten</li>
@@ -489,7 +457,7 @@
     <experience>4</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
-  <WhisperOfTheForest.Spells.SpellGlyphDef>
+  <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.HackGlyphDef">
     <defName>WotF_Effect_Hack</defName>
     <targets>
       <li>Mechanoid</li>
@@ -499,8 +467,12 @@
     <kind>Effect</kind>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost><ComponentIndustrial>20</ComponentIndustrial></unlockCost>
-    <amount>100</amount>
+    <hackStrength>100</hackStrength>
     <radius>1.9</radius>
+    <baseTicks>300</baseTicks>
+    <minTicks>120</minTicks>
+    <maxTicks>1800</maxTicks>
+    <controlTicks>3600</controlTicks>
     <compatibleAugments>
       <li>WotF_Augment_Amplify</li>
       <li>WotF_Augment_Dampen</li>
@@ -512,19 +484,11 @@
     <manaCost>25</manaCost>
     <entropyCost>0</entropyCost>
     <experience>6</experience>
-    <modExtensions>
-      <li Class="WhisperOfTheForest.Spells.MechHackExtension">
-        <baseTicks>300</baseTicks>
-        <minTicks>120</minTicks>
-        <maxTicks>1800</maxTicks>
-        <controlTicks>3600</controlTicks>
-      </li>
-    </modExtensions>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
   <!-- ============================================================ support -->
 
-  <WhisperOfTheForest.Spells.SpellGlyphDef>
+  <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.MagelightGlyphDef">
     <defName>WotF_Effect_Magelight</defName>
     <targets>
       <li>Cell</li>
@@ -532,8 +496,7 @@
     <label>magelight</label>
     <description>Places a temporary light at the spell's point. Radius, colour and lifetime are all frozen from this rune and the augments bound to it.</description>
     <kind>Effect</kind>
-    <requiresAmount>false</requiresAmount>
-    <durationTicks>2500</durationTicks>
+    <lifetimeTicks>2500</lifetimeTicks>
     <glowRadius>8</glowRadius>
     <glowColor>#FFE9A0</glowColor>
     <compatibleAugments>
@@ -550,7 +513,7 @@
     <experience>1</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
-  <WhisperOfTheForest.Spells.SpellGlyphDef>
+  <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.BlinkGlyphDef">
     <defName>WotF_Effect_Blink</defName>
     <targets>
       <li>Cell</li>
@@ -562,7 +525,7 @@
     </unlockCost>
     <description>From a self cast the caster flickers forward; delivered by a dart or a touch, the caster lands at the spell's point.</description>
     <kind>Effect</kind>
-    <amount>5</amount>
+    <selfForwardDistance>5</selfForwardDistance>
     <compatibleAugments>
       <li>WotF_Augment_Amplify</li>
       <li>WotF_Augment_Dampen</li>
@@ -577,7 +540,7 @@
 
   <!-- ============================================================ when and where -->
 
-  <WhisperOfTheForest.Spells.SpellGlyphDef>
+  <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.LingerGlyphDef">
     <defName>WotF_Effect_Linger</defName>
     <targets>
       <li>Cell</li>
@@ -589,9 +552,8 @@
     </unlockCost>
     <description>Leaves a force field at the spell's point. Every interval it applies everything arranged to its right to every pawn inside. Accelerate shortens the interval, Decelerate lengthens it.</description>
     <kind>Effect</kind>
-    <requiresAmount>false</requiresAmount>
     <radius>2.5</radius>
-    <durationTicks>600</durationTicks>
+    <lifetimeTicks>600</lifetimeTicks>
     <pulseIntervalTicks>60</pulseIntervalTicks>
     <compatibleAugments>
       <li>WotF_Augment_AOE</li>
@@ -608,7 +570,7 @@
     <experience>4</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
-  <WhisperOfTheForest.Spells.SpellGlyphDef>
+  <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.RuneGlyphDef">
     <defName>WotF_Effect_Rune</defName>
     <targets>
       <li>Cell</li>
@@ -620,8 +582,7 @@
     </unlockCost>
     <description>Leaves a seal on the ground that takes no building space. The first pawn stepping onto it gets everything arranged to its right, then the seal is gone.</description>
     <kind>Effect</kind>
-    <requiresAmount>false</requiresAmount>
-    <durationTicks>3000</durationTicks>
+    <lifetimeTicks>3000</lifetimeTicks>
     <compatibleAugments />
     <windupTicks>10</windupTicks>
     <recoveryTicks>10</recoveryTicks>
@@ -631,7 +592,7 @@
     <experience>3</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
-  <WhisperOfTheForest.Spells.SpellGlyphDef>
+  <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.DelayGlyphDef">
     <defName>WotF_Effect_Delay</defName>
     <targets>
       <li>Cell</li>
@@ -643,8 +604,7 @@
     </unlockCost>
     <description>Everything arranged to its right resolves a few seconds later at the same target point.</description>
     <kind>Effect</kind>
-    <requiresAmount>false</requiresAmount>
-    <durationTicks>180</durationTicks>
+    <delayTicks>180</delayTicks>
     <compatibleAugments>
       <li>WotF_Augment_Extend</li>
       <li>WotF_Augment_Shorten</li>
@@ -693,7 +653,7 @@
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Augment_Extend</defName>
     <label>extend time</label>
-    <description>Makes the effect last longer. On Harm it turns the one hit into a sustained wound of the same total damage.</description>
+    <description>Makes the effect last longer.</description>
     <kind>Augment</kind>
     <factor>2</factor>
     <compatibleAugments />
@@ -721,7 +681,7 @@
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Augment_Sensitive</defName>
     <label>sensitive</label>
-    <description>Keeps only the controlled half of the effect: an explosion no longer damages buildings and an ignite no longer starts spreading fire.</description>
+    <description>Keeps only the controlled half of the effect: an explosion no longer damages buildings.</description>
     <kind>Augment</kind>
     <compatibleAugments />
     <windupTicks>3</windupTicks>

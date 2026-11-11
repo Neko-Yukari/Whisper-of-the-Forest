@@ -147,6 +147,7 @@ foreach ($assemblyInfo in $catalogAssemblies) {
 
         foreach ($nested in $type.NestedTypes) { $queue.Enqueue($nested) }
     }
+    $assembly.Dispose()
 }
 
 function Resolve-TypeName([string]$name) {

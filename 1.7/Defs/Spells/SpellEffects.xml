@@ -152,25 +152,7 @@
     </comps>
   </HediffDef>
 
-  <!-- Sustained arcane wound: damage type, per-pulse amount and interval are written by the spell. -->
-  <HediffDef>
-    <defName>WotF_Hediff_ArcaneDot</defName>
-    <label>sustained arcane wound</label>
-    <description>Arcane force keeps working through the wound instead of passing in one blow.</description>
-    <hediffClass>WhisperOfTheForest.Spells.Hediff_SpellDot</hediffClass>
-    <isBad>true</isBad>
-    <duplicationAllowed>false</duplicationAllowed>
-    <initialSeverity>1</initialSeverity>
-    <maxSeverity>1</maxSeverity>
-    <comps>
-      <li Class="HediffCompProperties_Disappears">
-        <disappearsAfterTicks>600~600</disappearsAfterTicks>
-        <showRemainingTime>true</showRemainingTime>
-      </li>
-    </comps>
-  </HediffDef>
-
-  <!-- The non-spreading burn behind the Sensitive variant of Ignite. -->
+  <!-- Non-spreading burn state. -->
   <HediffDef>
     <defName>WotF_Hediff_Scorch</defName>
     <label>scorched</label>

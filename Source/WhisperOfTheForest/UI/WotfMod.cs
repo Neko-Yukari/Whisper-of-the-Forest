@@ -42,12 +42,21 @@ namespace WhisperOfTheForest
                     settings.Write();
                 }
 
-                Widgets.Label(new Rect(inRect.x, inRect.y + 80f, inRect.width, 24f),
+                bool unlockAll = settings.unlockAllGlyphs;
+                Widgets.CheckboxLabeled(new Rect(inRect.x, inRect.y + 30f, inRect.width, 24f),
+                    Translator.Translate("WotF_UI.UnlockAllGlyphs"), ref unlockAll);
+                if (unlockAll != settings.unlockAllGlyphs)
+                {
+                    settings.unlockAllGlyphs = unlockAll;
+                    settings.Write();
+                }
+
+                Widgets.Label(new Rect(inRect.x, inRect.y + 70f, inRect.width, 24f),
                     "WotF_ElfNames.Display".Translate());
                 for (int i = 0; i < 2; i++)
                 {
                     ElfNameDisplay mode = (ElfNameDisplay)i;
-                    if (Widgets.RadioButtonLabeled(new Rect(inRect.x, inRect.y + 110f + i * 28f,
+                    if (Widgets.RadioButtonLabeled(new Rect(inRect.x, inRect.y + 100f + i * 28f,
                         inRect.width, 24f), ("WotF_ElfNames." + mode).Translate(), settings.elfNameDisplay == mode))
                     {
                         settings.elfNameDisplay = mode;
@@ -58,7 +67,7 @@ namespace WhisperOfTheForest
                 Text.Font = GameFont.Tiny;
                 Text.WordWrap = true;
                 GUI.color = Color.gray;
-                Widgets.Label(new Rect(inRect.x, inRect.y + 30f, inRect.width, 40f),
+                Widgets.Label(new Rect(inRect.x, inRect.y + 160f, inRect.width, 60f),
                     Translator.Translate("WotF_UI.SettingsHint"));
             }
         }

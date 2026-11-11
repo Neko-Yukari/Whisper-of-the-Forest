@@ -145,6 +145,8 @@ function Read-WotfLogErrors([string]$path, [int]$SkipLines = 0, [string[]]$Expec
         ProcessId = $null
         Started = $null
         TotalLines = 0
+        TotalMessages = 0
+        StopLoggingMessage = ''
         ScannedLines = 0
         ErrorBlocks = 0
         Exempted = 0
@@ -163,6 +165,11 @@ function Read-WotfLogErrors([string]$path, [int]$SkipLines = 0, [string[]]$Expec
 
     $lines = Get-Content -LiteralPath $path -Encoding utf8
     $result.TotalLines = $lines.Count
+    $result.TotalMessages = @($lines | Where-Object { $_ -match '^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}[.][0-9]+ +' }).Count
+    $stopLoggingText = 'Reached max messages limit. Stopping logging to avoid spam.'
+    if ($lines | Where-Object { $_.Contains($stopLoggingText) }) {
+        $result.StopLoggingMessage = $stopLoggingText
+    }
     # SkipLines lets a repeat call on the same process read only what was appended since the last one.
     $scanFrom = [Math]::Max(0, [Math]::Min($SkipLines, $lines.Count))
     $result.ScannedLines = $lines.Count - $scanFrom
@@ -184,7 +191,8 @@ function Read-WotfLogErrors([string]$path, [int]$SkipLines = 0, [string[]]$Expec
         return $result
     }
 
-    $result.Status = 'ok'
+    $result.Status = if ($result.StopLoggingMessage) { 'logging-stopped' }
+        elseif ($result.TotalMessages -ge 9000) { 'logging-limit' } else { 'ok' }
     $messages = New-Object System.Collections.Generic.List[string]
     $index = $scanFrom
     while ($index -lt $lines.Count) {
@@ -201,14 +209,6 @@ function Read-WotfLogErrors([string]$path, [int]$SkipLines = 0, [string[]]$Expec
         while ($index -lt $lines.Count -and $lines[$index] -notmatch '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d+') {
             if ($lines[$index].Trim()) { $block.Add($lines[$index]) }
             $index++
-        }
-
-        # The project does not support old saves. A pre-rename save still names the old
-        # WhisperOfTheForest.Experimental.* classes; those load errors (and the abstract-class
-        # failures they cause) are expected and are not this run's defects.
-        if (($block -match 'WhisperOfTheForest\.Experimental\.') -or
-            ($block -match "Can't load abstract class Verse\.(GameComponent|MapComponent)")) {
-            continue
         }
 
         $result.ErrorBlocks++
@@ -313,6 +313,21 @@ function Start-LabInstance {
     }
 }
 
+function Assert-LabHealthy {
+    $statusFile = Join-Path $LabDir 'lab-status.json'
+    if (-not (Test-Path -LiteralPath $statusFile)) { return }
+    try {
+        $health = Get-Content -LiteralPath $statusFile -Raw | ConvertFrom-Json
+    }
+    catch {
+        # The host may still be writing the status file.
+        return
+    }
+    if ($health.processId -eq (Get-LabPid) -and $health.labFault) {
+        throw "Lab fault: $($health.labFault)"
+    }
+}
+
 <#
   Waits until the mod's own assembly wrote lab-status.json for this process (proof that the assembly
   and its dependencies loaded) and the lab answered one status request. Returns the status JSON text
@@ -350,10 +365,12 @@ function Wait-LabReady {
     $readyDeadline = (Get-Date).AddSeconds($MapWaitSec)
     $answeredOnce = $false
     while ((Get-Date) -lt $readyDeadline) {
+        Assert-LabHealthy
         if (-not (Get-LabPid)) {
             return $null
         }
 
+        $answer = $null
         try {
             $answer = & (Join-Path $PSScriptRoot 'lab.ps1') -LabDir $LabDir -Command 'status' -TimeoutSec 25
             if ($LASTEXITCODE -eq 0 -and $answer -match '"ok":true') {
@@ -365,6 +382,9 @@ function Wait-LabReady {
         }
         catch {
             # No answer in this attempt; keep waiting until the deadline.
+        }
+        if ($answer -and ($answer | ConvertFrom-Json).labFault) {
+            throw "Lab fault: $(($answer | ConvertFrom-Json).labFault)"
         }
 
         Start-Sleep -Seconds 3
@@ -421,6 +441,8 @@ if ($InspectLog) {
     $found = Read-WotfLogErrors $InspectLog
     Write-Host ("log {0}: status={1} pid={2} started={3} lines={4} errorBlocks={5} ours={6}" -f `
         $found.Path, $found.Status, $found.ProcessId, $found.Started, $found.ScannedLines, $found.ErrorBlocks, $found.Messages.Count)
+    if ($found.StopLoggingMessage) { Write-Host "  $($found.StopLoggingMessage)" }
+    Write-Host "messages=$($found.TotalMessages)"
     foreach ($message in $found.Messages) { Write-Host "  ERROR $message" }
 
     exit ($(if ($found.Messages.Count -gt 0 -or $found.Status -ne 'ok') { 1 } else { 0 }))
@@ -586,6 +608,7 @@ try {
     $reportDeadline = (Get-Date).AddSeconds($TimeoutSec)
     $report = $null
     while ((Get-Date) -lt $reportDeadline) {
+        Assert-LabHealthy
         if (Test-Path -LiteralPath $latestReport) {
             try {
                 $report = Get-Content -LiteralPath $latestReport -Raw | ConvertFrom-Json
@@ -605,8 +628,12 @@ try {
         Start-Sleep -Milliseconds 500
     }
 
+    Assert-LabHealthy
     if (-not $report) {
         throw "No report appeared within $TimeoutSec s. The run may still be going; check $resultDir."
+    }
+    if ($report.run -ne $beginJson.run) {
+        throw "Report run id mismatch: expected '$($beginJson.run)', got '$($report.run)'. No matching report appeared within $TimeoutSec s."
     }
 
     $elapsed = ((Get-Date) - $callStarted).TotalSeconds
@@ -664,15 +691,18 @@ try {
     if ($PlayerLog) { $logPaths.Current = $PlayerLog }
     $pidForRun = Get-LabPid
 
-    # The log covers the whole process, so a repeat call against the same instance would report the
-    # errors of an earlier call again. Read only what was appended since the last scan of this pid.
+    # Resume only after the last passing gate; failed calls must keep their errors visible.
     $scanStatePath = Join-Path $resultDir ("logscan-{0}.json" -f $pidForRun)
     $skipLines = 0
     if ((Test-Path -LiteralPath $scanStatePath) -and (Test-Path -LiteralPath $logPaths.Current)) {
         try {
             $previousScan = Get-Content -LiteralPath $scanStatePath -Raw | ConvertFrom-Json
             $logLength = (Get-Item -LiteralPath $logPaths.Current).Length
-            if ($previousScan.path -eq $logPaths.Current -and $logLength -ge [long]$previousScan.length) {
+            $startedLine = Get-Content -LiteralPath $logPaths.Current -Encoding utf8 -TotalCount 20 |
+                Where-Object { $_.StartsWith('Started:') } | Select-Object -First 1
+            $logStarted = if ($startedLine) { $startedLine.Substring('Started:'.Length).Trim() } else { '' }
+            if ($previousScan.started -and $previousScan.started -ceq $logStarted `
+                -and $previousScan.path -eq $logPaths.Current -and $logLength -ge [long]$previousScan.length) {
                 $skipLines = [int]$previousScan.lines
             }
         }
@@ -695,6 +725,8 @@ try {
         'missing' { $diskGate = 'unverified'; $diskNote = "log file not found: $($logPaths.Current)" }
         'empty' { $diskGate = 'unverified'; $diskNote = "log file is empty (nothing was verified): $($logPaths.Current)" }
         'unreadable' { $diskGate = 'unverified'; $diskNote = "log has no process header: $($logPaths.Current)" }
+        'logging-stopped' { $diskGate = 'unverified'; $diskNote = $disk.StopLoggingMessage }
+        'logging-limit' { $diskGate = 'unverified'; $diskNote = "log has $($disk.TotalMessages) messages (guard: 9000); near the global 10000-message stop-logging limit, continued logging cannot be verified. Restart the lab." }
         'ok' {
             if ($disk.ProcessId -ne $pidForRun) {
                 $diskGate = 'unverified'
@@ -706,6 +738,7 @@ try {
     $diskColor = if ($diskGate -eq 'ok' -and $disk.Messages.Count -eq 0) { 'Green' } else { 'Red' }
     Write-Host ("status={0} pid={1} started={2} lines={3} (new this call={4}) errorBlocks={5} exempted={6} ourErrors={7}" -f `
         $diskGate, $disk.ProcessId, $disk.Started, $disk.TotalLines, $disk.ScannedLines, $disk.ErrorBlocks, $disk.Exempted, $disk.Messages.Count) -ForegroundColor $diskColor
+    Write-Host "messages=$($disk.TotalMessages)"
     if ($diskNote) { Write-Host "  $diskNote" -ForegroundColor Red }
 
     # One failure list: the disk log covers the whole process (including mod loading, which the
@@ -723,12 +756,6 @@ try {
 
     foreach ($sample in @($report.load.errorSamples)) {
         if (-not $sample) { continue }
-        # Old-save class names are unsupported; they are not this run's failures.
-        if (($sample -match 'WhisperOfTheForest\.Experimental\.') -or
-            ($sample -match "Can't load abstract class Verse\.(GameComponent|MapComponent)")) {
-            continue
-        }
-
         $key = Get-LogMessageKey $sample
         if ($logKeys.ContainsKey($key)) { continue }
         $logKeys[$key] = $true
@@ -744,17 +771,6 @@ try {
         Write-Host "  ERROR $failure" -ForegroundColor Red
     }
 
-    # Remember how far this pid's log was read, so the next call on the same instance starts after it.
-    $logLengthNow = 0
-    if (Test-Path -LiteralPath $logPaths.Current) {
-        $logLengthNow = (Get-Item -LiteralPath $logPaths.Current).Length
-    }
-    [pscustomobject]@{
-        path = $logPaths.Current
-        lines = $disk.TotalLines
-        length = $logLengthNow
-    } | ConvertTo-Json | Set-Content -LiteralPath $scanStatePath -Encoding utf8
-
     $diskReport = Join-Path $resultDir ($report.run + '.disklog.json')
     [pscustomobject]@{
         run = $report.run
@@ -765,6 +781,8 @@ try {
         processId = $disk.ProcessId
         labProcessId = $pidForRun
         started = $disk.Started
+        totalLines = $disk.TotalLines
+        totalMessages = $disk.TotalMessages
         scannedLines = $disk.ScannedLines
         errorBlocks = $disk.ErrorBlocks
         exempted = $disk.Exempted
@@ -789,13 +807,24 @@ try {
     Add-Content -LiteralPath $ledger -Encoding utf8 -Value ("{0}`t{1}`t{2}`t{3}`t{4:F1}`t{5:F1}`t{6}`t{7}" -f `
         $report.run, $(if ($Filter) { $Filter } else { '*' }), $report.summary.total, $report.summary.failed, $runSeconds, $elapsed, $rebuilt, $wasReused)
 
-    $failed = ($report.summary.failed -gt 0) -or (-not $report.load.passed) `
+    $logSnapshotMissing = $null -eq $report.load.logErrorsDuringRun -or $null -eq $report.load.logErrorsDuringLoad `
+        -or $null -eq $report.load.ownErrorsDuringRun -or $null -eq $report.load.ownErrorsDuringLoad
+    if ($logSnapshotMissing) {
+        Write-Host 'FAIL: run/load log snapshot missing; errors are unverified, not zero.' -ForegroundColor Red
+    }
+    $failed = ($report.summary.failed -gt 0) -or (-not $report.load.passed) -or $logSnapshotMissing `
         -or ([int]$report.load.ownErrorsDuringLoad -gt 0) -or ([int]$report.load.ownErrorsDuringRun -gt 0) `
         -or ($diskGate -ne 'ok') -or ($logFailures.Count -gt 0)
     if ($failed) {
         $global:LASTEXITCODE = 1
     }
     else {
+        [pscustomobject]@{
+            path = $logPaths.Current
+            started = $disk.Started
+            lines = $disk.TotalLines
+            length = (Get-Item -LiteralPath $logPaths.Current).Length
+        } | ConvertTo-Json | Set-Content -LiteralPath $scanStatePath -Encoding utf8
         $global:LASTEXITCODE = 0
     }
 }

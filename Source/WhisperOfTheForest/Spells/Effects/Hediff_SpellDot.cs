@@ -4,8 +4,7 @@ using Verse;
 namespace WhisperOfTheForest.Spells
 {
     /// <summary>
-    /// A wound that keeps damaging its pawn for a while: the sustained form of Harm and the
-    /// non-spreading burn behind the Sensitive variant of Ignite. The Def picks the damage type and
+    /// A wound that keeps damaging its pawn for a while. The Def picks the damage type and
     /// look; the spell writes the per-pulse amount, the interval and the instigator into the instance
     /// (and they are scribed, so a save mid-burn keeps ticking the same way).
     /// </summary>
@@ -16,6 +15,7 @@ namespace WhisperOfTheForest.Spells
         public float armorPenetration;
         public int pulseIntervalTicks;
         public int nextPulseTick;
+        public int suppressedUntilTick;
         public Pawn instigator;
 
         public override void PostAdd(DamageInfo? dinfo)
@@ -42,6 +42,7 @@ namespace WhisperOfTheForest.Spells
             }
 
             nextPulseTick = now + pulseIntervalTicks;
+            if (now <= suppressedUntilTick) return;
             pawn.TakeDamage(new DamageInfo(
                 damageDef,
                 damagePerPulse,
@@ -61,6 +62,7 @@ namespace WhisperOfTheForest.Spells
             Scribe_Values.Look(ref armorPenetration, "armorPenetration", 0f);
             Scribe_Values.Look(ref pulseIntervalTicks, "pulseIntervalTicks", 0);
             Scribe_Values.Look(ref nextPulseTick, "nextPulseTick", 0);
+            Scribe_Values.Look(ref suppressedUntilTick, "suppressedUntilTick", 0);
             Scribe_References.Look(ref instigator, "instigator");
         }
     }

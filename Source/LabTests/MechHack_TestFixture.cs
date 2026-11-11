@@ -9,6 +9,8 @@ namespace WhisperOfTheForest.LabTests
 {
     internal static class MechHack_TestFixture
     {
+        public static HackGlyphDef Tuning => (HackGlyphDef)TestContext.Glyph("WotF_Effect_Hack");
+
         public static Pawn SpawnMech(TestContext t, int x, int z)
         {
             Pawn mech = PawnGenerator.GeneratePawn(new PawnGenerationRequest(
@@ -17,7 +19,7 @@ namespace WhisperOfTheForest.LabTests
             GenSpawn.Spawn(mech, t.Arena.Cell(x, z), t.Map, WipeMode.Vanish);
             t.Arena.Track(mech);
             mech.jobs.StartJob(JobMaker.MakeJob(JobDefOf.Wait_MaintainPosture,
-                MechHackService.Tuning.maxTicks + MechHackService.Tuning.controlTicks), JobCondition.InterruptForced);
+                Tuning.maxTicks + Tuning.controlTicks), JobCondition.InterruptForced);
             return mech;
         }
 
@@ -37,7 +39,7 @@ namespace WhisperOfTheForest.LabTests
             t.Expect(cast.targetingParams.validator(new TargetInfo(mech)), "hack gizmo rejected target");
             cast.action(mech);
             t.Expect(t.StepUntil(() => mech.health.hediffSet.HasHediff(MechHackService.AssimilationDef),
-                MechHackService.Tuning.maxTicks), "hack never reached assimilation");
+                Tuning.maxTicks), "hack never reached assimilation");
         }
 
         public static void Draft(TestContext t, Pawn mech)

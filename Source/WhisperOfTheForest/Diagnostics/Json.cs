@@ -72,7 +72,7 @@ namespace WhisperOfTheForest
         {
             if (float.IsNaN(value) || float.IsInfinity(value))
             {
-                return "null";
+                throw new ArgumentOutOfRangeException(nameof(value), value, "JSON numbers must be finite.");
             }
 
             return value.ToString("0.###", CultureInfo.InvariantCulture);

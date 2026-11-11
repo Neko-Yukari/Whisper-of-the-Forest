@@ -15,7 +15,7 @@ namespace WhisperOfTheForest
         private readonly List<SpellGlyphDef> visibleGlyphs = new List<SpellGlyphDef>();
 
         /// <summary>Visible runes per <see cref="SpellGlyphKind"/>, for the group headings.</summary>
-        private readonly int[] visibleKindCounts = new int[4];
+        private readonly int[] visibleKindCounts = new int[CatalogLayout.Kinds.Length];
 
         /// <summary>Catalogue rune under the mouse this frame; the detail panel describes it.</summary>
         private SpellGlyphDef catalogHover;
@@ -43,9 +43,11 @@ namespace WhisperOfTheForest
         private void DrawCategoryRow(Rect rect)
         {
             CategoryButton(CatalogLayout.CategoryTab(rect, 0), null, "WotF_Spellbook.CategoryAll");
-            CategoryButton(CatalogLayout.CategoryTab(rect, 1), SpellGlyphKind.Form, "WotF_Spellbook.CategoryForm");
-            CategoryButton(CatalogLayout.CategoryTab(rect, 2), SpellGlyphKind.Effect, "WotF_Spellbook.CategoryEffect");
-            CategoryButton(CatalogLayout.CategoryTab(rect, 3), SpellGlyphKind.Augment, "WotF_Spellbook.CategoryAugment");
+            for (int i = 0; i < CatalogLayout.Kinds.Length; i++)
+            {
+                SpellGlyphKind kind = CatalogLayout.Kinds[i];
+                CategoryButton(CatalogLayout.CategoryTab(rect, i + 1), kind, "WotF_Spellbook.Category" + kind);
+            }
         }
 
         private void CategoryButton(Rect rect, SpellGlyphKind? kind, string labelKey)

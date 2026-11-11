@@ -26,20 +26,23 @@ namespace WhisperOfTheForest.Spells
     {
         private SpellFieldMode mode;
         private Pawn caster;
-        private List<SpellPlanStep> payload = new List<SpellPlanStep>();
+        private List<SpellEffect> payload = new List<SpellEffect>();
         private float radius;
         private int intervalTicks;
         private int nextPulseTick;
         private int expiresTick;
 
-        public void Configure(SpellFieldMode mode, Pawn caster, SpellPlanStep step)
+        internal IReadOnlyList<SpellEffect> Payload => payload;
+
+        public void Configure(SpellFieldMode mode, Pawn caster, IReadOnlyList<SpellEffect> steps,
+            int lifetimeTicks, float radius, int intervalTicks)
         {
             this.mode = mode;
             this.caster = caster;
-            payload = SpellExecutor.CopySteps(step.payload?.steps);
-            radius = step.radius;
-            intervalTicks = step.pulseIntervalTicks;
-            expiresTick = Find.TickManager.TicksGame + step.durationTicks;
+            payload = SpellExecutor.CopySteps(steps);
+            this.radius = radius;
+            this.intervalTicks = intervalTicks;
+            expiresTick = Find.TickManager.TicksGame + lifetimeTicks;
             nextPulseTick = Find.TickManager.TicksGame + intervalTicks;
         }
 
@@ -130,9 +133,11 @@ namespace WhisperOfTheForest.Spells
             Scribe_Values.Look(ref nextPulseTick, "nextPulseTick", 0);
             Scribe_Values.Look(ref expiresTick, "expiresTick", 0);
 
+            SpellEffect.CheckLoaded(payload, "Thing_SpellField");
+
             if (payload == null)
             {
-                payload = new List<SpellPlanStep>();
+                payload = new List<SpellEffect>();
             }
         }
     }

@@ -26,6 +26,7 @@
   <WotF_UI.SectionEntry>Floating entry</WotF_UI.SectionEntry>
   <WotF_UI.ShowFloatingEntry>Show the bottom-right floating entry</WotF_UI.ShowFloatingEntry>
   <WotF_UI.DebugLog>Log per-object debug lines (turn on while diagnosing)</WotF_UI.DebugLog>
+  <WotF_UI.UnlockAllGlyphs>Unlock every rune (development)</WotF_UI.UnlockAllGlyphs>
   <WotF_UI.ResetEntryPosition>Reset position</WotF_UI.ResetEntryPosition>
   <WotF_UI.ResetEntryPositionTip>Puts the floating entry back above the vanilla play settings row in the bottom right corner.</WotF_UI.ResetEntryPositionTip>
   <WotF_UI.EntryHint>Drag the entry to move it, click it to open this window. The entry stays after the window is closed. If the entry is hidden, reopen this window from the bottom tech lab button.</WotF_UI.EntryHint>

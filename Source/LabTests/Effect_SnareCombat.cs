@@ -24,15 +24,15 @@ namespace WhisperOfTheForest.LabTests
         private static void Check(TestContext t, bool ai)
         {
             string mode = ai ? "ai" : "drafted";
-            Pawn caster = t.SpawnCaster(8, 8);
+            Pawn caster = t.SpawnCaster(8, 5);
             Pawn target = PawnGenerator.GeneratePawn(new PawnGenerationRequest(PawnKindDefOf.Colonist,
                 Faction.OfPlayer, canGeneratePawnRelations: false, mustBeCapableOfViolence: true,
                 forceNoGear: true));
-            GenSpawn.Spawn(target, t.Arena.Cell(10, 8), t.Map, WipeMode.Vanish);
+            GenSpawn.Spawn(target, t.Arena.Cell(10, 5), t.Map, WipeMode.Vanish);
             t.Arena.Track(target);
             target.drafter.Drafted = true;
             t.Note(mode + "ShootingDisabled", target.skills.GetSkill(SkillDefOf.Shooting).TotallyDisabled);
-            Pawn enemy = ai ? caster : t.SpawnTarget(14, 10);
+            Pawn enemy = ai ? caster : t.SpawnTarget(14, 7);
             Lord lord = null;
             if (ai)
             {
@@ -46,14 +46,15 @@ namespace WhisperOfTheForest.LabTests
             {
                 enemy.drafter.Drafted = false;
                 enemy.SetFaction(Faction.OfAncientsHostile);
-                enemy.jobs.StartJob(JobMaker.MakeJob(JobDefOf.Wait_MaintainPosture, TestContext.Glyph("WotF_Effect_Snare").durationTicks * 3),
+                enemy.jobs.StartJob(JobMaker.MakeJob(JobDefOf.Wait_MaintainPosture, ((SnareGlyphDef)TestContext.Glyph("WotF_Effect_Snare")).rootDurationTicks * 3),
                     JobCondition.InterruptForced);
             }
             target.skills.GetSkill(SkillDefOf.Shooting).Level = 20;
             target.equipment.AddEquipment((ThingWithComps)ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed("Gun_Autopistol")));
 
             IntVec3 from = target.Position;
-            t.WalkTo(target, t.Arena.Cell(10, 22), 1);
+            // Keep the entire movement and firing scene on the arena's cleared concrete.
+            t.WalkTo(target, t.Arena.Cell(40, 5), 1);
             t.Expect(t.StepUntil(() => target.Position != from, 120), mode + " did not start walking");
             t.Measure(mode + "BeforeHit", target.Position + " job=" + target.CurJobDef?.defName);
             t.Expect(target.CurJobDef == JobDefOf.Goto && target.pather.Moving, mode + " fixture was not walking Goto");
@@ -67,7 +68,7 @@ namespace WhisperOfTheForest.LabTests
             t.Expect(cast.targetingParams.validator(new TargetInfo(target)), "snare target rejected by gizmo");
             cast.action(target);
             HediffDef snare = DefDatabase<HediffDef>.GetNamed(SpellEffectDefs.HediffEnsnare);
-            int duration = TestContext.Glyph("WotF_Effect_Snare").durationTicks;
+            int duration = ((SnareGlyphDef)TestContext.Glyph("WotF_Effect_Snare")).rootDurationTicks;
             bool hit = t.StepUntil(() => target.health.hediffSet.HasHediff(snare), duration * 2);
             t.Expect(hit, mode + " snare did not hit moving target");
             if (hit)
@@ -77,7 +78,11 @@ namespace WhisperOfTheForest.LabTests
                 t.Measure(mode + "AtHit", stopped + " job=" + jobAtHit + " downed=" + target.Downed);
                 t.Measure(mode + "JobIdentity", movingJobId + " -> " + target.CurJob?.loadID
                     + " destination=" + target.CurJob?.targetA + " giver=" + target.CurJob?.jobGiver);
-                t.Note(mode + "CanShootAtHit", target.equipment.PrimaryEq.PrimaryVerb.CanHitTarget(enemy));
+                Verb weapon = target.equipment.PrimaryEq.PrimaryVerb;
+                bool canShoot = weapon.CanHitTarget(enemy);
+                int hitTick = t.Tick;
+                t.Note(mode + "CanShootAtHit", canShoot);
+                t.Expect(canShoot, mode + " cannot shoot the nearby enemy after snare hit");
                 t.Expect(target.CurJobDef != JobDefOf.Goto, mode + " retained Goto after snare hit");
                 t.Expect(!target.Downed, mode + " was downed by snare");
                 float healthBefore = enemy.health.summaryHealth.SummaryHealthPercent;
@@ -113,11 +118,25 @@ namespace WhisperOfTheForest.LabTests
                 t.Note(mode + "ObservedTicks", ticks);
                 t.Note(mode + "JobChanges", changes);
                 t.Measure(mode + "Jobs", jobs.ToString());
+                int shotAfterHitTicks = weapon.LastShotTick - hitTick;
+                bool firedWhileSnared = shotAfterHitTicks > 0 && shotAfterHitTicks < ticks;
+                t.Note(mode + "ShotAfterHitTicks", shotAfterHitTicks);
+                t.Measure(mode + "ProjectileImpact", "not captured");
                 t.Note(mode + "Retaliated", retaliated);
+                t.Note(mode + "FiredWhileSnared", firedWhileSnared);
+                t.Note(mode + "HitTick", hitTick);
+                t.Measure(mode + "CurrentVerbTarget", weapon.CurrentTarget.ToString());
+                t.Note(mode + "LastShotTick", target.equipment.PrimaryEq.PrimaryVerb.LastShotTick);
+                t.Note(mode + "ObservationEndTick", t.Tick);
+                t.Measure(mode + "Enemy", enemy + " at " + enemy.Position);
+                t.Measure(mode + "ShooterHediffs", TestContext.HediffDump(target));
                 t.Measure(mode + "VictimHealth", healthBefore + " -> " + enemy.health.summaryHealth.SummaryHealthPercent);
                 t.Measure(mode + "Position", stopped + " -> " + target.Position);
                 t.Expect(stayed, mode + " moved during snare");
-                t.Expect(retaliated, mode + " did not automatically retaliate while snared");
+                // AI may choose another hostile or miss; LastShotTick proves a real projectile launch.
+                // The drafted branch still checks actual damage on its designated victim.
+                t.Expect(ai ? firedWhileSnared : retaliated, mode + " did not automatically retaliate while snared"
+                    + ": hit=" + hitTick + " lastShot=" + weapon.LastShotTick + " delta=" + shotAfterHitTicks + " window=" + ticks);
                 // One transition to combat and one renewal is enough in this sub-expiry window.
                 t.Expect(changes <= 2, mode + " repeatedly switched jobs: " + jobs);
                 t.Measure(mode + "JobGiversDuringSnare", string.Join(", ", givers.Select(pair => pair.Key + "=" + pair.Value)));

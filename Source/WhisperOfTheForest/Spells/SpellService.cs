@@ -223,15 +223,10 @@ namespace WhisperOfTheForest.Spells
                 return false;
             }
 
-            SpellCastPlan plan = SpellCompiler.Compile(castRecipe, out reason);
+            SpellCastPlan plan = SpellCompiler.Compile(castRecipe, out reason, staff);
             if (plan == null)
             {
                 return false;
-            }
-
-            if (staff != null)
-            {
-                staff.ApplyEffects(plan);
             }
 
             return SpellCastingService.Begin(pawn, plan, target, out reason);
@@ -383,10 +378,10 @@ namespace WhisperOfTheForest.Spells
                 return false;
             }
 
-            if (plan.form == SpellFormKind.Railgun)
+            if (plan.form == SpellFormKind.Special)
             {
                 // A composite form owns its own aim limit; 0 or less is the whole map.
-                return SpellAimRange.Within(plan.railgun.range, origin.x, origin.z, pick.Cell.x, pick.Cell.z);
+                return SpellAimRange.Within(plan.Special.Range, origin.x, origin.z, pick.Cell.x, pick.Cell.z);
             }
 
             return IsTargetableFrom(caster, plan.form, plan.range, origin, pick);
@@ -502,7 +497,7 @@ namespace WhisperOfTheForest.Spells
             AbilityDef def = DefDatabase<AbilityDef>.GetNamedSilentFail(SpellDefs.CastAbilityDefName);
             if (def == null)
             {
-                SpellDiagnostics.ErrorOnce("ability def " + SpellDefs.CastAbilityDefName
+                SpellDiagnostics.Error("ability def " + SpellDefs.CastAbilityDefName
                                            + " is missing; no pawn can open the spellbook.");
                 return;
             }

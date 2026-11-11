@@ -17,7 +17,7 @@ namespace WhisperOfTheForest.Spells
     public class Thing_SpellOrbit : Thing
     {
         private Pawn caster;
-        private List<SpellPlanStep> payload = new List<SpellPlanStep>();
+        private List<SpellEffect> payload = new List<SpellEffect>();
         private float distance;
         private float angleDegrees;
         private float degreesPerSecond;
@@ -119,6 +119,7 @@ namespace WhisperOfTheForest.Spells
             base.ExposeData();
             Scribe_References.Look(ref caster, "caster");
             Scribe_Collections.Look(ref payload, "payload", LookMode.Deep);
+            SpellEffect.CheckLoaded(payload, "Thing_SpellOrbit");
             Scribe_Values.Look(ref distance, "orbitDistance", 0f);
             Scribe_Values.Look(ref angleDegrees, "orbitAngle", 0f);
             Scribe_Values.Look(ref degreesPerSecond, "orbitDegreesPerSecond", 0f);
@@ -128,7 +129,7 @@ namespace WhisperOfTheForest.Spells
 
             if (payload == null)
             {
-                payload = new List<SpellPlanStep>();
+                payload = new List<SpellEffect>();
             }
 
             if (hitThingIds == null)

@@ -649,19 +649,6 @@ namespace WhisperOfTheForest
                 json.Append(",\"totalSeverity\":").Append(Json.Num(woundSeverity));
                 json.Append('}');
 
-                StrideSnapshot stride = StrideDiagnostics.GetSnapshot(pawn);
-                json.Append(",\"stride\":{");
-                json.Append("\"walked\":").Append(Json.Num(stride.WalkedCells));
-                json.Append(",\"blinked\":").Append(Json.Num(stride.BlinkedCells));
-                json.Append(",\"blocked\":").Append(Json.Num(stride.BlockedHops));
-                json.Append(",\"terrainCellsFreed\":").Append(Json.Num(stride.TerrainCellsFreed));
-                json.Append(",\"lastBlock\":").Append(Json.Str(stride.LastBlockReason));
-                json.Append(",\"firstTick\":").Append(Json.Num(stride.FirstTick));
-                json.Append(",\"lastTick\":").Append(Json.Num(stride.LastTick));
-                json.Append(",\"terrainStride\":").Append(Json.Bool(StrideApparel.IsWearingTerrainStride(pawn)));
-                json.Append(",\"blinkStride\":").Append(Json.Bool(StrideApparel.IsWearingBlinkStride(pawn)));
-                json.Append('}');
-
                 json.Append(",\"cell\":").Append(CellState(pawn.Map, pawn.Position, pawn));
             }
 
@@ -2221,18 +2208,12 @@ namespace WhisperOfTheForest
                                 json.Append(',');
                             }
 
-                            SpellPlanStep step = plan.steps[i];
-                            json.Append('{');
-                            json.Append("\"effect\":").Append(Json.Str(step.effect.ToString()));
-                            json.Append(",\"amount\":").Append(Json.Num(step.amount));
-                            json.Append(",\"radius\":").Append(Json.Num(step.radius));
-                            json.Append(",\"amplifyStacks\":").Append(Json.Num(step.amplifyStacks));
-                            json.Append(",\"aoeStacks\":").Append(Json.Num(step.aoeStacks));
-                            json.Append(",\"aoe\":").Append(Json.Bool(step.aoe));
-                            json.Append('}');
+                            AppendEffectFields(json, plan.steps[i]);
                         }
 
-                        json.Append("],\"range\":").Append(Json.Num(plan.range));
+                        json.Append("],\"compile\":");
+                        AppendCompileStacks(json, recipe);
+                        json.Append(",\"range\":").Append(Json.Num(plan.range));
                         json.Append(",\"missileCount\":").Append(Json.Num(plan.projectile != null ? plan.projectile.missileCount : 0));
                         json.Append(",\"missileSpeed\":").Append(Json.Num(plan.projectile != null ? plan.projectile.speedCellsPerSecond : 0f));
                         json.Append(",\"pierceStacks\":").Append(Json.Num(plan.pierceStacks));
@@ -2252,6 +2233,44 @@ namespace WhisperOfTheForest
 
             AppendSpellbookState(json, component, pawn, stack);
             return Ok(id, json.ToString());
+        }
+
+        private static void AppendEffectFields(StringBuilder json, SpellEffect effect)
+        {
+            json.Append('{');
+            json.Append("\"type\":").Append(Json.Str(effect.DiagnosticName));
+            PropertyInfo[] properties = effect.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            for (int i = 0; i < properties.Length; i++)
+            {
+                object value = properties[i].GetValue(effect);
+                json.Append(',').Append(Json.Str(properties[i].Name)).Append(':');
+                if (value is string text) json.Append(Json.Str(text));
+                else if (value is bool flag) json.Append(Json.Bool(flag));
+                else if (value is float number) json.Append(Json.Num(number));
+                else if (value is int count) json.Append(Json.Num(count));
+                else json.Append("null");
+            }
+
+            json.Append('}');
+        }
+
+        private static void AppendCompileStacks(StringBuilder json, SpellRecipe recipe)
+        {
+            int amplify = 0;
+            int dampen = 0;
+            int aoe = 0;
+            for (int i = 0; i < recipe.glyphs.Count; i++)
+            {
+                SpellGlyphDef glyph = SpellDefs.Glyph(recipe.glyphs[i]);
+                if (glyph == null) continue;
+                if (glyph.defName == SpellDefs.AugmentAmplify) amplify++;
+                else if (glyph.defName == SpellDefs.AugmentDampen) dampen++;
+                else if (glyph.defName == SpellDefs.AugmentAoe) aoe++;
+            }
+
+            json.Append("{\"stacks\":{\"amplify\":").Append(amplify)
+                .Append(",\"dampen\":").Append(dampen)
+                .Append(",\"aoe\":").Append(aoe).Append("}}");
         }
 
         private static void RequireSpellbookComponent(GameComponent_Spellbook component)

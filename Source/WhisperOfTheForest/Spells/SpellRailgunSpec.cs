@@ -14,7 +14,7 @@ namespace WhisperOfTheForest.Spells
     /// The class lives in its own file so the glyph-config harness can compile the real
     /// SpellGlyphDef (which owns one of these) without pulling in the whole plan/serialization file.
     /// </summary>
-    public class SpellRailgunSpec : IExposable
+    public class SpellRailgunSpec : IExposable, ISpellSpecialSpec
     {
         /// <summary>Placeholder damage per hit; not a balance conclusion.</summary>
         public float damage = 120f;
@@ -30,6 +30,11 @@ namespace WhisperOfTheForest.Spells
 
         /// <summary>Semantic visual request name. The spell never names colours, beams or screens.</summary>
         public string vfxDef = SpellDefs.VfxRailgun;
+
+        public string Release(SpellCast cast) => RailgunCastService.Resolve(cast.map, cast.caster, cast.cell, this);
+        public float Range => range;
+        public void BeginChannel(SpellCast cast) => RailgunCastService.PlayCharge(
+            cast.map, cast.caster, cast.cell, this, cast.plan.timing.channelTicks);
 
         public void ExposeData()
         {

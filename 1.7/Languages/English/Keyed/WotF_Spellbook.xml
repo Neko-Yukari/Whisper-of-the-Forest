@@ -12,12 +12,14 @@
   <WotF_Spellbook.CategoryForm>Form</WotF_Spellbook.CategoryForm>
   <WotF_Spellbook.CategoryEffect>Effect</WotF_Spellbook.CategoryEffect>
   <WotF_Spellbook.CategoryAugment>Augment</WotF_Spellbook.CategoryAugment>
+  <WotF_Spellbook.CategorySuper>Supra</WotF_Spellbook.CategorySuper>
   <WotF_Spellbook.CatalogEmpty>No glyph matches this filter.</WotF_Spellbook.CatalogEmpty>
   <WotF_Spellbook.CatalogMissingDefs>No glyph defs were loaded. Check that the spellbook XML is active.</WotF_Spellbook.CatalogMissingDefs>
 
   <WotF_Spellbook.KindForm>Form</WotF_Spellbook.KindForm>
   <WotF_Spellbook.KindEffect>Effect</WotF_Spellbook.KindEffect>
   <WotF_Spellbook.KindAugment>Augment</WotF_Spellbook.KindAugment>
+  <WotF_Spellbook.KindSuper>Supra</WotF_Spellbook.KindSuper>
 
   <WotF_Spellbook.FieldName>Spell name</WotF_Spellbook.FieldName>
   <WotF_Spellbook.ChainHeader>Spell bar {0}/{1}</WotF_Spellbook.ChainHeader>

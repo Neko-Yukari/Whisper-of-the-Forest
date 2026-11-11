@@ -132,7 +132,7 @@ namespace WhisperOfTheForest.Testing
         private void Count(LogMessage message, int repeats, ref int errors, ref int ownErrors,
             ref int expectedCount, ref int unexpectedCount)
         {
-            if (repeats <= 0 || message.type != LogMessageType.Error || IsLegacy(message.text))
+            if (repeats <= 0 || message.type != LogMessageType.Error)
             {
                 return;
             }
@@ -185,21 +185,12 @@ namespace WhisperOfTheForest.Testing
         }
 
         /// <summary>
-        /// True when a log line names this mod, by tag, def or assembly name. The pre-rename
-        /// <c>WhisperOfTheForest.Experimental.*</c> namespace is an unsupported old save, not this
-        /// build, so its load errors are not counted.
+        /// True when a log line names this mod, by tag, def or assembly name.
         /// </summary>
         internal static bool IsOwn(string text)
         {
             return text != null
-                   && (text.Contains("WotF") || text.Contains("WhisperOfTheForest"))
-                   && !IsLegacy(text);
-        }
-
-        /// <summary>A pre-rename save names classes this build no longer has; not a current defect.</summary>
-        internal static bool IsLegacy(string text)
-        {
-            return text != null && text.Contains("WhisperOfTheForest.Experimental.");
+                   && (text.Contains("WotF") || text.Contains("WhisperOfTheForest"));
         }
 
         private static string Sample(string text)

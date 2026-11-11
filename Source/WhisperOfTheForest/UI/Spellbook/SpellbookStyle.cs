@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
@@ -150,8 +151,12 @@ namespace WhisperOfTheForest
                     return T("WotF_Spellbook.KindForm");
                 case SpellGlyphKind.Effect:
                     return T("WotF_Spellbook.KindEffect");
-                default:
+                case SpellGlyphKind.Augment:
                     return T("WotF_Spellbook.KindAugment");
+                case SpellGlyphKind.Super:
+                    return T("WotF_Spellbook.KindSuper");
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(kind), kind, null);
             }
         }
 
@@ -166,8 +171,10 @@ namespace WhisperOfTheForest
                     return new Color(0.64f, 0.31f, 0.09f, 1f);
                 case SpellGlyphKind.Augment:
                     return new Color(0.42f, 0.25f, 0.58f, 1f);
+                case SpellGlyphKind.Super:
+                    return new Color(0.65f, 0.15f, 0.25f, 1f);
                 default:
-                    return InkFaint;
+                    throw new ArgumentOutOfRangeException(nameof(kind), kind, null);
             }
         }
 

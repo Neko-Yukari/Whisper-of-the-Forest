@@ -9,7 +9,7 @@ namespace WhisperOfTheForest.Spells
         public Pawn caster;
         public IntVec3 cell;
         public int dueTick;
-        public List<SpellPlanStep> steps = new List<SpellPlanStep>();
+        public List<SpellEffect> steps = new List<SpellEffect>();
 
         public void ExposeData()
         {
@@ -17,10 +17,11 @@ namespace WhisperOfTheForest.Spells
             Scribe_Values.Look(ref cell, "cell");
             Scribe_Values.Look(ref dueTick, "dueTick", 0);
             Scribe_Collections.Look(ref steps, "steps", LookMode.Deep);
+            SpellEffect.CheckLoaded(steps, "SpellDelayedPayload");
 
             if (steps == null)
             {
-                steps = new List<SpellPlanStep>();
+                steps = new List<SpellEffect>();
             }
         }
     }
@@ -67,7 +68,7 @@ namespace WhisperOfTheForest.Spells
             }
         }
 
-        public void Schedule(Pawn caster, IntVec3 cell, int dueTick, List<SpellPlanStep> steps)
+        public void Schedule(Pawn caster, IntVec3 cell, int dueTick, IReadOnlyList<SpellEffect> steps)
         {
             if (pending == null)
             {

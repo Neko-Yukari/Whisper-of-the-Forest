@@ -22,7 +22,7 @@ namespace WhisperOfTheForest.LabTests
             t.Measure("channelJob", caster.CurJobDef?.defName);
             t.Expect(mech.stances.stunner.Stunned, "assimilating mech was not stunned");
             IntVec3 channelPosition = caster.Position;
-            t.Expect(t.StepUntil(() => MechHackService.IsTemporarilyControlled(mech), MechHackService.Tuning.maxTicks + 1),
+            t.Expect(t.StepUntil(() => MechHackService.IsTemporarilyControlled(mech), MechHack_TestFixture.Tuning.maxTicks + 1),
                 "assimilation did not transfer control");
             t.Expect(caster.Position == channelPosition, "channeler moved during assimilation");
             t.Step(2);
@@ -42,7 +42,7 @@ namespace WhisperOfTheForest.LabTests
             t.Expect(t.StepUntil(() => mech.Position != start, 120), "controlled mech did not obey move order");
             t.Measure("moved", start + " -> " + mech.Position);
 
-            t.Expect(t.StepUntil(() => !MechHackService.IsTemporarilyControlled(mech), MechHackService.Tuning.controlTicks + 1),
+            t.Expect(t.StepUntil(() => !MechHackService.IsTemporarilyControlled(mech), MechHack_TestFixture.Tuning.controlTicks + 1),
                 "temporary control did not expire");
             t.Measure("restoredFaction", mech.Faction?.def.defName);
             t.Note("draftedAfterExpiry", mech.Drafted);

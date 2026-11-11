@@ -67,12 +67,10 @@ if (-not (Test-Path -LiteralPath $outputDll)) {
 }
 
 $file = Get-Item -LiteralPath $outputDll
-$hash = (Get-FileHash -LiteralPath $outputDll -Algorithm SHA256).Hash.ToLowerInvariant()
 Write-Host ''
 Write-Host 'BUILD OK'
 Write-Host "dll=$($file.FullName)"
 Write-Host "size=$($file.Length)"
-Write-Host "sha256=$hash"
 
 $copied = Get-ChildItem -LiteralPath $outputDir -File | Where-Object {
     $_.Name -ne 'WhisperOfTheForest.dll'

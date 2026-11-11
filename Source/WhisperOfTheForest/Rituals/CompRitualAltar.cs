@@ -293,7 +293,7 @@ namespace WhisperOfTheForest.Rituals
                 return false;
             }
 
-            if (rune != null && GameComponent_Spellbook.IsUnlocked(rune))
+            if (rune != null && GameComponent_Spellbook.IsUnlockedInData(rune))
             {
                 Reject(silent, "WotF_Ritual_RuneAlreadyUnlocked".Translate(rune.LabelCap));
                 return false;
@@ -448,7 +448,7 @@ namespace WhisperOfTheForest.Rituals
             var options = new List<FloatMenuOption>();
             foreach (SpellGlyphDef glyph in DefDatabase<SpellGlyphDef>.AllDefsListForReading)
             {
-                if (!glyph.requiresUnlock || GameComponent_Spellbook.IsUnlocked(glyph))
+                if (!glyph.requiresUnlock || GameComponent_Spellbook.IsUnlockedInData(glyph))
                 {
                     continue;
                 }

@@ -13,11 +13,10 @@
 
   <!-- 效果：杀伤 -->
   <WotF_Effect_Harm.label>穿刺</WotF_Effect_Harm.label>
-  <WotF_Effect_Harm.description>对法术触及的目标造成奥术冲击伤害，伤害类型与奥术飞弹相同。接延时后变成总伤害相同的持续伤害。</WotF_Effect_Harm.description>
+  <WotF_Effect_Harm.description>对法术触及的目标造成奥术冲击伤害，伤害类型与奥术飞弹相同。</WotF_Effect_Harm.description>
   <WotF_Effect_Explosion.label>爆裂</WotF_Effect_Explosion.label>
   <WotF_Effect_Explosion.description>在法术落点产生一次原生爆炸。范围只扩大这一次爆炸；精细让爆裂不伤害建筑。</WotF_Effect_Explosion.description>
-  <WotF_Effect_Ignite.label>引燃</WotF_Effect_Ignite.label>
-  <WotF_Effect_Ignite.description>点燃目标。普通版本会生成能蔓延的真火；精细版本不生成火，只用不蔓延的灼烧状态造成伤害。</WotF_Effect_Ignite.description>
+
   <WotF_Effect_Lightning.label>落雷</WotF_Effect_Lightning.label>
   <WotF_Effect_Lightning.description>雷击造成 EMP 与灼烧伤害，并留下「受电」层数；目标身上层数越多，后续雷伤越高。对付机械族的主要手段。</WotF_Effect_Lightning.description>
   <WotF_Effect_ColdSnap.label>冰裂</WotF_Effect_ColdSnap.label>
@@ -61,11 +60,11 @@
   <WotF_Augment_AOE.label>范围</WotF_Augment_AOE.label>
   <WotF_Augment_AOE.description>把左侧效果扩大到附近的目标。每个目标只被作用一次，爆炸依然只发生一次。</WotF_Augment_AOE.description>
   <WotF_Augment_Extend.label>延时</WotF_Augment_Extend.label>
-  <WotF_Augment_Extend.description>延长左侧效果的持续时间；接在穿刺后面时，把一次打击变成总伤害相同的持续伤害。</WotF_Augment_Extend.description>
+  <WotF_Augment_Extend.description>延长左侧效果的持续时间。</WotF_Augment_Extend.description>
   <WotF_Augment_Shorten.label>缩时</WotF_Augment_Shorten.label>
   <WotF_Augment_Shorten.description>缩短左侧效果的持续时间。</WotF_Augment_Shorten.description>
   <WotF_Augment_Sensitive.label>精细</WotF_Augment_Sensitive.label>
-  <WotF_Augment_Sensitive.description>只保留可控的部分：爆裂不再伤害建筑，引燃不再生成会蔓延的真火。</WotF_Augment_Sensitive.description>
+  <WotF_Augment_Sensitive.description>只保留可控的部分：爆裂不再伤害建筑。</WotF_Augment_Sensitive.description>
   <WotF_Augment_BreakArmor.label>破甲</WotF_Augment_BreakArmor.label>
   <WotF_Augment_BreakArmor.description>提高左侧伤害类效果的穿甲。</WotF_Augment_BreakArmor.description>
   <WotF_Augment_Pierce.label>穿透</WotF_Augment_Pierce.label>

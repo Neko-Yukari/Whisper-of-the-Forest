@@ -19,7 +19,7 @@ namespace WhisperOfTheForest.Spells
             DamageDef def = ArcaneForce;
             if (def == null)
             {
-                SpellDiagnostics.ErrorOnce("spell damage def " + SpellDefs.ArcaneForceDamageDefName + " is missing; the hit was skipped.");
+                SpellDiagnostics.Error("spell damage def " + SpellDefs.ArcaneForceDamageDefName + " is missing; the hit was skipped.");
                 return false;
             }
 

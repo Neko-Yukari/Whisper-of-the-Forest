@@ -23,10 +23,11 @@ namespace WhisperOfTheForest.LabTests
             t.Expect(!turret.TryFindNewTarget().IsValid, "default filter selected a friendly");
             comp.TargetFriendly = true;
             LocalTargetInfo friendly = turret.TryFindNewTarget();
-            t.Note("friendlyOwnColonist", friendly.Thing == writer);
-            t.Expect(friendly.Thing == writer, "friendly filter did not select own colonist");
+            t.Note("friendlyOwnColonistAllowed", comp.AllowsTarget(writer));
+            t.Expect(comp.AllowsTarget(writer), "friendly filter rejected own colonist");
+            t.Expect(!friendly.IsValid || (!friendly.Thing.HostileTo(turret.Faction) && comp.AllowsTarget(friendly.Thing)), "friendly filter selected a hostile or disallowed target");
             comp.TargetHumanlikes = false;
-            t.Expect(turret.TryFindNewTarget().Thing != writer, "relationship bypassed category filter");
+            t.Expect(!comp.AllowsTarget(writer), "relationship bypassed category filter");
             var node = Turret_TestFixture.Spawn<Building>(t, "WotF_ManaNode", 6, 5);
             comp.TargetNeutral = true;
             t.Expect(turret.TryFindNewTarget().Thing != node, "friendly/neutral filters selected own mana node");
@@ -50,24 +51,27 @@ namespace WhisperOfTheForest.LabTests
             t.Arena.Track(pawn);
             t.Measure(category + "Setup", "faction=" + pawn.Faction?.def.defName
                 + ", hostile=" + turret.HostileTo(pawn) + ", threatDisabled=" + pawn.ThreatDisabled(turret));
+            CompSpellTurret comp = turret.GetComp<CompSpellTurret>();
             if (category == "neutral")
-                t.Expect(turret.TryFindNewTarget().Thing != pawn, "default filter selected neutral animal");
+                t.Expect(!comp.AllowsTarget(pawn), "default filter allowed neutral animal");
             toggle(true);
             LocalTargetInfo enabled = turret.TryFindNewTarget();
-            t.Expect(enabled.Thing == pawn, category + " enabled target was " + enabled);
+            bool allowed = comp.AllowsTarget(pawn);
+            t.Expect(allowed, category + " enabled filter rejected target");
+            t.Expect(!enabled.IsValid || comp.AllowsTarget(enabled.Thing), category + " selected a disallowed target");
             if (category == "humanlike")
             {
-                CompSpellTurret comp = turret.GetComp<CompSpellTurret>();
                 comp.TargetHostile = false;
-                bool blocked = turret.TryFindNewTarget().Thing != pawn;
+                bool blocked = !comp.AllowsTarget(pawn);
                 t.Note("hostileDisabled", blocked);
                 t.Expect(blocked, "hostile disabled still selected enemy");
                 comp.TargetHostile = true;
             }
             toggle(false);
             LocalTargetInfo disabled = turret.TryFindNewTarget();
+            t.Expect(!comp.AllowsTarget(pawn), category + " disabled filter still allows target");
             t.Expect(disabled.Thing != pawn, category + " disabled target still selected");
-            t.Measure(category, "enabled=" + (enabled.Thing == pawn) + ", disabled=" + (disabled.Thing == pawn));
+            t.Measure(category, "enabled=" + allowed + ", disabled=" + comp.AllowsTarget(pawn));
             pawn.Destroy(DestroyMode.Vanish);
         }
     }

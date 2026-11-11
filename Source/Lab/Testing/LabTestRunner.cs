@@ -275,6 +275,7 @@ namespace WhisperOfTheForest.Testing
                 }
 
                 CompleteRun();
+                throw;
             }
         }
 
@@ -657,13 +658,17 @@ namespace WhisperOfTheForest.Testing
 
         private static void CompleteOutcome()
         {
+            bool cleanupFailed = false;
             try
             {
                 state.Arena?.Dispose();
             }
             catch (Exception exception)
             {
-                Log.Warning("[WotF-Lab] arena cleanup failed: " + exception);
+                cleanupFailed = true;
+                string error = "test '" + state.Current.Name + "' arena cleanup failed: " + exception;
+                state.Context.Fail(error);
+                Log.Error("[WotF-Lab] " + error);
             }
 
             TestOutcome outcome = state.Outcome;
@@ -679,7 +684,11 @@ namespace WhisperOfTheForest.Testing
                 }
             }
 
-            if (state.Current.ExpectedFailure)
+            if (cleanupFailed)
+            {
+                outcome.Status = "failed";
+            }
+            else if (state.Current.ExpectedFailure)
             {
                 outcome.Status = failed ? "expectedFailure" : "unexpectedPass";
                 if (!failed)
@@ -824,6 +833,7 @@ namespace WhisperOfTheForest.Testing
             catch (Exception exception)
             {
                 Log.Error("[WotF-Lab] could not write the test report: " + exception);
+                throw;
             }
         }
 
@@ -842,14 +852,32 @@ namespace WhisperOfTheForest.Testing
                 .Property("tickEnd", Find.TickManager != null ? Find.TickManager.TicksGame : state.StartTick)
                 .Property("game", VersionLabel());
 
+            bool logsCaptured = state.RunLog != null && state.LoadLog != null;
             json.Key("load").StartObject()
-                .Property("passed", state.Load != null && state.Load.Passed)
-                .Property("defsChecked", state.Load?.DefsChecked ?? 0)
-                .Property("logErrorsDuringRun", state.RunLog?.Errors ?? 0)
-                .Property("logErrorsDuringLoad", state.LoadLog?.Errors ?? 0)
-                .Property("ownErrorsDuringRun", state.RunLog?.OwnErrors ?? 0)
-                .Property("ownErrorsDuringLoad", state.LoadLog?.OwnErrors ?? 0)
-                .Property("logTruncated", state.RunLog?.Truncated ?? false);
+                .Property("passed", state.Load != null && state.Load.Passed && logsCaptured)
+                .Property("defsChecked", state.Load?.DefsChecked ?? 0);
+            if (state.RunLog == null)
+            {
+                json.Property("logErrorsDuringRun", (string)null)
+                    .Property("ownErrorsDuringRun", (string)null)
+                    .Property("logTruncated", (string)null);
+            }
+            else
+            {
+                json.Property("logErrorsDuringRun", state.RunLog.Errors)
+                    .Property("ownErrorsDuringRun", state.RunLog.OwnErrors)
+                    .Property("logTruncated", state.RunLog.Truncated);
+            }
+            if (state.LoadLog == null)
+            {
+                json.Property("logErrorsDuringLoad", (string)null)
+                    .Property("ownErrorsDuringLoad", (string)null);
+            }
+            else
+            {
+                json.Property("logErrorsDuringLoad", state.LoadLog.Errors)
+                    .Property("ownErrorsDuringLoad", state.LoadLog.OwnErrors);
+            }
             json.Key("notes").StartArray();
             if (state.Load != null)
             {
@@ -898,6 +926,14 @@ namespace WhisperOfTheForest.Testing
 
             json.EndArray();
             json.Key("failures").StartArray();
+            if (state.RunLog == null)
+            {
+                json.Value("RunLog was not captured; run errors are unverified.");
+            }
+            if (state.LoadLog == null)
+            {
+                json.Value("LoadLog was not captured; load errors are unverified.");
+            }
             if (state.Load != null)
             {
                 foreach (string failure in state.Load.Failures)

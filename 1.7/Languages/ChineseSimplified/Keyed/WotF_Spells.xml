@@ -6,7 +6,7 @@
   <WotF_Spells.Reason.NoGlyphs>还没有编排符文：先放一个形式，再放至少一个效果。</WotF_Spells.Reason.NoGlyphs>
   <WotF_Spells.Reason.TooLong>这个法术的符文超过 {0} 个。</WotF_Spells.Reason.TooLong>
   <WotF_Spells.Reason.UnknownGlyph>未知符文：{0}</WotF_Spells.Reason.UnknownGlyph>
-  <WotF_Spells.Reason.FormMustBeFirst>第一个符文必须是形式（自身、接触、弹射物或环绕）。</WotF_Spells.Reason.FormMustBeFirst>
+  <WotF_Spells.Reason.FormMustBeFirst>第一个符文必须是形式（自身、接触、弹射物或环绕）或超位。</WotF_Spells.Reason.FormMustBeFirst>
   <WotF_Spells.Reason.OnlyOneForm>一个法术只能有一个形式。</WotF_Spells.Reason.OnlyOneForm>
   <WotF_Spells.Reason.NoEffect>法术至少需要一个效果，否则什么也不会发生。</WotF_Spells.Reason.NoEffect>
   <WotF_Spells.Reason.AmplifyNeedsEffect>强化左侧需要一个效果才能生效。</WotF_Spells.Reason.AmplifyNeedsEffect>
@@ -20,8 +20,8 @@
   <!-- ============================================================ 复合形式 -->
 
   <WotF_Spells.Reason.RailgunOutOfRange>轨道炮的 {0} 格射程内没有可以瞄准的东西。</WotF_Spells.Reason.RailgunOutOfRange>
-  <WotF_Spells.Reason.CompleteFormNoEffect>轨道炮符文本身就是一整个法术，不能再接效果符文。</WotF_Spells.Reason.CompleteFormNoEffect>
-  <WotF_Spells.Reason.OneForm>一个法术只有一个形式，而且必须放在第一位。</WotF_Spells.Reason.OneForm>
+  <WotF_Spells.Reason.CompleteFormNoEffect>超位符文本身就是一整个法术，不能再接效果符文。</WotF_Spells.Reason.CompleteFormNoEffect>
+  <WotF_Spells.Reason.OneForm>一个法术只能以一个形式或超位符文开头。</WotF_Spells.Reason.OneForm>
 
   <!-- ============================================================ 保存原因 -->
 
@@ -39,8 +39,8 @@
   <WotF_Spells.Reason.NoSpellbook>需要佩戴魔术书才能施法。</WotF_Spells.Reason.NoSpellbook>
   <WotF_Spells.Reason.SlotSealed>当前佩戴的魔术书打不开第 {0} 个书签；里面的法术仍然保留，换上书签更多的魔术书即可使用。</WotF_Spells.Reason.SlotSealed>
   <WotF_Spells.Reason.NotEnoughMana>魔力不足：需要 {0}，现有 {1}。</WotF_Spells.Reason.NotEnoughMana>
-  <WotF_Spells.Reason.NoNeuralHeat>这个小人没有神经热，无法承担这个法术的消耗。</WotF_Spells.Reason.NoNeuralHeat>
-  <WotF_Spells.Reason.NeuralHeatOverflow>再增加 {0} 点神经热就会超过上限。</WotF_Spells.Reason.NeuralHeatOverflow>
+  <WotF_Spells.Reason.NoNeuralHeat>这个小人没有心灵熵，无法承担这个法术的消耗。</WotF_Spells.Reason.NoNeuralHeat>
+  <WotF_Spells.Reason.NeuralHeatOverflow>再增加 {0} 点心灵熵就会超过上限。</WotF_Spells.Reason.NeuralHeatOverflow>
   <WotF_Spells.Reason.GlyphLocked>殖民地尚未解锁符文：{0}</WotF_Spells.Reason.GlyphLocked>
   <WotF_Spells.Reason.AlreadyCasting>这个小人正在施法。</WotF_Spells.Reason.AlreadyCasting>
   <WotF_Spells.Reason.NoGameComponent>魔术书在当前游戏中尚未就绪。</WotF_Spells.Reason.NoGameComponent>

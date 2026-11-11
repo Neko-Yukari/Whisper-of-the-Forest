@@ -12,12 +12,14 @@
   <WotF_Spellbook.CategoryForm>形式</WotF_Spellbook.CategoryForm>
   <WotF_Spellbook.CategoryEffect>效果</WotF_Spellbook.CategoryEffect>
   <WotF_Spellbook.CategoryAugment>增幅</WotF_Spellbook.CategoryAugment>
+  <WotF_Spellbook.CategorySuper>超位</WotF_Spellbook.CategorySuper>
   <WotF_Spellbook.CatalogEmpty>没有匹配的符文。</WotF_Spellbook.CatalogEmpty>
   <WotF_Spellbook.CatalogMissingDefs>未找到任何符文定义，请检查魔术书 XML 是否加载。</WotF_Spellbook.CatalogMissingDefs>
 
   <WotF_Spellbook.KindForm>形式</WotF_Spellbook.KindForm>
   <WotF_Spellbook.KindEffect>效果</WotF_Spellbook.KindEffect>
   <WotF_Spellbook.KindAugment>增幅</WotF_Spellbook.KindAugment>
+  <WotF_Spellbook.KindSuper>超位</WotF_Spellbook.KindSuper>
 
   <WotF_Spellbook.FieldName>法术名称</WotF_Spellbook.FieldName>
   <WotF_Spellbook.ChainHeader>法术栏 {0}/{1}</WotF_Spellbook.ChainHeader>
@@ -30,7 +32,7 @@
   <WotF_Spellbook.NoSelection>把鼠标停在目录或法术栏的符文上，这里会显示它的说明。点目录里的符文加入，点法术栏里的符文移除。</WotF_Spellbook.NoSelection>
   <WotF_Spellbook.Timing>前摇 {0}s · 引导 {1}s · 后摇 {2}s</WotF_Spellbook.Timing>
   <WotF_Spellbook.TimingTip>点“创建”时冻结进槽位的施法时间：前摇 {0} tick、引导 {1} tick、后摇 {2} tick（60 tick = 1 秒）。每个符文各加一份。前摇时可以移动，引导时减速，后摇时站定。</WotF_Spellbook.TimingTip>
-  <WotF_Spellbook.Cost>魔力 {0} · 神经热 {1}</WotF_Spellbook.Cost>
+  <WotF_Spellbook.Cost>魔力 {0} · 心灵熵 {1}</WotF_Spellbook.Cost>
   <WotF_Spellbook.Experience>经验 {0}</WotF_Spellbook.Experience>
   <WotF_Spellbook.GlyphTiming>+{0}s / +{1}s / +{2}s（前摇/引导/后摇）</WotF_Spellbook.GlyphTiming>
   <WotF_Spellbook.ClickToRemove>点击移除：{0}</WotF_Spellbook.ClickToRemove>

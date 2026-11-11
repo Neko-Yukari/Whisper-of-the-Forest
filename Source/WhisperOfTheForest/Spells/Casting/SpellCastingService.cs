@@ -249,10 +249,10 @@ namespace WhisperOfTheForest.Spells
                 }
             }
 
-            SpellRailgunSpec railgun = plan.railgun;
-            if (railgun != null && railgun.range > 0f && !caster.Position.InHorDistOf(cell, railgun.range))
+            ISpellSpecialSpec special = plan.Special;
+            if (special != null && special.Range > 0f && !caster.Position.InHorDistOf(cell, special.Range))
             {
-                reason = SpellText.TF("WotF_Spells.Reason.RailgunOutOfRange", railgun.range.ToString("0.#"));
+                reason = SpellText.TF("WotF_Spells.Reason.RailgunOutOfRange", special.Range.ToString("0.#"));
                 return false;
             }
 
@@ -320,13 +320,12 @@ namespace WhisperOfTheForest.Spells
         /// </summary>
         private static void BeginChannel(SpellCast cast)
         {
-            if (cast.plan.form != SpellFormKind.Railgun)
+            if (cast.plan.form != SpellFormKind.Special)
             {
                 return;
             }
 
-            RailgunCastService.PlayCharge(cast.map, cast.caster, cast.cell, cast.plan.railgun,
-                cast.plan.timing.channelTicks);
+            cast.plan.Special.BeginChannel(cast);
         }
 
         /// <summary>
@@ -355,10 +354,10 @@ namespace WhisperOfTheForest.Spells
 
             switch (plan.form)
             {
-                case SpellFormKind.Railgun:
+                case SpellFormKind.Special:
                 {
-                    string report = RailgunCastService.Resolve(map, caster, cast.cell, plan.railgun);
-                    SpellDiagnostics.Message("cast '" + plan.recipeName + "' released form=railgun aim="
+                    string report = plan.Special.Release(cast);
+                    SpellDiagnostics.Message("cast '" + plan.recipeName + "' released form=Special aim="
                                              + cast.cell + " " + report);
                     break;
                 }

@@ -13,11 +13,10 @@
 
   <!-- Effect: harm -->
   <WotF_Effect_Harm.label>harm</WotF_Effect_Harm.label>
-  <WotF_Effect_Harm.description>Arcane force damage to what the spell reaches. With Extend Time it becomes a sustained wound of the same total damage.</WotF_Effect_Harm.description>
+  <WotF_Effect_Harm.description>Arcane force damage to what the spell reaches.</WotF_Effect_Harm.description>
   <WotF_Effect_Explosion.label>explosion</WotF_Effect_Explosion.label>
   <WotF_Effect_Explosion.description>One native explosion at the spell's point. Area widens that single blast; Sensitive keeps it from damaging buildings.</WotF_Effect_Explosion.description>
-  <WotF_Effect_Ignite.label>ignite</WotF_Effect_Ignite.label>
-  <WotF_Effect_Ignite.description>Sets the target alight. The plain version starts spreading fire; Sensitive uses a non-spreading burn instead.</WotF_Effect_Ignite.description>
+
   <WotF_Effect_Lightning.label>lightning</WotF_Effect_Lightning.label>
   <WotF_Effect_Lightning.description>EMP and burn damage, plus a charge stack; later strikes hurt more for each stack already carried. The main answer to mechanoids.</WotF_Effect_Lightning.description>
   <WotF_Effect_ColdSnap.label>cold snap</WotF_Effect_ColdSnap.label>
@@ -61,11 +60,11 @@
   <WotF_Augment_AOE.label>area</WotF_Augment_AOE.label>
   <WotF_Augment_AOE.description>Widens the effect on its left over nearby targets. Each target is affected once, and an explosion still detonates once.</WotF_Augment_AOE.description>
   <WotF_Augment_Extend.label>extend time</WotF_Augment_Extend.label>
-  <WotF_Augment_Extend.description>Makes the effect last longer. On Harm it turns the one hit into a sustained wound of the same total damage.</WotF_Augment_Extend.description>
+  <WotF_Augment_Extend.description>Makes the effect last longer.</WotF_Augment_Extend.description>
   <WotF_Augment_Shorten.label>shorten time</WotF_Augment_Shorten.label>
   <WotF_Augment_Shorten.description>Makes the effect last a shorter time.</WotF_Augment_Shorten.description>
   <WotF_Augment_Sensitive.label>sensitive</WotF_Augment_Sensitive.label>
-  <WotF_Augment_Sensitive.description>Keeps only the controlled half: an explosion no longer damages buildings and an ignite no longer starts spreading fire.</WotF_Augment_Sensitive.description>
+  <WotF_Augment_Sensitive.description>Keeps only the controlled half: an explosion no longer damages buildings.</WotF_Augment_Sensitive.description>
   <WotF_Augment_BreakArmor.label>break armor</WotF_Augment_BreakArmor.label>
   <WotF_Augment_BreakArmor.description>Adds armour penetration to the damage effect on its left.</WotF_Augment_BreakArmor.description>
   <WotF_Augment_Pierce.label>pierce</WotF_Augment_Pierce.label>

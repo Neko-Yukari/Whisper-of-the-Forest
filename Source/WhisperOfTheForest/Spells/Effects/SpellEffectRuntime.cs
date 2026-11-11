@@ -20,7 +20,7 @@ namespace WhisperOfTheForest.Spells
             HediffDef def = DefDatabase<HediffDef>.GetNamedSilentFail(defName);
             if (def == null)
             {
-                SpellDiagnostics.ErrorOnce("hediff def " + defName + " is missing; that spell state was skipped.");
+                SpellDiagnostics.Error("hediff def " + defName + " is missing; that spell state was skipped.");
                 return null;
             }
 
@@ -28,7 +28,7 @@ namespace WhisperOfTheForest.Spells
             HediffComp_Disappears disappears = hediff.TryGetComp<HediffComp_Disappears>();
             if (disappears == null)
             {
-                SpellDiagnostics.ErrorOnce("hediff def " + defName + " has no Disappears comp; its duration was ignored.");
+                SpellDiagnostics.Error("hediff def " + defName + " has no Disappears comp; its duration was ignored.");
             }
             else if (durationTicks > 0)
             {
@@ -66,7 +66,7 @@ namespace WhisperOfTheForest.Spells
         /// A light source that expires on its own. The ThingDef owns the glower and lifespan comps;
         /// the cast supplies radius, colour and how long it lasts, all through the compiled step.
         /// </summary>
-        public static bool SpawnTemporaryLight(Map map, IntVec3 cell, SpellPlanStep step)
+        public static bool SpawnTemporaryLight(Map map, IntVec3 cell, MagelightEffect step)
         {
             if (!GenGrid.InBounds(cell, map))
             {
@@ -76,17 +76,17 @@ namespace WhisperOfTheForest.Spells
             ThingDef def = DefDatabase<ThingDef>.GetNamedSilentFail(SpellEffectDefs.ThingMagelight);
             if (def == null)
             {
-                SpellDiagnostics.ErrorOnce("thing def " + SpellEffectDefs.ThingMagelight + " is missing; no light was placed.");
+                SpellDiagnostics.Error("thing def " + SpellEffectDefs.ThingMagelight + " is missing; no light was placed.");
                 return false;
             }
 
             var light = (ThingWithComps)ThingMaker.MakeThing(def);
             CompGlower glower = light.GetComp<CompGlower>();
-            if (step.glowRadius > 0f)
+            if (step.LightRadius > 0f)
             {
-                glower.GlowRadius = step.glowRadius * step.magnitudeFactor;
+                glower.GlowRadius = step.LightRadius;
             }
-            if (!step.glowColor.NullOrEmpty() && ColorUtility.TryParseHtmlString(step.glowColor, out Color color))
+            if (!step.LightColor.NullOrEmpty() && ColorUtility.TryParseHtmlString(step.LightColor, out Color color))
             {
                 glower.GlowColor = new ColorInt(color);
             }
@@ -94,13 +94,51 @@ namespace WhisperOfTheForest.Spells
             // CompLifespan counts up from age; starting part-way through its Def-configured lifetime
             // is how one Def serves every duration the spell can freeze.
             CompLifespan lifespan = light.GetComp<CompLifespan>();
-            if (step.durationTicks > 0 && lifespan.Props.lifespanTicks > step.durationTicks)
+            if (step.LifetimeTicks > 0 && lifespan.Props.lifespanTicks > step.LifetimeTicks)
             {
-                lifespan.age = lifespan.Props.lifespanTicks - step.durationTicks;
+                lifespan.age = lifespan.Props.lifespanTicks - step.LifetimeTicks;
             }
 
             GenSpawn.Spawn(light, cell, map);
             return true;
+        }
+
+        internal static int ApplyTimedState(int durationTicks, System.Collections.Generic.List<Thing> targets, string hediffDefName)
+        {
+            int affected = 0;
+            foreach (Thing target in targets)
+            {
+                if (target is Pawn pawn)
+                {
+                    AddTimedHediff(pawn, hediffDefName, durationTicks);
+                    affected++;
+                }
+            }
+            return affected;
+        }
+
+        internal static int ApplyMove(float distance, System.Collections.Generic.List<Thing> targets, IntVec3 cell, Map map, bool toward)
+        {
+            int affected = 0;
+            foreach (Thing target in targets)
+                if (target is Pawn pawn && TryMovePawn(pawn, cell, distance, toward, map)) affected++;
+            return affected;
+        }
+
+        internal static int SpawnField(SpellPayload payload, int lifetimeTicks, float radius, int intervalTicks,
+            SpellFieldMode mode, Pawn caster, IntVec3 cell, Map map)
+        {
+            if (!GenGrid.InBounds(cell, map) || payload == null || payload.steps.Count == 0) return 0;
+            ThingDef def = DefDatabase<ThingDef>.GetNamedSilentFail(SpellEffectDefs.ThingSpellField);
+            if (def == null)
+            {
+                SpellDiagnostics.Error("thing def " + SpellEffectDefs.ThingSpellField + " is missing; the field was not placed.");
+                return 0;
+            }
+            var field = (Thing_SpellField)ThingMaker.MakeThing(def);
+            field.Configure(mode, caster, payload.steps, lifetimeTicks, radius, intervalTicks);
+            GenSpawn.Spawn(field, cell, map);
+            return 1;
         }
 
         /// <summary>Moves a pawn to a standable, revealed cell and keeps its pathing state sane.</summary>
@@ -141,7 +179,7 @@ namespace WhisperOfTheForest.Spells
             ThingDef flyerDef = DefDatabase<ThingDef>.GetNamedSilentFail(SpellEffectDefs.ThingPawnFlyer);
             if (flyerDef == null)
             {
-                SpellDiagnostics.ErrorOnce("thing def " + SpellEffectDefs.ThingPawnFlyer + " is missing; nothing was moved.");
+                SpellDiagnostics.Error("thing def " + SpellEffectDefs.ThingPawnFlyer + " is missing; nothing was moved.");
                 return false;
             }
 

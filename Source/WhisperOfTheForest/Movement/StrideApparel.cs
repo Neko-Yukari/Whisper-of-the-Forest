@@ -23,11 +23,6 @@ namespace WhisperOfTheForest.Movement
             return IsWearing(pawn, BlinkStrideDefName);
         }
 
-        public static bool IsWearingAnyStride(Pawn pawn)
-        {
-            return IsWearingTerrainStride(pawn) || IsWearingBlinkStride(pawn);
-        }
-
         public static bool IsWearing(Pawn pawn, string defName)
         {
             if (pawn == null || pawn.apparel == null)

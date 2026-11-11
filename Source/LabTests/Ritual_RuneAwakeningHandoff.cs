@@ -73,21 +73,21 @@ namespace WhisperOfTheForest.LabTests
             }
 
             float storedBefore = network.Stored;
-            t.Expect(!GameComponent_Spellbook.IsUnlocked(jadeRune), "the rune was unlocked before the rite started");
+            t.Expect(!GameComponent_Spellbook.IsUnlockedInData(jadeRune), "the rune was unlocked before the rite started");
             t.Expect(comp.TryStart(def, jadeRune, caster), "the rune awakening did not start with a complete ring and materials");
             t.Expect(jade.Destroyed || jade.stackCount == 0, "the altar did not consume the rune's jade");
             t.Expect(network.Stored < storedBefore, "the altar did not take its mana cost from the network");
-            t.Expect(!GameComponent_Spellbook.IsUnlocked(jadeRune), "the rune unlocked before the rite finished");
+            t.Expect(!GameComponent_Spellbook.IsUnlockedInData(jadeRune), "the rune unlocked before the rite finished");
             t.Measure("networkAfterStart", network.Stored.ToString("0.##"));
 
             t.Expect(t.StepUntil(() => !comp.IsActive, 2000), "the rite did not finish within the wait limit");
-            t.Expect(GameComponent_Spellbook.IsUnlocked(jadeRune), "the finished rite did not unlock the rune");
+            t.Expect(GameComponent_Spellbook.IsUnlockedInData(jadeRune), "the finished rite did not unlock the rune");
 
             float storedBeforeRefusal = network.Stored;
             t.Expect(!comp.TryStart(def, steelRune, caster), "a rune with missing materials still started");
             t.Expect(Math.Abs(network.Stored - storedBeforeRefusal) < 0.001f,
                 "a refused rune awakening still took mana from the network");
-            t.Expect(!GameComponent_Spellbook.IsUnlocked(steelRune), "a refused rune awakening still unlocked its rune");
+            t.Expect(!GameComponent_Spellbook.IsUnlockedInData(steelRune), "a refused rune awakening still unlocked its rune");
         }
 
         private static List<Thing> SpawnRing(ThingDef chalkDef, TestContext t, int centerX, int centerZ, int size)

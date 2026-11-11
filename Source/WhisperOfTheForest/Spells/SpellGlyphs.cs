@@ -9,7 +9,8 @@ namespace WhisperOfTheForest.Spells
     {
         Form,
         Effect,
-        Augment
+        Augment,
+        Super
     }
 
     /// <summary>
@@ -24,21 +25,9 @@ namespace WhisperOfTheForest.Spells
         /// <summary>Texture path under Textures/. Empty falls back to the contract convention.</summary>
         public string iconPath;
 
-        /// <summary>Effect: base damage / healing / explosion damage before Amplify.</summary>
-        public float amount;
-
-        /// <summary>
-        /// Data switch for Effects that resolve without a number: an instant growth finishes the
-        /// plant and has neither damage nor healing, so its own XML entry declares
-        /// <c>requiresAmount=false</c>. Everything else keeps the default, so a damage/heal/explosion
-        /// entry that forgets its amount still reports a visible config error instead of silently
-        /// falling back to a code default. Only Effect glyphs may turn this off.
-        /// </summary>
-        public bool requiresAmount = true;
-
         /// <summary>
         /// What this rune's effect may be aimed at, in the spell system's own categories. Required
-        /// for every Effect rune and for a composite form (which is a whole spell on its own); other
+        /// for every Effect and Super rune (which is a whole spell on its own); ordinary
         /// forms take their categories from the effects they carry. The book freezes the union into
         /// the recipe when the spell is created, so editing this Def cannot change a saved spell.
         /// </summary>
@@ -73,8 +62,8 @@ namespace WhisperOfTheForest.Spells
         public List<string> excludesAugments;
 
         /// <summary>
-        /// Composite form payload: when set, this Form rune is a whole spell on its own - it needs no
-        /// Effect and accepts none - and these numbers are what it casts. Null for every other rune.
+        /// Railgun payload of a Super rune: it needs no Effect and accepts none. These numbers are
+        /// what it casts. Null for every other rune.
         /// </summary>
         public SpellRailgunSpec railgun;
 
@@ -93,9 +82,6 @@ namespace WhisperOfTheForest.Spells
 
         /// <summary>Orbit form: the orbs' count, distance, turn rate, touch radius and lifetime.</summary>
         public SpellOrbitSpec orbit;
-
-        /// <summary>Damage effects: armour penetration of the damage they deal; Break Armor adds to it.</summary>
-        public float armorPenetration;
 
         /// <summary>
         /// Ticks this rune adds to a spell's three phases. They are summed along the whole chain when
@@ -130,40 +116,6 @@ namespace WhisperOfTheForest.Spells
         /// </summary>
         public List<ThingDefCountClass> unlockCost = new List<ThingDefCountClass>();
 
-        /// <summary>
-        /// How long the effect keeps lasting (Freeze, Snare, Hex, Ignite, Clotting, Magelight, a
-        /// Linger/Rune/Delay, or a sustained Harm). 0 means the rune has no duration of its own;
-        /// Extend/Shorten only ever turn a Harm into its sustained form.
-        /// </summary>
-        public int durationTicks;
-
-        /// <summary>Spacing between two pulses: sustained Harm, a Linger beat.</summary>
-        public int pulseIntervalTicks;
-
-        /// <summary>Cold Snap: damage multiplier against a target that is already slowed.</summary>
-        public float vulnerableFactor;
-
-        /// <summary>Lightning: EMP damage delivered before the burn.</summary>
-        public float empAmount;
-
-        /// <summary>Lightning: extra damage per charge stack already on the target.</summary>
-        public float perStackFactor;
-
-        /// <summary>Ignite: size of the fire the spreading variant starts.</summary>
-        public float fireSize;
-
-        /// <summary>Ignite (Sensitive): damage per pulse of the non-spreading burn.</summary>
-        public float burnAmount;
-
-        /// <summary>Magelight: radius of the light it places.</summary>
-        public float glowRadius;
-
-        /// <summary>Magelight: colour of the light, as an HTML hex string.</summary>
-        public string glowColor;
-
-        /// <summary>True when this rune already carries its own effect (the composite form entry).</summary>
-        public bool IsCompleteForm => railgun != null;
-
         /// <summary>True when this augment declares <paramref name="augmentDefName"/> as mutually exclusive.</summary>
         public bool ExcludesAugment(string augmentDefName)
         {
@@ -196,9 +148,9 @@ namespace WhisperOfTheForest.Spells
                 yield return error;
             }
 
-            if (railgun != null && kind != SpellGlyphKind.Form)
+            if (railgun != null && kind != SpellGlyphKind.Super)
             {
-                yield return "only a Form glyph may carry composite-form numbers";
+                yield return "only a Super glyph may carry railgun numbers";
             }
 
             if (excludesAugments != null)
@@ -239,29 +191,9 @@ namespace WhisperOfTheForest.Spells
                 }
             }
 
-            if (durationTicks < 0 || pulseIntervalTicks < 0)
-            {
-                yield return "durationTicks and pulseIntervalTicks must not be negative";
-            }
-
-            if (glowRadius < 0f || armorPenetration < 0f)
-            {
-                yield return "glowRadius and armorPenetration must not be negative";
-            }
-
             if (kind != SpellGlyphKind.Form && (projectile != null || orbit != null || range > 0f))
             {
                 yield return "only a Form glyph may carry range, projectile or orbit numbers";
-            }
-
-            if (vulnerableFactor < 0f || empAmount < 0f || perStackFactor < 0f || fireSize < 0f)
-            {
-                yield return "vulnerableFactor, empAmount, perStackFactor and fireSize must not be negative";
-            }
-
-            if (!glowColor.NullOrEmpty() && !glowColor.StartsWith("#"))
-            {
-                yield return "glowColor must be an HTML colour such as #FFE9A0";
             }
 
             if (iconPath.NullOrEmpty())
@@ -294,32 +226,23 @@ namespace WhisperOfTheForest.Spells
             switch (kind)
             {
                 case SpellGlyphKind.Form:
-                    if (amount > 0f || factor > 0f || missiles > 0)
+                    if (factor > 0f || missiles > 0)
                     {
                         yield return "a Form glyph must not carry effect/augment numbers";
                     }
 
-                    if (!requiresAmount)
+                    if (targets != null)
                     {
-                        yield return "only an Effect glyph may set requiresAmount to false";
-                    }
-
-                    if (railgun != null && (targets == null || targets.Count == 0))
-                    {
-                        yield return "a composite form must declare its own targets";
-                    }
-                    else if (railgun == null && targets != null)
-                    {
-                        yield return "only an Effect glyph or a composite form may declare targets";
+                        yield return "only an Effect or Super glyph may declare targets";
                     }
 
                     // The form kind is read from the data blocks; self and touch are the only forms
                     // known by name.
-                    int blocks = (railgun != null ? 1 : 0) + (projectile != null ? 1 : 0) + (orbit != null ? 1 : 0);
+                    int blocks = (projectile != null ? 1 : 0) + (orbit != null ? 1 : 0);
                     bool named = defName == SpellDefs.FormSelf || defName == SpellDefs.FormTouch;
                     if (blocks + (named ? 1 : 0) != 1)
                     {
-                        yield return "a Form glyph must be self or touch, or carry exactly one projectile, orbit or railgun block";
+                        yield return "a Form glyph must be self or touch, or carry exactly one projectile or orbit block";
                     }
 
                     bool aims = projectile != null || defName == SpellDefs.FormTouch;
@@ -351,23 +274,39 @@ namespace WhisperOfTheForest.Spells
                         yield return "an orbit form needs a positive count, distance, angularSpeedDegrees, hitRadius and lifetimeTicks";
                     }
 
+                    break;
+                case SpellGlyphKind.Super:
+                    if (factor > 0f || missiles > 0)
+                    {
+                        yield return "a Super glyph must not carry effect/augment numbers";
+                    }
+
+                    if (targets == null || targets.Count == 0)
+                    {
+                        yield return "a Super glyph must declare its own targets";
+                    }
+
+                    if (railgun == null)
+                    {
+                        yield return "a Super glyph must carry a railgun block";
+                    }
                     if (railgun != null)
                     {
                         if (railgun.damage <= 0f)
                         {
-                            yield return "a composite form needs a positive damage";
+                            yield return "a Super glyph needs a positive damage";
                         }
 
                         // range has no lower bound on purpose: 0 or less is the documented whole-map
                         // aim (SpellRailgunSpec.range), so it must not be reported as a config error.
                         if (railgun.hitWidth <= 0f)
                         {
-                            yield return "a composite form needs a positive hitWidth";
+                            yield return "a Super glyph needs a positive hitWidth";
                         }
 
                         if (railgun.vfxDef.NullOrEmpty())
                         {
-                            yield return "a composite form must name its vfxDef";
+                            yield return "a Super glyph must name its vfxDef";
                         }
                     }
 
@@ -378,36 +317,11 @@ namespace WhisperOfTheForest.Spells
                         yield return "an Effect glyph must declare its targets";
                     }
 
-                    if (requiresAmount)
-                    {
-                        if (amount <= 0f)
-                        {
-                            yield return "an Effect glyph needs a positive amount";
-                        }
-                    }
-                    else if (amount != 0f)
-                    {
-                        yield return "an Effect glyph with requiresAmount=false must not carry an amount";
-                    }
-
-                    if (radius < 0f)
-                    {
-                        yield return "an Effect glyph must not define a negative radius";
-                    }
-
-                    // AOE grows the effect's own radius; there is no shared base radius behind it.
-                    if (AcceptsAugment(SpellDefs.AugmentAoe) && radius <= 0f)
-                    {
-                        yield return "an Effect that accepts AOE needs a positive radius";
-                    }
+                    if (!(this is EffectGlyphDef))
+                        yield return "an Effect glyph must use a concrete EffectGlyphDef Class";
 
                     break;
                 case SpellGlyphKind.Augment:
-                    if (amount > 0f)
-                    {
-                        yield return "an Augment glyph must not define an amount";
-                    }
-
                     // The compiler reads these numbers as written; there is no code default behind them.
                     switch (defName)
                     {
@@ -438,11 +352,6 @@ namespace WhisperOfTheForest.Spells
                             }
 
                             break;
-                    }
-
-                    if (!requiresAmount)
-                    {
-                        yield return "only an Effect glyph may set requiresAmount to false";
                     }
 
                     break;
@@ -556,7 +465,7 @@ namespace WhisperOfTheForest.Spells
         public const string FormProjectile = "WotF_Form_Projectile";
         public const string FormOrbit = "WotF_Form_Orbit";
 
-        /// <summary>Composite form: this one rune is a complete spell (the railgun supra rune).</summary>
+        /// <summary>Super rune: this one rune is a complete spell (the railgun supra rune).</summary>
         public const string FormRailgun = "WotF_Form_Railgun";
 
         /// <summary>The railgun's visual effect Def; the spell only ever names it, never its look.</summary>
@@ -566,7 +475,6 @@ namespace WhisperOfTheForest.Spells
         public const string EffectHeal = "WotF_Effect_Heal";
         public const string EffectExplosion = "WotF_Effect_Explosion";
         public const string EffectGrow = "WotF_Effect_Grow";
-        public const string EffectIgnite = "WotF_Effect_Ignite";
         public const string EffectLightning = "WotF_Effect_Lightning";
         public const string EffectFreeze = "WotF_Effect_Freeze";
         public const string EffectColdSnap = "WotF_Effect_ColdSnap";

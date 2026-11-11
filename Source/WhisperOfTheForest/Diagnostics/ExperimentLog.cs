@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Text;
 using Verse;
 
@@ -52,68 +51,53 @@ namespace WhisperOfTheForest
                 return;
             }
 
-            try
+            string key = category + "|" + (actor != null ? actor.thingIDNumber.ToString() : "-") + "|" + detail;
+            long now = DateTime.UtcNow.Ticks;
+            lock (Gate)
             {
-                string key = category + "|" + (actor != null ? actor.thingIDNumber.ToString() : "-") + "|" + detail;
-                long now = DateTime.UtcNow.Ticks;
-                lock (Gate)
+                // Collapse identical repeated events (e.g. a per-tick notification) to 1/second.
+                if (key == lastKey && now - lastKeyTicks < TimeSpan.TicksPerSecond)
                 {
-                    // Collapse identical repeated events (e.g. a per-tick notification) to 1/second.
-                    if (key == lastKey && now - lastKeyTicks < TimeSpan.TicksPerSecond)
-                    {
-                        return;
-                    }
-
-                    lastKey = key;
-                    lastKeyTicks = now;
+                    return;
                 }
 
-                StringBuilder json = new StringBuilder(160);
+                lastKey = key;
+                lastKeyTicks = now;
+            }
+
+            StringBuilder json = new StringBuilder(160);
+            json.Append('{');
+            json.Append("\"ts\":").Append(Json.Str(DateTime.UtcNow.ToString("o")));
+            json.Append(",\"tick\":").Append(Json.Num(currentTick));
+            json.Append(",\"category\":").Append(Json.Str(category));
+            json.Append(",\"actor\":");
+            if (actor == null)
+            {
+                json.Append("null");
+            }
+            else
+            {
                 json.Append('{');
-                json.Append("\"ts\":").Append(Json.Str(DateTime.UtcNow.ToString("o")));
-                json.Append(",\"tick\":").Append(Json.Num(currentTick));
-                json.Append(",\"category\":").Append(Json.Str(category ?? "general"));
-                json.Append(",\"actor\":");
-                if (actor == null)
-                {
-                    json.Append("null");
-                }
-                else
-                {
-                    json.Append('{');
-                    json.Append("\"id\":").Append(Json.Num(actor.thingIDNumber));
-                    json.Append(",\"name\":").Append(Json.Str(SafeName(actor)));
-                    json.Append(",\"def\":").Append(Json.Str(actor.def != null ? actor.def.defName : null));
-                    json.Append(",\"pos\":").Append(actor.Spawned ? Json.Cell(actor.Position) : "null");
-                    json.Append('}');
-                }
-
-                json.Append(",\"detail\":").Append(Json.Str(detail));
+                json.Append("\"id\":").Append(Json.Num(actor.thingIDNumber));
+                json.Append(",\"name\":").Append(Json.Str(SafeName(actor)));
+                json.Append(",\"def\":").Append(Json.Str(actor.def != null ? actor.def.defName : null));
+                json.Append(",\"pos\":").Append(actor.Spawned ? Json.Cell(actor.Position) : "null");
                 json.Append('}');
-                active.WriteLine(json.ToString());
             }
-            catch (Exception exception)
-            {
-                // Logging must never break gameplay.
-                Log.ErrorOnce("[WotF-Lab] ExperimentLog.Record failed: " + exception, 0x57544601);
-            }
+
+            json.Append(",\"detail\":").Append(Json.Str(detail));
+            json.Append('}');
+            active.WriteLine(json.ToString());
         }
 
         private static string SafeName(Thing thing)
         {
-            try
+            if (thing is Pawn pawn)
             {
-                if (thing is Pawn pawn)
-                {
-                    return pawn.Name != null ? pawn.Name.ToStringShort : pawn.LabelShort;
-                }
+                return pawn.Name != null ? pawn.Name.ToStringShort : pawn.LabelShort;
+            }
 
-                return thing.LabelShort;
-            }
-            catch
-            {
-                return "thing-" + thing.thingIDNumber;
-            }
+            return thing.LabelShort;
         }
     }
 }

@@ -6,7 +6,7 @@
   <WotF_Spells.Reason.NoGlyphs>Nothing is arranged yet: add a form first, then at least one effect.</WotF_Spells.Reason.NoGlyphs>
   <WotF_Spells.Reason.TooLong>This spell has more than {0} glyphs.</WotF_Spells.Reason.TooLong>
   <WotF_Spells.Reason.UnknownGlyph>Unknown glyph: {0}</WotF_Spells.Reason.UnknownGlyph>
-  <WotF_Spells.Reason.FormMustBeFirst>The first glyph must be a form (self, touch, projectile or orbit).</WotF_Spells.Reason.FormMustBeFirst>
+  <WotF_Spells.Reason.FormMustBeFirst>The first glyph must be a form (self, touch, projectile or orbit) or a supra rune.</WotF_Spells.Reason.FormMustBeFirst>
   <WotF_Spells.Reason.OnlyOneForm>A spell may hold exactly one form.</WotF_Spells.Reason.OnlyOneForm>
   <WotF_Spells.Reason.NoEffect>A spell needs at least one effect, otherwise nothing would happen.</WotF_Spells.Reason.NoEffect>
   <WotF_Spells.Reason.AmplifyNeedsEffect>Amplify needs an effect on its left to strengthen.</WotF_Spells.Reason.AmplifyNeedsEffect>
@@ -20,8 +20,8 @@
   <!-- ============================================================ Composite form -->
 
   <WotF_Spells.Reason.RailgunOutOfRange>Nothing to aim at inside the railgun's {0} cells.</WotF_Spells.Reason.RailgunOutOfRange>
-  <WotF_Spells.Reason.CompleteFormNoEffect>The railgun rune is already a whole spell; it takes no effect rune.</WotF_Spells.Reason.CompleteFormNoEffect>
-  <WotF_Spells.Reason.OneForm>A spell has exactly one form, and it is the first rune.</WotF_Spells.Reason.OneForm>
+  <WotF_Spells.Reason.CompleteFormNoEffect>A supra rune is already a whole spell; it takes no effect rune.</WotF_Spells.Reason.CompleteFormNoEffect>
+  <WotF_Spells.Reason.OneForm>A spell starts with exactly one form or supra rune.</WotF_Spells.Reason.OneForm>
 
   <!-- ============================================================ Saving reasons -->
 

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -62,82 +61,5 @@ namespace WhisperOfTheForest.Equipment
             }
         }
 
-        /// <summary>
-        /// Applies the material to the frozen plan the cast will run. Called once, before the plan is
-        /// handed to the casting service, so a running cast never changes when the staff is dropped.
-        /// </summary>
-        public void ApplyEffects(SpellCastPlan plan)
-        {
-            if (plan == null)
-            {
-                return;
-            }
-
-            ApplySteps(plan.steps);
-
-            if (plan.railgun != null && plan.railgun.damage > 0f)
-            {
-                plan.railgun.damage *= damageFactor;
-            }
-        }
-
-        private void ApplySteps(List<SpellPlanStep> steps)
-        {
-            if (steps == null)
-            {
-                return;
-            }
-
-            for (int i = 0; i < steps.Count; i++)
-            {
-                SpellPlanStep step = steps[i];
-                if (step == null)
-                {
-                    continue;
-                }
-
-                if (step.amount > 0f && IsDamage(step.effect))
-                {
-                    step.amount *= damageFactor;
-                }
-
-                if (step.burnAmount > 0f)
-                {
-                    step.burnAmount *= damageFactor;
-                }
-
-                if (IsTimedBuff(step.effect))
-                {
-                    if (step.durationTicks > 0)
-                    {
-                        step.durationTicks = Mathf.Max(1, Mathf.RoundToInt(step.durationTicks * durationFactor));
-                    }
-
-                    if (step.baseDurationTicks > 0)
-                    {
-                        step.baseDurationTicks =
-                            Mathf.Max(1, Mathf.RoundToInt(step.baseDurationTicks * durationFactor));
-                    }
-                }
-
-                if (step.payload != null)
-                {
-                    ApplySteps(step.payload.steps);
-                }
-            }
-        }
-
-        private static bool IsTimedBuff(SpellEffectKind kind)
-        {
-            return kind == SpellEffectKind.Heal || kind == SpellEffectKind.Grow;
-        }
-
-        private static bool IsDamage(SpellEffectKind kind)
-        {
-            return kind == SpellEffectKind.Harm
-                   || kind == SpellEffectKind.Explosion
-                   || kind == SpellEffectKind.Lightning
-                   || kind == SpellEffectKind.ColdSnap;
-        }
     }
 }

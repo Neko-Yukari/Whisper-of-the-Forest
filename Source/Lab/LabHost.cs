@@ -30,6 +30,7 @@ namespace WhisperOfTheForest
         private static long requestOffset;
         private static long lastPoll;
         private static bool harmonyPatched;
+        private static string labFault;
         private static BoundedJsonlWriter results;
 
         public static bool Enabled { get; private set; }
@@ -120,7 +121,12 @@ namespace WhisperOfTheForest
             }
             catch (Exception exception)
             {
-                Log.ErrorOnce("[WotF-Lab] Request pump failed: " + exception, 0x57544602);
+                RecordFault("request pump failed", exception);
+            }
+
+            if (labFault != null)
+            {
+                return;
             }
 
             try
@@ -129,19 +135,29 @@ namespace WhisperOfTheForest
             }
             catch (Exception exception)
             {
-                Log.ErrorOnce("[WotF-Lab] Test runner pump failed: " + exception, 0x57544604);
+                RecordFault("test runner pump failed", exception);
+                return;
             }
 
             try
             {
                 LabBehaviorTracker.Tick();
+                ExperimentLog.FlushIfDue();
             }
             catch (Exception exception)
             {
-                Log.ErrorOnce("[WotF-Lab] Behavior observation failed: " + exception, 0x57544603);
+                RecordFault("behavior observation failed", exception);
             }
+        }
 
-            ExperimentLog.FlushIfDue();
+        private static void RecordFault(string operation, Exception exception)
+        {
+            Log.Error("[WotF-Lab] " + operation + ": " + exception);
+            if (labFault == null)
+            {
+                labFault = operation + ": " + exception;
+                WriteStatusFile();
+            }
         }
 
         private static void PumpRequests()
@@ -250,6 +266,14 @@ namespace WhisperOfTheForest
 
                 id = tokens[0];
                 string command = tokens[1];
+                if (labFault != null && (command.Equals("status", StringComparison.OrdinalIgnoreCase)
+                                         || command.Equals("test", StringComparison.OrdinalIgnoreCase)))
+                {
+                    WriteRaw("{\"id\":" + Json.Str(id) + ",\"ok\":false,\"labFault\":" + Json.Str(labFault)
+                             + ",\"error\":" + Json.Str(labFault) + "}");
+                    return;
+                }
+
                 Dictionary<string, string> arguments = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
                 for (int i = 2; i < tokens.Length; i++)
                 {
@@ -302,6 +326,8 @@ namespace WhisperOfTheForest
                 json.Append('{');
                 json.Append("\"lab\":").Append(Json.Str(Version));
                 json.Append(",\"protocol\":").Append(Json.Num(ProtocolVersion));
+                json.Append(",\"processId\":").Append(Json.Num(Process.GetCurrentProcess().Id));
+                json.Append(",\"labFault\":").Append(Json.Str(labFault));
                 json.Append(",\"request\":").Append(Json.Str(RequestPath));
                 json.Append(",\"results\":").Append(Json.Str(ResultPath));
                 json.Append(",\"startedUtc\":").Append(Json.Str(DateTime.UtcNow.ToString("o")));

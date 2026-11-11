@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Verse;
 
 namespace WhisperOfTheForest
@@ -19,8 +18,6 @@ namespace WhisperOfTheForest
         public const string ModuleRitual = "Ritual";
         public const string ModuleUI = "UI";
         public const string ModuleBoot = "Boot";
-
-        private static readonly HashSet<string> reported = new HashSet<string>();
 
         // Used before the Mod instance exists (or in a game that never built one).
         private static bool debugBeforeSettings;
@@ -53,15 +50,6 @@ namespace WhisperOfTheForest
         public static void Error(string module, string message)
         {
             Log.Error(Prefix(module) + message);
-        }
-
-        /// <summary>Error for a condition that would otherwise repeat every tick or every cast.</summary>
-        public static void ErrorOnce(string module, string message)
-        {
-            if (reported.Add(module + "|" + message))
-            {
-                Log.Error(Prefix(module) + message);
-            }
         }
 
         /// <summary>Recoverable trouble: the feature keeps running with less than it asked for.</summary>

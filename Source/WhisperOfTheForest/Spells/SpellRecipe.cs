@@ -73,12 +73,6 @@ namespace WhisperOfTheForest.Spells
             WotfLog.Error(WotfLog.ModuleSpell, message);
         }
 
-        /// <summary>For a broken config that would otherwise spam every tick/cast.</summary>
-        public static void ErrorOnce(string message)
-        {
-            WotfLog.ErrorOnce(WotfLog.ModuleSpell, message);
-        }
-
         public static void Message(string message)
         {
             WotfLog.Info(WotfLog.ModuleSpell, message);

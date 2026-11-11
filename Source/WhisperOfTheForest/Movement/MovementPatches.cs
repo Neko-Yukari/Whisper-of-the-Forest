@@ -1,7 +1,6 @@
 using System;
 using System.Reflection;
 using HarmonyLib;
-using RimWorld;
 using Verse;
 using Verse.AI;
 
@@ -18,7 +17,7 @@ namespace WhisperOfTheForest.Movement
     internal static class Patch_GetPawnCellBaseCostOverride
     {
         [HarmonyPostfix]
-        public static void Postfix(Pawn pawn, IntVec3 c, ref int? __result)
+        public static void Postfix(Pawn pawn, ref int? __result)
         {
             // A race/hediff specific override (e.g. water cost) is a property of the pawn,
             // not of the terrain, so it is preserved.
@@ -33,7 +32,6 @@ namespace WhisperOfTheForest.Movement
             }
 
             __result = 0;
-            StrideDiagnostics.NoteTerrainCellFreed(pawn, c, GridsUtility.GetTerrain(c, pawn.Map));
         }
     }
 
@@ -66,7 +64,7 @@ namespace WhisperOfTheForest.Movement
             catch (Exception e)
             {
                 // Never let an experiment failure escape into the pather tick loop.
-                WotfLog.ErrorOnce(WotfLog.ModuleMovement, "BlinkStride patch failed: " + e);
+                WotfLog.Error(WotfLog.ModuleMovement, "BlinkStride patch failed: " + e);
             }
         }
 
@@ -82,11 +80,6 @@ namespace WhisperOfTheForest.Movement
             {
                 // The call was blocked (door, pawn collision, bash...) and entered no cell.
                 return;
-            }
-
-            if (StrideApparel.IsWearingAnyStride(pawn))
-            {
-                StrideDiagnostics.NoteWalked(pawn, positionBeforeCall, from);
             }
 
             if (!StrideApparel.IsWearingBlinkStride(pawn))
@@ -118,17 +111,14 @@ namespace WhisperOfTheForest.Movement
                 return;
             }
 
-            string reason = BlinkRule.BlockReason(pawn, from, to);
-            if (reason != null)
+            if (BlinkRule.BlockReason(pawn, from, to) != null)
             {
-                StrideDiagnostics.NoteBlocked(pawn, reason);
                 return;
             }
 
             MethodInfo setup = GetSetupMoveIntoNextCell();
             if (setup == null)
             {
-                StrideDiagnostics.NoteBlocked(pawn, "missing-setup-method");
                 return;
             }
 
@@ -147,8 +137,6 @@ namespace WhisperOfTheForest.Movement
             // 'to' was already consumed by vanilla; this consumes the following node and
             // recomputes nextCell/costs, walkability and door approach exactly as usual.
             setup.Invoke(pather, null);
-
-            StrideDiagnostics.NoteBlink(pawn, from, to, path.NodesLeftCount);
         }
 
         private static MethodInfo GetSetupMoveIntoNextCell()
@@ -159,7 +147,7 @@ namespace WhisperOfTheForest.Movement
                 setupMoveIntoNextCellLookup = true;
                 if (setupMoveIntoNextCell == null)
                 {
-                    WotfLog.ErrorOnce(WotfLog.ModuleMovement,
+                    WotfLog.Error(WotfLog.ModuleMovement,
                         "Pawn_PathFollower.SetupMoveIntoNextCell not found; BlinkStride disabled for this session.");
                 }
             }

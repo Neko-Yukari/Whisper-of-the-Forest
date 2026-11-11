@@ -35,17 +35,17 @@ namespace WhisperOfTheForest.Equipment
                 }
 
                 float range;
-                if (plan.form != SpellFormKind.Railgun)
+                if (plan.form != SpellFormKind.Special)
                 {
                     // The form's own range; Self and Orbit have none and so give the staff no reach.
                     range = plan.range;
                 }
                 else
                 {
-                    SpellRailgunSpec spec = plan.railgun;
-                    if (spec.range > 0f)
+                    ISpellSpecialSpec spec = plan.Special;
+                    if (spec.Range > 0f)
                     {
-                        range = spec.range;
+                        range = spec.Range;
                     }
                     else
                     {

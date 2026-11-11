@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Verse;
+using WhisperOfTheForest.Equipment;
 using WhisperOfTheForest.Missiles;
 
 namespace WhisperOfTheForest.Spells
@@ -11,11 +12,11 @@ namespace WhisperOfTheForest.Spells
     /// different chains.
     ///
     /// Rules:
-    /// the chain starts with its only Form; Effects follow; an Augment binds to the nearest
+    /// the chain starts with its only Form or Super rune; Effects follow a Form; an Augment binds to the nearest
     /// non-Augment on its left and only when that rune lists it in
     /// <see cref="SpellGlyphDef.compatibleAugments"/>, and two augments on the same rune may not
     /// exclude each other (<see cref="SpellGlyphDef.excludesAugments"/>); the chain needs at least one Effect unless
-    /// its form is a whole spell on its own.
+    /// it starts with a Super rune, a whole spell on its own.
     /// </summary>
     public static class SpellCompiler
     {
@@ -67,8 +68,8 @@ namespace WhisperOfTheForest.Spells
 
             if (defs.Count == 0)
             {
-                // An empty bar only accepts the form.
-                if (glyph.kind == SpellGlyphKind.Form)
+                // An empty bar accepts a form or a complete Super spell.
+                if (glyph.kind == SpellGlyphKind.Form || glyph.kind == SpellGlyphKind.Super)
                 {
                     return true;
                 }
@@ -80,12 +81,13 @@ namespace WhisperOfTheForest.Spells
             switch (glyph.kind)
             {
                 case SpellGlyphKind.Form:
+                case SpellGlyphKind.Super:
                     reason = SpellText.T("WotF_Spells.Reason.OneForm");
                     return false;
 
                 case SpellGlyphKind.Effect:
-                    // A composite form already carries its own effect, so nothing may be appended to it.
-                    if (defs[0].IsCompleteForm)
+                    // A Super rune already carries its own effect.
+                    if (defs[0].kind == SpellGlyphKind.Super)
                     {
                         reason = SpellText.T("WotF_Spells.Reason.CompleteFormNoEffect");
                         return false;
@@ -158,13 +160,13 @@ namespace WhisperOfTheForest.Spells
                 }
             }
 
-            if (lastEffect != null && IsTimingEffect(EffectOf(lastEffect)))
+            if (lastEffect != null && ((EffectGlyphDef)lastEffect).ConsumesRemainder)
             {
                 reason = SpellText.T("WotF_Spells.Reason.TimingNeedsEffect");
                 return false;
             }
 
-            if (lastEffect == null && !defs[0].IsCompleteForm)
+            if (lastEffect == null && defs[0].kind != SpellGlyphKind.Super)
             {
                 reason = SpellText.T("WotF_Spells.Reason.NoEffect");
                 return false;
@@ -177,7 +179,7 @@ namespace WhisperOfTheForest.Spells
         /// Validates and compiles in one step. Returns null (with a player-facing reason) when the
         /// chain is not castable; the returned plan is a fresh deep copy that the caller may keep.
         /// </summary>
-        public static SpellCastPlan Compile(SpellRecipe recipe, out string reason)
+        public static SpellCastPlan Compile(SpellRecipe recipe, out string reason, SpellStaffModifiers staff = null)
         {
             reason = null;
             if (!TryValidate(recipe, out reason))
@@ -201,7 +203,7 @@ namespace WhisperOfTheForest.Spells
                 cost = (recipe.cost ?? SpellCost.Derive(recipe.glyphs)).Copy()
             };
 
-            CompileBody(plan, defs, tuning);
+            CompileBody(plan, defs, tuning, staff);
 
             // A saved spell carries the categories it was created with; only an in-memory recipe
             // (lab or tooling) was never frozen, so the chain supplies them once.
@@ -238,7 +240,7 @@ namespace WhisperOfTheForest.Spells
         /// that step's payload. The payload is compiled by the same method one level down, so a delayed
         /// Harm is the same step object as an immediate Harm, only deferred.
         /// </summary>
-        private static void CompileBody(SpellCastPlan plan, List<SpellGlyphDef> defs, SpellTuningDef tuning)
+        private static void CompileBody(SpellCastPlan plan, List<SpellGlyphDef> defs, SpellTuningDef tuning, SpellStaffModifiers staff = null)
         {
             SpellGlyphDef form = defs[0];
             plan.form = FormOf(form);
@@ -246,11 +248,12 @@ namespace WhisperOfTheForest.Spells
             plan.projectile = form.projectile?.Copy();
             plan.orbit = form.orbit?.Copy();
 
-            // A composite form is the whole spell: its numbers are frozen here, and the grammar has
+            // A Super rune is the whole spell: its numbers are frozen here, and the grammar has
             // already refused any effect or augment after it.
-            if (form.IsCompleteForm)
+            if (form.kind == SpellGlyphKind.Super)
             {
-                plan.railgun = form.railgun.Copy();
+                plan.railgun = form.railgun?.Copy();
+                if (staff != null && plan.railgun != null) plan.railgun.damage *= staff.damageFactor;
                 SpellTargeting.AddAll(plan.targets, form.targets);
                 return;
             }
@@ -265,7 +268,7 @@ namespace WhisperOfTheForest.Spells
                 i++;
             }
 
-            BuildSteps(defs, i, defs.Count, plan.steps, plan.targets);
+            BuildSteps(defs, i, defs.Count, plan.steps, plan.targets, staff);
         }
 
         /// <summary>
@@ -337,8 +340,9 @@ namespace WhisperOfTheForest.Spells
             List<SpellGlyphDef> defs,
             int start,
             int end,
-            List<SpellPlanStep> into,
-            List<SpellTargetClass> targets)
+            List<SpellEffect> into,
+            List<SpellTargetClass> targets,
+            SpellStaffModifiers staff)
         {
             int i = start;
             while (i < end)
@@ -350,30 +354,31 @@ namespace WhisperOfTheForest.Spells
                     continue;
                 }
 
-                SpellPlanStep step = BuildStep(glyph);
+                var effect = (EffectGlyphDef)glyph;
+                var augments = new List<SpellGlyphDef>();
                 int j = i + 1;
                 while (j < end && defs[j].kind == SpellGlyphKind.Augment)
                 {
                     // Augments bind to the nearest Form/Effect on their left, so exactly the run of
                     // augments before the next Form/Effect belongs to this step.
-                    ApplyEffectAugment(step, defs[j]);
+                    augments.Add(defs[j]);
                     j++;
                 }
 
-                into.Add(step);
-
-                if (IsTimingEffect(step.effect))
+                if (effect.ConsumesRemainder)
                 {
                     // A timing rune only ever places its field, seal or timer, so its payload's
                     // categories do not become aim targets.
                     SpellTargeting.Add(targets, SpellTargetClass.Cell);
-                    step.payload = new SpellPayload();
-                    BuildSteps(defs, j, end, step.payload.steps, new List<SpellTargetClass>());
+                    var payload = new SpellPayload();
+                    BuildSteps(defs, j, end, payload.steps, new List<SpellTargetClass>(), staff);
+                    into.Add(effect.Compile(augments, staff, payload));
                     return;
                 }
 
+                into.Add(effect.Compile(augments, staff));
                 SpellTargeting.AddAll(targets, glyph.targets);
-                if (step.aoe)
+                if (augments.Exists(a => a.defName == SpellDefs.AugmentAoe))
                 {
                     SpellTargeting.Add(targets, SpellTargetClass.Cell);
                 }
@@ -382,172 +387,21 @@ namespace WhisperOfTheForest.Spells
             }
         }
 
-        private static SpellPlanStep BuildStep(SpellGlyphDef glyph)
-        {
-            SpellEffectKind effect = EffectOf(glyph);
-            var step = new SpellPlanStep
-            {
-                effect = effect,
-                amount = BaseAmount(glyph),
-                radius = glyph.radius,
-                penetration = glyph.armorPenetration,
-                baseDurationTicks = glyph.durationTicks,
-                pulseIntervalTicks = glyph.pulseIntervalTicks,
-                factor = glyph.factor,
-                vulnerableFactor = glyph.vulnerableFactor,
-                empAmount = glyph.empAmount,
-                perStackFactor = glyph.perStackFactor,
-                fireSize = glyph.fireSize,
-                burnAmount = glyph.burnAmount,
-                glowRadius = glyph.glowRadius,
-                glowColor = glyph.glowColor
-            };
-
-            if (HasOwnDuration(effect))
-            {
-                step.durationTicks = glyph.durationTicks;
-            }
-
-            return step;
-        }
-
-        /// <summary>One augment bound to an Effect step.</summary>
-        private static void ApplyEffectAugment(SpellPlanStep step, SpellGlyphDef glyph)
-        {
-            switch (glyph.defName)
-            {
-                case SpellDefs.AugmentAmplify:
-                {
-                    step.amplifyStacks++;
-                    step.magnitudeFactor *= glyph.factor;
-                    ScaleAmount(step, glyph.factor);
-                    if (step.effect == SpellEffectKind.Explosion)
-                    {
-                        // Amplify also widens an explosion a little; AOE is the pure radius augment.
-                        step.radius += glyph.radius;
-                    }
-
-                    break;
-                }
-
-                case SpellDefs.AugmentDampen:
-                {
-                    step.dampenStacks++;
-                    step.magnitudeFactor *= glyph.factor;
-                    ScaleAmount(step, glyph.factor);
-                    break;
-                }
-
-                case SpellDefs.AugmentAoe:
-                    step.aoeStacks++;
-                    step.aoe = true;
-                    step.radius += glyph.radius;
-                    break;
-
-                case SpellDefs.AugmentExtend:
-                    step.durationTicks = ScaledDuration(step, glyph.factor);
-                    if (step.effect == SpellEffectKind.Harm)
-                    {
-                        // Harm + Extend is the spell table's sustained wound, not a bigger hit.
-                        step.dot = step.durationTicks > 0;
-                    }
-
-                    break;
-
-                case SpellDefs.AugmentShorten:
-                    if (step.durationTicks > 0)
-                    {
-                        step.durationTicks = ScaleTicks(step.durationTicks, glyph.factor);
-                    }
-
-                    break;
-
-                case SpellDefs.AugmentSensitive:
-                    step.sensitive = true;
-                    break;
-
-                case SpellDefs.AugmentBreakArmor:
-                    step.penetration += glyph.factor;
-                    break;
-
-                case SpellDefs.AugmentAccelerate:
-                case SpellDefs.AugmentDecelerate:
-                    if (step.effect == SpellEffectKind.Linger && step.pulseIntervalTicks > 0)
-                    {
-                        // Accelerate divides the beat (faster pulses); Decelerate's factor is below
-                        // one, so dividing by it lengthens the interval as the spell table says.
-                        float factor = glyph.factor > 0f ? glyph.factor : 1f;
-                        step.pulseIntervalTicks = ScaleTicks(step.pulseIntervalTicks, 1f / factor);
-                    }
-
-                    break;
-            }
-        }
-
-        private static void ScaleAmount(SpellPlanStep step, float factor)
-        {
-            if (step.amount > 0f)
-            {
-                step.amount *= factor;
-            }
-        }
-
-        private static int ScaledDuration(SpellPlanStep step, float factor)
-        {
-            int basis = step.durationTicks > 0 ? step.durationTicks : step.baseDurationTicks;
-            return basis > 0 ? ScaleTicks(basis, factor) : 0;
-        }
-
         private static int ScaleTicks(int ticks, float factor)
         {
-            if (ticks <= 0)
-            {
-                return 0;
-            }
-
-            return System.Math.Max(1, (int)System.Math.Round(ticks * factor));
+            return ticks <= 0 ? 0 : System.Math.Max(1, (int)System.Math.Round(ticks * factor));
         }
-
-        /// <summary>True when this step holds the rest of the chain instead of acting at once.</summary>
-        public static bool IsTimingEffect(SpellEffectKind effect)
-        {
-            return effect == SpellEffectKind.Linger
-                   || effect == SpellEffectKind.Rune
-                   || effect == SpellEffectKind.Delay;
-        }
-
-        /// <summary>Effects that carry a lifetime of their own even without Extend.</summary>
-        private static bool HasOwnDuration(SpellEffectKind effect)
-        {
-            switch (effect)
-            {
-                case SpellEffectKind.Heal:
-                case SpellEffectKind.Grow:
-                case SpellEffectKind.Ignite:
-                case SpellEffectKind.Freeze:
-                case SpellEffectKind.Snare:
-                case SpellEffectKind.Hex:
-                case SpellEffectKind.Magelight:
-                case SpellEffectKind.Linger:
-                case SpellEffectKind.Rune:
-                case SpellEffectKind.Delay:
-                    return true;
-                default:
-                    return false;
-            }
-        }
-
 
         /// <summary>
-        /// Form glyph to behaviour. A data block decides (railgun, projectile, orbit), so a new
+        /// Super runes use their Special payload. For Forms, projectile/orbit data blocks decide, so a new
         /// projectile type is only a new Def; self and touch are named. SpellGlyphDef.ConfigErrors
         /// guarantees every form is exactly one of these.
         /// </summary>
         public static SpellFormKind FormOf(SpellGlyphDef formGlyph)
         {
-            if (formGlyph.IsCompleteForm)
+            if (formGlyph.kind == SpellGlyphKind.Super)
             {
-                return SpellFormKind.Railgun;
+                return SpellFormKind.Special;
             }
 
             if (formGlyph.projectile != null)
@@ -561,49 +415,6 @@ namespace WhisperOfTheForest.Spells
             }
 
             return formGlyph.defName == SpellDefs.FormTouch ? SpellFormKind.Touch : SpellFormKind.Self;
-        }
-
-        public static SpellEffectKind EffectOf(SpellGlyphDef effectGlyph)
-        {
-            switch (effectGlyph.defName)
-            {
-                case SpellDefs.EffectHeal:
-                    return SpellEffectKind.Heal;
-                case SpellDefs.EffectExplosion:
-                    return SpellEffectKind.Explosion;
-                case SpellDefs.EffectGrow:
-                    return SpellEffectKind.Grow;
-                case SpellDefs.EffectIgnite:
-                    return SpellEffectKind.Ignite;
-                case SpellDefs.EffectLightning:
-                    return SpellEffectKind.Lightning;
-                case SpellDefs.EffectFreeze:
-                    return SpellEffectKind.Freeze;
-                case SpellDefs.EffectColdSnap:
-                    return SpellEffectKind.ColdSnap;
-                case SpellDefs.EffectKnockback:
-                    return SpellEffectKind.Knockback;
-                case SpellDefs.EffectPull:
-                    return SpellEffectKind.Pull;
-                case SpellDefs.EffectSnare:
-                    return SpellEffectKind.Snare;
-                case SpellDefs.EffectHex:
-                    return SpellEffectKind.Hex;
-                case MechHackService.GlyphName:
-                    return SpellEffectKind.Hack;
-                case SpellDefs.EffectMagelight:
-                    return SpellEffectKind.Magelight;
-                case SpellDefs.EffectBlink:
-                    return SpellEffectKind.Blink;
-                case SpellDefs.EffectLinger:
-                    return SpellEffectKind.Linger;
-                case SpellDefs.EffectRune:
-                    return SpellEffectKind.Rune;
-                case SpellDefs.EffectDelay:
-                    return SpellEffectKind.Delay;
-                default:
-                    return SpellEffectKind.Harm;
-            }
         }
 
         private static bool TryResolve(
@@ -664,10 +475,5 @@ namespace WhisperOfTheForest.Spells
             return null;
         }
 
-        private static float BaseAmount(SpellGlyphDef glyph)
-        {
-            // SpellGlyphDef.ConfigErrors guarantees a positive amount whenever one is required.
-            return glyph.requiresAmount ? glyph.amount : -1f;
-        }
     }
 }
