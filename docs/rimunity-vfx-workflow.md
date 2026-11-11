@@ -7,7 +7,7 @@
 - Unity：`2022.3.53f1c1`，安装在 `C:\Program Files\Unity\Hub\Editor\2022.3.53f1c1\Editor\Unity.exe`。
 - RimUnity：游戏侧工坊 `3819570122`，制作端版本必须同为 `0.1.22`。
 - Unity 工程：`Moddev/UnityVfx/WotF-Vfx`，不进模组仓库，不碰其他 Unity 工程。
-- 导出器：`Moddev/UnityVfx/packages/com.chezhou.rimunity-0.1.22.tgz`，SHA256 `e22f9df26f42c707ed977417af1a18104c0b7670b7115a658ac38dca1e66db8f`。
+- 导出器：`Moddev/UnityVfx/packages/com.chezhou.rimunity-0.1.22.tgz`。
 - 工程入口：`Assets/Editor/WotfVfxBuild.cs`。现有 `BuildProbe` 和 `BuildDarken` 是可运行的最小样例。
 - 导出产物：模组 `1.7/Data/RimUnity/`。加载器只读这里；不要手改 JSON/GLSL，改 Unity 源资产后重新导出。
 
