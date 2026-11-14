@@ -12,6 +12,7 @@ namespace WhisperOfTheForest.Spells
     public class SpellbookExtension : DefModExtension
     {
         public int slotCount;
+        public bool allowsSuperGlyphs;
 
         public override IEnumerable<string> ConfigErrors()
         {

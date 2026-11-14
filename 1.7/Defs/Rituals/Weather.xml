@@ -2,6 +2,8 @@
 <Defs>
   <WhisperOfTheForest.Rituals.RitualDef>
     <defName>WotF_Ritual_RainCall</defName>
+    <tier>2</tier>
+    <family>Domain</family>
     <label>rite of rain</label>
     <description>The caster traces a green chalk ring and calls a gentle rain over the altar. The rain settles in after the rite and lasts until the weather turns on its own.</description>
     <ringSize>5</ringSize>
@@ -9,14 +11,14 @@
     <manaCost>100</manaCost>
     <durationTicks>600</durationTicks>
     <effectRadius>12.9</effectRadius>
-    <participantRadiusPerExtra>0.1</participantRadiusPerExtra>
-    <maxParticipants>4</maxParticipants>
     <weatherDef>Rain</weatherDef>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_Weather</effectWorkerClass>
   </WhisperOfTheForest.Rituals.RitualDef>
 
   <WhisperOfTheForest.Rituals.RitualDef>
     <defName>WotF_Ritual_SkyWrath</defName>
+    <tier>3</tier>
+    <family>Domain</family>
     <label>rite of sky wrath</label>
     <description>The caster traces a star chalk ring and calls a thunderstorm down on the altar. The storm settles in after the rite and lasts until the weather turns on its own.</description>
     <ringSize>7</ringSize>
@@ -24,8 +26,6 @@
     <manaCost>300</manaCost>
     <durationTicks>900</durationTicks>
     <effectRadius>12.9</effectRadius>
-    <participantRadiusPerExtra>0.1</participantRadiusPerExtra>
-    <maxParticipants>4</maxParticipants>
     <minParticipants>1</minParticipants>
     <weatherDef>RainyThunderstorm</weatherDef>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_Weather</effectWorkerClass>

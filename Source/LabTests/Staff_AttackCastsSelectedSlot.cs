@@ -19,6 +19,7 @@ namespace WhisperOfTheForest.LabTests
 
         protected override void Run(TestContext t)
         {
+            using var casting = new ResourceTestUtil.FreeCastingScope();
             GameComponent_Spellbook book = GameComponent_Spellbook.Current;
             if (book == null)
             {
@@ -27,6 +28,8 @@ namespace WhisperOfTheForest.LabTests
             }
 
             Pawn caster = t.SpawnCaster(1, 5);
+            caster.apparel.DestroyAll();
+            caster.apparel.Wear((Apparel)ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed("WotF_Spellbook_Archmage")));
             Pawn target = t.SpawnTarget(9, 5);
 
             SpellRecipe recipe = TestContext.Recipe("staff-dart", SpellDefs.FormProjectile, SpellDefs.EffectHarm);

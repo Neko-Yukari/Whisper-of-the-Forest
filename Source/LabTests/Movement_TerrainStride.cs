@@ -10,7 +10,8 @@ namespace WhisperOfTheForest.LabTests
     /// test first proves the same pawn really walks mud slower without it, so a flat result cannot
     /// come from a lane that never had a cost in the first place. Both lanes are walled, otherwise
     /// the pawn would simply path around the mud and the two measurements would be identical by
-    /// accident.
+    /// accident. The walker is an elf: the mantle is on the race's apparelList, so a human is
+    /// rejected by Wear.
     /// </summary>
     [LabTest]
     public sealed class Movement_TerrainStride : LabTest
@@ -24,7 +25,7 @@ namespace WhisperOfTheForest.LabTests
 
         protected override void Run(TestContext t)
         {
-            Pawn walker = t.SpawnTarget(From, ConcreteZ);
+            Pawn walker = t.SpawnElfTarget(From, ConcreteZ);
             for (int x = From; x <= To; x++)
             {
                 t.SetTerrain(x, MudZ, TerrainDefOf.Mud);

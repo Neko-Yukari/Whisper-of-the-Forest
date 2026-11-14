@@ -25,7 +25,7 @@ namespace WhisperOfTheForest.LabTests
             RitualDef minor = DefDatabase<RitualDef>.GetNamedSilentFail("WotF_Ritual_HealingMinor");
             RitualDef medium = DefDatabase<RitualDef>.GetNamedSilentFail("WotF_Ritual_HealingMedium");
             RitualDef grand = DefDatabase<RitualDef>.GetNamedSilentFail("WotF_Ritual_HealingGrand");
-            ThingDef altarDef = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_RitualAltar");
+            ThingDef altarDef = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_RitualAltar_Starlight");
             ThingDef nodeDef = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_ManaNode");
             ThingDef whiteChalk = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_ChalkMark_White");
             ThingDef greenChalk = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_ChalkMark_Green");
@@ -106,7 +106,7 @@ namespace WhisperOfTheForest.LabTests
             CompManaBattery battery2 = Mana_TestFixture.AddBattery(t, node2);
             battery2.SetStored(battery2.Capacity);
             nodeComp.SetStored(nodeComp.Capacity);
-            t.Expect(comp.TryStart(grand, caster), "the star-ring rite did not start");
+            t.Expect(comp.TryStart(grand, null, caster, new List<Pawn> { helper }), "the star-ring rite did not start");
             t.Expect(t.StepUntil(() => !comp.IsActive, 4000), "the star-ring rite did not finish");
             t.Expect(HasMissingPart(patient, kidney) == false, "the star-ring rite did not restore the kidney");
             t.Expect(patient.health.hediffSet.GetFirstHediffOfDef(addictionDef) == null,
@@ -177,7 +177,7 @@ namespace WhisperOfTheForest.LabTests
 
         private static T Spawn<T>(ThingDef def, TestContext t, int x, int z) where T : Thing
         {
-            var thing = (T)ThingMaker.MakeThing(def);
+            var thing = (T)ThingMaker.MakeThing(def, def.MadeFromStuff ? ThingDefOf.BlocksGranite : null);
             GenSpawn.Spawn(thing, t.Arena.Cell(x, z), t.Map, WipeMode.Vanish);
             return t.Arena.Track(thing);
         }

@@ -21,7 +21,16 @@
     <configurationListOrderPriority>25</configurationListOrderPriority>
     <humanlikeFaction>true</humanlikeFaction>
     <techLevel>Neolithic</techLevel>
-    <factionIconPath>World/WorldObjects/Expanding/Village</factionIconPath>
+    <factionIconPath>World/Factions/GreenCourt</factionIconPath>
+    <!--
+      Required: Settlement.Material passes this raw field to MaterialPool.MatFrom, and MatFrom hands
+      it to ContentFinder.Get with no null check (RimWorld.Planet/Settlement.cs:74). With the field
+      empty, world creation dies in Page_CreateWorldParams.cs:211 RegenerateAllLayersNow with
+      ArgumentNullException (Parameter 'key') and :212 Close() never runs. FactionDef's own
+      SettlementTexture property would have fallen back to BaseContent.BadTex
+      (RimWorld/FactionDef.cs:344-362); the settlement does not use it.
+    -->
+    <settlementTexturePath>World/Factions/GreenCourt</settlementTexturePath>
     <factionNameMaker>NamerFactionTribal</factionNameMaker>
     <settlementNameMaker>NamerSettlementTribal</settlementNameMaker>
     <leaderTitle>archon</leaderTitle>
@@ -30,6 +39,18 @@
     <fixedLeaderKinds>
       <li>WotF_Elf_Leader</li>
     </fixedLeaderKinds>
+
+    <!--
+      Every member is generated as the elf xenotype. PawnGenerator.XenotypesAvailableFor adds the
+      faction set when the kind uses faction xenotypes (Verse/PawnGenerator.cs:1750-1758) and
+      XenotypeSet.Count/Contains use that list, so weight 1 also drives BaselinerChance to 0
+      (RimWorld/XenotypeSet.cs).
+    -->
+    <xenotypeSet>
+      <xenotypeChances>
+        <WotF_ElfXenotype MayRequire="Ludeon.RimWorld.Biotech">1</WotF_ElfXenotype>
+      </xenotypeChances>
+    </xenotypeSet>
 
     <canSiege>false</canSiege>
     <canStageAttacks>true</canStageAttacks>
@@ -40,9 +61,7 @@
     <allowedArrivalTemperatureRange>0~40</allowedArrivalTemperatureRange>
 
     <colorSpectrum>
-      <li>(0.20, 0.55, 0.30)</li>
-      <li>(0.35, 0.75, 0.42)</li>
-      <li>(0.15, 0.42, 0.28)</li>
+      <li>(46, 139, 87)</li>
     </colorSpectrum>
 
     <!--
@@ -84,15 +103,19 @@
       </li>
     </backstoryFilters>
 
+    <!--
+      Court trade (2026-11-14): three WotF TraderKindDefs replace the vanilla neolithic ones, so this
+      faction alone sells court goods and no longer leaks T3 materials through the vanilla
+      Base_Neolithic_Standard ResourcesRaw generator. No other faction references them.
+    -->
     <caravanTraderKinds>
-      <li>Caravan_Neolithic_BulkGoods</li>
-      <li>Caravan_Neolithic_ShamanMerchant</li>
+      <li>WotF_Caravan_GreenCourt</li>
     </caravanTraderKinds>
     <visitorTraderKinds>
-      <li>Visitor_Neolithic_Standard</li>
+      <li>WotF_Visitor_GreenCourt</li>
     </visitorTraderKinds>
     <baseTraderKinds>
-      <li>Base_Neolithic_Standard</li>
+      <li>WotF_Base_GreenCourt</li>
     </baseTraderKinds>
 
     <raidCommonalityFromPointsCurve>
@@ -111,6 +134,12 @@
       </points>
     </maxPawnCostPerTotalPointsCurve>
 
+    <!--
+      The archon (WotF_Elf_Leader) is listed only in the Settlement group: it wears full mithril, so
+      one that dies in a raid or on a caravan hands the player mithril, against "T3 does not leave the
+      court". The Combat group feeds raids and the Trader group's guards walk with caravans; both
+      leave it out. The faction leader itself comes from fixedLeaderKinds, not from these options.
+    -->
     <pawnGroupMakers>
       <li>
         <kindDef>Combat</kindDef>
@@ -118,6 +147,8 @@
         <options>
           <WotF_Elf_Warrior>10</WotF_Elf_Warrior>
           <WotF_Elf_Archer>10</WotF_Elf_Archer>
+          <WotF_Elf_Sentinel>8</WotF_Elf_Sentinel>
+          <WotF_Elf_Caster>4</WotF_Elf_Caster>
         </options>
       </li>
       <li>
@@ -125,6 +156,7 @@
         <commonality>100</commonality>
         <options>
           <WotF_Elf_Villager>20</WotF_Elf_Villager>
+          <WotF_Elf_MechWhisperer>1</WotF_Elf_MechWhisperer>
         </options>
       </li>
       <li>
@@ -146,6 +178,8 @@
         <guards>
           <WotF_Elf_Warrior>10</WotF_Elf_Warrior>
           <WotF_Elf_Archer>10</WotF_Elf_Archer>
+          <WotF_Elf_Sentinel>8</WotF_Elf_Sentinel>
+          <WotF_Elf_Caster>4</WotF_Elf_Caster>
         </guards>
       </li>
       <li>
@@ -153,6 +187,9 @@
         <options>
           <WotF_Elf_Warrior>10</WotF_Elf_Warrior>
           <WotF_Elf_Archer>10</WotF_Elf_Archer>
+          <WotF_Elf_Sentinel>8</WotF_Elf_Sentinel>
+          <WotF_Elf_Caster>4</WotF_Elf_Caster>
+          <WotF_Elf_Leader>1</WotF_Elf_Leader>
         </options>
       </li>
     </pawnGroupMakers>

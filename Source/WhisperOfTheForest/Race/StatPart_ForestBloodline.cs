@@ -30,6 +30,17 @@ namespace WhisperOfTheForest.Race
         }
     }
 
+    public class StatWorker_ForestBloodlineManaRegen : StatWorker
+    {
+        // Base recovery must enter before vanilla equipment offsets and hediff factors, not in FinalizeValue.
+        public override float GetBaseValueFor(StatRequest request)
+        {
+            float value = base.GetBaseValueFor(request);
+            Gene_ForestBloodline gene = Gene_ForestBloodline.Get(request.Thing as Pawn);
+            return gene == null ? value : value + gene.LevelManaRegen;
+        }
+    }
+
     /// <summary>Adds the level's neural-heat capacity to the vanilla <c>PsychicEntropyMax</c>.</summary>
     public class StatPart_ForestBloodlineEntropy : StatPart
     {

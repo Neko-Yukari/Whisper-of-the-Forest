@@ -18,6 +18,9 @@ namespace WhisperOfTheForest.Race
         {
         }
 
+        /// <summary>A resource the player cannot spend at will has nothing to drag towards.</summary>
+        protected override bool IsDraggable => false;
+
         protected override bool DraggingBar
         {
             get { return draggingBar; }

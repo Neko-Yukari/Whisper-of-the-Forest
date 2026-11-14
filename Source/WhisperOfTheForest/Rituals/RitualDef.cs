@@ -1,15 +1,46 @@
 using System;
 using System.Collections.Generic;
 using RimWorld;
+using RimWorld.Planet;
 using Verse;
+using WhisperOfTheForest.AncientRuins;
+using WhisperOfTheForest.Spells;
 
 namespace WhisperOfTheForest.Rituals
 {
+    public enum RitualFamily
+    {
+        Unspecified,
+        Crafting,
+        Life,
+        Domain
+    }
+
     public enum ChalkColor
     {
         White,
         Green,
         Star
+    }
+
+    public class RuneAwakeningTier
+    {
+        public int tier;
+        public int ringSize;
+        public ChalkColor chalkColor;
+        public float manaCost;
+        public int durationTicks;
+    }
+
+    /// <summary>
+    /// One ruin the seeking rite can point at: the quest that places it, the site part that labels and
+    /// draws it on the world map, and how much harder its guards are than the map's own threat points.
+    /// </summary>
+    public class RuinSeekOption
+    {
+        public QuestScriptDef quest;
+        public SitePartDef sitePart;
+        public float threatPointsFactor = 1f;
     }
 
     /// <summary>
@@ -18,6 +49,8 @@ namespace WhisperOfTheForest.Rituals
     /// </summary>
     public class RitualDef : Def
     {
+        public int tier;
+        public RitualFamily family;
         public int ringSize = 3;
         public ChalkColor chalkColor = ChalkColor.White;
         public float manaCost;
@@ -25,11 +58,9 @@ namespace WhisperOfTheForest.Rituals
         public float effectRadius = 12.9f;
         public float manaRestore;
 
-        /// <summary>How much the effect radius grows per extra bloodline participant on the ring.</summary>
-        public float participantRadiusPerExtra;
-
-        /// <summary>How many extra participants count toward the radius bonus.</summary>
-        public int maxParticipants;
+        public SimpleCurve powerRadiusFactor;
+        public SimpleCurve powerEffectFactor;
+        public float tameChancePerPower;
 
         /// <summary>Bloodline participants required on the ring before the rite may start.</summary>
         public int minParticipants;
@@ -66,9 +97,32 @@ namespace WhisperOfTheForest.Rituals
         /// which rune from its own menu and passes it to the effect worker; the Def carries no rune.
         /// </summary>
         public bool chooseRune;
+        public List<RuneAwakeningTier> runeTiers;
+
+        public RuneAwakeningTier RuneTierFor(int runeTier) => runeTiers.Find(entry => entry.tier == runeTier);
 
         /// <summary>True when the rite asks the altar to pick a teleport node before it starts.</summary>
         public bool chooseTeleportTarget;
+
+        /// <summary>
+        /// True when the rite asks the altar which ruin the colony is looking for. The altar shows the
+        /// options and passes the chosen one to the effect worker; the Def carries no single ruin.
+        /// </summary>
+        public bool chooseRuinType;
+
+        /// <summary>The ruins a seeking rite can point at, in the order the altar lists them.</summary>
+        public List<RuinSeekOption> ruinOptions;
+
+        public RuinSeekOption RuinOptionFor(QuestScriptDef quest)
+        {
+            return ruinOptions?.Find(option => option.quest == quest);
+        }
+
+        /// <summary>
+        /// True when the rite writes one of the host's spells into a weapon or armour lying beside the
+        /// altar. The altar asks which item and which book slot and passes both to the effect worker.
+        /// </summary>
+        public bool chooseEquipment;
 
         /// <summary>True when the altar may repeat this production rite on its own while idle.</summary>
         public bool autoRepeatable;
@@ -90,11 +144,16 @@ namespace WhisperOfTheForest.Rituals
             }
         }
 
-        /// <summary>The effect radius for a performance with this many extra participants.</summary>
-        public float RadiusFor(int participants)
+        public bool UsesPower => powerRadiusFactor != null || powerEffectFactor != null || tameChancePerPower > 0f;
+
+        public float RadiusFor(float power)
         {
-            int counted = participants < maxParticipants ? participants : maxParticipants;
-            return effectRadius * (1f + participantRadiusPerExtra * counted);
+            return effectRadius * (powerRadiusFactor == null ? 1f : powerRadiusFactor.Evaluate(power));
+        }
+
+        public float EffectFactorFor(float power)
+        {
+            return powerEffectFactor == null ? 1f : powerEffectFactor.Evaluate(power);
         }
 
         private static bool AltarHasShieldComp()
@@ -112,7 +171,17 @@ namespace WhisperOfTheForest.Rituals
                 yield return error;
             }
 
-            if (ringSize < 3 || ringSize % 2 == 0)
+            if (tier < 1 || tier > 3)
+            {
+                yield return defName + " tier must be between 1 and 3.";
+            }
+
+            if (family == RitualFamily.Unspecified || !Enum.IsDefined(typeof(RitualFamily), family))
+            {
+                yield return defName + " must declare a ritual family.";
+            }
+
+            if (ringSize < 3 || ringSize > 7 || ringSize % 2 == 0)
             {
                 yield return defName + " ringSize must be an odd number of at least 3.";
             }
@@ -127,20 +196,43 @@ namespace WhisperOfTheForest.Rituals
                 yield return defName + " durationTicks must be positive.";
             }
 
+            if (chooseRune)
+            {
+                for (int runeTier = 1; runeTier <= 3; runeTier++)
+                {
+                    if (runeTiers == null || runeTiers.FindAll(entry => entry != null && entry.tier == runeTier).Count != 1)
+                        yield return defName + " runeTiers needs exactly one entry for tier " + runeTier;
+                }
+                if (runeTiers != null)
+                {
+                    foreach (RuneAwakeningTier entry in runeTiers)
+                    {
+                        if (entry == null || entry.tier < 1 || entry.tier > 3
+                            || entry.ringSize < 3 || entry.ringSize > 7 || entry.ringSize % 2 == 0
+                            || !Enum.IsDefined(typeof(ChalkColor), entry.chalkColor)
+                            || entry.manaCost < 0f || entry.durationTicks <= 0)
+                            yield return defName + " has an invalid runeTiers entry.";
+                    }
+                }
+            }
+
             if (effectRadius <= 0f)
             {
                 yield return defName + " effectRadius must be positive.";
             }
 
-            if (participantRadiusPerExtra < 0f)
+            if (powerRadiusFactor != null && (powerRadiusFactor.PointsCount == 0 || powerRadiusFactor.MinY <= 0f
+                || effectRadius * powerRadiusFactor.MaxY > GenRadial.MaxRadialPatternRadius))
             {
-                yield return defName + " participantRadiusPerExtra must not be negative.";
+                yield return defName + " powerRadiusFactor must be positive and stay inside GenRadial's radius limit.";
             }
 
-            if (maxParticipants < 0)
+            if (powerEffectFactor != null && (powerEffectFactor.PointsCount == 0 || powerEffectFactor.MinY <= 0f))
             {
-                yield return defName + " maxParticipants must not be negative.";
+                yield return defName + " powerEffectFactor must be positive.";
             }
+
+            if (tameChancePerPower < 0f) yield return defName + " tameChancePerPower must not be negative.";
 
             if (minParticipants < 0)
             {
@@ -162,6 +254,39 @@ namespace WhisperOfTheForest.Rituals
                 && (effectWorkerClass == null || !typeof(RitualEffect_Teleport).IsAssignableFrom(effectWorkerClass)))
             {
                 yield return defName + " chooseTeleportTarget but does not use RitualEffect_Teleport.";
+            }
+
+            if (chooseRuinType)
+            {
+                if (effectWorkerClass == null || !typeof(RitualEffect_SeekRuin).IsAssignableFrom(effectWorkerClass))
+                {
+                    yield return defName + " chooseRuinType but does not use RitualEffect_SeekRuin.";
+                }
+
+                if (ruinOptions == null || ruinOptions.Count == 0)
+                {
+                    yield return defName + " chooseRuinType but has no ruinOptions.";
+                }
+                else
+                {
+                    foreach (RuinSeekOption option in ruinOptions)
+                    {
+                        if (option == null || option.quest == null || option.sitePart == null || option.threatPointsFactor <= 0f)
+                        {
+                            yield return defName + " has a ruinOptions entry without quest, sitePart or a positive threatPointsFactor.";
+                        }
+                    }
+                }
+            }
+            else if (ruinOptions != null)
+            {
+                yield return defName + " has ruinOptions but does not set chooseRuinType.";
+            }
+
+            if (chooseEquipment
+                && (effectWorkerClass == null || !typeof(RitualEffect_InscribeEquipment).IsAssignableFrom(effectWorkerClass)))
+            {
+                yield return defName + " chooseEquipment but does not use RitualEffect_InscribeEquipment.";
             }
 
             if (autoRepeatable
@@ -238,6 +363,25 @@ namespace WhisperOfTheForest.Rituals
                 && (outputProducts == null || outputProducts.Count == 0))
             {
                 yield return defName + " uses RitualEffect_Transmute but has no outputProducts.";
+            }
+
+            if (effectWorkerClass == typeof(RitualEffect_SpellbookUpgrade))
+            {
+                if (outputProducts == null || outputProducts.Count != 1
+                    || outputProducts[0]?.thingDef?.GetModExtension<SpellbookExtension>() == null
+                    || outputProducts[0].count != 1)
+                {
+                    yield return defName + " spellbook upgrade must produce exactly one spellbook.";
+                }
+                else
+                {
+                    var books = inputCosts?.FindAll(cost =>
+                        cost?.thingDef?.GetModExtension<SpellbookExtension>() != null);
+                    if (books == null || books.Count != 1 || books[0].count != 1
+                        || books[0].thingDef.GetModExtension<SpellbookExtension>().slotCount
+                            >= outputProducts[0].thingDef.GetModExtension<SpellbookExtension>().slotCount)
+                        yield return defName + " spellbook upgrade must consume exactly one lower-capacity spellbook.";
+                }
             }
 
             if (effectWorkerClass != null

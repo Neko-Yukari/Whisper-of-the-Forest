@@ -128,13 +128,34 @@ function Test-ExpectedLogBlock([string]$head, [string[]]$samples) {
 }
 
 <#
+  True when the type name is written in this mod's own XML, as element text (<li>X</li>,
+  <thingClass>X</thingClass>) or as a Class attribute (<li Class="X">). Exact match only: a short name
+  is not found inside a full name that happens to end the same way.
+#>
+function Test-TypeNamedInOwnDefs([string]$typeName) {
+    $name = [regex]::Escape($typeName)
+    $pattern = [regex]('>\s*' + $name + '\s*<|\bClass\s*=\s*"' + $name + '"')
+    foreach ($relative in @('1.7/Defs', '1.7/Patches', 'Patches')) {
+        $root = Join-Path $repo $relative
+        if (-not (Test-Path -LiteralPath $root)) { continue }
+        foreach ($file in Get-ChildItem -LiteralPath $root -Recurse -File -Filter '*.xml') {
+            if ($pattern.IsMatch([IO.File]::ReadAllText($file.FullName))) { return $true }
+        }
+    }
+
+    return $false
+}
+
+<#
   The in-game queue only keeps the last 1000 lines, so a Def error logged while the mods load can
   be pushed out before the run starts. The disk log keeps the whole process, so it is the authority
   for load-time errors.
 
   Reads the log line by line and treats a timestamped "ERROR" line plus its following stack-trace
   lines as one block; the block counts as ours when any of its lines names this mod (an exception
-  thrown inside our assembly has its name only in the stack).
+  thrown inside our assembly has its name only in the stack). Two messages name no mod at all and are
+  claimed by looking the thing they quote up in our own XML: an "XML error: <x>..</x>" element and a
+  "Could not find a type named X" type name.
 #>
 function Read-WotfLogErrors([string]$path, [int]$SkipLines = 0, [string[]]$ExpectedSamples = @()) {
     $result = [pscustomobject]@{
@@ -218,6 +239,18 @@ function Read-WotfLogErrors([string]$path, [int]$SkipLines = 0, [string[]]$Expec
         }
 
         $ours = $block | Where-Object { $_ -match 'WotF|WhisperOfTheForest' }
+        # Def field errors name no mod (XmlToObjectUtils.DoFieldSearch logs only the XML context), so
+        # claim the block when the offending element sits in our own Defs.
+        if (-not $ours -and $head -match '^XML error: (<[^>]+>[^<]*</[^>]+>)') {
+            $defFiles = (Get-ChildItem -LiteralPath (Join-Path $repo '1.7/Defs') -Recurse -File -Filter '*.xml').FullName
+            if (Select-String -LiteralPath $defFiles -SimpleMatch $Matches[1] -Quiet) { $ours = @($block[0]) }
+        }
+        # "Could not find a type named X" (Verse/ParseHelper.cs:219-235) only has the string X to log, so it
+        # names no mod either, yet it leaves a null entry that later throws (a short-named placeWorker made
+        # the first placement check throw ArgumentNullException). Claim it when X stands in our own XML.
+        if (-not $ours -and $head -match '^Could not find a type named (\S+)$') {
+            if (Test-TypeNamedInOwnDefs $Matches[1]) { $ours = @($block[0]) }
+        }
         if (-not $ours) {
             continue
         }

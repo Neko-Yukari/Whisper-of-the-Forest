@@ -14,6 +14,7 @@ namespace WhisperOfTheForest.LabTests
 
         protected override void Run(TestContext t)
         {
+            using var casting = new ResourceTestUtil.FreeCastingScope();
             t.Expect(TestLogWatch.IsOwn("Could not find type named WhisperOfTheForest.Experimental.Spells.GameComponent_Spellbook"),
                 "the load gate exempted a removed class belonging to this mod");
 
@@ -58,6 +59,10 @@ namespace WhisperOfTheForest.LabTests
                 "single Super rune did not produce a complete railgun plan");
 
             Pawn caster = t.SpawnCaster(1, 5);
+            caster.apparel.DestroyAll();
+            caster.apparel.Wear((Apparel)ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed("WotF_Spellbook_Archmage")));
+            caster.equipment.AddEquipment((ThingWithComps)ThingMaker.MakeThing(
+                DefDatabase<ThingDef>.GetNamed("WotF_SpellStaff"), ThingDefOf.Steel));
             BloodlineKit.Gene(t, caster).GainExperience(BloodlineKit.XpFromOneTo(BloodlineKit.Def.maxLevel));
             t.Note("casterEntropyLimit", caster.GetStatValue(StatDefOf.PsychicEntropyMax));
             Thing wall = t.SpawnWall(9, 5, ThingDefOf.Plasteel);

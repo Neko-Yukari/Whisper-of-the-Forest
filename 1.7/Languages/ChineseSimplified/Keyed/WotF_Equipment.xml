@@ -12,6 +12,16 @@
   <WotF_Equipment.Inspect.NoSpell>法术：无</WotF_Equipment.Inspect.NoSpell>
   <WotF_Equipment.Inspect.Current>法术：{0}</WotF_Equipment.Inspect.Current>
 
+  <!-- 武具注法：槽位切换与信息栏。 -->
+  <WotF_Enchant.Gizmo.None>秘银槽位：第 {0} 槽（空）</WotF_Enchant.Gizmo.None>
+  <WotF_Enchant.Gizmo.Current>秘银槽位：第 {0} 槽 · {1}</WotF_Enchant.Gizmo.Current>
+  <WotF_Enchant.Gizmo.Desc>秘银件有两个注法槽，切换后按当前槽位的法术触发反应。</WotF_Enchant.Gizmo.Desc>
+  <WotF_Enchant.Menu.Slot>{0}. {1}</WotF_Enchant.Menu.Slot>
+  <WotF_Enchant.Inspect.None>注法：无</WotF_Enchant.Inspect.None>
+  <WotF_Enchant.Inspect.One>注法：{0}</WotF_Enchant.Inspect.One>
+  <WotF_Enchant.Inspect.Slots>注法：{0}</WotF_Enchant.Inspect.Slots>
+  <WotF_Enchant.Inspect.Empty>空</WotF_Enchant.Inspect.Empty>
+
   <WotF_ShortStaff.Reason.NoRitual>目标没有参加灵能仪式。</WotF_ShortStaff.Reason.NoRitual>
   <WotF_ShortStaff.Reason.NotAbduction>该仪式不是跃迁绑架。</WotF_ShortStaff.Reason.NotAbduction>
   <WotF_ShortStaff.CancelReason>{CASTER_nameDef} 用短法杖打断了仪式。</WotF_ShortStaff.CancelReason>

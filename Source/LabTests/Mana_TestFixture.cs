@@ -9,7 +9,7 @@ namespace WhisperOfTheForest.LabTests
     {
         public static CompManaBattery AddBattery(TestContext t, Building node)
         {
-            var battery = (Building)ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed("WotF_ManaBattery"));
+            var battery = (Building)ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed("WotF_ManaBattery"), ThingDefOf.BlocksGranite);
             battery.SetFaction(Faction.OfPlayer);
             GenSpawn.Spawn(battery, node.Position + new IntVec3(2, 0, 2), t.Map, WipeMode.Vanish);
             t.Arena.Track(battery);

@@ -2,6 +2,8 @@
 <Defs>
   <WhisperOfTheForest.Rituals.RitualDef>
     <defName>WotF_Ritual_TransmuteGreenChalk</defName>
+    <tier>2</tier>
+    <family>Crafting</family>
     <label>rite of green chalk</label>
     <description>The caster traces a white chalk ring and works white chalk and herbs into green chalk. Five white sticks and twenty herbal medicines become five sticks of green chalk beside the altar.</description>
     <ringSize>3</ringSize>
@@ -9,8 +11,6 @@
     <manaCost>40</manaCost>
     <durationTicks>300</durationTicks>
     <effectRadius>12.9</effectRadius>
-    <participantRadiusPerExtra>0.1</participantRadiusPerExtra>
-    <maxParticipants>4</maxParticipants>
     <inputCosts>
       <WotF_Chalk>5</WotF_Chalk>
       <MedicineHerbal>20</MedicineHerbal>
@@ -24,17 +24,17 @@
 
   <WhisperOfTheForest.Rituals.RitualDef>
     <defName>WotF_Ritual_TransmuteStarChalk</defName>
+    <tier>2</tier>
+    <family>Crafting</family>
     <label>rite of star chalk</label>
-    <description>The caster traces a green chalk ring and sets green chalk, silver and jade under the stars. Five green sticks, ten silver and ten jade become five sticks of star chalk beside the altar.</description>
+    <description>The caster traces a green chalk ring and sets white chalk, silver and jade under the stars. Five white sticks, ten silver and ten jade become five sticks of star chalk beside the altar.</description>
     <ringSize>5</ringSize>
     <chalkColor>Green</chalkColor>
     <manaCost>120</manaCost>
     <durationTicks>600</durationTicks>
     <effectRadius>12.9</effectRadius>
-    <participantRadiusPerExtra>0.1</participantRadiusPerExtra>
-    <maxParticipants>4</maxParticipants>
     <inputCosts>
-      <WotF_ChalkGreen>5</WotF_ChalkGreen>
+      <WotF_Chalk>5</WotF_Chalk>
       <Silver>10</Silver>
       <Jade>10</Jade>
     </inputCosts>
@@ -47,6 +47,8 @@
 
   <WhisperOfTheForest.Rituals.RitualDef>
     <defName>WotF_Ritual_TransmuteComponent</defName>
+    <tier>2</tier>
+    <family>Crafting</family>
     <label>rite of components</label>
     <description>The caster traces a green chalk ring and draws a component out of raw steel and herbs. Thirty steel and fifteen herbal medicines become one industrial component beside the altar.</description>
     <ringSize>5</ringSize>
@@ -54,8 +56,6 @@
     <manaCost>120</manaCost>
     <durationTicks>600</durationTicks>
     <effectRadius>12.9</effectRadius>
-    <participantRadiusPerExtra>0.1</participantRadiusPerExtra>
-    <maxParticipants>4</maxParticipants>
     <inputCosts>
       <Steel>30</Steel>
       <MedicineHerbal>15</MedicineHerbal>

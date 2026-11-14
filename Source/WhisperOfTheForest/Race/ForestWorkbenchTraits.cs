@@ -7,16 +7,16 @@ using Verse.AI;
 namespace WhisperOfTheForest.Race
 {
     /// <summary>
-    /// The bloodline's relation to workbenches: an electric bench slows the work down, a bench
+    /// The forest craft's relation to workbenches: an electric bench slows the work down, a bench
     /// without a power comp raises the quality of what the pawn makes. Both numbers live on the
-    /// bloodline gene Def.
+    /// forest craft gene Def.
     /// </summary>
     internal static class ForestWorkbench
     {
-        public static bool IsBloodlineAtWorkTable(Pawn pawn, out Building_WorkTable table)
+        public static bool IsForestCraftAtWorkTable(Pawn pawn, out Building_WorkTable table)
         {
             table = null;
-            if (Gene_ForestBloodline.Get(pawn) == null)
+            if (Gene_ForestCraft.Get(pawn) == null)
             {
                 return false;
             }
@@ -30,9 +30,9 @@ namespace WhisperOfTheForest.Race
             return table.GetComp<CompPowerTrader>() != null;
         }
 
-        public static WotF_ForestBloodlineGeneDef DefOf(Pawn pawn)
+        public static WotF_ForestCraftGeneDef DefOf(Pawn pawn)
         {
-            return (WotF_ForestBloodlineGeneDef)Gene_ForestBloodline.Get(pawn).def;
+            return (WotF_ForestCraftGeneDef)Gene_ForestCraft.Get(pawn).def;
         }
     }
 
@@ -50,7 +50,7 @@ namespace WhisperOfTheForest.Race
             __result.tickIntervalAction = delta =>
             {
                 Pawn pawn = __result.actor;
-                if (!ForestWorkbench.IsBloodlineAtWorkTable(pawn, out Building_WorkTable table)
+                if (!ForestWorkbench.IsForestCraftAtWorkTable(pawn, out Building_WorkTable table)
                     || !ForestWorkbench.IsPowered(table))
                 {
                     original(delta);
@@ -89,7 +89,7 @@ namespace WhisperOfTheForest.Race
     {
         private static void Postfix(Pawn pawn, ref QualityCategory __result)
         {
-            if (!ForestWorkbench.IsBloodlineAtWorkTable(pawn, out Building_WorkTable table)
+            if (!ForestWorkbench.IsForestCraftAtWorkTable(pawn, out Building_WorkTable table)
                 || ForestWorkbench.IsPowered(table))
             {
                 return;

@@ -2,6 +2,7 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 using WhisperOfTheForest.Missiles;
+using WhisperOfTheForest.Equipment;
 
 namespace WhisperOfTheForest.Spells
 {
@@ -338,6 +339,18 @@ namespace WhisperOfTheForest.Spells
             Pawn caster = cast.caster;
             Map map = cast.map;
             SpellCastPlan plan = cast.plan;
+
+            SpellGlyphDef firstGlyph = SpellDefs.Glyph(plan.glyphs[0]);
+            if (firstGlyph.kind == SpellGlyphKind.Super)
+            {
+                if (!SpellService.CanUseGlyph(caster, firstGlyph, out failure))
+                    return false;
+                if (caster.equipment?.Primary?.GetComp<CompSpellStaff>() == null)
+                {
+                    failure = SpellText.T("WotF_Spells.Reason.SuperNeedsStaff");
+                    return false;
+                }
+            }
 
             // The cost was checked when the cast began; the caster may have spent mana or gained heat
             // since, so it is checked again here and only paid once the payload really went out.

@@ -2,7 +2,8 @@
 <#
   Cross-checks 1.7 Def XML against the actual assemblies and texture files:
     - Class="..." / <thingClass> / <workerClass> must exist in our DLL, Assembly-CSharp or AlienRace
-    - <texPath>/<iconPath>/<wornGraphicPath> must resolve to a file under Textures/
+    - <texPath>/<iconPath> must resolve to a file under Textures/; <wornGraphicPath> is checked
+      together with its body-type and direction suffixes by rule 2
 
   Structural rules mirror the decompiled vanilla load path
   (../Graphify/native/source, read-only reference):
@@ -10,9 +11,15 @@
        Verse/DirectXmlToObjectNew.cs:185 - "Type X is not a Def type or could not be found"
        GenTypes.cs:53 - short names only resolve inside RIMWORLD/VERSE/LUDEONTK/... namespaces
     2. Apparel worn graphics are suffixed with _<BodyType> unless the last layer is
-       Overhead/EyeCover, RenderAsPack() is true, or the path is a vanilla placeholder.
-       RimWorld/ApparelGraphicRecordGetter.cs:20, Verse/PawnRenderUtility.cs:38,
-       RimWorld/ApparelProperties.cs:105 (LastLayer = last entry of <layers>)
+       Overhead/EyeCover, RenderAsPack() is true, or the path is a vanilla placeholder, and are then
+       loaded as a Graphic_Multi in four directions.
+       RimWorld/ApparelGraphicRecordGetter.cs:20 builds "<wornGraphicPath>_<BodyType>" (Verse/PawnRenderUtility.cs:38,
+       RimWorld/ApparelProperties.cs:105 LastLayer = last entry of <layers>), and
+       Verse/Graphic_Multi.cs:80-83 reads "_north/_east/_south/_west" from that path.
+       Graphic_Multi.cs:128-134 mirrors _west from _east, so _west is optional but
+       _south/_north/_east are required. Non-headed apparel therefore needs
+       <path>_<BodyType>_<south|north|east>; Overhead/EyeCover apparel needs
+       <path>_<south|north|east> and ignores BodyTypeDef entirely.
     3. Races: Core BasePawn declares no <tools>, so a race with no tools has no melee verb.
     4. ThingDef.ConfigErrors: Verse/ThingDef.cs:1820
        "is smeltable but does not give anything for smelting."
@@ -24,6 +31,23 @@
     7. Vanilla classes that look up one hard-coded verb type and use the result without a null
        check never match a mod verb ($hardVerbConsumers, each with its source line). Today only
        RimWorld/PlaceWorker_ShowTurretRadius.cs:9 (exactly Verb_Shoot, or a Verb_Spray subclass).
+    8. ParentName must name a node that carries a Name attribute; XmlInheritance indexes Name only.
+       Verse/XmlInheritance.cs:79-95, :222-260.
+    9. A key used as "WotF_...".Translate( in Source/WhisperOfTheForest must exist in the Keyed files
+       of English and ChineseSimplified. Verse/Translator.cs:53-66, Verse/LoadedLanguage.cs:488-492.
+   10. SitePartDef.siteTexture / expandingIconTexture may only name a file shipped under Textures/ or a
+       path some Def under Data/Core/Defs references; the vanilla asset bundle also carries DLC art, so a
+       DLC-only path loads only with that DLC active.
+    11. Every <li> under rulesStrings / rulesFiles (Defs and DefInjected) must read keyword->text.
+        Verse.Grammar/Rule_String.cs:18,49-54, Verse.Grammar/RulePack.cs:91-119.
+    12. Every <li> under placeWorkers / inspectorTabs must resolve to a type of the right base.
+        Verse/ParseHelper.cs:219-235 parses a Type name through GenTypes.GetTypeInAnyAssembly
+        (short names only get the IgnoredNamespaceNames prefixes, Verse/GenTypes.cs:53-57), logs
+        "Could not find a type named X" and keeps a null list entry. Verse/BuildableDef.cs:152-170
+        then hits Activator.CreateInstance(null) on the first placement check and throws
+        ArgumentNullException (Parameter 'type') with nothing to catch it; the inspector tab path
+        does the same at load but its exception is swallowed per tab
+        (Verse/ThingDef.cs:1653-1667), so the tab just disappears.
 #>
 [CmdletBinding()]
 param(
@@ -52,6 +76,8 @@ $ignoredNamespaces = @(
 $headOnlyLayers = @('Overhead', 'EyeCover')
 $placeholderGraphicPaths = @('PlaceholderImage', 'PlaceholderImage_Gear')
 $bodyTypes = @('Male', 'Female', 'Thin', 'Hulk', 'Fat')
+# Graphic_Multi.cs:80-83. _west is optional: Graphic_Multi.cs:128-134 mirrors it from _east.
+$wornGraphicDirections = @('south', 'north', 'east')
 
 # StaticConstructorOnStartupUtility.cs:44-51 field-type rule.
 $assetFieldTypes = @(
@@ -315,7 +341,10 @@ foreach ($file in Get-ChildItem -LiteralPath $defRoot -Recurse -Filter '*.xml' -
         }
     }
 
-    foreach ($match in [regex]::Matches($raw, '<(?:texPath|iconPath|wornGraphicPath)>([^<]+)</')) {
+    # wornGraphicPath is not checked here: only the firmly suffixed files (_<BodyType>_<dir> or, for
+    # head layers, _<dir>) are required by Graphic_Multi, so the plain base path may not exist at all.
+    # The apparel rule below checks the suffixed set.
+    foreach ($match in [regex]::Matches($raw, '<(?:texPath|iconPath)>([^<]+)</')) {
         $texture = $match.Groups[1].Value.Trim()
         $checked++
         if (-not (Test-TextureExists $texture)) {
@@ -381,6 +410,50 @@ foreach ($entry in $modDefs) {
     Add-DefToIndex $entry.Node $entry.File
 }
 
+# ------------------------------------------------------------ parent names
+
+# XmlInheritance indexes nodes by their Name attribute alone: TryRegister keys nodesByName on Name
+# (Verse/XmlInheritance.cs:79-95) and TryGetParent resolves ParentName through that same index
+# (:222-260). A ParentName that matches a defName resolves to nothing, and the child silently keeps
+# its own root type's defaults instead of the parent's class and fields; the error only shows up when
+# that field is used (quest generation throws on a layout without workerClass). Vanilla has one such
+# trap: Data/Ideology/Defs/LayoutDefs/Layouts_Misc.xml:4 carries Name="AncientComplex" while :49 is
+# only defName="AncientComplex_Loot".
+$namedNodes = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
+$nameAttributePattern = [regex]'(?s)<[A-Za-z][^<>]*?(?<![\w.])Name\s*=\s*"([^"]+)"'
+
+function Add-NamedNodesFrom([string]$file) {
+    $raw = Get-Content -LiteralPath $file -Raw
+    if ($raw.IndexOf('Name', [System.StringComparison]::Ordinal) -lt 0) { return }
+
+    foreach ($match in $nameAttributePattern.Matches($raw)) {
+        [void]$namedNodes.Add($match.Groups[1].Value.Trim())
+    }
+}
+
+foreach ($expansion in Get-ChildItem -LiteralPath (Join-Path $gameRoot 'Data') -Directory) {
+    $expansionDefs = Join-Path $expansion.FullName 'Defs'
+    if (-not (Test-Path -LiteralPath $expansionDefs)) { continue }
+
+    foreach ($file in Get-ChildItem -LiteralPath $expansionDefs -Recurse -Filter '*.xml' -File) {
+        Add-NamedNodesFrom $file.FullName
+    }
+}
+
+foreach ($file in Get-ChildItem -LiteralPath $defRoot -Recurse -Filter '*.xml' -File) {
+    Add-NamedNodesFrom $file.FullName
+}
+
+foreach ($entry in $modDefs) {
+    $ruleChecks++
+    $parentName = $entry.Node.GetAttribute('ParentName')
+    if ([string]::IsNullOrEmpty($parentName)) { continue }
+
+    if (-not $namedNodes.Contains($parentName)) {
+        Add-Failure "ParentName '$parentName' matches no node carrying a Name attribute in vanilla Data or this mod; XmlInheritance indexes only Name (Verse/XmlInheritance.cs:79-95), so this parent resolves to nothing and the Def keeps its own defaults" $entry.File
+    }
+}
+
 # ------------------------------------------------------------ structural rules
 
 foreach ($entry in $modDefs) {
@@ -418,16 +491,32 @@ foreach ($entry in $modDefs) {
                 }
 
                 $ruleChecks++
-                if (-not $skipBodyTypeSuffix) {
+                # ApparelGraphicRecordGetter.cs:20 appends "_<BodyType>" only for non-headed apparel;
+                # Graphic_Multi.cs:80-83 then loads _south/_north/_east (and an optional _west, which
+                # Graphic_Multi.cs:128-134 mirrors from _east when absent).
+                if ($skipBodyTypeSuffix) {
                     $missing = @()
-                    foreach ($bodyType in $bodyTypes) {
-                        $suffixed = $wornGraphicPath + '_' + $bodyType
-                        if (-not (Test-TextureExists $suffixed)) {
-                            $missing += ('_' + $bodyType)
+                    foreach ($direction in $wornGraphicDirections) {
+                        if (-not (Test-TextureExists ($wornGraphicPath + '_' + $direction))) {
+                            $missing += ('_' + $direction)
                         }
                     }
                     if ($missing.Count -gt 0) {
-                        Add-Failure "apparel '$($entry.DefName)' wornGraphicPath '$wornGraphicPath' (layer '$lastLayer') is missing body-type textures: $($missing -join ', ')" $entry.File
+                        Add-Failure "apparel '$($entry.DefName)' wornGraphicPath '$wornGraphicPath' (layer '$lastLayer') is missing directional textures: $($missing -join ', ')" $entry.File
+                    }
+                }
+                else {
+                    $missing = @()
+                    foreach ($bodyType in $bodyTypes) {
+                        foreach ($direction in $wornGraphicDirections) {
+                            $suffixed = $wornGraphicPath + '_' + $bodyType + '_' + $direction
+                            if (-not (Test-TextureExists $suffixed)) {
+                                $missing += ('_' + $bodyType + '_' + $direction)
+                            }
+                        }
+                    }
+                    if ($missing.Count -gt 0) {
+                        Add-Failure "apparel '$($entry.DefName)' wornGraphicPath '$wornGraphicPath' (layer '$lastLayer') is missing directional textures: $($missing -join ', ')" $entry.File
                     }
                 }
             }
@@ -459,6 +548,44 @@ foreach ($entry in $modDefs) {
                 ($null -ne $stuffProps) -or ($stuffCategories.Count -gt 0) -or $destroyOnDrop
             if (-not $givesSomething) {
                 Add-Failure "ThingDef '$($entry.DefName)' is smeltable but does not give anything for smelting" $entry.File
+            }
+        }
+
+        # Rule 12: placeWorkers / inspectorTabs are Type lists. Verse/ParseHelper.cs:219-235 resolves each
+        # name through GenTypes.GetTypeInAnyAssembly, which only prefixes GenTypes.IgnoredNamespaceNames
+        # (Verse/GenTypes.cs:53-57) for a short name — our own classes must be written with their full name.
+        # An unresolvable name is logged as "Could not find a type named X" and stays in the list as null.
+        # Verse/BuildableDef.cs:152-170 then calls Activator.CreateInstance on every entry with no null
+        # check, so the first build-placement check (GenConstruct.cs:509-519) throws
+        # ArgumentNullException (Parameter 'type') and nothing catches it. inspectorTabs go through the
+        # same parse but ThingDef.cs:1653-1667 wraps each resolution in try/catch, so a bad tab is only
+        # logged ("Could not instantiate inspector tab of type ...") and then silently missing from the
+        # building. Neither shows up in ConfigErrors, so nothing but this rule catches it before the game.
+        $placeWorkers = Get-ListAt $chain @('placeWorkers')
+        if ($placeWorkers.Count -gt 0) {
+            $ruleChecks++
+            foreach ($placeWorker in $placeWorkers) {
+                $workerName = $placeWorker.InnerText.Trim()
+                $workerType = Resolve-TypeName $workerName
+                if ($null -eq $workerType) {
+                    Add-Failure "ThingDef '$($entry.DefName)' lists placeWorker '$workerName', which resolves to no type; a short name only gets the GenTypes.cs:53-57 namespace prefixes, so our own place workers need their full name. The load logs 'Could not find a type named $workerName' and keeps a null entry, and the first placement check throws ArgumentNullException (Parameter 'type') (Verse/ParseHelper.cs:219-235, Verse/BuildableDef.cs:152-170)" $entry.File
+                } elseif (-not (Test-IsA $workerType 'Verse.PlaceWorker')) {
+                    Add-Failure "ThingDef '$($entry.DefName)' lists placeWorker '$workerName', which resolves to '$($workerType.Full)' and is not a Verse.PlaceWorker; the cast in Verse/BuildableDef.cs:165 throws on the first placement check" $entry.File
+                }
+            }
+        }
+
+        $inspectorTabs = Get-ListAt $chain @('inspectorTabs')
+        if ($inspectorTabs.Count -gt 0) {
+            $ruleChecks++
+            foreach ($inspectorTab in $inspectorTabs) {
+                $tabName = $inspectorTab.InnerText.Trim()
+                $tabType = Resolve-TypeName $tabName
+                if ($null -eq $tabType) {
+                    Add-Failure "ThingDef '$($entry.DefName)' lists inspectorTab '$tabName', which resolves to no type; the null entry makes Verse/InspectTabManager.cs:12-16 throw ArgumentNullException (Parameter 'type'), which Verse/ThingDef.cs:1653-1667 catches and logs, so the tab silently never appears on the building" $entry.File
+                } elseif (-not (Test-IsA $tabType 'Verse.InspectTabBase')) {
+                    Add-Failure "ThingDef '$($entry.DefName)' lists inspectorTab '$tabName', which resolves to '$($tabType.Full)' and is not a Verse.InspectTabBase; the cast in Verse/InspectTabManager.cs:16 throws, Verse/ThingDef.cs:1653-1667 catches it, and the tab silently never appears" $entry.File
+                }
             }
         }
 
@@ -570,6 +697,245 @@ foreach ($type in $modTypes) {
             $shortFieldType = $field.Type.Substring($field.Type.LastIndexOf('.') + 1)
             Add-Failure "Type '$($type.Short)' probably needs a StaticConstructorOnStartup attribute, because it has a field '$($field.Name)' of type '$shortFieldType'; all assets must be loaded in the main thread" $modAssemblyName
         }
+    }
+}
+
+# DefInjectionPackage.AddDataFromFile treats any element with children as a list key and keeps only <li>,
+# so a type wrapper like <ThingDef> around the entries silently drops every translation inside it.
+foreach ($langFile in Get-ChildItem (Join-Path $repo '1.7/Languages') -Recurse -Filter *.xml | Where-Object { $_.FullName -match '[\\/]DefInjected[\\/]' }) {
+    $ruleChecks++
+    [xml]$langXml = Get-Content -LiteralPath $langFile.FullName -Raw -Encoding UTF8
+    foreach ($entry in $langXml.DocumentElement.ChildNodes) {
+        if ($entry.NodeType -ne 'Element' -or $entry.Name -like '*.slateRef') { continue }
+        $nonLi = @($entry.ChildNodes | Where-Object { $_.NodeType -eq 'Element' -and $_.Name -ne 'li' })
+        if ($nonLi.Count -gt 0) {
+            Add-Failure "DefInjected entry '$($entry.Name)' wraps non-li elements; the game drops them" $langFile.Name
+        }
+    }
+}
+
+# ---------------------------------------------------------------- grammar rule strings
+
+# Every <li> under rulesStrings has to match Rule_String.Pattern, `keyword->output`, where keyword is
+# [a-zA-Z0-9_/]+ optionally followed by a (name=value, ...) list (Verse.Grammar/Rule_String.cs:18, applied
+# at :49-54). A string that does not match is not rejected at load: the constructor logs "Bad string pass
+# when reading rule ..." and returns a rule with a null keyword and output (:52-53). RulePack then calls
+# Init() and adds it to the pack (Verse.Grammar/RulePack.cs:95-97), GrammarResolver.AddRule reads
+# rule.keyword as a dictionary key (GrammarResolver.cs:381) and throws ArgumentNullException, which
+# QuestGen reports as "Error while generating quest description" (RimWorld.QuestGen/QuestGen.cs:134-139).
+# That is what `questDescription>text` (missing the dash) produced.
+# rulesFiles is parsed differently: split on "->", [0] is the keyword and [1] the path, both trimmed
+# (RulePack.cs:108-111), and a missing "->" throws IndexOutOfRange (:115-118). Rule_File does not read a
+# parameter list, so there the keyword must be plain and both halves non-empty.
+# DefInjected replaces the same lists (a <li> list under a key ending .rulesStrings / .rulesFiles,
+# Verse/DefInjectionPackage.cs:135-163), so those entries are held to the same format.
+$ruleStringPattern = [regex]::new(@'
+    ^
+    (?<keyword>[a-zA-Z0-9_/]+)
+    (
+        \(
+            (
+                [ ]*
+                (?<paramname>[a-zA-Z0-9_/]+)
+                (?<paramoperator>==|=|!=|>=|<=|>|<|\[less_than\]|\[greater_than\])
+                (?<paramvalue>[^\,\)]*)
+                ,?
+            )*
+        \)
+    )?
+    [ ]*
+    ->(?<output>.*)
+    $
+'@, [System.Text.RegularExpressions.RegexOptions]'ExplicitCapture, Singleline, IgnorePatternWhitespace')
+
+function Test-RuleItem([string]$listKind, [string]$text) {
+    if ($listKind -eq 'rulesStrings') { return $ruleStringPattern.IsMatch($text) }
+    $parts = $text -split '->'
+    return ($parts.Count -ge 2) -and ($parts[0].Trim() -match '^[a-zA-Z0-9_/]+$') -and ($parts[1].Trim().Length -gt 0)
+}
+
+function Test-RuleList([string]$listKind, [string]$owner, [string[]]$items, [string]$where) {
+    foreach ($item in $items) {
+        $script:ruleChecks++
+        if (-not (Test-RuleItem $listKind $item)) {
+            $shown = if ($item.Length -gt 60) { $item.Substring(0, 60) + '...' } else { $item }
+            Add-Failure "$owner <$listKind> entry '$shown' is not 'keyword->text'; vanilla logs an error (rulesStrings: 'Bad string pass when reading rule', null keyword; rulesFiles: IndexOutOfRange) and the rule is unusable" $where
+        }
+    }
+}
+
+foreach ($file in Get-ChildItem -LiteralPath $defRoot -Recurse -Filter '*.xml' -File) {
+    [xml]$defXml = Get-Content -LiteralPath $file.FullName -Raw -Encoding UTF8
+    foreach ($listKind in 'rulesStrings', 'rulesFiles') {
+        foreach ($list in $defXml.SelectNodes("//$listKind")) {
+            $owner = $list.ParentNode.ParentNode.SelectSingleNode('defName')
+            $label = if ($owner) { $owner.InnerText } else { $list.ParentNode.Name }
+            $items = @($list.SelectNodes('li') | ForEach-Object { $_.InnerText })
+            Test-RuleList $listKind $label $items (Get-RelativePath $file.FullName)
+        }
+    }
+}
+
+foreach ($langFile in Get-ChildItem (Join-Path $repo '1.7/Languages') -Recurse -Filter *.xml | Where-Object { $_.FullName -match '[\\/]DefInjected[\\/]' }) {
+    [xml]$langXml = Get-Content -LiteralPath $langFile.FullName -Raw -Encoding UTF8
+    foreach ($entry in $langXml.DocumentElement.ChildNodes) {
+        if ($entry.NodeType -ne 'Element' -or $entry.Name -notmatch '\.(rulesStrings|rulesFiles)(\.\d+)?$') { continue }
+        $listKind = $Matches[1]
+        $items = @($entry.SelectNodes('li') | ForEach-Object { $_.InnerText })
+        if ($items.Count -eq 0) { $items = @($entry.InnerText) }
+        Test-RuleList $listKind $entry.Name $items (Get-RelativePath $langFile.FullName)
+    }
+}
+
+# ------------------------------------------------------- world-map site textures
+
+# SitePartDef.siteTexture and .expandingIconTexture are plain path strings: nothing checks them at load
+# time, so a path that resolves nowhere shows up as a missing-texture error only once the world map is
+# opened. ContentFinder looks in the mod's Textures/ first and then in the vanilla asset bundle, and that
+# bundle also holds DLC art (e.g. World/WorldObjects/Expanding/Sites/AncientComplex ships there, yet only
+# Data/Ideology/Defs references it). Such a path therefore loads only while the expansion is active.
+# Rule: the field may name a file this mod ships, or a path some Def under Data/Core/Defs already uses.
+$coreReferencedTextures = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
+foreach ($file in Get-ChildItem -LiteralPath (Join-Path $gameRoot 'Data/Core/Defs') -Recurse -Filter '*.xml' -File) {
+    $raw = Get-Content -LiteralPath $file.FullName -Raw
+    foreach ($match in [regex]::Matches($raw, '<(?:texPath|iconPath|expandingIconTexture|siteTexture)>([^<]+)</')) {
+        [void]$coreReferencedTextures.Add($match.Groups[1].Value.Trim())
+    }
+}
+
+$worldMapTexturePattern = [regex]'<(expandingIconTexture|siteTexture)>([^<]+)</'
+foreach ($file in Get-ChildItem -LiteralPath $defRoot -Recurse -Filter '*.xml' -File) {
+    $raw = Get-Content -LiteralPath $file.FullName -Raw
+    foreach ($match in $worldMapTexturePattern.Matches($raw)) {
+        $field = $match.Groups[1].Value
+        $texture = $match.Groups[2].Value.Trim()
+        $ruleChecks++
+        if ($coreReferencedTextures.Contains($texture)) { continue }
+
+        # Test-TextureExists would accept the DLC art above, because it reads the whole asset bundle;
+        # here only the mod's own Textures/ counts.
+        $base = Join-Path (Join-Path $repo 'Textures') $texture
+        if ((Test-Path -LiteralPath ($base + '.png')) -or (Test-Path -LiteralPath ($base + '.dds')) -or
+            (Test-Path -LiteralPath ($base + '.jpg'))) { continue }
+
+        Add-Failure "world-map texture '<$field>$texture</$field>' is neither shipped under Textures/ nor referenced by any Def in Data/Core/Defs; it loads only through another expansion's art" (Get-RelativePath $file.FullName)
+    }
+}
+
+# ------------------------------------------------------- faction settlement textures
+
+# RimWorld.Planet/Settlement.cs:74 passes the raw FactionDef field straight to
+# MaterialPool.MatFrom(path, ShaderDatabase.WorldOverlayTransparentLit, faction.Color, ...), which reaches
+# ContentFinder.Get with no null check. FactionDef only fills settlementTexture when the path is
+# non-empty (RimWorld/FactionDef.cs:350-352); FactionDef.SettlementTexture does return
+# BaseContent.BadTex for an empty path (:344-362), but Settlement.Material does not use that property.
+# A settlement-owning or player faction with an empty path therefore throws
+# ArgumentNullException (Parameter 'key') inside Page_CreateWorldParams.cs:211
+# Find.World.renderer.RegenerateAllLayersNow(), which also skips the Close() on :212; the world-map GUI
+# then throws again every frame through Settlement.Material.
+# FactionGenerator.cs:40 gives settlements to factions by settlementGenerationWeight, and a hidden
+# faction owns none.
+# For player factions this block also holds factionIconPath and the three name makers. Vanilla falls
+# back instead of throwing for those (FactionDef.cs:364-383 returns BaseContent.BadTex;
+# ScenPart_PlayerFaction.cs:57-64 and SettlementNameGenerator.cs:10-20 fall through to
+# settlementNameMaker and then the world object label), so a missing one is a pink faction icon or an
+# unnamed settlement, not a crash. They are still required here: a player faction inheriting the bare
+# FactionBase has no other source for them.
+foreach ($entry in $modDefs) {
+    if ($entry.IsAbstract) { continue }
+    if (-not (Test-IsA $entry.RootType 'RimWorld.FactionDef')) { continue }
+    $chain = Get-DefChain $entry
+
+    if (ConvertTo-XmlBool (Get-ScalarAt $chain @('hidden'))) { continue }
+
+    $factionIsPlayer = ConvertTo-XmlBool (Get-ScalarAt $chain @('isPlayer'))
+    $generationWeightText = Get-ScalarAt $chain @('settlementGenerationWeight')
+    $generationWeight = 0.0
+    if (-not [string]::IsNullOrEmpty($generationWeightText)) {
+        $generationWeight = [double]::Parse($generationWeightText, [System.Globalization.CultureInfo]::InvariantCulture)
+    }
+    if (-not $factionIsPlayer -and $generationWeight -le 0.0) { continue }
+
+    $ruleChecks++
+    $settlementTexture = Get-ScalarAt $chain @('settlementTexturePath')
+    if ([string]::IsNullOrEmpty($settlementTexture)) {
+        Add-Failure "FactionDef '$($entry.DefName)' can own a settlement but has no settlementTexturePath; Settlement.Material (RimWorld.Planet/Settlement.cs:74) throws on world creation (Page_CreateWorldParams.cs:211-212)" $entry.File
+    }
+    elseif (-not (Test-TextureExists $settlementTexture)) {
+        Add-Failure "FactionDef '$($entry.DefName)' settlementTexturePath '$settlementTexture' resolves to no texture under Textures/ or in the vanilla bundle" $entry.File
+    }
+
+    if (-not $factionIsPlayer) { continue }
+
+    $playerFactionFields = @(
+        @('factionIconPath', 'FactionDef.FactionIcon falls back to BaseContent.BadTex (RimWorld/FactionDef.cs:364-383), so the faction tab shows a missing-texture icon'),
+        @('playerInitialSettlementNameMaker', 'ScenPart_PlayerFaction.PreMapGenerate names the first settlement with it (RimWorld/ScenPart_PlayerFaction.cs:57-64)'),
+        @('factionNameMaker', 'FactionGenerator names the faction with it'),
+        @('settlementNameMaker', 'SettlementNameGenerator names its settlements with it (RimWorld.Planet/SettlementNameGenerator.cs:10-20)')
+    )
+    foreach ($playerFactionField in $playerFactionFields) {
+        $ruleChecks++
+        $playerFactionValue = Get-ScalarAt $chain @($playerFactionField[0])
+        if ([string]::IsNullOrEmpty($playerFactionValue)) {
+            Add-Failure "player FactionDef '$($entry.DefName)' has no $($playerFactionField[0]); $($playerFactionField[1])" $entry.File
+        }
+        elseif ($playerFactionField[0] -eq 'factionIconPath' -and -not (Test-TextureExists $playerFactionValue)) {
+            Add-Failure "player FactionDef '$($entry.DefName)' factionIconPath '$playerFactionValue' resolves to no texture under Textures/ or in the vanilla bundle" $entry.File
+        }
+    }
+}
+
+# ------------------------------------------------------------ keyed translation keys
+
+# A key written as a string literal in front of .Translate( has to exist in the Keyed files of both
+# shipped languages. Vanilla never complains about a missing key: Translator.Translate asks the
+# active language first (Verse/Translator.cs:55), then the default language (:59-60, English), and
+# LoadedLanguage.TryGetTextFromKey (Verse/LoadedLanguage.cs:488-492) hands back the key itself when
+# neither has it. No log line is written; in DevMode PseudoTranslated (Translator.cs:109-) then
+# rewrites the key letter by letter into accented lookalikes, which is the gibberish seen on a
+# panel. A key missing only from ChineseSimplified is worse for being quiet: Chinese players get the
+# English text. Only literals are checked: "WotF_x".Translate(...), and both arms of a
+# (cond ? "WotF_a" : "WotF_b").Translate(...). Keys built by concatenation, TryTranslate/CanTranslate
+# probes and wrappers such as SpellText.T are not looked at.
+$keyedLanguages = @('English', 'ChineseSimplified')
+$keyedKeys = @{}
+foreach ($language in $keyedLanguages) {
+    $languageKeys = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
+    foreach ($file in Get-ChildItem -LiteralPath (Join-Path $repo "1.7/Languages/$language/Keyed") -Recurse -Filter '*.xml' -File) {
+        [xml]$keyedXml = Get-Content -LiteralPath $file.FullName -Raw -Encoding UTF8
+        foreach ($entry in $keyedXml.DocumentElement.ChildNodes) {
+            if ($entry.NodeType -eq 'Element') { [void]$languageKeys.Add($entry.LocalName) }
+        }
+    }
+    $keyedKeys[$language] = $languageKeys
+}
+
+$translateLiteralPatterns = @(
+    [regex]'"(WotF_[A-Za-z0-9_.]+)"\s*\)?\s*\.Translate\(',
+    [regex]'"(WotF_[A-Za-z0-9_.]+)"\s*:\s*"WotF_[A-Za-z0-9_.]+"\s*\)\s*\.Translate\('
+)
+$literalKeyUses = @{}
+foreach ($file in Get-ChildItem -LiteralPath (Join-Path $repo 'Source/WhisperOfTheForest') -Recurse -Filter '*.cs' -File) {
+    $raw = Get-Content -LiteralPath $file.FullName -Raw
+    if ($raw.IndexOf('.Translate(', [System.StringComparison]::Ordinal) -lt 0) { continue }
+
+    # Whole-line comments are blanked, not removed, so the line numbers below stay true.
+    $code = [regex]::Replace($raw, '(?m)^[ \t]*//[^\r\n]*', '')
+    foreach ($pattern in $translateLiteralPatterns) {
+        foreach ($match in $pattern.Matches($code)) {
+            $key = $match.Groups[1].Value
+            if ($literalKeyUses.ContainsKey($key)) { continue }
+            $line = ($code.Substring(0, $match.Index) -split "`n").Count
+            $literalKeyUses[$key] = "$(Get-RelativePath $file.FullName):$line"
+        }
+    }
+}
+
+foreach ($key in ($literalKeyUses.Keys | Sort-Object)) {
+    $ruleChecks++
+    $missingIn = @($keyedLanguages | Where-Object { -not $keyedKeys[$_].Contains($key) })
+    if ($missingIn.Count -gt 0) {
+        Add-Failure "Keyed key '$key' is translated by literal but missing from 1.7/Languages/{$($missingIn -join ',')}/Keyed; the game falls back to English and, without an English entry, shows the raw key (Verse/Translator.cs:53-66, Verse/LoadedLanguage.cs:488-492)" $literalKeyUses[$key]
     }
 }
 

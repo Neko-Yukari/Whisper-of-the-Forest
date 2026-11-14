@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using RimWorld;
 using Verse;
 using WhisperOfTheForest.Mana;
@@ -21,7 +22,7 @@ namespace WhisperOfTheForest.LabTests
         {
             RitualDef spring = DefDatabase<RitualDef>.GetNamedSilentFail("WotF_Ritual_ManaSpring");
             RitualDef leyline = DefDatabase<RitualDef>.GetNamedSilentFail("WotF_Ritual_LeylineMining");
-            ThingDef altarDef = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_RitualAltar");
+            ThingDef altarDef = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_RitualAltar_Starlight");
             ThingDef nodeDef = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_ManaNode");
             ThingDef whiteChalk = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_ChalkMark_White");
             ThingDef starChalk = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_ChalkMark_Star");
@@ -68,12 +69,13 @@ namespace WhisperOfTheForest.LabTests
             t.Expect(withoutHelper < spring.manaRestore * 0.5f, "the patient was restored without a helper");
 
             Pawn helper = t.SpawnCaster(7, 6);
+            Gene_ForestBloodline.Get(helper).level = 10;
             helper.drafter.Drafted = false;
             helper.pather.StopDead();
             patientGene.OffsetMana(-patientGene.CurrentMana);
             nodeComp.SetStored(nodeComp.Capacity);
 
-            t.Expect(comp.TryStart(spring, caster), "the rite did not start with a helper on the ring");
+            t.Expect(comp.TryStart(spring, null, caster, new List<Pawn> { helper }), "the rite did not start with a helper");
             t.Expect(comp.ActiveParticipants == 1, "the altar did not count the helper on the ring");
             t.Expect(t.StepUntil(() => !comp.IsActive, 2000), "the rite with a helper did not finish");
             float withHelper = patientGene.CurrentMana;
@@ -89,7 +91,7 @@ namespace WhisperOfTheForest.LabTests
             t.Expect(Math.Abs(nodeComp.Stored - beforeRefusal) < 0.01f, "the refused rite still spent mana");
 
             t.Place(helper, 9, 6);
-            t.Expect(comp.TryStart(leyline, caster), "the leyline rite did not start with a participant");
+            t.Expect(comp.TryStart(leyline, null, caster, new List<Pawn> { helper }), "the leyline rite did not start with a participant");
             t.Expect(comp.ActiveParticipants == 1, "the leyline rite did not count its participant");
             comp.CancelRitual(caster);
         }
@@ -113,7 +115,7 @@ namespace WhisperOfTheForest.LabTests
 
         private static T Spawn<T>(ThingDef def, TestContext t, int x, int z) where T : Thing
         {
-            var thing = (T)ThingMaker.MakeThing(def);
+            var thing = (T)ThingMaker.MakeThing(def, def.MadeFromStuff ? ThingDefOf.BlocksGranite : null);
             GenSpawn.Spawn(thing, t.Arena.Cell(x, z), t.Map, WipeMode.Vanish);
             return t.Arena.Track(thing);
         }

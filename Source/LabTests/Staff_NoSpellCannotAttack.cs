@@ -19,6 +19,8 @@ namespace WhisperOfTheForest.LabTests
         protected override void Run(TestContext t)
         {
             Pawn caster = t.SpawnCaster(1, 5);
+            caster.apparel.DestroyAll();
+            caster.apparel.Wear((Apparel)ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed("WotF_Spellbook_Archmage")));
             Pawn target = t.SpawnTarget(9, 5);
 
             ThingWithComps staff = GiveStaff(t, caster);

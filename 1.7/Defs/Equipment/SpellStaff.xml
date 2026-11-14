@@ -47,6 +47,14 @@
     <costStuffCount>20</costStuffCount>
     <!-- Lab-granted placeholder, like the movement experiment items: nothing to smelt back. -->
     <smeltable>false</smeltable>
+    <!--
+      Court staff pool (2026-11-14): the pawn weapon pool only accepts weapons with a non-empty
+      weaponTags (PawnWeaponGenerator.IsWeapon), so without this tag no PawnKindDef could ever hand a
+      staff to a generated pawn. No vanilla PawnKindDef names either tag, so nothing else changes.
+    -->
+    <weaponTags>
+      <li>WotF_ElvenStaff</li>
+    </weaponTags>
     <weaponClasses>
       <li>Ranged</li>
       <li>Ultratech</li>
@@ -121,6 +129,11 @@
       <RangedWeapon_Cooldown>1.2</RangedWeapon_Cooldown>
     </statBases>
     <smeltable>false</smeltable>
+    <!-- Same pool tag as the long staff, kept separate: the short staff is a ritual tool, not a court
+         combat weapon, and no PawnKindDef lists it. -->
+    <weaponTags>
+      <li>WotF_ElvenStaffShort</li>
+    </weaponTags>
     <weaponClasses>
       <li>Ranged</li>
     </weaponClasses>
@@ -186,8 +199,15 @@
     <skillRequirements>
       <Crafting>4</Crafting>
     </skillRequirements>
+    <!--
+      Hand bench, not the machining table: 技术/04-仪式实现.md (魔力工作台 entry) keeps T1 recipes on
+      the vanilla hand bench and says to move the short staff back there, and 设定/05-建筑与器物.md
+      (「一阶器物」) names the vanilla 手工打造点 for T1 gear. That is CraftingSpot, the same bench
+      vanilla uses for neolithic bows and clubs (Data/Core/Defs/ThingDefs_Misc/Weapons/
+      RangedNeolithic.xml:84, MeleeNeolithic.xml:33).
+    -->
     <recipeUsers>
-      <li>TableMachining</li>
+      <li>CraftingSpot</li>
     </recipeUsers>
   </RecipeDef>
 

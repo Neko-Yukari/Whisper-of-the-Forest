@@ -5,9 +5,9 @@
        already supplies the def type; a leading "ThingDef." segment is read as a defName
        and fails with "Found no ThingDef named ThingDef". -->
   <WotF_TerrainStride.label>terrain stride mantle</WotF_TerrainStride.label>
-  <WotF_TerrainStride.description>A light experiment mantle. While worn, the terrain underfoot no longer adds its own movement cost: mud, marsh and rough ground are walked at normal speed. Walls, closed doors, buildings and other real obstacles still block and still cost what they cost. Removing it restores normal movement immediately.</WotF_TerrainStride.description>
+  <WotF_TerrainStride.description>A light woodland mantle. On passable cells that require no door opening, it removes movement penalties from terrain, plants, rock chunks, furniture, crossable workbenches, snow and sand. It does not allow passage through walls or impassable water, and doors still open normally.</WotF_TerrainStride.description>
 
-  <WotF_BlinkStride.label>blink stride sash</WotF_BlinkStride.label>
-  <WotF_BlinkStride.description>A light experiment sash. While worn, the bearer walks one cell of their own path and then steps instantly to the next cell of that same path, alternating. The hop never leaves the calculated route: walls, closed doors, illegal diagonals, occupied cells and the final cell of the path are still walked normally. Removing it or recalculating the path leaves no residual effect.</WotF_BlinkStride.description>
+  <WotF_EntropyCirclet.label>entropy circlet</WotF_EntropyCirclet.label>
+  <WotF_EntropyCirclet.description>A circlet forged from elven steel, mithril or adamantine. It accelerates neural heat recovery and raises the wearer's safe neural heat limit.</WotF_EntropyCirclet.description>
 
 </LanguageData>

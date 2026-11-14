@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_RitualAltar_LivingWood.label>活木祭坛</WotF_RitualAltar_LivingWood.label>
+  <WotF_RitualAltar_LivingWood.description>以活木建造的二阶祭坛，占地始终为单格。可点化精灵钢与进阶粉笔，支持二阶及以下仪式。</WotF_RitualAltar_LivingWood.description>
+  <WotF_RitualAltar_Starlight.label>星辉祭坛</WotF_RitualAltar_Starlight.label>
+  <WotF_RitualAltar_Starlight.description>以远古工程站遗迹深处取得的谐振核为核心建造的三阶祭坛，占地始终为单格。可点化精金与秘银，支持三阶及以下仪式。</WotF_RitualAltar_Starlight.description>
+  <WotF_EngineeringResonanceCore.label>工程站谐振核</WotF_EngineeringResonanceCore.label>
+  <WotF_EngineeringResonanceCore.description>只能从远古工程站遗迹深处取得、不可制造的核心部件，用于建造星辉祭坛。遗迹获取途径尚未开放。</WotF_EngineeringResonanceCore.description>
+  <WotF_RitualLivingwoodLamp.label>灵木灯台</WotF_RitualLivingwoodLamp.label>
+  <WotF_RitualLivingwoodLamp.description>以活木与翡翠制成的仪式灯台。每座为附近连接的祭坛提供 2 级共鸣，每座祭坛最多连接 4 座。</WotF_RitualLivingwoodLamp.description>
+  <WotF_RitualElvenStatue.label>精灵仪式雕像</WotF_RitualElvenStatue.label>
+  <WotF_RitualElvenStatue.description>按照艺术品质为附近连接的祭坛提供共鸣等级的精灵雕像，每座祭坛最多连接 6 座。兼作艺术冥想焦点。</WotF_RitualElvenStatue.description>
+</LanguageData>

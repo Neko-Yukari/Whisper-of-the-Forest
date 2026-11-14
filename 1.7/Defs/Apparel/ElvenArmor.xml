@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    Elven reaction armor, first batch (技术/02-魔法实现.md:151-153, 技术/09-美术资产清单.md:60-62 A8-A10).
+
+    Pure Defs on purpose: this batch declares the reaction comp
+    (CompProperties_EnchantedEquipment: one inscription slot, mithril opens a second, 25% reaction chance
+    with a 600-tick cooldown, mithril reactions cost x0.70 mana). The reaction itself, the inscription
+    rite and the slot switch live in Source/WhisperOfTheForest/Equipment.
+
+    Materials are declared once, by stuffCategories. For the Metallic pieces the shared recipe filter in
+    ArmorSmithableBase already disallows Gold/Silver/Plasteel/Jade/Uranium, so Metallic narrows to
+    steel, elven steel, adamantine and mithril without repeating the list in a recipe or description
+    (裁定第 2 条). 轻甲 opens the same categories because the table gives 皮/布 + 活木或精灵钢 and vanilla
+    stuff categories cannot express that pair alone.
+
+    Numbers are placeholders copied from the vanilla Def named in each block. No researchPrerequisite
+    this round. recipeUsers: 轻甲/法袍/战甲 -> WotF_ManaWorkbench, and the metal pieces keep the
+    smithies as well (裁定第 5 条).
+  -->
+
+  <!--
+    占位，参照原版 Apparel_FlakVest：同为 Middle 层护甲，取其命中点、工时、重量、防火。
+    StuffEffectMultiplierArmor 0.6 是占位：介于原版 Apparel_Cape(0.3) 与 Apparel_PlateArmor(0.9)
+    之间，护甲值由材质决定（设定：皮/布 + 活木或精灵钢）。
+    AimingDelayFactor -0.05 + ShootingAccuracyPawn +1：设定「微加远程瞄准」，负值缩短瞄准时间。
+    设定要求零移速惩罚，因此不写 MoveSpeed。
+    Insulation_Cold 0.30 / Insulation_Heat 0.20 为占位：原版 FlakVest 为 1/0，Cape 为 0.60/0.85，取两者之间的低值（轻甲不挡寒暑）。
+  -->
+  <ThingDef ParentName="ApparelMakeableBase">
+    <defName>WotF_ElvenLightArmor</defName>
+    <label>elven light armor</label>
+    <description>A ranger's harness of leather and wood: chest guard and arm guards over an elven underlayer, leaving the skirt free. It adds no encumbrance at all and steadies the wearer's aim.</description>
+    <techLevel>Medieval</techLevel>
+    <graphicData>
+      <texPath>Apparel/LightArmor/LightArmor</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <costStuffCount>80</costStuffCount>
+    <stuffCategories>
+      <li>Fabric</li>
+      <li>Leathery</li>
+      <li>Woody</li>
+      <li>Metallic</li>
+    </stuffCategories>
+    <thingCategories>
+      <li>ApparelArmor</li>
+    </thingCategories>
+    <statBases>
+      <MaxHitPoints>200</MaxHitPoints>
+      <WorkToMake>9000</WorkToMake>
+      <Mass>4</Mass>
+      <Flammability>0.6</Flammability>
+      <StuffEffectMultiplierArmor>0.6</StuffEffectMultiplierArmor>
+      <StuffEffectMultiplierInsulation_Cold>0.30</StuffEffectMultiplierInsulation_Cold>
+      <StuffEffectMultiplierInsulation_Heat>0.20</StuffEffectMultiplierInsulation_Heat>
+      <EquipDelay>5</EquipDelay>
+    </statBases>
+    <equippedStatOffsets>
+      <AimingDelayFactor>-0.05</AimingDelayFactor>
+      <ShootingAccuracyPawn>1</ShootingAccuracyPawn>
+    </equippedStatOffsets>
+    <apparel>
+      <bodyPartGroups>
+        <li>Torso</li>
+        <li>Arms</li>
+        <li>Legs</li>
+      </bodyPartGroups>
+      <tags>
+        <li>WotF_Elven</li>
+        <li>WotF_CourtArmor</li>
+      </tags>
+      <wornGraphicPath>Apparel/LightArmor/LightArmor</wornGraphicPath>
+      <layers>
+        <li>Middle</li>
+      </layers>
+      <developmentalStageFilter>Adult</developmentalStageFilter>
+      <defaultOutfitTags>
+        <li>Soldier</li>
+      </defaultOutfitTags>
+    </apparel>
+    <recipeMaker>
+      <recipeUsers Inherit="False">
+        <li>WotF_ManaWorkbench</li>
+      </recipeUsers>
+      <displayPriority>220</displayPriority>
+    </recipeMaker>
+    <!-- 注法：一槽；活木/精灵钢等都只有一槽，秘银开第二槽。0.25 / 600 tick 见 CompProperties。 -->
+    <comps>
+      <li Class="WhisperOfTheForest.Equipment.CompProperties_EnchantedEquipment">
+        <slots>1</slots>
+        <mithrilSlots>2</mithrilSlots>
+        <mithrilStuff>WotF_Mithril</mithrilStuff>
+        <mithrilCostFactor>0.7</mithrilCostFactor>
+        <triggerChance>0.25</triggerChance>
+        <triggerCooldownTicks>600</triggerCooldownTicks>
+      </li>
+    </comps>
+    <tradeTags>
+      <li>Clothing</li>
+      <li>Armor</li>
+    </tradeTags>
+  </ThingDef>
+
+  <!--
+    占位，参照原版 Apparel_Robe：同为 Shell 层长袍，取其命中点、工时、重量、保暖。
+    WotF_ManaMax +10 / WotF_ManaRegen +0.2：设定「加魔力上限与回魔」。原版没有服装加魔力的先例，
+    量级参照本模组 Apparel 之外的 WotF_Spellbook_Apprentice（+20 / +0.5）取一半。
+  -->
+  <ThingDef ParentName="ApparelMakeableBase">
+    <defName>WotF_ElvenMageRobe</defName>
+    <label>elven mage robe</label>
+    <description>An arcanist's outer robe with crystal conduits sewn along the seams. Woven over an elven underlayer, it widens the wearer's mana pool and speeds its recovery. Mithril-thread upgrade is not implemented yet.</description>
+    <techLevel>Medieval</techLevel>
+    <graphicData>
+      <texPath>Apparel/MageRobe/MageRobe</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <costStuffCount>80</costStuffCount>
+    <stuffCategories>
+      <li>Fabric</li>
+      <li>Leathery</li>
+      <li>Woody</li>
+    </stuffCategories>
+    <thingCategories>
+      <li>ApparelMisc</li>
+    </thingCategories>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <WorkToMake>5000</WorkToMake>
+      <Mass>0.75</Mass>
+      <StuffEffectMultiplierArmor>0.2</StuffEffectMultiplierArmor>
+      <StuffEffectMultiplierInsulation_Cold>0.80</StuffEffectMultiplierInsulation_Cold>
+      <StuffEffectMultiplierInsulation_Heat>0.25</StuffEffectMultiplierInsulation_Heat>
+      <EquipDelay>1.5</EquipDelay>
+    </statBases>
+    <equippedStatOffsets>
+      <WotF_ManaMax>10</WotF_ManaMax>
+      <WotF_ManaRegen>0.2</WotF_ManaRegen>
+    </equippedStatOffsets>
+    <apparel>
+      <bodyPartGroups>
+        <li>Torso</li>
+        <li>Arms</li>
+        <li>Legs</li>
+      </bodyPartGroups>
+      <tags>
+        <li>WotF_Elven</li>
+        <li>WotF_CourtArmor</li>
+      </tags>
+      <wornGraphicPath>Apparel/MageRobe/MageRobe</wornGraphicPath>
+      <layers>
+        <li>Shell</li>
+      </layers>
+      <developmentalStageFilter>Adult</developmentalStageFilter>
+      <defaultOutfitTags>
+        <li>Worker</li>
+      </defaultOutfitTags>
+    </apparel>
+    <recipeMaker>
+      <recipeUsers Inherit="False">
+        <li>WotF_ManaWorkbench</li>
+      </recipeUsers>
+      <displayPriority>221</displayPriority>
+    </recipeMaker>
+    <!-- 法袍只接受 Fabric/Leathery/Woody，做不出秘银件，因此实际永远只有一槽。 -->
+    <comps>
+      <li Class="WhisperOfTheForest.Equipment.CompProperties_EnchantedEquipment">
+        <slots>1</slots>
+        <mithrilSlots>2</mithrilSlots>
+        <mithrilStuff>WotF_Mithril</mithrilStuff>
+        <mithrilCostFactor>0.7</mithrilCostFactor>
+        <triggerChance>0.25</triggerChance>
+        <triggerCooldownTicks>600</triggerCooldownTicks>
+      </li>
+    </comps>
+    <tradeTags>
+      <li>Clothing</li>
+      <li>Armor</li>
+    </tradeTags>
+  </ThingDef>
+
+  <!--
+    占位，参照原版 Apparel_PlateArmor：同为 Middle+Shell 全身甲，取其命中点、工时、重量、护甲倍率
+    （材质决定护甲值）、保暖与装备时间。
+    MoveSpeed -0.12 参照原版 Apparel_FlakVest，对应设定「低减速」。
+    stuffCategories 只有 Metallic 一处声明材料范围（裁定第 2 条）。
+  -->
+  <ThingDef ParentName="ArmorSmithableBase">
+    <defName>WotF_ElvenWarArmor</defName>
+    <label>elven war armor</label>
+    <description>Full elven war plate, forged from a single metal and fitted with shoulder guards. It protects the whole body below the head at the cost of a little speed. This is the sword-guard and archon pattern; the reaction slots are not inscribed yet.</description>
+    <techLevel>Spacer</techLevel>
+    <graphicData>
+      <texPath>Apparel/WarArmor/WarArmor</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <costStuffCount>170</costStuffCount>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <thingCategories>
+      <li>ApparelArmor</li>
+    </thingCategories>
+    <statBases>
+      <MaxHitPoints>290</MaxHitPoints>
+      <WorkToMake>38000</WorkToMake>
+      <Mass>15</Mass>
+      <StuffEffectMultiplierArmor>0.9</StuffEffectMultiplierArmor>
+      <StuffEffectMultiplierInsulation_Cold>1.0</StuffEffectMultiplierInsulation_Cold>
+      <StuffEffectMultiplierInsulation_Heat>0</StuffEffectMultiplierInsulation_Heat>
+      <EquipDelay>15</EquipDelay>
+    </statBases>
+    <equippedStatOffsets>
+      <MoveSpeed>-0.12</MoveSpeed>
+    </equippedStatOffsets>
+    <apparel>
+      <bodyPartGroups>
+        <li>Torso</li>
+        <li>Neck</li>
+        <li>Shoulders</li>
+        <li>Arms</li>
+        <li>Legs</li>
+      </bodyPartGroups>
+      <tags>
+        <li>WotF_Elven</li>
+        <li>WotF_CourtArmor</li>
+      </tags>
+      <wornGraphicPath>Apparel/WarArmor/WarArmor</wornGraphicPath>
+      <layers>
+        <li>Middle</li>
+        <li>Shell</li>
+      </layers>
+      <developmentalStageFilter>Adult</developmentalStageFilter>
+      <defaultOutfitTags>
+        <li>Soldier</li>
+      </defaultOutfitTags>
+    </apparel>
+    <recipeMaker>
+      <unfinishedThingDef>UnfinishedMetallicTechArmor</unfinishedThingDef>
+      <recipeUsers Inherit="False">
+        <li>WotF_ManaWorkbench</li>
+        <li>FueledSmithy</li>
+        <li>ElectricSmithy</li>
+      </recipeUsers>
+      <displayPriority>222</displayPriority>
+    </recipeMaker>
+    <!-- 战甲 Metallic：秘银件开到两槽。 -->
+    <comps>
+      <li Class="WhisperOfTheForest.Equipment.CompProperties_EnchantedEquipment">
+        <slots>1</slots>
+        <mithrilSlots>2</mithrilSlots>
+        <mithrilStuff>WotF_Mithril</mithrilStuff>
+        <mithrilCostFactor>0.7</mithrilCostFactor>
+        <triggerChance>0.25</triggerChance>
+        <triggerCooldownTicks>600</triggerCooldownTicks>
+      </li>
+    </comps>
+    <tradeTags>
+      <li>Clothing</li>
+      <li>Armor</li>
+    </tradeTags>
+  </ThingDef>
+
+</Defs>

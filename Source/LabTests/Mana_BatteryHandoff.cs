@@ -14,16 +14,16 @@ namespace WhisperOfTheForest.LabTests
 
         protected override void Run(TestContext t)
         {
-            var node = Turret_TestFixture.Spawn<Building>(t, "WotF_ManaNode", 5, 5);
+            var node = Turret_TestFixture.Spawn<Building>(t, "WotF_ManaNode", 5, 5, ThingDefOf.BlocksGranite);
             var graph = MapComponent_ManaNetwork.For(t.Map);
             ManaNetwork network = graph.NetworkNear(node.Position, 1f);
             t.Note("nodeOnlyCapacity", network.Capacity);
             t.Expect(network.Capacity == 0f && network.Add(1f) == 0f && !network.TryDraw(1f),
                 "a node without a battery stored or supplied mana");
             var def = DefDatabase<ThingDef>.GetNamed("WotF_ManaBattery");
-            t.Expect(t.CanPlace(def, 7, 7).Accepted, "battery placement refused");
+            t.Expect(t.CanPlace(def, 7, 7, ThingDefOf.BlocksGranite).Accepted, "battery placement refused");
             CompManaBattery battery = Mana_TestFixture.AddBattery(t, node);
-            var furnace = Turret_TestFixture.Spawn<Building>(t, "WotF_ManaFurnace", 4, 5);
+            var furnace = Turret_TestFixture.Spawn<Building>(t, "WotF_ManaFurnace", 4, 5, ThingDefOf.BlocksGranite);
             var fuel = furnace.GetComp<CompRefuelable>();
             fuel.Refuel(fuel.Props.fuelCapacity);
             var turret = Turret_TestFixture.Spawn<Building_SpellTurret>(t, "WotF_SpellTurret", 6, 5, ThingDefOf.Steel);
@@ -47,7 +47,7 @@ namespace WhisperOfTheForest.LabTests
             node.Destroy(DestroyMode.Vanish);
             graph.NetworkNear(battery.parent.Position, battery.LinkRadius);
             t.Expect(battery.Network == null && battery.Stored == retained, "disconnect lost battery charge");
-            node = Turret_TestFixture.Spawn<Building>(t, "WotF_ManaNode", 5, 5);
+            node = Turret_TestFixture.Spawn<Building>(t, "WotF_ManaNode", 5, 5, ThingDefOf.BlocksGranite);
             network = graph.NetworkNear(node.Position, 1f);
             t.Expect(battery.Network == network && network.Stored == retained, "reconnecting lost the battery charge");
             battery.parent.Destroy(DestroyMode.Deconstruct);

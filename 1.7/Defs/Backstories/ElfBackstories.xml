@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- 定稿：童年 1 · 摸秋者 -->
+  <BackstoryDef>
+    <defName>WotF_Backstory_FruitSneak</defName>
+    <slot>Childhood</slot>
+    <title>fruit sneak</title>
+    <titleShort>fruit sneak</titleShort>
+    <description>The adults always used little spells to help gather fruit and herbs, and [PAWN_nameDef] soon learned their tricks. Only, most of the time she was secretly gathering the sweetest fruit and tender shoots into her own pockets, then hiding behind the treetops to eat them as snacks.</description>
+    <workDisables>None</workDisables>
+    <requiresSpawnCategory>true</requiresSpawnCategory>
+    <spawnCategories>
+      <li>GreenCourt_Childhood</li>
+    </spawnCategories>
+    <skillGains>
+      <Cooking>2</Cooking>
+      <Plants>2</Plants>
+    </skillGains>
+  </BackstoryDef>
+
+  <!-- 定稿：童年 2 · 书虫 -->
+  <BackstoryDef>
+    <defName>WotF_Backstory_Bookworm</defName>
+    <slot>Childhood</slot>
+    <title>bookworm</title>
+    <titleShort>bookworm</titleShort>
+    <description>[PAWN_nameDef] spent all day in the library. Although most of the shelves held obscure manuals and incomplete manuscripts left over from an earlier age, [PAWN_nameDef] still tried to read them all, line by line.</description>
+    <workDisables>None</workDisables>
+    <requiresSpawnCategory>true</requiresSpawnCategory>
+    <spawnCategories>
+      <li>GreenCourt_Childhood</li>
+    </spawnCategories>
+    <skillGains>
+      <Intellectual>4</Intellectual>
+      <Artistic>2</Artistic>
+      <Social>-2</Social>
+    </skillGains>
+  </BackstoryDef>
+
+  <!-- 定稿：童年 3 · 遗迹探险家 -->
+  <BackstoryDef>
+    <defName>WotF_Backstory_RuinExplorer</defName>
+    <slot>Childhood</slot>
+    <title>ruin explorer</title>
+    <titleShort>explorer</titleShort>
+    <description>[PAWN_nameDef] was always rounding up a few friends her own age and taking their tools to explore ancient ruins deep in the forest. The adults quietly agreed not to mention that they had already searched those ruins ten times over and dismantled every dangerous trap.</description>
+    <workDisables>None</workDisables>
+    <requiresSpawnCategory>true</requiresSpawnCategory>
+    <spawnCategories>
+      <li>GreenCourt_Childhood</li>
+    </spawnCategories>
+    <skillGains>
+      <Intellectual>2</Intellectual>
+      <Social>2</Social>
+      <Crafting>1</Crafting>
+      <Melee>1</Melee>
+    </skillGains>
+  </BackstoryDef>
+
+  <!-- 定稿：童年 4 · 武艺爱好者 -->
+  <BackstoryDef>
+    <defName>WotF_Backstory_MartialEnthusiast</defName>
+    <slot>Childhood</slot>
+    <title>martial enthusiast</title>
+    <titleShort>martial pupil</titleShort>
+    <description>While other children played in the mud by the stream, [PAWN_nameDef] preferred pestering the guards to teach her the longbow and longsword. To her, though, how graceful a move looked sometimes mattered more than whether it hit the target.</description>
+    <workDisables>None</workDisables>
+    <requiresSpawnCategory>true</requiresSpawnCategory>
+    <spawnCategories>
+      <li>GreenCourt_Childhood</li>
+    </spawnCategories>
+    <skillGains>
+      <Shooting>2</Shooting>
+      <Melee>2</Melee>
+      <Artistic>1</Artistic>
+    </skillGains>
+  </BackstoryDef>
+
+  <!-- 定稿：童年 5 · 维修学徒 -->
+  <BackstoryDef>
+    <defName>WotF_Backstory_RepairApprentice</defName>
+    <slot>Childhood</slot>
+    <title>repair apprentice</title>
+    <titleShort>repair pupil</titleShort>
+    <description>[PAWN_nameDef] helped her workshop mentor maintain the settlement's few surviving machines from an earlier age. Before she quite understood why the lumps of iron inside hummed and spun, she had already learned to solemnly draw a few marks on the casing with her tools, then give it a couple of theatrical taps to "soothe the machine spirit".</description>
+    <workDisables>None</workDisables>
+    <requiresSpawnCategory>true</requiresSpawnCategory>
+    <spawnCategories>
+      <li>GreenCourt_Childhood</li>
+    </spawnCategories>
+    <skillGains>
+      <Construction>3</Construction>
+      <Crafting>1</Crafting>
+    </skillGains>
+  </BackstoryDef>
+
+  <!-- 定稿：童年 6 · 送信人 -->
+  <BackstoryDef>
+    <defName>WotF_Backstory_CourierChild</defName>
+    <slot>Childhood</slot>
+    <title>courier</title>
+    <titleShort>courier</titleShort>
+    <description>The settlements did not normally keep in touch by radio; messages traveled on foot. Young [PAWN_nameDef] spent all day carrying letters along forest paths and between outposts. In time she developed strong legs and a knack for chatting with anyone, and learned how to deal with beasts blocking the road along the way.</description>
+    <workDisables>None</workDisables>
+    <requiresSpawnCategory>true</requiresSpawnCategory>
+    <spawnCategories>
+      <li>GreenCourt_Childhood</li>
+    </spawnCategories>
+    <skillGains>
+      <Social>3</Social>
+      <Melee>2</Melee>
+    </skillGains>
+  </BackstoryDef>
+
+  <!-- 定稿：童年 7 · 好奇宝宝 -->
+  <BackstoryDef>
+    <defName>WotF_Backstory_CuriousChild</defName>
+    <slot>Childhood</slot>
+    <title>curious child</title>
+    <titleShort>curious child</titleShort>
+    <description>[PAWN_nameDef] was full of curiosity about the outside world and often slipped beyond the forest's edge when her elders were not looking. Her wanderings taught her how to handle strangers and wild animals, and she finally worked out which herbs to slap on a scraped knee.</description>
+    <workDisables>None</workDisables>
+    <requiresSpawnCategory>true</requiresSpawnCategory>
+    <spawnCategories>
+      <li>GreenCourt_Childhood</li>
+    </spawnCategories>
+    <skillGains>
+      <Melee>2</Melee>
+      <Animals>2</Animals>
+      <Social>1</Social>
+      <Medicine>1</Medicine>
+    </skillGains>
+  </BackstoryDef>
+
+  <!-- 定稿：成年 1 · 颜料匠 -->
+  <BackstoryDef>
+    <defName>WotF_Backstory_PigmentMaker</defName>
+    <slot>Adulthood</slot>
+    <title>pigment maker</title>
+    <titleShort>pigment maker</titleShort>
+    <description>She spends her days washing white stone and grinding minerals and herbs into the many pigments used for spellcasting and drawing. The stains beneath her fingernails never quite wash away.</description>
+    <workDisables>None</workDisables>
+    <requiresSpawnCategory>true</requiresSpawnCategory>
+    <spawnCategories>
+      <li>GreenCourt_General</li>
+    </spawnCategories>
+    <skillGains>
+      <Crafting>6</Crafting>
+      <Artistic>3</Artistic>
+    </skillGains>
+  </BackstoryDef>
+
+  <!-- 定稿：成年 2 · 木艺师 -->
+  <BackstoryDef>
+    <defName>WotF_Backstory_Woodshaper</defName>
+    <slot>Adulthood</slot>
+    <title>woodshaper</title>
+    <titleShort>woodworker</titleShort>
+    <description>Rather than sawing wood or bending it over a fire, she uses magic to guide the grain of growing trees, letting their branches grow into the shapes of bows and beams.</description>
+    <workDisables>None</workDisables>
+    <requiresSpawnCategory>true</requiresSpawnCategory>
+    <spawnCategories>
+      <li>GreenCourt_General</li>
+    </spawnCategories>
+    <skillGains>
+      <Crafting>6</Crafting>
+      <Plants>4</Plants>
+    </skillGains>
+  </BackstoryDef>
+
+  <!-- 定稿：成年 3 · 铁匠 -->
+  <BackstoryDef>
+    <defName>WotF_Backstory_Smith</defName>
+    <slot>Adulthood</slot>
+    <title>smith</title>
+    <titleShort>smith</titleShort>
+    <description>She works iron in one of the Court's few workshops where fire is permitted, specializing in forging unusual metal blanks into well-balanced blades.</description>
+    <workDisables>None</workDisables>
+    <requiresSpawnCategory>true</requiresSpawnCategory>
+    <spawnCategories>
+      <li>GreenCourt_General</li>
+    </spawnCategories>
+    <skillGains>
+      <Crafting>7</Crafting>
+      <Melee>2</Melee>
+    </skillGains>
+  </BackstoryDef>
+
+  <!-- 定稿：成年 4 · 机魂修理工 -->
+  <BackstoryDef>
+    <defName>WotF_Backstory_MachineSpiritMender</defName>
+    <slot>Adulthood</slot>
+    <title>machine-spirit mender</title>
+    <titleShort>mender</titleShort>
+    <description>She is responsible for hammering and patching up the clan's inherited refrigerators, water purifiers, and ancient equipment. Whenever someone's old iron box stops working, they ask her to come and give it a few taps with her wooden mallet.</description>
+    <workDisables>None</workDisables>
+    <requiresSpawnCategory>true</requiresSpawnCategory>
+    <spawnCategories>
+      <li>GreenCourt_General</li>
+    </spawnCategories>
+    <skillGains>
+      <Construction>5</Construction>
+      <Crafting>5</Crafting>
+      <Intellectual>2</Intellectual>
+    </skillGains>
+  </BackstoryDef>
+
+  <!-- 定稿：成年 5 · 苗圃看护人 -->
+  <BackstoryDef>
+    <defName>WotF_Backstory_NurseryKeeper</defName>
+    <slot>Adulthood</slot>
+    <title>nursery keeper</title>
+    <titleShort>gardener</titleShort>
+    <description>She tends the herb gardens and the glowing saplings in the forest. Once the work is done, nothing pleases her more than leaning against a tree's roots for a nap.</description>
+    <workDisables>None</workDisables>
+    <requiresSpawnCategory>true</requiresSpawnCategory>
+    <spawnCategories>
+      <li>GreenCourt_General</li>
+    </spawnCategories>
+    <skillGains>
+      <Plants>7</Plants>
+      <Medicine>2</Medicine>
+    </skillGains>
+  </BackstoryDef>
+
+  <!-- 定稿：成年 6 · 养蜂人 -->
+  <BackstoryDef>
+    <defName>WotF_Backstory_Beekeeper</defName>
+    <slot>Adulthood</slot>
+    <title>beekeeper</title>
+    <titleShort>beekeeper</titleShort>
+    <description>She tends beehives and gentle little animals in forest clearings, always carrying a faint scent of honey and greenery. Even guards hoping to cadge some honey have to stay on her good side.</description>
+    <workDisables>None</workDisables>
+    <requiresSpawnCategory>true</requiresSpawnCategory>
+    <spawnCategories>
+      <li>GreenCourt_General</li>
+    </spawnCategories>
+    <skillGains>
+      <Animals>6</Animals>
+      <Plants>3</Plants>
+      <Cooking>2</Cooking>
+    </skillGains>
+  </BackstoryDef>
+
+  <!-- 定稿：成年 7 · 草药医师 -->
+  <BackstoryDef>
+    <defName>WotF_Backstory_Herbalist</defName>
+    <slot>Adulthood</slot>
+    <title>herbal physician</title>
+    <titleShort>physician</titleShort>
+    <description>She is used to treating wounds with blood-staunching magic and herbal salves. The readiness of human hospitals outside the forest to cut people open and saw through bones makes her frown.</description>
+    <workDisables>None</workDisables>
+    <requiresSpawnCategory>true</requiresSpawnCategory>
+    <spawnCategories>
+      <li>GreenCourt_General</li>
+    </spawnCategories>
+    <skillGains>
+      <Medicine>6</Medicine>
+      <Plants>3</Plants>
+    </skillGains>
+  </BackstoryDef>
+
+  <!-- 定稿：成年 8 · 采石工 -->
+  <BackstoryDef>
+    <defName>WotF_Backstory_QuarryWorker</defName>
+    <slot>Adulthood</slot>
+    <title>quarry worker</title>
+    <titleShort>quarrier</titleShort>
+    <description>To supply the village's stone roads, workshops, and mineral stocks, she spends her days chipping away at rock faces, picking out a few pretty pieces of ore along the way.</description>
+    <workDisables>None</workDisables>
+    <requiresSpawnCategory>true</requiresSpawnCategory>
+    <spawnCategories>
+      <li>GreenCourt_General</li>
+    </spawnCategories>
+    <skillGains>
+      <Mining>7</Mining>
+      <Construction>3</Construction>
+    </skillGains>
+  </BackstoryDef>
+
+  <!-- 定稿：成年 9 · 猎人 -->
+  <BackstoryDef>
+    <defName>WotF_Backstory_Hunter</defName>
+    <slot>Adulthood</slot>
+    <title>hunter</title>
+    <titleShort>hunter</titleShort>
+    <description>She clears out frenzied beasts approaching the settlement and brings back a little hide and meat for the village along the way. No one is more sure-footed when following tracks through the woods.</description>
+    <workDisables>None</workDisables>
+    <requiresSpawnCategory>true</requiresSpawnCategory>
+    <spawnCategories>
+      <li>GreenCourt_General</li>
+    </spawnCategories>
+    <skillGains>
+      <Shooting>5</Shooting>
+      <Melee>2</Melee>
+      <Animals>3</Animals>
+    </skillGains>
+  </BackstoryDef>
+
+  <!-- 定稿：成年 10 · 林间厨师 -->
+  <BackstoryDef>
+    <defName>WotF_Backstory_ForestCook</defName>
+    <slot>Adulthood</slot>
+    <title>forest cook</title>
+    <titleShort>cook</titleShort>
+    <description>Raw wild fruit may not upset her stomach, but she is determined to find delicious ways to carefully cook mushrooms, honey syrup, and game.</description>
+    <workDisables>None</workDisables>
+    <requiresSpawnCategory>true</requiresSpawnCategory>
+    <spawnCategories>
+      <li>GreenCourt_General</li>
+    </spawnCategories>
+    <skillGains>
+      <Cooking>7</Cooking>
+      <Plants>2</Plants>
+    </skillGains>
+  </BackstoryDef>
+
+  <!-- 定稿：成年 11 · 抄本整理员 -->
+  <BackstoryDef>
+    <defName>WotF_Backstory_ManuscriptKeeper</defName>
+    <slot>Adulthood</slot>
+    <title>manuscript keeper</title>
+    <titleShort>archivist</titleShort>
+    <description>She tends the old library, sorting and repairing manuals from an earlier age and damaged manuscripts that no one fully understands. Fold a corner of a page and she can scold you for half the day.</description>
+    <workDisables>None</workDisables>
+    <requiresSpawnCategory>true</requiresSpawnCategory>
+    <spawnCategories>
+      <li>GreenCourt_General</li>
+    </spawnCategories>
+    <skillGains>
+      <Intellectual>7</Intellectual>
+      <Artistic>3</Artistic>
+    </skillGains>
+  </BackstoryDef>
+
+  <!-- 定稿：成年 12 · 林庭行商 -->
+  <BackstoryDef>
+    <defName>WotF_Backstory_CourtTrader</defName>
+    <slot>Adulthood</slot>
+    <title>Court trader</title>
+    <titleShort>trader</titleShort>
+    <description>One of the few elves who regularly lead caravans to human towns, she trades forest specialties for unusual fabrics from outside and comes home with a head full of gossip.</description>
+    <workDisables>None</workDisables>
+    <requiresSpawnCategory>true</requiresSpawnCategory>
+    <spawnCategories>
+      <li>GreenCourt_General</li>
+    </spawnCategories>
+    <skillGains>
+      <Social>7</Social>
+      <Shooting>2</Shooting>
+      <Intellectual>2</Intellectual>
+    </skillGains>
+  </BackstoryDef>
+
+  <!-- 定稿：成年 13 · 石雕艺人 -->
+  <BackstoryDef>
+    <defName>WotF_Backstory_StoneSculptor</defName>
+    <slot>Adulthood</slot>
+    <title>stone sculptor</title>
+    <titleShort>sculptor</titleShort>
+    <description>She carves decorated pillars and statues for village entrances, altars, and temples. Her workmanship is fine but her pace is leisurely; she can spend half a year polishing one stone.</description>
+    <workDisables>None</workDisables>
+    <requiresSpawnCategory>true</requiresSpawnCategory>
+    <spawnCategories>
+      <li>GreenCourt_General</li>
+    </spawnCategories>
+    <skillGains>
+      <Artistic>7</Artistic>
+      <Mining>2</Mining>
+    </skillGains>
+  </BackstoryDef>
+
+  <!-- 定稿：成年 14 · 闲散旅者 -->
+  <BackstoryDef>
+    <defName>WotF_Backstory_Wanderer</defName>
+    <slot>Adulthood</slot>
+    <title>idle wanderer</title>
+    <titleShort>wanderer</titleShort>
+    <description>Long-lived and not particularly ambitious, she found the forest had too many rules. With a short staff in hand, she set out to roam and see the world.</description>
+    <workDisables>None</workDisables>
+    <requiresSpawnCategory>true</requiresSpawnCategory>
+    <spawnCategories>
+      <li>GreenCourt_General</li>
+    </spawnCategories>
+    <skillGains>
+      <Shooting>3</Shooting>
+      <Melee>3</Melee>
+      <Social>3</Social>
+      <Plants>2</Plants>
+    </skillGains>
+  </BackstoryDef>
+
+  <!-- 定稿：成年 15 · 懒骨头 -->
+  <BackstoryDef>
+    <defName>WotF_Backstory_Idler</defName>
+    <slot>Adulthood</slot>
+    <title>lazybones</title>
+    <titleShort>idler</titleShort>
+    <description>With centuries of life ahead, she sees no reason to hurry. If she can spend a whole morning dozing in meditation beneath a tree, she certainly will not work for half an hour. She only lends a hand now and then.</description>
+    <workDisables>None</workDisables>
+    <requiresSpawnCategory>true</requiresSpawnCategory>
+    <spawnCategories>
+      <li>GreenCourt_General</li>
+    </spawnCategories>
+    <skillGains>
+      <Social>2</Social>
+      <Artistic>2</Artistic>
+      <Intellectual>2</Intellectual>
+    </skillGains>
+  </BackstoryDef>
+
+  <!-- 定稿：成年 16 · 林庭游侠 -->
+  <BackstoryDef>
+    <defName>WotF_Backstory_Ranger</defName>
+    <slot>Adulthood</slot>
+    <title>Court ranger</title>
+    <titleShort>ranger</titleShort>
+    <description>An archer who spends her days patrolling the outer forest, she carries a longbow among the canopy and undergrowth, watching for infiltrators trying to reach the depths.</description>
+    <workDisables>None</workDisables>
+    <requiresSpawnCategory>true</requiresSpawnCategory>
+    <spawnCategories>
+      <li>GreenCourt_Range</li>
+    </spawnCategories>
+    <skillGains>
+      <Shooting>9</Shooting>
+      <Plants>3</Plants>
+      <Melee>2</Melee>
+    </skillGains>
+  </BackstoryDef>
+
+  <!-- 定稿：成年 17 · 精灵剑卫 -->
+  <BackstoryDef>
+    <defName>WotF_Backstory_SwordGuard</defName>
+    <slot>Adulthood</slot>
+    <title>elven sword guard</title>
+    <titleShort>sword guard</titleShort>
+    <description>A light-footed melee guard in lightweight armor, she favors close maneuvering and nimble footwork to evade heavy, clumsy blows.</description>
+    <workDisables>None</workDisables>
+    <requiresSpawnCategory>true</requiresSpawnCategory>
+    <spawnCategories>
+      <li>GreenCourt_Melee</li>
+    </spawnCategories>
+    <skillGains>
+      <Melee>10</Melee>
+      <Shooting>2</Shooting>
+      <Crafting>2</Crafting>
+    </skillGains>
+  </BackstoryDef>
+
+  <!-- 定稿：成年 18 · 秘法学者 -->
+  <BackstoryDef>
+    <defName>WotF_Backstory_ArcaneScholar</defName>
+    <slot>Adulthood</slot>
+    <title>arcane scholar</title>
+    <titleShort>scholar</titleShort>
+    <description>A mage authorized to study advanced magic and safeguard records from the ruins, she spends peacetime among ancient books and workbenches. In war, she uses her staff to control the battlefield.</description>
+    <workDisables>None</workDisables>
+    <requiresSpawnCategory>true</requiresSpawnCategory>
+    <spawnCategories>
+      <li>GreenCourt_Caster</li>
+    </spawnCategories>
+    <skillGains>
+      <Intellectual>8</Intellectual>
+      <Shooting>6</Shooting>
+      <Crafting>2</Crafting>
+    </skillGains>
+  </BackstoryDef>
+
+  <!-- 定稿：成年 19 · 林庭执政官 -->
+  <BackstoryDef>
+    <defName>WotF_Backstory_Archon</defName>
+    <slot>Adulthood</slot>
+    <title>Court archon</title>
+    <titleShort>archon</titleShort>
+    <description>The leader responsible for a settlement, she handles everyday affairs and diplomacy. Only in a crisis does she bring out the sealed heavy armor and forbidden magical seals.</description>
+    <workDisables>None</workDisables>
+    <requiresSpawnCategory>true</requiresSpawnCategory>
+    <spawnCategories>
+      <li>GreenCourt_Leader</li>
+    </spawnCategories>
+    <skillGains>
+      <Social>6</Social>
+      <Intellectual>6</Intellectual>
+      <Shooting>5</Shooting>
+      <Melee>5</Melee>
+    </skillGains>
+  </BackstoryDef>
+
+</Defs>

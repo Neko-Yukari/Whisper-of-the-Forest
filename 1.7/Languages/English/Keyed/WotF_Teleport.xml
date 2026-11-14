@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- T3 传送门（设定/05, 技术/04）。数值全部来自 Def，这里的句子只说明状态与后果。 -->
+  <WotF_TeleportGate_Gizmo_Send>Connect…</WotF_TeleportGate_Gizmo_Send>
+  <WotF_TeleportGate_Gizmo_SendDesc>Send whatever is loaded in this gate to a ruin's broken gate, or step it across to another open gate on this map.</WotF_TeleportGate_Gizmo_SendDesc>
+  <WotF_TeleportGate_Gizmo_Connect>Connect home…</WotF_TeleportGate_Gizmo_Connect>
+  <WotF_TeleportGate_Gizmo_ConnectDesc>Send whatever is loaded in this broken gate back through a colony gate that is open. The crossing costs what a crossing out costs, paid from that gate's network, and this gate will not survive it.</WotF_TeleportGate_Gizmo_ConnectDesc>
+  <WotF_TeleportGate_Connecting>Connecting the gates…</WotF_TeleportGate_Connecting>
+  <WotF_TeleportGate_Inspect_Running>Open, upkeep {0} mana/s</WotF_TeleportGate_Inspect_Running>
+  <WotF_TeleportGate_Inspect_Starved>Open, but the network cannot pay its {0} mana/s upkeep</WotF_TeleportGate_Inspect_Starved>
+  <WotF_TeleportGate_Inspect_Unlinked>Open, but no mana node within {0} cells</WotF_TeleportGate_Inspect_Unlinked>
+  <WotF_TeleportGate_Inspect_Closed>Closed</WotF_TeleportGate_Inspect_Closed>
+  <WotF_TeleportGate_Inspect_Ruined>Broken: one crossing left</WotF_TeleportGate_Inspect_Ruined>
+  <WotF_TeleportGate_Inspect_Contents>Loaded: {0} pawns, {1} kg of cargo</WotF_TeleportGate_Inspect_Contents>
+  <WotF_TeleportGate_NoTransporter>This gate has no transport compartment.</WotF_TeleportGate_NoTransporter>
+  <WotF_TeleportGate_Empty>Nothing is loaded in the gate. Load people and cargo first.</WotF_TeleportGate_Empty>
+  <WotF_TeleportGate_NoHomeGate>No colony gate is open. Bring one online, or form a caravan and walk back.</WotF_TeleportGate_NoHomeGate>
+  <WotF_TeleportGate_NoRuin>No ruin can be reached. Seek one at a second-tier altar first.</WotF_TeleportGate_NoRuin>
+  <WotF_TeleportGate_ReturnTo>Return to {0} · {1} mana</WotF_TeleportGate_ReturnTo>
+  <WotF_TeleportGate_ReturnNeeds>— {1} has {2} mana stored and needs {0}; form a caravan and walk back</WotF_TeleportGate_ReturnNeeds>
+  <WotF_TeleportGate_SendLocal>Step across to {0}</WotF_TeleportGate_SendLocal>
+  <WotF_TeleportGate_SentLocalDone>{0} things cross to {1}.</WotF_TeleportGate_SentLocalDone>
+  <WotF_TeleportGate_SendTo>Send to {0} · {1} mana</WotF_TeleportGate_SendTo>
+  <WotF_TeleportGate_ManaShort>needs {0} mana, {1} stored</WotF_TeleportGate_ManaShort>
+  <WotF_TeleportGate_Sent>{0} pawns and {1} kg of cargo arrive at {3} for {2} mana.</WotF_TeleportGate_Sent>
+  <WotF_TeleportGate_Returned>{0} things come home to {1} for {2} mana, and the broken gate falls apart behind them.</WotF_TeleportGate_Returned>
+  <WotF_TeleportGate_ReturnCost>The crossing home needs {0} mana from {1}'s network, and {2} is stored. Nothing was moved or spent; form a caravan and walk back.</WotF_TeleportGate_ReturnCost>
+  <WotF_TeleportGate_Gone>The gate or its far end is gone.</WotF_TeleportGate_Gone>
+  <WotF_TeleportGate_Failed>The connection to {0} failed.</WotF_TeleportGate_Failed>
+  <WotF_TeleportGate_NoAnchor>{0} has no gate to arrive at; the connection was refused.</WotF_TeleportGate_NoAnchor>
+  <WotF_TeleportGate_CannotConnect>{0} cannot take a connection now ({1}). Nothing was moved or spent.</WotF_TeleportGate_CannotConnect>
+  <WotF_TeleportGate_NoRoom>No room to land everything at {0}: {1} of {2} things found no free cell within {3} cells. Nothing was moved or spent.</WotF_TeleportGate_NoRoom>
+  <WotF_TeleportGate_PartyLabel>The gate party</WotF_TeleportGate_PartyLabel>
+  <WotF_TeleportGate_NeedsParty>Load at least one standing colonist. The first crossing generates the ruin's map, and a map left with nobody on it is abandoned.</WotF_TeleportGate_NeedsParty>
+  <WotF_TeleportGate_Widened>Nothing fit beside {0}, so the party landed on the nearest free ground, up to {1} cells away.</WotF_TeleportGate_Widened>
+  <WotF_TeleportGate_NoLanding>The connection to {0} was refused: {1} of the party found no free ground anywhere on the map.</WotF_TeleportGate_NoLanding>
+</LanguageData>

@@ -39,6 +39,8 @@ namespace WhisperOfTheForest.Race
 
         public float LevelManaMax => Def.manaMaxCurve.Evaluate(Level);
 
+        public float LevelManaRegen => Def.manaRegenCurve.Evaluate(Level);
+
         public float LevelEntropyMaxBonus => Def.entropyMaxCurve.Evaluate(Level);
 
         public float LevelEntropyRecoveryFactor => Def.entropyRecoveryFactorCurve.Evaluate(Level);

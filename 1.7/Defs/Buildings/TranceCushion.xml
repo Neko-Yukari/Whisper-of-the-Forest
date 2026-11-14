@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- MeditationSpot has no XML inheritance Name; mirror its assignment/focus semantics here. -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>WotF_TranceCushion</defName>
+    <label>trance cushion</label>
+    <description>A soft meditation cushion. Quality improves comfort while meditating. It is not a bed and does not interfere with natural meditation focuses.</description>
+    <thingClass>Building</thingClass>
+    <graphicData>
+      <!-- Temporary reuse of the mod's existing ground ritual mark. -->
+      <texPath>Buildings/ChalkMark</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>Cutout</shaderType>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <size>(1,1)</size>
+    <altitudeLayer>FloorEmplacement</altitudeLayer>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <WorkToBuild>1200</WorkToBuild>
+      <Mass>2</Mass>
+      <Flammability>1</Flammability>
+      <Beauty>2</Beauty>
+      <Comfort>0.85</Comfort>
+    </statBases>
+    <stuffCategories>
+      <li>Fabric</li>
+      <li>Leathery</li>
+    </stuffCategories>
+    <costStuffCount>30</costStuffCount>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories><li>BuildingsFurniture</li></thingCategories>
+    <rotatable>false</rotatable>
+    <scatterableOnMapGen>false</scatterableOnMapGen>
+    <useHitPoints>true</useHitPoints>
+    <designationCategory>Furniture</designationCategory>
+    <uiOrder>2010</uiOrder>
+    <passability>Standable</passability>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <building>
+      <isEdifice>true</isEdifice>
+      <sowTag>SupportPlantsOnly</sowTag>
+      <canPlaceOverImpassablePlant>false</canPlaceOverImpassablePlant>
+      <ai_chillDestination>false</ai_chillDestination>
+      <wakeDormantPawnsOnConstruction>false</wakeDormantPawnsOnConstruction>
+      <artificialForMeditationPurposes>false</artificialForMeditationPurposes>
+    </building>
+    <comps>
+      <li><compClass>CompQuality</compClass></li>
+      <li Class="CompProperties_UsesMeditationFocus" />
+      <li Class="CompProperties_AssignableToPawn">
+        <drawUnownedAssignmentOverlay>false</drawUnownedAssignmentOverlay>
+        <compClass>CompAssignableToPawn_MeditationSpot</compClass>
+      </li>
+    </comps>
+    <placeWorkers><li>PlaceWorker_MeditationSpot</li></placeWorkers>
+  </ThingDef>
+</Defs>

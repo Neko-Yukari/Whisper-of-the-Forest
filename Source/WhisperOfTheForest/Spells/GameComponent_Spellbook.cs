@@ -113,6 +113,12 @@ namespace WhisperOfTheForest.Spells
                 return false;
             }
 
+            foreach (string name in recipe.glyphs)
+            {
+                if (!SpellService.CanUseGlyph(pawn, SpellDefs.Glyph(name), out reason))
+                    return false;
+            }
+
             if (recipe.name.NullOrEmpty())
             {
                 reason = SpellText.T("WotF_Spells.Reason.NeedName");

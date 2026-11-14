@@ -4,23 +4,15 @@ using Verse;
 namespace WhisperOfTheForest.Movement
 {
     /// <summary>
-    /// Def names plus wearer checks for the two movement experiment apparels.
-    /// Both patches read the worn apparel every call, so removing an item restores
-    /// vanilla behaviour on the next pather tick without any cleanup state.
+    /// Reads worn apparel directly so the movement patch keeps no equipment cache.
     /// </summary>
     public static class StrideApparel
     {
         public const string TerrainStrideDefName = "WotF_TerrainStride";
-        public const string BlinkStrideDefName = "WotF_BlinkStride";
 
         public static bool IsWearingTerrainStride(Pawn pawn)
         {
             return IsWearing(pawn, TerrainStrideDefName);
-        }
-
-        public static bool IsWearingBlinkStride(Pawn pawn)
-        {
-            return IsWearing(pawn, BlinkStrideDefName);
         }
 
         public static bool IsWearing(Pawn pawn, string defName)

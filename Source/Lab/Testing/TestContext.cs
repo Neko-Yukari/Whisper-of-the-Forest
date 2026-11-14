@@ -20,7 +20,7 @@ namespace WhisperOfTheForest.Testing
     {
         private const int DefaultWaitTicks = 600;
         private const string BloodlineGeneDefName = "WotF_ForestBloodline";
-        public const string SpellbookDefName = "WotF_Spellbook_Basic";
+        public const string SpellbookDefName = "WotF_Spellbook_Apprentice";
 
         private readonly List<string> errors = new List<string>();
         private readonly List<Measurement> measurements = new List<Measurement>();
@@ -93,6 +93,20 @@ namespace WhisperOfTheForest.Testing
             return Arena.Track(elf);
         }
 
+        /// <summary>
+        /// The elf counterpart of <see cref="SpawnTarget"/>: a drafted, unarmed, unarmoured, uninjured
+        /// player elf. Apparel restricted to the elf race (the terrain mantle) is rejected by a human,
+        /// so a test that wears it needs this instead of SpawnTarget.
+        /// </summary>
+        public Pawn SpawnElfTarget(int indexX, int indexZ)
+        {
+            Pawn elf = SpawnElf(indexX, indexZ);
+            RemoveInjuries(elf);
+            Strip(elf);
+            elf.drafter.Drafted = true;
+            return elf;
+        }
+
         private Pawn SpawnColonist(int indexX, int indexZ, string name)
         {
             IntVec3 cell = Arena.Cell(indexX, indexZ);
@@ -105,23 +119,7 @@ namespace WhisperOfTheForest.Testing
                 canGeneratePawnRelations: false,
                 forceNoGear: true);
             Pawn pawn = PawnGenerator.GeneratePawn(request);
-
-            // Vanilla generation sometimes hands out pre-existing injuries (a "gunshot" from a
-            // backstory); a damage dummy must start from a known state. Only injuries are removed:
-            // Reset() rebuilds the health tracker and changed damage outcomes in testing.
-            var injuries = new List<Hediff>();
-            foreach (Hediff hediff in pawn.health.hediffSet.hediffs)
-            {
-                if (hediff is Hediff_Injury)
-                {
-                    injuries.Add(hediff);
-                }
-            }
-
-            for (int i = injuries.Count - 1; i >= 0; i--)
-            {
-                pawn.health.RemoveHediff(injuries[i]);
-            }
+            RemoveInjuries(pawn);
 
             GenSpawn.Spawn(pawn, cell, Map, WipeMode.Vanish);
             pawn.Name = new NameSingle(name);
@@ -135,6 +133,28 @@ namespace WhisperOfTheForest.Testing
             var book = (Apparel)ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed(SpellbookDefName));
             pawn.apparel.Wear(book, false, true);
             return book;
+        }
+
+        /// <summary>
+        /// Vanilla generation sometimes hands out pre-existing injuries (a "gunshot" from a
+        /// backstory); a damage dummy must start from a known state. Only injuries are removed:
+        /// Reset() rebuilds the health tracker and changed damage outcomes in testing.
+        /// </summary>
+        private static void RemoveInjuries(Pawn pawn)
+        {
+            var injuries = new List<Hediff>();
+            foreach (Hediff hediff in pawn.health.hediffSet.hediffs)
+            {
+                if (hediff is Hediff_Injury)
+                {
+                    injuries.Add(hediff);
+                }
+            }
+
+            for (int i = injuries.Count - 1; i >= 0; i--)
+            {
+                pawn.health.RemoveHediff(injuries[i]);
+            }
         }
 
         private static void Strip(Pawn pawn)

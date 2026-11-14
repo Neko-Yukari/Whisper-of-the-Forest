@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 using Verse;
 
 namespace WhisperOfTheForest.Mana
@@ -7,18 +8,28 @@ namespace WhisperOfTheForest.Mana
     {
         public float capacity;
         public float linkRadius;
+        public Vector3 barOffset;
+        public Vector2 barSize;
+        public float barMargin;
+        public Color barFilledColor;
+        public Color barUnfilledColor;
 
         public CompProperties_ManaBattery()
         {
             compClass = typeof(CompManaBattery);
         }
 
-        // Ensures: one error per field that is not positive; values live only in the Def.
+        // Ensures: storage and visible bar dimensions are valid before drawing; values live only in the Def.
         public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
         {
             foreach (string error in base.ConfigErrors(parentDef)) yield return error;
             if (capacity <= 0f) yield return "capacity must be positive";
             if (linkRadius <= 0f) yield return "linkRadius must be positive";
+            if (barOffset.y <= 0f) yield return "barOffset.y must be positive to draw above the building";
+            if (barSize.x <= 0f || barSize.y <= 0f) yield return "barSize dimensions must be positive";
+            if (barMargin < 0f) yield return "barMargin must not be negative";
+            if (barFilledColor.a <= 0f) yield return "barFilledColor must be visible";
+            if (barUnfilledColor.a <= 0f) yield return "barUnfilledColor must be visible";
         }
     }
 
@@ -71,6 +82,23 @@ namespace WhisperOfTheForest.Mana
         internal void SetStored(float value)
         {
             stored = value < 0f ? 0f : value > Capacity ? Capacity : value;
+        }
+
+        public override void PostDraw()
+        {
+            base.PostDraw();
+            Rot4 rotation = parent.Rotation;
+            rotation.Rotate(RotationDirection.Clockwise);
+            GenDraw.DrawFillableBar(new GenDraw.FillableBarRequest
+            {
+                center = parent.DrawPos + Props.barOffset,
+                size = Props.barSize,
+                fillPercent = Stored / Capacity,
+                filledMat = SolidColorMaterials.SimpleSolidColorMaterial(Props.barFilledColor),
+                unfilledMat = SolidColorMaterials.SimpleSolidColorMaterial(Props.barUnfilledColor),
+                margin = Props.barMargin,
+                rotation = rotation
+            });
         }
 
         // Ensures: shows stored/capacity and whether the battery is linked to a network.

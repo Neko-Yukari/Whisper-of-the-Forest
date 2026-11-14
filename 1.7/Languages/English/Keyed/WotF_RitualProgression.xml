@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_Ritual_TierRequired>This rite requires an altar of tier {0} or higher.</WotF_Ritual_TierRequired>
+  <WotF_Ritual_Power>Resonance (facilities only while idle): {0}</WotF_Ritual_Power>
+  <WotF_Ritual_TierFamily>Altar tier: {0}; circle family: {1}</WotF_Ritual_TierFamily>
+  <WotF_Ritual_Family_Crafting>Shaping and craft</WotF_Ritual_Family_Crafting>
+  <WotF_Ritual_Family_Life>Life and spirit</WotF_Ritual_Family_Life>
+  <WotF_Ritual_Family_Domain>Domain and sky</WotF_Ritual_Family_Domain>
+  <WotF_Ritual_PowerScaled>Effects increase with resonance.</WotF_Ritual_PowerScaled>
+  <WotF_Ritual_PowerFixed>Fixed effect; no resonance bonus.</WotF_Ritual_PowerFixed>
+</LanguageData>

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using RimWorld;
 using RimWorld.Planet;
 using Verse;
@@ -26,10 +27,10 @@ namespace WhisperOfTheForest.LabTests
             ThingDef nodeDef = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_ManaNode");
             ThingDef chalkDef = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_ChalkMark_White");
             ThingDef vialDef = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_ManaVial");
-            ThingDef steel = DefDatabase<ThingDef>.GetNamedSilentFail("Steel");
-            ThingDef plasteel = DefDatabase<ThingDef>.GetNamedSilentFail("Plasteel");
+            ThingDef wood = DefDatabase<ThingDef>.GetNamedSilentFail("WoodLog");
+            ThingDef herb = DefDatabase<ThingDef>.GetNamedSilentFail("MedicineHerbal");
             if (def == null || altarDef == null || nodeDef == null || chalkDef == null
-                || vialDef == null || steel == null || plasteel == null)
+                || vialDef == null || wood == null || herb == null)
             {
                 t.Fail("mana vial defs are not loaded");
                 return;
@@ -54,8 +55,8 @@ namespace WhisperOfTheForest.LabTests
             }
 
             SpawnRing(chalkDef, t, 6, 6, def.ringSize);
-            SpawnStack(steel, t, 6, 8, 10);
-            SpawnStack(plasteel, t, 7, 8, 2);
+            SpawnStack(wood, t, 6, 8, def.inputCosts.Single(c => c.thingDef == wood).count);
+            SpawnStack(herb, t, 7, 8, def.inputCosts.Single(c => c.thingDef == herb).count);
             nodeComp.SetStored(nodeComp.Capacity);
             ManaNetwork network = nodeComp.Network;
             if (network == null)
@@ -65,10 +66,13 @@ namespace WhisperOfTheForest.LabTests
             }
 
             t.Expect(comp.TryStart(def, caster), "the bottling rite did not start");
-            t.Expect(network.Stored < nodeComp.Capacity, "the rite did not draw mana from the network");
+            t.Expect(Math.Abs(network.Stored - nodeComp.Capacity) < 0.01f,
+                "the rite drew mana before the chant completed");
             t.Measure("networkAfterStart", network.Stored.ToString("0.##"));
             t.Expect(t.StepUntil(() => !comp.IsActive, 1000), "the bottling rite did not finish");
-            t.Expect(Count(t, vialDef) == 1, "expected one mana vial beside the altar, found " + Count(t, vialDef));
+            t.Expect(network.Stored < nodeComp.Capacity, "the rite did not draw mana from the network");
+            t.Expect(Count(t, vialDef) == def.outputProducts.Single(p => p.thingDef == vialDef).count,
+                "vial output differs from ritual Def, found " + Count(t, vialDef));
 
             Gene_ForestBloodline gene = Gene_ForestBloodline.Get(caster);
             gene.OffsetMana(-gene.CurrentMana);
@@ -83,11 +87,14 @@ namespace WhisperOfTheForest.LabTests
             }
 
             t.Expect(usable.CanBeUsedBy(caster).Accepted, "a bloodline pawn at partial mana was refused the vial");
+            float manaBeforeDrink = gene.CurrentMana;
+            int vialsBeforeDrink = Count(t, vialDef);
             usable.UsedBy(caster);
             t.Measure("manaAfterDrink", gene.CurrentMana.ToString("0.##"));
-            t.Expect(Math.Abs(gene.CurrentMana - 60f) < 0.01f,
-                "expected 10 + 50 mana after drinking, found " + gene.CurrentMana);
-            t.Expect(Count(t, vialDef) == 0, "drinking the vial did not consume it");
+            t.Expect(Math.Abs(gene.CurrentMana - Math.Min(gene.MaxMana,
+                    manaBeforeDrink + vialDef.GetCompProperties<CompProperties_ManaVial>().mana)) < 0.01f,
+                "mana after drinking differs from vial Def: " + gene.CurrentMana);
+            t.Expect(Count(t, vialDef) == vialsBeforeDrink - 1, "drinking the vial did not consume one vial");
 
             Thing second = ThingMaker.MakeThing(vialDef);
             GenSpawn.Spawn(second, t.Arena.Cell(6, 7), t.Map, WipeMode.Vanish);
@@ -158,7 +165,7 @@ namespace WhisperOfTheForest.LabTests
 
         private static T Spawn<T>(ThingDef def, TestContext t, int x, int z) where T : Thing
         {
-            var thing = (T)ThingMaker.MakeThing(def);
+            var thing = (T)ThingMaker.MakeThing(def, def.MadeFromStuff ? ThingDefOf.BlocksGranite : null);
             GenSpawn.Spawn(thing, t.Arena.Cell(x, z), t.Map, WipeMode.Vanish);
             return t.Arena.Track(thing);
         }

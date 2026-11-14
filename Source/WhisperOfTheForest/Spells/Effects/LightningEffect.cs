@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using RimWorld;
 using Verse;
+using WhisperOfTheForest.Vfx;
 
 using UnityEngine;
 using WhisperOfTheForest.Equipment;
@@ -35,6 +36,11 @@ namespace WhisperOfTheForest.Spells
         public override string DiagnosticName => "lightning";
         public override int Execute(Pawn caster, Thing primary, IntVec3 cell, Map map)
         {
+            VfxService.Play(new VfxRequest
+            {
+                map = map, origin = cell.ToVector3Shifted(),
+                vfxDefName = "WotF_Vfx_Lightning"
+            });
             List<Thing> targets = SpellExecutor.CollectTargets(useArea, targetRadius, primary, cell, map,
                 SpellTargets.CanTakeDamage);
             for (int i = 0; i < targets.Count; i++)

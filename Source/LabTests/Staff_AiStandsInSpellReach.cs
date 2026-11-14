@@ -27,6 +27,8 @@ namespace WhisperOfTheForest.LabTests
             }
 
             Pawn caster = t.SpawnCaster(1, 5);
+            caster.apparel.DestroyAll();
+            caster.apparel.Wear((Apparel)ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed("WotF_Spellbook_Archmage")));
             Pawn target = t.SpawnTarget(6, 5);
 
             SpellRecipe recipe = TestContext.Recipe("staff-touch", SpellDefs.FormTouch, SpellDefs.EffectHarm);
@@ -44,8 +46,8 @@ namespace WhisperOfTheForest.LabTests
             float spellReach = verb.EffectiveRange;
             t.Measure("verbPropsRange", verb.verbProps.range.ToString("0.##"));
             t.Measure("effectiveRange", spellReach.ToString("0.##"));
-            t.Expect(spellReach <= 2f,
-                "touch form should have a short reach, got " + spellReach);
+            t.Expect(Mathf.Abs(spellReach - TestContext.Glyph(SpellDefs.FormTouch).range) < 0.01f,
+                "staff reach differs from touch Def: " + spellReach);
             t.Expect(Mathf.Abs(verb.verbProps.range - spellReach) < 0.01f,
                 "the verb still reports the weapon Def range instead of the chosen spell's");
 

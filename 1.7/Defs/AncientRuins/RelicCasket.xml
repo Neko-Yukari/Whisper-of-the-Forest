@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- 核心遗迹里的遗物匣：一次性容器，落地时按自己的 ThingSetMakerDef 填好内容，
+       所以“必出谐振核 + 1 张超位拓片”不依赖房间箱子的随机数量。
+       贴图借用模组内现有的精灵雕像占位图（模组没有匣子贴图；原版匣子是多图 Graphic_Multi，
+       check-defs 只认单文件贴图路径）。造价/耐久为占位。 -->
+  <ThingDef ParentName="CrateBase">
+    <defName>WotF_RelicCasket</defName>
+    <thingClass>WhisperOfTheForest.AncientRuins.Building_RelicCasket</thingClass>
+    <label>relic casket</label>
+    <description>A sealed casket left in an ancient engineering station. Whatever the old workshops stored inside is still inside.</description>
+    <graphicData>
+      <texPath>Buildings/RitualElvenStatuePlaceholder</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <size>(1,1)</size>
+    <statBases>
+      <MaxHitPoints>400</MaxHitPoints>
+      <WorkToBuild>3000</WorkToBuild>
+    </statBases>
+    <modExtensions>
+      <li Class="WhisperOfTheForest.AncientRuins.RelicCasketExtension">
+        <contents>WotF_RuinLoot_CoreCasket</contents>
+      </li>
+    </modExtensions>
+  </ThingDef>
+</Defs>

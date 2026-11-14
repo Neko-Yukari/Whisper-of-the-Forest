@@ -7,16 +7,16 @@
   <WotF_Ritual_HealingMedium.label>生命再生（翠环）</WotF_Ritual_HealingMedium.label>
   <WotF_Ritual_HealingMedium.description>主持者在祭坛周围画下翠绿粉笔环。附近所有人的新旧伤口都会愈合，断肢也会再生。内脏留给更高一级的仪式。</WotF_Ritual_HealingMedium.description>
   <WotF_Ritual_HealingGrand.label>生命再生（星环）</WotF_Ritual_HealingGrand.label>
-  <WotF_Ritual_RuneAwakening.label>符文唤醒</WotF_Ritual_RuneAwakening.label>
-  <WotF_Ritual_RuneAwakening.description>主持者在祭坛周围画下白色粉笔环，为整个殖民地开启一枚符文。祭坛会消耗其周围地面上的对应材料，仪式本身只消耗网络中的魔源。</WotF_Ritual_RuneAwakening.description>
+  <WotF_Ritual_RuneAwakening.label>符文启封</WotF_Ritual_RuneAwakening.label>
+  <WotF_Ritual_RuneAwakening.description>按所选符文阶位使用 3×3 白垩、5×5 翠叶或 7×7 星辉塑形工造阵，为整个殖民地启封符文。启动时只预约该符文的引子与网络魔源，吟唱圆满落定才扣除；超位符文须研读拓片。</WotF_Ritual_RuneAwakening.description>
   <WotF_Ritual_FertileSoil.label>沃土活化</WotF_Ritual_FertileSoil.label>
-  <WotF_Ritual_FertileSoil.description>主持者在祭坛周围画下翠绿叶粉笔环，唤醒脚下的土地。半径 12.9 格内的天然土壤变为沃土；地板、岩石、建筑和生长中的植物不受影响。</WotF_Ritual_FertileSoil.description>
+  <WotF_Ritual_FertileSoil.description>主持者在祭坛周围画下翠绿叶粉笔环，唤醒脚下的土地。仪式范围内的天然土壤变为沃土，共鸣越高覆盖越广；地板、岩石、建筑和生长中的植物不受影响。</WotF_Ritual_FertileSoil.description>
   <WotF_Ritual_SpellbookAwakening.label>魔术书唤醒</WotF_Ritual_SpellbookAwakening.label>
   <WotF_Ritual_SpellbookAwakening.description>主持者在祭坛周围画下白色粉笔环，从旧世界的残余中唤出一本沉睡的魔术书。仪式结束后，祭坛旁会留下一本基础魔术书，供林庭血脉成员佩戴。</WotF_Ritual_SpellbookAwakening.description>
   <WotF_Ritual_TransmuteGreenChalk.label>点化：翠叶粉笔</WotF_Ritual_TransmuteGreenChalk.label>
   <WotF_Ritual_TransmuteGreenChalk.description>主持者在祭坛周围画下白色粉笔环，把白色粉笔与草药炼成翠叶粉笔。5 支白色粉笔和 20 份草药会变成 5 支翠叶粉笔，落在祭坛旁。</WotF_Ritual_TransmuteGreenChalk.description>
   <WotF_Ritual_TransmuteStarChalk.label>点化：星辉粉笔</WotF_Ritual_TransmuteStarChalk.label>
-  <WotF_Ritual_TransmuteStarChalk.description>主持者在祭坛周围画下翠叶粉笔环，把翠叶粉笔、白银与翡翠炼成星辉粉笔。5 支翠叶粉笔、10 份白银和 10 份翡翠会变成 5 支星辉粉笔。</WotF_Ritual_TransmuteStarChalk.description>
+  <WotF_Ritual_TransmuteStarChalk.description>主持者在祭坛周围画下翠叶粉笔环，把白垩粉笔、白银与翡翠炼成星辉粉笔。5 支白垩粉笔、10 份白银和 10 份翡翠会变成 5 支星辉粉笔。</WotF_Ritual_TransmuteStarChalk.description>
   <WotF_Ritual_TransmuteComponent.label>点化：零部件</WotF_Ritual_TransmuteComponent.label>
   <WotF_Ritual_TransmuteComponent.description>主持者在祭坛周围画下翠叶粉笔环，把钢铁与草药炼成工业零部件。30 份钢铁和 15 份草药会变成 1 个工业零部件。</WotF_Ritual_TransmuteComponent.description>
   <WotF_Ritual_RainCall.label>祈雨</WotF_Ritual_RainCall.label>
@@ -26,11 +26,17 @@
   <WotF_Ritual_ShieldDome.label>古树护盾</WotF_Ritual_ShieldDome.label>
   <WotF_Ritual_ShieldDome.description>主持者在祭坛周围画下翠叶粉笔环，唤醒祭坛里沉睡的古老守护。半径 12.9 格内会升起一层活着的护盾，挡下来袭的投射物，直到护盾耗尽或一天后自行消散。</WotF_Ritual_ShieldDome.description>
   <WotF_Ritual_LeylineMining.label>地脉汲矿</WotF_Ritual_LeylineMining.label>
-  <WotF_Ritual_LeylineMining.description>主持者在祭坛周围画下星辉粉笔环，把古林的根须探入深层矿脉。仪式会从祭坛下方汲取最多三种深层矿物，各取一份；如果脚下没有深层矿脉，仪式会在扣魔源前被拒绝。</WotF_Ritual_LeylineMining.description>
+  <WotF_Ritual_LeylineMining.description>主持者在祭坛周围画下星辉粉笔环，把古林的根须探入深层矿脉。仪式会从祭坛下方汲取最多三种深层矿物，共鸣等级提高开采范围与每种矿物的产量；如果脚下没有深层矿脉，仪式会在扣魔源前被拒绝。</WotF_Ritual_LeylineMining.description>
   <WotF_Ritual_BeastCall.label>灵兽召契</WotF_Ritual_BeastCall.label>
   <WotF_Ritual_BeastCall.description>主持者在祭坛周围画下翠叶粉笔环，献上 50 份干草。仪式结束时，一头野马会出现在祭坛旁；主持者随后进行一次驯服尝试，成功则它加入殖民地，失败则转身离开。</WotF_Ritual_BeastCall.description>
   <WotF_Ritual_Teleport.label>本地传送</WotF_Ritual_Teleport.label>
-  <WotF_Ritual_Teleport.description>主持者在祭坛周围画下翠叶粉笔环，把附近的殖民者送到地图上的一座传送节点。仪式本身只消耗魔源，代价主要在那座沉重的节点上。</WotF_Ritual_Teleport.description>
+  <WotF_Ritual_Teleport.description>主持者在祭坛周围画下翠叶粉笔环，把附近的殖民者送到地图上一座正在运行的传送门。仪式本身只消耗魔源，维持那扇门的开销另算。</WotF_Ritual_Teleport.description>
   <WotF_Ritual_BottleMana.label>装瓶仪式</WotF_Ritual_BottleMana.label>
-  <WotF_Ritual_BottleMana.description>主持者在祭坛周围画下白色粉笔环，把网络中的魔源引入一只钢与玻璃钢制成的瓶子。瓶中魔源少于仪式消耗，装瓶是为了储存而非凭空造出魔源。</WotF_Ritual_BottleMana.description>
+  <WotF_Ritual_BottleMana.description>主持者在祭坛周围画下白色粉笔环，用 5 份原木和 3 份草药制瓶，把 60 点网络魔源引入其中。瓶中魔源少于仪式消耗，装瓶是为了储存而非凭空造出魔源。</WotF_Ritual_BottleMana.description>
+  <WotF_Ritual_SpellbookUpgradeAdept.label>魔术书升阶：织法魔术书</WotF_Ritual_SpellbookUpgradeAdept.label>
+  <WotF_Ritual_SpellbookUpgradeAdept.description>吟唱圆满落定时，从祭坛周围地面取走 1 本学徒魔术书、12 份精灵钢和 15 份翡翠。在 5×5 翠叶塑形工造阵中完成仪式，产出 1 本织法魔术书。已编写的法术保存在小人身上，佩戴新书后开放七个槽位，不会丢失配方。旧书需先脱下放到地面。</WotF_Ritual_SpellbookUpgradeAdept.description>
+  <WotF_Ritual_SpellbookUpgradeArchmage.label>魔术书升阶：星辉法典</WotF_Ritual_SpellbookUpgradeArchmage.label>
+  <WotF_Ritual_SpellbookUpgradeArchmage.description>吟唱圆满落定时，从祭坛周围地面取走 1 本织法魔术书、12 份秘银和 10 支星辉粉笔。在 7×7 星辉塑形工造阵中完成仪式，产出 1 本星辉法典。已编写的法术保存在小人身上，佩戴法典后开放全部十个槽位，并允许编入超位符文。旧书需先脱下放到地面。</WotF_Ritual_SpellbookUpgradeArchmage.description>
+  <WotF_Ritual_InscribeEquipment.label>武具注法</WotF_Ritual_InscribeEquipment.label>
+  <WotF_Ritual_InscribeEquipment.description>主持者在祭坛周围画下白色粉笔环，把一件武器或护甲放在环内，并将魔术书中的一页写入这件武具。武具保存自己的法术副本，命中敌人时触发，护甲则在穿戴者受击时触发。只能注入接触、自身与环绕三种形式。</WotF_Ritual_InscribeEquipment.description>
 </LanguageData>

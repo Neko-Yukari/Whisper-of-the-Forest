@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LanguageData>
-
-  <WotF_MaturePlant.label>instantly mature plant</WotF_MaturePlant.label>
-  <WotF_MaturePlant.description>Force a single immature plant to finish growing on the spot. Crops and trees both answer, but only growth changes: injuries, diseases, age and the def's harvest rules stay exactly as they were, so a plant still has to be harvestable by its own def.</WotF_MaturePlant.description>
-
-</LanguageData>

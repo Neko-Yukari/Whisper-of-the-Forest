@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    Biotech xenotype for the elf race (设定/02-精灵种族设定.md, 技术/01-种族与派系实现.md).
+
+    The gene list repeats the race's raceGenes (Elf.xml) on purpose. With Biotech, HAR adds
+    raceGenes as endogenes while PawnGenerator.GenerateGenes runs: the transpiler inserts its call
+    at the first Ldarg_1 (erdelf/AlienRaces@b715c63ea7 Source/AlienRace/AlienRace/HarmonyPatches.cs:3639-3660)
+    and GenerateGenesForcedHelper adds each gene with AddGene(option, false) (:3675-3680). The
+    vanilla Pawn_GeneTracker.SetXenotype then runs ClearXenogenes + AddGene(gene, !inheritable)
+    (Graphify/native/source/RimWorld/Pawn_GeneTracker.cs:479-493). AddGene returns null when the
+    same gene is already an endogene (:670-678), so inheritable=true keeps exactly one copy of each
+    gene instead of two; inheritable=false would add a second, xenogene copy.
+
+    Without Biotech this Def does not load (MayRequire on the root) and nothing calls SetXenotype,
+    so the four genes are simply never granted. That is not a regression: the HAR helper only runs
+    inside GenerateGenes' ModsConfig.BiotechActive branch, and About.xml lists Biotech as a
+    dependency.
+  -->
+  <XenotypeDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>WotF_ElfXenotype</defName>
+    <label>elf</label>
+    <description>A tall, long-lived people of the old forests. Their bodies are built for a life among trees, and their bloodline still answers to the magic that humans only reach through archotech psylinks.</description>
+    <descriptionShort>A long-lived forest people whose bloodline carries its own kind of magic.</descriptionShort>
+    <iconPath>UI/Icons/Xenotypes/WotF_ElfXenotype</iconPath>
+    <inheritable>true</inheritable>
+    <factionlessGenerationWeight>0</factionlessGenerationWeight>
+    <genes>
+      <li>WotF_ForestBloodline</li>
+      <li>WotF_ForestCraft</li>
+      <li>WotF_FeyAncestry</li>
+      <li>AptitudeStrong_Plants</li>
+    </genes>
+  </XenotypeDef>
+</Defs>

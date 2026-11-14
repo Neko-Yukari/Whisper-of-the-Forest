@@ -87,14 +87,17 @@ namespace WhisperOfTheForest.LabTests
             t.Note("levelAtSpawn", gene.Level);
             t.Note("psylinkAtSpawn", elf.GetPsylinkLevel());
             t.Expect(gene.Level == 1, "a new bloodline pawn should be level 1, is " + gene.Level);
-            t.Expect(elf.GetPsylinkLevel() == 1, "level 1 should mirror psylink 1, got " + elf.GetPsylinkLevel());
+            t.Expect(elf.GetPsylinkLevel() == BloodlineKit.Def.psylinkUnlockLevels.Count(level => level <= gene.Level),
+                "spawn psylink differs from unlock Def: " + elf.GetPsylinkLevel());
 
-            gene.GainExperience(BloodlineKit.XpFromOneTo(3));
+            int nextUnlock = BloodlineKit.Def.psylinkUnlockLevels.First(level => level > gene.Level);
+            gene.GainExperience(BloodlineKit.XpFromOneTo(nextUnlock));
             t.Note("levelAfterXp", gene.Level);
             t.Note("psylinkAfterXp", elf.GetPsylinkLevel());
             t.Note("psycasts", BloodlineKit.Psycasts(elf));
-            t.Expect(gene.Level == 3, "experience should reach level 3, got " + gene.Level);
-            t.Expect(elf.GetPsylinkLevel() == 2, "level 3 should mirror psylink 2, got " + elf.GetPsylinkLevel());
+            t.Expect(gene.Level == nextUnlock, "experience did not reach the Def unlock level " + nextUnlock + ": " + gene.Level);
+            t.Expect(elf.GetPsylinkLevel() == BloodlineKit.Def.psylinkUnlockLevels.Count(level => level <= nextUnlock),
+                "levelled psylink differs from unlock Def: " + elf.GetPsylinkLevel());
             t.Expect(BloodlineKit.Psycasts(elf) == 0, "mirror levels must not grant psycasts, got " + BloodlineKit.Psycasts(elf));
         }
     }
@@ -114,19 +117,21 @@ namespace WhisperOfTheForest.LabTests
                 return;
             }
 
+            int linkBefore = elf.GetPsylinkLevel();
             BloodlineKit.UseNeuroformer(elf);
             t.Note("psylinkAfterFirst", elf.GetPsylinkLevel());
             t.Note("levelAfterFirst", gene.Level);
-            t.Expect(elf.GetPsylinkLevel() == 2, "first neuroformer: psylink should be 2, got " + elf.GetPsylinkLevel());
-            t.Expect(gene.Level == BloodlineKit.Def.psylinkUnlockLevels[1],
-                "first neuroformer: level should be " + BloodlineKit.Def.psylinkUnlockLevels[1] + ", got " + gene.Level);
+            t.Expect(elf.GetPsylinkLevel() == linkBefore + 1, "first neuroformer did not raise psylink: " + linkBefore + " -> " + elf.GetPsylinkLevel());
+            t.Expect(gene.Level == BloodlineKit.Def.psylinkUnlockLevels[elf.GetPsylinkLevel() - 1],
+                "first neuroformer: level differs from unlock Def: " + gene.Level);
 
+            linkBefore = elf.GetPsylinkLevel();
             BloodlineKit.UseNeuroformer(elf);
             t.Note("psylinkAfterSecond", elf.GetPsylinkLevel());
             t.Note("levelAfterSecond", gene.Level);
-            t.Expect(elf.GetPsylinkLevel() == 3, "second neuroformer: psylink should be 3, got " + elf.GetPsylinkLevel());
-            t.Expect(gene.Level == BloodlineKit.Def.psylinkUnlockLevels[2],
-                "second neuroformer: level should be " + BloodlineKit.Def.psylinkUnlockLevels[2] + ", got " + gene.Level);
+            t.Expect(elf.GetPsylinkLevel() == linkBefore + 1, "second neuroformer did not raise psylink: " + linkBefore + " -> " + elf.GetPsylinkLevel());
+            t.Expect(gene.Level == BloodlineKit.Def.psylinkUnlockLevels[elf.GetPsylinkLevel() - 1],
+                "second neuroformer: level differs from unlock Def: " + gene.Level);
 
             t.Note("psycasts", BloodlineKit.Psycasts(elf));
             t.Expect(BloodlineKit.Psycasts(elf) == 0, "neuroformers on a bloodline pawn must not grant psycasts");
@@ -183,7 +188,8 @@ namespace WhisperOfTheForest.LabTests
             }
 
             gene.GainExperience(BloodlineKit.XpFromOneTo(3));
-            t.Expect(elf.GetPsylinkLevel() == 2, "setup: level 3 should mirror psylink 2, got " + elf.GetPsylinkLevel());
+            t.Expect(elf.GetPsylinkLevel() == BloodlineKit.Def.psylinkUnlockLevels.Count(level => level <= gene.Level),
+                "setup: psylink differs from unlock Def: " + elf.GetPsylinkLevel());
 
             float expectedMax = BloodlineKit.FactoredBase(elf, StatDefOf.PsychicEntropyMax)
                                 + BloodlineKit.Def.entropyMaxCurve.Evaluate(gene.Level);

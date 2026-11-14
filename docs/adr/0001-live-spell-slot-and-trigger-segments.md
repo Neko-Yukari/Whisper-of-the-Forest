@@ -4,7 +4,7 @@
 - 日期：2026-10-30
 
 > **取代说明（2026-11-05）**：决策 1、2、5 仍然有效。决策 3、4 已全部移除：命中触发符文废弃，`SpellSegment`、`spellSegmentIndex`、触发服务都已删除，法术计划只有一段。
-> 时机类效果改由滞留、地印、延迟把右侧效果编成嵌套载荷来表达。原符文见 `_Deprecated/1.7/Defs/Experiments/Spellbook.Trigger.xml`。
+> 时机类效果改由滞留、地印、延迟把右侧效果编成嵌套载荷来表达。原符文已删除，见 git 历史中的 `1.7/Defs/Experiments/Spellbook.Trigger.xml`。
 
 ## 背景
 

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using RimWorld;
 using Verse;
@@ -20,7 +21,7 @@ namespace WhisperOfTheForest.LabTests
         protected override void Run(TestContext t)
         {
             RitualDef def = DefDatabase<RitualDef>.GetNamedSilentFail("WotF_Ritual_BeastCall");
-            ThingDef altarDef = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_RitualAltar");
+            ThingDef altarDef = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_RitualAltar_LivingWood");
             ThingDef nodeDef = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_ManaNode");
             ThingDef greenChalk = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_ChalkMark_Green");
             PawnKindDef horse = DefDatabase<PawnKindDef>.GetNamedSilentFail("Horse");
@@ -49,7 +50,7 @@ namespace WhisperOfTheForest.LabTests
             }
 
             Thing hay = ThingMaker.MakeThing(ThingDefOf.Hay);
-            hay.stackCount = 50;
+            hay.stackCount = def.inputCosts.Single(c => c.thingDef == ThingDefOf.Hay).count;
             GenSpawn.Spawn(hay, t.Arena.Cell(7, 6), t.Map, WipeMode.Vanish);
             t.Arena.Track(hay);
             int hayBefore = Count(t, ThingDefOf.Hay);
@@ -68,7 +69,7 @@ namespace WhisperOfTheForest.LabTests
                 "the beast-call rite did not finish");
             t.Measure("casterJobs", trace.Length == 0 ? "none" : trace.ToString());
             t.Measure("casterState", "downed=" + caster.Downed + " injury=" + t.InjurySeverity(caster).ToString("0.#"));
-            t.Expect(Count(t, ThingDefOf.Hay) == hayBefore - 50, "the rite did not consume its hay focus");
+            t.Expect(Count(t, ThingDefOf.Hay) == hayBefore - def.inputCosts.Single(c => c.thingDef == ThingDefOf.Hay).count, "the rite did not consume its hay focus");
             t.Expect(Math.Abs(nodeComp.Stored - (before - def.manaCost)) < 0.01f, "the rite spent the wrong amount of mana");
 
             t.Note("horsesBefore", horsesBefore);
@@ -220,7 +221,7 @@ namespace WhisperOfTheForest.LabTests
 
         private static T Spawn<T>(ThingDef def, TestContext t, int x, int z) where T : Thing
         {
-            var thing = (T)ThingMaker.MakeThing(def);
+            var thing = (T)ThingMaker.MakeThing(def, def.MadeFromStuff ? ThingDefOf.BlocksGranite : null);
             GenSpawn.Spawn(thing, t.Arena.Cell(x, z), t.Map, WipeMode.Vanish);
             return t.Arena.Track(thing);
         }

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    The elf start (技术/01-种族与派系实现.md:71): pick 3 of 6 candidates, arrive on foot.
+
+    playerFaction is a ScenPart_PlayerFaction (RimWorld/Scenario.cs field, parsed from the
+    <playerFaction> child): PostWorldGenerate creates the faction from <factionDef>
+    (RimWorld/ScenPart_PlayerFaction.cs:50-55) and PreMapGenerate names the first settlement with
+    that faction's playerInitialSettlementNameMaker (:57-64).
+
+    Pawns: ScenPart_ConfigPage_ConfigureStartingPawns generates pawnCount candidates and the base
+    class tops the list up to pawnChoiceCount with StartingPawnUtility.AddNewPawn()
+    (RimWorld/ScenPart_ConfigPage_ConfigureStartingPawnsBase.cs:38-45). Every candidate kind is
+    WotF_Elf_Colonist because WotF_PlayerElf.basicMemberKind names it and HAR's startingColonists
+    entry maps the player faction to the same kind (1.7/Defs/Factions/AlienRaceSettings.xml).
+    Xenotype of the candidates is set by Patch_ElfStartingXenotype
+    (Source/WhisperOfTheForest/Race/ElfStartingXenotype.cs): AddNewPawn() goes through
+    DefaultStartingPawnRequest, whose getter vanilla fills with a forced baseliner and HAR rewrites
+    through PickStartingPawnConfig (Verse/StartingPawnUtility.cs:46-60, HarmonyPatches.cs:3761-3766);
+    the postfix replaces that baseliner with WotF_ElfXenotype while the player faction is
+    WotF_PlayerElf. Baseliner stays on the race whitelist so xenogerm implantation can still reset the
+    gene tracker (1.7/Defs/Races/Elf.xml raceRestriction, RimWorld/GeneUtility.cs:207-222).
+
+    Things: ScenPart_StartingThing_Defined carries an int count and an optional stuff
+    (RimWorld/ScenPart_ThingCount.cs:11-17); ScenPart_ScatterThings* use the same fields plus
+    allowRoofed (RimWorld/ScenPart_ScatterThings.cs:6-8).
+  -->
+  <ScenarioDef ParentName="ScenarioBase">
+    <defName>WotF_Scenario_Elf</defName>
+    <label>Forest Exiles</label>
+    <description>Three forest elves leave the court to found a settlement of their own.</description>
+    <scenario>
+      <summary>Three forest elves, a handful of supplies and the woods.</summary>
+      <playerFaction>
+        <def>PlayerFaction</def>
+        <factionDef>WotF_PlayerElf</factionDef>
+      </playerFaction>
+      <parts>
+
+        <!-- Pick 3 of 6 candidates. -->
+        <li Class="ScenPart_ConfigPage_ConfigureStartingPawns">
+          <def>ConfigPage_ConfigureStartingPawns</def>
+          <pawnCount>3</pawnCount>
+          <pawnChoiceCount>6</pawnChoiceCount>
+        </li>
+
+        <li Class="ScenPart_PlayerPawnsArriveMethod">
+          <def>PlayerPawnsArriveMethod</def>
+          <method>Standing</method>
+        </li>
+
+        <!-- Carried in. -->
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>Silver</thingDef>
+          <count>350</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>Pemmican</thingDef>
+          <count>200</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>MedicineHerbal</thingDef>
+          <count>25</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>Jade</thingDef>
+          <count>40</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>WotF_Spellbook_Apprentice</thingDef>
+          <count>1</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>WotF_SpellStaffShort</thingDef>
+          <count>1</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>WotF_ElvenLongsword</thingDef>
+          <stuff>WotF_LivingWood</stuff>
+          <count>1</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>WotF_ElvenLongbow</thingDef>
+          <count>1</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>WotF_Chalk</thingDef>
+          <count>30</count>
+        </li>
+
+        <!-- Scattered around the drop site. -->
+        <li Class="ScenPart_ScatterThingsNearPlayerStart">
+          <def>ScatterThingsNearPlayerStart</def>
+          <thingDef>WoodLog</thingDef>
+          <count>250</count>
+        </li>
+        <li Class="ScenPart_ScatterThingsNearPlayerStart">
+          <def>ScatterThingsNearPlayerStart</def>
+          <thingDef>BlocksGranite</thingDef>
+          <count>150</count>
+        </li>
+
+        <!-- Scattered across the map. -->
+        <li Class="ScenPart_ScatterThingsAnywhere">
+          <def>ScatterThingsAnywhere</def>
+          <thingDef>Steel</thingDef>
+          <count>300</count>
+        </li>
+        <li Class="ScenPart_ScatterThingsAnywhere">
+          <def>ScatterThingsAnywhere</def>
+          <thingDef>ShipChunk</thingDef>
+          <allowRoofed>false</allowRoofed>
+          <count>2</count>
+        </li>
+        <li Class="ScenPart_ScatterThingsAnywhere">
+          <def>ScatterThingsAnywhere</def>
+          <thingDef>MealSurvivalPack</thingDef>
+          <count>6</count>
+        </li>
+
+      </parts>
+    </scenario>
+  </ScenarioDef>
+
+</Defs>

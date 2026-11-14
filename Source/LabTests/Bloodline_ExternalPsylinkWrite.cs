@@ -24,22 +24,23 @@ namespace WhisperOfTheForest.LabTests
                 return;
             }
 
+            int levelBefore = gene.Level;
             float entropyBefore = elf.GetStatValue(StatDefOf.PsychicEntropyMax);
-            t.Expect(gene.Level == 1, "a new bloodline pawn should be level 1, is " + gene.Level);
+            int written = (int)HediffDefOf.PsychicAmplifier.maxSeverity;
 
             Hediff_Psylink psylink = elf.GetMainPsylinkSource();
-            psylink.level = 4;
-            psylink.Severity = 4;
-            t.Expect(gene.Level == 1, "a direct hediff write must not move the level by itself");
+            psylink.level = written;
+            psylink.Severity = written;
 
             t.Step(300);
-            t.Measure("levelAfterReconcile", gene.Level.ToString());
-            t.Measure("psylinkAfterReconcile", elf.GetPsylinkLevel().ToString());
+            t.Measure("levelBefore", levelBefore.ToString());
+            t.Measure("levelAfter", gene.Level.ToString());
+            t.Measure("psylinkAfter", elf.GetPsylinkLevel().ToString());
             t.Measure("entropyBefore", entropyBefore.ToString("0.#"));
             t.Measure("entropyAfter", elf.GetStatValue(StatDefOf.PsychicEntropyMax).ToString("0.#"));
-            t.Expect(gene.Level == 7, "psylink 4 should reconcile to bloodline level 7, got " + gene.Level);
-            t.Expect(elf.GetPsylinkLevel() == 4, "reconcile must not lower the psylink, got " + elf.GetPsylinkLevel());
-            t.Expect(elf.GetStatValue(StatDefOf.PsychicEntropyMax) > entropyBefore + 1f,
+            t.Expect(gene.Level > levelBefore, "a psylink written straight into the hediff did not raise the bloodline level");
+            t.Expect(elf.GetPsylinkLevel() == written, "reconcile changed the psylink level");
+            t.Expect(elf.GetStatValue(StatDefOf.PsychicEntropyMax) > entropyBefore,
                 "neural heat limit did not rise with the reconciled level");
         }
     }

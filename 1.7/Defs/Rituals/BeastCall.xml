@@ -2,6 +2,8 @@
 <Defs>
   <WhisperOfTheForest.Rituals.RitualDef>
     <defName>WotF_Ritual_BeastCall</defName>
+    <tier>2</tier>
+    <family>Life</family>
     <label>rite of beast calling</label>
     <description>The caster lays out a green chalk ring and offers hay to the grove. A single animal answers beside the altar; one taming attempt follows, and the animal leaves if it refuses.</description>
     <ringSize>5</ringSize>
@@ -9,8 +11,8 @@
     <manaCost>120</manaCost>
     <durationTicks>900</durationTicks>
     <effectRadius>12.9</effectRadius>
-    <participantRadiusPerExtra>0.1</participantRadiusPerExtra>
-    <maxParticipants>4</maxParticipants>
+    <!-- 占位：每级共鸣增加 0.005 驯服概率，另叠主持人驯兽；最终概率沿用 Clamp01。 -->
+    <tameChancePerPower>0.005</tameChancePerPower>
     <summonedAnimal>Horse</summonedAnimal>
     <tameChanceBase>0.4</tameChanceBase>
     <tameChancePerSkill>0.05</tameChancePerSkill>

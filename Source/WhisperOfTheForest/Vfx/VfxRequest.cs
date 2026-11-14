@@ -39,5 +39,8 @@ namespace WhisperOfTheForest.Vfx
 
         /// <summary>Vfx Def that owns the worker and its look.</summary>
         public string vfxDefName;
+
+        public string initialState;
+        public int initialElapsedTicks;
     }
 }

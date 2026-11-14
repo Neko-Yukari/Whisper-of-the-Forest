@@ -16,17 +16,16 @@
 
   <WotF_UI.SectionMovement>Movement apparel</WotF_UI.SectionMovement>
   <WotF_UI.EquipTerrainStride>Terrain stride</WotF_UI.EquipTerrainStride>
-  <WotF_UI.EquipTerrainStrideTip>Equips the terrain stride experiment apparel: terrain movement cost is ignored.</WotF_UI.EquipTerrainStrideTip>
-  <WotF_UI.EquipBlinkStride>Blink stride</WotF_UI.EquipBlinkStride>
-  <WotF_UI.EquipBlinkStrideTip>Equips the blink stride experiment apparel: walking and blinking alternate along a legal path.</WotF_UI.EquipBlinkStrideTip>
-  <WotF_UI.RemoveApparel>Remove experiment apparel</WotF_UI.RemoveApparel>
-  <WotF_UI.RemoveApparelTip>Removes both experiment apparel items and stops their movement effects immediately.</WotF_UI.RemoveApparelTip>
-  <WotF_UI.MovementHint>Rule: blinking only lands on legal path cells; it never crosses walls or closed doors. Removing the apparel ends the effect immediately.</WotF_UI.MovementHint>
+  <WotF_UI.EquipTerrainStrideTip>Equips the terrain stride mantle: passable terrain, plants, furniture, snow and sand no longer slow the wearer.</WotF_UI.EquipTerrainStrideTip>
+  <WotF_UI.RemoveApparel>Remove terrain mantle</WotF_UI.RemoveApparel>
+  <WotF_UI.RemoveApparelTip>Removes the terrain stride mantle and ends its movement effect.</WotF_UI.RemoveApparelTip>
+  <WotF_UI.MovementHint>The mantle cannot cross impassable cells or bypass door opening. Removing it restores normal movement costs.</WotF_UI.MovementHint>
 
   <WotF_UI.SectionEntry>Floating entry</WotF_UI.SectionEntry>
   <WotF_UI.ShowFloatingEntry>Show the bottom-right floating entry</WotF_UI.ShowFloatingEntry>
   <WotF_UI.DebugLog>Log per-object debug lines (turn on while diagnosing)</WotF_UI.DebugLog>
   <WotF_UI.UnlockAllGlyphs>Unlock every rune (development)</WotF_UI.UnlockAllGlyphs>
+  <WotF_UI.FreeCasting>Cast without spending mana or neural heat (development)</WotF_UI.FreeCasting>
   <WotF_UI.ResetEntryPosition>Reset position</WotF_UI.ResetEntryPosition>
   <WotF_UI.ResetEntryPositionTip>Puts the floating entry back above the vanilla play settings row in the bottom right corner.</WotF_UI.ResetEntryPositionTip>
   <WotF_UI.EntryHint>Drag the entry to move it, click it to open this window. The entry stays after the window is closed. If the entry is hidden, reopen this window from the bottom tech lab button.</WotF_UI.EntryHint>

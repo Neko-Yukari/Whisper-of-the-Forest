@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_Ritual_TierRequired>这场仪式需要 {0} 阶或更高阶祭坛。</WotF_Ritual_TierRequired>
+  <WotF_Ritual_Power>共鸣等级（空闲时仅设施）：{0}</WotF_Ritual_Power>
+  <WotF_Ritual_TierFamily>祭坛要求：{0} 阶；法阵族：{1}</WotF_Ritual_TierFamily>
+  <WotF_Ritual_Family_Crafting>塑形工造阵</WotF_Ritual_Family_Crafting>
+  <WotF_Ritual_Family_Life>生机灵脉阵</WotF_Ritual_Family_Life>
+  <WotF_Ritual_Family_Domain>界域天象阵</WotF_Ritual_Family_Domain>
+  <WotF_Ritual_PowerScaled>效果随共鸣等级提升。</WotF_Ritual_PowerScaled>
+  <WotF_Ritual_PowerFixed>固定效果，不受共鸣等级加成。</WotF_Ritual_PowerFixed>
+</LanguageData>

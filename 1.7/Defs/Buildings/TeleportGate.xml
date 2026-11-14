@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    T3 传送门（设定/05-建筑与器物.md, 技术/04-魔法实现.md）。
+
+    Two defs, one shape, 2×4 laid horizontally:
+      · WotF_TeleportGate          colony gate. Links to the mana network within linkRadius, draws
+                                  upkeepPerSecond while it stands open, and is the only end that can be
+                                  chosen as a remote destination. Built by the player.
+      · WotF_TeleportGate_Broken   the gate every ruin map generates. No network, no upkeep, one use:
+                                  the connection home from its menu destroys it.
+
+    Loading is the vanilla transporter: CompTransporter + ITab_ContentsTransporter, so pawns and cargo
+    go in through the ordinary loading job, the transporter gizmos or Dialog_LoadTransporters, and the
+    gate menu only decides where the contents come out. Fees, upkeep and link radius are all numbers in
+    the comps below; no C# file carries a number.
+
+    Texture is a placeholder borrowed from this mod's own mana node (the rune-cut anchor look) until
+    the gate art lands; the wide draw is the 2×4 footprint.
+  -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>WotF_TeleportGate</defName>
+    <label>teleport gate</label>
+    <description>A rune-cut arch of living wood, mithril and adamantine, standing on a plinth of cut stone. While it stands open it drinks from the mana network, and it can drop whatever has been loaded inside it onto a ruin its twin remembers — or move it across the same map, gate to gate.</description>
+    <thingClass>Building</thingClass>
+    <category>Building</category>
+    <designationCategory>Misc</designationCategory>
+    <uiOrder>2520</uiOrder>
+    <rotatable>false</rotatable>
+    <size>(4,2)</size>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.35</fillPercent>
+    <pathCost>20</pathCost>
+    <tickerType>Normal</tickerType>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <selectable>true</selectable>
+    <castEdgeShadows>false</castEdgeShadows>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <graphicData>
+      <texPath>Buildings/ManaNode</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(4,2)</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>500</MaxHitPoints>
+      <WorkToBuild>5000</WorkToBuild>
+      <Flammability>0</Flammability>
+      <Beauty>20</Beauty>
+    </statBases>
+    <!-- 造价（占位值）：精金、秘银、活木三件定数，底座用 Stony 材质的石块；不消耗谐振核。
+         因此本 Def 是 MadeFromStuff，建造时还要选一种石块，Lab 的 gate action=build 默认用花岗岩石块。 -->
+    <stuffCategories>
+      <li>Stony</li>
+    </stuffCategories>
+    <costStuffCount>40</costStuffCount>
+    <costList>
+      <WotF_Adamantine>12</WotF_Adamantine>
+      <WotF_Mithril>25</WotF_Mithril>
+      <WotF_LivingWood>60</WotF_LivingWood>
+    </costList>
+    <placeWorkers>
+      <li>WhisperOfTheForest.Mana.PlaceWorker_ManaNetwork</li>
+      <li>PlaceWorker_GlowRadius</li>
+    </placeWorkers>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>5</glowRadius>
+        <glowColor>(140,120,255,0)</glowColor>
+      </li>
+      <li Class="CompProperties_Flickable" />
+      <li Class="CompProperties_Transporter">
+        <massCapacity>400</massCapacity>
+        <restEffectiveness>0.8</restEffectiveness>
+        <canChangeAssignedThingsAfterStarting>true</canChangeAssignedThingsAfterStarting>
+      </li>
+      <li Class="WhisperOfTheForest.Teleport.CompProperties_TeleportGate">
+        <linkRadius>12.9</linkRadius>
+        <upkeepPerSecond>0.5</upkeepPerSecond>
+        <remoteStartCost>100</remoteStartCost>
+        <remoteCostPerPawn>20</remoteCostPerPawn>
+        <remoteCostPerKg>0.5</remoteCostPerKg>
+        <arrivalRadius>12</arrivalRadius>
+        <riteArrivalRadius>3</riteArrivalRadius>
+      </li>
+    </comps>
+    <inspectorTabs>
+      <li>ITab_ContentsTransporter</li>
+    </inspectorTabs>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>WotF_TeleportGate_Broken</defName>
+    <label>broken teleport gate</label>
+    <description>The other end of a gate that once pointed here. Its stones are dark, no node feeds it, and the runes only have one crossing left in them.</description>
+    <thingClass>Building</thingClass>
+    <category>Building</category>
+    <uiOrder>2521</uiOrder>
+    <rotatable>false</rotatable>
+    <size>(4,2)</size>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.35</fillPercent>
+    <pathCost>20</pathCost>
+    <tickerType>Normal</tickerType>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <selectable>true</selectable>
+    <castEdgeShadows>false</castEdgeShadows>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <graphicData>
+      <texPath>Buildings/RitualElvenStatuePlaceholder</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(4,2)</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+      <Flammability>0</Flammability>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Transporter">
+        <massCapacity>400</massCapacity>
+        <restEffectiveness>0.8</restEffectiveness>
+        <canChangeAssignedThingsAfterStarting>true</canChangeAssignedThingsAfterStarting>
+      </li>
+      <!-- 残破门不自己收远程费：它不接魔网，回程费率和去程一样，从家里那扇运行中的门的魔网扣
+           （TeleportGateTransfer.Return 读目标门的 CompProperties_TeleportGate）。 -->
+      <li Class="WhisperOfTheForest.Teleport.CompProperties_TeleportGate">
+        <ruined>true</ruined>
+        <arrivalRadius>12</arrivalRadius>
+      </li>
+    </comps>
+    <inspectorTabs>
+      <li>ITab_ContentsTransporter</li>
+    </inspectorTabs>
+  </ThingDef>
+
+</Defs>

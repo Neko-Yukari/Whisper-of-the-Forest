@@ -12,6 +12,7 @@ namespace WhisperOfTheForest.LabTests
 
         protected override void Run(TestContext t)
         {
+            using var casting = new ResourceTestUtil.FreeCastingScope();
             Pawn caster = t.SpawnCaster(4, 5);
             Pawn mech = MechHack_TestFixture.SpawnMech(t, 10, 5);
             Faction original = mech.Faction;

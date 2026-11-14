@@ -29,8 +29,7 @@
   </StatDef>
 
   <!--
-    Mana restored per second. No base value: the bloodline gene's statOffsets give the base, a
-    spellbook adds to it and a hex halves it, all as ordinary stat modifiers.
+    Mana restored per second. The worker supplies the level base before equipment offsets and factors.
   -->
   <StatDef>
     <defName>WotF_ManaRegen</defName>
@@ -42,6 +41,7 @@
     <hideAtValue>0</hideAtValue>
     <toStringStyle>FloatTwo</toStringStyle>
     <formatString>{0}/s</formatString>
+    <workerClass>WhisperOfTheForest.Race.StatWorker_ForestBloodlineManaRegen</workerClass>
     <showOnAnimals>false</showOnAnimals>
     <showOnMechanoids>false</showOnMechanoids>
     <showOnDrones>false</showOnDrones>

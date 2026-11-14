@@ -4,5 +4,15 @@
   <WotF_SpellStaff.description>原型法术法杖：攻击时施法而不是射击。攻击会施放其 Gizmo 上选定的魔术书槽位；法杖记住的是槽位而非法术副本，修改该页会改变它施放的法术。魔术书里没有保存法术时无法攻击。</WotF_SpellStaff.description>
   <WotF_SpellStaffShort.label>短法术法杖</WotF_SpellStaffShort.label>
   <WotF_SpellStaffShort.description>一根朴素短杖，只为打断从殖民地外伸进来的仪式。它不会施法；攻击只会落在正参加跃迁绑架仪式的人身上，命中后震晕参与者并打断仪式。</WotF_SpellStaffShort.description>
-  <WotF_Spellbook_Basic.label>魔术书</WotF_Spellbook_Basic.label>
+  <WotF_Spellbook_Apprentice.label>学徒魔术书</WotF_Spellbook_Apprentice.label>
+  <WotF_Spellbook_Apprentice.description>佩在腰间的初阶魔术书，开放四个法术槽，魔力上限增加20，每秒回魔增加0.5。不能承载超位符文。</WotF_Spellbook_Apprentice.description>
+  <WotF_Spellbook_Adept.label>织法魔术书</WotF_Spellbook_Adept.label>
+  <WotF_Spellbook_Adept.description>进阶魔术书，开放七个法术槽，魔力上限增加45，每秒回魔增加1.2。不能承载超位符文。</WotF_Spellbook_Adept.description>
+  <WotF_Spellbook_Archmage.label>星辉法典</WotF_Spellbook_Archmage.label>
+  <WotF_Spellbook_Archmage.description>开放全部十个法术槽的高阶法典，魔力上限增加80，每秒回魔增加2.5。唯一能够承载超位符文的魔术书；施放超位法术还需主手握持法杖。</WotF_Spellbook_Archmage.description>
+  <WotF_ElvenLongsword.label>精灵长剑</WotF_ElvenLongsword.label>
+  <WotF_ElvenLongsword.description>林庭宫廷的长剑，挥砍与突刺都顺手。注入剑柄的法术会随刃锋咬中的目标一同释放。</WotF_ElvenLongsword.description>
+  <WotF_ElvenLongbow.label>活木长弓</WotF_ElvenLongbow.label>
+  <WotF_ElvenLongbow.description>以整段活木弯成的长弓，弓弦取自兽筋。拉弓快而无声；注入握把的法术会附在每一支射出的箭上。</WotF_ElvenLongbow.description>
+  <WotF_Projectile_ElvenArrow.label>精灵箭</WotF_Projectile_ElvenArrow.label>
 </LanguageData>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LanguageData>
-
-  <WotF_MaturePlant_Failed_NotPlant>That is not a plant. Pick one growing plant.</WotF_MaturePlant_Failed_NotPlant>
-  <WotF_MaturePlant_Failed_AlreadyMature>That plant is already mature.</WotF_MaturePlant_Failed_AlreadyMature>
-  <WotF_MaturePlant_Failed_Unavailable>That plant is gone or not on this map.</WotF_MaturePlant_Failed_Unavailable>
-
-</LanguageData>

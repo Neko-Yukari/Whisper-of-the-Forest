@@ -24,6 +24,7 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Form_Self</defName>
+    <tier>0</tier>
     <label>self</label>
     <description>Cast on the caster and the caster's own cell. Nothing else is targeted.</description>
     <kind>Form</kind>
@@ -47,6 +48,7 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Form_Touch</defName>
+    <tier>0</tier>
     <label>touch</label>
     <description>Cast on one adjacent, reachable target. A wall blocks it and it never reaches further than the neighbouring cells.</description>
     <kind>Form</kind>
@@ -65,6 +67,7 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Form_Projectile</defName>
+    <tier>0</tier>
     <label>projectile</label>
     <description>Flies as the existing homing arcane dart and resolves where it really hits. Only this form accepts pierce, accelerate, decelerate and split.</description>
     <kind>Form</kind>
@@ -111,11 +114,13 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Form_Orbit</defName>
-    <label>orbit</label>
+    <tier>3</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>
-      <Steel>20</Steel>
+      <li><thingDef>WotF_Mithril</thingDef><count>15</count></li>
+      <li><thingDef>WotF_ChalkStar</thingDef><count>10</count></li>
     </unlockCost>
+    <label>orbit</label>
     <description>Places orbs that circle the caster and apply the arranged effects to the first pawn they touch. No target selection: the orbs follow the caster.</description>
     <kind>Form</kind>
     <!-- Ars Nouveau's orbit is a Form; the compatibility list follows the spell table (unverified there). -->
@@ -132,10 +137,10 @@
     <recoveryTicks>15</recoveryTicks>
     <!-- Split adds orbs, AOE widens hitRadius, Extend/Shorten scale lifetimeTicks, Accelerate/Decelerate the turn rate. -->
     <orbit>
-      <count>1</count>
-      <distance>1.9</distance>
+      <count>3</count>
+      <distance>3</distance>
       <angularSpeedDegrees>180</angularSpeedDegrees>
-      <hitRadius>0.7</hitRadius>
+      <hitRadius>1.5</hitRadius>
       <lifetimeTicks>600</lifetimeTicks>
     </orbit>
     <iconPath>Spellbook/Glyphs/WotF_Form_Orbit</iconPath>
@@ -157,6 +162,7 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.HarmGlyphDef">
     <defName>WotF_Effect_Harm</defName>
+    <tier>0</tier>
     <targets>
       <li>Humanlike</li>
       <li>Animal</li>
@@ -186,6 +192,7 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.HealGlyphDef">
     <defName>WotF_Effect_Heal</defName>
+    <tier>0</tier>
     <targets>
       <li>Humanlike</li>
       <li>Animal</li>
@@ -213,14 +220,16 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.ExplosionGlyphDef">
     <defName>WotF_Effect_Explosion</defName>
+    <tier>2</tier>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <li><thingDef>Chemfuel</thingDef><count>30</count></li>
+      <li><thingDef>WotF_ElvenSteel</thingDef><count>10</count></li>
+    </unlockCost>
     <targets>
       <li>Cell</li>
     </targets>
     <label>explosion</label>
-    <requiresUnlock>true</requiresUnlock>
-    <unlockCost>
-      <Chemfuel>30</Chemfuel>
-    </unlockCost>
     <description>One native explosion at the spell's point. A range augment widens that single explosion instead of adding more of them; Sensitive keeps the blast from damaging buildings.</description>
     <kind>Effect</kind>
     <blastDamage>12</blastDamage>
@@ -243,6 +252,12 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.GrowGlyphDef">
     <defName>WotF_Effect_Grow</defName>
+    <tier>1</tier>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <li><thingDef>WotF_LivingWood</thingDef><count>8</count></li>
+      <li><thingDef>MedicineHerbal</thingDef><count>15</count></li>
+    </unlockCost>
     <targets>
       <li>Plant</li>
       <li>Cell</li>
@@ -271,6 +286,12 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.LightningGlyphDef">
     <defName>WotF_Effect_Lightning</defName>
+    <tier>3</tier>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <li><thingDef>ComponentIndustrial</thingDef><count>15</count></li>
+      <li><thingDef>WotF_ElvenSteel</thingDef><count>15</count></li>
+    </unlockCost>
     <targets>
       <li>Humanlike</li>
       <li>Animal</li>
@@ -279,10 +300,6 @@
       <li>Building</li>
     </targets>
     <label>lightning</label>
-    <requiresUnlock>true</requiresUnlock>
-    <unlockCost>
-      <ComponentIndustrial>20</ComponentIndustrial>
-    </unlockCost>
     <description>A strike of EMP and burn damage. Every strike leaves a charge stack, and later strikes hurt more for each stack the target already carries.</description>
     <kind>Effect</kind>
     <burnDamage>12</burnDamage>
@@ -305,6 +322,12 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.ColdSnapGlyphDef">
     <defName>WotF_Effect_ColdSnap</defName>
+    <tier>2</tier>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <li><thingDef>Jade</thingDef><count>15</count></li>
+      <li><thingDef>WotF_ElvenSteel</thingDef><count>10</count></li>
+    </unlockCost>
     <targets>
       <li>Humanlike</li>
       <li>Animal</li>
@@ -334,6 +357,11 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.FreezeGlyphDef">
     <defName>WotF_Effect_Freeze</defName>
+    <tier>1</tier>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <li><thingDef>Silver</thingDef><count>30</count></li>
+    </unlockCost>
     <targets>
       <li>Humanlike</li>
       <li>Animal</li>
@@ -359,6 +387,12 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.KnockbackGlyphDef">
     <defName>WotF_Effect_Knockback</defName>
+    <tier>1</tier>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <li><thingDef>WoodLog</thingDef><count>40</count></li>
+      <li><thingDef>WotF_LivingWood</thingDef><count>5</count></li>
+    </unlockCost>
     <targets>
       <li>Humanlike</li>
       <li>Animal</li>
@@ -385,6 +419,12 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.PullGlyphDef">
     <defName>WotF_Effect_Pull</defName>
+    <tier>1</tier>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <li><thingDef>Cloth</thingDef><count>30</count></li>
+      <li><thingDef>WotF_LivingWood</thingDef><count>5</count></li>
+    </unlockCost>
     <targets>
       <li>Humanlike</li>
       <li>Animal</li>
@@ -411,6 +451,11 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.SnareGlyphDef">
     <defName>WotF_Effect_Snare</defName>
+    <tier>1</tier>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <li><thingDef>WotF_LivingWood</thingDef><count>12</count></li>
+    </unlockCost>
     <targets>
       <li>Humanlike</li>
       <li>Animal</li>
@@ -435,6 +480,12 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.HexGlyphDef">
     <defName>WotF_Effect_Hex</defName>
+    <tier>2</tier>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <li><thingDef>MedicineHerbal</thingDef><count>25</count></li>
+      <li><thingDef>Jade</thingDef><count>15</count></li>
+    </unlockCost>
     <targets>
       <li>Humanlike</li>
       <li>Animal</li>
@@ -459,14 +510,18 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.HackGlyphDef">
     <defName>WotF_Effect_Hack</defName>
+    <tier>3</tier>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <li><thingDef>ComponentSpacer</thingDef><count>2</count></li>
+      <li><thingDef>WotF_Mithril</thingDef><count>10</count></li>
+    </unlockCost>
     <targets>
       <li>Mechanoid</li>
     </targets>
     <label>hack</label>
     <description>Channel after impact to assimilate hostile mechs. The target is stunned during assimilation; interruption fails it. Control is temporary and uses no mechanitor bandwidth.</description>
     <kind>Effect</kind>
-    <requiresUnlock>true</requiresUnlock>
-    <unlockCost><ComponentIndustrial>20</ComponentIndustrial></unlockCost>
     <hackStrength>100</hackStrength>
     <radius>1.9</radius>
     <baseTicks>300</baseTicks>
@@ -490,6 +545,7 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.MagelightGlyphDef">
     <defName>WotF_Effect_Magelight</defName>
+    <tier>0</tier>
     <targets>
       <li>Cell</li>
     </targets>
@@ -515,14 +571,16 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.BlinkGlyphDef">
     <defName>WotF_Effect_Blink</defName>
+    <tier>3</tier>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <li><thingDef>WotF_Mithril</thingDef><count>15</count></li>
+      <li><thingDef>Jade</thingDef><count>20</count></li>
+    </unlockCost>
     <targets>
       <li>Cell</li>
     </targets>
     <label>blink</label>
-    <requiresUnlock>true</requiresUnlock>
-    <unlockCost>
-      <Jade>10</Jade>
-    </unlockCost>
     <description>From a self cast the caster flickers forward; delivered by a dart or a touch, the caster lands at the spell's point.</description>
     <kind>Effect</kind>
     <selfForwardDistance>5</selfForwardDistance>
@@ -542,14 +600,16 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.LingerGlyphDef">
     <defName>WotF_Effect_Linger</defName>
+    <tier>3</tier>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <li><thingDef>WotF_Mithril</thingDef><count>20</count></li>
+      <li><thingDef>WotF_ChalkStar</thingDef><count>15</count></li>
+    </unlockCost>
     <targets>
       <li>Cell</li>
     </targets>
     <label>linger</label>
-    <requiresUnlock>true</requiresUnlock>
-    <unlockCost>
-      <Cloth>20</Cloth>
-    </unlockCost>
     <description>Leaves a force field at the spell's point. Every interval it applies everything arranged to its right to every pawn inside. Accelerate shortens the interval, Decelerate lengthens it.</description>
     <kind>Effect</kind>
     <radius>2.5</radius>
@@ -572,14 +632,16 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.RuneGlyphDef">
     <defName>WotF_Effect_Rune</defName>
+    <tier>2</tier>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <li><thingDef>WotF_ChalkGreen</thingDef><count>10</count></li>
+      <li><thingDef>Jade</thingDef><count>10</count></li>
+    </unlockCost>
     <targets>
       <li>Cell</li>
     </targets>
     <label>rune</label>
-    <requiresUnlock>true</requiresUnlock>
-    <unlockCost>
-      <Jade>5</Jade>
-    </unlockCost>
     <description>Leaves a seal on the ground that takes no building space. The first pawn stepping onto it gets everything arranged to its right, then the seal is gone.</description>
     <kind>Effect</kind>
     <lifetimeTicks>3000</lifetimeTicks>
@@ -594,14 +656,16 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.DelayGlyphDef">
     <defName>WotF_Effect_Delay</defName>
+    <tier>1</tier>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <li><thingDef>Silver</thingDef><count>15</count></li>
+      <li><thingDef>Jade</thingDef><count>5</count></li>
+    </unlockCost>
     <targets>
       <li>Cell</li>
     </targets>
     <label>delay</label>
-    <requiresUnlock>true</requiresUnlock>
-    <unlockCost>
-      <Silver>10</Silver>
-    </unlockCost>
     <description>Everything arranged to its right resolves a few seconds later at the same target point.</description>
     <kind>Effect</kind>
     <delayTicks>180</delayTicks>
@@ -622,6 +686,12 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Augment_Amplify</defName>
+    <tier>2</tier>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <li><thingDef>WotF_ElvenSteel</thingDef><count>12</count></li>
+      <li><thingDef>WotF_ManaVial</thingDef><count>2</count></li>
+    </unlockCost>
     <label>amplify</label>
     <description>Strengthens the effect on its left. A damage number, a healing rate, a glow, a throw distance and an explosion's radius all scale with it.</description>
     <kind>Augment</kind>
@@ -638,6 +708,11 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Augment_Dampen</defName>
+    <tier>1</tier>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <li><thingDef>Cloth</thingDef><count>15</count></li>
+    </unlockCost>
     <label>dampen</label>
     <description>Weakens the effect on its left: less damage, shorter throw, dimmer light.</description>
     <kind>Augment</kind>
@@ -652,6 +727,12 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Augment_Extend</defName>
+    <tier>2</tier>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <li><thingDef>WotF_LivingWood</thingDef><count>20</count></li>
+      <li><thingDef>Jade</thingDef><count>10</count></li>
+    </unlockCost>
     <label>extend time</label>
     <description>Makes the effect last longer.</description>
     <kind>Augment</kind>
@@ -666,6 +747,11 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Augment_Shorten</defName>
+    <tier>1</tier>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <li><thingDef>WoodLog</thingDef><count>25</count></li>
+    </unlockCost>
     <label>shorten time</label>
     <description>Makes the effect last a shorter time.</description>
     <kind>Augment</kind>
@@ -680,6 +766,12 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Augment_Sensitive</defName>
+    <tier>1</tier>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <li><thingDef>Cloth</thingDef><count>20</count></li>
+      <li><thingDef>MedicineHerbal</thingDef><count>10</count></li>
+    </unlockCost>
     <label>sensitive</label>
     <description>Keeps only the controlled half of the effect: an explosion no longer damages buildings.</description>
     <kind>Augment</kind>
@@ -693,11 +785,12 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Augment_BreakArmor</defName>
-    <label>break armor</label>
+    <tier>2</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>
-      <Steel>25</Steel>
+      <li><thingDef>WotF_ElvenSteel</thingDef><count>20</count></li>
     </unlockCost>
+    <label>break armor</label>
     <description>Adds armour penetration to the damage effect on its left. This is this mod's own augment, not an Ars Nouveau rune.</description>
     <kind>Augment</kind>
     <factor>0.35</factor>
@@ -711,11 +804,12 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Augment_Pierce</defName>
-    <label>pierce</label>
+    <tier>3</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>
-      <ComponentIndustrial>15</ComponentIndustrial>
+      <li><thingDef>WotF_Adamantine</thingDef><count>15</count></li>
     </unlockCost>
+    <label>pierce</label>
     <description>Lets the projectile on its left keep flying after a hit, so it can strike whatever stands behind it. Each extra hit costs one pierce. Cannot be combined with split.</description>
     <kind>Augment</kind>
     <!-- Number of additional hits the projectile may resolve. -->
@@ -733,11 +827,13 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Augment_AOE</defName>
-    <label>area</label>
+    <tier>2</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>
-      <Chemfuel>20</Chemfuel>
+      <li><thingDef>Chemfuel</thingDef><count>20</count></li>
+      <li><thingDef>WotF_ChalkGreen</thingDef><count>10</count></li>
     </unlockCost>
+    <label>area</label>
     <description>Widens the effect on its left over nearby targets. Each target is affected once, and an explosion still detonates once.</description>
     <kind>Augment</kind>
     <radius>1.2</radius>
@@ -751,6 +847,12 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Augment_Accelerate</defName>
+    <tier>1</tier>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <li><thingDef>WotF_ManaVial</thingDef><count>1</count></li>
+      <li><thingDef>Silver</thingDef><count>15</count></li>
+    </unlockCost>
     <label>accelerate</label>
     <description>Makes the projectile on its left fly faster.</description>
     <kind>Augment</kind>
@@ -765,6 +867,11 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Augment_Decelerate</defName>
+    <tier>1</tier>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <li><category>StoneBlocks</category><count>20</count></li>
+    </unlockCost>
     <label>decelerate</label>
     <description>Makes the projectile on its left fly slower.</description>
     <kind>Augment</kind>
@@ -779,11 +886,13 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Augment_Split</defName>
-    <label>split</label>
+    <tier>3</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>
-      <Jade>10</Jade>
+      <li><thingDef>WotF_Mithril</thingDef><count>20</count></li>
+      <li><thingDef>Jade</thingDef><count>15</count></li>
     </unlockCost>
+    <label>split</label>
     <description>Adds more darts to the projectile on its left, using the existing launch spread and one hit per dart. Cannot be combined with pierce.</description>
     <kind>Augment</kind>
     <missiles>2</missiles>

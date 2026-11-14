@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
-  <!--
-    Movement experiments. Both items are normal wearables:
-      * TerrainStride sits in the Middle layer on the Torso group (shirt slot).
-      * BlinkStride sits in the Belt layer on the Waist group (utility slot).
-    Different layer + body part group means both can be worn at the same time;
-    the cost is that TerrainStride competes with a normal shirt.
-    No recipe is defined: the experiment Lab hands them out.
-  -->
   <ThingDef ParentName="ApparelBase">
     <defName>WotF_TerrainStride</defName>
     <label>terrain stride mantle</label>
-    <description>A light experiment mantle. While worn, the terrain underfoot no longer adds its own movement cost: mud, marsh and rough ground are walked at normal speed. Walls, closed doors, buildings and other real obstacles still block and still cost what they cost.</description>
+    <description>A light woodland mantle. On passable cells that require no door opening, it removes movement penalties from terrain, plants, rock chunks, furniture, crossable workbenches, snow and sand. It does not allow passage through walls or impassable water, and doors still open normally.</description>
     <thingClass>Apparel</thingClass>
     <techLevel>Spacer</techLevel>
     <graphicData>
@@ -28,16 +20,20 @@
     <thingCategories>
       <li>Apparel</li>
     </thingCategories>
-    <!-- Inherited smeltable=true with no costList/smeltProducts trips ThingDef.ConfigErrors;
-         experiment items are Lab-granted placeholders, so they simply cannot be smelted. -->
     <smeltable>false</smeltable>
     <apparel>
+      <!-- 技术/02-魔法实现.md (服饰分层表): 外披机动 is a Shell-layer mantle over shoulders and torso. -->
       <bodyPartGroups>
         <li>Torso</li>
+        <li>Shoulders</li>
       </bodyPartGroups>
       <layers>
-        <li>Middle</li>
+        <li>Shell</li>
       </layers>
+      <tags>
+        <li>WotF_Elven</li>
+        <li>WotF_CourtCloak</li>
+      </tags>
       <wornGraphicPath>Movement/TerrainStride</wornGraphicPath>
       <countsAsClothingForNudity>true</countsAsClothingForNudity>
       <careIfWornByCorpse>false</careIfWornByCorpse>
@@ -47,44 +43,41 @@
     </apparel>
   </ThingDef>
 
-  <ThingDef ParentName="ApparelBase">
-    <defName>WotF_BlinkStride</defName>
-    <label>blink stride sash</label>
-    <description>A light experiment sash. While worn, the bearer walks one cell of their own path and then steps instantly to the next cell of that same path, alternating. The hop never leaves the calculated route: walls, closed doors, illegal diagonals, occupied cells and the final cell of the path are still walked normally.</description>
-    <thingClass>Apparel</thingClass>
-    <techLevel>Spacer</techLevel>
-    <graphicData>
-      <texPath>Movement/BlinkStride</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-    </graphicData>
-    <statBases>
-      <Mass>0.3</Mass>
-      <WorkToMake>1200</WorkToMake>
-      <Flammability>0.4</Flammability>
-      <EquipDelay>1</EquipDelay>
-    </statBases>
-    <thingCategories>
-      <li>Apparel</li>
-    </thingCategories>
-    <!-- Same reason as TerrainStride: no materials exist to smelt back. -->
-    <smeltable>false</smeltable>
-    <apparel>
-      <bodyPartGroups>
-        <li>Waist</li>
-      </bodyPartGroups>
-      <layers>
-        <li>Belt</li>
-      </layers>
-      <wornGraphicPath>Movement/BlinkStride</wornGraphicPath>
-      <countsAsClothingForNudity>false</countsAsClothingForNudity>
-      <careIfWornByCorpse>false</careIfWornByCorpse>
-      <careIfDamaged>false</careIfDamaged>
-      <wearPerDay>0</wearPerDay>
-      <developmentalStageFilter>Adult</developmentalStageFilter>
-      <tags>
-        <li>BeltDefense</li>
-      </tags>
-    </apparel>
-  </ThingDef>
+  <!--
+    本轮补齐的配方。设定表把踏地披风列在「布/皮 + 活木」，此前它只能由 Lab 生成，没法进游戏制作验收。
+
+    刻意不加 stuffCategories：Lab 的 Equip 走 ThingMaker.MakeThing(def, null)，凡 madeFromStuff 的 Def
+    都会先记一条 Error（Verse/ThingMaker.cs:15-18），会给 Movement_TerrainStride 的 L1 日志添红。
+    因此用固定材料配方；Def 上已有的数值与效果一个字段不动。
+  -->
+  <RecipeDef>
+    <defName>WotF_MakeTerrainStride</defName>
+    <label>make terrain stride mantle</label>
+    <description>Weave a terrain stride mantle from cloth and living wood.</description>
+    <jobString>Weaving a terrain stride mantle.</jobString>
+    <workAmount>1200</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <unfinishedThingDef>UnfinishedApparel</unfinishedThingDef>
+    <skillRequirements>
+      <Crafting>2</Crafting>
+    </skillRequirements>
+    <ingredients>
+      <li>
+        <filter><thingDefs><li>Cloth</li></thingDefs></filter>
+        <count>40</count>
+      </li>
+      <li>
+        <filter><thingDefs><li>WotF_LivingWood</li></thingDefs></filter>
+        <count>10</count>
+      </li>
+    </ingredients>
+    <products>
+      <WotF_TerrainStride>1</WotF_TerrainStride>
+    </products>
+    <recipeUsers>
+      <li>WotF_ManaWorkbench</li>
+    </recipeUsers>
+  </RecipeDef>
 
 </Defs>

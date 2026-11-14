@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- 四种材料点化的原料数量、产量、耗魔和工时均为占位。固定点化不受共鸣等级影响。 -->
+  <WhisperOfTheForest.Rituals.RitualDef Name="WotF_MaterialTransmutation" Abstract="True">
+    <family>Crafting</family>
+    <effectRadius>12.9</effectRadius>
+    <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_Transmute</effectWorkerClass>
+    <autoRepeatable>true</autoRepeatable>
+  </WhisperOfTheForest.Rituals.RitualDef>
+  <WhisperOfTheForest.Rituals.RitualDef ParentName="WotF_MaterialTransmutation">
+    <defName>WotF_Ritual_TransmuteLivingWood</defName>
+    <label>rite of living wood</label>
+    <description>Awaken ordinary wood with herbs into living wood at a first-tier or higher altar. This fixed transmutation gains no resonance bonus.</description>
+    <tier>1</tier><ringSize>3</ringSize><chalkColor>White</chalkColor>
+    <manaCost>40</manaCost><durationTicks>300</durationTicks>
+    <inputCosts><WoodLog>20</WoodLog><MedicineHerbal>2</MedicineHerbal></inputCosts>
+    <outputProducts><WotF_LivingWood>10</WotF_LivingWood></outputProducts>
+  </WhisperOfTheForest.Rituals.RitualDef>
+  <WhisperOfTheForest.Rituals.RitualDef ParentName="WotF_MaterialTransmutation">
+    <defName>WotF_Ritual_TransmuteElvenSteel</defName>
+    <label>rite of elven steel</label>
+    <description>Temper steel with living wood into elven steel at a second-tier or higher altar. This fixed transmutation gains no resonance bonus.</description>
+    <tier>2</tier><ringSize>5</ringSize><chalkColor>Green</chalkColor>
+    <manaCost>80</manaCost><durationTicks>600</durationTicks>
+    <inputCosts><Steel>20</Steel><WotF_LivingWood>5</WotF_LivingWood></inputCosts>
+    <outputProducts><WotF_ElvenSteel>10</WotF_ElvenSteel></outputProducts>
+  </WhisperOfTheForest.Rituals.RitualDef>
+  <WhisperOfTheForest.Rituals.RitualDef ParentName="WotF_MaterialTransmutation">
+    <defName>WotF_Ritual_TransmuteAdamantine</defName>
+    <label>rite of adamantine</label>
+    <description>Refine elven steel and plasteel into adamantine at a third-tier altar. This fixed transmutation gains no resonance bonus.</description>
+    <tier>3</tier><ringSize>7</ringSize><chalkColor>Star</chalkColor>
+    <manaCost>160</manaCost><durationTicks>900</durationTicks>
+    <inputCosts><WotF_ElvenSteel>20</WotF_ElvenSteel><Plasteel>10</Plasteel></inputCosts>
+    <outputProducts><WotF_Adamantine>10</WotF_Adamantine></outputProducts>
+  </WhisperOfTheForest.Rituals.RitualDef>
+  <WhisperOfTheForest.Rituals.RitualDef ParentName="WotF_MaterialTransmutation">
+    <defName>WotF_Ritual_TransmuteMithril</defName>
+    <label>rite of mithril</label>
+    <description>Refine elven steel and silver into mithril at a third-tier altar. This fixed transmutation gains no resonance bonus.</description>
+    <tier>3</tier><ringSize>7</ringSize><chalkColor>Star</chalkColor>
+    <manaCost>160</manaCost><durationTicks>900</durationTicks>
+    <inputCosts><WotF_ElvenSteel>20</WotF_ElvenSteel><Silver>20</Silver></inputCosts>
+    <outputProducts><WotF_Mithril>10</WotF_Mithril></outputProducts>
+  </WhisperOfTheForest.Rituals.RitualDef>
+</Defs>

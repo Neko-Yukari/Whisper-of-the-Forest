@@ -20,7 +20,8 @@
 
     <statBases>
       <MarketValue>1750</MarketValue>
-      <MoveSpeed>4.6</MoveSpeed>
+      <MoveSpeed>5.0</MoveSpeed>
+      <MeleeDodgeChance>8</MeleeDodgeChance>
       <ComfyTemperatureMin>16</ComfyTemperatureMin>
       <ComfyTemperatureMax>26</ComfyTemperatureMax>
       <LeatherAmount>75</LeatherAmount>
@@ -97,6 +98,22 @@
       <intelligence>Humanlike</intelligence>
       <makesFootprints>true</makesFootprints>
       <lifeExpectancy>500</lifeExpectancy>
+      <hediffGiverSets>
+        <li>OrganicStandard</li>
+        <li>Human</li>
+      </hediffGiverSets>
+      <ageGenerationCurve>
+        <points>
+          <li>(0, 0)</li>
+          <li>(3, 10)</li>
+          <li>(13, 20)</li>
+          <li>(20, 100)</li>
+          <li>(300, 100)</li>
+          <li>(400, 50)</li>
+          <li>(500, 10)</li>
+          <li>(600, 0)</li>
+        </points>
+      </ageGenerationCurve>
       <bloodDef>Filth_Blood</bloodDef>
       <bloodSmearDef>Filth_BloodSmear</bloodSmearDef>
       <leatherDef>Leather_Human</leatherDef>
@@ -163,8 +180,11 @@
         <Smithing>13</Smithing>
         <Tailoring>7</Tailoring>
         <Art>10</Art>
-        <Crafting>10</Crafting>
-        <Research>10</Research>
+        <Crafting>7</Crafting>
+        <Hauling>3</Hauling>
+        <Cleaning>3</Cleaning>
+        <Research>13</Research>
+        <DarkStudy MayRequire="Ludeon.RimWorld.Anomaly">13</DarkStudy>
       </lifeStageWorkSettings>
       <soundMeleeDodge>Pawn_MeleeDodge</soundMeleeDodge>
       <specialShadowData>
@@ -177,6 +197,11 @@
       <generalSettings>
         <maleGenderProbability>0</maleGenderProbability>
         <minAgeForAdulthood>20</minAgeForAdulthood>
+        <childBackstoryFilter>
+          <li>
+            <categories><li>GreenCourt_Childhood</li></categories>
+          </li>
+        </childBackstoryFilter>
         <humanRecipeImport>true</humanRecipeImport>
 
         <alienPartGenerator>
@@ -295,12 +320,15 @@
           </bodyAddons>
         </alienPartGenerator>
 
-        <raceGenes>
-          <li>
-            <defName>WotF_ForestBloodline</defName>
-            <chance>100</chance>
-          </li>
-        </raceGenes>
+        <!--
+          No raceGenes (route B, 技术/01-种族与派系实现.md:24). The four genes now come only from
+          WotF_ElfXenotype (1.7/Defs/Genes/ElfXenotype.xml, inheritable=true).
+
+          HAR adds raceGenes to every member of the race as endogenes before the xenotype runs
+          (Source/AlienRace/AlienRace/HarmonyPatches.cs:3675-3682), regardless of which xenotype the
+          pawn ends up with. Keeping them here would hand the full set to a half-elf or to any pawn
+          whose xenotype was edited, and Biotech inheritance would be bypassed.
+        -->
       </generalSettings>
 
       <graphicPaths>
@@ -333,6 +361,76 @@
 
       <!-- Vanilla appearance genes would draw a second ears/tail/body/hair layer over HAR art. -->
       <raceRestriction>
+        <!--
+          First elven apparel batch (技术/02-魔法实现.md:141 「全部限定精灵种族穿戴」).
+
+          HAR resolves this list in ThingDef_AlienRace.ResolveReferences: every entry is added to the
+          static RaceRestrictionSettings.apparelRestricted and to this race's whiteApparelList
+          (IL_07d0-IL_081c). CanWear then returns "whiteApparelList.Contains(def)" for any apparel that
+          is in apparelRestricted or when onlyUseRaceRestrictedApparel is true, and ANDs that with
+          "!blackApparelList.Contains(def)". So a human (no alienRace settings) fails the white-list
+          test and cannot wear these, while onlyUseRaceRestrictedApparel stays false so elves remain
+          free to wear every vanilla garment.
+        -->
+        <apparelList>
+          <li>WotF_ElvenDressTraditional_I</li>
+          <li>WotF_ElvenDressTraditional_II</li>
+          <li>WotF_ElvenApronDress</li>
+          <li>WotF_ElvenHunterUndershirt</li>
+          <li>WotF_ElvenFormalGown</li>
+          <li>WotF_ElvenTravelCloak</li>
+          <li>WotF_TerrainStride</li>
+          <li>WotF_ElvenLightArmor</li>
+          <li>WotF_ElvenMageRobe</li>
+          <li>WotF_ElvenWarArmor</li>
+          <li>WotF_ElvenFlowerWreath</li>
+          <li>WotF_ElvenSunHat</li>
+          <li>WotF_ElvenTravelHood</li>
+          <li>WotF_EntropyCirclet</li>
+          <li>WotF_ElvenWarCrown</li>
+        </apparelList>
+        <!--
+          Biotech: an elf may only carry its own xenotype or the baseliner
+          (技术/01-种族与派系实现.md:25).
+
+          HAR copies xenotypeList into this race's whiteXenotypeList during ResolveReferences
+          (erdelf/AlienRaces@b715c63ea7 Source/AlienRace/AlienRace/ThingDef_AlienRace.cs:252-256).
+          CanUseXenotype (:1079-1088) answers true only for that list while
+          onlyUseRaceRestrictedXenotypes is set, and Pawn_GeneTracker.SetXenotype is prefixed with it
+          (Source/AlienRace/AlienRace/HarmonyPatches.cs:960-961) - a false result skips the whole
+          vanilla method. Every other xenotype, Sanguophage included, is therefore refused:
+          SetXenotype leaves the tracker untouched and generation never assigns it.
+
+          Baseliner goes in whiteXenotypeList, NOT xenotypeList: every xenotypeList entry is added to the
+          global xenotypeRestricted set (ThingDef_AlienRace.cs:252-255), and CanUseXenotype then answers
+          false for every race whose own whitelist lacks it (:1084-1085) - including vanilla humans, whose
+          ThingDef is not a ThingDef_AlienRace. Listing Baseliner there would block SetXenotype(Baseliner)
+          on all humans. The elf xenotype in xenotypeList is intended: it keeps other races from taking it.
+          The reference mod (workshop 3292351432, Races_Axolotllike.xml:817-820) writes Baseliner the same way.
+
+          Why Baseliner is allowed at all: xenogerm implantation resets the tracker through
+          GeneUtility.ImplantXenogermItem, which calls SetXenotype(XenotypeDefOf.Baseliner) before
+          adding the pack's genes (RimWorld/GeneUtility.cs:207-222), and extraction does the same when
+          reimplanting would kill the pawn (:194-200). With Baseliner refused, the prefix would skip
+          SetXenotype, ClearXenogenes would never run, and a second pack would stack on the first
+          instead of replacing it. Its genes are none, so a baseliner elf is a plain, gene-less elf.
+
+          Generation weights are separate from this list: the xenotypeSet on the pawn kinds and on
+          WotF_PlayerElf still offers only WotF_ElfXenotype at weight 1, and XenotypeSet.BaselinerChance
+          is 1 - sum(chances) = 0 (RimWorld/XenotypeSet.cs:13-32), so nothing rolls a baseliner here.
+
+          Without Biotech none of this runs: no XenotypeDef exists, SetXenotype is gated by
+          ModLister.CheckBiotech (RimWorld/Pawn_GeneTracker.cs:479-482) and both list entries are
+          dropped by MayRequire, so the flag has no caller to affect.
+        -->
+        <onlyUseRaceRestrictedXenotypes>true</onlyUseRaceRestrictedXenotypes>
+        <xenotypeList>
+          <li MayRequire="Ludeon.RimWorld.Biotech">WotF_ElfXenotype</li>
+        </xenotypeList>
+        <whiteXenotypeList>
+          <li MayRequire="Ludeon.RimWorld.Biotech">Baseliner</li>
+        </whiteXenotypeList>
+
         <blackGeneTags>
           <li>Ears</li>
           <li>Tail</li>
@@ -352,12 +450,44 @@
     <defName>WotF_Elf_Colonist</defName>
     <label>elf</label>
     <race>WotF_Elf</race>
+    <!--
+      Vanilla fills ForcedXenotype with Baseliner for starting pawns and clears it only for a kind
+      that carries a xenotypeSet (RimWorld/ScenPart_ConfigPage_ConfigureStartingPawns_KindDefs.cs:118-130,
+      Verse/StartingPawnUtility.cs:53); HAR then replaces that literal with PickStartingPawnConfig,
+      which resolves currentStartingRequest.ForcedXenotype ?? Baseliner (HarmonyPatches.cs:3761-3766),
+      and PawnGenerator passes the forced value straight into SetXenotype (Verse/PawnGenerator.cs:1699-1701,
+      :1619-1624). Because WotF_Scenario_Elf uses the plain starting-pawns scen part, nothing clears the
+      baseliner on that path; Patch_ElfStartingXenotype (Source/WhisperOfTheForest/Race/ElfStartingXenotype.cs)
+      replaces it with WotF_ElfXenotype for this kind while the player faction is WotF_PlayerElf.
+      The xenotypeSet below is what every other path rolls when nothing is forced
+      (Verse/PawnGenerator.cs:1746-1794): one entry at weight 1 leaves the baseliner share 1-1=0.
+    -->
+    <xenotypeSet>
+      <xenotypeChances>
+        <WotF_ElfXenotype MayRequire="Ludeon.RimWorld.Biotech">1</WotF_ElfXenotype>
+      </xenotypeChances>
+    </xenotypeSet>
     <fixedGender>Female</fixedGender>
     <nameMakerFemale>WotF_ElfNames</nameMakerFemale>
-    <defaultFactionDef>PlayerColony</defaultFactionDef>
+    <!-- The player's elf faction: the starting scenario and every pawn generated from this kind
+         without an explicit faction join WotF_PlayerElf, so its background pools and its apparel
+         stuff filter (cloth only) apply. -->
+    <defaultFactionDef>WotF_PlayerElf</defaultFactionDef>
+    <backstoryFiltersOverride>
+      <li>
+        <categoriesChildhood><li>GreenCourt_Childhood</li></categoriesChildhood>
+        <categoriesAdulthood>
+          <li>GreenCourt_General</li>
+          <li>GreenCourt_Range</li>
+          <li>GreenCourt_Melee</li>
+          <li>GreenCourt_Caster</li>
+          <li>GreenCourt_Leader</li>
+        </categoriesAdulthood>
+      </li>
+    </backstoryFiltersOverride>
     <initialResistanceRange>13~21</initialResistanceRange>
     <apparelRequired>
-      <li>WotF_Spellbook_Basic</li>
+      <li>WotF_Spellbook_Apprentice</li>
     </apparelRequired>
   </PawnKindDef>
 

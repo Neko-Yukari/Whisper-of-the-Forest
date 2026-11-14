@@ -9,10 +9,15 @@ namespace WhisperOfTheForest
         public bool logDebug;
 
         /// <summary>
-        /// Opens every rune that normally needs an unlock. On by default during development so the
-        /// whole book can be tried without playing through the rites that award each rune.
+        /// Opens every rune that normally needs an unlock; opt-in development override.
         /// </summary>
-        public bool unlockAllGlyphs = true;
+        public bool unlockAllGlyphs = false;
+
+        /// <summary>
+        /// Casts spend neither mana nor neural heat. Development switch so a spell can be tried
+        /// repeatedly without waiting for regeneration.
+        /// </summary>
+        public bool freeCasting = false;
 
         public ElfNameDisplay elfNameDisplay;
 
@@ -20,7 +25,8 @@ namespace WhisperOfTheForest
         {
             base.ExposeData();
             Scribe_Values.Look(ref logDebug, "logDebug", false);
-            Scribe_Values.Look(ref unlockAllGlyphs, "unlockAllGlyphs", true);
+            Scribe_Values.Look(ref unlockAllGlyphs, "unlockAllGlyphs", false);
+            Scribe_Values.Look(ref freeCasting, "freeCasting", false);
             Scribe_Values.Look(ref elfNameDisplay, "elfNameDisplay", ElfNameDisplay.Original);
         }
     }

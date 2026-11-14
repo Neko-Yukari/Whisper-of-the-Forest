@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- 寻踪仪式拉起的两个遗迹任务。同一套任务根节点，差异只在站点 Def（它挂的生成步骤与参数）。
+       威胁倍率不在这里：它只写在仪式 Def 的 ruinOptions 里，由 RuinSeeking.PointsFor 乘一次，
+       任务节点拿到的 points 已经是乘过的值。
+       这两个脚本只能由仪式生成：rootSelectionWeight 为 0、不可随机选取、自动接受。
+       天数（15 / 11）是任务书定值；距离是占位数值。 -->
+
+  <QuestScriptDef>
+    <defName>WotF_RuinSeek_Common</defName>
+    <autoAccept>true</autoAccept>
+    <randomlySelectable>false</randomlySelectable>
+    <rootSelectionWeight>0</rootSelectionWeight>
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->ancient forest ruin</li>
+      </rulesStrings>
+    </questNameRules>
+    <questDescriptionRules>
+      <rulesStrings>
+        <li>questDescription->The seeking rite found an old complex under the trees. Clear its guardians and take what the forest swallowed.</li>
+      </rulesStrings>
+    </questDescriptionRules>
+    <root Class="WhisperOfTheForest.AncientRuins.QuestNode_Root_RuinSeek">
+      <sitePart>WotF_Site_Ruin_Common</sitePart>
+      <worldMapDays>15</worldMapDays>
+      <mapDays>11</mapDays>
+      <minDistanceFromColony>3</minDistanceFromColony>
+      <maxDistanceFromColony>12</maxDistanceFromColony>
+    </root>
+  </QuestScriptDef>
+
+  <QuestScriptDef>
+    <defName>WotF_RuinSeek_Core</defName>
+    <autoAccept>true</autoAccept>
+    <randomlySelectable>false</randomlySelectable>
+    <rootSelectionWeight>0</rootSelectionWeight>
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->ancient engineering ruin</li>
+      </rulesStrings>
+    </questNameRules>
+    <questDescriptionRules>
+      <rulesStrings>
+        <li>questDescription->The seeking rite found a buried engineering station. One sealed casket in the depths holds a resonance core; clear its guardians and open it.</li>
+      </rulesStrings>
+    </questDescriptionRules>
+    <root Class="WhisperOfTheForest.AncientRuins.QuestNode_Root_RuinSeek">
+      <sitePart>WotF_Site_Ruin_Core</sitePart>
+      <worldMapDays>15</worldMapDays>
+      <mapDays>11</mapDays>
+      <minDistanceFromColony>3</minDistanceFromColony>
+      <maxDistanceFromColony>12</maxDistanceFromColony>
+    </root>
+  </QuestScriptDef>
+</Defs>

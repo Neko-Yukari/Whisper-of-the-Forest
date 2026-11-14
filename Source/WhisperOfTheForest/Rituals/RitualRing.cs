@@ -12,7 +12,18 @@ namespace WhisperOfTheForest.Rituals
     {
         public static bool IsComplete(Map map, IntVec3 center, int size, ChalkColor color, out int missing)
         {
-            missing = 0;
+            missing = MissingCells(map, center, size, color).Count;
+            return missing == 0;
+        }
+
+        /// <summary>
+        /// The border cells that still carry no mark of this colour, in reading order. The one rule
+        /// the start check, the inspect line and the ritual panel all read, so they cannot disagree
+        /// about which cells are missing.
+        /// </summary>
+        public static List<IntVec3> MissingCells(Map map, IntVec3 center, int size, ChalkColor color)
+        {
+            var missing = new List<IntVec3>();
             int radius = (size - 1) / 2;
             for (int dx = -radius; dx <= radius; dx++)
             {
@@ -26,12 +37,31 @@ namespace WhisperOfTheForest.Rituals
                     IntVec3 cell = center + new IntVec3(dx, 0, dz);
                     if (!cell.InBounds(map) || !HasMark(map, cell, color))
                     {
-                        missing++;
+                        missing.Add(cell);
                     }
                 }
             }
 
-            return missing == 0;
+            return missing;
+        }
+
+        /// <summary>Every border cell of a ring of this size, in reading order, chalk or not.</summary>
+        public static List<IntVec3> Cells(IntVec3 center, int size)
+        {
+            var cells = new List<IntVec3>();
+            int radius = (size - 1) / 2;
+            for (int dx = -radius; dx <= radius; dx++)
+            {
+                for (int dz = -radius; dz <= radius; dz++)
+                {
+                    if (Math.Max(Math.Abs(dx), Math.Abs(dz)) == radius)
+                    {
+                        cells.Add(center + new IntVec3(dx, 0, dz));
+                    }
+                }
+            }
+
+            return cells;
         }
 
         /// <summary>True when the cell lies on the outer border of a ring of this size.</summary>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <WotF_Backstory_FruitSneak.title>fruit sneak</WotF_Backstory_FruitSneak.title>
+  <WotF_Backstory_FruitSneak.titleShort>fruit sneak</WotF_Backstory_FruitSneak.titleShort>
+  <WotF_Backstory_FruitSneak.description>The adults always used little spells to help gather fruit and herbs, and [PAWN_nameDef] soon learned their tricks. Only, most of the time she was secretly gathering the sweetest fruit and tender shoots into her own pockets, then hiding behind the treetops to eat them as snacks.</WotF_Backstory_FruitSneak.description>
+
+  <WotF_Backstory_Bookworm.title>bookworm</WotF_Backstory_Bookworm.title>
+  <WotF_Backstory_Bookworm.titleShort>bookworm</WotF_Backstory_Bookworm.titleShort>
+  <WotF_Backstory_Bookworm.description>[PAWN_nameDef] spent all day in the library. Although most of the shelves held obscure manuals and incomplete manuscripts left over from an earlier age, [PAWN_nameDef] still tried to read them all, line by line.</WotF_Backstory_Bookworm.description>
+
+  <WotF_Backstory_RuinExplorer.title>ruin explorer</WotF_Backstory_RuinExplorer.title>
+  <WotF_Backstory_RuinExplorer.titleShort>explorer</WotF_Backstory_RuinExplorer.titleShort>
+  <WotF_Backstory_RuinExplorer.description>[PAWN_nameDef] was always rounding up a few friends her own age and taking their tools to explore ancient ruins deep in the forest. The adults quietly agreed not to mention that they had already searched those ruins ten times over and dismantled every dangerous trap.</WotF_Backstory_RuinExplorer.description>
+
+  <WotF_Backstory_MartialEnthusiast.title>martial enthusiast</WotF_Backstory_MartialEnthusiast.title>
+  <WotF_Backstory_MartialEnthusiast.titleShort>martial pupil</WotF_Backstory_MartialEnthusiast.titleShort>
+  <WotF_Backstory_MartialEnthusiast.description>While other children played in the mud by the stream, [PAWN_nameDef] preferred pestering the guards to teach her the longbow and longsword. To her, though, how graceful a move looked sometimes mattered more than whether it hit the target.</WotF_Backstory_MartialEnthusiast.description>
+
+  <WotF_Backstory_RepairApprentice.title>repair apprentice</WotF_Backstory_RepairApprentice.title>
+  <WotF_Backstory_RepairApprentice.titleShort>repair pupil</WotF_Backstory_RepairApprentice.titleShort>
+  <WotF_Backstory_RepairApprentice.description>[PAWN_nameDef] helped her workshop mentor maintain the settlement's few surviving machines from an earlier age. Before she quite understood why the lumps of iron inside hummed and spun, she had already learned to solemnly draw a few marks on the casing with her tools, then give it a couple of theatrical taps to "soothe the machine spirit".</WotF_Backstory_RepairApprentice.description>
+
+  <WotF_Backstory_CourierChild.title>courier</WotF_Backstory_CourierChild.title>
+  <WotF_Backstory_CourierChild.titleShort>courier</WotF_Backstory_CourierChild.titleShort>
+  <WotF_Backstory_CourierChild.description>The settlements did not normally keep in touch by radio; messages traveled on foot. Young [PAWN_nameDef] spent all day carrying letters along forest paths and between outposts. In time she developed strong legs and a knack for chatting with anyone, and learned how to deal with beasts blocking the road along the way.</WotF_Backstory_CourierChild.description>
+
+  <WotF_Backstory_CuriousChild.title>curious child</WotF_Backstory_CuriousChild.title>
+  <WotF_Backstory_CuriousChild.titleShort>curious child</WotF_Backstory_CuriousChild.titleShort>
+  <WotF_Backstory_CuriousChild.description>[PAWN_nameDef] was full of curiosity about the outside world and often slipped beyond the forest's edge when her elders were not looking. Her wanderings taught her how to handle strangers and wild animals, and she finally worked out which herbs to slap on a scraped knee.</WotF_Backstory_CuriousChild.description>
+
+  <WotF_Backstory_PigmentMaker.title>pigment maker</WotF_Backstory_PigmentMaker.title>
+  <WotF_Backstory_PigmentMaker.titleShort>pigment maker</WotF_Backstory_PigmentMaker.titleShort>
+  <WotF_Backstory_PigmentMaker.description>She spends her days washing white stone and grinding minerals and herbs into the many pigments used for spellcasting and drawing. The stains beneath her fingernails never quite wash away.</WotF_Backstory_PigmentMaker.description>
+
+  <WotF_Backstory_Woodshaper.title>woodshaper</WotF_Backstory_Woodshaper.title>
+  <WotF_Backstory_Woodshaper.titleShort>woodworker</WotF_Backstory_Woodshaper.titleShort>
+  <WotF_Backstory_Woodshaper.description>Rather than sawing wood or bending it over a fire, she uses magic to guide the grain of growing trees, letting their branches grow into the shapes of bows and beams.</WotF_Backstory_Woodshaper.description>
+
+  <WotF_Backstory_Smith.title>smith</WotF_Backstory_Smith.title>
+  <WotF_Backstory_Smith.titleShort>smith</WotF_Backstory_Smith.titleShort>
+  <WotF_Backstory_Smith.description>She works iron in one of the Court's few workshops where fire is permitted, specializing in forging unusual metal blanks into well-balanced blades.</WotF_Backstory_Smith.description>
+
+  <WotF_Backstory_MachineSpiritMender.title>machine-spirit mender</WotF_Backstory_MachineSpiritMender.title>
+  <WotF_Backstory_MachineSpiritMender.titleShort>mender</WotF_Backstory_MachineSpiritMender.titleShort>
+  <WotF_Backstory_MachineSpiritMender.description>She is responsible for hammering and patching up the clan's inherited refrigerators, water purifiers, and ancient equipment. Whenever someone's old iron box stops working, they ask her to come and give it a few taps with her wooden mallet.</WotF_Backstory_MachineSpiritMender.description>
+
+  <WotF_Backstory_NurseryKeeper.title>nursery keeper</WotF_Backstory_NurseryKeeper.title>
+  <WotF_Backstory_NurseryKeeper.titleShort>gardener</WotF_Backstory_NurseryKeeper.titleShort>
+  <WotF_Backstory_NurseryKeeper.description>She tends the herb gardens and the glowing saplings in the forest. Once the work is done, nothing pleases her more than leaning against a tree's roots for a nap.</WotF_Backstory_NurseryKeeper.description>
+
+  <WotF_Backstory_Beekeeper.title>beekeeper</WotF_Backstory_Beekeeper.title>
+  <WotF_Backstory_Beekeeper.titleShort>beekeeper</WotF_Backstory_Beekeeper.titleShort>
+  <WotF_Backstory_Beekeeper.description>She tends beehives and gentle little animals in forest clearings, always carrying a faint scent of honey and greenery. Even guards hoping to cadge some honey have to stay on her good side.</WotF_Backstory_Beekeeper.description>
+
+  <WotF_Backstory_Herbalist.title>herbal physician</WotF_Backstory_Herbalist.title>
+  <WotF_Backstory_Herbalist.titleShort>physician</WotF_Backstory_Herbalist.titleShort>
+  <WotF_Backstory_Herbalist.description>She is used to treating wounds with blood-staunching magic and herbal salves. The readiness of human hospitals outside the forest to cut people open and saw through bones makes her frown.</WotF_Backstory_Herbalist.description>
+
+  <WotF_Backstory_QuarryWorker.title>quarry worker</WotF_Backstory_QuarryWorker.title>
+  <WotF_Backstory_QuarryWorker.titleShort>quarrier</WotF_Backstory_QuarryWorker.titleShort>
+  <WotF_Backstory_QuarryWorker.description>To supply the village's stone roads, workshops, and mineral stocks, she spends her days chipping away at rock faces, picking out a few pretty pieces of ore along the way.</WotF_Backstory_QuarryWorker.description>
+
+  <WotF_Backstory_Hunter.title>hunter</WotF_Backstory_Hunter.title>
+  <WotF_Backstory_Hunter.titleShort>hunter</WotF_Backstory_Hunter.titleShort>
+  <WotF_Backstory_Hunter.description>She clears out frenzied beasts approaching the settlement and brings back a little hide and meat for the village along the way. No one is more sure-footed when following tracks through the woods.</WotF_Backstory_Hunter.description>
+
+  <WotF_Backstory_ForestCook.title>forest cook</WotF_Backstory_ForestCook.title>
+  <WotF_Backstory_ForestCook.titleShort>cook</WotF_Backstory_ForestCook.titleShort>
+  <WotF_Backstory_ForestCook.description>Raw wild fruit may not upset her stomach, but she is determined to find delicious ways to carefully cook mushrooms, honey syrup, and game.</WotF_Backstory_ForestCook.description>
+
+  <WotF_Backstory_ManuscriptKeeper.title>manuscript keeper</WotF_Backstory_ManuscriptKeeper.title>
+  <WotF_Backstory_ManuscriptKeeper.titleShort>archivist</WotF_Backstory_ManuscriptKeeper.titleShort>
+  <WotF_Backstory_ManuscriptKeeper.description>She tends the old library, sorting and repairing manuals from an earlier age and damaged manuscripts that no one fully understands. Fold a corner of a page and she can scold you for half the day.</WotF_Backstory_ManuscriptKeeper.description>
+
+  <WotF_Backstory_CourtTrader.title>Court trader</WotF_Backstory_CourtTrader.title>
+  <WotF_Backstory_CourtTrader.titleShort>trader</WotF_Backstory_CourtTrader.titleShort>
+  <WotF_Backstory_CourtTrader.description>One of the few elves who regularly lead caravans to human towns, she trades forest specialties for unusual fabrics from outside and comes home with a head full of gossip.</WotF_Backstory_CourtTrader.description>
+
+  <WotF_Backstory_StoneSculptor.title>stone sculptor</WotF_Backstory_StoneSculptor.title>
+  <WotF_Backstory_StoneSculptor.titleShort>sculptor</WotF_Backstory_StoneSculptor.titleShort>
+  <WotF_Backstory_StoneSculptor.description>She carves decorated pillars and statues for village entrances, altars, and temples. Her workmanship is fine but her pace is leisurely; she can spend half a year polishing one stone.</WotF_Backstory_StoneSculptor.description>
+
+  <WotF_Backstory_Wanderer.title>idle wanderer</WotF_Backstory_Wanderer.title>
+  <WotF_Backstory_Wanderer.titleShort>wanderer</WotF_Backstory_Wanderer.titleShort>
+  <WotF_Backstory_Wanderer.description>Long-lived and not particularly ambitious, she found the forest had too many rules. With a short staff in hand, she set out to roam and see the world.</WotF_Backstory_Wanderer.description>
+
+  <WotF_Backstory_Idler.title>lazybones</WotF_Backstory_Idler.title>
+  <WotF_Backstory_Idler.titleShort>idler</WotF_Backstory_Idler.titleShort>
+  <WotF_Backstory_Idler.description>With centuries of life ahead, she sees no reason to hurry. If she can spend a whole morning dozing in meditation beneath a tree, she certainly will not work for half an hour. She only lends a hand now and then.</WotF_Backstory_Idler.description>
+
+  <WotF_Backstory_Ranger.title>Court ranger</WotF_Backstory_Ranger.title>
+  <WotF_Backstory_Ranger.titleShort>ranger</WotF_Backstory_Ranger.titleShort>
+  <WotF_Backstory_Ranger.description>An archer who spends her days patrolling the outer forest, she carries a longbow among the canopy and undergrowth, watching for infiltrators trying to reach the depths.</WotF_Backstory_Ranger.description>
+
+  <WotF_Backstory_SwordGuard.title>elven sword guard</WotF_Backstory_SwordGuard.title>
+  <WotF_Backstory_SwordGuard.titleShort>sword guard</WotF_Backstory_SwordGuard.titleShort>
+  <WotF_Backstory_SwordGuard.description>A light-footed melee guard in lightweight armor, she favors close maneuvering and nimble footwork to evade heavy, clumsy blows.</WotF_Backstory_SwordGuard.description>
+
+  <WotF_Backstory_ArcaneScholar.title>arcane scholar</WotF_Backstory_ArcaneScholar.title>
+  <WotF_Backstory_ArcaneScholar.titleShort>scholar</WotF_Backstory_ArcaneScholar.titleShort>
+  <WotF_Backstory_ArcaneScholar.description>A mage authorized to study advanced magic and safeguard records from the ruins, she spends peacetime among ancient books and workbenches. In war, she uses her staff to control the battlefield.</WotF_Backstory_ArcaneScholar.description>
+
+  <WotF_Backstory_Archon.title>Court archon</WotF_Backstory_Archon.title>
+  <WotF_Backstory_Archon.titleShort>archon</WotF_Backstory_Archon.titleShort>
+  <WotF_Backstory_Archon.description>The leader responsible for a settlement, she handles everyday affairs and diplomacy. Only in a crisis does she bring out the sealed heavy armor and forbidden magical seals.</WotF_Backstory_Archon.description>
+
+</LanguageData>

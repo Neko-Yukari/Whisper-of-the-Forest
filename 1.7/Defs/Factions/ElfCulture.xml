@@ -18,7 +18,7 @@
     <allowedPlaceTags>
       <li>OriginTribal</li>
     </allowedPlaceTags>
-    <iconPath>World/WorldObjects/Expanding/Village</iconPath>
+    <iconPath>UI/Cultures/ElfCulture</iconPath>
     <preferredWeaponClasses>
       <noble>Neolithic</noble>
       <despised>Ultratech</despised>

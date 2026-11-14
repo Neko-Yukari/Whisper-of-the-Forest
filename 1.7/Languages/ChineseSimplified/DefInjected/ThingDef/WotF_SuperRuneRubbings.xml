@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_SuperRuneRubbing_Railgun.label>轨道炮符文拓片</WotF_SuperRuneRubbing_Railgun.label>
+  <WotF_SuperRuneRubbing_Railgun.description>远古遗迹中留下的一次性拓片。研读后消耗拓片，为全殖民地永久解锁轨道炮符文，无需再到祭坛启封。</WotF_SuperRuneRubbing_Railgun.description>
+  <WotF_SuperRuneRubbing_Railgun.comps.CompUsable.useLabel>研读{0_label}</WotF_SuperRuneRubbing_Railgun.comps.CompUsable.useLabel>
+  <WotF_SuperRuneRubbing_Tornado.label>烈焰龙卷符文拓片</WotF_SuperRuneRubbing_Tornado.label>
+  <WotF_SuperRuneRubbing_Tornado.description>远古遗迹中留下的一次性拓片。研读后消耗拓片，为全殖民地永久解锁烈焰龙卷符文，无需再到祭坛启封。</WotF_SuperRuneRubbing_Tornado.description>
+  <WotF_SuperRuneRubbing_Tornado.comps.CompUsable.useLabel>研读{0_label}</WotF_SuperRuneRubbing_Tornado.comps.CompUsable.useLabel>
+</LanguageData>

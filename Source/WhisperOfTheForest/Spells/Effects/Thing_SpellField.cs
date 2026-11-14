@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using RimWorld;
 using Verse;
+using WhisperOfTheForest.Vfx;
 
 namespace WhisperOfTheForest.Spells
 {
@@ -31,6 +32,7 @@ namespace WhisperOfTheForest.Spells
         private int intervalTicks;
         private int nextPulseTick;
         private int expiresTick;
+        private VfxHandle vfx;
 
         internal IReadOnlyList<SpellEffect> Payload => payload;
 
@@ -44,6 +46,16 @@ namespace WhisperOfTheForest.Spells
             this.intervalTicks = intervalTicks;
             expiresTick = Find.TickManager.TicksGame + lifetimeTicks;
             nextPulseTick = Find.TickManager.TicksGame + intervalTicks;
+        }
+
+        public override void SpawnSetup(Map map, bool respawningAfterLoad)
+        {
+            base.SpawnSetup(map, respawningAfterLoad);
+            vfx = VfxService.Play(new VfxRequest
+            {
+                map = map, follow = this, origin = DrawPos, width = radius * 2f,
+                vfxDefName = mode == SpellFieldMode.Rune ? "WotF_Vfx_Rune" : "WotF_Vfx_Linger"
+            });
         }
 
         protected override void Tick()
@@ -117,6 +129,7 @@ namespace WhisperOfTheForest.Spells
 
                 string report = SpellExecutor.ExecuteStepList(payload, caster, pawn, pawn.Position, Map);
                 SpellDiagnostics.Message("rune at " + Position + " triggered by " + pawn.LabelShort + " " + report);
+                vfx.Trigger(VfxStates.Impact);
                 Destroy();
                 return;
             }

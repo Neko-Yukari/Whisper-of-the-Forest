@@ -117,6 +117,7 @@ namespace WhisperOfTheForest
 
             try
             {
+                LabCommands.UpdateLoadState();
                 PumpRequests();
             }
             catch (Exception exception)

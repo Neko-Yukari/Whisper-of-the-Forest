@@ -17,6 +17,7 @@ namespace WhisperOfTheForest.LabTests
 
         protected override void Run(TestContext t)
         {
+            using var casting = new ResourceTestUtil.FreeCastingScope();
             Check(t, false);
             Check(t, true);
         }
@@ -61,6 +62,7 @@ namespace WhisperOfTheForest.LabTests
 
             int movingJobId = target.CurJob.loadID;
             var book = GameComponent_Spellbook.Current;
+            book.Unlock(TestContext.Glyph("WotF_Effect_Snare"));
             t.Expect(book.SaveSlot(caster, 0, TestContext.Recipe("moving-snare", SpellDefs.FormProjectile, "WotF_Effect_Snare"), out string reason), reason);
             book.SetActiveSlot(caster, 0);
             Command_Target cast = t.SpellAbility(caster).GetGizmos().OfType<Command_Target>().Single();

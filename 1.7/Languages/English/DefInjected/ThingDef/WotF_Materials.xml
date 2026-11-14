@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <!-- DefInjected path = <defName>.<field>. The parent folder (DefInjected/ThingDef) already
+       supplies the def type. -->
+  <WotF_LivingWood.label>living wood</WotF_LivingWood.label>
+  <WotF_LivingWood.description>Living wood cut from the forest's oldest trees. It is still growing: flexible, warm to the touch and slow to burn.</WotF_LivingWood.description>
+  <WotF_ElvenSteel.label>elven steel</WotF_ElvenSteel.label>
+  <WotF_ElvenSteel.description>A pale blue-silver metal drawn from living wood. Light, keen, and it carries a weave as readily as it cuts.</WotF_ElvenSteel.description>
+  <WotF_Adamantine.label>adamantine</WotF_Adamantine.label>
+  <WotF_Adamantine.description>A cold, heavy dark-gold metal. Nothing else in the colony is harder to break, and it does not burn.</WotF_Adamantine.description>
+  <WotF_Mithril.label>mithril</WotF_Mithril.label>
+  <WotF_Mithril.description>A moon-white metal that feels weightless. Weaves cling to it, so armour and blades made from it take spells into themselves.</WotF_Mithril.description>
+
+</LanguageData>

@@ -31,7 +31,7 @@ namespace WhisperOfTheForest.LabTests
             AcceptanceReport placement = t.CanPlace(turretDef, 14, 14, ThingDefOf.Steel);
             t.Expect(placement.Accepted, "turret placement was refused: " + placement.Reason);
 
-            Building node = Spawn<Building>(nodeDef, t, 4, 5);
+            Building node = Spawn<Building>(nodeDef, t, 4, 5, ThingDefOf.BlocksGranite);
             Building_SpellTurret turret = Spawn<Building_SpellTurret>(turretDef, t, 5, 5, ThingDefOf.Steel);
             Pawn target = t.SpawnTarget(9, 5);
             t.Step(1);

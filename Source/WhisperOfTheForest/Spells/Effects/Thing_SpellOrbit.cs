@@ -2,17 +2,18 @@ using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using WhisperOfTheForest.Vfx;
 
 namespace WhisperOfTheForest.Spells
 {
     /// <summary>
-    /// The Orbit form's projectile: one small Thing that circles its caster and applies its frozen
-    /// payload the first time it touches a pawn. Position is recomputed every tick from the caster's
-    /// live cell, so walking around keeps the orbit centred on the caster instead of on the place the
-    /// spell was cast.
+    /// The Orbit form's projectile: one small Thing that circles its caster, releases its frozen
+    /// payload once on the first pawn it touches and is used up. Position is recomputed every tick
+    /// from the caster's live cell, so walking around keeps the orbit centred on the caster instead
+    /// of on the place the spell was cast.
     ///
     /// The orb owns its own copy of the payload, so editing the book after the cast cannot rewrite an
-    /// orb that is already circling, and a save restores the orbit with its hit list.
+    /// orb that is already circling.
     /// </summary>
     public class Thing_SpellOrbit : Thing
     {
@@ -24,9 +25,6 @@ namespace WhisperOfTheForest.Spells
         private float hitRadius;
         private int expiresTick;
 
-        /// <summary>Thing ids this orb already touched; one hit per pawn per orb.</summary>
-        private List<int> hitThingIds = new List<int>();
-
         public void Configure(Pawn caster, SpellCastPlan plan, float startAngleDegrees)
         {
             this.caster = caster;
@@ -37,6 +35,26 @@ namespace WhisperOfTheForest.Spells
             angleDegrees = startAngleDegrees;
             expiresTick = Find.TickManager.TicksGame + plan.orbit.lifetimeTicks;
             PlaceAroundCaster();
+        }
+
+        public override Vector3 DrawPos
+        {
+            get
+            {
+                if (caster == null || !caster.Spawned) return base.DrawPos;
+                float radians = angleDegrees * Mathf.Deg2Rad;
+                return caster.DrawPos + new Vector3(Mathf.Cos(radians) * distance, 0f, Mathf.Sin(radians) * distance);
+            }
+        }
+
+        public override void SpawnSetup(Map map, bool respawningAfterLoad)
+        {
+            base.SpawnSetup(map, respawningAfterLoad);
+            VfxService.Play(new VfxRequest
+            {
+                map = map, follow = this, origin = DrawPos,
+                vfxDefName = "WotF_Vfx_Orbit"
+            });
         }
 
         protected override void Tick()
@@ -61,7 +79,7 @@ namespace WhisperOfTheForest.Spells
 
             angleDegrees = Mathf.Repeat(angleDegrees + degreesPerSecond / GenTicks.TicksPerRealSecond, 360f);
             PlaceAroundCaster();
-            TouchTargets();
+            ReleaseOnTouch();
         }
 
         private void PlaceAroundCaster()
@@ -82,9 +100,12 @@ namespace WhisperOfTheForest.Spells
             }
         }
 
-        private void TouchTargets()
+        /// <summary>Releases the payload on the pawn nearest the orb within hitRadius, then removes the orb.</summary>
+        private void ReleaseOnTouch()
         {
-            var targets = new List<Pawn>();
+            Pawn target = null;
+            float nearest = float.MaxValue;
+            Vector3 orbPos = DrawPos;
             foreach (Thing thing in GenRadial.RadialDistinctThingsAround(Position, Map, hitRadius, true))
             {
                 if (!(thing is Pawn pawn) || pawn == caster || !SpellTargets.CanTakeDamage(pawn))
@@ -92,26 +113,22 @@ namespace WhisperOfTheForest.Spells
                     continue;
                 }
 
-                if (hitThingIds.Contains(pawn.thingIDNumber))
+                float distanceSquared = (pawn.DrawPos - orbPos).MagnitudeHorizontalSquared();
+                if (distanceSquared < nearest)
                 {
-                    continue;
+                    nearest = distanceSquared;
+                    target = pawn;
                 }
-
-                targets.Add(pawn);
             }
 
-            for (int i = 0; i < targets.Count; i++)
+            if (target == null)
             {
-                Pawn pawn = targets[i];
-                if (pawn.Destroyed || !pawn.Spawned)
-                {
-                    continue;
-                }
-
-                hitThingIds.Add(pawn.thingIDNumber);
-                string report = SpellExecutor.ExecuteStepList(payload, caster, pawn, pawn.Position, Map);
-                SpellDiagnostics.Message("orbit touched " + pawn.LabelShort + " at " + Position + " " + report);
+                return;
             }
+
+            string report = SpellExecutor.ExecuteStepList(payload, caster, target, target.Position, Map);
+            SpellDiagnostics.Message("orbit released on " + target.LabelShort + " at " + Position + " " + report);
+            Destroy();
         }
 
         public override void ExposeData()
@@ -125,16 +142,10 @@ namespace WhisperOfTheForest.Spells
             Scribe_Values.Look(ref degreesPerSecond, "orbitDegreesPerSecond", 0f);
             Scribe_Values.Look(ref hitRadius, "orbitHitRadius", 0f);
             Scribe_Values.Look(ref expiresTick, "orbitExpiresTick", 0);
-            Scribe_Collections.Look(ref hitThingIds, "orbitHitIds", LookMode.Value);
 
             if (payload == null)
             {
                 payload = new List<SpellEffect>();
-            }
-
-            if (hitThingIds == null)
-            {
-                hitThingIds = new List<int>();
             }
         }
     }

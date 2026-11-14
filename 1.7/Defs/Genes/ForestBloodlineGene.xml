@@ -25,17 +25,15 @@
     <resourceDescription>The caster's own reserve. A spell spends it when it resolves; the maximum is set by the bloodline level and can be raised further by a spellbook or a staff.</resourceDescription>
     <manaMaxStat>WotF_ManaMax</manaMaxStat>
     <manaRegenStat>WotF_ManaRegen</manaRegenStat>
-    <!-- Placeholder base recovery; it does not grow with the level. -->
-    <statOffsets>
-      <WotF_ManaRegen>0.5</WotF_ManaRegen>
-    </statOffsets>
+    <manaRegenCurve>
+      <points>
+        <li>(1, 0.55)</li>
+        <li>(20, 0.85)</li>
+      </points>
+    </manaRegenCurve>
     <manaBarColor>(0.36, 0.62, 0.92)</manaBarColor>
     <manaBarHighlightColor>(0.62, 0.85, 1)</manaBarHighlightColor>
     <resourceGizmoThresholds />
-
-    <poweredWorkTableSpeedFactor>0.7</poweredWorkTableSpeedFactor>
-    <handcraftQualityBonus>1</handcraftQualityBonus>
-    <elfRepairEffect>WotF_ElfRepair</elfRepairEffect>
 
     <maxLevel>20</maxLevel>
     <!-- Placeholders: the old six-level table's numbers, flat beyond them. -->

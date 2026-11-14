@@ -92,7 +92,7 @@ namespace WhisperOfTheForest.LabTests
 
         private static T Spawn<T>(ThingDef def, TestContext t, int x, int z) where T : Thing
         {
-            var thing = (T)ThingMaker.MakeThing(def);
+            var thing = (T)ThingMaker.MakeThing(def, def.MadeFromStuff ? ThingDefOf.BlocksGranite : null);
             GenSpawn.Spawn(thing, t.Arena.Cell(x, z), t.Map, WipeMode.Vanish);
             return t.Arena.Track(thing);
         }

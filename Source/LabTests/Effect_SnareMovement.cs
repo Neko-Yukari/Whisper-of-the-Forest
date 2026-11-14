@@ -13,6 +13,8 @@ namespace WhisperOfTheForest.LabTests
 
         protected override void Run(TestContext t)
         {
+            using var casting = new ResourceTestUtil.FreeCastingScope();
+            GameComponent_Spellbook.Current.Unlock(TestContext.Glyph("WotF_Effect_Snare"));
             Pawn caster = t.SpawnCaster(2, 5);
             Pawn target = t.SpawnCaster(10, 5);
             HediffDef snare = DefDatabase<HediffDef>.GetNamed(SpellEffectDefs.HediffEnsnare);

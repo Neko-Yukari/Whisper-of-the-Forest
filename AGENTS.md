@@ -5,7 +5,7 @@
 ## 范围与授权
 
 - 只实现用户明确批准的内容。设定、种族特性、玩法、视觉效果，没批准就先提方案，不写进模组。
-- 项目仍在开发，不对任何旧产品做兼容：不写存档迁移，不为旧 Def 名或旧类名加 fallback，不在 `_Deprecated/` 之外保留历史兼容路径，也不在验收脚本里给旧存档的报错开白名单。改类名、改命名空间、删 Def、删组件都是干净的破坏性变更；夹具存档过时就重新生成。
+- 项目仍在开发，不对任何旧产品做兼容：不写存档迁移，不为旧 Def 名或旧类名加 fallback，不保留历史兼容路径，也不在验收脚本里给旧存档的报错开白名单。改类名、改命名空间、删 Def、删组件都是干净的破坏性变更；夹具存档过时就重新生成。
 - 修一个缺陷只改这个缺陷。顺手看到的问题记下来汇报，不顺手改。
 - 不得用删除或隐藏已有功能、视效的方式“修好”缺陷。
 - 测试失败要找到真实原因；不许靠删断言、跳过测试或反复重跑变绿。
@@ -22,7 +22,6 @@
 | `Tools/` | 构建与测试脚本：`build.ps1`（L0；只有带 `-Verify` 才调 `check-defs`，`-Lab` 不调，所以改 Def 后要单独跑一次 `check-defs`）、`check-defs.ps1`（Def 类型与贴图引用、Def 结构规则、程序集规则）、`test.ps1`（L1 + L2） |
 | `../Graphify/native/source/` | 整个 `Assembly-CSharp.dll` 的反编译源码，按命名空间分目录；只读参考，不进仓库。查原版行为先看这里，图谱查询用 `project_path=…/Moddev/Graphify` |
 | `docs/` | 架构决策（`docs/adr/`）与参考资料；施工进度和设计以 Obsidian 为准，仓库里不再写进度日志 |
-| `_Deprecated/` | 已废弃内容，不编译、不加载；`_Deprecated/README.md` 逐项写明来源与原因 |
 
 ## 编码规则
 
@@ -31,7 +30,7 @@
 3. **只在真正的输入边界处理错误**：存档读取、Lab 命令解析、第三方回调。其余异常直接抛出，不吞、不“只记一次然后继续”。
 4. **法术与视效分离。** 法术只发出视效请求（位置、方向、宽度、长度）；蓄能、电弧、压暗及其时长归视效 Def。
 5. **Lab 单向依赖。** 产品代码不得引用 `Lab/`、`LabTests/`；测试只通过公开接口操作游戏、通过只读诊断观察状态。
-6. **废弃不删除。** 用 `git mv` 移进 `_Deprecated/`，保留原相对路径，并在 README 里登记。
+6. **废弃直接删除。** 移除的功能连同它的 Def、代码、测试、贴图、语言词条一起删掉，不留归档目录；要找旧实现看 git 历史。
 7. 注释只写能省下读者多次查找、或防止非显然错误的内容。
 8. **日志分级。** 本模组日志统一走一个分级日志入口，按模块带前缀（如 `[WotF/Spell]`、`[WotF/Vfx]`）：
    - Error：本模组出错，L1 计数为 0 才算通过；
@@ -45,18 +44,22 @@
 
 原版行为先在 `../Graphify/native/source/` 里核对，再写依赖它的代码。
 
-实机报的错修好后按能稳定抓住它的最便宜一层归档：能从 Def 或程序集静态判定的，写成 `check-defs.ps1` 规则并注明原版源码位置；落在系统交接或玩家操作入口上的，补 L2 测试；两者都不是的只记在本节。每条都在本节留一行，能自动查的标“（`check-defs` 会查）”。
+实机报的错修好后在本节留一行。能从 Def 或程序集静态判定、而且会复发的，再写成 `check-defs.ps1` 规则，注明原版源码位置，并标“（`check-defs` 会查）”。默认不为它补 L2 测试。
 
 ### 写代码
 
 - **Harmony 按参数名绑定。** 补丁方法的形参名必须和目标方法一致（`DoPlaySettings` 的是 `rowVisibility`、`curBaseY`，不是 `row`、`y`）；名字错会让整个 `PatchAll` 失败。
 - **1.7 的 `StatRequest.Pawn` 不是被计算的小人。** `StatPart` 里读 `req.Thing`。
 - **自定义 Def 类型的 DefInjected 目录要写完整类名**，例如 `DefInjected/WhisperOfTheForest.Spells.SpellGlyphDef`，否则翻译不生效。
+- **`ParentName` 只能写带 `Name` 属性的节点，不能写 `defName`。** `XmlInheritance` 只按 `Name` 建索引（`Verse/XmlInheritance.cs:79-95`，解析在 `:222-260`），写成 `defName` 时父节点找不到，子 Def 静默拿不到父节点的 `workerClass` 等字段，任务生成时才炸；原版 `AncientComplex_Loot`（`Data/Ideology/Defs/LayoutDefs/Layouts_Misc.xml:49`）就只有 `defName`，要继承它得换成 `Name="AncientComplex"`（`:4`）并自己写要改的字段。（`check-defs` 会查）
+- **代码里 `"WotF_…".Translate()` 的字面量键，English 和 ChineseSimplified 的 `Keyed` 里都要有同名词条。** 原版缺词条时不报错：`Translate` 先查当前语言再查英文（`Verse/Translator.cs:53-66`），都没有就把键本身当文本返回（`Verse/LoadedLanguage.cs:488-492`），开发模式下还会被 `PseudoTranslated`（`Translator.cs:109-`）逐字母换成带音标的字符，面板上就是乱码；只缺中文则静默显示英文。仪式 Assess 的问题词条写 `WotF_Ritual_…` 并放进对应功能的 Keyed 文件。只查字面量，拼接键和 `SpellText.T` 一类包装不查。（`check-defs` 会查）
+- **`rulesStrings` 的每个 `<li>` 必须是 `keyword->text`（`keyword` 可带 `(p=2)` 之类参数），Def 和 `DefInjected` 里的都一样。** 少一个 `-` 写成 `questDescription>…` 时，`Rule_String` 构造函数只记一条 `Bad string pass when reading rule`（`Verse.Grammar/Rule_String.cs:18,49-54`），规则的 keyword 为 null 仍被加进规则包（`RulePack.cs:95-97`），`GrammarResolver.AddRule` 拿它当字典键抛 `ArgumentNullException`（`GrammarResolver.cs:381`），任务描述生成失败（`QuestGen.cs:134-139`），每次生成 3 条 L1 错误。`rulesFiles` 同理，按 `->` 切分，缺了会 IndexOutOfRange（`RulePack.cs:108-118`）。（`check-defs` 会查）
 - **声明了 `<comps>` 的 HediffDef 必须把 `hediffClass` 设为 `HediffWithComps` 或其子类。**（`check-defs` 会查）
 - **武器 Def 写 `<comps Inherit="False">` 会丢掉 `BaseWeapon` 的 `CompProperties_Styleable`**，武器进入意识形态圣物列表时报配置错误；要补回来。
 - **`GenRadial` 的半径上限约 79.8 格。** 超出会报错，大范围查找要限制半径或改用 `map.AllCells`。
 - **伤害打掉整个部位时只留 `Hediff_MissingPart`，没有 `Hediff_Injury`。** 只累加伤口严重度会把这次伤害读成 0。
 - **本模组的 Def 根元素写完整类型名**，例如 `<WhisperOfTheForest.Spells.SpellGlyphDef>`。短名只对 `Verse`、`RimWorld` 里的类型有效，写错会被静默跳过。（`check-defs` 会查）
+- **`placeWorkers`、`inspectorTabs` 里指向本模组类型的 `<li>` 必须写全名**，例如 `WhisperOfTheForest.Mana.PlaceWorker_ManaNetwork`。短名只补 `Verse`、`RimWorld` 等命名空间（`Verse/GenTypes.cs:53-57`），解析不到时加载期只记一条不带模组名的 `Could not find a type named X`（`Verse/ParseHelper.cs:219-235`）并在列表里留 null，`BuildableDef.PlaceWorkers` 对它 `Activator.CreateInstance` 抛 `ArgumentNullException (Parameter 'type')`（`Verse/BuildableDef.cs:152-170`），第一次放置检查就炸，`smoke.mod-things` 因此红过；`inspectorTabs` 同样解析但被 `ThingDef.cs:1653-1667` 吞掉，只是 tab 悄悄不出现。`test.ps1` 的 L1 会按 `X` 在本模组 `1.7/Defs`、`Patches` 里回查来认领这条报错。（`check-defs` 会查）
 - **`GameComponent` 子类必须有 `public X(Game game)` 构造函数。** 游戏用 `Activator.CreateInstance(type, game)` 创建，缺了组件根本不会出现。（`check-defs` 会查）
 - **类里有静态的贴图、材质、Shader 字段就要加 `[StaticConstructorOnStartup]`**，否则启动时报警告，资源也可能在错误线程加载。（`check-defs` 会查）
 - **存档里可能为空的字典，`Scribe_Collections.Look` 要传一组 working lists 并设 `logNullErrors=false`。** 只加空值判断会把 `Cannot fill dictionary` 换成 `You need to provide working lists`，症状不变。写法见 `GameComponent_Spellbook.ExposeData`。
@@ -66,7 +69,7 @@
 - **非头部层的服装穿戴图会按体型加后缀。** `wornGraphicPath` 除了本体图，还要有 `_Male`、`_Female`、`_Thin`、`_Hulk`、`_Fat` 五张，缺图会报错并显示坏材质。（`check-defs` 会查）
 - **每个 IMGUI 绘制入口包一层 `TechLabDrawScope`**，进出时保存并还原 `Text.Font`、`Text.Anchor`、`Text.WordWrap`、`GUI.color`。漏还原 `WordWrap` 会在帧末报错。
 - **1.7 的 `Translator.Translate(key, args)` 已过期**，带 `{0}` 的文本用 `string.Format(key.Translate(), args)`。
-- **改移动速度不要动共享的 `PathGrid`。** 它是全图共享缓存，重算会让全图失效。要按小人改地形成本，补 `Pawn_PathFollower.GetPawnCellBaseCostOverride`；墙、深水的不可通行判定在它之前，不受影响。
+- **改移动速度不要动共享的 `PathGrid`。** 它是全图共享缓存，重算会让全图失效。要按小人改移动耗时，补 `Pawn_PathFollower.CostToMoveIntoCell`（见 `Movement/MovementPatches.cs`）：它在原版封顶前汇总地形、物件、雪沙减速，门等待和同行速度匹配在它之后，不受影响。`GetPawnCellBaseCostOverride` 只覆盖地皮成本，物件与雪沙仍由 `PathGrid` 加入，不要用。寻路选路仍按原版代价。
 - **`PawnPath.nodes` 是反序的**（`nodes[0]` 是终点），下一格是 `Peek(1)`。`Notify_Teleported` 会清掉当前路径并重新寻路，不能用来沿原路线跳格。
 - **原版有些代码写死了 verb 类型，认不出本模组的 verb。** 本模组的 verb 直接继承 `Verb`，不是 `Verb_LaunchProjectile` 或 `Verb_Shoot`。原版按类型判断的地方，多数只是跳过（如护盾腰带的 `CompAllowVerbCast` 只拦 `Verb_LaunchProjectile`），少数拿到 null 直接用：`PlaceWorker_ShowTurretRadius` 只认 `Verb_Shoot`（类型严格相等）和 `Verb_Spray` 系，建造预览每帧报 `Exception in UIRootUpdate`。用自定义 verb 的炮塔改用模组自己读炮管 verb 射程的 PlaceWorker。新发现这类会空引用的原版类，加进 `check-defs.ps1` 的 `$hardVerbConsumers` 表，写明源码行。（`check-defs` 会查）
 - **原版右键“吃”（`FloatMenuOptionProvider_Ingest`）不能用在活植物上。** 点击后它先对目标 `SetForbidden(false)`，植物没有 `CompForbiddable`，报 `Tried to SetForbidden on non-Forbiddable Thing`；接着下发 `JobDefOf.Ingest` 把植物拿进物品栏，被携带的植物在 `Plant.TickLong` 空引用。种族 `foodType` 含 `Plant` 或 `Tree` 时，要把这个菜单项的点击动作换成原地啃食的 Job。
@@ -82,6 +85,7 @@
 - **从终端启动游戏用 `Invoke-CimMethod Win32_Process Create`。** `Start-Process` 的子进程会随终端任务退出被带走。
 - **游戏占用 DLL 时 `build.ps1` 拒绝构建**，先关游戏。
 - **游戏内日志队列只保留最近 1000 行**，加载期错误早被挤掉，所以 L1 扫磁盘上的 `Player.log`。
+- **Def 字段写错（`XML error: <x>…</x> doesn't correspond to any field`）的报错里没有模组名**，L1 按报错元素回查本模组 `1.7/Defs` 认领；原先按 `WotF` 字样匹配，静头环的 `hatRenderedFrontOfFace`（1.7 无此字段）就这样漏过了 L1。
 - **Lab 的 `load` 只是把读档排进队列。** 它立刻返回 `queued:true`，紧接着的命令可能拿到 `no map loaded`；要等新地图就绪（`test.ps1` 已处理）。
 - **`check-defs.ps1` 只认模组 `Textures/` 下的贴图。** Def 引用原版贴图路径会被判缺失，改用模组内贴图。
 
@@ -95,51 +99,41 @@
 
 ## 开发节奏
 
-- **先写完一块再构建。** 不每改一处就构建、跑测试或回读文件；一次构建报出整块的错误。
-- **模块未闭合时只做冒烟。** `build.ps1 -Lab` 编译通过，Lab 实例进图后 L1 计数为 0，新东西能在游戏里出现、能打开（Def 能生成、建造菜单里有、窗口能弹出），就算暂时通过。不给半成品写 L2。
-- **模块闭合后再写测试。** 一个对象类、一个建筑的完整行为、一条玩家操作链做完，再按下文 L2 规则设计交接测试，并把边界情况过一遍。
-- **接口先排除不合法状态。** 通过类型、参数、构造方式和所有权，让错误情况无法表达或无法发生；已经被接口杜绝的情况，不再为它写运行时防御、兜底分支或测试。防御只留给真实输入边界。
-- **想得清的边界直接写进代码。** 空列表、上限、重复触发、先后顺序这类逻辑问题，写代码时就处理，不先写测试看它失败再改。
-- **跑测试有预算，回归范围由依赖决定。** 开发和排查时用 Graphify 查本次改动函数、类型的调用关系，用 grep 补齐 LabTests 和未入图代码的调用方；只跑被测模块及经过同一入口的相关测试。改动不涉及其它模块，就不跑其它模块的回归，也不默认跑全量。共享基础设施、全局入口或确有跨模块交接时才跑全量，且交接前最多一次。失败先读结果文件定位，修完用 `-Filter` 验证；已有结果文件能回答的问题直接读结果，不为凑证据重跑。临时证明用的测试只在任务书明确要求时写。
-- 实机报来的缺陷仍先复现再修，见 L2 规则“缺陷的测试按需补”。给子代理的任务书按同样节奏写验收，不要求逐步红绿。
+- 理想节奏是快、成批、精简。一块功能写完再构建一次，一次构建报出整块的错；不每改一处就构建、跑测试或回读文件。
+- 进度优先于证明。功能在游戏里能出现、能用，就往下一块走；不为一个功能反复测、反复补证据。
+- 接口先排除不合法状态，想得清的边界（空列表、上限、重复触发、先后顺序）写代码时直接处理，不先写测试看它失败。防御只留给真实输入边界。
 
-## 验收分层
+## 验收
 
-每个关注点交给能稳定抓住它的最便宜一层：
+按改动大小选最轻的一档，够了就停：
 
-| 层 | 做法 | 抓什么 |
-| --- | --- | --- |
-| **L0 编译** | 引用真实游戏程序集编译，0 警告 0 错误 | 类型错误、API 不存在 |
-| **L1 加载** | 隔离实例进入地图后，扫描本次进程的磁盘 `Player.log`，本模组相关的 Error/Exception、配置错误、翻译错误为 0；日志缺失、为空或属于别的进程算“未验证”并失败。Harmony 补丁全部应用；本模组 Def 全部加载 | Def 类型名、`MayRequire`、DefInjected、Harmony 参数名、缺构造函数 |
-| **L2 交接** | 在真实游戏里批量运行 `LabTests/` 冒烟测试 | 系统之间的交接是否接通 |
-| **L3 观感** | 画面、动画、手感、声音，由用户判断 | 排查故障时才截图 |
+| 改动 | 验收 |
+| --- | --- |
+| 几行 Def、XML、语言、贴图、配置 | 进游戏看一眼；改了 Def 跑一次 `check-defs`。不跑 `test.ps1`，不写测试 |
+| 一块 C# 功能 | `build.ps1 -Lab` 0 警告 0 错误，进图后 L1 为 0，游戏里能出现、能用 |
+| 共享基础设施、全局入口、跨模块交接 | 上一档，再加 `test.ps1 -Filter` 只跑受影响的测试；全量只在交接前跑一次 |
+| 画面、动画、手感、声音 | 用户判断 |
 
-### 不算验收证据
+- **L2 只由主代理运行。** 子代理、评审和外来会话不得执行 `Tools/test.ps1`（含任何 `-Filter`、`-StopAfter` 变体）：多个执行流同时起实例会抢同一个 `lab-run` 和测试存档，跑出来的红绿都不作数。子代理验收止于 `build.ps1 -Lab`、`check-defs` 与进游戏看一眼；需要 L2 结论时在汇报里写“未运行”，由主代理统一跑。
+- **只有主代理跑 L2**（`test.ps1`，含 `-Filter`）。子代理不运行 `test.ps1`、不写测试；它的交付止于 `build.ps1 -Lab` 的 0 警告 0 错误、进游戏看到的画面、改动清单和自报的未验证项。原因：全机只有一份 `lab-run`、夹具与 reload 存档，两个执行流同时跑测会让彼此的失败互相污染，这条已经实际踩过。游戏实例任何时刻只允许一个，起之前先确认 `Get-Process RimWorld` 为空。
+- L1：隔离实例进图后扫本次进程的磁盘 `Player.log`，本模组相关的 Error/Exception、配置错误、翻译错误为 0；日志缺失、为空或属于别的进程算未验证。
+- 已有结果文件能回答的问题直接读，不为凑证据重跑。失败先读结果文件定位，修完用 `-Filter` 验一次。
+- 不算验收证据：用 `Shims.cs` 重写原版类型的 harness、匹配源码文本、一次性探针脚本、子代理口头“已完成”。Lab 直接调 `SpellService.TryCast` 只证明执行链，不证明玩家点击路径。
 
-- 用 `Shims.cs` 重写 `Verse`/`RimWorld` 类型的 harness。
-- 匹配源码文本的检查（“源码里有某个字符串”）。
-- 一次性 IL 转储、探针脚本。
-- 子代理“已完成”的口头说明。
-- Lab 或测试直接调用 `SpellService.TryCast`：只证明服务和执行链，不证明玩家点击时的目标合法性校验。这类结论要注明“只走了回调路径”。
+## 写测试
 
-## L2 测试规则
+默认不写。新增一条 L2 要同时满足两条：任务书或用户明确要求；被测的是已闭合模块之间的交接（魔术书槽位 → 施法、施法 → 射弹 → 结算、存档 → 读档、装备 → 移动）。系统内部怎么算靠分级日志查。子代理不写 L2，除非任务书点名要求，且写完也不自己跑。
 
-- **脚本化、一次跑完。** `Tools/test.ps1` 负责构建、启动或复用隔离实例、载入固定夹具存档、在游戏内批量执行测试并写出结果文件，退出码表示成败。禁止代理逐条手发 Lab 命令、逐 tick 观察来“测试”。手发命令只用于排查一个已失败的测试。
-- **测试在游戏内同步执行。** 时间推进用同步 tick，不等真实时间；一次全量回归以秒到几十秒计。
-- **复用同一个实例。** `test.ps1` 默认保留游戏实例，下次调用直接复用；只在重新构建、`-Restart` 或实例异常时重启，`-StopAfter` 才关闭。夹具每个进程只载入一次。
-- **尽量在同一个存档里测完。** 新测试默认在已载入的夹具里自建场地、测完清理，不新开存档、不读别的档、不带 `-Reload`。必须存读档的只有“存档 → 读档”交接本身：声明 `Reload` 并写 `AfterReload`，由运行器统一存读，测试自己不调 `SaveGame`/`LoadGame`。运行器先把所有 `Reload` 测试的场地停放，再只存一次档，所以 `Run` 里推进的游戏时间会作用到别人停放的场地（在飞的飞弹会提前落地，炮塔会打别的场地里的人）：`Run` 只推进被测交接本身需要的几 tick，长流程放进不带 `Reload` 的测试，停放前关掉会自己行动的东西（如炮塔的目标类别）。只有这几种情况才换新存档或重载夹具：改了 DLL（程序集不能热加载，必须重启实例）、夹具存档本身要变、实例已坏。
-- **只测系统交接。** 测试覆盖系统之间的交接点：魔术书槽位 → 施法、施法 → 射弹 → 命中结算、存档 → 读档、装备 → 寻路移动。系统内部的运行（单个符文怎么算、命中了谁）靠分级日志检查。
-- **不测设计参数。** 不为单个法术、符文写完整测试；不断言穿透方式、射程、伤害数值、增幅倍率、兼容表里的具体组合。这些随设计调整，写成测试只会在改设计时误报。
-- **小而独立。** 一个测试一个类，只测一件事：自建场地，执行，断言，清理。测试之间不共享状态、不依赖顺序，可按名字或前缀单独运行。
-- **测试期间日志出现 Error 就算失败，不论是谁报的。** 原版代码被我们触发后报的错，游戏内 L1 不算“本模组的错”，靠这条兜住。测试本来就要触发报错时，用 `[LabTest(ExpectedLogErrors = new[] { @"正则" })]` 声明；只豁免本次匹配上的条目，`test.ps1` 的磁盘日志闸门按首行全等跟着豁免。不设全局白名单。
-- **只断言可观察结果**：生命值、伤口、位置、存档读档前后是否一致；不断言内部字段怎么算出来。
-- **失败信息带现场数据**：伤口严重度、各部位伤口、总体健康等，不用重跑就能定位。
-- **缺陷的测试按需补。** 实机发现的缺陷，若落在某个交接点上，就补一个先失败、修后通过的交接测试；落在系统内部的，修好后用日志确认。
-- **从玩家的入口进。** 玩家能直接操作的功能，至少一条测试走原版入口：右键菜单用 `t.RightClick`（走原版 `FloatMenuMakerMap.GetOptions`，含全部 provider），建造用 `t.CanPlace`（走 `GenConstruct.CanPlaceBlueprintAt`，会跑全部 PlaceWorker），不能只用 `JobMaker`、`GenSpawn` 绕过去。本模组的建筑和物品另有 `smoke.mod-things` 统一扫一遍放置、生成、tick 和按钮，新加的物体不用再单写冒烟测试。右键吃草和炮塔放置的报错都是因为测试绕过了入口才漏掉。
-- **纯数学可单元测试。** 不碰游戏运行时的纯函数（如几何计算）可以写单元测试，但必须直接引用产品程序集，不许 Shim。
+- **不写死数值。** 不断言伤害、射程、倍率、持续时间、每跳位移、功率、名单长度这类设计参数，也不把它们抄成字面量当期望值。只断言定性结果：发生或没发生、增加或减少、存读档前后一致。确实要比数量时从 Def 读。
+- 一个功能最多一条，走玩家入口（右键用 `t.RightClick`，建造用 `t.CanPlace`）。模组的建筑和物品由 `smoke.mod-things` 统一扫，新物体不另写冒烟。
+- 一个测试一个类：自建场地、执行、断言、清理；不共享状态、不依赖顺序。多个文件重复的场地搭建抽进公共 fixture。
+- 运行机制由 `test.ps1` 处理：游戏内同步 tick；复用同一实例和已载入的夹具，不新开存档、不带 `-Reload`。必须测存读档的声明 `Reload` 并写 `AfterReload`，`Run` 只推进被测交接需要的几 tick，停放前关掉会自己行动的东西。改了 DLL 才重启实例。
+- 测试期间出现任何 Error 都算失败。本来就要触发报错的用 `[LabTest(ExpectedLogErrors = new[] { @"正则" })]` 声明，不设全局白名单。
+- 失败信息带现场数据（伤口、健康、位置），不用重跑就能定位。
+- 纯数学函数可以写单元测试，直接引用产品程序集，不许 Shim。
+- 不靠删断言、跳过测试或反复重跑变绿。唯一例外：断言写死了设计数值的，改成定性断言或删掉，并在汇报里写明。
 
 ## 汇报格式
 
-- 每条验收给出：执行的命令、结果文件或日志的原始片段、L1 日志计数。
-- 通过、失败、未运行分开列；未运行的不写成通过。
-- 写明改动文件清单是否落在授权范围内。
+- 一句话结果、改动文件清单、L1 计数。
+- 跑了测试就给结果文件路径和通过、失败数，失败附原始日志片段。没跑的写“未运行”，不写成通过。

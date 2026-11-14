@@ -2,15 +2,15 @@
 <Defs>
   <WhisperOfTheForest.Rituals.RitualDef>
     <defName>WotF_Ritual_Teleport</defName>
+    <tier>2</tier>
+    <family>Domain</family>
     <label>local teleport</label>
-    <description>A green-ring rite that carries the colony's people from the altar to a teleport node on the same map.</description>
+    <description>A green-ring rite that carries the colony's people from the altar to a teleport gate on the same map. The gate has to be open and fed by the mana network.</description>
     <ringSize>5</ringSize>
     <chalkColor>Green</chalkColor>
     <manaCost>60</manaCost>
     <durationTicks>600</durationTicks>
     <effectRadius>12.9</effectRadius>
-    <participantRadiusPerExtra>0.1</participantRadiusPerExtra>
-    <maxParticipants>4</maxParticipants>
     <chooseTeleportTarget>true</chooseTeleportTarget>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_Teleport</effectWorkerClass>
   </WhisperOfTheForest.Rituals.RitualDef>

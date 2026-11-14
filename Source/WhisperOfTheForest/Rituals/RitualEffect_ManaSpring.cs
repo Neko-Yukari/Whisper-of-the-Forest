@@ -28,7 +28,7 @@ namespace WhisperOfTheForest.Rituals
                 }
 
                 float before = gene.CurrentMana;
-                gene.OffsetMana(context.Def.manaRestore);
+                gene.OffsetMana(context.Def.manaRestore * context.EffectFactor);
                 if (gene.CurrentMana > before)
                 {
                     restored++;

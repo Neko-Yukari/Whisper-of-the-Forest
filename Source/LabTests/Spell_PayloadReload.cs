@@ -20,6 +20,7 @@ namespace WhisperOfTheForest.LabTests
         private int fieldId;
         private int victimId;
         private string referenceState;
+        private int payloadCount;
 
         public override string Name => "spell.payload-reload";
 
@@ -71,7 +72,8 @@ namespace WhisperOfTheForest.LabTests
             GenSpawn.Spawn(field, victim.Position, t.Map);
             t.Arena.Track(field);
             fieldId = field.thingIDNumber;
-            t.Note("fieldPayloadCount", field.Payload.Count);
+            payloadCount = field.Payload.Count;
+            t.Note("fieldPayloadCount", payloadCount);
         }
 
         protected override void AfterReload(TestContext t)
@@ -79,7 +81,7 @@ namespace WhisperOfTheForest.LabTests
             var field = t.Arena.Find(fieldId) as Thing_SpellField;
             t.Expect(field != null, "the saved spell field did not come back");
             if (field == null) return;
-            t.Expect(field.Payload.Count == 3, "payload length changed across the save: " + field.Payload.Count);
+            t.Expect(field.Payload.Count == payloadCount, "payload length changed across the save: " + field.Payload.Count);
             t.Expect(field.Payload[0] is HarmEffect && field.Payload[1] is FreezeEffect
                 && field.Payload[2] is DelayEffect, "loaded list lost its concrete effect types");
             var delay = field.Payload[2] as DelayEffect;

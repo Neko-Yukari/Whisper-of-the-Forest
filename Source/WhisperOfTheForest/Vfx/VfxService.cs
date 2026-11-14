@@ -13,7 +13,7 @@ namespace WhisperOfTheForest.Vfx
     /// </summary>
     public static class VfxService
     {
-        public static void Play(VfxRequest request)
+        public static VfxHandle Play(VfxRequest request)
         {
             if (request == null)
             {
@@ -45,6 +45,7 @@ namespace WhisperOfTheForest.Vfx
             VfxWorker worker = (VfxWorker)Activator.CreateInstance(def.workerClass);
             worker.Start(request, def);
             MapComponent_Vfx.For(request.map).Add(worker);
+            return new VfxHandle(worker);
         }
     }
 

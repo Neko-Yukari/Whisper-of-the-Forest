@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingDef ParentName="ApparelBase">
+    <defName>WotF_MechWhispererSash</defName>
+    <label>mech-whisperer sash</label>
+    <description>A woven woodland sash threaded with gold conductors and fitted with a small relic interface. It helps a mechanitor sustain more mech links and organize an additional control group. It does not replace a mechlink implant.</description>
+    <thingClass>Apparel</thingClass>
+    <techLevel>Medieval</techLevel>
+    <!-- Temporary art: the existing spellbook cover stands in for the sash's relic interface. -->
+    <graphicData>
+      <texPath>Spellbook/BookCover</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.35</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Mass>0.5</Mass>
+      <WorkToMake>3200</WorkToMake>
+      <Flammability>0.4</Flammability>
+      <EquipDelay>2</EquipDelay>
+    </statBases>
+    <costList>
+      <Cloth>40</Cloth>
+      <Steel>30</Steel>
+      <Gold>10</Gold>
+      <ComponentIndustrial>4</ComponentIndustrial>
+    </costList>
+    <equippedStatOffsets>
+      <MechBandwidth>4</MechBandwidth>
+      <MechControlGroups>1</MechControlGroups>
+    </equippedStatOffsets>
+    <thingCategories>
+      <li>ApparelUtility</li>
+    </thingCategories>
+    <apparel>
+      <bodyPartGroups>
+        <li>Waist</li>
+      </bodyPartGroups>
+      <layers>
+        <li>Belt</li>
+      </layers>
+      <countsAsClothingForNudity>false</countsAsClothingForNudity>
+      <mechanitorApparel>true</mechanitorApparel>
+      <developmentalStageFilter>Adult</developmentalStageFilter>
+    </apparel>
+    <recipeMaker>
+      <recipeUsers>
+        <li>CraftingSpot</li>
+      </recipeUsers>
+      <skillRequirements>
+        <Crafting>4</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+  </ThingDef>
+
+</Defs>

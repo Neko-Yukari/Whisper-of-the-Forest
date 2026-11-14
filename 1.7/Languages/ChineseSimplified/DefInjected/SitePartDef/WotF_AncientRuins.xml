@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_Site_Ruin_Common.label>森林遗迹</WotF_Site_Ruin_Common.label>
+  <WotF_Site_Ruin_Common.description>树下的旧遗迹。里面还有东西在运转，周围的人也听见了动静。</WotF_Site_Ruin_Common.description>
+  <WotF_Site_Ruin_Common.approachOrderString>探查{0}</WotF_Site_Ruin_Common.approachOrderString>
+  <WotF_Site_Ruin_Common.approachingReportString>正在探查{0}。</WotF_Site_Ruin_Common.approachingReportString>
+  <WotF_Site_Ruin_Common.arrivedLetter>你们抵达了遗迹。旧机器在暗处重新动了起来，被森林吞掉的那些库存仍在原处，可以搬走。\n\n清掉守卫之后，这处遗迹才算拿下。</WotF_Site_Ruin_Common.arrivedLetter>
+
+  <WotF_Site_Ruin_Core.label>古老工程遗迹</WotF_Site_Ruin_Core.label>
+  <WotF_Site_Ruin_Core.description>埋在地下的工程站。当年工坊封进去的东西还封在里面，守卫也还醒着。</WotF_Site_Ruin_Core.description>
+  <WotF_Site_Ruin_Core.approachOrderString>探查{0}</WotF_Site_Ruin_Core.approachOrderString>
+  <WotF_Site_Ruin_Core.approachingReportString>正在探查{0}。</WotF_Site_Ruin_Core.approachingReportString>
+  <WotF_Site_Ruin_Core.arrivedLetter>你们抵达了工程遗迹。工程站的核心就埋在混凝土下面，守在这里的守卫比森林遗迹更密。\n\n清掉守卫之后，这处遗迹才算拿下。</WotF_Site_Ruin_Core.arrivedLetter>
+</LanguageData>

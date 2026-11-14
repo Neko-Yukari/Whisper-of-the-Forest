@@ -13,6 +13,16 @@
   <WotF_Equipment.Inspect.NoSpell>Spell: none</WotF_Equipment.Inspect.NoSpell>
   <WotF_Equipment.Inspect.Current>Spell: {0}</WotF_Equipment.Inspect.Current>
 
+  <!-- Equipment inscription: slot switch and inspect line. -->
+  <WotF_Enchant.Gizmo.None>Mithril slot: {0} (empty)</WotF_Enchant.Gizmo.None>
+  <WotF_Enchant.Gizmo.Current>Mithril slot: {0} · {1}</WotF_Enchant.Gizmo.Current>
+  <WotF_Enchant.Gizmo.Desc>Mithril holds two inscribed spells. Switch which one fires its reaction.</WotF_Enchant.Gizmo.Desc>
+  <WotF_Enchant.Menu.Slot>{0}. {1}</WotF_Enchant.Menu.Slot>
+  <WotF_Enchant.Inspect.None>Inscription: none</WotF_Enchant.Inspect.None>
+  <WotF_Enchant.Inspect.One>Inscription: {0}</WotF_Enchant.Inspect.One>
+  <WotF_Enchant.Inspect.Slots>Inscriptions: {0}</WotF_Enchant.Inspect.Slots>
+  <WotF_Enchant.Inspect.Empty>empty</WotF_Enchant.Inspect.Empty>
+
   <WotF_ShortStaff.Reason.NoRitual>Target is not taking part in a psychic ritual.</WotF_ShortStaff.Reason.NoRitual>
   <WotF_ShortStaff.Reason.NotAbduction>That ritual is not a skip abduction.</WotF_ShortStaff.Reason.NotAbduction>
   <WotF_ShortStaff.CancelReason>{CASTER_nameDef} disrupted the ritual with a short staff.</WotF_ShortStaff.CancelReason>

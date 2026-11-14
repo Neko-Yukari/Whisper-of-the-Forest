@@ -10,7 +10,7 @@ namespace WhisperOfTheForest.Rituals
     /// </summary>
     public sealed class RitualEffect_SpellbookAwakening : RitualEffectWorker
     {
-        private const string SpellbookDefName = "WotF_Spellbook_Basic";
+        private const string SpellbookDefName = "WotF_Spellbook_Apprentice";
 
         public override void Apply(RitualContext context)
         {

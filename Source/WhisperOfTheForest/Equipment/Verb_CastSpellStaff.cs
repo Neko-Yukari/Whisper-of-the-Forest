@@ -157,7 +157,7 @@ namespace WhisperOfTheForest.Equipment
             }
 
             SpellRecipe recipe = staff.SelectedRecipe;
-            if (recipe == null)
+            if (recipe == null || SelectedPlan() == null)
             {
                 return false;
             }
@@ -187,7 +187,10 @@ namespace WhisperOfTheForest.Equipment
         private SpellCastPlan SelectedPlan()
         {
             SpellRecipe recipe = EquipmentSource?.GetComp<CompSpellStaff>()?.SelectedRecipe;
-            return recipe == null ? null : SpellCompiler.Compile(recipe, out _);
+            SpellCastPlan plan = recipe == null ? null : SpellCompiler.Compile(recipe, out _);
+            // These forms are player-triggered skills, never weapon auto-attacks.
+            return plan == null || plan.form == SpellFormKind.Self || plan.form == SpellFormKind.Orbit
+                || SpellDefs.Glyph(recipe.glyphs[0]).kind == SpellGlyphKind.Super ? null : plan;
         }
     }
 }

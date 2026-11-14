@@ -2,6 +2,8 @@
 <Defs>
   <WhisperOfTheForest.Rituals.RitualDef>
     <defName>WotF_Ritual_ShieldDome</defName>
+    <tier>2</tier>
+    <family>Domain</family>
     <label>rite of the grove shield</label>
     <description>The caster traces a green chalk ring and wakes the old ward in the altar. A living shield closes over the grove for a day, turning aside incoming projectiles until its charge is spent.</description>
     <ringSize>5</ringSize>
@@ -9,8 +11,6 @@
     <manaCost>150</manaCost>
     <durationTicks>900</durationTicks>
     <effectRadius>12.9</effectRadius>
-    <participantRadiusPerExtra>0.1</participantRadiusPerExtra>
-    <maxParticipants>4</maxParticipants>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_ShieldDome</effectWorkerClass>
   </WhisperOfTheForest.Rituals.RitualDef>
 </Defs>

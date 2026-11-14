@@ -75,7 +75,7 @@ namespace WhisperOfTheForest.LabTests
 
         private static Building Spawn(ThingDef def, TestContext t, int x, int z)
         {
-            var building = (Building)ThingMaker.MakeThing(def);
+            var building = (Building)ThingMaker.MakeThing(def, def.MadeFromStuff ? ThingDefOf.BlocksGranite : null);
             GenSpawn.Spawn(building, t.Arena.Cell(x, z), t.Map, WipeMode.Vanish);
             return t.Arena.Track(building);
         }

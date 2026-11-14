@@ -18,7 +18,7 @@ namespace WhisperOfTheForest.LabTests
         {
             var turret = Turret_TestFixture.Spawn<Building_SpellTurret>(t, "WotF_SpellTurret", 5, 5, ThingDefOf.Steel);
             var comp = turret.GetComp<CompSpellTurret>();
-            var node = Mana_TestFixture.AddBattery(t, Turret_TestFixture.Spawn<Building>(t, "WotF_ManaNode", 4, 5));
+            var node = Mana_TestFixture.AddBattery(t, Turret_TestFixture.Spawn<Building>(t, "WotF_ManaNode", 4, 5, ThingDefOf.BlocksGranite));
             Pawn elf = t.SpawnElf(1, 5);
             Pawn target = t.SpawnTarget(10, 5);
             Turret_TestFixture.Inscribe(t, elf, turret, TestContext.Recipe("old-dart", SpellDefs.FormProjectile, SpellDefs.EffectHarm));

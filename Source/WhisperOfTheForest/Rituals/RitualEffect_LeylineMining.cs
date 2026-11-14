@@ -27,6 +27,7 @@ namespace WhisperOfTheForest.Rituals
                 }
 
                 int portion = resource.deepCountPerPortion > 0 ? resource.deepCountPerPortion : DefaultPortion;
+                portion = UnityEngine.Mathf.CeilToInt(portion * context.EffectFactor);
                 int taken = TakeFromGrid(context.Map, context.Altar.Position, context.EffectRadius, resource, portion);
                 if (taken <= 0)
                 {

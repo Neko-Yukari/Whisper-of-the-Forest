@@ -5,6 +5,7 @@
     <label>flame tornado</label>
     <description>A stationary flame tornado strikes every target in its radius and leaves a lingering scorch after they leave.</description>
     <kind>Super</kind>
+    <requiresUnlock>true</requiresUnlock>
     <compatibleAugments />
     <iconPath>Spellbook/Glyphs/WotF_Form_Railgun</iconPath>
     <targets>

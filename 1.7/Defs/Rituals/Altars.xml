@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- 造价、耐久、工时为占位；祭坛始终单格，护盾沿用原状。 -->
+  <ThingDef ParentName="WotF_RitualAltarBase">
+    <defName>WotF_RitualAltar</defName>
+    <label>wood-and-stone altar</label>
+    <description>A first-tier forest altar built from ordinary wood and stone. It awakens living wood, apprentice spellbooks and first-tier runes. Higher-tier altars can also perform these rites.</description>
+    <stuffCategories Inherit="False"><li>Stony</li></stuffCategories>
+    <costStuffCount>30</costStuffCount>
+    <costList><WoodLog>50</WoodLog></costList>
+    <comps>
+      <li Class="WhisperOfTheForest.Rituals.CompProperties_RitualAltar">
+        <tier>1</tier><linkRadius>12.9</linkRadius><powerStat>WotF_RitualPower</powerStat>
+        <ritualDefNames>
+          <li>WotF_Ritual_TransmuteLivingWood</li><li>WotF_Ritual_ManaSpring</li><li>WotF_Ritual_HealingMinor</li>
+          <li>WotF_Ritual_BottleMana</li><li>WotF_Ritual_SpellbookAwakening</li><li>WotF_Ritual_RuneAwakening</li>
+          <li>WotF_Ritual_InscribeEquipment</li>
+        </ritualDefNames>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="WotF_RitualAltarBase">
+    <defName>WotF_RitualAltar_LivingWood</defName>
+    <label>livingwood altar</label>
+    <description>A second-tier altar grown from living wood. It transmutes elven steel and advanced chalk, and supports second-tier and lower rites.</description>
+    <graphicData><texPath>Buildings/RitualAltarLivingWoodPlaceholder</texPath></graphicData>
+    <stuffCategories Inherit="False"><li>Stony</li></stuffCategories>
+    <costStuffCount>30</costStuffCount>
+    <costList><WoodLog>40</WoodLog><WotF_LivingWood>40</WotF_LivingWood></costList>
+    <comps>
+      <li Class="WhisperOfTheForest.Rituals.CompProperties_RitualAltar">
+        <tier>2</tier><linkRadius>12.9</linkRadius><powerStat>WotF_RitualPower</powerStat>
+        <ritualDefNames>
+          <li>WotF_Ritual_SpellbookUpgradeAdept</li>
+          <li>WotF_Ritual_TransmuteLivingWood</li><li>WotF_Ritual_ManaSpring</li><li>WotF_Ritual_HealingMinor</li>
+          <li>WotF_Ritual_BottleMana</li><li>WotF_Ritual_SpellbookAwakening</li><li>WotF_Ritual_RuneAwakening</li>
+          <li>WotF_Ritual_TransmuteElvenSteel</li><li>WotF_Ritual_HealingMedium</li><li>WotF_Ritual_FertileSoil</li>
+          <li>WotF_Ritual_TransmuteGreenChalk</li><li>WotF_Ritual_TransmuteStarChalk</li><li>WotF_Ritual_TransmuteComponent</li>
+          <li>WotF_Ritual_RainCall</li><li>WotF_Ritual_ShieldDome</li><li>WotF_Ritual_BeastCall</li><li>WotF_Ritual_Teleport</li>
+          <li>WotF_Ritual_SeekRuin</li>
+          <li>WotF_Ritual_InscribeEquipment</li>
+        </ritualDefNames>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="WotF_RitualAltarBase">
+    <defName>WotF_RitualAltar_Starlight</defName>
+    <label>starlight altar</label>
+    <description>A third-tier altar centered on an engineering-station resonance core recovered from ancient ruins. It transmutes adamantine and mithril and supports all three tiers of rites.</description>
+    <graphicData><texPath>Buildings/RitualAltarStarlightPlaceholder</texPath></graphicData>
+    <costList><WotF_LivingWood>60</WotF_LivingWood><WotF_ElvenSteel>40</WotF_ElvenSteel><WotF_EngineeringResonanceCore>1</WotF_EngineeringResonanceCore></costList>
+    <comps>
+      <li Class="WhisperOfTheForest.Rituals.CompProperties_RitualAltar">
+        <tier>3</tier><linkRadius>12.9</linkRadius><powerStat>WotF_RitualPower</powerStat>
+        <ritualDefNames>
+          
+          <li>WotF_Ritual_SpellbookUpgradeAdept</li><li>WotF_Ritual_SpellbookUpgradeArchmage</li>
+          <li>WotF_Ritual_TransmuteLivingWood</li><li>WotF_Ritual_ManaSpring</li><li>WotF_Ritual_HealingMinor</li>
+          <li>WotF_Ritual_BottleMana</li><li>WotF_Ritual_SpellbookAwakening</li><li>WotF_Ritual_RuneAwakening</li>
+          <li>WotF_Ritual_TransmuteElvenSteel</li><li>WotF_Ritual_HealingMedium</li><li>WotF_Ritual_FertileSoil</li>
+          <li>WotF_Ritual_TransmuteGreenChalk</li><li>WotF_Ritual_TransmuteStarChalk</li><li>WotF_Ritual_TransmuteComponent</li>
+          <li>WotF_Ritual_RainCall</li><li>WotF_Ritual_ShieldDome</li><li>WotF_Ritual_BeastCall</li><li>WotF_Ritual_Teleport</li>
+          <li>WotF_Ritual_TransmuteAdamantine</li><li>WotF_Ritual_TransmuteMithril</li><li>WotF_Ritual_HealingGrand</li>
+          <li>WotF_Ritual_SkyWrath</li><li>WotF_Ritual_LeylineMining</li>
+          <li>WotF_Ritual_SeekRuin</li>
+          <li>WotF_Ritual_InscribeEquipment</li>
+        </ritualDefNames>
+      </li>
+    </comps>
+  </ThingDef>
+  <!-- 核心仅预留遗迹战利品；不加入配方、商人或随机物资池。市场价/质量为占位。 -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>WotF_EngineeringResonanceCore</defName>
+    <label>engineering-station resonance core</label>
+    <description>An irreplaceable core recovered only from the depths of an ancient engineering station. Required to build a starlight altar.</description>
+    <graphicData><texPath>Things/Item/EngineeringResonanceCorePlaceholder</texPath><graphicClass>Graphic_Single</graphicClass></graphicData>
+    <thingCategories><li>ResourcesRaw</li></thingCategories>
+    <stackLimit>1</stackLimit>
+    <tradeability>None</tradeability>
+    <statBases><MarketValue>2000</MarketValue><Mass>2</Mass><Flammability>0</Flammability><MaxHitPoints>150</MaxHitPoints></statBases>
+  </ThingDef>
+</Defs>

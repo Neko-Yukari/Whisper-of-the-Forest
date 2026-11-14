@@ -1,3 +1,4 @@
+using System.Linq;
 using RimWorld;
 using Verse;
 using WhisperOfTheForest.Mana;
@@ -18,7 +19,7 @@ namespace WhisperOfTheForest.LabTests
         protected override void Run(TestContext t)
         {
             RitualDef def = DefDatabase<RitualDef>.GetNamedSilentFail("WotF_Ritual_TransmuteGreenChalk");
-            ThingDef altarDef = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_RitualAltar");
+            ThingDef altarDef = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_RitualAltar_LivingWood");
             ThingDef nodeDef = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_ManaNode");
             ThingDef chalkDef = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_ChalkMark_White");
             ThingDef inputChalk = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_Chalk");
@@ -49,9 +50,9 @@ namespace WhisperOfTheForest.LabTests
             }
 
             SpawnRing(chalkDef, t, 6, 6, def.ringSize);
-            SpawnStack(inputChalk, t, 6, 8, 10);
-            SpawnStack(herb, t, 7, 8, 20);
-            SpawnStack(herb, t, 8, 8, 20);
+            SpawnStack(inputChalk, t, 6, 8, def.inputCosts.Single(c => c.thingDef == inputChalk).count * 2);
+            SpawnStack(herb, t, 7, 8, def.inputCosts.Single(c => c.thingDef == herb).count);
+            SpawnStack(herb, t, 8, 8, def.inputCosts.Single(c => c.thingDef == herb).count);
             nodeComp.SetStored(nodeComp.Capacity);
 
             comp.SetAutoRitual(def);
@@ -60,14 +61,14 @@ namespace WhisperOfTheForest.LabTests
             comp.CompTickRare();
             t.Expect(comp.IsActive, "the idle altar did not start its auto-repeat rite");
             t.Expect(t.StepUntil(() => !comp.IsActive, 1000), "the first auto-repeat rite did not finish");
-            t.Expect(Count(t, output) == 5,
-                "expected 5 green chalk after the first cycle, found " + Count(t, output));
+            t.Expect(Count(t, output) == def.outputProducts.Single(p => p.thingDef == output).count,
+                "first cycle output differs from ritual Def, found " + Count(t, output));
 
             comp.CompTickRare();
             t.Expect(comp.IsActive, "the altar did not start a second auto-repeat rite");
             t.Expect(t.StepUntil(() => !comp.IsActive, 1000), "the second auto-repeat rite did not finish");
-            t.Expect(Count(t, output) == 10,
-                "expected 10 green chalk after the second cycle, found " + Count(t, output));
+            t.Expect(Count(t, output) == def.outputProducts.Single(p => p.thingDef == output).count * 2,
+                "two-cycle output differs from ritual Def, found " + Count(t, output));
 
             comp.CompTickRare();
             t.Expect(!comp.IsActive, "the altar started a rite after its inputs ran out");
@@ -114,7 +115,7 @@ namespace WhisperOfTheForest.LabTests
 
         private static T Spawn<T>(ThingDef def, TestContext t, int x, int z) where T : Thing
         {
-            var thing = (T)ThingMaker.MakeThing(def);
+            var thing = (T)ThingMaker.MakeThing(def, def.MadeFromStuff ? ThingDefOf.BlocksGranite : null);
             GenSpawn.Spawn(thing, t.Arena.Cell(x, z), t.Map, WipeMode.Vanish);
             return t.Arena.Track(thing);
         }

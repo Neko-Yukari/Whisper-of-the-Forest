@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using RimWorld;
 using Verse;
 using WhisperOfTheForest.Mana;
@@ -19,7 +20,7 @@ namespace WhisperOfTheForest.LabTests
         protected override void Run(TestContext t)
         {
             RitualDef def = DefDatabase<RitualDef>.GetNamedSilentFail("WotF_Ritual_LeylineMining");
-            ThingDef altarDef = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_RitualAltar");
+            ThingDef altarDef = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_RitualAltar_Starlight");
             ThingDef nodeDef = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_ManaNode");
             ThingDef starChalk = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_ChalkMark_Star");
             if (def == null || altarDef == null || nodeDef == null || starChalk == null)
@@ -51,8 +52,8 @@ namespace WhisperOfTheForest.LabTests
             IntVec3 silverCell = t.Arena.Cell(7, 6);
             IntVec3 steelCell = t.Arena.Cell(8, 6);
             IntVec3 outsideCell = t.Arena.Cell(30, 6);
-            t.Map.deepResourceGrid.SetAt(silverCell, ThingDefOf.Silver, 100);
-            t.Map.deepResourceGrid.SetAt(steelCell, ThingDefOf.Steel, 500);
+            t.Map.deepResourceGrid.SetAt(silverCell, ThingDefOf.Silver, ThingDefOf.Silver.deepCountPerPortion);
+            t.Map.deepResourceGrid.SetAt(steelCell, ThingDefOf.Steel, ThingDefOf.Steel.deepCountPerPortion);
             t.Map.deepResourceGrid.SetAt(outsideCell, ThingDefOf.Jade, 500);
 
             int silverBefore = Count(t, ThingDefOf.Silver);
@@ -61,10 +62,10 @@ namespace WhisperOfTheForest.LabTests
             nodeComp.SetStored(nodeComp.Capacity);
             float before = nodeComp.Stored;
 
-            t.Expect(comp.TryStart(def, caster), "the leyline rite did not start");
+            t.Expect(comp.TryStart(def, null, caster, new List<Pawn> { helper }), "the leyline rite did not start");
             t.Expect(t.StepUntil(() => !comp.IsActive, 3000), "the leyline rite did not finish");
-            t.Expect(Count(t, ThingDefOf.Silver) - silverBefore == 70, "expected one silver portion, found " + (Count(t, ThingDefOf.Silver) - silverBefore));
-            t.Expect(Count(t, ThingDefOf.Steel) - steelBefore == 45, "expected one steel portion, found " + (Count(t, ThingDefOf.Steel) - steelBefore));
+            t.Expect(Count(t, ThingDefOf.Silver) - silverBefore == ThingDefOf.Silver.deepCountPerPortion, "expected one silver portion, found " + (Count(t, ThingDefOf.Silver) - silverBefore));
+            t.Expect(Count(t, ThingDefOf.Steel) - steelBefore == ThingDefOf.Steel.deepCountPerPortion, "expected one steel portion, found " + (Count(t, ThingDefOf.Steel) - steelBefore));
             t.Expect(Count(t, ThingDefOf.Jade) == 0, "the rite mined outside its radius");
             t.Measure("manaBefore", before.ToString("0.#"));
             t.Measure("manaAfter", nodeComp.Stored.ToString("0.#"));
@@ -115,7 +116,7 @@ namespace WhisperOfTheForest.LabTests
 
         private static T Spawn<T>(ThingDef def, TestContext t, int x, int z) where T : Thing
         {
-            var thing = (T)ThingMaker.MakeThing(def);
+            var thing = (T)ThingMaker.MakeThing(def, def.MadeFromStuff ? ThingDefOf.BlocksGranite : null);
             GenSpawn.Spawn(thing, t.Arena.Cell(x, z), t.Map, WipeMode.Vanish);
             return t.Arena.Track(thing);
         }

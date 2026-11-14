@@ -325,12 +325,14 @@ namespace WhisperOfTheForest.Testing
                     continue;
                 }
 
-                MethodBase target = ResolveTarget(attribute);
+                MethodBase target = ResolveTarget(type, attribute, out string resolutionFailure);
 
                 if (target == null)
                 {
-                    missing.Add(type.Name + " -> " + attribute.info.declaringType?.Name + "." + attribute.info.methodName
-                                + " (target method not found)");
+                    missing.Add(resolutionFailure != null
+                        ? type.Name + " -> " + resolutionFailure
+                        : type.Name + " -> " + attribute.info.declaringType?.Name + "." + attribute.info.methodName
+                            + " (target method not found)");
                     continue;
                 }
 
@@ -359,8 +361,30 @@ namespace WhisperOfTheForest.Testing
             result.Notes.Add("harmony patches applied=" + checkedCount);
         }
 
-        private static MethodBase ResolveTarget(HarmonyPatch attribute)
+        private static MethodBase ResolveTarget(Type patchType, HarmonyPatch attribute, out string failure)
         {
+            failure = null;
+            MethodInfo targetMethod = patchType.GetMethod("TargetMethod",
+                BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic,
+                null, Type.EmptyTypes, null);
+            if (targetMethod != null)
+            {
+                try
+                {
+                    MethodBase target = (MethodBase)targetMethod.Invoke(null, null);
+                    if (target == null)
+                        failure = "TargetMethod() returned null";
+                    return target;
+                }
+                catch (Exception exception)
+                {
+                    Exception cause = exception is TargetInvocationException invocation && invocation.InnerException != null
+                        ? invocation.InnerException : exception;
+                    failure = "TargetMethod() failed: " + cause;
+                    return null;
+                }
+            }
+
             HarmonyMethod info = attribute.info;
             if (info == null)
             {

@@ -12,7 +12,6 @@ namespace WhisperOfTheForest
     public static class LabActions
     {
         public const string TerrainStrideDefName = "WotF_TerrainStride";
-        public const string BlinkStrideDefName = "WotF_BlinkStride";
 
         /// <summary>Last human-readable failure, for the lab JSON result.</summary>
         public static string LastError { get; private set; }
@@ -82,16 +81,6 @@ namespace WhisperOfTheForest
             return Equip(pawn, TerrainStrideDefName);
         }
 
-        public static void EquipBlinkStride(Pawn pawn)
-        {
-            ThrowIfFailed(TryEquipBlinkStride(pawn));
-        }
-
-        public static bool TryEquipBlinkStride(Pawn pawn)
-        {
-            return Equip(pawn, BlinkStrideDefName);
-        }
-
         /// <summary>Equips a staff made of the given material, so the lab can exercise a real material.</summary>
         public static bool TryEquipSpellStaff(Pawn pawn, ThingDef stuff)
         {
@@ -125,7 +114,7 @@ namespace WhisperOfTheForest
             });
         }
 
-        /// <summary>Drops only the two experiment apparel defs; all other gear is untouched.</summary>
+        /// <summary>Drops only the terrain mantle; all other gear is untouched.</summary>
         public static void RemoveExperimentApparel(Pawn pawn)
         {
             ThrowIfFailed(TryRemoveExperimentApparel(pawn));
@@ -158,7 +147,13 @@ namespace WhisperOfTheForest
             });
         }
 
-        private static bool Equip(Pawn pawn, string defName)
+        /// <summary>Wears any apparel def; stuffed apparel needs an explicit material.</summary>
+        public static bool TryWearApparel(Pawn pawn, string defName, ThingDef stuff)
+        {
+            return Equip(pawn, defName, stuff);
+        }
+
+        private static bool Equip(Pawn pawn, string defName, ThingDef stuff = null)
         {
             return Run(pawn, "equip:" + defName, delegate(Pawn target)
             {
@@ -166,6 +161,11 @@ namespace WhisperOfTheForest
                 if (def == null)
                 {
                     return FailMessage("apparel def " + defName + " is not loaded");
+                }
+
+                if (def.MadeFromStuff != (stuff != null))
+                {
+                    return FailMessage(defName + (def.MadeFromStuff ? " needs stuff=" : " takes no stuff"));
                 }
 
                 foreach (Apparel worn in target.apparel.WornApparel)
@@ -176,7 +176,7 @@ namespace WhisperOfTheForest
                     }
                 }
 
-                if (!(ThingMaker.MakeThing(def, null) is Apparel apparel))
+                if (!(ThingMaker.MakeThing(def, stuff) is Apparel apparel))
                 {
                     return FailMessage(defName + " did not create Apparel");
                 }
@@ -194,7 +194,7 @@ namespace WhisperOfTheForest
 
         private static bool IsExperimentApparel(string defName)
         {
-            return defName == TerrainStrideDefName || defName == BlinkStrideDefName;
+            return defName == TerrainStrideDefName;
         }
 
         private static bool Run(Pawn pawn, string action, Func<Pawn, string> body)

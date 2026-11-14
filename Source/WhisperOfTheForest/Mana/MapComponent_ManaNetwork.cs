@@ -52,8 +52,13 @@ namespace WhisperOfTheForest.Mana
         /// <summary>The nearest connected node's network within <paramref name="radius"/> cells.</summary>
         public ManaNetwork NetworkNear(IntVec3 cell, float radius)
         {
+            return NodeNear(cell, radius)?.Network;
+        }
+
+        internal CompManaNode NodeNear(IntVec3 cell, float radius)
+        {
             EnsureBuilt();
-            ManaNetwork best = null;
+            CompManaNode best = null;
             float bestDistance = radius * radius;
             for (int i = 0; i < networks.Count; i++)
             {
@@ -65,7 +70,7 @@ namespace WhisperOfTheForest.Mana
                     if (distance <= bestDistance)
                     {
                         bestDistance = distance;
-                        best = network;
+                        best = node;
                     }
                 }
             }

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using RimWorld;
 using Verse;
 using WhisperOfTheForest.Spells;
 
@@ -25,10 +27,28 @@ namespace WhisperOfTheForest.Rituals
         /// <summary>The teleport node this performance targets; null for every other ritual.</summary>
         public readonly Building TeleportTarget;
 
+        /// <summary>The weapon or armour the rite writes into; null for every other ritual.</summary>
+        public readonly Thing Equipment;
+
+        /// <summary>The host's spellbook slot that was written; -1 for every other ritual.</summary>
+        public readonly int BookSlot;
+
+        /// <summary>The ruin a seeking rite points at; null for every other ritual.</summary>
+        public readonly RuinSeekOption RuinOption;
+
+        /// <summary>
+        /// Where each colonist of a teleport rite lands, one cell per pawn. The altar settles it before it
+        /// charges anything, so the effect only carries out a plan that already exists; null for every
+        /// other ritual.
+        /// </summary>
+        public readonly Dictionary<Pawn, IntVec3> TeleportLanding;
+
         /// <summary>Extra bloodline pawns that stood on the ring when the rite started.</summary>
         public readonly int Participants;
 
-        public float EffectRadius => Def.RadiusFor(Participants);
+        public readonly float Power;
+        public float EffectRadius => Def.RadiusFor(Power);
+        public float EffectFactor => Def.EffectFactorFor(Power);
 
         public RitualContext(
             Map map,
@@ -37,7 +57,12 @@ namespace WhisperOfTheForest.Rituals
             RitualDef def,
             SpellGlyphDef rune,
             Building teleportTarget = null,
-            int participants = 0)
+            int participants = 0,
+            float power = 0f,
+            Thing equipment = null,
+            int bookSlot = -1,
+            RuinSeekOption ruinOption = null,
+            Dictionary<Pawn, IntVec3> teleportLanding = null)
         {
             Map = map;
             Altar = altar;
@@ -46,6 +71,11 @@ namespace WhisperOfTheForest.Rituals
             Rune = rune;
             TeleportTarget = teleportTarget;
             Participants = participants;
+            Power = power;
+            Equipment = equipment;
+            BookSlot = bookSlot;
+            RuinOption = ruinOption;
+            TeleportLanding = teleportLanding;
         }
     }
 }

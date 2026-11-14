@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using Verse;
+using WhisperOfTheForest.Vfx;
 
 namespace WhisperOfTheForest.Spells
 {
@@ -18,6 +19,16 @@ namespace WhisperOfTheForest.Spells
             this.spec = spec.Copy();
             expiresTick = Find.TickManager.TicksGame + spec.durationTicks;
             nextPulseTick = Find.TickManager.TicksGame + spec.pulseIntervalTicks;
+        }
+
+        public override void SpawnSetup(Map map, bool respawningAfterLoad)
+        {
+            base.SpawnSetup(map, respawningAfterLoad);
+            VfxService.Play(new VfxRequest
+            {
+                map = map, follow = this, origin = DrawPos, width = spec.radius * 2f,
+                vfxDefName = "WotF_Vfx_Tornado"
+            });
         }
 
         protected override void Tick()

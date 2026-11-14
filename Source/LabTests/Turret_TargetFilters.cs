@@ -28,7 +28,7 @@ namespace WhisperOfTheForest.LabTests
             t.Expect(!friendly.IsValid || (!friendly.Thing.HostileTo(turret.Faction) && comp.AllowsTarget(friendly.Thing)), "friendly filter selected a hostile or disallowed target");
             comp.TargetHumanlikes = false;
             t.Expect(!comp.AllowsTarget(writer), "relationship bypassed category filter");
-            var node = Turret_TestFixture.Spawn<Building>(t, "WotF_ManaNode", 6, 5);
+            var node = Turret_TestFixture.Spawn<Building>(t, "WotF_ManaNode", 6, 5, ThingDefOf.BlocksGranite);
             comp.TargetNeutral = true;
             t.Expect(turret.TryFindNewTarget().Thing != node, "friendly/neutral filters selected own mana node");
             t.Expect(!comp.AllowsTarget(node) && !comp.AllowsTarget(turret), "building/self permitted by shot filter");

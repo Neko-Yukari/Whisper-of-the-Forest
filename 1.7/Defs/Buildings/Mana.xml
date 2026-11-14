@@ -29,12 +29,14 @@
       <Flammability>0</Flammability>
       <Beauty>8</Beauty>
     </statBases>
+    <stuffCategories Inherit="False"><li>Stony</li></stuffCategories>
+    <costStuffCount>20</costStuffCount>
     <costList>
-      <Steel>40</Steel>
-      <ComponentIndustrial>1</ComponentIndustrial>
+      <WoodLog>20</WoodLog>
     </costList>
     <placeWorkers>
       <li>PlaceWorker_GlowRadius</li>
+      <li>WhisperOfTheForest.Mana.PlaceWorker_ManaNetwork</li>
     </placeWorkers>
     <comps>
       <li Class="CompProperties_Glower">
@@ -74,16 +76,19 @@
       <WorkToBuild>300</WorkToBuild>
       <Flammability>0</Flammability>
     </statBases>
+    <stuffCategories Inherit="False"><li>Stony</li></stuffCategories>
+    <costStuffCount>60</costStuffCount>
     <costList>
-      <Steel>60</Steel>
-      <ComponentIndustrial>2</ComponentIndustrial>
+      <WoodLog>20</WoodLog>
     </costList>
     <placeWorkers>
       <li>PlaceWorker_GlowRadius</li>
+      <li>WhisperOfTheForest.Mana.PlaceWorker_ManaNetwork</li>
     </placeWorkers>
     <comps>
       <li Class="CompProperties_Refuelable">
         <fuelConsumptionRate>0.5</fuelConsumptionRate>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
         <fuelCapacity>30</fuelCapacity>
         <fuelFilter>
           <thingDefs>
@@ -132,12 +137,14 @@
       <Flammability>0</Flammability>
       <Beauty>4</Beauty>
     </statBases>
+    <stuffCategories Inherit="False"><li>Stony</li></stuffCategories>
+    <costStuffCount>80</costStuffCount>
     <costList>
-      <Steel>80</Steel>
-      <ComponentIndustrial>2</ComponentIndustrial>
+      <WotF_LivingWood>2</WotF_LivingWood>
     </costList>
     <placeWorkers>
       <li>PlaceWorker_GlowRadius</li>
+      <li>WhisperOfTheForest.Mana.PlaceWorker_ManaNetwork</li>
     </placeWorkers>
     <comps>
       <li Class="CompProperties_Glower">
@@ -186,6 +193,7 @@
     </costList>
     <placeWorkers>
       <li>PlaceWorker_GlowRadius</li>
+      <li>WhisperOfTheForest.Mana.PlaceWorker_ManaNetwork</li>
     </placeWorkers>
     <comps>
       <li Class="CompProperties_Power">
@@ -221,7 +229,7 @@
     <selectable>true</selectable>
     <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
     <graphicData>
-      <texPath>Buildings/ManaNode</texPath>
+      <texPath>Buildings/ManaBattery</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>(1,1)</drawSize>
     </graphicData>
@@ -230,14 +238,23 @@
       <WorkToBuild>400</WorkToBuild>
       <Flammability>0</Flammability>
     </statBases>
+    <stuffCategories Inherit="False"><li>Stony</li></stuffCategories>
+    <costStuffCount>40</costStuffCount>
     <costList>
-      <Steel>80</Steel>
-      <ComponentIndustrial>2</ComponentIndustrial>
+      <WoodLog>40</WoodLog>
     </costList>
+    <placeWorkers>
+      <li>WhisperOfTheForest.Mana.PlaceWorker_ManaNetwork</li>
+    </placeWorkers>
     <comps>
       <li Class="WhisperOfTheForest.Mana.CompProperties_ManaBattery">
         <capacity>200</capacity>
         <linkRadius>12.9</linkRadius>
+        <barOffset>(0,0.1,0)</barOffset>
+        <barSize>(0.6,0.18)</barSize>
+        <barMargin>0.04</barMargin>
+        <barFilledColor>(0.31,0.71,1,1)</barFilledColor>
+        <barUnfilledColor>(0.08,0.12,0.18,1)</barUnfilledColor>
       </li>
     </comps>
   </ThingDef>

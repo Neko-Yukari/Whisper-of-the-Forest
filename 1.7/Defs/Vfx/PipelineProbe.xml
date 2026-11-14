@@ -6,6 +6,8 @@
     <workerClass>WhisperOfTheForest.Vfx.PrefabVfxWorker</workerClass>
     <prefabPath>Effects/Probe</prefabPath>
     <height>1.2</height>
+    <scale>1</scale>
+    <scaleToWidth>false</scaleToWidth>
     <durationTicks>300</durationTicks>
   </WhisperOfTheForest.Vfx.PrefabVfxDef>
 

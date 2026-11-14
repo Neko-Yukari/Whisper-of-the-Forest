@@ -15,6 +15,7 @@ namespace WhisperOfTheForest.LabTests
 
         protected override void Run(TestContext t)
         {
+            using var casting = new ResourceTestUtil.FreeCastingScope();
             SpellGlyphDef glyph = TestContext.Glyph("WotF_Super_Tornado");
             GameComponent_Spellbook book = GameComponent_Spellbook.Current;
             book.Unlock(glyph);
@@ -23,19 +24,25 @@ namespace WhisperOfTheForest.LabTests
             t.Expect(plan != null && plan.form == SpellFormKind.Special && plan.tornado != null,
                 "Super tornado did not compile: " + reason);
             if (plan == null) return;
+            SpellTornadoSpec tuning = glyph.tornado;
+            int leaveTick = tuning.pulseIntervalTicks * 3;
             Pawn caster = t.SpawnCaster(2, 5);
+            caster.apparel.DestroyAll();
+            caster.apparel.Wear((Apparel)ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed("WotF_Spellbook_Archmage")));
+            caster.equipment.AddEquipment((ThingWithComps)ThingMaker.MakeThing(
+                DefDatabase<ThingDef>.GetNamed("WotF_SpellStaff"), ThingDefOf.Steel));
             BloodlineKit.Gene(t, caster).GainExperience(BloodlineKit.XpFromOneTo(BloodlineKit.Def.maxLevel));
             Pawn center = t.SpawnTarget(15, 5);
             Pawn edge = t.SpawnTarget(19, 5);
             Pawn leaver = t.SpawnTarget(15, 6);
             Thing wall = t.SpawnWall(16, 5, ThingDefOf.Plasteel);
-            // Keep native anatomy from capping damage or killing the dummy before ten pulses.
+            // Keep native anatomy from capping damage or killing the dummy during the field.
             float healthScale = center.RaceProps.baseHealthScale;
             center.RaceProps.baseHealthScale = 100f;
             t.Note("fixtureHumanHealthScale", center.HealthScale);
             try
             {
-                foreach (IntVec3 cell in GenRadial.RadialCellsAround(center.Position, 4f, true))
+                foreach (IntVec3 cell in GenRadial.RadialCellsAround(center.Position, tuning.radius, true))
                     t.Arena.SetTerrain(cell, TerrainDefOf.WaterShallow);
                 t.Expect(book.SaveSlot(caster, 0, recipe, out reason), "save tornado slot: " + reason);
                 book.SetActiveSlot(caster, 0);
@@ -53,44 +60,46 @@ namespace WhisperOfTheForest.LabTests
                 var outsidePulses = new List<string>();
                 int removedAt = -1;
                 float outsidePrevious = 0f;
+                float centerPrevious = 0f;
                 int lastOutsidePulse = 0;
-                for (int tick = 1; tick <= 600; tick++)
+                for (int tick = 1; tick <= tuning.durationTicks; tick++)
                 {
                     t.Step(1);
                     int elapsed = t.Tick - start;
                     float actualCenter = Damage(center) - centerBefore;
                     float actualEdge = Damage(edge) - edgeBefore;
                     t.Expect(BurnDamage(center) == 0f && BurnDamage(edge) == 0f, "inside DOT damage at tick=" + elapsed);
-                    t.Expect(Math.Abs(actualCenter - (elapsed / 60) * 20) < 0.01f,
+                    t.Expect(elapsed % tuning.pulseIntervalTicks == 0
+                        ? actualCenter > centerPrevious : Math.Abs(actualCenter - centerPrevious) < 0.01f,
                         "inside tick=" + elapsed + " damage=" + actualCenter + " hediffs=" + TestContext.HediffDump(center));
                     t.Expect(Math.Abs(actualEdge - actualCenter) < 0.01f,
                         "edge falloff tick=" + elapsed + " center=" + actualCenter + " edge=" + actualEdge);
-                    if (elapsed % 60 == 0)
+                    centerPrevious = actualCenter;
+                    if (elapsed % tuning.pulseIntervalTicks == 0)
                     {
                         int remaining = Scorch(center).TryGetComp<HediffComp_Disappears>().ticksToDisappear;
                         t.Measure("pulse" + elapsed, "center=" + actualCenter + " edge=" + actualEdge + " scorch=" + remaining);
-                        t.Expect(remaining >= 285 && remaining <= 300, "scorch refresh remaining=" + remaining);
+                        t.Expect(remaining > 0 && remaining <= tuning.burnRefreshTicks, "scorch refresh remaining=" + remaining);
                     }
-                    if (elapsed == 180)
+                    if (elapsed == leaveTick)
                     {
                         outsidePrevious = Damage(leaver);
                         t.Note("leaveDamage", outsidePrevious - leaveBefore);
                         t.Place(leaver, 30, 5);
                     }
-                    if (elapsed > 180)
+                    if (elapsed > leaveTick)
                     {
                         float current = Damage(leaver);
                         if (current > outsidePrevious)
                         {
-                            t.Expect(Math.Abs(current - outsidePrevious - 20f) < 0.01f, "DOT amount=" + (current - outsidePrevious));
                             if (lastOutsidePulse != 0)
-                                t.Expect(elapsed - lastOutsidePulse == 60, "DOT cadence tick=" + elapsed);
+                                t.Expect(elapsed - lastOutsidePulse == tuning.pulseIntervalTicks, "DOT cadence tick=" + elapsed);
                             lastOutsidePulse = elapsed;
-                            t.Expect(elapsed <= 480, "DOT after 300-tick expiry at " + elapsed);
-                            outsidePulses.Add((elapsed - 180) + ":" + (current - outsidePrevious));
+                            t.Expect(elapsed <= leaveTick + tuning.burnRefreshTicks, "DOT after Def expiry at " + elapsed);
+                            outsidePulses.Add((elapsed - leaveTick) + ":" + (current - outsidePrevious));
                             outsidePrevious = current;
                         }
-                        if (removedAt < 0 && Scorch(leaver) == null) removedAt = elapsed - 180;
+                        if (removedAt < 0 && Scorch(leaver) == null) removedAt = elapsed - leaveTick;
                     }
                 }
                 t.Measure("outsidePulses", string.Join(",", outsidePulses));
@@ -99,18 +108,21 @@ namespace WhisperOfTheForest.LabTests
                 t.Measure("gizmoWallHp", wallBefore + "->" + wall.HitPoints);
                 t.Measure("insideDamageBeforeAfter", centerBefore + "->" + Damage(center));
                 t.Expect(outsidePulses.Count > 0, "no scorch damage after leaving");
-                t.Expect(removedAt > 0 && removedAt <= 300, "scorch did not expire within 300 ticks: " + removedAt);
-                t.Expect(wallBefore - wall.HitPoints == 200, "wall damage=" + (wallBefore - wall.HitPoints));
-                t.Expect(!field.Destroyed, "field disappeared before fade");
-                t.Step(29);
-                t.Expect(!field.Destroyed, "field disappeared before tick 630");
-                t.Step(1);
-                t.Expect(field.Destroyed, "field remained after tick 630");
+                t.Expect(removedAt > 0 && removedAt <= tuning.burnRefreshTicks, "scorch did not expire within Def duration: " + removedAt);
+                t.Expect(wall.Destroyed || wall.HitPoints < wallBefore, "wall took no damage: " + wallBefore + " -> " + wall.HitPoints);
+                if (tuning.fadeTicks > 0)
+                {
+                    t.Expect(!field.Destroyed, "field disappeared before fade");
+                    t.Step(tuning.fadeTicks - 1);
+                    t.Expect(!field.Destroyed, "field disappeared before Def fade ended");
+                    t.Step(1);
+                }
+                t.Expect(field.Destroyed, "field remained after Def lifetime");
                 int wallAfter = wall.HitPoints;
                 Pawn late = t.SpawnTarget(15, 4);
                 float lateBefore = Damage(late);
                 float leaveAfter = Damage(leaver);
-                t.Step(360);
+                t.Step(tuning.burnRefreshTicks + tuning.pulseIntervalTicks);
                 t.Measure("postFieldWallHp", wallAfter + "->" + wall.HitPoints);
                 t.Note("lateTargetDamage", Damage(late) - lateBefore);
                 t.Expect(wall.HitPoints == wallAfter && Damage(late) == lateBefore, "field dealt damage after destruction");

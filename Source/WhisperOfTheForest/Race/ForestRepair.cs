@@ -7,7 +7,7 @@ using Verse.AI;
 namespace WhisperOfTheForest.Race
 {
     /// <summary>
-    /// A bloodline pawn fixing a broken-down building gets a clumsy repair effect instead of the
+    /// A forest craft pawn fixing a broken-down building gets a clumsy repair effect instead of the
     /// vanilla welding sparks. Only JobDriver_FixBrokenDownBuilding is touched; ordinary repairs
     /// (JobDriver_Repair) keep their own effect.
     /// </summary>
@@ -15,8 +15,8 @@ namespace WhisperOfTheForest.Race
     {
         public static EffecterDef EffecterFor(Pawn pawn)
         {
-            Gene_ForestBloodline gene = Gene_ForestBloodline.Get(pawn);
-            return gene == null ? null : ((WotF_ForestBloodlineGeneDef)gene.def).elfRepairEffect;
+            Gene_ForestCraft gene = Gene_ForestCraft.Get(pawn);
+            return gene == null ? null : ((WotF_ForestCraftGeneDef)gene.def).elfRepairEffect;
         }
     }
 

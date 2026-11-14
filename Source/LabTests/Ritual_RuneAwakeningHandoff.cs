@@ -10,9 +10,9 @@ using WhisperOfTheForest.Testing;
 namespace WhisperOfTheForest.LabTests
 {
     /// <summary>
-    /// Rune awakening handoff: the altar takes the chosen rune's materials from the ground and the
-    /// network's mana before the caster starts; the colony-wide unlock happens only when the rite
-    /// finishes; a rune whose materials are missing refuses before any mana is taken.
+    /// Rune awakening handoff: the altar reserves the chosen rune's materials from the ground and the
+    /// network's mana when the caster starts, takes them when the chant completes, and unlocks the rune
+    /// colony-wide only then; a rune whose materials are missing refuses before any mana is taken.
     /// </summary>
     [LabTest]
     public sealed class Ritual_RuneAwakeningHandoff : LabTest
@@ -22,9 +22,9 @@ namespace WhisperOfTheForest.LabTests
         protected override void Run(TestContext t)
         {
             RitualDef def = DefDatabase<RitualDef>.GetNamedSilentFail("WotF_Ritual_RuneAwakening");
-            ThingDef altarDef = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_RitualAltar");
+            ThingDef altarDef = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_RitualAltar_Starlight");
             ThingDef nodeDef = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_ManaNode");
-            ThingDef chalkDef = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_ChalkMark_White");
+            ThingDef chalkDef = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_ChalkMark_Star");
             SpellGlyphDef jadeRune = DefDatabase<SpellGlyphDef>.GetNamedSilentFail("WotF_Effect_Blink");
             SpellGlyphDef steelRune = DefDatabase<SpellGlyphDef>.GetNamedSilentFail("WotF_Effect_Lightning");
             if (def == null || altarDef == null || nodeDef == null || chalkDef == null
@@ -37,13 +37,17 @@ namespace WhisperOfTheForest.LabTests
             Pawn caster = t.SpawnCaster(4, 4);
             caster.drafter.Drafted = false;
             Building altar = Spawn<Building>(altarDef, t, 6, 6);
-            Building node = Spawn<Building>(nodeDef, t, 9, 6);
+            Building node = Spawn<Building>(nodeDef, t, 10, 6);
             if (altar == null || node == null)
             {
                 return;
             }
 
-            List<Thing> ring = SpawnRing(chalkDef, t, 6, 6, def.ringSize);
+            SpawnRing(DefDatabase<ThingDef>.GetNamed("WotF_ChalkMark_White"), t, 6, 6,
+                def.RuneTierFor(1).ringSize);
+            SpawnRing(DefDatabase<ThingDef>.GetNamed("WotF_ChalkMark_Green"), t, 6, 6,
+                def.RuneTierFor(2).ringSize);
+            List<Thing> ring = SpawnRing(chalkDef, t, 6, 6, def.RuneTierFor(jadeRune.tier).ringSize);
             if (ring.Count == 0)
             {
                 t.Fail("no chalk mark was spawned around the altar");
@@ -51,9 +55,17 @@ namespace WhisperOfTheForest.LabTests
             }
 
             Thing jade = ThingMaker.MakeThing(ThingDefOf.Jade);
-            jade.stackCount = 10;
+            jade.stackCount = jadeRune.unlockCost.Find(cost => cost.thingDef == ThingDefOf.Jade).count;
             GenSpawn.Spawn(jade, t.Arena.Cell(7, 6), t.Map, WipeMode.Vanish);
             t.Arena.Track(jade);
+            foreach (SpellGlyphCost cost in jadeRune.unlockCost)
+            {
+                if (cost.thingDef == ThingDefOf.Jade) continue;
+                Thing offering = ThingMaker.MakeThing(cost.thingDef);
+                offering.stackCount = cost.count;
+                GenPlace.TryPlaceThing(offering, t.Arena.Cell(7, 7), t.Map, ThingPlaceMode.Near);
+                t.Arena.Track(offering);
+            }
 
             t.Step(1);
             CompManaBattery nodeComp = Mana_TestFixture.AddBattery(t, node);
@@ -75,12 +87,16 @@ namespace WhisperOfTheForest.LabTests
             float storedBefore = network.Stored;
             t.Expect(!GameComponent_Spellbook.IsUnlockedInData(jadeRune), "the rune was unlocked before the rite started");
             t.Expect(comp.TryStart(def, jadeRune, caster), "the rune awakening did not start with a complete ring and materials");
-            t.Expect(jade.Destroyed || jade.stackCount == 0, "the altar did not consume the rune's jade");
-            t.Expect(network.Stored < storedBefore, "the altar did not take its mana cost from the network");
+            t.Expect(!jade.Destroyed && jade.stackCount > 0,
+                "the altar consumed the rune's jade before the chant completed");
+            t.Expect(Math.Abs(network.Stored - storedBefore) < 0.001f,
+                "the altar took its mana cost before the chant completed");
             t.Expect(!GameComponent_Spellbook.IsUnlockedInData(jadeRune), "the rune unlocked before the rite finished");
             t.Measure("networkAfterStart", network.Stored.ToString("0.##"));
 
             t.Expect(t.StepUntil(() => !comp.IsActive, 2000), "the rite did not finish within the wait limit");
+            t.Expect(jade.Destroyed || jade.stackCount == 0, "the altar did not consume the rune's jade");
+            t.Expect(network.Stored < storedBefore, "the altar did not take its mana cost from the network");
             t.Expect(GameComponent_Spellbook.IsUnlockedInData(jadeRune), "the finished rite did not unlock the rune");
 
             float storedBeforeRefusal = network.Stored;
@@ -112,7 +128,7 @@ namespace WhisperOfTheForest.LabTests
 
         private static T Spawn<T>(ThingDef def, TestContext t, int x, int z) where T : Thing
         {
-            var thing = (T)ThingMaker.MakeThing(def);
+            var thing = (T)ThingMaker.MakeThing(def, def.MadeFromStuff ? ThingDefOf.BlocksGranite : null);
             GenSpawn.Spawn(thing, t.Arena.Cell(x, z), t.Map, WipeMode.Vanish);
             return t.Arena.Track(thing);
         }

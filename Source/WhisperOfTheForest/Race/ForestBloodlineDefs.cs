@@ -20,14 +20,8 @@ namespace WhisperOfTheForest.Race
 
         public int maxLevel;
 
-        /// <summary>Work speed multiplier on a workbench that has a CompPowerTrader.</summary>
-        public float poweredWorkTableSpeedFactor;
-
-        /// <summary>Quality tiers added to a product made at a workbench without a CompPowerTrader.</summary>
-        public int handcraftQualityBonus;
-
-        /// <summary>The effecter a bloodline pawn uses while fixing a broken-down building.</summary>
-        public EffecterDef elfRepairEffect;
+        /// <summary>Base mana restored per second at level x.</summary>
+        public SimpleCurve manaRegenCurve;
 
         /// <summary>Experience needed to leave level x.</summary>
         public SimpleCurve xpToNextLevelCurve;
@@ -92,19 +86,20 @@ namespace WhisperOfTheForest.Race
                 yield return "maxLevel must be at least 1";
             }
 
-            if (poweredWorkTableSpeedFactor <= 0f || poweredWorkTableSpeedFactor > 1f)
+            if (manaRegenCurve == null || manaRegenCurve.PointsCount == 0)
             {
-                yield return "poweredWorkTableSpeedFactor must be in (0, 1]";
+                yield return "manaRegenCurve is empty";
             }
-
-            if (handcraftQualityBonus < 0)
+            else
             {
-                yield return "handcraftQualityBonus must not be negative";
-            }
-
-            if (elfRepairEffect == null)
-            {
-                yield return "elfRepairEffect is null";
+                for (int level = 1; level <= maxLevel; level++)
+                {
+                    if (manaRegenCurve.Evaluate(level) <= 0f)
+                    {
+                        yield return "manaRegenCurve must be positive at level " + level;
+                        break;
+                    }
+                }
             }
 
             if (xpToNextLevelCurve == null || xpToNextLevelCurve.PointsCount == 0)

@@ -23,6 +23,7 @@ namespace WhisperOfTheForest.LabTests
 
         protected override void Run(TestContext t)
         {
+            using var casting = new ResourceTestUtil.FreeCastingScope();
             Pawn caster = t.SpawnCaster(2, 5);
             Pawn target = t.SpawnTarget(17, 5);
             casterId = caster.thingIDNumber;

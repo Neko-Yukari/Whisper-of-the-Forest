@@ -18,11 +18,22 @@ namespace WhisperOfTheForest.Vfx
         /// <summary>Game ticks the effect lives. Required for a fixed-duration effect.</summary>
         public int durationTicks;
 
+        public float scale = 1f;
+        public bool scaleToWidth;
+        public int fadeTicks;
+
         public override IEnumerable<string> ConfigErrors()
         {
             foreach (string error in base.ConfigErrors())
             {
                 yield return error;
+            }
+
+            if (fadeTicks < 0) yield return "fadeTicks must not be negative";
+
+            if (scale <= 0f)
+            {
+                yield return "a PrefabVfxDef needs scale > 0";
             }
 
             if (string.IsNullOrEmpty(prefabPath))

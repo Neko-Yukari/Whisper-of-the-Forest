@@ -10,9 +10,9 @@ using WhisperOfTheForest.Testing;
 namespace WhisperOfTheForest.LabTests
 {
     /// <summary>
-    /// Ritual handoff: a complete chalk ring and a charged network let the altar take the cost and
-    /// start the caster's job; finishing the job restores the caster's mana; a broken ring refuses
-    /// the ritual before any mana is taken.
+    /// Ritual handoff: a complete chalk ring and a charged network let the altar start the caster's
+    /// job; the cost is taken only when the chant completes and the caster's mana is restored then; a
+    /// broken ring refuses the ritual before any mana is taken, and a refused rite costs nothing.
     /// </summary>
     [LabTest]
     public sealed class Ritual_ManaSpringHandoff : LabTest
@@ -69,11 +69,13 @@ namespace WhisperOfTheForest.LabTests
 
             t.Expect(comp.TryStart(def, caster), "the ritual did not start with a complete ring and a charged network");
             t.Expect(comp.IsActive, "the altar did not record an active ritual");
-            t.Expect(network.Stored < nodeComp.Capacity, "the altar did not take its cost from the network");
+            t.Expect(Math.Abs(network.Stored - nodeComp.Capacity) < 0.01f,
+                "the altar took its cost before the chant completed");
             t.Measure("networkAfterStart", network.Stored.ToString("0.##"));
             t.Measure("manaAtStart", gene.CurrentMana.ToString("0.##"));
 
             t.Expect(t.StepUntil(() => !comp.IsActive, 2000), "the ritual did not finish within the wait limit");
+            t.Expect(network.Stored < nodeComp.Capacity, "the altar did not take its cost from the network");
             t.Measure("manaAfterRitual", gene.CurrentMana.ToString("0.##"));
             t.Expect(gene.CurrentMana > 0f, "the completed ritual restored no mana");
 
@@ -106,7 +108,7 @@ namespace WhisperOfTheForest.LabTests
 
         private static T Spawn<T>(ThingDef def, TestContext t, int x, int z) where T : Thing
         {
-            var thing = (T)ThingMaker.MakeThing(def);
+            var thing = (T)ThingMaker.MakeThing(def, def.MadeFromStuff ? ThingDefOf.BlocksGranite : null);
             GenSpawn.Spawn(thing, t.Arena.Cell(x, z), t.Map, WipeMode.Vanish);
             return t.Arena.Track(thing);
         }

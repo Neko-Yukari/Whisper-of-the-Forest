@@ -8,7 +8,8 @@
   <WotF_SpellStaff.description>A prototype staff that casts instead of shooting. Its attack casts the spellbook bookmark chosen on its gizmo; the staff remembers the slot, not a copy, so editing that page changes what it casts. Without a saved spell it cannot attack.</WotF_SpellStaff.description>
   <WotF_SpellStaffShort.label>short spell staff</WotF_SpellStaffShort.label>
   <WotF_SpellStaffShort.description>A short staff for close work against skip-abduction rituals. It cannot cast spells; its attack only disrupts a skip-abduction ritual the target is taking part in, stunning the participants.</WotF_SpellStaffShort.description>
-  <WotF_Spellbook_Basic.label>spellbook</WotF_Spellbook_Basic.label>
-  <WotF_Spellbook_Basic.description>A forest spellbook worn at the hip. In forest-blooded hands it holds the caster's spells and deepens their mana; to anyone else it is only paper.</WotF_Spellbook_Basic.description>
+  <WotF_Spellbook_Apprentice.label>apprentice spellbook</WotF_Spellbook_Apprentice.label>
+  <WotF_Spellbook_Adept.label>adept spellbook</WotF_Spellbook_Adept.label>
+  <WotF_Spellbook_Archmage.label>starlight codex</WotF_Spellbook_Archmage.label>
 
 </LanguageData>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="ApparelBase">
+    <defName>WotF_EntropyCirclet</defName>
+    <label>entropy circlet</label>
+    <description>A circlet forged from elven steel, mithril or adamantine. It accelerates neural heat recovery and raises the wearer's safe neural heat limit.</description>
+    <thingClass>Apparel</thingClass>
+    <techLevel>Medieval</techLevel>
+    <!-- 图标与穿戴图分开：穿戴图走 wornGraphicPath 的头部三朝向图。之前借用 Spellbook/UI/Socket
+         当穿戴图，游戏把整张物品图标按人大小画在身上，出现过一整块深绿方块。 -->
+    <graphicData>
+      <texPath>Apparel/EntropyCirclet/EntropyCirclet</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Mass>0.2</Mass>
+      <WorkToMake>2000</WorkToMake>
+      <Flammability>0.2</Flammability>
+      <EquipDelay>1</EquipDelay>
+      <PsychicEntropyRecoveryRateOffset>0.25</PsychicEntropyRecoveryRateOffset>
+      <PsychicEntropyMaxOffset>20</PsychicEntropyMaxOffset>
+    </statBases>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <costStuffCount>20</costStuffCount>
+    <costList>
+      <Jade>5</Jade>
+    </costList>
+    <thingCategories>
+      <li>Apparel</li>
+    </thingCategories>
+    <apparel>
+      <bodyPartGroups>
+        <li>UpperHead</li>
+      </bodyPartGroups>
+      <tags>
+        <li>WotF_Elven</li>
+        <li>WotF_CourtHead</li>
+      </tags>
+      <wornGraphicPath>Apparel/EntropyCirclet/EntropyCirclet</wornGraphicPath>
+      <!-- 头盔位不隐藏头发（技术/02-魔法实现.md:141）。只增显示字段，散熵 +0.25 与心灵熵上限 +20 未改。 -->
+      <renderSkipFlags>
+        <li>None</li>
+      </renderSkipFlags>
+      <layers>
+        <li>Overhead</li>
+      </layers>
+      <developmentalStageFilter>Adult</developmentalStageFilter>
+    </apparel>
+  </ThingDef>
+
+  <RecipeDef>
+    <defName>Make_WotF_EntropyCirclet</defName>
+    <label>make entropy circlet</label>
+    <description>Forge an entropy circlet from elven steel, mithril or adamantine.</description>
+    <jobString>Forging an entropy circlet.</jobString>
+    <workAmount>2000</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <unfinishedThingDef>UnfinishedApparel</unfinishedThingDef>
+    <skillRequirements><Crafting>3</Crafting></skillRequirements>
+    <ingredients>
+      <li>
+        <filter><thingDefs><li>WotF_ElvenSteel</li><li>WotF_Mithril</li><li>WotF_Adamantine</li></thingDefs></filter>
+        <count>20</count>
+      </li>
+      <li><filter><thingDefs><li>Jade</li></thingDefs></filter><count>5</count></li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs><li>WotF_ElvenSteel</li><li>WotF_Mithril</li><li>WotF_Adamantine</li><li>Jade</li></thingDefs>
+    </fixedIngredientFilter>
+    <products><WotF_EntropyCirclet>1</WotF_EntropyCirclet></products>
+    <productHasIngredientStuff>true</productHasIngredientStuff>
+    <recipeUsers><li>WotF_ManaWorkbench</li></recipeUsers>
+  </RecipeDef>
+</Defs>

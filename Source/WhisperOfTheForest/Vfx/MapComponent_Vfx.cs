@@ -56,15 +56,12 @@ namespace WhisperOfTheForest.Vfx
             {
                 VfxWorker worker = workers[i];
 
-                // A follow effect has no clock of its own: its subject is gone, so it ends with it.
                 if (worker.Def.lifetime == VfxLifetime.FollowThing && FollowGone(worker.Request.follow))
                 {
-                    worker.Stop();
-                    workers.RemoveAt(i);
-                    continue;
+                    worker.FollowLost();
                 }
 
-                worker.Update(deltaSeconds);
+                if (!worker.Finished) worker.Update(deltaSeconds);
                 if (worker.Finished)
                 {
                     worker.Stop();

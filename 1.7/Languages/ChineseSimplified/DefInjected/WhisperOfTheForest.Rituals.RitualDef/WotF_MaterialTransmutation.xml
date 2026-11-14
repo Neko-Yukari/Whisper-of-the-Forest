@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_Ritual_TransmuteLivingWood.label>点化：活木</WotF_Ritual_TransmuteLivingWood.label>
+  <WotF_Ritual_TransmuteLivingWood.description>在一阶或更高祭坛上，以草药唤醒普通原木，产出活木。固定点化，不受共鸣等级加成。</WotF_Ritual_TransmuteLivingWood.description>
+  <WotF_Ritual_TransmuteElvenSteel.label>点化：精灵钢</WotF_Ritual_TransmuteElvenSteel.label>
+  <WotF_Ritual_TransmuteElvenSteel.description>在二阶或更高祭坛上，以活木调和钢铁，产出精灵钢。固定点化，不受共鸣等级加成。</WotF_Ritual_TransmuteElvenSteel.description>
+  <WotF_Ritual_TransmuteAdamantine.label>点化：精金</WotF_Ritual_TransmuteAdamantine.label>
+  <WotF_Ritual_TransmuteAdamantine.description>在三阶祭坛上，以精灵钢与玻璃钢炼成精金。固定点化，不受共鸣等级加成。</WotF_Ritual_TransmuteAdamantine.description>
+  <WotF_Ritual_TransmuteMithril.label>点化：秘银</WotF_Ritual_TransmuteMithril.label>
+  <WotF_Ritual_TransmuteMithril.description>在三阶祭坛上，以精灵钢与白银炼成秘银。固定点化，不受共鸣等级加成。</WotF_Ritual_TransmuteMithril.description>
+</LanguageData>

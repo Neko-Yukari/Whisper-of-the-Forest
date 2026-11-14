@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    Four tiered forest materials (技术/02-魔法实现.md, 「四阶专属材料面板草案」, 2026-11-13).
+
+    Columns are carried one by one onto vanilla fields:
+      质量            -> Mass
+      锐伤倍率        -> SharpDamageMultiplier
+      钝伤倍率        -> BluntDamageMultiplier
+      近战攻速系数    -> stuffProps/statFactors/MeleeWeapon_CooldownMultiplier
+      锐甲/钝甲/热甲  -> StuffPower_Armor_Sharp/Blunt/Heat
+
+    The staff reads the armour columns back out of the material instead of keeping its own table
+    (SpellStaffModifiers.cs: blunt armour lowers the mana cost, heat armour lengthens effects,
+    the sharp/blunt damage average raises damage).
+
+    Category and flammability are fixed by the brief: living wood is Woody at 0.2, the three
+    metals are Metallic and do not burn; adamantine and mithril keep a melee cooldown factor of 1.
+
+    Not carried here, for want of a vanilla stuff field (reported in the handoff):
+      * mithril's two reaction slots and its x0.70 reaction-spell mana cost (spell injection system);
+      * living wood's ranged-cooldown bonus for the elven longbow (the table gives no value).
+
+    No acquisition path on purpose: point-transmutation arrives with the altar tiers, so these are
+    Lab-spawnable only for now.
+
+    Placeholder art: every texPath borrows the mod's own chalk texture, tinted per material, until
+    the M1-M4 stack-count art in 技术/09-美术资产清单 exists. The table asks for Graphic_StackCount,
+    which needs a folder of three images, so the placeholder is Graphic_Single.
+  -->
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>WotF_LivingWood</defName>
+    <label>living wood</label>
+    <description>Living wood cut from the forest's oldest trees. It is still growing: flexible, warm to the touch and slow to burn.</description>
+    <graphicData>
+      <texPath>Things/Item/Chalk</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(122,160,92)</color>
+    </graphicData>
+    <soundInteract>Wood_Drop</soundInteract>
+    <soundDrop>Wood_Drop</soundDrop>
+    <statBases>
+      <Mass>0.30</Mass>
+      <Flammability>0.2</Flammability>
+      <StuffPower_Armor_Sharp>0.72</StuffPower_Armor_Sharp>
+      <StuffPower_Armor_Blunt>0.75</StuffPower_Armor_Blunt>
+      <StuffPower_Armor_Heat>0.60</StuffPower_Armor_Heat>
+      <SharpDamageMultiplier>0.75</SharpDamageMultiplier>
+      <BluntDamageMultiplier>1.05</BluntDamageMultiplier>
+    </statBases>
+    <thingCategories>
+      <li>ResourcesRaw</li>
+    </thingCategories>
+    <burnableByRecipe>true</burnableByRecipe>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <stuffProps>
+      <categories>
+        <li>Woody</li>
+      </categories>
+      <commonality>0</commonality>
+      <allowedInStuffGeneration>false</allowedInStuffGeneration>
+      <appearance>Planks</appearance>
+      <constructEffect>ConstructWood</constructEffect>
+      <color>(122,160,92)</color>
+      <soundImpactBullet>BulletImpact_Wood</soundImpactBullet>
+      <soundMeleeHitSharp>MeleeHit_Wood</soundMeleeHitSharp>
+      <soundMeleeHitBlunt>MeleeHit_Wood</soundMeleeHitBlunt>
+      <soundImpactMelee>Pawn_Melee_Punch_HitBuilding_Wood</soundImpactMelee>
+      <statFactors>
+        <Flammability>0.2</Flammability>
+        <MeleeWeapon_CooldownMultiplier>0.95</MeleeWeapon_CooldownMultiplier>
+      </statFactors>
+    </stuffProps>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+  </ThingDef>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>WotF_ElvenSteel</defName>
+    <label>elven steel</label>
+    <description>A pale blue-silver metal drawn from living wood. Light, keen, and it carries a weave as readily as it cuts.</description>
+    <graphicData>
+      <texPath>Things/Item/Chalk</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(172,206,216)</color>
+    </graphicData>
+    <useHitPoints>false</useHitPoints>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <soundInteract>Metal_Drop</soundInteract>
+    <soundDrop>Metal_Drop</soundDrop>
+    <statBases>
+      <Mass>0.30</Mass>
+      <Flammability>0</Flammability>
+      <StuffPower_Armor_Sharp>1.14</StuffPower_Armor_Sharp>
+      <StuffPower_Armor_Blunt>0.65</StuffPower_Armor_Blunt>
+      <StuffPower_Armor_Heat>0.85</StuffPower_Armor_Heat>
+      <SharpDamageMultiplier>1.12</SharpDamageMultiplier>
+      <BluntDamageMultiplier>1.00</BluntDamageMultiplier>
+    </statBases>
+    <thingCategories>
+      <li>ResourcesRaw</li>
+    </thingCategories>
+    <burnableByRecipe>false</burnableByRecipe>
+    <stuffProps>
+      <categories>
+        <li>Metallic</li>
+      </categories>
+      <commonality>0</commonality>
+      <allowedInStuffGeneration>false</allowedInStuffGeneration>
+      <appearance>Metal</appearance>
+      <constructEffect>ConstructMetal</constructEffect>
+      <isAirtight>true</isAirtight>
+      <color>(172,206,216)</color>
+      <soundImpactBullet>BulletImpact_Metal</soundImpactBullet>
+      <soundMeleeHitSharp>MeleeHit_Metal_Sharp</soundMeleeHitSharp>
+      <soundMeleeHitBlunt>MeleeHit_Metal_Blunt</soundMeleeHitBlunt>
+      <soundImpactMelee>Pawn_Melee_Punch_HitBuilding_Metal</soundImpactMelee>
+      <statFactors>
+        <Flammability>0</Flammability>
+        <MeleeWeapon_CooldownMultiplier>0.82</MeleeWeapon_CooldownMultiplier>
+      </statFactors>
+    </stuffProps>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+  </ThingDef>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>WotF_Adamantine</defName>
+    <label>adamantine</label>
+    <description>A cold, heavy dark-gold metal. Nothing else in the colony is harder to break, and it does not burn.</description>
+    <graphicData>
+      <texPath>Things/Item/Chalk</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(152,120,62)</color>
+    </graphicData>
+    <useHitPoints>false</useHitPoints>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <soundInteract>Metal_Drop</soundInteract>
+    <soundDrop>Metal_Drop</soundDrop>
+    <statBases>
+      <Mass>0.60</Mass>
+      <Flammability>0</Flammability>
+      <StuffPower_Armor_Sharp>1.45</StuffPower_Armor_Sharp>
+      <StuffPower_Armor_Blunt>0.85</StuffPower_Armor_Blunt>
+      <StuffPower_Armor_Heat>1.10</StuffPower_Armor_Heat>
+      <SharpDamageMultiplier>1.35</SharpDamageMultiplier>
+      <BluntDamageMultiplier>1.40</BluntDamageMultiplier>
+    </statBases>
+    <thingCategories>
+      <li>ResourcesRaw</li>
+    </thingCategories>
+    <burnableByRecipe>false</burnableByRecipe>
+    <stuffProps>
+      <categories>
+        <li>Metallic</li>
+      </categories>
+      <commonality>0</commonality>
+      <allowedInStuffGeneration>false</allowedInStuffGeneration>
+      <appearance>Metal</appearance>
+      <constructEffect>ConstructMetal</constructEffect>
+      <isAirtight>true</isAirtight>
+      <color>(152,120,62)</color>
+      <soundImpactBullet>BulletImpact_Metal</soundImpactBullet>
+      <soundMeleeHitSharp>MeleeHit_Metal_Sharp</soundMeleeHitSharp>
+      <soundMeleeHitBlunt>MeleeHit_Metal_Blunt</soundMeleeHitBlunt>
+      <soundImpactMelee>Pawn_Melee_Punch_HitBuilding_Metal</soundImpactMelee>
+      <statFactors>
+        <MaxHitPoints>3.5</MaxHitPoints>
+        <Flammability>0</Flammability>
+        <MeleeWeapon_CooldownMultiplier>1</MeleeWeapon_CooldownMultiplier>
+      </statFactors>
+    </stuffProps>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+  </ThingDef>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>WotF_Mithril</defName>
+    <label>mithril</label>
+    <description>A moon-white metal that feels weightless. Weaves cling to it, so armour and blades made from it take spells into themselves.</description>
+    <graphicData>
+      <texPath>Things/Item/Chalk</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(218,226,240)</color>
+    </graphicData>
+    <useHitPoints>false</useHitPoints>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <soundInteract>Metal_Drop</soundInteract>
+    <soundDrop>Metal_Drop</soundDrop>
+    <statBases>
+      <Mass>0.15</Mass>
+      <Flammability>0</Flammability>
+      <StuffPower_Armor_Sharp>1.20</StuffPower_Armor_Sharp>
+      <StuffPower_Armor_Blunt>0.70</StuffPower_Armor_Blunt>
+      <StuffPower_Armor_Heat>1.00</StuffPower_Armor_Heat>
+      <SharpDamageMultiplier>1.15</SharpDamageMultiplier>
+      <BluntDamageMultiplier>0.95</BluntDamageMultiplier>
+    </statBases>
+    <thingCategories>
+      <li>ResourcesRaw</li>
+    </thingCategories>
+    <burnableByRecipe>false</burnableByRecipe>
+    <stuffProps>
+      <categories>
+        <li>Metallic</li>
+      </categories>
+      <commonality>0</commonality>
+      <allowedInStuffGeneration>false</allowedInStuffGeneration>
+      <appearance>Metal</appearance>
+      <constructEffect>ConstructMetal</constructEffect>
+      <isAirtight>true</isAirtight>
+      <color>(218,226,240)</color>
+      <soundImpactBullet>BulletImpact_Metal</soundImpactBullet>
+      <soundMeleeHitSharp>MeleeHit_Metal_Sharp</soundMeleeHitSharp>
+      <soundMeleeHitBlunt>MeleeHit_Metal_Blunt</soundMeleeHitBlunt>
+      <soundImpactMelee>Pawn_Melee_Punch_HitBuilding_Metal</soundImpactMelee>
+      <statFactors>
+        <Flammability>0</Flammability>
+        <MeleeWeapon_CooldownMultiplier>1</MeleeWeapon_CooldownMultiplier>
+      </statFactors>
+    </stuffProps>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+  </ThingDef>
+
+</Defs>

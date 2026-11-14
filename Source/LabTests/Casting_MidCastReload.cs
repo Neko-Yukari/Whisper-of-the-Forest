@@ -22,6 +22,9 @@ namespace WhisperOfTheForest.LabTests
         protected override void Run(TestContext t)
         {
             Pawn caster = t.SpawnCaster(2, 5);
+            var mana = BloodlineKit.Gene(t, caster);
+            mana.RefreshMaxFromStats();
+            mana.Value = mana.MaxMana;
             Pawn target = t.SpawnTarget(12, 5);
             casterId = caster.thingIDNumber;
             targetId = target.thingIDNumber;

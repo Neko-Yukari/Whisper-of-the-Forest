@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <StatDef>
+    <defName>WotF_RitualPower</defName>
+    <label>ritual resonance</label>
+    <description>Ritual levels supplied by linked facilities. The host and all helpers add their forest bloodline levels.</description>
+    <category>Building</category>
+    <defaultBaseValue>0</defaultBaseValue>
+    <toStringStyle>FloatOne</toStringStyle>
+  </StatDef>
+  <!-- 占位：设施造价、耐久、工时、美观、距离和灯光参数；灯台 +2/最多4座是已定值。 -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>WotF_RitualLivingwoodLamp</defName>
+    <label>livingwood ritual lamp</label>
+    <description>A livingwood lamp that adds two resonance levels to a nearby altar. Up to four lamps can assist one altar.</description>
+    <thingClass>Building</thingClass>
+    <designationCategory>Misc</designationCategory>
+    <size>(1,1)</size><rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer><passability>PassThroughOnly</passability><fillPercent>0.2</fillPercent>
+    <graphicData><texPath>Buildings/RitualLivingwoodLampPlaceholder</texPath><graphicClass>Graphic_Single</graphicClass></graphicData>
+    <statBases><MaxHitPoints>120</MaxHitPoints><WorkToBuild>500</WorkToBuild><Beauty>8</Beauty><Flammability>0.2</Flammability></statBases>
+    <costList><WotF_LivingWood>20</WotF_LivingWood><Jade>5</Jade></costList>
+    <comps>
+      <li Class="CompProperties_Facility">
+        <maxSimultaneous>4</maxSimultaneous><maxDistance>10</maxDistance>
+        <statOffsets><WotF_RitualPower>2</WotF_RitualPower></statOffsets>
+      </li>
+      <li Class="CompProperties_Glower"><glowRadius>5</glowRadius><glowColor>(0.55,0.82,0.59,0)</glowColor></li>
+    </comps>
+    <placeWorkers><li>PlaceWorker_ShowFacilitiesConnections</li></placeWorkers>
+  </ThingDef>
+  <!-- 原版 Core SculptureBase 自带 CompQuality、CompArt 与艺术冥想焦点；不引用 Anomaly Def。
+       占位：品质 Awful..Legendary 提供 1/1/2/3/4/5/6 级，距离10；最多6座是已定值。
+       造价、工时、美观、耐久为占位，冥想强度沿用 Core SculptureBase 品质曲线。 -->
+  <ThingDef ParentName="SculptureBase">
+    <defName>WotF_RitualElvenStatue</defName>
+    <label>elven ritual statue</label>
+    <description>A carved elven figure that amplifies nearby forest rites according to its artistic quality. Up to six statues can assist one altar. It also serves as an artistic meditation focus.</description>
+    <graphicData><texPath>Buildings/RitualElvenStatuePlaceholder</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(1,1)</drawSize></graphicData>
+    <size>(1,1)</size><fillPercent>0.35</fillPercent>
+    <designationCategory>Furniture</designationCategory>
+    <!-- 原版雕像由刚台制作；本节只做可建造的仪式设施，去掉继承来的刚台单。 -->
+    <recipeMaker Inherit="False" />
+    <statBases><MaxHitPoints>150</MaxHitPoints><Mass>5</Mass><Beauty>80</Beauty><WorkToMake>18000</WorkToMake><Flammability>0.2</Flammability></statBases>
+    <costList><WotF_LivingWood>50</WotF_LivingWood><Jade>10</Jade></costList>
+    <comps>
+      <li Class="CompProperties_FacilityQualityBased">
+        <maxSimultaneous>6</maxSimultaneous><maxDistance>10</maxDistance>
+        <statOffsetsPerQuality>
+          <li><key>WotF_RitualPower</key><value>
+            <li><key>Awful</key><value>1</value></li>
+            <li><key>Poor</key><value>1</value></li>
+            <li><key>Normal</key><value>2</value></li>
+            <li><key>Good</key><value>3</value></li>
+            <li><key>Excellent</key><value>4</value></li>
+            <li><key>Masterwork</key><value>5</value></li>
+            <li><key>Legendary</key><value>6</value></li>
+          </value></li>
+        </statOffsetsPerQuality>
+      </li>
+    </comps>
+    <placeWorkers><li>PlaceWorker_ShowFacilitiesConnections</li></placeWorkers>
+  </ThingDef>
+</Defs>

@@ -20,6 +20,7 @@ namespace WhisperOfTheForest.LabTests
 
         protected override void Run(TestContext t)
         {
+            using var casting = new ResourceTestUtil.FreeCastingScope();
             Pawn caster = t.SpawnCaster(3, 4);
             Pawn witness = t.SpawnTarget(5, 4);
             IntVec3 cell = t.Arena.Cell(4, 4);
@@ -73,6 +74,7 @@ namespace WhisperOfTheForest.LabTests
         {
             var book = GameComponent_Spellbook.Current;
             book.Unlock(TestContext.Glyph("WotF_Augment_AOE"));
+            book.Unlock(TestContext.Glyph("WotF_Effect_Freeze"));
             var recipe = TestContext.Recipe(name, SpellDefs.FormTouch, "WotF_Effect_Freeze", "WotF_Augment_AOE");
             t.Expect(book.SaveSlot(caster, 0, recipe, out string reason), reason);
             book.SetActiveSlot(caster, 0);

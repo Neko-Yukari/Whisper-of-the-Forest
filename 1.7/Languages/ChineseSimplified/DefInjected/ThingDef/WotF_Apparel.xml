@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <!-- DefInjected path = <defName>.<field>. The parent folder (DefInjected/ThingDef) already supplies
+       the def type; a leading "ThingDef." segment is read as a defName and fails to load. -->
+
+  <WotF_ElvenDressTraditional_I.label>精灵传统长裙 I</WotF_ElvenDressTraditional_I.label>
+  <WotF_ElvenDressTraditional_I.description>一体式的精灵传统长裙，覆盖躯干与双腿。以布料或皮革织成，兼具保暖与隔热，是林地村庄最常见的日常穿着。</WotF_ElvenDressTraditional_I.description>
+
+  <WotF_ElvenDressTraditional_II.label>精灵传统长裙 II</WotF_ElvenDressTraditional_II.label>
+  <WotF_ElvenDressTraditional_II.description>精灵传统剪裁的第二式：同样是覆盖躯干与双腿的连身长裙，款式不同，一样抵御寒暑。</WotF_ElvenDressTraditional_II.description>
+
+  <WotF_ElvenApronDress.label>精灵围裙装</WotF_ElvenApronDress.label>
+  <WotF_ElvenApronDress.description>林地人家的家常围裙装。衣型让双手完全自由，穿着者在花草间劳作时略快一些。</WotF_ElvenApronDress.description>
+
+  <WotF_ElvenHunterUndershirt.label>精灵猎装内衬</WotF_ElvenHunterUndershirt.label>
+  <WotF_ElvenHunterUndershirt.description>为潜行而剪的贴身内衬，可无褶地罩在披风或轻甲之内；合身的剪裁让穿着者在近战中更难被击中。</WotF_ElvenHunterUndershirt.description>
+
+  <WotF_ElvenFormalGown.label>精灵礼服长裙</WotF_ElvenFormalGown.label>
+  <WotF_ElvenFormalGown.description>织入金线的分层丝质礼裙，专为被人看见而做：穿着者显得更有气派，也更悦目。</WotF_ElvenFormalGown.description>
+
+  <WotF_ElvenTravelCloak.label>精灵远行斗篷</WotF_ElvenTravelCloak.label>
+  <WotF_ElvenTravelCloak.description>带行囊背带的长斗篷，剪裁覆盖除头部以外的全身，挡风、挡雨也挡日晒；背带让穿着者能多背一些东西。</WotF_ElvenTravelCloak.description>
+
+  <WotF_ElvenLightArmor.label>精灵轻甲</WotF_ElvenLightArmor.label>
+  <WotF_ElvenLightArmor.description>游侠式护具：皮革与活木制成的胸甲与护臂压在精灵内衬之上，裙摆仍可自由摆动。完全不拖慢脚步，并让瞄准更稳。</WotF_ElvenLightArmor.description>
+
+  <WotF_ElvenMageRobe.label>精灵法袍</WotF_ElvenMageRobe.label>
+  <WotF_ElvenMageRobe.description>沿缝线嵌着水晶导脉的法师外袍，罩在精灵内衬之外，拓宽佩戴者的魔力池并加快其恢复。秘银线升级尚未实装。</WotF_ElvenMageRobe.description>
+
+  <WotF_ElvenWarArmor.label>精灵战甲</WotF_ElvenWarArmor.label>
+  <WotF_ElvenWarArmor.description>整块金属锻成的精灵战甲，配以护肩。它护住头部以下的全身，代价是略微拖慢脚步。这是剑卫与执政官的形制；注法槽尚未铭刻。</WotF_ElvenWarArmor.description>
+
+  <WotF_ElvenFlowerWreath.label>精灵花环</WotF_ElvenFlowerWreath.label>
+  <WotF_ElvenFlowerWreath.description>以活叶与小花编成的额环，不遮头发也不遮面容；佩戴者交谈时更容易给人好印象。心情加成待 C# 实现。</WotF_ElvenFlowerWreath.description>
+
+  <WotF_ElvenSunHat.label>精灵阳帽</WotF_ElvenSunHat.label>
+  <WotF_ElvenSunHat.description>宽檐编织阳帽，为面容遮阳而不压住头发；佩戴者交谈时更容易给人好印象。心情加成待 C# 实现。</WotF_ElvenSunHat.description>
+
+  <WotF_ElvenTravelHood.label>精灵远行风帽</WotF_ElvenTravelHood.label>
+  <WotF_ElvenTravelHood.description>与远行斗篷相配的深兜帽，整头包裹以挡风、御寒、遮阳，面容与发梢仍然露出。</WotF_ElvenTravelHood.description>
+
+  <WotF_ElvenWarCrown.label>精灵战冠</WotF_ElvenWarCrown.label>
+  <WotF_ElvenWarCrown.description>以整块金属锻成的翼形战冠。它像重盔一样护住整个头部，敞开的面部仍让佩戴者的神情与头发可见。</WotF_ElvenWarCrown.description>
+
+</LanguageData>

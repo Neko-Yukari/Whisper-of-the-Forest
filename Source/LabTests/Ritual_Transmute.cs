@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using RimWorld;
 using Verse;
 using WhisperOfTheForest.Mana;
@@ -8,8 +9,8 @@ using WhisperOfTheForest.Testing;
 namespace WhisperOfTheForest.LabTests
 {
     /// <summary>
-    /// Transmutation handoff: the altar must take the Def's input materials when the rite starts
-    /// and leave the Def's products beside it when the rite finishes.
+    /// Transmutation handoff: the altar must reserve the Def's input materials when the rite starts,
+    /// take them only when the chant completes, and leave the Def's products beside it.
     /// </summary>
     [LabTest]
     public sealed class Ritual_Transmute : LabTest
@@ -19,7 +20,7 @@ namespace WhisperOfTheForest.LabTests
         protected override void Run(TestContext t)
         {
             RitualDef def = DefDatabase<RitualDef>.GetNamedSilentFail("WotF_Ritual_TransmuteGreenChalk");
-            ThingDef altarDef = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_RitualAltar");
+            ThingDef altarDef = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_RitualAltar_LivingWood");
             ThingDef nodeDef = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_ManaNode");
             ThingDef chalkDef = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_ChalkMark_White");
             ThingDef inputChalk = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_Chalk");
@@ -50,15 +51,17 @@ namespace WhisperOfTheForest.LabTests
             }
 
             SpawnRing(chalkDef, t, 6, 6, def.ringSize);
-            SpawnStack(inputChalk, t, 6, 8, 5);
-            SpawnStack(herb, t, 7, 8, 20);
+            SpawnStack(inputChalk, t, 6, 8, def.inputCosts.Single(c => c.thingDef == inputChalk).count);
+            SpawnStack(herb, t, 7, 8, def.inputCosts.Single(c => c.thingDef == herb).count);
             nodeComp.SetStored(nodeComp.Capacity);
             t.Expect(comp.TryStart(def, caster), "the transmutation did not start");
-            t.Expect(Count(t, inputChalk) == 0 && Count(t, herb) == 0,
-                "the altar did not consume its inputs when the rite started");
+            t.Expect(Count(t, inputChalk) > 0 && Count(t, herb) > 0,
+                "the altar consumed its inputs before the chant completed");
             t.Expect(t.StepUntil(() => !comp.IsActive, 1000), "the transmutation did not finish");
-            t.Expect(Count(t, output) == 5,
-                "expected 5 green chalk beside the altar, found " + Count(t, output));
+            t.Expect(Count(t, inputChalk) == 0 && Count(t, herb) == 0,
+                "the altar did not consume its inputs when the chant completed");
+            t.Expect(Count(t, output) == def.outputProducts.Single(p => p.thingDef == output).count,
+                "output differs from ritual Def, found " + Count(t, output));
         }
 
         private static int Count(TestContext t, ThingDef def)
@@ -102,7 +105,7 @@ namespace WhisperOfTheForest.LabTests
 
         private static T Spawn<T>(ThingDef def, TestContext t, int x, int z) where T : Thing
         {
-            var thing = (T)ThingMaker.MakeThing(def);
+            var thing = (T)ThingMaker.MakeThing(def, def.MadeFromStuff ? ThingDefOf.BlocksGranite : null);
             GenSpawn.Spawn(thing, t.Arena.Cell(x, z), t.Map, WipeMode.Vanish);
             return t.Arena.Track(thing);
         }

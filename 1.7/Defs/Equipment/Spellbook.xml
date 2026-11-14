@@ -1,27 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
-
-  <!--
-    The spellbook as a worn item.
-
-    It has its own apparel layer, so it never competes with a shield belt or any other utility
-    item for the waist. Casting needs the forest bloodline and a worn book (SpellService). The
-    book's extension sets how many of the wearer's own spell slots are open; slots beyond that
-    keep their spells sealed until a book with more slots is worn again. Its mana numbers are
-    ordinary equippedStatOffsets on the bloodline stats.
-
-    Numbers are placeholders; how books are obtained and graded is still open.
-  -->
   <ApparelLayerDef>
     <defName>WotF_SpellbookLayer</defName>
     <label>spellbook</label>
     <drawOrder>310</drawOrder>
   </ApparelLayerDef>
 
-  <ThingDef ParentName="ApparelBase">
-    <defName>WotF_Spellbook_Basic</defName>
-    <label>spellbook</label>
-    <description>A forest spellbook worn at the hip. In forest-blooded hands it holds the caster's spells and deepens their mana; to anyone else it is only paper.</description>
+  <!-- Spells belong to the pawn. A smaller book seals surplus slots without deleting them. -->
+  <ThingDef Name="WotF_SpellbookBase" ParentName="ApparelBase" Abstract="True">
     <thingClass>Apparel</thingClass>
     <techLevel>Medieval</techLevel>
     <graphicData>
@@ -34,12 +20,7 @@
       <Flammability>1</Flammability>
       <EquipDelay>1</EquipDelay>
     </statBases>
-    <!-- Paper and binding: nothing to smelt back. -->
     <smeltable>false</smeltable>
-    <equippedStatOffsets>
-      <WotF_ManaMax>20</WotF_ManaMax>
-      <WotF_ManaRegen>0.5</WotF_ManaRegen>
-    </equippedStatOffsets>
     <thingCategories>
       <li>ApparelUtility</li>
     </thingCategories>
@@ -48,19 +29,57 @@
       <careIfWornByCorpse>false</careIfWornByCorpse>
       <careIfDamaged>false</careIfDamaged>
       <wearPerDay>0</wearPerDay>
-      <bodyPartGroups>
-        <li>Waist</li>
-      </bodyPartGroups>
-      <layers>
-        <li>WotF_SpellbookLayer</li>
-      </layers>
+      <bodyPartGroups><li>Waist</li></bodyPartGroups>
+      <layers><li>WotF_SpellbookLayer</li></layers>
       <developmentalStageFilter>Adult</developmentalStageFilter>
     </apparel>
+  </ThingDef>
+
+  <ThingDef ParentName="WotF_SpellbookBase">
+    <defName>WotF_Spellbook_Apprentice</defName>
+    <label>apprentice spellbook</label>
+    <description>A forest spellbook worn at the hip. Opens four spell slots and strengthens the wearer's mana. It cannot hold super runes.</description>
+    <equippedStatOffsets>
+      <WotF_ManaMax>20</WotF_ManaMax>
+      <WotF_ManaRegen>0.5</WotF_ManaRegen>
+    </equippedStatOffsets>
     <modExtensions>
       <li Class="WhisperOfTheForest.Spells.SpellbookExtension">
-        <slotCount>10</slotCount>
+        <slotCount>4</slotCount>
       </li>
     </modExtensions>
   </ThingDef>
 
+  <ThingDef ParentName="WotF_SpellbookBase">
+    <defName>WotF_Spellbook_Adept</defName>
+    <label>adept spellbook</label>
+    <description>An advanced forest spellbook. Opens seven spell slots and strengthens the wearer's mana. It cannot hold super runes.</description>
+    <graphicData><color>(0.45,0.85,0.65)</color></graphicData>
+    <equippedStatOffsets>
+      <WotF_ManaMax>45</WotF_ManaMax>
+      <WotF_ManaRegen>1.2</WotF_ManaRegen>
+    </equippedStatOffsets>
+    <modExtensions>
+      <li Class="WhisperOfTheForest.Spells.SpellbookExtension">
+        <slotCount>7</slotCount>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="WotF_SpellbookBase">
+    <defName>WotF_Spellbook_Archmage</defName>
+    <label>starlight codex</label>
+    <description>A starlight codex. Opens all ten spell slots and can hold super runes. Casting a super spell also requires a staff in the main hand.</description>
+    <graphicData><color>(0.7,0.6,1)</color></graphicData>
+    <equippedStatOffsets>
+      <WotF_ManaMax>80</WotF_ManaMax>
+      <WotF_ManaRegen>2.5</WotF_ManaRegen>
+    </equippedStatOffsets>
+    <modExtensions>
+      <li Class="WhisperOfTheForest.Spells.SpellbookExtension">
+        <slotCount>10</slotCount>
+        <allowsSuperGlyphs>true</allowsSuperGlyphs>
+      </li>
+    </modExtensions>
+  </ThingDef>
 </Defs>

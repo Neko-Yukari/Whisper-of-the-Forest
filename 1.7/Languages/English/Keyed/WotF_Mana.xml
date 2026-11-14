@@ -8,4 +8,9 @@
   <WotF_ManaConverter_On>Powered · {0} mana/s</WotF_ManaConverter_On>
   <WotF_ManaConverter_Off>No power · not converting</WotF_ManaConverter_Off>
   <WotF_SpellTurret_Inspect>Network mana {0} · {1} per shot</WotF_SpellTurret_Inspect>
+  <WotF_ManaFurnace_Full>Network full · not burning</WotF_ManaFurnace_Full>
+  <WotF_ManaWorkbench_Rate>Working consumption: {0} mana/s</WotF_ManaWorkbench_Rate>
+  <WotF_ManaWorkbench_NoMana>No mana · work stopped</WotF_ManaWorkbench_NoMana>
+  <WotF_ManaNetwork_Toggle>Show mana network links and storage</WotF_ManaNetwork_Toggle>
+  <WotF_ManaNetwork_Stored>Mana {0} / {1}</WotF_ManaNetwork_Stored>
 </LanguageData>

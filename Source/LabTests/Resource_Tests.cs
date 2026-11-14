@@ -15,6 +15,21 @@ namespace WhisperOfTheForest.LabTests
     /// </summary>
     internal static class ResourceTestUtil
     {
+        internal sealed class FreeCastingScope : System.IDisposable
+        {
+            private readonly bool previous = WotfMod.Settings.freeCasting;
+
+            public FreeCastingScope()
+            {
+                WotfMod.Settings.freeCasting = true;
+            }
+
+            public void Dispose()
+            {
+                WotfMod.Settings.freeCasting = previous;
+            }
+        }
+
         public static SpellRecipe SaveCosted(TestContext t, Pawn caster, int slot, string name,
             string costedGlyph, float mana, float entropy, float experience, params string[] glyphs)
         {
@@ -45,11 +60,26 @@ namespace WhisperOfTheForest.LabTests
         {
             return DefDatabase<StatDef>.GetNamed(defName);
         }
+
+        /// <summary>Runs a cost test with the free-casting development switch off, then puts it back.</summary>
+        public static void WithPaidCasting(System.Action body)
+        {
+            bool old = WotfMod.Settings.freeCasting;
+            try
+            {
+                WotfMod.Settings.freeCasting = false;
+                body();
+            }
+            finally
+            {
+                WotfMod.Settings.freeCasting = old;
+            }
+        }
     }
 
     /// <summary>
     /// Mana recovers by the WotF_ManaRegen stat; the worn book adds to the cap and to recovery, and
-    /// a hex halves recovery.
+    /// a hex reduces recovery.
     /// </summary>
     [LabTest]
     public sealed class Resource_ManaRegenAndCap : LabTest
@@ -81,11 +111,13 @@ namespace WhisperOfTheForest.LabTests
             t.Expect(Mathf.Abs(gene.CurrentMana - withBookRegen * 10f) < withBookRegen * 0.5f,
                 "mana after 10 s from empty is " + gene.CurrentMana + ", expected about " + withBookRegen * 10f);
 
-            caster.health.AddHediff(DefDatabase<HediffDef>.GetNamed("WotF_Hediff_Hex"));
+            HediffDef hex = DefDatabase<HediffDef>.GetNamed("WotF_Hediff_Hex");
+            float hexFactor = hex.stages[0].statFactors.GetStatFactorFromList(regenStat);
+            caster.health.AddHediff(hex);
             float hexedRegen = caster.GetStatValue(regenStat);
             t.Note("regenHexed", hexedRegen);
-            t.Expect(Mathf.Abs(hexedRegen - withBookRegen * 0.5f) < 0.01f,
-                "hexed recovery " + hexedRegen + ", expected half of " + withBookRegen);
+            t.Expect(Mathf.Abs(hexedRegen - withBookRegen * hexFactor) < 0.01f,
+                "hexed recovery " + hexedRegen + ", expected Def factor " + hexFactor + " applied to " + withBookRegen);
 
             caster.apparel.Remove(book);
             book.Destroy();
@@ -93,7 +125,7 @@ namespace WhisperOfTheForest.LabTests
             t.Note("maxWithoutBook", gene.MaxMana);
             t.Expect(Mathf.Abs(gene.MaxMana - gene.LevelManaMax) < 0.01f,
                 "mana cap without book " + gene.MaxMana + ", expected the level's " + gene.LevelManaMax);
-            t.Expect(Mathf.Abs(caster.GetStatValue(regenStat) - (withBookRegen - bookRegen) * 0.5f) < 0.01f,
+            t.Expect(Mathf.Abs(caster.GetStatValue(regenStat) - (withBookRegen - bookRegen) * hexFactor) < 0.01f,
                 "recovery without book should lose exactly the book's " + bookRegen);
         }
     }
@@ -108,6 +140,11 @@ namespace WhisperOfTheForest.LabTests
         public override string Name => "resource.cost-frozen-and-paid";
 
         protected override void Run(TestContext t)
+        {
+            ResourceTestUtil.WithPaidCasting(() => RunPaid(t));
+        }
+
+        private static void RunPaid(TestContext t)
         {
             Pawn caster = t.SpawnCaster(1, 5);
             Pawn target = t.SpawnTarget(9, 5);
@@ -169,6 +206,11 @@ namespace WhisperOfTheForest.LabTests
         public override string Name => "resource.cost-refused";
 
         protected override void Run(TestContext t)
+        {
+            ResourceTestUtil.WithPaidCasting(() => RunPaid(t));
+        }
+
+        private static void RunPaid(TestContext t)
         {
             Pawn caster = t.SpawnCaster(1, 5);
             Pawn target = t.SpawnTarget(9, 5);
@@ -237,36 +279,37 @@ namespace WhisperOfTheForest.LabTests
             Pawn second = t.SpawnCaster(1, 7);
             SpellRecipe dart = TestContext.Recipe("own-dart", SpellDefs.FormProjectile, SpellDefs.EffectHarm);
 
-            t.Expect(component.SaveSlot(first, 5, dart, out string saved), "save slot 5 refused: " + saved);
-            t.Expect(component.GetSlot(second, 5) == null, "the second caster sees the first caster's spell");
-
             Apparel book = SpellService.WornSpellbook(first);
+            SpellbookExtension extension = book.def.GetModExtension<SpellbookExtension>();
+            int storedSlot = extension.slotCount - 1;
+            t.Expect(component.SaveSlot(first, storedSlot, dart, out string saved), "save last open slot refused: " + saved);
+            t.Expect(component.GetSlot(second, storedSlot) == null, "the second caster sees the first caster's spell");
+
             first.apparel.Remove(book);
             bool can = SpellService.CanCast(first, dart, out string noBook);
             t.Measure("noBookReason", noBook ?? "null");
             t.Expect(!can, "a caster without a book was allowed to cast");
-            t.Expect(component.GetSlot(first, 5) == null, "a slot reads as open without a book");
-            t.Expect(component.StoredSpellName(first, 5) == "own-dart", "taking the book off lost the spell");
+            t.Expect(component.GetSlot(first, storedSlot) == null, "a slot reads as open without a book");
+            t.Expect(component.StoredSpellName(first, storedSlot) == "own-dart", "taking the book off lost the spell");
 
             first.apparel.Wear(book, false, true);
-            t.Expect(component.GetSlot(first, 5) != null, "the spell did not come back with the book");
+            t.Expect(component.GetSlot(first, storedSlot) != null, "the spell did not come back with the book");
 
-            SpellbookExtension extension = book.def.GetModExtension<SpellbookExtension>();
             int oldCount = extension.slotCount;
             try
             {
-                extension.slotCount = 2;
-                t.Expect(component.GetSlot(first, 5) == null, "slot 5 stays open under a 2-slot book");
-                t.Expect(!component.SaveSlot(first, 6, dart, out string sealedReason), "a sealed slot accepted a save");
+                extension.slotCount = storedSlot;
+                t.Expect(component.GetSlot(first, storedSlot) == null, "the stored slot stays open under a smaller book");
+                t.Expect(!component.SaveSlot(first, extension.slotCount, dart, out string sealedReason), "a sealed slot accepted a save");
                 t.Measure("sealedReason", sealedReason ?? "null");
-                t.Expect(component.SaveSlot(first, 1, dart, out string openReason), "open slot 1 refused: " + openReason);
+                t.Expect(component.SaveSlot(first, extension.slotCount - 1, dart, out string openReason), "last open slot refused: " + openReason);
             }
             finally
             {
                 extension.slotCount = oldCount;
             }
 
-            t.Expect(component.GetSlot(first, 5) != null, "slot 5 did not reopen with the full book");
+            t.Expect(component.GetSlot(first, storedSlot) != null, "the stored slot did not reopen with the full book");
 
             Pawn elf = PawnGenerator.GeneratePawn(new PawnGenerationRequest(
                 DefDatabase<PawnKindDef>.GetNamed("WotF_Elf_Colonist"), Faction.OfPlayer,

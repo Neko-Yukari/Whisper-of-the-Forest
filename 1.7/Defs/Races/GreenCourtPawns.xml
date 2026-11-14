@@ -4,12 +4,36 @@
   <!--
     Pawn kinds for the Verdant Court faction. The race is the HAR elf; the bloodline gene
     comes from the race itself (raceGenes), so every generated member can hold mana.
+
+    Court loadout (2026-11-14): four of the five combat kinds (sword guard, sentinel, arcanist,
+    archon) carry a CourtGearExtension that names the material of each generated garment and weapon,
+    because the four forest stuffs are allowedInStuffGeneration=false and the generator can never
+    pick them. The ranger has none: its longbow and mantle are not made from stuff. The extension is
+    data only; Source/WhisperOfTheForest/Court applies it after generation. Villager and trader keep
+    their vanilla neolithic gear on purpose (D5).
   -->
   <PawnKindDef Name="WotF_ElfBase" Abstract="True">
     <race>WotF_Elf</race>
+    <!-- All court kinds inherit this set; weight 1 leaves no baseliner share. -->
+    <xenotypeSet>
+      <xenotypeChances>
+        <WotF_ElfXenotype MayRequire="Ludeon.RimWorld.Biotech">1</WotF_ElfXenotype>
+      </xenotypeChances>
+    </xenotypeSet>
     <fixedGender>Female</fixedGender>
     <nameMakerFemale>WotF_ElfNames</nameMakerFemale>
     <defaultFactionDef>WotF_GreenCourt</defaultFactionDef>
+    <!-- Override prevents the faction's Tribal filter from joining this pool. -->
+    <backstoryFiltersOverride>
+      <li>
+        <categoriesChildhood>
+          <li>GreenCourt_Childhood</li>
+        </categoriesChildhood>
+        <categoriesAdulthood>
+          <li>GreenCourt_General</li>
+        </categoriesAdulthood>
+      </li>
+    </backstoryFiltersOverride>
     <maxGenerationAge>600</maxGenerationAge>
     <chemicalAddictionChance>0.02</chemicalAddictionChance>
     <invNutrition>2.55</invNutrition>
@@ -39,36 +63,87 @@
 
   <PawnKindDef ParentName="WotF_ElfBase">
     <defName>WotF_Elf_Warrior</defName>
-    <label>forest warden</label>
+    <backstoryFiltersOverride Inherit="False">
+      <li>
+        <categoriesChildhood>
+          <li>GreenCourt_Childhood</li>
+        </categoriesChildhood>
+        <categoriesAdulthood>
+          <li>GreenCourt_Melee</li>
+        </categoriesAdulthood>
+      </li>
+    </backstoryFiltersOverride>
+    <label>court sword guard</label>
     <combatPower>55</combatPower>
     <isFighter>true</isFighter>
     <itemQuality>Poor</itemQuality>
     <gearHealthRange>0.5~1.8</gearHealthRange>
-    <weaponTags>
-      <li>NeolithicMeleeDecent</li>
+    <weaponTags Inherit="False">
+      <li>WotF_ElvenSword</li>
     </weaponTags>
-    <weaponMoney>150~200</weaponMoney>
-    <apparelMoney>250~400</apparelMoney>
+    <weaponMoney>200~300</weaponMoney>
+    <apparelTags Inherit="False">
+      <li>WotF_CourtDress</li>
+    </apparelTags>
+    <apparelMoney>250~450</apparelMoney>
+    <apparelRequired>
+      <li>WotF_ElvenLightArmor</li>
+      <li>WotF_TerrainStride</li>
+    </apparelRequired>
     <requiredWorkTags>
       <li>Violent</li>
     </requiredWorkTags>
     <techHediffsChance>0.02</techHediffsChance>
     <initialWillRange>1~3</initialWillRange>
     <initialResistanceRange>5~9</initialResistanceRange>
+    <modExtensions>
+      <li Class="WhisperOfTheForest.Court.CourtGearExtension">
+        <gear>
+          <li>
+            <thingDef>WotF_ElvenLightArmor</thingDef>
+            <stuffs>
+              <li>WotF_ElvenSteel</li>
+            </stuffs>
+          </li>
+          <li>
+            <thingDef>WotF_ElvenLongsword</thingDef>
+            <stuffs>
+              <li>WotF_ElvenSteel</li>
+            </stuffs>
+          </li>
+        </gear>
+      </li>
+    </modExtensions>
   </PawnKindDef>
 
   <PawnKindDef ParentName="WotF_ElfBase">
     <defName>WotF_Elf_Archer</defName>
-    <label>forest archer</label>
+    <backstoryFiltersOverride Inherit="False">
+      <li>
+        <categoriesChildhood>
+          <li>GreenCourt_Childhood</li>
+        </categoriesChildhood>
+        <categoriesAdulthood>
+          <li>GreenCourt_Range</li>
+        </categoriesAdulthood>
+      </li>
+    </backstoryFiltersOverride>
+    <label>court ranger</label>
     <combatPower>50</combatPower>
     <isFighter>true</isFighter>
     <itemQuality>Poor</itemQuality>
     <gearHealthRange>0.5~1.8</gearHealthRange>
-    <weaponTags>
-      <li>NeolithicRangedBasic</li>
+    <weaponTags Inherit="False">
+      <li>WotF_ElvenBow</li>
     </weaponTags>
     <weaponMoney>100~150</weaponMoney>
+    <apparelTags Inherit="False">
+      <li>WotF_CourtDress</li>
+    </apparelTags>
     <apparelMoney>200~350</apparelMoney>
+    <apparelRequired>
+      <li>WotF_TerrainStride</li>
+    </apparelRequired>
     <disallowedTraits>
       <li>Brawler</li>
     </disallowedTraits>
@@ -101,18 +176,33 @@
 
   <PawnKindDef ParentName="WotF_ElfBase">
     <defName>WotF_Elf_Leader</defName>
+    <backstoryFiltersOverride Inherit="False">
+      <li>
+        <categoriesChildhood>
+          <li>GreenCourt_Childhood</li>
+        </categoriesChildhood>
+        <categoriesAdulthood>
+          <li>GreenCourt_Leader</li>
+        </categoriesAdulthood>
+      </li>
+    </backstoryFiltersOverride>
     <label>archon</label>
     <combatPower>60</combatPower>
     <isFighter>true</isFighter>
     <itemQuality>Normal</itemQuality>
     <gearHealthRange>0.6~2</gearHealthRange>
-    <weaponTags>
-      <li>NeolithicMeleeDecent</li>
+    <weaponTags Inherit="False">
+      <li>WotF_ElvenSword</li>
     </weaponTags>
-    <weaponMoney>150~250</weaponMoney>
+    <weaponMoney>250~400</weaponMoney>
+    <apparelTags Inherit="False">
+      <li>WotF_CourtDress</li>
+    </apparelTags>
     <apparelMoney>400~600</apparelMoney>
     <apparelRequired>
-      <li>WotF_Spellbook_Basic</li>
+      <li>WotF_Spellbook_Apprentice</li>
+      <li>WotF_ElvenWarArmor</li>
+      <li>WotF_ElvenWarCrown</li>
     </apparelRequired>
     <requiredWorkTags>
       <li>Violent</li>
@@ -120,6 +210,196 @@
     <techHediffsChance>0.02</techHediffsChance>
     <initialWillRange>2~5</initialWillRange>
     <initialResistanceRange>15~24</initialResistanceRange>
+    <modExtensions>
+      <li Class="WhisperOfTheForest.Court.CourtGearExtension">
+        <gear>
+          <li>
+            <thingDef>WotF_ElvenWarArmor</thingDef>
+            <stuffs>
+              <li>WotF_Mithril</li>
+            </stuffs>
+          </li>
+          <li>
+            <thingDef>WotF_ElvenWarCrown</thingDef>
+            <stuffs>
+              <li>WotF_Mithril</li>
+            </stuffs>
+          </li>
+          <li>
+            <thingDef>WotF_ElvenLongsword</thingDef>
+            <stuffs>
+              <li>WotF_Mithril</li>
+            </stuffs>
+          </li>
+        </gear>
+      </li>
+    </modExtensions>
+  </PawnKindDef>
+
+  <PawnKindDef ParentName="WotF_ElfBase">
+    <defName>WotF_Elf_MechWhisperer</defName>
+    <label>court mech-whisperer</label>
+    <backstoryFiltersOverride Inherit="False">
+      <li>
+        <categoriesChildhood>
+          <li>GreenCourt_Childhood</li>
+        </categoriesChildhood>
+        <categoriesAdulthood>
+          <li>GreenCourt_General</li>
+        </categoriesAdulthood>
+      </li>
+    </backstoryFiltersOverride>
+    <combatPower>45</combatPower>
+    <isFighter>false</isFighter>
+    <minGenerationAge>20</minGenerationAge>
+    <itemQuality>Normal</itemQuality>
+    <gearHealthRange>1~1</gearHealthRange>
+    <weaponTags>
+      <li>NeolithicMeleeBasic</li>
+    </weaponTags>
+    <weaponMoney>80~150</weaponMoney>
+    <apparelMoney>500~700</apparelMoney>
+    <apparelRequired>
+      <li>WotF_MechWhispererSash</li>
+    </apparelRequired>
+    <techHediffsRequired>
+      <li>Mechlink</li>
+    </techHediffsRequired>
+    <initialWillRange>1~3</initialWillRange>
+    <initialResistanceRange>10~17</initialResistanceRange>
+  </PawnKindDef>
+
+  <!--
+    哨卫 (技术/01-种族与派系实现.md:84「基础近战或短法杖」, 设定/03:38「轻装哨卫」).
+
+    Living-wood longsword rather than the short staff: the short staff only strikes participants of a
+    psychic ritual (Equipment/SpellStaff.xml:103-155, Verb_DisruptPsychicRitual) and has no melee
+    tools, so a sentinel armed with one could not fight at all. Living wood keeps the sword one tier
+    below the sword guard's elven steel.
+  -->
+  <PawnKindDef ParentName="WotF_ElfBase">
+    <defName>WotF_Elf_Sentinel</defName>
+    <backstoryFiltersOverride Inherit="False">
+      <li>
+        <categoriesChildhood>
+          <li>GreenCourt_Childhood</li>
+        </categoriesChildhood>
+        <categoriesAdulthood>
+          <li>GreenCourt_Melee</li>
+        </categoriesAdulthood>
+      </li>
+    </backstoryFiltersOverride>
+    <label>court sentinel</label>
+    <combatPower>48</combatPower>
+    <isFighter>true</isFighter>
+    <itemQuality>Poor</itemQuality>
+    <gearHealthRange>0.4~1.6</gearHealthRange>
+    <weaponTags Inherit="False">
+      <li>WotF_ElvenSword</li>
+    </weaponTags>
+    <weaponMoney>200~300</weaponMoney>
+    <apparelTags Inherit="False">
+      <li>WotF_CourtDress</li>
+    </apparelTags>
+    <apparelMoney>200~350</apparelMoney>
+    <requiredWorkTags>
+      <li>Violent</li>
+    </requiredWorkTags>
+    <techHediffsChance>0.02</techHediffsChance>
+    <initialWillRange>0~2</initialWillRange>
+    <initialResistanceRange>8~14</initialResistanceRange>
+    <modExtensions>
+      <li Class="WhisperOfTheForest.Court.CourtGearExtension">
+        <gear>
+          <li>
+            <thingDef>WotF_ElvenLongsword</thingDef>
+            <stuffs>
+              <li>WotF_LivingWood</li>
+            </stuffs>
+          </li>
+        </gear>
+      </li>
+    </modExtensions>
+  </PawnKindDef>
+
+  <!--
+    秘法学者 (技术/01-种族与派系实现.md:88, 设定/03:38): long staff, mage robe, calm-heart circlet and
+    the apprentice book. Backstory pool GreenCourt_Caster (ElfBackstories.xml:461).
+
+    castsSpells is what lets SpellService.IsEligibleCaster accept this kind; the spell itself is
+    written at spawn by Source/WhisperOfTheForest/Court/Patch_CourtGear.cs. The chain below is a
+    placeholder: Projectile + Harm are the only form/effect pair that needs no colony unlock
+    (1.7/Defs/Spells/Spellbook.xml <requiresUnlock>).
+  -->
+  <PawnKindDef ParentName="WotF_ElfBase">
+    <defName>WotF_Elf_Caster</defName>
+    <backstoryFiltersOverride Inherit="False">
+      <li>
+        <categoriesChildhood>
+          <li>GreenCourt_Childhood</li>
+        </categoriesChildhood>
+        <categoriesAdulthood>
+          <li>GreenCourt_Caster</li>
+        </categoriesAdulthood>
+      </li>
+    </backstoryFiltersOverride>
+    <label>court arcanist</label>
+    <combatPower>55</combatPower>
+    <isFighter>true</isFighter>
+    <itemQuality>Normal</itemQuality>
+    <gearHealthRange>0.8~1.4</gearHealthRange>
+    <weaponTags Inherit="False">
+      <li>WotF_ElvenStaff</li>
+    </weaponTags>
+    <weaponMoney>150~300</weaponMoney>
+    <apparelTags Inherit="False">
+      <li>WotF_CourtDress</li>
+    </apparelTags>
+    <apparelMoney>350~550</apparelMoney>
+    <apparelRequired>
+      <li>WotF_ElvenMageRobe</li>
+      <li>WotF_EntropyCirclet</li>
+      <li>WotF_Spellbook_Apprentice</li>
+    </apparelRequired>
+    <disallowedTraits>
+      <li>Brawler</li>
+    </disallowedTraits>
+    <requiredWorkTags>
+      <li>Violent</li>
+    </requiredWorkTags>
+    <techHediffsChance>0.02</techHediffsChance>
+    <initialWillRange>1~3</initialWillRange>
+    <initialResistanceRange>12~20</initialResistanceRange>
+    <modExtensions>
+      <li Class="WhisperOfTheForest.Court.CourtGearExtension">
+        <castsSpells>true</castsSpells>
+        <spellName>court bolt</spellName>
+        <spellGlyphs>
+          <li>WotF_Form_Projectile</li>
+          <li>WotF_Effect_Harm</li>
+        </spellGlyphs>
+        <gear>
+          <li>
+            <thingDef>WotF_SpellStaff</thingDef>
+            <stuffs>
+              <li>WotF_LivingWood</li>
+            </stuffs>
+          </li>
+          <li>
+            <thingDef>WotF_ElvenMageRobe</thingDef>
+            <stuffs>
+              <li>WotF_LivingWood</li>
+            </stuffs>
+          </li>
+          <li>
+            <thingDef>WotF_EntropyCirclet</thingDef>
+            <stuffs>
+              <li>WotF_ElvenSteel</li>
+            </stuffs>
+          </li>
+        </gear>
+      </li>
+    </modExtensions>
   </PawnKindDef>
 
 </Defs>

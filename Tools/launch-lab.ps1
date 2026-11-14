@@ -15,6 +15,9 @@
   workshop mod: the game resolves that list only against the local Mods folder, so Harmony, HAR and
   RimUnity would be silently skipped and the assembly fails to load (ReflectionTypeLoadException,
   no map, lab silent). -Mods exists only for a local-only mod list.
+
+  The game starts headless (Waylith "-NoWindow": it still renders, so lab screenshots work, but
+  never takes the desktop). Pass -Window only when a person has to look at the live game.
 #>
 [CmdletBinding()]
 param(
@@ -24,6 +27,8 @@ param(
     [string]$SaveDataFolder,
     [string]$Mods = '',
     [switch]$QuickTest,
+    [string]$Scenario = '',
+    [switch]$Window,
     [switch]$Wait
 )
 
@@ -45,6 +50,10 @@ if (-not $SaveDataFolder) {
 }
 if (-not $Mods) {
     $Mods = ''
+}
+# Source/Lab/LabQuickScenario.cs reads -wotfscenario= only when -quicktest builds the game.
+if ($Scenario -and -not $QuickTest) {
+    throw '-Scenario only applies together with -QuickTest.'
 }
 
 if (-not (Test-Path -LiteralPath $gameExe)) {
@@ -80,6 +89,9 @@ if (Get-Process -Name 'RimWorld' -ErrorAction SilentlyContinue) {
 }
 
 $arguments = @("-savedatafolder=$SaveDataFolder")
+if (-not $Window) {
+    $arguments += '-NoWindow'
+}
 if ($Mods) {
     # Local Mods folder only (see the header): workshop packageIds would be ignored.
     $arguments += "-mod=$Mods"
@@ -88,6 +100,9 @@ $arguments += "-wotflab=$LabDir"
 if ($QuickTest) {
     $arguments += '-quicktest'
 }
+if ($Scenario) {
+    $arguments += "-wotfscenario=$Scenario"
+}
 
 Write-Host "Game: $gameExe"
 Write-Host "Deployed mod: $DeployedModPath"
@@ -95,6 +110,8 @@ Write-Host "Lab: $LabDir"
 Write-Host "Save data: $SaveDataFolder"
 Write-Host "Mods: $(if ($Mods) { $Mods } else { '<savedatafolder>/Config/ModsConfig.xml' })"
 Write-Host "QuickTest: $QuickTest"
+Write-Host "Scenario: $(if ($Scenario) { $Scenario } else { '<Crashlanded, vanilla quicktest>' })"
+Write-Host "Window: $Window"
 Write-Host ''
 
 function Quote-Argument([string]$value) {

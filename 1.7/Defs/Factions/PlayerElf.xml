@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    The player's elf faction (技术/01-种族与派系实现.md:68-71).
+
+    It inherits FactionBase, not PlayerFactionBase, so every field vanilla reads for a player
+    faction is written out here rather than inherited:
+      * settlementTexturePath - Settlement.Material passes the raw field to MaterialPool.MatFrom,
+        which calls ContentFinder.Get without a null check (RimWorld.Planet/Settlement.cs:74). Empty
+        means world creation throws at Page_CreateWorldParams.cs:211 and :212 Close() never runs.
+      * factionIconPath - FactionDef.FactionIcon falls back to BaseContent.BadTex when the path is
+        empty (RimWorld/FactionDef.cs:364-383), so this one is a visible magenta icon, not a crash.
+      * playerInitialSettlementNameMaker - ScenPart_PlayerFaction.PreMapGenerate names the first
+        settlement from it (RimWorld/ScenPart_PlayerFaction.cs:57-64). SettlementNameGenerator falls
+        back to settlementNameMaker and then to the world object label when it is empty
+        (RimWorld.Planet/SettlementNameGenerator.cs:10-20), so this too is cosmetic.
+      * factionNameMaker / settlementNameMaker - what FactionGenerator names the faction and its
+        settlements with.
+    The ideology limits repeat WotF_GreenCourt so an elf ideo is the same culture either way.
+  -->
+  <FactionDef ParentName="FactionBase">
+    <defName>WotF_PlayerElf</defName>
+    <label>forest elves</label>
+    <description>A band of forest elves who have left the court to settle on their own. They keep the old ways: the forest is the only monarch, and the elders speak for it.</description>
+    <isPlayer>true</isPlayer>
+    <basicMemberKind>WotF_Elf_Colonist</basicMemberKind>
+    <pawnSingular>elf</pawnSingular>
+    <pawnsPlural>elves</pawnsPlural>
+    <categoryTag>Tribal</categoryTag>
+    <techLevel>Neolithic</techLevel>
+    <humanlikeFaction>true</humanlikeFaction>
+    <settlementTexturePath>World/Factions/GreenCourt</settlementTexturePath>
+    <factionIconPath>World/Factions/GreenCourt</factionIconPath>
+    <playerInitialSettlementNameMaker>NamerInitialSettlementColony</playerInitialSettlementNameMaker>
+    <factionNameMaker>NamerFactionTribal</factionNameMaker>
+    <settlementNameMaker>NamerSettlementTribal</settlementNameMaker>
+    <apparelStuffFilter>
+      <thingDefs>
+        <li>Cloth</li>
+      </thingDefs>
+    </apparelStuffFilter>
+
+    <colorSpectrum>
+      <li>(46, 139, 87)</li>
+    </colorSpectrum>
+
+    <!--
+      Same roll as the GreenCourt kinds: one xenotype at weight 1 leaves XenotypeSet.BaselinerChance
+      at 1 - 1 = 0 (RimWorld/XenotypeSet.cs:13-32), and PawnGenerator.XenotypesAvailableFor offers
+      exactly this list when nothing is forced (Verse/PawnGenerator.cs:1745-1783).
+    -->
+    <xenotypeSet>
+      <xenotypeChances>
+        <WotF_ElfXenotype MayRequire="Ludeon.RimWorld.Biotech">1</WotF_ElfXenotype>
+      </xenotypeChances>
+    </xenotypeSet>
+
+    <allowedCultures>
+      <li>WotF_ElfCulture</li>
+    </allowedCultures>
+    <structureMemeWeights>
+      <Structure_Animist MayRequire="Ludeon.RimWorld.Ideology">1</Structure_Animist>
+    </structureMemeWeights>
+    <requiredMemes>
+      <li MayRequire="Ludeon.RimWorld.Ideology">TreeConnection</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">NaturePrimacy</li>
+    </requiredMemes>
+    <disallowedMemes>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Transhumanist</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Blindsight</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Cannibal</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Raider</li>
+    </disallowedMemes>
+    <disallowedPrecepts>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Cannibalism_Acceptable</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Cannibalism_Preferred</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Cannibalism_RequiredStrong</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Cannibalism_RequiredRavenous</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Raiding_Respected</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Raiding_Required</li>
+    </disallowedPrecepts>
+    <backstoryFilters>
+      <li>
+        <categories>
+          <li>Tribal</li>
+        </categories>
+      </li>
+    </backstoryFilters>
+  </FactionDef>
+
+</Defs>

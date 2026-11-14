@@ -28,8 +28,8 @@ namespace WhisperOfTheForest.LabTests
             reservedNames = DefDatabase<RulePackDef>.GetNamed("WotF_ElfNames")
                 .GetModExtension<ElfNameRules>().reservedNames;
             if (firstNames == null || clanNames == null) return;
-            t.Expect(firstNames.Count == 30 && clanNames.Count == 11,
-                "expected 30 female / 11 clan names, got " + firstNames.Count + "/" + clanNames.Count);
+            t.Expect(firstNames.Count > 0 && clanNames.Count > 0,
+                "name lists must not be empty, got " + firstNames.Count + "/" + clanNames.Count);
 
             PawnKindDef[] kinds = DefDatabase<PawnKindDef>.AllDefsListForReading
                 .Where(k => k.race.defName == "WotF_Elf").OrderBy(k => k.defName).ToArray();

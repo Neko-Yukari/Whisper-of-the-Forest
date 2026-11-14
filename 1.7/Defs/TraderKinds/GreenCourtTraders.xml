@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    Court trade kinds (2026-11-14, decisions D1/D2/D4).
+
+    Why own Defs: TraderKindDef is global, so editing a vanilla kind would change every tribal faction.
+    The old wiring pointed the Verdant Court at the vanilla neolithic kinds, and Base_Neolithic_Standard
+    carries an unbounded ResourcesRaw generator (Data/Core/Defs/TraderKindDefs/TraderKinds_Base_Neolithic.xml:49-58),
+    which sold adamantine, mithril, living wood and elven steel at court settlements - against
+    设定/03-派系与对外关系.md:32-34,42.
+
+    Stock shape (D2): every entry is an explicit SingleDef/MultiDef. No Category/Tag/MarketValue
+    generator on purpose, so a later item added to one of our thing categories cannot silently join the
+    shelf. Adamantine, mithril, the engineering resonance core and the super-rune rubbings are never
+    listed (C1/C2).
+
+    Materials: StockGenerator_SingleDef rolls the material of a stuffed item from the stuffs with
+    allowedInStuffGeneration (RimWorld/StockGeneratorUtility.cs:44-48, falling back to
+    GenStuff.RandomStuffByCommonalityFor), and all four forest stuffs are excluded, so a shelf sword
+    would come out of vanilla steel and a steel entropy circlet contradicts its own recipe. The three
+    stuffed goods therefore use WhisperOfTheForest.Court.StockGenerator_SingleDefStuff, which takes
+    the material from <stuff>: longsword and circlet in elven steel, long staff in living wood (the
+    staff's mana, duration and damage read its stuff, CompSpellStaff.cs:33). The short staff, the
+    longbow and the terrain-stride mantle declare no stuffCategories, so vanilla makes them with no
+    material and they stay plain StockGenerator_SingleDef.
+
+    Quantities are placeholders from 技术/01-种族与派系实现.md:112 until the design gives real numbers.
+    Silver is stock, not a sold good: it is the money a trader has to buy from the player.
+
+    The three kinds list the same stock on purpose: the setting only says what the T1-T2 trade carries,
+    not that shops differ. They are written out per kind instead of inheriting the generator list,
+    because Def inheritance shares list instances between Defs and each TraderKindDef stamps its own
+    stock generators in ResolveReferences.
+  -->
+
+  <TraderKindDef>
+    <defName>WotF_Caravan_GreenCourt</defName>
+    <category>Court goods</category>
+    <commonality>1</commonality>
+    <requestable>true</requestable>
+    <stockGenerators>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Silver</thingDef>
+        <countRange>600~2000</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>MedicineHerbal</thingDef>
+        <countRange>10~25</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>WotF_Chalk</thingDef>
+        <countRange>20~40</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>WotF_ManaVial</thingDef>
+        <countRange>2~5</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>WotF_LivingWood</thingDef>
+        <countRange>40~90</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>WotF_ElvenSteel</thingDef>
+        <countRange>8~20</countRange>
+      </li>
+      <li Class="WhisperOfTheForest.Court.StockGenerator_SingleDefStuff">
+        <thingDef>WotF_ElvenLongsword</thingDef>
+        <stuff>WotF_ElvenSteel</stuff>
+        <countRange>1~2</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>WotF_ElvenLongbow</thingDef>
+        <countRange>1~2</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>WotF_SpellStaffShort</thingDef>
+        <countRange>1~2</countRange>
+      </li>
+      <li Class="WhisperOfTheForest.Court.StockGenerator_SingleDefStuff">
+        <thingDef>WotF_SpellStaff</thingDef>
+        <stuff>WotF_LivingWood</stuff>
+        <countRange>-1~1</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>WotF_TerrainStride</thingDef>
+        <countRange>1~2</countRange>
+      </li>
+      <li Class="WhisperOfTheForest.Court.StockGenerator_SingleDefStuff">
+        <thingDef>WotF_EntropyCirclet</thingDef>
+        <stuff>WotF_ElvenSteel</stuff>
+        <countRange>1~2</countRange>
+      </li>
+      <li Class="StockGenerator_MultiDef">
+        <thingDefs>
+          <li>WotF_Spellbook_Apprentice</li>
+          <li>WotF_Spellbook_Adept</li>
+        </thingDefs>
+        <countRange>1~2</countRange>
+      </li>
+      <li Class="StockGenerator_BuyExpensiveSimple" />
+      <li Class="StockGenerator_BuyTradeTag"><tag>Art</tag></li>
+    </stockGenerators>
+  </TraderKindDef>
+
+  <TraderKindDef>
+    <defName>WotF_Visitor_GreenCourt</defName>
+    <category>Court goods</category>
+    <commonality>1</commonality>
+    <requestable>false</requestable>
+    <stockGenerators>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Silver</thingDef>
+        <countRange>600~2000</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>MedicineHerbal</thingDef>
+        <countRange>10~25</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>WotF_Chalk</thingDef>
+        <countRange>20~40</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>WotF_ManaVial</thingDef>
+        <countRange>2~5</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>WotF_LivingWood</thingDef>
+        <countRange>40~90</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>WotF_ElvenSteel</thingDef>
+        <countRange>8~20</countRange>
+      </li>
+      <li Class="WhisperOfTheForest.Court.StockGenerator_SingleDefStuff">
+        <thingDef>WotF_ElvenLongsword</thingDef>
+        <stuff>WotF_ElvenSteel</stuff>
+        <countRange>1~2</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>WotF_ElvenLongbow</thingDef>
+        <countRange>1~2</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>WotF_SpellStaffShort</thingDef>
+        <countRange>1~2</countRange>
+      </li>
+      <li Class="WhisperOfTheForest.Court.StockGenerator_SingleDefStuff">
+        <thingDef>WotF_SpellStaff</thingDef>
+        <stuff>WotF_LivingWood</stuff>
+        <countRange>-1~1</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>WotF_TerrainStride</thingDef>
+        <countRange>1~2</countRange>
+      </li>
+      <li Class="WhisperOfTheForest.Court.StockGenerator_SingleDefStuff">
+        <thingDef>WotF_EntropyCirclet</thingDef>
+        <stuff>WotF_ElvenSteel</stuff>
+        <countRange>1~2</countRange>
+      </li>
+      <li Class="StockGenerator_MultiDef">
+        <thingDefs>
+          <li>WotF_Spellbook_Apprentice</li>
+          <li>WotF_Spellbook_Adept</li>
+        </thingDefs>
+        <countRange>1~2</countRange>
+      </li>
+      <li Class="StockGenerator_BuyExpensiveSimple" />
+      <li Class="StockGenerator_BuyTradeTag"><tag>Art</tag></li>
+    </stockGenerators>
+  </TraderKindDef>
+
+  <TraderKindDef>
+    <defName>WotF_Base_GreenCourt</defName>
+    <category>Court goods</category>
+    <commonality>1</commonality>
+    <requestable>false</requestable>
+    <stockGenerators>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Silver</thingDef>
+        <countRange>600~2000</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>MedicineHerbal</thingDef>
+        <countRange>10~25</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>WotF_Chalk</thingDef>
+        <countRange>20~40</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>WotF_ManaVial</thingDef>
+        <countRange>2~5</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>WotF_LivingWood</thingDef>
+        <countRange>40~90</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>WotF_ElvenSteel</thingDef>
+        <countRange>8~20</countRange>
+      </li>
+      <li Class="WhisperOfTheForest.Court.StockGenerator_SingleDefStuff">
+        <thingDef>WotF_ElvenLongsword</thingDef>
+        <stuff>WotF_ElvenSteel</stuff>
+        <countRange>1~2</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>WotF_ElvenLongbow</thingDef>
+        <countRange>1~2</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>WotF_SpellStaffShort</thingDef>
+        <countRange>1~2</countRange>
+      </li>
+      <li Class="WhisperOfTheForest.Court.StockGenerator_SingleDefStuff">
+        <thingDef>WotF_SpellStaff</thingDef>
+        <stuff>WotF_LivingWood</stuff>
+        <countRange>-1~1</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>WotF_TerrainStride</thingDef>
+        <countRange>1~2</countRange>
+      </li>
+      <li Class="WhisperOfTheForest.Court.StockGenerator_SingleDefStuff">
+        <thingDef>WotF_EntropyCirclet</thingDef>
+        <stuff>WotF_ElvenSteel</stuff>
+        <countRange>1~2</countRange>
+      </li>
+      <li Class="StockGenerator_MultiDef">
+        <thingDefs>
+          <li>WotF_Spellbook_Apprentice</li>
+          <li>WotF_Spellbook_Adept</li>
+        </thingDefs>
+        <countRange>1~2</countRange>
+      </li>
+      <li Class="StockGenerator_BuyExpensiveSimple" />
+      <li Class="StockGenerator_BuyTradeTag"><tag>Art</tag></li>
+    </stockGenerators>
+  </TraderKindDef>
+
+</Defs>

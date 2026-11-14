@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="BenchBase">
+    <defName>WotF_ManaWorkbench</defName>
+    <label>mana workbench</label>
+    <description>A living-wood workbench powered directly by the mana network. It consumes mana only while crafting and stops when the network runs dry. It uses no electricity.</description>
+    <thingClass>Building_WorkTable</thingClass>
+    <graphicData>
+      <!-- 占位贴图，待独立工坊资产。 -->
+      <texPath>Buildings/ManaWorkbench</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,1)</drawSize>
+    </graphicData>
+    <size>(3,1)</size>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.5</fillPercent>
+    <designationCategory>Production</designationCategory>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <surfaceType>Item</surfaceType>
+    <inspectorTabs><li>ITab_Bills</li></inspectorTabs>
+    <statBases>
+      <MaxHitPoints>180</MaxHitPoints>
+      <WorkToBuild>2000</WorkToBuild>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <!-- 占位造价：设定只指定木石与活木，未指定数量。 -->
+    <stuffCategories Inherit="False"><li>Stony</li></stuffCategories>
+    <costStuffCount>40</costStuffCount>
+    <costList>
+      <WoodLog>80</WoodLog>
+      <WotF_LivingWood>20</WotF_LivingWood>
+    </costList>
+    <comps>
+      <li Class="WhisperOfTheForest.Mana.CompProperties_ManaWorkbench">
+        <!-- 占位：设定未定工作耗魔速率，当前每工作秒消耗 1 魔源。 -->
+        <manaPerSecond>1</manaPerSecond>
+        <linkRadius>12.9</linkRadius>
+      </li>
+    </comps>
+    <placeWorkers>
+      <li>PlaceWorker_PreventInteractionSpotOverlap</li>
+      <li>WhisperOfTheForest.Mana.PlaceWorker_ManaNetwork</li>
+    </placeWorkers>
+  </ThingDef>
+</Defs>

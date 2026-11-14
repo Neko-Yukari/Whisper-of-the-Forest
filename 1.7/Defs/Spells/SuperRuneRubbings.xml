@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef Name="WotF_SuperRuneRubbingBase" ParentName="ResourceBase" Abstract="True">
+    <thingClass>ThingWithComps</thingClass>
+    <category>Item</category>
+    <thingCategories><li>ResourcesRaw</li></thingCategories>
+    <stackLimit>1</stackLimit>
+    <tradeability>None</tradeability>
+    <graphicData>
+      <texPath>Things/Item/SuperRuneRubbing</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <MarketValue>1000</MarketValue>
+      <Mass>0.2</Mass>
+      <Flammability>1</Flammability>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Usable">
+        <useJob>UseItem</useJob>
+        <useLabel>Study {0_label}</useLabel>
+        <useDuration>600</useDuration>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="WotF_SuperRuneRubbingBase">
+    <defName>WotF_SuperRuneRubbing_Railgun</defName>
+    <label>railgun rune rubbing</label>
+    <description>A single-use rubbing recovered from an ancient ruin. Study it to permanently unlock the railgun rune for the whole colony.</description>
+    <comps>
+      <li Class="WhisperOfTheForest.Spells.CompProperties_SuperRuneRubbing">
+        <glyph>WotF_Form_Railgun</glyph>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="WotF_SuperRuneRubbingBase">
+    <defName>WotF_SuperRuneRubbing_Tornado</defName>
+    <label>flame tornado rune rubbing</label>
+    <description>A single-use rubbing recovered from an ancient ruin. Study it to permanently unlock the flame tornado rune for the whole colony.</description>
+    <graphicData><color>(1,0.65,0.35)</color></graphicData>
+    <comps>
+      <li Class="WhisperOfTheForest.Spells.CompProperties_SuperRuneRubbing">
+        <glyph>WotF_Super_Tornado</glyph>
+      </li>
+    </comps>
+  </ThingDef>
+</Defs>

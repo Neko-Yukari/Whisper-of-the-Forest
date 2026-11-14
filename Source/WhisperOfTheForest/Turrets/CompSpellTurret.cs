@@ -134,6 +134,11 @@ namespace WhisperOfTheForest.Turrets
             SpellCastPlan compiled = SpellCompiler.Compile(recipe, out reason);
             if (compiled == null)
                 return false;
+            if (SpellDefs.Glyph(recipe.glyphs[0]).kind == SpellGlyphKind.Super)
+            {
+                reason = "WotF_Spells.Reason.SuperNoTurret".Translate();
+                return false;
+            }
             if (compiled.form != SpellFormKind.Projectile)
             {
                 reason = "WotF_Turret_ProjectileOnly".Translate();

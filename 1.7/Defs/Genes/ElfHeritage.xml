@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <WhisperOfTheForest.Race.WotF_ForestCraftGeneDef>
+    <defName>WotF_ForestCraft</defName>
+    <label>forest craft</label>
+    <labelShortAdj>forest artisan</labelShortAdj>
+    <description>An instinct for handcraft and magical tools. Products made at workbenches without electrical power components gain one quality tier. Work at electrical workbenches runs at 70% speed. Broken electrical machinery is repaired with chalk marks and wooden taps.</description>
+    <displayCategory>Ability</displayCategory>
+    <biostatCpx>2</biostatCpx>
+    <geneClass>WhisperOfTheForest.Race.Gene_ForestCraft</geneClass>
+    <poweredWorkTableSpeedFactor>0.7</poweredWorkTableSpeedFactor>
+    <handcraftQualityBonus>1</handcraftQualityBonus>
+    <elfRepairEffect>WotF_ElfRepair</elfRepairEffect>
+  </WhisperOfTheForest.Race.WotF_ForestCraftGeneDef>
+
+  <WhisperOfTheForest.Race.WotF_FeyAncestryGeneDef>
+    <defName>WotF_FeyAncestry</defName>
+    <label>fey ancestry</label>
+    <labelShortAdj>fey-blooded</labelShortAdj>
+    <description>A long-lived fey heritage free from age-related chronic disease. After age 20, shorter-lived races age more slowly toward a natural lifespan of roughly 500 years. Meditation restores rest at 90% effectiveness plus the strength of its focus. An assigned meditation spot or trance cushion satisfies the colonist bed requirement.</description>
+    <displayCategory>Ability</displayCategory>
+    <biostatCpx>2</biostatCpx>
+    <geneClass>WhisperOfTheForest.Race.Gene_FeyAncestry</geneClass>
+    <targetLifeExpectancy>500</targetLifeExpectancy>
+    <longevityStartAge>20</longevityStartAge>
+    <meditationRestEffectiveness>0.90</meditationRestEffectiveness>
+    <tranceCushion>WotF_TranceCushion</tranceCushion>
+    <!-- Human uses OrganicStandard: HediffGiverSets.xml, birthday chronic givers. -->
+    <hediffGiversCannotGive>
+      <li>Carcinoma</li>
+      <li>BadBack</li>
+      <li>Frail</li>
+      <li>Cataract</li>
+      <li>HearingLoss</li>
+      <li>Dementia</li>
+      <li>Alzheimers</li>
+      <li>Asthma</li>
+      <li>HeartArteryBlockage</li>
+    </hediffGiversCannotGive>
+  </WhisperOfTheForest.Race.WotF_FeyAncestryGeneDef>
+</Defs>

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using RimWorld;
+using UnityEngine;
 using Verse;
 using WhisperOfTheForest.Missiles;
 using WhisperOfTheForest.Spells;
@@ -18,11 +19,13 @@ namespace WhisperOfTheForest.LabTests
 
         protected override void Run(TestContext t)
         {
+            using var casting = new ResourceTestUtil.FreeCastingScope();
             Pawn caster = t.SpawnCaster(2, 5);
             Pawn target = t.SpawnTarget(14, 5);
 
             SpellGlyphDef form = TestContext.Glyph(SpellDefs.FormProjectile);
             SpellGlyphDef accelerate = TestContext.Glyph(SpellDefs.AugmentAccelerate);
+            GameComponent_Spellbook.Current.Unlock(accelerate);
             float formSpeed = form.projectile.speedCellsPerSecond;
             SpellRecipe recipe = TestContext.Recipe("fast-dart",
                 SpellDefs.FormProjectile, SpellDefs.AugmentAccelerate, SpellDefs.EffectHarm);
@@ -75,6 +78,7 @@ namespace WhisperOfTheForest.LabTests
 
         protected override void Run(TestContext t)
         {
+            using var casting = new ResourceTestUtil.FreeCastingScope();
             GameComponent_Spellbook.Current.Unlock(TestContext.Glyph(SpellDefs.AugmentPierce));
             Pawn caster = t.SpawnCaster(2, 5);
             Pawn front = t.SpawnTarget(8, 5);
@@ -122,12 +126,13 @@ namespace WhisperOfTheForest.LabTests
 
         protected override void Run(TestContext t)
         {
+            using var casting = new ResourceTestUtil.FreeCastingScope();
             SpellGlyphDef form = TestContext.Glyph(SpellDefs.FormOrbit);
             GameComponent_Spellbook.Current.Unlock(form);
             Pawn caster = t.SpawnCaster(4, 5);
 
-            // Two cells east: the orbit passes within its hit radius of this cell's centre.
-            Pawn target = t.SpawnTarget(6, 5);
+            // East of the caster at the orbit distance: the orbit passes within its hit radius of this cell's centre.
+            Pawn target = t.SpawnTarget(4 + Mathf.RoundToInt(form.orbit.distance), 5);
 
             SpellRecipe recipe = TestContext.Recipe("orbit-harm", SpellDefs.FormOrbit, SpellDefs.EffectHarm);
             if (!t.CastAtSelf(caster, recipe))

@@ -32,6 +32,11 @@ namespace WhisperOfTheForest.Vfx
         /// </summary>
         public abstract void Update(float deltaSeconds);
 
+        public virtual void Trigger(string state)
+        {
+            throw new System.InvalidOperationException(Def.defName + ": worker cannot receive state '" + state + "'");
+        }
+
         /// <summary>
         /// Called during the GUI pass, which runs after the map and after RimUnity's screen effects.
         /// That is where a beam must be drawn if it has to stay bright over a darkening pass.
@@ -41,6 +46,11 @@ namespace WhisperOfTheForest.Vfx
         }
 
         /// <summary>Releases everything the worker owns. Safe to call more than once.</summary>
+        public virtual void FollowLost()
+        {
+            Stop();
+        }
+
         public virtual void Stop()
         {
             Finished = true;

@@ -19,14 +19,15 @@ namespace WhisperOfTheForest.LabTests
 
         protected override void Run(TestContext t)
         {
-            WotF_ForestBloodlineGeneDef def =
-                (WotF_ForestBloodlineGeneDef)DefDatabase<GeneDef>.GetNamed("WotF_ForestBloodline");
+            WotF_ForestCraftGeneDef def =
+                (WotF_ForestCraftGeneDef)DefDatabase<GeneDef>.GetNamed("WotF_ForestCraft");
             t.Expect(def.poweredWorkTableSpeedFactor > 0f && def.poweredWorkTableSpeedFactor < 1f,
                 "the powered workbench speed factor is not a slowdown");
             t.Expect(def.handcraftQualityBonus > 0,
                 "the handcraft quality bonus is not positive");
 
             Pawn elf = t.SpawnCaster(5, 5);
+            elf.genes.AddGene(def, false);
             elf.skills.GetSkill(SkillDefOf.Crafting).Level = 10;
 
             Building_WorkTable powered = SpawnTable(t, "TableMachining", 8, 5);
@@ -38,7 +39,7 @@ namespace WhisperOfTheForest.LabTests
 
             Bill poweredBill = AddBill(powered);
             Bill manualBill = AddBill(manual);
-            Gene_ForestBloodline gene = Gene_ForestBloodline.Get(elf);
+            Gene_ForestCraft gene = Gene_ForestCraft.Get(elf);
             if (gene == null)
             {
                 t.Fail("the caster has no forest bloodline gene");

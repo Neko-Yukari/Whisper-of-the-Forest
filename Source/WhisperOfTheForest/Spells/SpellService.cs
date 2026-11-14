@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using WhisperOfTheForest.Court;
 using WhisperOfTheForest.Equipment;
 using WhisperOfTheForest.Race;
 
@@ -25,9 +26,11 @@ namespace WhisperOfTheForest.Spells
         // ---------------------------------------------------------------- caster requirements
 
         /// <summary>
-        /// Documented requirement: a player-controlled, alive, spawned pawn carrying the forest
-        /// bloodline gene and wearing a spellbook. Everything else is refused with a visible reason,
-        /// never silently.
+        /// Documented requirement: an alive, spawned pawn carrying the forest bloodline gene and
+        /// wearing a spellbook. Player control is the default owner; a kind that declares itself a
+        /// caster in its DefModExtension (<see cref="CourtGearExtension.castsSpells"/>, the court's
+        /// arcanists) is eligible for its own faction too. Everything else is refused with a visible
+        /// reason, never silently.
         /// </summary>
         public static bool IsEligibleCaster(Pawn pawn, out string reason)
         {
@@ -57,7 +60,7 @@ namespace WhisperOfTheForest.Spells
                 return false;
             }
 
-            if (!pawn.IsPlayerControlled)
+            if (!pawn.IsPlayerControlled && !CourtGearExtension.DeclaresCasting(pawn))
             {
                 reason = SpellText.T("WotF_Spells.Reason.NotPlayerControlled");
                 return false;
@@ -94,6 +97,19 @@ namespace WhisperOfTheForest.Spells
             if (!Validate(recipe, out reason))
             {
                 return false;
+            }
+
+            foreach (string name in recipe.glyphs)
+            {
+                SpellGlyphDef glyph = SpellDefs.Glyph(name);
+                if (!CanUseGlyph(pawn, glyph, out reason))
+                    return false;
+                if (glyph.kind == SpellGlyphKind.Super
+                    && pawn.equipment?.Primary?.GetComp<CompSpellStaff>() == null)
+                {
+                    reason = SpellText.T("WotF_Spells.Reason.SuperNeedsStaff");
+                    return false;
+                }
             }
 
             GameComponent_Spellbook component = GameComponent_Spellbook.Current;
@@ -135,6 +151,18 @@ namespace WhisperOfTheForest.Spells
             return null;
         }
 
+        public static bool CanUseGlyph(Pawn pawn, SpellGlyphDef glyph, out string reason)
+        {
+            reason = null;
+            if (glyph.kind == SpellGlyphKind.Super
+                && WornSpellbook(pawn)?.def.GetModExtension<SpellbookExtension>().allowsSuperGlyphs != true)
+            {
+                reason = SpellText.T("WotF_Spells.Reason.SuperNeedsCodex");
+                return false;
+            }
+            return true;
+        }
+
         /// <summary>How many of the pawn's spell slots its worn book opens; 0 without a book.</summary>
         public static int OpenSlotCount(Pawn pawn)
         {
@@ -149,6 +177,11 @@ namespace WhisperOfTheForest.Spells
         public static bool CanAfford(Pawn pawn, SpellCost cost, out string reason)
         {
             reason = null;
+            if (WotfMod.Settings != null && WotfMod.Settings.freeCasting)
+            {
+                return true;
+            }
+
             Gene_ForestBloodline bloodline = Gene_ForestBloodline.Get(pawn);
             if (cost.mana > 0f && (bloodline == null || !bloodline.HasMana(cost.mana)))
             {
@@ -181,6 +214,17 @@ namespace WhisperOfTheForest.Spells
         /// </summary>
         public static void PayFor(Pawn pawn, SpellCost cost)
         {
+            if (WotfMod.Settings != null && WotfMod.Settings.freeCasting)
+            {
+                Gene_ForestBloodline free = Gene_ForestBloodline.Get(pawn);
+                if (cost.experience > 0f)
+                {
+                    free.GainExperience(cost.experience);
+                }
+
+                return;
+            }
+
             Gene_ForestBloodline bloodline = Gene_ForestBloodline.Get(pawn);
             if (cost.mana > 0f)
             {

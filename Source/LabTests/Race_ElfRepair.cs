@@ -21,6 +21,7 @@ namespace WhisperOfTheForest.LabTests
         protected override void Run(TestContext t)
         {
             Pawn elf = t.SpawnCaster(4, 4);
+            elf.genes.AddGene(DefDatabase<GeneDef>.GetNamed("WotF_ForestCraft"), false);
             Pawn human = t.SpawnTarget(12, 4);
 
             var building = (Building)ThingMaker.MakeThing(ThingDefOf.WoodFiredGenerator);

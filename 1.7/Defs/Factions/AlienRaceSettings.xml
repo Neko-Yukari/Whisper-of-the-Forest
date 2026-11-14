@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    HAR starting-colonist binding (技术/01-种族与派系实现.md:70), written like the reference mod's
+    AlienRaceSettings.xml:3-53.
+
+    HAR transpiles StartingPawnUtility.DefaultStartingPawnRequest two ways: it replaces
+    Faction.OfPlayer.def.basicMemberKind with NewGeneratedStartingPawnHelper(...) and the baseliner
+    literal with PickStartingPawnConfig(...) (erdelf/AlienRaces@b715c63ea7
+    Source/AlienRace/AlienRace/HarmonyPatches.cs:3710-3745, :3761-3782).
+    NewGeneratedStartingPawnKinds collects every startingColonists entry whose factionDefs contain
+    Faction.OfPlayer.def, so this entry only applies while the player faction is WotF_PlayerElf; the
+    entry stays inert for the vanilla human scenarios (:3786-3800). Chance 100 outranks the built-in
+    fallback entry's 100 only by list order, and both resolve to the same kind, WotF_Elf_Colonist,
+    which WotF_PlayerElf already names as basicMemberKind.
+  -->
+  <AlienRace.RaceSettings>
+    <defName>WotF_ElfRaceSettings</defName>
+    <pawnKindSettings>
+      <startingColonists>
+        <li>
+          <pawnKindEntries>
+            <li>
+              <kindDefs>
+                <li>WotF_Elf_Colonist</li>
+              </kindDefs>
+              <chance>100</chance>
+            </li>
+          </pawnKindEntries>
+          <factionDefs>
+            <li>WotF_PlayerElf</li>
+          </factionDefs>
+        </li>
+      </startingColonists>
+    </pawnKindSettings>
+  </AlienRace.RaceSettings>
+
+</Defs>

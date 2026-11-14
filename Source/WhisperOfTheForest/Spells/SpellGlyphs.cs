@@ -22,6 +22,12 @@ namespace WhisperOfTheForest.Spells
     {
         public SpellGlyphKind kind;
 
+        /// <summary>
+        /// Ordinary rune awakening tier: 0 is initially known, 1..3 requires that altar tier.
+        /// Super runes have no altar tier; their requiresUnlock is fulfilled by rubbings.
+        /// </summary>
+        public int tier;
+
         /// <summary>Texture path under Textures/. Empty falls back to the contract convention.</summary>
         public string iconPath;
 
@@ -115,7 +121,7 @@ namespace WhisperOfTheForest.Spells
         /// Materials the altar consumes from its surroundings when a rune awakening opens this rune.
         /// Empty means the rune needs no materials beyond the ritual's mana.
         /// </summary>
-        public List<ThingDefCountClass> unlockCost = new List<ThingDefCountClass>();
+        public List<SpellGlyphCost> unlockCost = new List<SpellGlyphCost>();
 
         /// <summary>True when this augment declares <paramref name="augmentDefName"/> as mutually exclusive.</summary>
         public bool ExcludesAugment(string augmentDefName)
@@ -180,14 +186,29 @@ namespace WhisperOfTheForest.Spells
                 yield return "manaCost, entropyCost and experience must not be negative";
             }
 
+            if (tier < 0 || tier > 3)
+            {
+                yield return "tier must be between 0 (known from the start) and 3";
+            }
+            else if (kind != SpellGlyphKind.Super && requiresUnlock != (tier > 0))
+            {
+                yield return "requiresUnlock must be true exactly when tier is above 0";
+            }
+
             if (unlockCost != null)
             {
                 for (int i = 0; i < unlockCost.Count; i++)
                 {
-                    ThingDefCountClass cost = unlockCost[i];
-                    if (cost == null || cost.thingDef == null || cost.count <= 0)
+                    SpellGlyphCost cost = unlockCost[i];
+                    if (cost == null || cost.count <= 0)
                     {
-                        yield return "unlockCost has a missing thing or a non-positive count";
+                        yield return "unlockCost has a missing entry or a non-positive count";
+                        continue;
+                    }
+
+                    if ((cost.thingDef == null) == (cost.category == null))
+                    {
+                        yield return "an unlockCost entry must name exactly one thingDef or one category";
                     }
                 }
             }
@@ -360,6 +381,29 @@ namespace WhisperOfTheForest.Spells
                     break;
             }
         }
+    }
+
+    /// <summary>
+    /// One material a rune awakening takes from the ground around the altar. Exactly one of
+    /// <see cref="thingDef"/> and <see cref="category"/> is set: a named item, or any item in a thing
+    /// category - the spell table asks for "any stone blocks", which no single stone Def can express.
+    /// </summary>
+    public class SpellGlyphCost
+    {
+        public ThingDef thingDef;
+
+        public ThingCategoryDef category;
+
+        public int count;
+
+        /// <summary>True when <paramref name="thing"/> is a thing this entry counts.</summary>
+        public bool Matches(Thing thing)
+        {
+            return thingDef != null ? thing.def == thingDef : thing.def.IsWithinCategory(category);
+        }
+
+        /// <summary>Player-facing name of what is asked for, for the altar's rune menu.</summary>
+        public string Label => thingDef != null ? thingDef.label : category.label;
     }
 
     /// <summary>

@@ -175,7 +175,8 @@ namespace WhisperOfTheForest
         {
             // The shared compiler is the only place that decides whether a rune may follow this bar;
             // the page never re-implements the grammar.
-            bool appendable = SpellCompiler.CanAppend(chain.glyphs, glyph, out string appendReason);
+            bool appendable = SpellCompiler.CanAppend(chain.glyphs, glyph, out string appendReason)
+                && SpellService.CanUseGlyph(caster, glyph, out appendReason);
             bool over = Mouse.IsOver(card);
             float alpha = appendable ? 1f : SpellbookStyle.BlockedAlpha;
             Color kindColor = SpellbookStyle.KindColor(glyph.kind);
