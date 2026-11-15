@@ -13,7 +13,7 @@
 
   <!-- Effect: harm -->
   <WotF_Effect_Harm.label>harm</WotF_Effect_Harm.label>
-  <WotF_Effect_Harm.description>Arcane force damage to what the spell reaches.</WotF_Effect_Harm.description>
+  <WotF_Effect_Harm.description>Blunt damage to what the spell reaches, through the same damage type the arcane missiles use.</WotF_Effect_Harm.description>
   <WotF_Effect_Explosion.label>explosion</WotF_Effect_Explosion.label>
   <WotF_Effect_Explosion.description>One native explosion at the spell's point. Area widens that single blast; Sensitive keeps it from damaging buildings.</WotF_Effect_Explosion.description>
 

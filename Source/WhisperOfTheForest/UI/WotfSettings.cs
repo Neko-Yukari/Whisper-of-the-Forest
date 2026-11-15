@@ -19,15 +19,12 @@ namespace WhisperOfTheForest
         /// </summary>
         public bool freeCasting = false;
 
-        public ElfNameDisplay elfNameDisplay;
-
         public override void ExposeData()
         {
             base.ExposeData();
             Scribe_Values.Look(ref logDebug, "logDebug", false);
             Scribe_Values.Look(ref unlockAllGlyphs, "unlockAllGlyphs", false);
             Scribe_Values.Look(ref freeCasting, "freeCasting", false);
-            Scribe_Values.Look(ref elfNameDisplay, "elfNameDisplay", ElfNameDisplay.Original);
         }
     }
 }

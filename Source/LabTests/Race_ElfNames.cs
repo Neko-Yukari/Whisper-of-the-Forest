@@ -21,9 +21,9 @@ namespace WhisperOfTheForest.LabTests
 
         protected override void Run(TestContext t)
         {
-            t.Expect(LanguageDatabase.defaultLanguage.TryGetStringsFromFile("Names/WotF_ElfFemale", out firstNames),
+            t.Expect(Translator.TryGetTranslatedStringsForFile("Names/WotF_ElfFemale", out firstNames),
                 "female name list did not load");
-            t.Expect(LanguageDatabase.defaultLanguage.TryGetStringsFromFile("Names/WotF_ElfClan", out clanNames),
+            t.Expect(Translator.TryGetTranslatedStringsForFile("Names/WotF_ElfClan", out clanNames),
                 "clan name list did not load");
             reservedNames = DefDatabase<RulePackDef>.GetNamed("WotF_ElfNames")
                 .GetModExtension<ElfNameRules>().reservedNames;
@@ -87,14 +87,13 @@ namespace WhisperOfTheForest.LabTests
                 "birth did not produce a newborn: " + baby.DevelopmentalStage);
             t.Expect(baby.GetMother() == mother, "newborn lost its biological mother");
             t.Expect(((NameTriple)baby.Name).Last == ((NameTriple)mother.Name).Last,
-                "newborn did not inherit its mother's Latin clan name");
+                "newborn did not inherit its mother's clan name");
 
             foreach (Pawn pawn in pawns.Where(p => p != mother)) pawn.Destroy(DestroyMode.Vanish);
             foreach (Pawn pawn in new[] { mother, baby })
             {
                 savedIds.Add(pawn.thingIDNumber);
                 savedNames.Add(pawn.Name.ToString());
-                if (!pawn.DevelopmentalStage.Baby()) CheckDisplay(t, pawn);
             }
             Record("newbornRawName", baby.Name.ToString());
             Record("motherRawName", mother.Name.ToString());
@@ -113,8 +112,7 @@ namespace WhisperOfTheForest.LabTests
                 t.Expect(pawn.Name.ToString() == savedNames[i],
                     "Name fields changed across save/load: " + savedNames[i] + " -> " + pawn.Name);
                 t.Expect(pawn.story.birthLastName == ((NameTriple)pawn.Name).Last,
-                    "birth surname no longer matches the Latin clan name: " + pawn.story.birthLastName);
-                if (!pawn.DevelopmentalStage.Baby()) CheckDisplay(t, pawn);
+                    "birth surname no longer matches the clan name: " + pawn.story.birthLastName);
             }
             t.Note("reloaded", savedIds.Count);
             foreach (string entry in evidence)
@@ -137,7 +135,7 @@ namespace WhisperOfTheForest.LabTests
                 "newborn is not a female elf: " + baby.def.defName + "/" + baby.gender);
             NameTriple name = baby.Name as NameTriple;
             t.Expect(name != null && name.First == "Baby".Translate().CapitalizeFirst() &&
-                clanNames.Contains(name.Last), "newborn lost its vanilla placeholder or Latin clan: " + baby.Name);
+                clanNames.Contains(name.Last), "newborn lost its vanilla placeholder or clan: " + baby.Name);
         }
 
         private void CheckGeneratedName(TestContext t, NameTriple name, string stage)
@@ -146,7 +144,7 @@ namespace WhisperOfTheForest.LabTests
             if (name == null) return;
             t.Expect(firstNames.Contains(name.First) && clanNames.Contains(name.Last),
                 stage + ": name outside approved lists: " + name);
-            t.Expect(name.Nick == name.First, stage + ": nickname was not the Latin first name: " + name);
+            t.Expect(name.Nick == name.First, stage + ": nickname was not the first name: " + name);
             t.Expect(!reservedNames.Contains(name.First + " " + name.Last),
                 stage + ": randomly generated the reserved character: " + name);
         }
@@ -240,53 +238,6 @@ namespace WhisperOfTheForest.LabTests
         private void Record(string name, string value)
         {
             evidence.Add(name + "=" + value);
-        }
-
-        private static void CheckDisplay(TestContext t, Pawn pawn)
-        {
-            LoadedLanguage previousLanguage = LanguageDatabase.activeLanguage;
-            ElfNameDisplay previousMode = WotfMod.Settings.elfNameDisplay;
-            string raw = pawn.Name.ToString();
-            NameTriple name = (NameTriple)pawn.Name;
-            string first = name.First;
-            string last = name.Last;
-            try
-            {
-                LanguageDatabase.activeLanguage = LanguageDatabase.AllLoadedLanguages
-                    .First(l => l.LegacyFolderName == "ChineseSimplified");
-                WotfMod.Settings.elfNameDisplay = ElfNameDisplay.Original;
-                string original = pawn.LabelShort;
-                WotfMod.Settings.elfNameDisplay = ElfNameDisplay.Transliteration;
-                string transliterated = pawn.LabelShort;
-                bool tableLoaded = LanguageDatabase.activeLanguage.TryGetStringsFromFile(
-                    "Names/WotF_ElfNameDisplay", out List<string> lines);
-                t.Expect(tableLoaded, "Chinese name transliteration table did not load");
-                if (tableLoaded)
-                {
-                    Dictionary<string, string> table = lines.Select(line => line.Split('|'))
-                        .ToDictionary(columns => columns[0], columns => columns[1]);
-                    string expected = table[first] + "·" + table[last];
-                    t.Expect(transliterated == expected,
-                        "first/clan transliterations did not reach LabelShort: expected " + expected + ", got " + transliterated);
-                }
-                t.Expect(transliterated != original && transliterated.Any(c => c >= '\u4e00' && c <= '\u9fff'),
-                    "transliteration did not reach LabelShort: " + original + " -> " + transliterated);
-                t.Expect(pawn.Name.ToStringFull == transliterated, "full and short Chinese names differ");
-                t.Expect(name.First == first && name.Last == last && pawn.Name.ToString() == raw,
-                    "display mode mutated saved Latin name fields: " + pawn.Name);
-                WotfMod.Settings.elfNameDisplay = ElfNameDisplay.Original;
-                t.Expect(pawn.LabelShort == original, "original spelling did not restore immediately");
-                WotfMod.Settings.elfNameDisplay = ElfNameDisplay.Transliteration;
-                LanguageDatabase.activeLanguage = LanguageDatabase.defaultLanguage;
-                t.Expect(pawn.LabelShort == original, "language with no name table was translated");
-                t.Measure("display." + pawn.thingIDNumber,
-                    "first=" + first + ", last=" + last + ", original=" + original + ", transliteration=" + transliterated);
-            }
-            finally
-            {
-                LanguageDatabase.activeLanguage = previousLanguage;
-                WotfMod.Settings.elfNameDisplay = previousMode;
-            }
         }
     }
 }

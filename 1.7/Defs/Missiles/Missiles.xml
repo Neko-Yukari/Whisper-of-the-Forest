@@ -4,9 +4,9 @@
   <!-- Force damage used by arcane missiles when the impact mode is Damage or Explode. -->
   <DamageDef ParentName="Bullet">
     <defName>WotF_ArcaneMissileDamage</defName>
-    <label>arcane force</label>
-    <description>Concussive magical force that crushes rather than cuts.</description>
-    <deathMessage>{0} was blasted apart by arcane force.</deathMessage>
+    <label>blunt</label>
+    <description>Heavy concussive force that crushes rather than cuts.</description>
+    <deathMessage>{0} was crushed to death by blunt force.</deathMessage>
     <hediff>Bruise</hediff>
     <hediffSolid>Crack</hediffSolid>
     <armorCategory>Blunt</armorCategory>
