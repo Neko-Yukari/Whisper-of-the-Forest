@@ -55,8 +55,9 @@ namespace WhisperOfTheForest.LabTests
             }
 
             SpawnRing(chalkDef, t, 6, 6, def.ringSize);
-            SpawnStack(wood, t, 6, 8, def.inputCosts.Single(c => c.thingDef == wood).count);
-            SpawnStack(herb, t, 7, 8, def.inputCosts.Single(c => c.thingDef == herb).count);
+            comp.Prepare(def, null);
+            Ritual_TestFixture.Deliver(t, comp, wood, def.inputCosts.Single(c => c.thingDef == wood).count);
+            Ritual_TestFixture.Deliver(t, comp, herb, def.inputCosts.Single(c => c.thingDef == herb).count);
             nodeComp.SetStored(nodeComp.Capacity);
             ManaNetwork network = nodeComp.Network;
             if (network == null)
@@ -136,14 +137,6 @@ namespace WhisperOfTheForest.LabTests
             }
 
             return null;
-        }
-
-        private static void SpawnStack(ThingDef def, TestContext t, int x, int z, int count)
-        {
-            Thing thing = ThingMaker.MakeThing(def);
-            thing.stackCount = count;
-            GenSpawn.Spawn(thing, t.Arena.Cell(x, z), t.Map, WipeMode.Vanish);
-            t.Arena.Track(thing);
         }
 
         private static void SpawnRing(ThingDef chalkDef, TestContext t, int centerX, int centerZ, int size)

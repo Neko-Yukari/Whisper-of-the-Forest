@@ -49,11 +49,9 @@ namespace WhisperOfTheForest.LabTests
                 return;
             }
 
-            Thing hay = ThingMaker.MakeThing(ThingDefOf.Hay);
-            hay.stackCount = def.inputCosts.Single(c => c.thingDef == ThingDefOf.Hay).count;
-            GenSpawn.Spawn(hay, t.Arena.Cell(7, 6), t.Map, WipeMode.Vanish);
-            t.Arena.Track(hay);
-            int hayBefore = Count(t, ThingDefOf.Hay);
+            comp.Prepare(def, null);
+            Ritual_TestFixture.Deliver(t, comp, ThingDefOf.Hay, def.inputCosts.Single(c => c.thingDef == ThingDefOf.Hay).count);
+            int hayBefore = Ritual_TestFixture.Held(comp, ThingDefOf.Hay);
 
             SpawnRing(greenChalk, t, 6, 6, def.ringSize);
             nodeComp.SetStored(nodeComp.Capacity);
@@ -69,7 +67,7 @@ namespace WhisperOfTheForest.LabTests
                 "the beast-call rite did not finish");
             t.Measure("casterJobs", trace.Length == 0 ? "none" : trace.ToString());
             t.Measure("casterState", "downed=" + caster.Downed + " injury=" + t.InjurySeverity(caster).ToString("0.#"));
-            t.Expect(Count(t, ThingDefOf.Hay) == hayBefore - def.inputCosts.Single(c => c.thingDef == ThingDefOf.Hay).count, "the rite did not consume its hay focus");
+            t.Expect(Ritual_TestFixture.Held(comp, ThingDefOf.Hay) == hayBefore - def.inputCosts.Single(c => c.thingDef == ThingDefOf.Hay).count, "the rite did not consume its hay focus");
             t.Expect(Math.Abs(nodeComp.Stored - (before - def.manaCost)) < 0.01f, "the rite spent the wrong amount of mana");
 
             t.Note("horsesBefore", horsesBefore);
@@ -110,6 +108,7 @@ namespace WhisperOfTheForest.LabTests
             t.Measure("manaAfter", nodeComp.Stored.ToString("0.#"));
 
             float after = nodeComp.Stored;
+            comp.Prepare(def, null);
             t.Expect(!comp.TryStart(def, caster), "the rite started without its hay focus");
             t.Expect(Math.Abs(nodeComp.Stored - after) < 0.01f, "the rejected rite still spent mana");
 

@@ -312,6 +312,13 @@ namespace WhisperOfTheForest
                     request.TeleportTarget = (Building)RequireGate(RequireInt(args, "gate")).parent;
                 }
 
+                // The panel's [准备] first: a rite with offerings only starts once haulers have put them
+                // into the altar, so the first start only begins the collection and a later one starts.
+                if (altarComp.CanPrepare(def, rune))
+                {
+                    altarComp.Prepare(def, rune);
+                }
+
                 // Report the problems the panel would show before the real start path re-runs Assess.
                 assessment = altarComp.Assess(request);
                 started = altarComp.TryStart(request);
@@ -344,6 +351,7 @@ namespace WhisperOfTheForest
             json.Append(",\"active\":").Append(Json.Bool(altarComp.IsActive));
             json.Append(",\"activeDef\":").Append(Json.Str(altarComp.ActiveDef?.defName));
             json.Append(",\"started\":").Append(Json.Bool(started));
+            json.Append(",\"collectDef\":").Append(Json.Str(altarComp.CollectDef?.defName));
             json.Append(",\"networkStored\":").Append(Json.Num(network?.Stored ?? -1f));
             json.Append(",\"facilityPower\":").Append(Json.Num(altarComp.FacilityPower));
             if (ruinOption != null)

@@ -10,9 +10,9 @@ using WhisperOfTheForest.Testing;
 namespace WhisperOfTheForest.LabTests
 {
     /// <summary>
-    /// Rune awakening handoff: the altar reserves the chosen rune's materials from the ground and the
-    /// network's mana when the caster starts, takes them when the chant completes, and unlocks the rune
-    /// colony-wide only then; a rune whose materials are missing refuses before any mana is taken.
+    /// Rune awakening handoff: with the chosen rune's materials delivered into the altar, the rite keeps
+    /// them and the network's mana while it chants, takes them when the chant completes, and unlocks the
+    /// rune colony-wide only then; a rune whose materials are missing refuses before any mana is taken.
     /// </summary>
     [LabTest]
     public sealed class Ritual_RuneAwakeningHandoff : LabTest
@@ -54,19 +54,6 @@ namespace WhisperOfTheForest.LabTests
                 return;
             }
 
-            Thing jade = ThingMaker.MakeThing(ThingDefOf.Jade);
-            jade.stackCount = jadeRune.unlockCost.Find(cost => cost.thingDef == ThingDefOf.Jade).count;
-            GenSpawn.Spawn(jade, t.Arena.Cell(7, 6), t.Map, WipeMode.Vanish);
-            t.Arena.Track(jade);
-            foreach (SpellGlyphCost cost in jadeRune.unlockCost)
-            {
-                if (cost.thingDef == ThingDefOf.Jade) continue;
-                Thing offering = ThingMaker.MakeThing(cost.thingDef);
-                offering.stackCount = cost.count;
-                GenPlace.TryPlaceThing(offering, t.Arena.Cell(7, 7), t.Map, ThingPlaceMode.Near);
-                t.Arena.Track(offering);
-            }
-
             t.Step(1);
             CompManaBattery nodeComp = Mana_TestFixture.AddBattery(t, node);
             CompRitualAltar comp = altar.GetComp<CompRitualAltar>();
@@ -74,6 +61,15 @@ namespace WhisperOfTheForest.LabTests
             {
                 t.Fail("ritual altar or mana node component is missing");
                 return;
+            }
+
+            comp.Prepare(def, jadeRune);
+            Thing jade = Ritual_TestFixture.Deliver(t, comp, ThingDefOf.Jade,
+                jadeRune.unlockCost.Find(cost => cost.thingDef == ThingDefOf.Jade).count);
+            foreach (SpellGlyphCost cost in jadeRune.unlockCost)
+            {
+                if (cost.thingDef == ThingDefOf.Jade) continue;
+                Ritual_TestFixture.Deliver(t, comp, cost.thingDef, cost.count);
             }
 
             nodeComp.SetStored(nodeComp.Capacity);
@@ -100,6 +96,7 @@ namespace WhisperOfTheForest.LabTests
             t.Expect(GameComponent_Spellbook.IsUnlockedInData(jadeRune), "the finished rite did not unlock the rune");
 
             float storedBeforeRefusal = network.Stored;
+            comp.Prepare(def, steelRune);
             t.Expect(!comp.TryStart(def, steelRune, caster), "a rune with missing materials still started");
             t.Expect(Math.Abs(network.Stored - storedBeforeRefusal) < 0.001f,
                 "a refused rune awakening still took mana from the network");

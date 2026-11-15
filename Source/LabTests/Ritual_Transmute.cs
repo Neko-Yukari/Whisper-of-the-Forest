@@ -9,8 +9,9 @@ using WhisperOfTheForest.Testing;
 namespace WhisperOfTheForest.LabTests
 {
     /// <summary>
-    /// Transmutation handoff: the altar must reserve the Def's input materials when the rite starts,
-    /// take them only when the chant completes, and leave the Def's products beside it.
+    /// Transmutation handoff: with the Def's input materials delivered into the altar, the rite must
+    /// keep them while it chants, take them only when the chant completes, and leave the Def's products
+    /// beside it.
     /// </summary>
     [LabTest]
     public sealed class Ritual_Transmute : LabTest
@@ -51,14 +52,15 @@ namespace WhisperOfTheForest.LabTests
             }
 
             SpawnRing(chalkDef, t, 6, 6, def.ringSize);
-            SpawnStack(inputChalk, t, 6, 8, def.inputCosts.Single(c => c.thingDef == inputChalk).count);
-            SpawnStack(herb, t, 7, 8, def.inputCosts.Single(c => c.thingDef == herb).count);
+            comp.Prepare(def, null);
+            Ritual_TestFixture.Deliver(t, comp, inputChalk, def.inputCosts.Single(c => c.thingDef == inputChalk).count);
+            Ritual_TestFixture.Deliver(t, comp, herb, def.inputCosts.Single(c => c.thingDef == herb).count);
             nodeComp.SetStored(nodeComp.Capacity);
             t.Expect(comp.TryStart(def, caster), "the transmutation did not start");
-            t.Expect(Count(t, inputChalk) > 0 && Count(t, herb) > 0,
+            t.Expect(Ritual_TestFixture.Held(comp, inputChalk) > 0 && Ritual_TestFixture.Held(comp, herb) > 0,
                 "the altar consumed its inputs before the chant completed");
             t.Expect(t.StepUntil(() => !comp.IsActive, 1000), "the transmutation did not finish");
-            t.Expect(Count(t, inputChalk) == 0 && Count(t, herb) == 0,
+            t.Expect(Ritual_TestFixture.Held(comp, inputChalk) == 0 && Ritual_TestFixture.Held(comp, herb) == 0,
                 "the altar did not consume its inputs when the chant completed");
             t.Expect(Count(t, output) == def.outputProducts.Single(p => p.thingDef == output).count,
                 "output differs from ritual Def, found " + Count(t, output));
@@ -76,14 +78,6 @@ namespace WhisperOfTheForest.LabTests
             }
 
             return total;
-        }
-
-        private static void SpawnStack(ThingDef def, TestContext t, int x, int z, int count)
-        {
-            Thing thing = ThingMaker.MakeThing(def);
-            thing.stackCount = count;
-            GenSpawn.Spawn(thing, t.Arena.Cell(x, z), t.Map, WipeMode.Vanish);
-            t.Arena.Track(thing);
         }
 
         private static void SpawnRing(ThingDef chalkDef, TestContext t, int centerX, int centerZ, int size)
