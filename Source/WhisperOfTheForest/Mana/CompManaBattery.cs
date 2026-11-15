@@ -89,11 +89,9 @@ namespace WhisperOfTheForest.Mana
             base.PostDraw();
             Rot4 rotation = parent.Rotation;
             rotation.Rotate(RotationDirection.Clockwise);
-            Vector3 center = parent.DrawPos + Props.barOffset;
-            center.y += 0.1f;
             GenDraw.DrawFillableBar(new GenDraw.FillableBarRequest
             {
-                center = center,
+                center = parent.DrawPos + Props.barOffset,
                 size = Props.barSize,
                 fillPercent = Stored / Capacity,
                 filledMat = SolidColorMaterials.SimpleSolidColorMaterial(Props.barFilledColor),
@@ -101,9 +99,6 @@ namespace WhisperOfTheForest.Mana
                 margin = Props.barMargin,
                 rotation = rotation
             });
-            
-            // 调整渲染层级：使用 Graphic.Draw 或通过设置材质渲染队列
-            // 在这里只需设置材质的渲染队列，使其高于基础渲染层，或者在 DrawPos 上方增加 offset
         }
 
         // Ensures: shows stored/capacity and whether the battery is linked to a network.

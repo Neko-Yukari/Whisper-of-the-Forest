@@ -7,8 +7,7 @@ namespace WhisperOfTheForest.Race
 {
     /// <summary>
     /// Famine foraging: a bloodline pawn below the urgent-hunger line may eat a living wild plant
-    /// outside a growing zone when the normal food search finds nothing. Eating one leaves a small
-    /// mood penalty and a log entry.
+    /// outside a growing zone when the normal food search finds nothing. Eating one leaves a log entry.
     /// </summary>
     internal static class FamineGrass
     {
@@ -65,12 +64,6 @@ namespace WhisperOfTheForest.Race
 
         internal static void NotifyAteWildPlant(Pawn pawn)
         {
-            ThoughtDef thought = DefDatabase<ThoughtDef>.GetNamedSilentFail("WotF_AteWildGrass");
-            if (thought != null && pawn.needs?.mood != null)
-            {
-                pawn.needs.mood.thoughts.memories.TryGainMemory(thought);
-            }
-
             TaleDef tale = DefDatabase<TaleDef>.GetNamedSilentFail("WotF_Tale_AteWildGrass");
             if (tale != null)
             {

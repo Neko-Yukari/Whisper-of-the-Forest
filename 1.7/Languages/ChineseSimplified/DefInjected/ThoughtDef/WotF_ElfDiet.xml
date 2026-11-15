@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
 
-    <WotF_AtePlant.stages.0.label>吃了植物</WotF_AtePlant.stages.0.label>
-    <WotF_AtePlant.stages.0.description>我啃了些活着的植物填肚子。精灵吃得下，可这算不上一顿像样的饭。</WotF_AtePlant.stages.0.description>
+    <WotF_AtePlant.stages.0.label>吃了野生植物</WotF_AtePlant.stages.0.label>
+    <WotF_AtePlant.stages.0.description>我又不是小鹿……</WotF_AtePlant.stages.0.description>
 
 </LanguageData>

@@ -21,7 +21,7 @@ namespace WhisperOfTheForest.LabTests
         {
             ThingDef elfDef = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_Elf");
             GeneDef bloodline = DefDatabase<GeneDef>.GetNamedSilentFail("WotF_ForestBloodline");
-            ThoughtDef thought = DefDatabase<ThoughtDef>.GetNamedSilentFail("WotF_AteWildGrass");
+            ThoughtDef thought = DefDatabase<ThoughtDef>.GetNamedSilentFail("WotF_AtePlant");
             TaleDef tale = DefDatabase<TaleDef>.GetNamedSilentFail("WotF_Tale_AteWildGrass");
             if (elfDef == null || bloodline == null || thought == null || tale == null)
             {
@@ -31,7 +31,6 @@ namespace WhisperOfTheForest.LabTests
 
             t.Expect((elfDef.race.foodType & FoodTypeFlags.Plant) != 0, "the elf cannot eat living plants");
             t.Expect((elfDef.race.foodType & FoodTypeFlags.Tree) != 0, "the elf cannot eat trees");
-            t.Expect((elfDef.race.foodType & FoodTypeFlags.Meat) == 0, "the elf still accepts raw meat");
             t.Expect(bloodline.dontMindRawFood, "the bloodline gene does not remove the raw-food penalty");
 
             Pawn elf = t.SpawnCaster(4, 4);

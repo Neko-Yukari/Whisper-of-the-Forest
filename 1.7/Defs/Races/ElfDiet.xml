@@ -16,8 +16,8 @@
     <durationDays>1</durationDays>
     <stages>
       <li>
-        <label>ate plants</label>
-        <description>I chewed on living plants to fill my stomach. An elf can stomach it, but it is no proper meal.</description>
+        <label>ate wild plants</label>
+        <description>I'm not a deer...</description>
         <baseMoodEffect>-4</baseMoodEffect>
       </li>
     </stages>
