@@ -75,6 +75,10 @@ namespace WhisperOfTheForest.Rituals
         private SpellGlyphDef collectRune;
         private ThingOwner<Thing> offerings;
 
+        // The player's order between TryStart and the host job's start; never saved (see Commit).
+        private RitualRequest pendingOrder;
+        private int pendingJobId = -1;
+
         public CompRitualAltar()
         {
             offerings = new ThingOwner<Thing>(this);
@@ -399,10 +403,6 @@ namespace WhisperOfTheForest.Rituals
             }
 
             EjectSurplus();
-            if (autoRitual != null && IsPreparedFor(autoRitual, null) && !HasMissing(Ledger(autoRitual, null)))
-            {
-                TryStart(new RitualRequest { Def = autoRitual, Host = BestCaster() }, true);
-            }
         }
 
         /// <summary>
@@ -696,13 +696,84 @@ namespace WhisperOfTheForest.Rituals
             return TryStart(request, silent);
         }
 
-        /// <summary>The single start path: validate once, then hand the jobs out.</summary>
+        /// <summary>
+        /// The player's order (the panel's [开始仪式], Lab): validate with the chosen host, then give that
+        /// pawn a forced host job. Nothing is written here; the rite starts in <see cref="Commit"/> when
+        /// the job does, exactly like a rite a worker takes up from the work scan. True when the job was
+        /// taken: running already, or queued behind a job the pawn cannot drop.
+        /// </summary>
         public bool TryStart(RitualRequest request, bool silent = false)
         {
             RitualAssessment assessment = Assess(request);
             if (!assessment.CanStart)
             {
                 Reject(silent, assessment.FirstProblem);
+                return false;
+            }
+
+            Job hostJob = JobMaker.MakeJob(RitualJobDef, parent);
+            pendingOrder = request;
+            pendingJobId = hostJob.loadID;
+
+            // TryTakeOrderedJob makes the pre-toil reservations (Pawn_JobTracker.cs:924): the altar
+            // plus the equipment being inscribed. A false here means somebody else holds them.
+            if (!request.Host.jobs.TryTakeOrderedJob(hostJob, JobTag.Misc))
+            {
+                pendingOrder = null;
+                Reject(silent, "WotF_Ritual_AltarBusy".Translate());
+                return false;
+            }
+
+            // An idle or interruptible pawn starts the job inside TryTakeOrderedJob, and a commit that
+            // failed there has already ended it again.
+            return IsHost(request.Host) || HasRitualJob(request.Host, RitualJobDef);
+        }
+
+        /// <summary>
+        /// What a worker hosts when it takes the altar up as work: the prepared rite, by itself, with no
+        /// helpers. Rites that need choices beyond the rune (gate, item, ruin) cannot be prepared.
+        /// </summary>
+        public RitualRequest WorkRequest(Pawn host)
+        {
+            return new RitualRequest { Def = collectDef, Rune = collectRune, Host = host };
+        }
+
+        /// <summary>
+        /// The one start path, run by the host job when it actually starts (JobDriver_PerformRitual.
+        /// Notify_Starting): a job from the work scan or a right-click hosts the prepared rite, a job from
+        /// <see cref="TryStart(RitualRequest, bool)"/> hosts the order it was made for. The request is
+        /// validated again here, because the pawn may have walked off, been queued or the altar changed
+        /// since it was offered. False leaves the altar idle and the job ends with no toils.
+        /// </summary>
+        public bool Commit(Pawn host, Job job)
+        {
+            RitualRequest request;
+            if (job.workGiverDef != null)
+            {
+                request = WorkRequest(host);
+            }
+            else if (pendingOrder != null && pendingJobId == job.loadID && pendingOrder.Host == host)
+            {
+                request = pendingOrder;
+            }
+            else
+            {
+                // An order lives only between TryStart and the job's start and is not saved, so a queued
+                // order that crossed a save/load has nothing left to start.
+                WotfLog.Info(WotfLog.ModuleRitual, "host job of " + host.LabelShort + " at " + parent.Position
+                    + " has no order to start");
+                return false;
+            }
+
+            if (pendingJobId == job.loadID)
+            {
+                pendingOrder = null;
+            }
+
+            RitualAssessment assessment = Assess(request);
+            if (!assessment.CanStart)
+            {
+                RejectCommit(job, request, assessment.FirstProblem);
                 return false;
             }
 
@@ -722,23 +793,13 @@ namespace WhisperOfTheForest.Rituals
             activeRingSize = assessment.RingSize;
             activeChalkColor = assessment.ChalkColor;
             activeDurationTicks = assessment.DurationTicks;
-
-            Job hostJob = JobMaker.MakeJob(RitualJobDef, parent);
             if (TryGetStation(activeHost, out IntVec3 hostCell))
             {
-                hostJob.targetB = hostCell;
+                job.targetB = hostCell;
             }
 
-            // TryTakeOrderedJob makes the pre-toil reservations (Pawn_JobTracker.cs:924): the altar
-            // plus the equipment being inscribed. A false here means somebody else holds them, so
-            // nothing is started and nothing is spent.
-            if (!activeHost.jobs.TryTakeOrderedJob(hostJob, JobTag.Misc))
-            {
-                ClearRitualState();
-                Reject(silent, "WotF_Ritual_AltarBusy".Translate());
-                return false;
-            }
-
+            // Helpers are only ever the ones the player picked in the panel, so they are ordered the same
+            // way the host was; a worker taking the rite up as work hosts it alone.
             var helperJobs = new List<Job>(activeHelpers.Count);
             for (int i = 0; i < activeHelpers.Count; i++)
             {
@@ -751,28 +812,33 @@ namespace WhisperOfTheForest.Rituals
 
                 if (!helper.jobs.TryTakeOrderedJob(helperJob, JobTag.Misc))
                 {
-                    Pawn busyHost = activeHost;
                     for (int j = 0; j < helperJobs.Count; j++)
                     {
                         activeHelpers[j].jobs.EndCurrentOrQueuedJob(helperJobs[j], JobCondition.InterruptForced, false);
                     }
 
-                    // Clear before ending the host job: its finish action calls NotifyHostJobEnded, which
-                    // would otherwise announce a cancelled rite on top of the real reason below.
+                    // The host job is still starting; with the state cleared its driver builds no toils.
                     ClearRitualState();
-                    busyHost.jobs.EndCurrentOrQueuedJob(hostJob, JobCondition.InterruptForced, false);
-                    Reject(silent, "WotF_Ritual_HelperBusy".Translate(helper.LabelShort));
+                    RejectCommit(job, request, "WotF_Ritual_HelperBusy".Translate(helper.LabelShort));
                     return false;
                 }
 
                 helperJobs.Add(helperJob);
             }
 
-            SetAutoRitual(autoRitual);
             WotfLog.Info(WotfLog.ModuleRitual,
                 "started " + request.Def.defName + (request.Rune == null ? "" : " for " + request.Rune.defName)
-                + " hosted by " + activeHost.LabelShort + " with " + activeHelpers.Count + " helpers at " + parent.Position);
+                + " hosted by " + activeHost.LabelShort + " with " + activeHelpers.Count + " helpers at " + parent.Position
+                + (job.workGiverDef == null ? " (ordered)" : job.playerForced ? " (prioritized)" : " (work)"));
             return true;
+        }
+
+        /// <summary>A forced job tells the player why it did not start; a job from the work scan only logs.</summary>
+        private void RejectCommit(Job job, RitualRequest request, string reason)
+        {
+            WotfLog.Info(WotfLog.ModuleRitual, "could not start " + request.Def.defName + " at " + parent.Position
+                + " for " + request.Host.LabelShort + ": " + reason);
+            Reject(!job.playerForced, reason);
         }
 
         /// <summary>
@@ -781,7 +847,10 @@ namespace WhisperOfTheForest.Rituals
         /// </summary>
         public bool ReserveEquipment(Pawn claimant, Job job, bool errorOnFailed)
         {
-            return activeEquipment == null || claimant.Reserve(activeEquipment, job, 1, -1, null, errorOnFailed);
+            // Reservations are made before the job starts, so an ordered rite's item still sits in the order.
+            Thing equipment = IsActive ? activeEquipment
+                : pendingOrder != null && pendingJobId == job.loadID ? pendingOrder.Equipment : null;
+            return equipment == null || claimant.Reserve(equipment, job, 1, -1, null, errorOnFailed);
         }
 
         /// <summary>The host's last toil: pay, then apply. A missing stack or a short network fails loudly.</summary>
@@ -1179,11 +1248,9 @@ namespace WhisperOfTheForest.Rituals
             {
                 result.Problems.Add(hostReason);
             }
-            else if (HasRitualJob(request.Host, RitualJobDef) || HasRitualJob(request.Host, AssistJobDef))
-            {
-                result.Problems.Add("WotF_Ritual_Casting".Translate(request.Host.LabelShort));
-            }
 
+            // No check for the host already holding this altar's host job: Commit assesses while that very
+            // job is starting, and a second order is refused by the altar's reservation instead.
             var seen = new HashSet<Pawn>();
             if (request.Host != null)
             {

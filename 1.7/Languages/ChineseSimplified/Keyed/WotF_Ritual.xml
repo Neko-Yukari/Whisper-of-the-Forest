@@ -6,7 +6,8 @@
   <WotF_Ritual_InspectGathering>正在集合法阵：全员站上粉笔格后才开始吟唱。</WotF_Ritual_InspectGathering>
   <WotF_Ritual_InspectChanting>正在吟唱：魔源与祭品在圆满落定时才扣除。</WotF_Ritual_InspectChanting>
   <WotF_Ritual_AutoRepeat_Current>自动重复：{0}</WotF_Ritual_AutoRepeat_Current>
-  <WotF_Ritual_AutoRepeat_Desc>祭坛空闲时自动重复所选生产仪式，搬运工会把祭品送进祭坛；主持者、魔源或祭品不足时暂停等待。</WotF_Ritual_AutoRepeat_Desc>
+  <WotF_Ritual_HostGerund>主持「{0}」于</WotF_Ritual_HostGerund>
+  <WotF_Ritual_AutoRepeat_Desc>祭坛空闲时自动重复所选生产仪式，搬运工会把祭品送进祭坛，祭品齐了由林庭血脉成员按「基本工作」接活主持；主持者、魔源或祭品不足时暂停等待。</WotF_Ritual_AutoRepeat_Desc>
   <WotF_Ritual_InspectCollecting>收集祭品：{0}（{1}）</WotF_Ritual_InspectCollecting>
   <WotF_Ritual_AutoRepeat_Off>停止自动重复</WotF_Ritual_AutoRepeat_Off>
   <WotF_Ritual_AutoRepeat_None>没有可自动重复的生产仪式。</WotF_Ritual_AutoRepeat_None>

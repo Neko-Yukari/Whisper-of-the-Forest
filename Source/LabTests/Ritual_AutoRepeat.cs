@@ -8,13 +8,16 @@ using WhisperOfTheForest.Testing;
 namespace WhisperOfTheForest.LabTests
 {
     /// <summary>
-    /// Auto-repeat handoff: an idle altar with a production rite selected starts the rite by itself once
-    /// its inputs are inside, runs it to completion, and stops when the inputs run out.
+    /// Auto-repeat handoff: an idle altar with a production rite selected is taken up as work by a
+    /// bloodline pawn once its inputs are inside, runs to completion, and stops when the inputs run out.
     /// </summary>
     [LabTest]
     public sealed class Ritual_AutoRepeat : LabTest
     {
         public override string Name => "ritual.auto-repeat";
+
+        // A test wait, not a design number: long enough for an idle pawn's work scan to come round.
+        private const int WorkPickupTicks = 600;
 
         protected override void Run(TestContext t)
         {
@@ -58,20 +61,20 @@ namespace WhisperOfTheForest.LabTests
             // One cycle's inputs at a time: the altar drops whatever the current collection does not count.
             DeliverCycle(t, comp, def, inputChalk, herb);
             comp.CompTickRare();
-            t.Expect(comp.IsActive, "the idle altar did not start its auto-repeat rite");
+            t.Expect(t.StepUntil(() => comp.IsActive, WorkPickupTicks), "no pawn took up the auto-repeat rite as work");
             t.Expect(t.StepUntil(() => !comp.IsActive, 1000), "the first auto-repeat rite did not finish");
             t.Expect(Count(t, output) == def.outputProducts.Single(p => p.thingDef == output).count,
                 "first cycle output differs from ritual Def, found " + Count(t, output));
 
             DeliverCycle(t, comp, def, inputChalk, herb);
             comp.CompTickRare();
-            t.Expect(comp.IsActive, "the altar did not start a second auto-repeat rite");
+            t.Expect(t.StepUntil(() => comp.IsActive, WorkPickupTicks), "no pawn took up the second auto-repeat rite");
             t.Expect(t.StepUntil(() => !comp.IsActive, 1000), "the second auto-repeat rite did not finish");
             t.Expect(Count(t, output) == def.outputProducts.Single(p => p.thingDef == output).count * 2,
                 "two-cycle output differs from ritual Def, found " + Count(t, output));
 
             comp.CompTickRare();
-            t.Expect(!comp.IsActive, "the altar started a rite after its inputs ran out");
+            t.Expect(!t.StepUntil(() => comp.IsActive, WorkPickupTicks), "the altar started a rite after its inputs ran out");
         }
 
         private static int Count(TestContext t, ThingDef def)

@@ -155,6 +155,20 @@
     <ignoreFenceBlocked>true</ignoreFenceBlocked>
   </JobDef>
 
+  <!-- 自动仪式的主持作为工作，与炮塔写入法术同属 BasicWorker；右键强制主持也走它。 -->
+  <WorkGiverDef>
+    <defName>WotF_HostRitual</defName>
+    <label>host rites at altars</label>
+    <giverClass>WhisperOfTheForest.Rituals.WorkGiver_HostRitual</giverClass>
+    <workType>BasicWorker</workType>
+    <priorityInType>30</priorityInType>
+    <verb>host a rite at</verb>
+    <gerund>hosting a rite at</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
   <!-- 与原版 HaulToSubcoreScanner 同档（Biotech HaulToBase：Hauling / 90）。 -->
   <WorkGiverDef>
     <defName>WotF_HaulRitualOfferings</defName>
