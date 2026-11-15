@@ -13,9 +13,6 @@ namespace WhisperOfTheForest.Missiles
     public class ArcaneMissileVfxRequest : VfxRequest
     {
         public ArcaneMissileSettings settings;
-
-        /// <summary>Debug probe only: seconds the effect should stay alive; 0 uses the Def's own lifetime.</summary>
-        public float seconds;
     }
 
     /// <summary>

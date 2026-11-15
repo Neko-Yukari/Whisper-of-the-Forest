@@ -75,8 +75,4 @@
   <WotF_Spellbook.AnimOff>动效：关</WotF_Spellbook.AnimOff>
   <WotF_Spellbook.AnimTip>开关书页动效。关掉后交互不变，只是不再播放飞入、翻页、抖动和扫光。</WotF_Spellbook.AnimTip>
 
-  <WotF_Spellbook.LabSection>魔术书</WotF_Spellbook.LabSection>
-  <WotF_Spellbook.LabOpen>打开魔术书</WotF_Spellbook.LabOpen>
-  <WotF_Spellbook.LabOpened>已为 {0} 打开魔术书。</WotF_Spellbook.LabOpened>
-  <WotF_Spellbook.LabOpenTip>为选中角色打开魔术书：编排符文、创建到书签，并选择他当前施放的法术。</WotF_Spellbook.LabOpenTip>
 </LanguageData>

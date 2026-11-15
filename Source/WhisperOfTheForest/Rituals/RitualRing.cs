@@ -10,12 +10,6 @@ namespace WhisperOfTheForest.Rituals
     /// </summary>
     public static class RitualRing
     {
-        public static bool IsComplete(Map map, IntVec3 center, int size, ChalkColor color, out int missing)
-        {
-            missing = MissingCells(map, center, size, color).Count;
-            return missing == 0;
-        }
-
         /// <summary>
         /// The border cells that still carry no mark of this colour, in reading order. The one rule
         /// the start check, the inspect line and the ritual panel all read, so they cannot disagree

@@ -117,14 +117,12 @@ namespace WhisperOfTheForest.Missiles
 
             if (settings.expireOnTargetLost && !HasLiveTarget(map))
             {
-                ExperimentLog.Record("missiles", caster, "expired reason=targetLost age=" + ageTicks);
                 return ArcaneMissileEnd.Expired;
             }
 
             ageTicks++;
             if (ageTicks > maxAgeTicks)
             {
-                ExperimentLog.Record("missiles", caster, "expired reason=lifetime age=" + ageTicks);
                 return ArcaneMissileEnd.Expired;
             }
 
@@ -157,7 +155,6 @@ namespace WhisperOfTheForest.Missiles
                 IntVec3 cell = CellAt(posX, posZ);
                 if (!InBounds(map, cell))
                 {
-                    ExperimentLog.Record("missiles", caster, "expired reason=outOfBounds cell=" + cell);
                     return ArcaneMissileEnd.Expired;
                 }
 
@@ -184,7 +181,6 @@ namespace WhisperOfTheForest.Missiles
             float travelledZ = posZ - originZ;
             if (MathF.Sqrt(travelledX * travelledX + travelledZ * travelledZ) > settings.maxRangeCells)
             {
-                ExperimentLog.Record("missiles", caster, "expired reason=range cells=" + MathF.Round(settings.maxRangeCells));
                 return ArcaneMissileEnd.Expired;
             }
 
@@ -343,13 +339,6 @@ namespace WhisperOfTheForest.Missiles
                         "payload " + payload.GetType().Name + " threw; the missile still ends: " + exception);
                 }
             }
-
-            string targetLabel = hit != null ? hit.LabelShort : "ground";
-            ExperimentLog.Record(
-                "missiles",
-                caster,
-                "impact payload=" + (payload != null ? payload.GetType().Name : "none")
-                + " target=" + targetLabel + " cell=" + cell + " age=" + ageTicks);
         }
 
         private static float WrapAngle(float radians)

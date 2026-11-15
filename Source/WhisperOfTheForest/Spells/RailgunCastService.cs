@@ -19,10 +19,6 @@ namespace WhisperOfTheForest.Spells
     /// </summary>
     public static class RailgunCastService
     {
-
-        /// <summary>Last resolution summary, exposed read-only for the lab harness.</summary>
-        public static string LastResolve { get; private set; } = "none";
-
         /// <summary>
         /// Asks the visual layer for the charge effect of the channel that is starting. The aim cell is
         /// already locked by the cast; the beam itself is derived by the effect from the caster's live
@@ -66,7 +62,6 @@ namespace WhisperOfTheForest.Spells
         {
             if (map == null || spec == null)
             {
-                LastResolve = "dropped: missing cast";
                 return "railgun dropped: missing cast";
             }
 
@@ -75,21 +70,18 @@ namespace WhisperOfTheForest.Spells
                 // The caster died, left the map or was carried away during the channel. There is no
                 // firing point and no caster to exclude, so the shot is dropped instead of guessed.
                 SpellDiagnostics.Warning("railgun dropped: the caster left the map during the channel");
-                LastResolve = "dropped: caster gone";
                 return "railgun dropped: caster gone";
             }
 
             if (!GenGrid.InBounds(aimCell, map))
             {
                 SpellDiagnostics.Warning("railgun dropped: the locked aim cell is outside the map");
-                LastResolve = "dropped: aim out of bounds";
                 return "railgun dropped: aim out of bounds";
             }
 
             IntVec3 origin = caster.Position;
             if (!TryAim(map, origin, aimCell, caster, spec, out float dirX, out float dirZ, out float length))
             {
-                LastResolve = "dropped: no direction";
                 return "railgun dropped: no direction";
             }
 
@@ -101,7 +93,6 @@ namespace WhisperOfTheForest.Spells
             List<Thing> targets = CollectTargets(map, caster, origin, dirX, dirZ, halfWidth, length);
 
             var counts = new Dictionary<string, int>();
-            var sample = new System.Text.StringBuilder();
             int hits = 0;
             foreach (Thing thing in targets)
             {
@@ -118,19 +109,11 @@ namespace WhisperOfTheForest.Spells
 
                 SpellDiagnostics.Debug("railgun hit " + defName + "@" + position + " hp " + hpBefore
                                         + "->" + hpAfter);
-                if (hits <= 16)
-                {
-                    sample.Append(defName).Append('@').Append(position).Append(" hp=").Append(hpAfter).Append("; ");
-                }
             }
 
             string byDef = Describe(counts);
             SpellDiagnostics.Message("railgun fired origin=" + origin + " aim=" + aimCell + " length="
                                      + length.ToString("0.##") + " hits=" + hits + " by def " + byDef);
-            LastResolve = "fired origin=" + origin + " aim=" + aimCell + " dir="
-                          + dirX.ToString("0.###") + "," + dirZ.ToString("0.###") + " length="
-                          + length.ToString("0.##") + " damage=" + spec.damage.ToString("0.##")
-                          + " hits=" + hits + " sample=" + sample;
             return "railgun hits=" + hits;
         }
 

@@ -52,7 +52,10 @@
 [CmdletBinding()]
 param(
     [string]$CecilPath = 'C:/Users/81004/.dotnet/tools/.store/dotnet-ildasm/0.12.2/dotnet-ildasm/0.12.2/tools/netcoreapp3.0/any/Mono.Cecil.dll',
-    [string]$Repo = (Split-Path -Parent $PSScriptRoot)
+    [string]$Repo = (Split-Path -Parent $PSScriptRoot),
+    # The mod assembly to check the Defs against. build.ps1 passes its temporary build here while
+    # RimWorld holds the deployed DLL.
+    [string]$ModAssembly
 )
 
 $ErrorActionPreference = 'Stop'
@@ -99,7 +102,7 @@ $hardVerbConsumers = @(
     }
 )
 
-$modAssemblyPath = Join-Path $repo '1.7/Assemblies/WhisperOfTheForest.dll'
+$modAssemblyPath = if ($ModAssembly) { $ModAssembly } else { Join-Path $repo '1.7/Assemblies/WhisperOfTheForest.dll' }
 $catalogAssemblies = @(
     @{ Path = $modAssemblyPath; Mod = $true; Required = $true },
     @{ Path = (Join-Path $gameRoot 'Assembly-CSharp.dll'); Mod = $false; Required = $true },
@@ -645,6 +648,45 @@ foreach ($entry in $modDefs) {
     }
 }
 
+# ------------------------------------------------------------ stuff named next to a thing
+
+# Scenario parts (ScenPart_StartingThing_Defined) and stock generators name a thing and its material side by
+# side as <thingDef> + <stuff>. ThingMaker.MakeThing (Verse/ThingMaker.cs:10-24) repairs a bad pair with an
+# error each time: a stuff without stuffProps (ThingDef.IsStuff, Verse/ThingDef.cs:908) is swapped for the
+# default, and a stuff given to a def without stuffCategories (BuildableDef.MadeFromStuff,
+# Verse/BuildableDef.cs:142) is dropped. A stuff whose categories the thing does not accept
+# (StuffProperties.CanMake, Verse/StuffProperties.cs:102) is never offered by the game itself.
+foreach ($entry in $modDefs) {
+    foreach ($stuffNode in $entry.Node.SelectNodes('.//stuff')) {
+        $thingDefNode = $stuffNode.ParentNode.SelectSingleNode('thingDef')
+        if ($null -eq $thingDefNode) { continue }
+        $ruleChecks++
+        $thingName = $thingDefNode.InnerText.Trim()
+        $stuffName = $stuffNode.InnerText.Trim()
+        $thingEntry = $null
+        $stuffEntry = $null
+        if (-not $defIndex.TryGetValue($thingName, [ref]$thingEntry) -or -not $defIndex.TryGetValue($stuffName, [ref]$stuffEntry)) {
+            Add-Failure "'$($entry.DefName)' names thingDef '$thingName' with stuff '$stuffName', but one of them is not a Core or mod Def this check can read" $entry.File
+            continue
+        }
+
+        $thingCategories = @((Get-ListAt (Get-DefChain $thingEntry) @('stuffCategories')) | ForEach-Object { $_.InnerText.Trim() })
+        $stuffChain = Get-DefChain $stuffEntry
+        if ($thingCategories.Count -eq 0) {
+            Add-Failure "'$($entry.DefName)' gives stuff '$stuffName' to '$thingName', which is not madeFromStuff; ThingMaker logs 'is not madeFromStuff but stuff=' and drops it (Verse/ThingMaker.cs:20-23)" $entry.File
+        }
+        elseif ($null -eq (Get-NodeAt $stuffChain @('stuffProps'))) {
+            Add-Failure "'$($entry.DefName)' makes '$thingName' from '$stuffName', which has no stuffProps; ThingMaker logs 'which is not a stuff' and uses the default (Verse/ThingMaker.cs:10-14)" $entry.File
+        }
+        else {
+            $stuffCategories = @((Get-ListAt $stuffChain @('stuffProps', 'categories')) | ForEach-Object { $_.InnerText.Trim() })
+            if (@($thingCategories | Where-Object { $stuffCategories -contains $_ }).Count -eq 0) {
+                Add-Failure "'$($entry.DefName)' makes '$thingName' (stuffCategories $($thingCategories -join ', ')) from '$stuffName' (categories $($stuffCategories -join ', ')); StuffProperties.CanMake (Verse/StuffProperties.cs:102) rejects the pair" $entry.File
+            }
+        }
+    }
+}
+
 # ------------------------------------------------------- assembly-level rules
 
 $modAssemblyName = Split-Path -Leaf $modAssemblyPath
@@ -699,6 +741,219 @@ foreach ($type in $modTypes) {
         }
     }
 }
+
+# ------------------------------------------------------------ Harmony patch bindings
+
+# Harmony 3.0 (0Harmony.dll in workshop 2009463077/1.7) finds the original in PatchTools.GetOriginalMethod
+# with AccessTools.DeclaredMethod / DeclaredPropertyGetter / DeclaredPropertySetter / DeclaredConstructor:
+# only members declared on the named type count, a method name without argument types must have exactly
+# one overload ("Ambiguous match for HarmonyMethod[...]"), and a constructor without argument types means
+# the parameterless one. Prefix/Postfix/Finalizer arguments bind by name: an ordinary parameter must carry
+# the name of an original parameter, __instance/__result/__N/___field have their own meaning. A wrong name
+# or a missing target makes PatchAll throw on the first bad class, so every later patch is lost too.
+# Classes that pick their target in code (TargetMethod/TargetMethods) are listed, not checked.
+$cecilResolver = New-Object Mono.Cecil.DefaultAssemblyResolver
+foreach ($searchDirectory in @(
+    $gameRoot,
+    (Split-Path -Parent $modAssemblyPath),
+    (Join-Path $workshop '2009463077/1.7/Assemblies'),
+    (Join-Path $workshop '839005762/1.7/Assemblies'),
+    (Join-Path $workshop '3819570122/1.7/Assemblies')
+)) {
+    $cecilResolver.AddSearchDirectory($searchDirectory)
+}
+$readerParameters = New-Object Mono.Cecil.ReaderParameters
+$readerParameters.AssemblyResolver = $cecilResolver
+$harmonyAssembly = [Mono.Cecil.AssemblyDefinition]::ReadAssembly($modAssemblyPath, $readerParameters)
+
+$harmonySpecialArguments = @('__state', '__args', '__originalMethod', '__runOriginal', '__exception', '__resultRef')
+$harmonyPatchKinds = @{
+    'HarmonyLib.HarmonyPrefix' = 'Prefix'; 'HarmonyLib.HarmonyPostfix' = 'Postfix'
+    'HarmonyLib.HarmonyFinalizer' = 'Finalizer'; 'HarmonyLib.HarmonyTranspiler' = 'Transpiler'
+}
+$dynamicPatchClasses = New-Object System.Collections.Generic.List[string]
+$harmonyClassesChecked = 0
+
+function Get-TypeLineage([Mono.Cecil.TypeReference]$type) {
+    $names = New-Object System.Collections.Generic.List[string]
+    $current = $type
+    while ($null -ne $current) {
+        $names.Add($current.FullName)
+        $definition = $current.Resolve()
+        foreach ($implementation in $definition.Interfaces) { $names.Add($implementation.InterfaceType.FullName) }
+        $current = $definition.BaseType
+    }
+    return ,$names
+}
+
+# Harmony loads the original value into the patch argument as-is, so the patch type has to be the original
+# type, one of its bases or interfaces, or object; ref on either side is allowed.
+function Test-PatchArgumentFits([Mono.Cecil.TypeReference]$patchType, [Mono.Cecil.TypeReference]$originalType) {
+    if ($patchType.IsByReference) { $patchType = $patchType.ElementType }
+    if ($originalType.IsByReference) { $originalType = $originalType.ElementType }
+    if ($patchType.FullName -eq 'System.Object') { return $true }
+    return (Get-TypeLineage $originalType).Contains($patchType.FullName)
+}
+
+function Test-HasField([Mono.Cecil.TypeDefinition]$type, [string]$fieldName) {
+    $current = $type
+    while ($null -ne $current) {
+        foreach ($field in $current.Fields) { if ($field.Name -ceq $fieldName) { return $true } }
+        if ($null -eq $current.BaseType) { return $false }
+        $current = $current.BaseType.Resolve()
+    }
+    return $false
+}
+
+function Get-PatchKind([Mono.Cecil.MethodDefinition]$method) {
+    foreach ($attribute in $method.CustomAttributes) {
+        $kind = $harmonyPatchKinds[$attribute.AttributeType.FullName]
+        if ($null -ne $kind) { return $kind }
+    }
+    if (@('Prefix', 'Postfix', 'Finalizer', 'Transpiler') -ccontains $method.Name) { return $method.Name }
+    return $null
+}
+
+$harmonyTypes = New-Object System.Collections.Generic.List[object]
+$harmonyQueue = New-Object System.Collections.Generic.Queue[object]
+foreach ($type in $harmonyAssembly.MainModule.Types) { $harmonyQueue.Enqueue($type) }
+while ($harmonyQueue.Count -gt 0) {
+    $type = $harmonyQueue.Dequeue()
+    $harmonyTypes.Add($type)
+    foreach ($nested in $type.NestedTypes) { $harmonyQueue.Enqueue($nested) }
+}
+
+foreach ($patchClass in $harmonyTypes) {
+    $patchAttributes = @($patchClass.CustomAttributes | Where-Object { $_.AttributeType.FullName -eq 'HarmonyLib.HarmonyPatch' })
+    if ($patchAttributes.Count -eq 0) { continue }
+    $ruleChecks++
+    $className = $patchClass.FullName.Replace('/', '+')
+
+    if (@($patchClass.Methods | Where-Object { $_.Name -cin 'TargetMethod', 'TargetMethods' }).Count -gt 0) {
+        $dynamicPatchClasses.Add($className)
+        continue
+    }
+    if (@($patchClass.Methods | Where-Object { @($_.CustomAttributes | Where-Object { $_.AttributeType.FullName -eq 'HarmonyLib.HarmonyPatch' }).Count -gt 0 }).Count -gt 0) {
+        Add-Failure "Harmony class '$className' puts [HarmonyPatch] on a method; check-defs only reads class-level targets, extend the rule before using this form" $modAssemblyName
+        continue
+    }
+
+    # Harmony merges every class-level [HarmonyPatch] into one target description.
+    $targetType = $null; $methodName = $null; $methodType = 0; $argumentTypes = $null; $argumentVariations = $null
+    $unsupported = $null
+    foreach ($attribute in $patchAttributes) {
+        foreach ($argument in $attribute.ConstructorArguments) {
+            switch ($argument.Type.FullName) {
+                'System.Type' { $targetType = $argument.Value }
+                'System.String' { $methodName = $argument.Value }
+                'HarmonyLib.MethodType' { $methodType = [int]$argument.Value }
+                'System.Type[]' { $argumentTypes = @($argument.Value | ForEach-Object { $_.Value.FullName }) }
+                'HarmonyLib.ArgumentType[]' { $argumentVariations = @($argument.Value | ForEach-Object { [int]$_.Value }) }
+                default { $unsupported = $argument.Type.FullName }
+            }
+        }
+    }
+    if ($null -ne $unsupported) {
+        Add-Failure "Harmony class '$className' passes a $unsupported to [HarmonyPatch], which check-defs does not read; extend the rule" $modAssemblyName
+        continue
+    }
+    if ($null -eq $targetType) {
+        Add-Failure "Harmony class '$className' names no target type and has no TargetMethod" $modAssemblyName
+        continue
+    }
+    if ($null -ne $argumentTypes -and $null -ne $argumentVariations) {
+        # ArgumentType: 0 Normal, 1 Ref, 2 Out, 3 Pointer.
+        for ($i = 0; $i -lt $argumentTypes.Count; $i++) {
+            if ($argumentVariations[$i] -in 1, 2) { $argumentTypes[$i] += '&' }
+            elseif ($argumentVariations[$i] -eq 3) { $argumentTypes[$i] += '*' }
+        }
+    }
+
+    $targetDefinition = $targetType.Resolve()
+    $targetLabel = "$($targetType.FullName).$methodName"
+    # MethodType: 0 Normal, 1 Getter, 2 Setter, 3 Constructor; the others are not used here.
+    $original = $null
+    if ($methodType -in 0, 3) {
+        $candidates = @($targetDefinition.Methods | Where-Object {
+            if ($methodType -eq 3) { $_.IsConstructor -and -not $_.IsStatic } else { -not $_.IsConstructor -and $_.Name -ceq $methodName }
+        })
+        if ($methodType -eq 3) {
+            $targetLabel = "$($targetType.FullName)..ctor"
+            if ($null -eq $argumentTypes) { $argumentTypes = @() }
+        }
+        if ($null -ne $argumentTypes) {
+            $wanted = $argumentTypes -join ','
+            $candidates = @($candidates | Where-Object { (@($_.Parameters | ForEach-Object { $_.ParameterType.FullName }) -join ',') -ceq $wanted })
+            $targetLabel += "($wanted)"
+        }
+        if ($candidates.Count -gt 1) {
+            Add-Failure "Harmony class '$className' targets $targetLabel, which has $($candidates.Count) declared overloads; Harmony throws 'Ambiguous match', so name the argument types" $modAssemblyName
+            continue
+        }
+        if ($candidates.Count -eq 1) { $original = $candidates[0] }
+    }
+    elseif ($methodType -in 1, 2) {
+        $property = @($targetDefinition.Properties | Where-Object { $_.Name -ceq $methodName })
+        if ($property.Count -eq 1) { $original = $(if ($methodType -eq 1) { $property[0].GetMethod } else { $property[0].SetMethod }) }
+        $targetLabel += $(if ($methodType -eq 1) { ' (getter)' } else { ' (setter)' })
+    }
+    else {
+        Add-Failure "Harmony class '$className' uses MethodType $methodType, which check-defs does not resolve; extend the rule" $modAssemblyName
+        continue
+    }
+    if ($null -eq $original) {
+        Add-Failure "Harmony class '$className' targets $targetLabel, which is not declared on that type; PatchAll throws and every later patch is lost" $modAssemblyName
+        continue
+    }
+
+    $patchMethods = @($patchClass.Methods | Where-Object { $null -ne (Get-PatchKind $_) })
+    if ($patchMethods.Count -eq 0) {
+        Add-Failure "Harmony class '$className' has [HarmonyPatch] but no Prefix/Postfix/Finalizer/Transpiler" $modAssemblyName
+        continue
+    }
+
+    $harmonyClassesChecked++
+    $returnsValue = $original.ReturnType.FullName -ne 'System.Void'
+    foreach ($patchMethod in $patchMethods) {
+        if ((Get-PatchKind $patchMethod) -eq 'Transpiler') { continue }
+        foreach ($parameter in $patchMethod.Parameters) {
+            $name = $parameter.Name
+            $where = "Harmony $className.$($patchMethod.Name) argument '$name' (target $targetLabel)"
+            # Harmony matches every name below case-sensitively; PowerShell's -eq would not.
+            if ($name -ceq '__instance') {
+                if ($original.IsStatic) { Add-Failure "$where asks for __instance of a static method" $modAssemblyName }
+                elseif (-not (Test-PatchArgumentFits $parameter.ParameterType $targetType)) { Add-Failure "$where is $($parameter.ParameterType.FullName), which $($targetType.FullName) cannot be passed as" $modAssemblyName }
+            }
+            elseif ($name -ceq '__result') {
+                if (-not $returnsValue) { Add-Failure "$where asks for __result of a void method" $modAssemblyName }
+                elseif (-not (Test-PatchArgumentFits $parameter.ParameterType $original.ReturnType)) { Add-Failure "$where is $($parameter.ParameterType.FullName) but the original returns $($original.ReturnType.FullName)" $modAssemblyName }
+            }
+            elseif ($harmonySpecialArguments -ccontains $name) { continue }
+            elseif ($name.StartsWith('___')) {
+                if (-not (Test-HasField $targetDefinition $name.Substring(3))) { Add-Failure "$where injects field '$($name.Substring(3))', which $($targetType.FullName) and its bases do not have" $modAssemblyName }
+            }
+            elseif ($name -match '^__(\d+)$') {
+                $index = [int]$Matches[1]
+                if ($index -ge $original.Parameters.Count) { Add-Failure "$where is past the original's $($original.Parameters.Count) parameters" $modAssemblyName }
+                elseif (-not (Test-PatchArgumentFits $parameter.ParameterType $original.Parameters[$index].ParameterType)) { Add-Failure "$where is $($parameter.ParameterType.FullName) but parameter $index is $($original.Parameters[$index].ParameterType.FullName)" $modAssemblyName }
+            }
+            elseif ($name.StartsWith('__')) {
+                Add-Failure "$where is not an argument name Harmony injects" $modAssemblyName
+            }
+            else {
+                $originalParameter = @($original.Parameters | Where-Object { $_.Name -ceq $name })
+                if ($originalParameter.Count -eq 0) {
+                    $originalNames = @($original.Parameters | ForEach-Object { $_.Name }) -join ', '
+                    Add-Failure "$where matches no parameter of the original ($originalNames); Harmony binds by name and PatchAll throws" $modAssemblyName
+                }
+                elseif (-not (Test-PatchArgumentFits $parameter.ParameterType $originalParameter[0].ParameterType)) {
+                    Add-Failure "$where is $($parameter.ParameterType.FullName) but the original parameter is $($originalParameter[0].ParameterType.FullName)" $modAssemblyName
+                }
+            }
+        }
+    }
+}
+$harmonyAssembly.Dispose()
 
 # DefInjectionPackage.AddDataFromFile treats any element with children as a list key and keeps only <li>,
 # so a type wrapper like <ThingDef> around the entries silently drops every translation inside it.
@@ -941,6 +1196,7 @@ foreach ($key in ($literalKeyUses.Keys | Sort-Object)) {
 
 Write-Host "Checked $checked Def type/texture references in 1.7/Defs"
 Write-Host "Checked $ruleChecks Def structure and assembly rules"
+Write-Host "Checked $harmonyClassesChecked Harmony patch classes; target chosen in code, not checked: $($dynamicPatchClasses -join ', ')"
 foreach ($failure in $failures) { Write-Host "FAIL  $failure" -ForegroundColor Red }
 
 if ($failures.Count -gt 0) {

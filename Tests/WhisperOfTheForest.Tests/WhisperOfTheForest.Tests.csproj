@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    Offline seam tests, run by Tools/test-offline.ps1. They load the built mod DLL from 1.7/Assemblies
+    (build it first) and the game's assemblies read-only; nothing here is copied into the mod.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <GameRoot Condition="'$(GameRoot)' == ''">E:/SteamLibrary/steamapps/common/RimWorld</GameRoot>
+    <WorkshopRoot Condition="'$(WorkshopRoot)' == ''">E:/SteamLibrary/steamapps/workshop/content/294100</WorkshopRoot>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="WhisperOfTheForest"><HintPath>$(MSBuildThisFileDirectory)../../1.7/Assemblies/WhisperOfTheForest.dll</HintPath></Reference>
+    <Reference Include="Assembly-CSharp"><HintPath>$(GameRoot)/Assembly-CSharp.dll</HintPath></Reference>
+    <Reference Include="UnityStubs"><HintPath>$(GameRoot)/UnityStubs.dll</HintPath></Reference>
+    <Reference Include="Waylith"><HintPath>$(GameRoot)/Waylith.dll</HintPath></Reference>
+    <Reference Include="0Harmony"><HintPath>$(WorkshopRoot)/2009463077/1.7/Assemblies/0Harmony.dll</HintPath></Reference>
+    <Reference Include="AlienRace"><HintPath>$(WorkshopRoot)/839005762/1.7/Assemblies/AlienRace.dll</HintPath></Reference>
+    <Reference Include="RimUnity"><HintPath>$(WorkshopRoot)/3819570122/1.7/Assemblies/RimUnity.dll</HintPath></Reference>
+    <Reference Include="RimUnity.Core"><HintPath>$(WorkshopRoot)/3819570122/1.7/Assemblies/RimUnity.Core.dll</HintPath></Reference>
+  </ItemGroup>
+</Project>

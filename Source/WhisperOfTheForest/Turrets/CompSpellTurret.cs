@@ -129,7 +129,8 @@ namespace WhisperOfTheForest.Turrets
             }
         }
 
-        private static bool CanCompileProjectile(SpellRecipe recipe, out string reason)
+        /// <summary>A turret only fires projectile spells; Super runes never go into one.</summary>
+        public static bool CanCompileProjectile(SpellRecipe recipe, out string reason)
         {
             SpellCastPlan compiled = SpellCompiler.Compile(recipe, out reason);
             if (compiled == null)

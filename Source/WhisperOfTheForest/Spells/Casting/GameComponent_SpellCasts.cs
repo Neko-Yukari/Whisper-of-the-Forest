@@ -36,9 +36,6 @@ namespace WhisperOfTheForest.Spells
             }
         }
 
-        /// <summary>Casts in progress, exposed read-only for diagnostics.</summary>
-        public int Count => casts == null ? 0 : casts.Count;
-
         public void Add(SpellCast cast)
         {
             if (cast == null)

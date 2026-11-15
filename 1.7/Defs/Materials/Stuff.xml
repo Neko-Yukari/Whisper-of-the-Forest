@@ -18,12 +18,14 @@
     Category and flammability are fixed by the brief: living wood is Woody at 0.2, the three
     metals are Metallic and do not burn; adamantine and mithril keep a melee cooldown factor of 1.
 
-    Not carried here, for want of a vanilla stuff field (reported in the handoff):
-      * mithril's two reaction slots and its x0.70 reaction-spell mana cost (spell injection system);
-      * living wood's ranged-cooldown bonus for the elven longbow (the table gives no value).
+    Not carried here, for want of a vanilla stuff field:
+      * mithril's two reaction slots and its reaction-spell mana factor live on the enchantment comp
+        of each elven weapon and armour (mithrilStuff / mithrilCostFactor);
+      * living wood's ranged-cooldown bonus lives on the elven longbow's own RangedWeapon_Cooldown
+        (Equipment/ElvenWeapons.xml).
 
-    No acquisition path on purpose: point-transmutation arrives with the altar tiers, so these are
-    Lab-spawnable only for now.
+    Sources in play: altar transmutation (Rituals/MaterialTransmutation.xml), the Green Court
+    traders (TraderKinds/GreenCourtTraders.xml) and ruin loot (AncientRuins/RuinLoot.xml).
 
     Placeholder art: every texPath borrows the mod's own chalk texture, tinted per material, until
     the M1-M4 stack-count art in 技术/09-美术资产清单 exists. The table asks for Graphic_StackCount,

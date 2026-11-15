@@ -44,11 +44,7 @@
   </ThingDef>
 
   <!--
-    本轮补齐的配方。设定表把踏地披风列在「布/皮 + 活木」，此前它只能由 Lab 生成，没法进游戏制作验收。
-
-    刻意不加 stuffCategories：Lab 的 Equip 走 ThingMaker.MakeThing(def, null)，凡 madeFromStuff 的 Def
-    都会先记一条 Error（Verse/ThingMaker.cs:15-18），会给 Movement_TerrainStride 的 L1 日志添红。
-    因此用固定材料配方；Def 上已有的数值与效果一个字段不动。
+    设定表把踏地披风列在「布/皮 + 活木」。不加 stuffCategories，用固定材料配方。
   -->
   <RecipeDef>
     <defName>WotF_MakeTerrainStride</defName>

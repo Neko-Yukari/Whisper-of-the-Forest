@@ -45,7 +45,6 @@
       <li>Leathery</li>
     </stuffCategories>
     <costStuffCount>20</costStuffCount>
-    <!-- Lab-granted placeholder, like the movement experiment items: nothing to smelt back. -->
     <smeltable>false</smeltable>
     <!--
       Court staff pool (2026-11-14): the pawn weapon pool only accepts weapons with a non-empty

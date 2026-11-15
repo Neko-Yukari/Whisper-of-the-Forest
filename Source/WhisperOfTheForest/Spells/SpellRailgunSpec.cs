@@ -10,9 +10,6 @@ namespace WhisperOfTheForest.Spells
     /// damage one hit does. How long the shot takes belongs to the rune's <see cref="SpellTiming"/>
     /// (its channel), and everything about how the effect looks belongs to the Vfx Def named by
     /// <see cref="vfxDef"/>, which is why no colour, beam or screen value appears here.
-    ///
-    /// The class lives in its own file so the glyph-config harness can compile the real
-    /// SpellGlyphDef (which owns one of these) without pulling in the whole plan/serialization file.
     /// </summary>
     public class SpellRailgunSpec : IExposable, ISpellSpecialSpec
     {

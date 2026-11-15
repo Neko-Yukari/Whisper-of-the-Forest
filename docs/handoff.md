@@ -7,8 +7,8 @@
 - 仓库：`E:/SteamLibrary/steamapps/common/RimWorld/Moddev/Whisper-of-the-Forest`，分支 `feat/forest-magic-foundation-20261105`，HEAD `2b4efec`，已推送 origin（`git ls-remote` 已核对同 hash）。
 - 该提交含 217 个文件、+12966/−338：把此前分批批准但未提交的功能（魔源电池/网络、仪式全家、自动施法炮塔、缚足、骇入、精灵命名、翠绿林庭派系、饥荒啃草、工作台特性、修电器动画）连同本轮「法术目标白名单重做」一次落库。
 - `generated-images/`（17 张精灵外观迭代图，约 23 MB，全仓库零引用）**故意未提交**，仍在本地位未跟踪。要么加进 `.gitignore`，要么提交时显式排除；`git add -A` 会把它带进去。
-- 已验收：目标白名单重做（含三项返修）通过独立复核；定向 L2 run `20261110-083225` 15/15；整份 Player.log `errorBlocks=0`；产品 DLL 307712 B、与部署副本一致且不含 Lab 类型；`check-defs` 141 引用 / 137 规则 / 0 failed；Lab 已退出。
-- 未验收：真实鼠标选目标与观感（L3）、炮塔实战选敌、无 Anomaly 环境下的人形突变体归类、`git diff --check` 报的 3 个 Lab 文件末尾空行（未清理，不影响构建）。
+- 已验收：目标白名单重做（含三项返修）通过独立复核；整份 Player.log `errorBlocks=0`；`check-defs` 141 引用 / 137 规则 / 0 failed。
+- 未验收：真实鼠标选目标与观感、炮塔实战选敌、无 Anomaly 环境下的人形突变体归类。
 
 ## 2. 项目是什么
 
@@ -42,9 +42,9 @@ Source/WhisperOfTheForest/         产品代码，csproj 自动编译（EnableDe
   Race/                            ForestBloodline* ElfNames ElfNameDisplay FamineGrass ForestRepair ...
   Equipment/                       CompSpellStaff CompShortStaff SpellStaffModifiers Verb_CastSpellStaff
   UI/ Diagnostics/
-Source/Lab/  Source/LabTests/      仅 WotfLab=true 时编译，不进产品 DLL
 1.7/Defs/ 1.7/Languages/ 1.7/Assemblies/(DLL 是发行产物，故意入库)  Textures/
-Tools/                             build.ps1 test.ps1 check-defs.ps1 lab.ps1 launch-lab.ps1
+Tools/                             build.ps1 check-defs.ps1 test-offline.ps1
+Tests/WhisperOfTheForest.Tests/    离线交接测试（引用已构建的 DLL）
 docs/                              本文、rimunity-vfx-workflow.md、audio-candidates.md、adr/
 ```
 
@@ -60,38 +60,31 @@ docs/                              本文、rimunity-vfx-workflow.md、audio-can
 
 仓库内：`docs/adr/0001-live-spell-slot-and-trigger-segments.md`、`docs/rimunity-vfx-workflow.md`、`AGENTS.md`（项目规则，必读）。
 
-反编译原版源码：`Moddev/Graphify/native/`（1.7）。Graphify 图谱：`Moddev/Graphify/graphify-out/graph.json`，快照 2026-11-10 06:53 UTC，69,647 节点 / 234,690 边；**只含产品代码，不含 LabTests**，测试入口仍需 grep 补齐。查询用 `graphify_hybrid.local__*` 并显式传 `project_path`。
+反编译原版源码：`Moddev/Graphify/native/`（1.7）。Graphify 图谱：`Moddev/Graphify/graphify-out/graph.json`，快照 2026-11-10 06:53 UTC，69,647 节点 / 234,690 边；只含产品代码。查询用 `graphify_hybrid.local__*` 并显式传 `project_path`。
 
-实机证据：`Moddev/lab-run/test-runs/<run>.json`（结果）与 `<run>.disklog.json`（整份 Player.log 扫描）。交接用的临时说明在 `C:/Users/81004/AppData/Local/Temp/opencode/`，会过期，别当长期资料。
+交接用的临时说明在 `C:/Users/81004/AppData/Local/Temp/opencode/`，会过期，别当长期资料。
 
 ## 5. 怎么验
 
-验收分四层，缺一层就不能说完成：
-
-- **L0 编译**：`Tools/build.ps1`（产品）或 `Tools/build.ps1 -Lab`（含测试宿主），要求 0 警告 0 错误。
-- **L1 加载**：Lab 启动后 L1 检查 `ownErrors run/load=0`、Harmony patch 数、Def 数，并扫描整份磁盘 Player.log 的 ERROR 块；日志缺失或属于别的进程一律记「未验证」。
-- **L2 实机行为**：`Tools/test.ps1 -Filter 'a,b'`（逗号合跑，`-StopAfter` 首错即停）。测试走真实游戏对象与公共入口，不走 shim。
-- **L3 观感**：只能由用户看。给可运行实例、存档名、观察路径，不要用截图或文字替用户下结论。
-
-常用命令：
+日常跑三条离线命令，规则见 `AGENTS.md` 的「验证」：
 
 ```powershell
-Tools/build.ps1                 # 产品构建，输出到 1.7/Assemblies
-Tools/build.ps1 -Lab            # 含 Lab/LabTests
-Tools/test.ps1 -Filter 'spell.,turret.' -StopAfter
+Tools/build.ps1                 # 构建，输出到 1.7/Assemblies；0 警告 0 错误
+Tools/check-defs.ps1            # Summary: 0 failed
+Tools/test-offline.ps1          # SUMMARY ... failed=0；-Filter 只跑部分
 Tools/build.ps1 -Verify         # 构建并跑 check-defs
-Tools/check-defs.ps1 -Repo .
 ```
 
-硬规则：同一时间只允许一个 agent 构建或开游戏；开测前确认 `RimWorld` 进程为 0；测试跑完关 Lab 并释放使用权。产品 DLL 必须不含 `LabTestRunner` / `LabHost` / `WOTF_LAB` 标识。
+代理不启动游戏，不写游戏内测试。实机表现和观感只能由用户看，不要用截图或文字替用户下结论。
+
+硬规则：同一时间只允许一个 agent 构建。
 
 ## 6. 决策与已知坑
 
 已定决策（改之前先问用户）：
 
 - 不兼容旧版本与旧存档，不做迁移、不留兼容层（`AGENTS.md`）。
-- 数值只写在 Def，C# 不复制默认值；Def 保证的字段不在运行时加空判断；错误只在真实输入边界（存档加载、Lab 命令解析、第三方回调）处理。
-- 产品代码不得引用 `Lab/`、`LabTests/`。
+- 数值只写在 Def，C# 不复制默认值；Def 保证的字段不在运行时加空判断；错误只在真实输入边界（存档加载、第三方回调）处理。
 - 目标白名单：每效果 XML 声明、创建时并集冻结、不按派系筛、效果命中时自己检查语义条件（如骇入只收敌对机械）；范围增幅加「格子」，延迟/滞留/符印只加「格子」不继承载荷类别；自身/环绕免选；轨道炮九类。
 - 目标类别按种族判定：异象用 `RaceProps.IsAnomalyEntity`，机械用 `IsMechanoid`，**不要用 `Pawn.IsEntity`**（它看 `Faction.OfEntities`，会随派系变化）。人形突变体按自身种族算人形，不单列类别。
 - 炮塔：类别开关 × 关系开关只能收窄法术白名单；非敌对建筑/植物/岩石/物品一律不选；抄写保留冻结白名单，只有新草稿才推导。
@@ -108,7 +101,6 @@ Tools/check-defs.ps1 -Repo .
 - `Pawn.IsEntity`、`IsSubhuman` 这类属性语义容易误读，用前读反编译源码。
 - 施法目标身份必须显式存（`SpellTargetKind.Cell/Thing`），不能用「Thing 引用为 null」推断选了格子。
 - 改完不要靠反复重跑构建碰运气，先回读源码定位原因。
-- 回归范围按依赖选，不默认跑全量：先用图谱找改动函数的调用方，再用 grep 找经过这些入口的 LabTests。
 
 ## 7. 下一步（按路线图）
 

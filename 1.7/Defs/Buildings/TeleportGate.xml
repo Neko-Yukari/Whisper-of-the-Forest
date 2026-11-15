@@ -49,7 +49,7 @@
       <Beauty>20</Beauty>
     </statBases>
     <!-- 造价（占位值）：精金、秘银、活木三件定数，底座用 Stony 材质的石块；不消耗谐振核。
-         因此本 Def 是 MadeFromStuff，建造时还要选一种石块，Lab 的 gate action=build 默认用花岗岩石块。 -->
+         因此本 Def 是 MadeFromStuff，建造时还要选一种石块。 -->
     <stuffCategories>
       <li>Stony</li>
     </stuffCategories>

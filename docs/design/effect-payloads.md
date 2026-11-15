@@ -78,7 +78,7 @@
 
 | 旧字段 | 去向 | 依据 |
 | --- | --- | --- |
-| `amplifyStacks, dampenStacks, aoeStacks` | 从运行载荷移除；仅在编译诊断元数据 `compile.stacks` 输出 | `S/SpellCompiler.cs:420,432,441`、`Source/Lab/LabCommands.cs:2229-2230` |
+| `amplifyStacks, dampenStacks, aoeStacks` | 从运行载荷移除；仅在编译诊断元数据 `compile.stacks` 输出 | `S/SpellCompiler.cs:420,432,441` |
 | `magnitudeFactor` | 编译期折入 `Heal.tendQuality`、`Grow.growthFactor`、`Magelight.lightRadius` | `S/SpellCompiler.cs:422,434`、`S/SpellExecutor.cs:180,269`、`S/Effects/SpellEffectRuntime.cs:87` |
 | `baseDurationTicks` | 仅用于编译期响应 `Extend` 时提供基础时长 | `S/SpellCompiler.cs:394,494-507` |
 | `factor` | 各具名 Def 直接声明具名字段（如 `tendQuality`、`growthFactor`） | `1.7/Defs/Spells/Spellbook.xml:196,252` |
@@ -125,7 +125,7 @@ public abstract class SpellEffect : IExposable
 ```
 
 - 不加第 3 个选敌/射程钩子：法术射程由形式决定（`S/SpellCompiler.cs:245-246`、`E/Verb_CastSpellStaff.cs:27-48`），目标类别白名单在 `plan.targets` 冻结（`S/SpellCompiler.cs:207-211,366-379`、`S/SpellService.cs:318-350`）。
-- `DiagnosticName` 返回小写效果名（如 `"harm"`、`"heal"`），供 `SpellExecutor.ExecuteStepList` 拼报告（`S/SpellExecutor.cs:60-62`）与 `LabCommands` 输出 `type`（`Source/Lab/LabCommands.cs:2226`）。
+- `DiagnosticName` 返回小写效果名（如 `"harm"`、`"heal"`），供 `SpellExecutor.ExecuteStepList` 拼报告（`S/SpellExecutor.cs:60-62`）。
 
 ### 6.2 执行器与目标收集职责
 
@@ -200,15 +200,12 @@ public abstract class SpellEffect : IExposable
 | `SpellGlyphDef` 上的效果专属字段与 `requiresAmount` | `S/SpellGlyphs.cs:62-120,234-257,384-413`、`S/SpellCompiler.cs:663-666` | 下放到对应 `EffectGlyphDef` 子类字段与子类 `ConfigErrors` |
 | `SpellStaffModifiers.ApplySteps` / `IsTimedBuff` / `IsDamage` | `E/SpellStaffModifiers.cs:76,84-136` | 编译期传入 `SpellStaffModifiers`，由对应效果 Def 折叠 |
 | `MechHackExtension` 与 `MechHackService.GlyphName` / `Tuning` | `S/Effects/MechHack.cs:14-41` | 字段迁入 `HackGlyphDef` 并冻结进 `HackEffect` 与 `HediffComp_MechAssimilation` |
-| `LabCommands` 旧步骤 JSON 字段（`effect`/`amount`/`radius`/`amplifyStacks`/`aoeStacks`） | `Source/Lab/LabCommands.cs:2224-2231` | 输出效果自报的 `type`（`DiagnosticName`）、该类型自己的已折叠 `fields`，以及独立的 `compile.stacks` |
 
 ## 9. 验收与顺序
 
-1. **完成全部代码与 XML 改造**：17 个效果类型与 Def 子类、编译器、执行器、4 处持久化载荷、`LabCommands` 诊断，以及直接引用旧类型的测试（`Source/LabTests/MechHack_Reload.cs:34-38`、`Source/LabTests/MechHack_Lifecycle.cs:25,45`、`Source/LabTests/MechHack_TestFixture.cs:20,40`、`Source/LabTests/Effect_SnareCombat.cs:49,71`）。
-2. **L0 + Def 静态校验**：运行 `Tools/build.ps1 -Verify` 与 `Tools/build.ps1 -Lab`，0 警告 0 错误，`check-defs.ps1` 全绿。
-3. **L1 + 定向与全量 L2（重建夹具前）**：新增或扩充存读档交接测试，覆盖同一列表中混合多种 `SpellEffect` 子类及嵌套 `payload`（`Linger`/`Rune`/`Delay`/`Orbit`）的存盘、读盘与读盘后触发结算；跑通全部 L2。
-4. **重建夹具存档**：仅在上述实现与 L2 全部通过后，重新生成夹具存档。严禁在实现落地与 L2 验证前先重建夹具，以免掩盖读档失败。
-5. **最终全量验收**：在重建后的夹具上跑一次完整 `Tools/test.ps1`，核对磁盘 `Player.log` 本模组相关 Error 为 0。
+1. **完成全部代码与 XML 改造**：17 个效果类型与 Def 子类、编译器、执行器、4 处持久化载荷。
+2. **静态校验**：运行 `Tools/build.ps1` 与 `Tools/check-defs.ps1`，0 警告 0 错误，`Summary: 0 failed`。
+3. **实机**：同一列表中混合多种 `SpellEffect` 子类及嵌套 `payload`（`Linger`/`Rune`/`Delay`/`Orbit`）的存盘、读盘与读盘后触发结算，由用户在游戏里看。
 
 ## 10. 风险清单
 

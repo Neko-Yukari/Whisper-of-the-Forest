@@ -75,8 +75,4 @@
   <WotF_Spellbook.AnimOff>Animations off</WotF_Spellbook.AnimOff>
   <WotF_Spellbook.AnimTip>Turns the page animations on or off. Interaction is identical, only the fly-in, page band, shake and sweep stop playing.</WotF_Spellbook.AnimTip>
 
-  <WotF_Spellbook.LabSection>Spellbook</WotF_Spellbook.LabSection>
-  <WotF_Spellbook.LabOpen>Open spellbook</WotF_Spellbook.LabOpen>
-  <WotF_Spellbook.LabOpened>Opened the spellbook for {0}.</WotF_Spellbook.LabOpened>
-  <WotF_Spellbook.LabOpenTip>Open the spellbook for the selected pawn: compose glyphs, create them into a bookmark and pick the spell they cast.</WotF_Spellbook.LabOpenTip>
 </LanguageData>

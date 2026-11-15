@@ -92,38 +92,23 @@ namespace WhisperOfTheForest.Mana
             Collect(nodes, map.listerBuildings.allBuildingsColonist);
             Collect(nodes, map.listerBuildings.allBuildingsNonColonist);
 
-            int[] parent = new int[nodes.Count];
-            for (int i = 0; i < parent.Length; i++)
+            var positions = new List<IntVec3>(nodes.Count);
+            var radii = new List<float>(nodes.Count);
+            foreach (CompManaNode node in nodes)
             {
-                parent[i] = i;
+                positions.Add(node.parent.Position);
+                radii.Add(node.LinkRadius);
             }
 
+            int[] group = ManaTopology.Group(positions, radii);
             for (int i = 0; i < nodes.Count; i++)
             {
-                for (int j = i + 1; j < nodes.Count; j++)
+                if (group[i] == networks.Count)
                 {
-                    float reach = nodes[i].LinkRadius < nodes[j].LinkRadius
-                        ? nodes[i].LinkRadius
-                        : nodes[j].LinkRadius;
-                    if ((nodes[i].parent.Position - nodes[j].parent.Position).LengthHorizontalSquared
-                        <= reach * reach)
-                    {
-                        Union(parent, i, j);
-                    }
-                }
-            }
-
-            Dictionary<int, ManaNetwork> byRoot = new Dictionary<int, ManaNetwork>();
-            for (int i = 0; i < nodes.Count; i++)
-            {
-                int root = Find(parent, i);
-                if (!byRoot.TryGetValue(root, out ManaNetwork network))
-                {
-                    network = new ManaNetwork();
-                    byRoot.Add(root, network);
-                    networks.Add(network);
+                    networks.Add(new ManaNetwork());
                 }
 
+                ManaNetwork network = networks[group[i]];
                 network.nodes.Add(nodes[i]);
                 nodes[i].Network = network;
             }
@@ -147,27 +132,6 @@ namespace WhisperOfTheForest.Mana
                 {
                     nodes.Add(node);
                 }
-            }
-        }
-
-        private static int Find(int[] parent, int index)
-        {
-            while (parent[index] != index)
-            {
-                parent[index] = parent[parent[index]];
-                index = parent[index];
-            }
-
-            return index;
-        }
-
-        private static void Union(int[] parent, int a, int b)
-        {
-            int rootA = Find(parent, a);
-            int rootB = Find(parent, b);
-            if (rootA != rootB)
-            {
-                parent[rootB] = rootA;
             }
         }
     }

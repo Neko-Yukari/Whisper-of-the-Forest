@@ -187,8 +187,16 @@ namespace WhisperOfTheForest.Equipment
         private SpellCastPlan SelectedPlan()
         {
             SpellRecipe recipe = EquipmentSource?.GetComp<CompSpellStaff>()?.SelectedRecipe;
-            SpellCastPlan plan = recipe == null ? null : SpellCompiler.Compile(recipe, out _);
-            // These forms are player-triggered skills, never weapon auto-attacks.
+            return recipe == null ? null : AutoAttackPlan(recipe);
+        }
+
+        /// <summary>
+        /// The plan a staff may fire as a weapon attack, or null. Self, Orbit and Super spells are
+        /// player-triggered skills, never weapon auto-attacks.
+        /// </summary>
+        public static SpellCastPlan AutoAttackPlan(SpellRecipe recipe)
+        {
+            SpellCastPlan plan = SpellCompiler.Compile(recipe, out _);
             return plan == null || plan.form == SpellFormKind.Self || plan.form == SpellFormKind.Orbit
                 || SpellDefs.Glyph(recipe.glyphs[0]).kind == SpellGlyphKind.Super ? null : plan;
         }

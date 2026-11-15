@@ -512,9 +512,6 @@ namespace WhisperOfTheForest.Spells
         public const string FormProjectile = "WotF_Form_Projectile";
         public const string FormOrbit = "WotF_Form_Orbit";
 
-        /// <summary>Super rune: this one rune is a complete spell (the railgun supra rune).</summary>
-        public const string FormRailgun = "WotF_Form_Railgun";
-
         /// <summary>The railgun's visual effect Def; the spell only ever names it, never its look.</summary>
         public const string VfxRailgun = "WotF_Vfx_Railgun";
 

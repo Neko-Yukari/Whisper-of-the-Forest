@@ -56,8 +56,6 @@ namespace WhisperOfTheForest.Missiles
     public static class ArcaneMissileDefs
     {
         public const string ProjectileThingDefName = "WotF_ArcaneMissileProjectile";
-        public const string RimUnityVisualDefName = "WotF_Visual_RimUnity";
-        public const string NativeVisualDefName = "WotF_Visual_Native";
 
         /// <summary>
         /// The ThingDef every missile is spawned as. A missing def is reported by the launcher and

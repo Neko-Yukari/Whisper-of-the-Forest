@@ -99,7 +99,7 @@ namespace WhisperOfTheForest.Missiles
             SyncPosition();
         }
 
-        /// <summary>Resolves the ending exactly once: counters, impact effect, cleanup, destroy.</summary>
+        /// <summary>Resolves the ending exactly once: impact effect, cleanup, destroy.</summary>
         private void Settle(ArcaneMissileEnd end)
         {
             if (settled)
@@ -108,11 +108,9 @@ namespace WhisperOfTheForest.Missiles
             }
 
             settled = true;
-            MapComponent_ArcaneMissiles component = Map.GetComponent<MapComponent_ArcaneMissiles>();
 
             if (end == ArcaneMissileEnd.Impact)
             {
-                component?.NotifyImpact();
                 try
                 {
                     RequestImpactVisual();
@@ -126,8 +124,6 @@ namespace WhisperOfTheForest.Missiles
 
                 return;
             }
-
-            component?.NotifyExpired();
 
             // The trail effect is a follow effect: the Vfx component drops it once this thing is gone.
             Destroy();
@@ -146,25 +142,6 @@ namespace WhisperOfTheForest.Missiles
         {
             base.ExposeData();
             Scribe_Deep.Look(ref state, "arcaneMissile");
-        }
-
-        /// <summary>Lab snapshot of the live flight state; settings are copied.</summary>
-        internal ArcaneMissileLabFrame ToLabFrame()
-        {
-            Vector3 target = state.TargetPosition();
-            return new ArcaneMissileLabFrame
-            {
-                X = state.posX,
-                Z = state.posZ,
-                HeadingX = state.headingX,
-                HeadingZ = state.headingZ,
-                TargetX = target.x,
-                TargetZ = target.z,
-                AgeTicks = state.ageTicks,
-                TargetThingId = state.targetThing != null ? state.targetThing.thingIDNumber : 0,
-                TargetCell = state.targetCell,
-                Settings = state.settings.Copy()
-            };
         }
 
         /// <summary>

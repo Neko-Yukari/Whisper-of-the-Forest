@@ -93,18 +93,6 @@ namespace WhisperOfTheForest
             drawShadow = true;
         }
 
-        /// <summary>Read-only probe for the lab: true while the bar holds edits no slot has.</summary>
-        public bool HasUnsavedDraft
-        {
-            get { return chain.IsModified; }
-        }
-
-        /// <summary>Read-only probe for the lab: the pawn this book was opened for.</summary>
-        public Pawn Caster
-        {
-            get { return caster; }
-        }
-
         protected override float Margin
         {
             get { return 0f; }
@@ -186,7 +174,6 @@ namespace WhisperOfTheForest
         /// <summary>
         /// Makes <paramref name="index"/> the pawn's current slot and reloads the page for it.
         /// Single click, empty slots included; the cast gizmo reads the new slot on the next frame.
-        /// The bookmark strip and any lab probe both go through here.
         /// </summary>
         public void SelectBookmark(int index)
         {

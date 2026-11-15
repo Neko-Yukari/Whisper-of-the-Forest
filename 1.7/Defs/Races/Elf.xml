@@ -469,9 +469,9 @@
     </xenotypeSet>
     <fixedGender>Female</fixedGender>
     <nameMakerFemale>WotF_ElfNames</nameMakerFemale>
-    <!-- The player's elf faction: the starting scenario and every pawn generated from this kind
-         without an explicit faction join WotF_PlayerElf, so its background pools and its apparel
-         stuff filter (cloth only) apply. -->
+    <!-- A player defaultFactionDef is what lists this kind among the starting-pawn kinds
+         (RimWorld/ScenPart_ConfigPage_ConfigureStartingPawns_KindDefs.cs:16). Backstories come from
+         backstoryFiltersOverride below, not from the faction (RimWorld/PawnBioAndNameGenerator.cs:269-271). -->
     <defaultFactionDef>WotF_PlayerElf</defaultFactionDef>
     <backstoryFiltersOverride>
       <li>

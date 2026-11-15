@@ -197,8 +197,8 @@ namespace WhisperOfTheForest.Spells
             {
                 recipeName = recipe.name,
                 glyphs = new List<string>(recipe.glyphs),
-                // The book froze the phases when the spell was created; an in-memory recipe (lab, test
-                // or tooling) is the one case without a frozen value, so the chain supplies it once.
+                // The book froze the phases when the spell was created; an in-memory recipe is the
+                // one case without a frozen value, so the chain supplies it once.
                 timing = (recipe.timing ?? SpellTiming.Derive(recipe.glyphs)).Copy(),
                 cost = (recipe.cost ?? SpellCost.Derive(recipe.glyphs)).Copy()
             };
@@ -206,7 +206,7 @@ namespace WhisperOfTheForest.Spells
             CompileBody(plan, defs, tuning, staff);
 
             // A saved spell carries the categories it was created with; only an in-memory recipe
-            // (lab or tooling) was never frozen, so the chain supplies them once.
+            // was never frozen, so the chain supplies them once.
             if (recipe.targets != null)
             {
                 plan.targets = new List<SpellTargetClass>(recipe.targets);

@@ -212,8 +212,7 @@ namespace WhisperOfTheForest.Missiles
 
     /// <summary>
     /// The detonation burst of the RimUnity backend: one particle object that scatters, then the
-    /// worker ends on the game clock. A debug probe (request.seconds &gt; 0) keeps emitting for the
-    /// requested time instead, which is how a backend can be checked without firing a missile.
+    /// worker ends on the game clock.
     /// </summary>
     public class ArcaneMissileRimUnityImpactVfxWorker : VfxWorker
     {
@@ -221,7 +220,6 @@ namespace WhisperOfTheForest.Missiles
 
         private RimUnity.GameObject burst;
         private ArcaneMissileSettings settings;
-        private float durationSeconds;
         private int startTick;
 
         protected override void OnStart()
@@ -233,9 +231,8 @@ namespace WhisperOfTheForest.Missiles
             }
 
             settings = request.settings;
-            durationSeconds = request.seconds > 0f ? request.seconds : ImpactBurstSeconds;
             startTick = Find.TickManager.TicksGame;
-            CreateBurst(looping: request.seconds > 0f);
+            CreateBurst();
         }
 
         public override void Update(float deltaSeconds)
@@ -247,7 +244,7 @@ namespace WhisperOfTheForest.Missiles
             }
 
             float elapsed = (Find.TickManager.TicksGame - startTick) / (float)GenTicks.TicksPerRealSecond;
-            if (elapsed >= durationSeconds)
+            if (elapsed >= ImpactBurstSeconds)
             {
                 Finished = true;
             }
@@ -263,7 +260,7 @@ namespace WhisperOfTheForest.Missiles
             burst = null;
         }
 
-        private void CreateBurst(bool looping)
+        private void CreateBurst()
         {
             RimUnity.Color color = VfxColors.Parse(settings.missileColorHex);
             float size = settings.missileSize * 1.6f;
@@ -273,7 +270,7 @@ namespace WhisperOfTheForest.Missiles
 
             RimUnity.ParticleSystem system = burst.AddComponent<RimUnity.ParticleSystem>();
             RimUnity.ParticleSystem.MainModule main = system.main;
-            main.loop = looping;
+            main.loop = false;
             main.duration = 2f;
             main.playOnAwake = false;
             main.simulationSpace = RimUnity.ParticleSystemSimulationSpace.World;
@@ -283,8 +280,7 @@ namespace WhisperOfTheForest.Missiles
             main.startColor = new RimUnity.ParticleSystem.MinMaxGradient(color);
             main.gravityModifier = 0f;
 
-            system.emission.enabled = looping;
-            system.emission.rateOverTime = new RimUnity.ParticleSystem.MinMaxCurve(28f);
+            system.emission.enabled = false;
             system.shape.enabled = false;
 
             var renderer = system.gameObject.GetComponent<RimUnity.ParticleSystemRenderer>();
@@ -298,23 +294,20 @@ namespace WhisperOfTheForest.Missiles
             renderer.sortMode = RimUnity.ParticleSystemSortMode.None;
             system.Play(true);
 
-            if (!looping)
+            var random = new Random(Gen.HashCombineInt(Find.TickManager.TicksGame, (int)(Request.origin.x * 100f + Request.origin.z)));
+            for (int i = 0; i < 22; i++)
             {
-                var random = new Random(Gen.HashCombineInt(Find.TickManager.TicksGame, (int)(Request.origin.x * 100f + Request.origin.z)));
-                for (int i = 0; i < 22; i++)
+                float angle = (float)(random.NextDouble() * Math.PI * 2.0);
+                float speed = 0.4f + (float)random.NextDouble() * 1.8f;
+                var emit = new RimUnity.ParticleSystem.EmitParams
                 {
-                    float angle = (float)(random.NextDouble() * Math.PI * 2.0);
-                    float speed = 0.4f + (float)random.NextDouble() * 1.8f;
-                    var emit = new RimUnity.ParticleSystem.EmitParams
-                    {
-                        position = RimUnity.Vector3.zero,
-                        velocity = new RimUnity.Vector3((float)Math.Cos(angle) * speed, 0.35f + (float)random.NextDouble() * 0.8f, (float)Math.Sin(angle) * speed),
-                        startSize = size * (0.35f + (float)random.NextDouble() * 0.45f),
-                        startColor = color,
-                        startLifetime = 0.3f + (float)random.NextDouble() * 0.3f
-                    };
-                    system.Emit(emit, 1);
-                }
+                    position = RimUnity.Vector3.zero,
+                    velocity = new RimUnity.Vector3((float)Math.Cos(angle) * speed, 0.35f + (float)random.NextDouble() * 0.8f, (float)Math.Sin(angle) * speed),
+                    startSize = size * (0.35f + (float)random.NextDouble() * 0.45f),
+                    startColor = color,
+                    startLifetime = 0.3f + (float)random.NextDouble() * 0.3f
+                };
+                system.Emit(emit, 1);
             }
         }
     }

@@ -80,7 +80,7 @@ namespace WhisperOfTheForest.Teleport
         /// The crossing home is charged exactly like the crossing out — the same three figures, read from
         /// the home gate's own comp (设定/05) — and paid by the home gate's network, the only network on
         /// this side of the connection. The ruin gate carries no fees: it is off the network.
-        /// The menu, the button and the lab all ask this one function.
+        /// The menu and the button both ask this one function.
         /// </summary>
         public static bool CanPayReturn(CompTeleportGate home, CompTransporter transporter, out float cost)
         {
@@ -438,7 +438,7 @@ namespace WhisperOfTheForest.Teleport
         /// <summary>
         /// As above, and says why the crossing was refused in the words the player sees — null when it went
         /// through — together with the fee that was charged. The menu greys its option out for the same
-        /// reasons and the lab turns a refusal into a failed command, so one function decides for all three.
+        /// reasons, so one function decides for both.
         /// </summary>
         public static void Return(CompTeleportGate ruinGate, CompTeleportGate home, out string refusal,
             out float cost)

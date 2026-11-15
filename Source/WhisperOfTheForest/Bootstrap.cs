@@ -23,29 +23,8 @@ namespace WhisperOfTheForest
 
             initialized = true;
 
-#if WOTF_LAB
-            // Command-line configuration must not depend on a loaded game. The lab is not part of
-            // a release build, so neither is this call.
-            LabHost.ConfigureFromCommandLine();
-#endif
-
             new Harmony(HarmonyId).PatchAll();
-#if WOTF_LAB
-            LabHost.MarkHarmonyPatched();
-#endif
             WotfLog.Info(WotfLog.ModuleBoot, "Harmony patched with id " + HarmonyId);
         }
     }
-
-#if WOTF_LAB
-    [HarmonyPatch(typeof(Root_Play), nameof(Root_Play.Update))]
-    internal static class Patch_RootPlay_Update
-    {
-        // Postfix runs once per Unity frame on the game's main thread.
-        private static void Postfix()
-        {
-            LabHost.OnMainThreadUpdate();
-        }
-    }
-#endif
 }

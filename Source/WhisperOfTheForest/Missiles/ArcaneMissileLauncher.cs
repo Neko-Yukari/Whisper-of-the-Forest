@@ -116,10 +116,6 @@ namespace WhisperOfTheForest.Missiles
             {
                 if (!component.CanAcceptMore())
                 {
-                    ExperimentLog.Record(
-                        "missiles",
-                        caster,
-                        "dropped " + label + ": missile cap " + MapComponent_ArcaneMissiles.MaxLiveMissiles + " reached");
                     break;
                 }
 
@@ -143,7 +139,6 @@ namespace WhisperOfTheForest.Missiles
                 var spawnCell = new IntVec3((int)MathF.Floor(origin.x), 0, (int)MathF.Floor(origin.z));
                 if (!GenGrid.InBounds(spawnCell, map))
                 {
-                    ExperimentLog.Record("missiles", caster, "dropped missile: launch cell out of bounds " + spawnCell);
                     continue;
                 }
 
@@ -152,16 +147,8 @@ namespace WhisperOfTheForest.Missiles
                 var projectile = (Projectile_ArcaneMissiles)ThingMaker.MakeThing(projectileDef);
                 projectile.Initialize(missile, caster, target, target);
                 GenSpawn.Spawn(projectile, spawnCell, map, WipeMode.Vanish);
-                component.NotifyLaunched();
                 launched++;
             }
-
-            ExperimentLog.Record(
-                "missiles",
-                caster,
-                label + " launched=" + launched + "/" + volley.missileCount
-                + " visual=" + volley.visualDef.defName
-                + " target=" + (targetThing != null ? targetThing.LabelShort : targetCell.ToString()));
 
             return launched;
         }

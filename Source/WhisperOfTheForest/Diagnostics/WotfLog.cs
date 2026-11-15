@@ -4,10 +4,10 @@ namespace WhisperOfTheForest
 {
     /// <summary>
     /// The one logging entry point of this mod. Every line carries a module tag, and the Debug tier is
-    /// off unless the player turns it on in the mod settings or the lab sets it for a session.
+    /// off unless the player turns it on in the mod settings.
     ///
-    /// Error and Warning go to <see cref="Log"/>'s own error/warning channels so the L1 load check can
-    /// count them; Info and Debug are ordinary log messages. A module never formats its own prefix.
+    /// Error and Warning go to <see cref="Log"/>'s own error/warning channels; Info and Debug are
+    /// ordinary log messages. A module never formats its own prefix.
     /// </summary>
     public static class WotfLog
     {
@@ -22,34 +22,20 @@ namespace WhisperOfTheForest
         public const string ModuleUI = "UI";
         public const string ModuleBoot = "Boot";
 
-        // Used before the Mod instance exists (or in a game that never built one).
-        private static bool debugBeforeSettings;
-
-        /// <summary>Per-object detail. Off by default: a normal session logs no Debug line.</summary>
+        /// <summary>
+        /// Per-object detail. Off by default: a normal session logs no Debug line. Before the Mod
+        /// instance exists there are no settings yet, and Debug stays off.
+        /// </summary>
         public static bool DebugEnabled
         {
             get
             {
                 WotfSettings settings = WotfMod.Settings;
-                return settings != null ? settings.logDebug : debugBeforeSettings;
-            }
-            set
-            {
-                debugBeforeSettings = value;
-                WotfSettings settings = WotfMod.Settings;
-                if (settings == null)
-                {
-                    return;
-                }
-
-                settings.logDebug = value;
-                settings.Write();
+                return settings != null && settings.logDebug;
             }
         }
 
-        public static string LevelName => DebugEnabled ? "debug" : "info";
-
-        /// <summary>The mod itself is broken; the L1 check requires zero of these.</summary>
+        /// <summary>The mod itself is broken.</summary>
         public static void Error(string module, string message)
         {
             Log.Error(Prefix(module) + message);

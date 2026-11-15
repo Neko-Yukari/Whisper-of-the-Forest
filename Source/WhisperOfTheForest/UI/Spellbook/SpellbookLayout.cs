@@ -245,7 +245,7 @@ namespace WhisperOfTheForest
     {
         public static readonly SpellGlyphKind[] Kinds = Enum.GetValues<SpellGlyphKind>();
 
-        /// <summary>All plus each rune kind. The lab's category probe indexes the same row.</summary>
+        /// <summary>All plus each rune kind.</summary>
         public static int CategoryCount => 1 + Kinds.Length;
 
         public const float SearchHeight = 26f;

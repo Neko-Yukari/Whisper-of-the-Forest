@@ -29,6 +29,9 @@
     <pawnsPlural>elves</pawnsPlural>
     <categoryTag>Tribal</categoryTag>
     <techLevel>Neolithic</techLevel>
+    <startingResearchTags>
+      <li>TribalStart</li>
+    </startingResearchTags>
     <humanlikeFaction>true</humanlikeFaction>
     <settlementTexturePath>World/Factions/GreenCourt</settlementTexturePath>
     <factionIconPath>World/Factions/GreenCourt</factionIconPath>

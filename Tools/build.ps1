@@ -1,16 +1,17 @@
 #requires -Version 7.0
 <#
-  Builds the single 1.7 experiment assembly with the repo-local .NET 10 SDK.
+  Builds the single 1.7 assembly with the repo-local .NET 10 SDK.
   Never uses the machine-wide SDK and never installs or registers anything.
+
+  While RimWorld is running it holds 1.7/Assemblies/WhisperOfTheForest.dll, so the build goes to a
+  temporary folder instead: the compile result is real, the deployed DLL is left alone.
 #>
 [CmdletBinding()]
 param(
     [ValidateSet('Debug', 'Release')]
     [string]$Configuration = 'Release',
     [switch]$Clean,
-    [switch]$Verify,
-    # Compile the test host (Source/Lab, Source/LabTests) into the assembly. Release builds leave it out.
-    [switch]$Lab
+    [switch]$Verify
 )
 
 $ErrorActionPreference = 'Stop'
@@ -19,17 +20,17 @@ $repo = Split-Path -Parent $PSScriptRoot
 $moddevRoot = Split-Path -Parent $repo
 $dotnet = Join-Path $moddevRoot 'tools/dotnet/dotnet.exe'
 $project = Join-Path $repo 'Source/WhisperOfTheForest/WhisperOfTheForest.csproj'
-$outputDir = Join-Path $repo '1.7/Assemblies'
-$outputDll = Join-Path $outputDir 'WhisperOfTheForest.dll'
+$deployDir = Join-Path $repo '1.7/Assemblies'
 
 if (-not (Test-Path -LiteralPath $dotnet)) {
     throw "Repo-local .NET SDK not found: $dotnet. Expected the portable SDK 10.0.402 under Moddev/tools/dotnet."
 }
 
-$running = Get-Process -Name 'RimWorld' -ErrorAction SilentlyContinue
-if ($running) {
-    throw ("RimWorld is running (PID " + (($running | ForEach-Object Id) -join ',') + "). Close it before building so the final DLL is not locked or half-replaced.")
-}
+$gameRunning = [bool](Get-Process -Name 'RimWorld' -ErrorAction SilentlyContinue)
+# One temporary folder per checkout: worktrees that build at the same time must not overwrite each other's DLL.
+$repoHash = [System.Convert]::ToHexString([System.Security.Cryptography.SHA256]::HashData([System.Text.Encoding]::UTF8.GetBytes($repo.ToLowerInvariant()))).Substring(0, 8)
+$outputDir = if ($gameRunning) { Join-Path ([System.IO.Path]::GetTempPath()) "wotf-build-check-$repoHash" } else { $deployDir }
+$outputDll = Join-Path $outputDir 'WhisperOfTheForest.dll'
 
 $env:DOTNET_CLI_HOME = Join-Path $moddevRoot 'tools/dotnet-home'
 $env:DOTNET_NOLOGO = '1'
@@ -55,9 +56,14 @@ if ($Clean) {
 Write-Host "SDK: $(& $dotnet --version)"
 Write-Host "Project: $project"
 Write-Host "Configuration: $Configuration"
-Write-Host "Lab sources: $(if ($Lab) { 'compiled in' } else { 'excluded' })"
 
-& $dotnet build $project -c $Configuration -v minimal --nologo /p:GenerateFullPaths=false $(if ($Lab) { '/p:WotfLab=true' })
+$buildArguments = @('build', $project, '-c', $Configuration, '-v', 'minimal', '--nologo', '/p:GenerateFullPaths=false')
+if ($gameRunning) {
+    # Trailing slash: MSBuild appends file names to these properties as-is.
+    $buildArguments += "/p:OutputPath=$outputDir/", "/p:OutDir=$outputDir/"
+}
+
+& $dotnet @buildArguments
 if ($LASTEXITCODE -ne 0) {
     throw "dotnet build failed with exit code $LASTEXITCODE"
 }
@@ -72,18 +78,22 @@ Write-Host 'BUILD OK'
 Write-Host "dll=$($file.FullName)"
 Write-Host "size=$($file.Length)"
 
+if ($gameRunning) {
+    # The ASCII half stays readable when a caller captures this output under another code page.
+    Write-Host 'RimWorld 正在运行，仅验证编译通过，1.7/Assemblies DLL 未更新 (RimWorld is running: compile check only, deployed DLL not updated)'
+}
+
 $copied = Get-ChildItem -LiteralPath $outputDir -File | Where-Object {
     $_.Name -ne 'WhisperOfTheForest.dll'
 }
 if ($copied) {
-    Write-Warning ("Unexpected files in 1.7/Assemblies: " + (($copied | ForEach-Object Name) -join ', '))
+    Write-Warning ("Unexpected files in $($outputDir): " + (($copied | ForEach-Object Name) -join ', '))
 }
 
 if ($Verify) {
-    # Assembly-level check: every Class/thingClass/workerClass and texPath in 1.7/Defs must
-    # resolve. Source-text greps were removed; behaviour is covered by Tools/test.ps1 in a real
-    # game instance.
-    & (Join-Path $PSScriptRoot 'check-defs.ps1')
+    # Checks the Defs against the assembly this run just built, which is the temporary one while
+    # RimWorld is running.
+    & (Join-Path $PSScriptRoot 'check-defs.ps1') -ModAssembly $outputDll
     if ($LASTEXITCODE -ne 0) {
         throw "check-defs.ps1 reported missing types or textures"
     }

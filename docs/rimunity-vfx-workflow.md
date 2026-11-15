@@ -86,7 +86,7 @@ RimUnity 粒子按真实帧时间运行，不自动跟随游戏倍速。`PrefabV
 - Bloom 只覆盖地图主通道的粒子、拖尾和模型，不覆盖 GUI 贴片。
 - RimUnity 默认关闭 Bloom；阈值、强度和扩散是用户全局设置，内容模组不能按单个特效另设。
 - 内容模组用 `RimUnity.RimUnityMod.Bloom.SetLayerEnabled(29, true)` 接管 Layer 29，生命周期结束时 `ReleaseLayer(29)`。
-- Lab 可用 `vfx bloom=on` / `vfx bloom=off` 做同场景对照。已实测：开启时探针有光晕，关闭后只剩粒子本体。
+- 已实测：Bloom 开启时探针有光晕，关闭后只剩粒子本体。
 - 颜色超过 1 的 HDR 保留还受 RimUnity 的“地图 HDR 接管”用户开关影响；不要把“颜色夹白”和“没有 Bloom”混为一谈。
 
 ## ScreenEfx：只压暗地图，保留高光与 UI
@@ -140,9 +140,7 @@ Bloom 层接管是**位**而不是计数：`SetLayerEnabled` 可重复调用，`
 
 ## 调试与验收
 
-- L0：`Tools/build.ps1 -Lab`，引用真实程序集，0 警告 0 错误。
-- L1/L2：`Tools/test.ps1`；磁盘日志门禁必须另外通过。
-- Lab 探针：选择小人后用 `vfx` 播放粒子，`vfx def=WotF_Vfx_DarkenProbe` 播放压暗。轨道炮用 `vfx def=WotF_Vfx_Railgun target=<x>,<z>`（省略 `length` 时取 origin 到 target 的距离），对照版是 `vfx def=WotF_Vfx_Railgun_WorldRing`。
+- `Tools/build.ps1`，引用真实程序集，0 警告 0 错误；`Tools/check-defs.ps1` 0 failed。
 - 截图必须读真实游戏画面。`um win shot` 在当前机器会因 ffmpeg 缺少 `gfxcapture` 失败；可用 Windows MCP 的只读 `ScreenshotWindow`，不要为此切换焦点或发送输入。
 - 至少核对：资源首次加载无错误、暂停冻结、倍速同步、到期销毁、切图/读档无残留、Bloom 开关对照、压暗不压 UI、不翻转、不动相机。
 

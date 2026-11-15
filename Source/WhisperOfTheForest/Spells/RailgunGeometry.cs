@@ -4,7 +4,7 @@ namespace WhisperOfTheForest.Spells
 {
     /// <summary>
     /// The corridor math of the composite form, kept free of Verse and Unity types so it can be
-    /// executed outside the game (Moddev/tools/check-spells/segments-harness).
+    /// executed outside the game (Tests/WhisperOfTheForest.Tests/RailgunGeometryTests.cs).
     ///
     /// The corridor is a straight line in the XZ plane from the caster's cell centre towards the
     /// locked aim point, at most <c>range</c> cells long and shortened to the map edge. A target is
