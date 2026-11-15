@@ -1159,7 +1159,14 @@ namespace WhisperOfTheForest.Rituals
 
             foreach (KeyValuePair<Thing, int> pair in claimed)
             {
-                int unreserved = parent.Map.reservationManager.CanReserveStack(result.Request.Host, pair.Key, 1);
+                // 如果 request.Host 为空，则无法预留。此处若评估时无 host，应视作评估失败而非崩溃
+                Pawn claimant = result.Request.Host;
+                if (claimant == null)
+                {
+                    result.MissingOfferings.Add(pair.Key.def.label + " x" + pair.Value + " (no host for reservation)");
+                    continue;
+                }
+                int unreserved = parent.Map.reservationManager.CanReserveStack(claimant, pair.Key, 1);
                 if (unreserved < pair.Value)
                 {
                     result.MissingOfferings.Add(pair.Key.def.label + " x" + pair.Value
