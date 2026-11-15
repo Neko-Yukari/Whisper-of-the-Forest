@@ -39,7 +39,7 @@ Source/WhisperOfTheForest/         产品代码，csproj 自动编译（EnableDe
   Turrets/                         CompSpellTurret Building_SpellTurret Verb_CastTurretSpell Window_TurretSpell
   Mana/                            CompManaBattery CompManaNode ManaNetwork MapComponent_ManaNetwork
   Rituals/                         RitualDef RitualEffectWorker RitualEffect_* JobDriver_PerformRitual
-  Race/                            ForestBloodline* ElfNames ElfNameDisplay FamineGrass ForestRepair ...
+  Race/                            ForestBloodline* ElfNames FamineGrass ForestRepair ...
   Equipment/                       CompSpellStaff CompShortStaff SpellStaffModifiers Verb_CastSpellStaff
   UI/ Diagnostics/
 Source/Lab/  Source/LabTests/      仅 WotfLab=true 时编译，不进产品 DLL
