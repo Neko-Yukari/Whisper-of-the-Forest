@@ -27,7 +27,7 @@
     <basicMemberKind>WotF_Elf_Colonist</basicMemberKind>
     <pawnSingular>elf</pawnSingular>
     <pawnsPlural>elves</pawnsPlural>
-    <categoryTag>Tribal</categoryTag>
+    <categoryTag>TribalStart</categoryTag>
     <techLevel>Neolithic</techLevel>
     <humanlikeFaction>true</humanlikeFaction>
     <settlementTexturePath>World/Factions/GreenCourt</settlementTexturePath>
