@@ -13,7 +13,7 @@ namespace WhisperOfTheForest.Rituals
     /// PsychicRitualToil_Goto.cs:167) and each early arrival is parked on
     /// DutyDefOf.WaitForRitualParticipants (:201), so nobody chants while walking.
     ///
-    /// It owns no numbers: the altar holds the cost, the duration and the reserved offerings. Ending
+    /// It owns no numbers: the altar holds the cost, the duration and the offerings. Ending
     /// this job before the last toil is what "interrupted" means, and it costs nothing.
     /// </summary>
     public class JobDriver_PerformRitual : JobDriver
@@ -32,7 +32,7 @@ namespace WhisperOfTheForest.Rituals
             }
 
             return pawn.Reserve(job.targetA, job, 1, -1, null, errorOnFailed)
-                && altar.ReserveOfferings(pawn, job, errorOnFailed);
+                && altar.ReserveEquipment(pawn, job, errorOnFailed);
         }
 
         protected override IEnumerable<Toil> MakeNewToils()

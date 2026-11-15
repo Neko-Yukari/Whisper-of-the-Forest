@@ -155,6 +155,20 @@
     <ignoreFenceBlocked>true</ignoreFenceBlocked>
   </JobDef>
 
+  <!-- 与原版 HaulToSubcoreScanner 同档（Biotech HaulToBase：Hauling / 90）。 -->
+  <WorkGiverDef>
+    <defName>WotF_HaulRitualOfferings</defName>
+    <label>haul offerings to ritual altars</label>
+    <giverClass>WhisperOfTheForest.Rituals.WorkGiver_HaulRitualOfferings</giverClass>
+    <workType>Hauling</workType>
+    <priorityInType>90</priorityInType>
+    <verb>haul offerings to</verb>
+    <gerund>hauling offerings to</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
   <ThingDef Name="WotF_RitualAltarBase" ParentName="BuildingBase" Abstract="True">
     <size>(1,1)</size>
     <thingClass>Building</thingClass>

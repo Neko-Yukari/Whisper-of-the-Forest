@@ -6,7 +6,8 @@
   <WotF_Ritual_InspectGathering>正在集合法阵：全员站上粉笔格后才开始吟唱。</WotF_Ritual_InspectGathering>
   <WotF_Ritual_InspectChanting>正在吟唱：魔源与祭品在圆满落定时才扣除。</WotF_Ritual_InspectChanting>
   <WotF_Ritual_AutoRepeat_Current>自动重复：{0}</WotF_Ritual_AutoRepeat_Current>
-  <WotF_Ritual_AutoRepeat_Desc>祭坛空闲时自动重复所选生产仪式；主持者、魔源或材料不足时暂停等待。</WotF_Ritual_AutoRepeat_Desc>
+  <WotF_Ritual_AutoRepeat_Desc>祭坛空闲时自动重复所选生产仪式，搬运工会把祭品送进祭坛；主持者、魔源或祭品不足时暂停等待。</WotF_Ritual_AutoRepeat_Desc>
+  <WotF_Ritual_InspectCollecting>收集祭品：{0}（{1}）</WotF_Ritual_InspectCollecting>
   <WotF_Ritual_AutoRepeat_Off>停止自动重复</WotF_Ritual_AutoRepeat_Off>
   <WotF_Ritual_AutoRepeat_None>没有可自动重复的生产仪式。</WotF_Ritual_AutoRepeat_None>
   <WotF_Ritual_AlreadyRunning>{0} 已在举行中。</WotF_Ritual_AlreadyRunning>
@@ -25,7 +26,9 @@
   <WotF_Ritual_AllRunesUnlocked>这座祭坛没有尚未启封的可用符文。</WotF_Ritual_AllRunesUnlocked>
   <WotF_Ritual_SuperRuneNeedsRubbing>超位符文只能通过研读拓片解锁，不能由祭坛启封。</WotF_Ritual_SuperRuneNeedsRubbing>
   <WotF_Ritual_ChooseRune>选择要唤醒的符文。</WotF_Ritual_ChooseRune>
-  <WotF_Ritual_NoMaterials>祭坛周围缺少材料：{0}</WotF_Ritual_NoMaterials>
+  <WotF_Ritual_NoMaterials>祭坛里还缺祭品：{0}</WotF_Ritual_NoMaterials>
+  <WotF_Ritual_NotPrepared>先点「准备」，让搬运工把祭品送进祭坛。</WotF_Ritual_NotPrepared>
+  <WotF_Ritual_AltarBusy>祭坛或所选物品正被其他工作占用。</WotF_Ritual_AltarBusy>
   <WotF_Ritual_RuneAlreadyUnlocked>{0} 已经唤醒。</WotF_Ritual_RuneAlreadyUnlocked>
   <WotF_Ritual_RuneAwakening_Done>{0} 已对整个殖民地唤醒。</WotF_Ritual_RuneAwakening_Done>
   <WotF_Ritual_SpellbookAwakening_Done>祭坛旁唤醒了一本魔术书。</WotF_Ritual_SpellbookAwakening_Done>
@@ -63,11 +66,13 @@
   <WotF_Ritual_Gizmo_Codex>仪式图鉴</WotF_Ritual_Gizmo_Codex>
   <WotF_Ritual_Gizmo_CodexDesc>查看各法阵族的仪式、法阵形状与升阶时需要补画的粉笔格。</WotF_Ritual_Gizmo_CodexDesc>
   <WotF_Ritual_Gizmo_Host>主持仪式…</WotF_Ritual_Gizmo_Host>
-  <WotF_Ritual_Gizmo_HostDesc>选择仪式、法阵、主持人与协力者。启动时只预约材料，吟唱圆满落定才扣费。</WotF_Ritual_Gizmo_HostDesc>
+  <WotF_Ritual_Gizmo_HostDesc>选择仪式、法阵、主持人与协力者。点「准备」后搬运工把祭品送进祭坛，祭品齐了才能开始；吟唱圆满落定才扣费。</WotF_Ritual_Gizmo_HostDesc>
   <WotF_Ritual_Gizmo_Auto>自动点化</WotF_Ritual_Gizmo_Auto>
 
   <!-- 主持仪式面板 -->
   <WotF_Ritual_Begin>开始仪式</WotF_Ritual_Begin>
+  <WotF_Ritual_Prepare>准备</WotF_Ritual_Prepare>
+  <WotF_Ritual_CancelPrepare>取消准备</WotF_Ritual_CancelPrepare>
   <WotF_Ritual_CancelButton>取消仪式</WotF_Ritual_CancelButton>
   <WotF_Ritual_ChooseRitual>仪式</WotF_Ritual_ChooseRitual>
   <WotF_Ritual_NoneAvailable>这座祭坛没有可举行的仪式。</WotF_Ritual_NoneAvailable>
@@ -82,8 +87,8 @@
   <WotF_Ritual_ManaHave>网络魔源 {1} / 需要 {0}</WotF_Ritual_ManaHave>
   <WotF_Ritual_ManaShort>网络魔源不足：{1} / 需要 {0}</WotF_Ritual_ManaShort>
   <WotF_Ritual_NoOfferings>这场仪式不需要祭品。</WotF_Ritual_NoOfferings>
-  <WotF_Ritual_Offering>祭品：{0} ×{1}</WotF_Ritual_Offering>
-  <WotF_Ritual_OfferingMissing>缺祭品：{0}</WotF_Ritual_OfferingMissing>
+  <WotF_Ritual_Offering>祭品：{0} 已送达 {1}/{2}</WotF_Ritual_Offering>
+  <WotF_Ritual_Collecting>正在为{0}收集祭品。</WotF_Ritual_Collecting>
   <WotF_Ritual_FeeAtEnd>以上魔源与祭品在吟唱圆满落定时才扣除。</WotF_Ritual_FeeAtEnd>
   <WotF_Ritual_RunningFeeNote>魔源与祭品尚未扣除；打断或取消不会消耗任何物资。</WotF_Ritual_RunningFeeNote>
   <WotF_Ritual_Resonance>共鸣等级：血脉 {0} + 设施 {1} = {2}</WotF_Ritual_Resonance>
@@ -93,8 +98,7 @@
   <WotF_Ritual_HelperBusy>{0} 现在无法加入这场仪式。</WotF_Ritual_HelperBusy>
   <WotF_Ritual_HelperDuplicate>{0} 已被重复选为协力者。</WotF_Ritual_HelperDuplicate>
   <WotF_Ritual_HelperDrafted>协力者 {0} 处于征召状态。</WotF_Ritual_HelperDrafted>
-  <WotF_Ritual_ReservedElsewhere>已被其他工作预约</WotF_Ritual_ReservedElsewhere>
-  <WotF_Ritual_Complete_OfferingsGone>吟唱完成时祭品已不在原地：{0}。本次仪式没有消耗任何魔源与祭品。</WotF_Ritual_Complete_OfferingsGone>
+  <WotF_Ritual_Complete_OfferingsGone>吟唱完成时祭坛里的祭品不足：{0}。本次仪式没有消耗任何魔源与祭品。</WotF_Ritual_Complete_OfferingsGone>
   <WotF_Ritual_Complete_NoMana>吟唱完成时网络魔源不足（{1} / 需要 {0}）。本次仪式没有消耗任何魔源与祭品。</WotF_Ritual_Complete_NoMana>
 
   <!-- 仪式图鉴 -->

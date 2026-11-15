@@ -11,20 +11,13 @@ namespace WhisperOfTheForest.Rituals
         Chanting
     }
 
-    /// <summary>
-    /// A concrete stack the altar has set aside for one cost line. The reservation lives on the host's
-    /// job; this object is what completion re-checks before anything is taken.
-    /// </summary>
-    public sealed class RitualOffering : IExposable
+    /// <summary>One cost line of a rite against what haulers have already put into the altar.</summary>
+    public sealed class OfferingLine
     {
-        public Thing Thing;
-        public int Count;
+        public SpellGlyphCost Cost;
+        public int Delivered;
 
-        public void ExposeData()
-        {
-            Scribe_References.Look(ref Thing, "thing", true);
-            Scribe_Values.Look(ref Count, "count", 0);
-        }
+        public int Missing => Cost.count - Delivered;
     }
 
     /// <summary>One participant and the chalk cell they stand on for the whole performance.</summary>
@@ -66,8 +59,8 @@ namespace WhisperOfTheForest.Rituals
 
     /// <summary>
     /// The answer of one validation pass: every number the panel shows plus the blocking reasons in
-    /// the order the player should fix them. Missing cells and offerings are kept separately so the
-    /// panel can point at them on the map.
+    /// the order the player should fix them. Missing cells are kept separately so the panel can point
+    /// at them on the map, and every offering line carries its delivered count for the panel.
     /// </summary>
     public sealed class RitualAssessment
     {
@@ -83,9 +76,8 @@ namespace WhisperOfTheForest.Rituals
         public float FacilityPower;
         public bool RingComplete;
         public readonly List<IntVec3> MissingCells = new List<IntVec3>();
-        public readonly List<string> MissingOfferings = new List<string>();
         public readonly List<string> Problems = new List<string>();
-        public readonly List<RitualOffering> Offerings = new List<RitualOffering>();
+        public readonly List<OfferingLine> OfferingLines = new List<OfferingLine>();
         public readonly List<RitualStation> Stations = new List<RitualStation>();
 
         public bool CanStart => Problems.Count == 0;
