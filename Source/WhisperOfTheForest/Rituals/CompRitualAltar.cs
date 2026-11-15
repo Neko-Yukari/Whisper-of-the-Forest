@@ -51,6 +51,8 @@ namespace WhisperOfTheForest.Rituals
     /// counts. Nothing is paid when the rite starts - the network mana and the offerings are taken only
     /// when the chant completes, and an interrupted rite costs nothing (技术/04-仪式实现.md:116).
     /// Cancelling or switching the preparation drops the delivered offerings beside the altar.
+    /// Hosting is a separate step: any rite whose Assess passes may start, and for a rite with offerings
+    /// that means they are all inside, not that it is the prepared one.
     /// </summary>
     public class CompRitualAltar : ThingComp, IThingHolder
     {
@@ -111,6 +113,12 @@ namespace WhisperOfTheForest.Rituals
         public bool IsPreparedFor(RitualDef def, SpellGlyphDef rune)
         {
             return def != null && collectDef == def && collectRune == rune;
+        }
+
+        /// <summary>Whether the container already holds every offering this rite takes; the work scan's cheap pre-check.</summary>
+        public bool HasOfferingsFor(RitualDef def, SpellGlyphDef rune)
+        {
+            return !HasMissing(Ledger(def, rune));
         }
 
         /// <summary>How many of this stack the prepared rite still lacks; a hauler carries at most this.</summary>
@@ -730,18 +738,25 @@ namespace WhisperOfTheForest.Rituals
         }
 
         /// <summary>
-        /// What a worker hosts when it takes the altar up as work: the prepared rite, by itself, with no
-        /// helpers. Rites that need choices beyond the rune (gate, item, ruin) cannot be prepared.
+        /// A rite hosted without the panel (work scan, right-click): this pawn alone, no helpers. The only
+        /// choice it can reuse is the rune the preparation was made for; a rite that needs a gate, an item
+        /// and page, or a ruin, or a rune nobody prepared, has none and returns null - the panel hosts it.
         /// </summary>
-        public RitualRequest WorkRequest(Pawn host)
+        public RitualRequest DirectRequest(RitualDef def, Pawn host)
         {
-            return new RitualRequest { Def = collectDef, Rune = collectRune, Host = host };
+            if (def.chooseTeleportTarget || def.chooseEquipment || def.chooseRuinType
+                || (def.chooseRune && collectDef != def))
+            {
+                return null;
+            }
+
+            return new RitualRequest { Def = def, Rune = def.chooseRune ? collectRune : null, Host = host };
         }
 
         /// <summary>
         /// The one start path, run by the host job when it actually starts (JobDriver_PerformRitual.
-        /// Notify_Starting): a job from the work scan or a right-click hosts the prepared rite, a job from
-        /// <see cref="TryStart(RitualRequest, bool)"/> hosts the order it was made for. The request is
+        /// Notify_Starting): a job from the work scan hosts the auto-repeat rite, a job from
+        /// <see cref="TryStart(RitualRequest, bool)"/> (the panel's start, a right-click) hosts the order it was made for. The request is
         /// validated again here, because the pawn may have walked off, been queued or the altar changed
         /// since it was offered. False leaves the altar idle and the job ends with no toils.
         /// </summary>
@@ -750,7 +765,8 @@ namespace WhisperOfTheForest.Rituals
             RitualRequest request;
             if (job.workGiverDef != null)
             {
-                request = WorkRequest(host);
+                // WorkGiver_HostRitual offered this job in the same tick, so the auto rite is still set.
+                request = DirectRequest(autoRitual, host);
             }
             else if (pendingOrder != null && pendingJobId == job.loadID && pendingOrder.Host == host)
             {
@@ -829,7 +845,7 @@ namespace WhisperOfTheForest.Rituals
             WotfLog.Info(WotfLog.ModuleRitual,
                 "started " + request.Def.defName + (request.Rune == null ? "" : " for " + request.Rune.defName)
                 + " hosted by " + activeHost.LabelShort + " with " + activeHelpers.Count + " helpers at " + parent.Position
-                + (job.workGiverDef == null ? " (ordered)" : job.playerForced ? " (prioritized)" : " (work)"));
+                + (job.workGiverDef == null ? " (ordered)" : " (work)"));
             return true;
         }
 
@@ -1355,30 +1371,16 @@ namespace WhisperOfTheForest.Rituals
                 result.Problems.Add("WotF_Ritual_NoMana".Translate());
             }
 
-            // Only what haulers have put into the altar counts; a rite that is not the prepared one has
-            // nothing delivered yet.
+            // Only what haulers have put into the altar counts, whichever rite it was prepared for.
             result.OfferingLines.Clear();
             SpellGlyphDef rune = result.Request.Rune;
-            if (!IsPreparedFor(def, rune))
-            {
-                List<SpellGlyphCost> costs = RitualCosts(def, rune);
-                for (int i = 0; i < costs.Count; i++)
-                {
-                    result.OfferingLines.Add(new OfferingLine { Cost = costs[i] });
-                }
-
-                if (costs.Count > 0)
-                {
-                    result.Problems.Add("WotF_Ritual_NotPrepared".Translate());
-                }
-
-                return;
-            }
-
             result.OfferingLines.AddRange(Ledger(def, rune));
             if (HasMissing(result.OfferingLines))
             {
-                result.Problems.Add("WotF_Ritual_NoMaterials".Translate(MissingText(result.OfferingLines)));
+                // The preparation only picks the wording: a rite nobody prepared lacks the step that fills the altar.
+                result.Problems.Add(IsPreparedFor(def, rune)
+                    ? "WotF_Ritual_NoMaterials".Translate(MissingText(result.OfferingLines))
+                    : "WotF_Ritual_NotPrepared".Translate());
             }
         }
 
