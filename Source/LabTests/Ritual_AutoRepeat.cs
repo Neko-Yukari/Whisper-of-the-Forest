@@ -117,6 +117,13 @@ namespace WhisperOfTheForest.LabTests
         private static T Spawn<T>(ThingDef def, TestContext t, int x, int z) where T : Thing
         {
             var thing = (T)ThingMaker.MakeThing(def, def.MadeFromStuff ? ThingDefOf.BlocksGranite : null);
+            // Built by the player, as in play: the work scan only lists player buildings
+            // (allBuildingsColonist, ListerBuildings.cs:109), so a faction-less altar is never taken up.
+            if (def.CanHaveFaction)
+            {
+                thing.SetFaction(Faction.OfPlayer);
+            }
+
             GenSpawn.Spawn(thing, t.Arena.Cell(x, z), t.Map, WipeMode.Vanish);
             return t.Arena.Track(thing);
         }
