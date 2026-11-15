@@ -365,6 +365,16 @@ namespace WhisperOfTheForest.Spells
             Scribe_Collections.Look(ref slots, "slots", LookMode.Deep);
             Scribe_Values.Look(ref activeSlot, "activeSlot", -1);
             Scribe_Values.Look(ref lastCastTick, "lastCastTick", -1);
+
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                // A save without slots, or with fewer than SlotCount, reads back short (ScribeExtractor.cs:91-93).
+                slots ??= NewSlots();
+                while (slots.Count < GameComponent_Spellbook.SlotCount)
+                {
+                    slots.Add(null);
+                }
+            }
         }
 
         private static List<SpellRecipe> NewSlots()

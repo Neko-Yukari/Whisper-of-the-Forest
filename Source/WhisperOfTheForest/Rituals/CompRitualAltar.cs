@@ -361,6 +361,7 @@ namespace WhisperOfTheForest.Rituals
             Scribe_Values.Look(ref activeDurationTicks, "ritualDurationTicks", 0);
             Scribe_Collections.Look(ref activeHelpers, "ritualHelpers", LookMode.Reference);
             Scribe_Collections.Look(ref stations, "ritualStations", LookMode.Deep);
+            stations ??= new List<RitualStation>();
             Scribe_Deep.Look(ref offerings, "ritualOfferings", this);
             // A save from before the container has no node, and Scribe_Deep then writes null (ScribeExtractor.cs:91-93).
             offerings ??= new ThingOwner<Thing>(this);
