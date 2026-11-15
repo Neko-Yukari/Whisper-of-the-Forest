@@ -44,16 +44,15 @@ namespace WhisperOfTheForest.Rituals
     }
 
     /// <summary>
-    /// The altar owns the active ritual: which Def is running, who hosts it, which chalk cell every
-    /// participant stands on and which offering stacks the host has reserved. Nothing is paid when
-    /// the rite starts - the network mana and the offerings are taken only when the chant completes,
-    /// and a rite that is interrupted or cancelled costs nothing (技术/04-仪式实现.md:116).
-    ///
-    /// The host's job makes the reservations through the vanilla reservation manager, so a second
-    /// altar cannot lock the same ground or shelf stack, and a released job releases them again
-    /// (Pawn_JobTracker.CleanupCurrentJob -> ReleaseAllReservations).
+    /// The altar owns the active ritual: which Def is running, who hosts it and which chalk cell every
+    /// participant stands on. It also owns its offerings: once a rite is prepared (the panel's
+    /// [准备], or an auto-repeat rite) haulers carry the missing stacks into the altar's own container,
+    /// the way vanilla fills a subcore scanner (WorkGiver_HaulToSubcoreScanner), and only what is inside
+    /// counts. Nothing is paid when the rite starts - the network mana and the offerings are taken only
+    /// when the chant completes, and an interrupted rite costs nothing (技术/04-仪式实现.md:116).
+    /// Cancelling or switching the preparation drops the delivered offerings beside the altar.
     /// </summary>
-    public class CompRitualAltar : ThingComp
+    public class CompRitualAltar : ThingComp, IThingHolder
     {
         private Pawn activeHost;
         private RitualDef activeDef;
@@ -72,7 +71,18 @@ namespace WhisperOfTheForest.Rituals
 
         private List<Pawn> activeHelpers = new List<Pawn>();
         private List<RitualStation> stations = new List<RitualStation>();
-        private List<RitualOffering> offerings = new List<RitualOffering>();
+        private RitualDef collectDef;
+        private SpellGlyphDef collectRune;
+        private ThingOwner<Thing> offerings;
+
+        // The player's order between TryStart and the host job's start; never saved (see Commit).
+        private RitualRequest pendingOrder;
+        private int pendingJobId = -1;
+
+        public CompRitualAltar()
+        {
+            offerings = new ThingOwner<Thing>(this);
+        }
 
         public CompProperties_RitualAltar Props => (CompProperties_RitualAltar)props;
 
@@ -87,6 +97,52 @@ namespace WhisperOfTheForest.Rituals
         public int ActiveDurationTicks => activeDurationTicks;
 
         public float FacilityPower => parent.GetComp<CompAffectedByFacilities>()?.GetStatOffset(Props.powerStat) ?? 0f;
+
+        /// <summary>The rite whose offerings the altar is collecting; null when nothing is prepared.</summary>
+        public RitualDef CollectDef => collectDef;
+
+        public string CollectLabel => collectDef == null ? null
+            : collectRune == null ? (string)collectDef.LabelCap : collectDef.LabelCap + ": " + collectRune.LabelCap;
+
+        /// <summary>True while haulers should still bring something: a rite is prepared, none runs, a line is short.</summary>
+        public bool NeedsOfferings => collectDef != null && !IsActive && parent.Spawned
+            && HasMissing(Ledger(collectDef, collectRune));
+
+        public bool IsPreparedFor(RitualDef def, SpellGlyphDef rune)
+        {
+            return def != null && collectDef == def && collectRune == rune;
+        }
+
+        /// <summary>How many of this stack the prepared rite still lacks; a hauler carries at most this.</summary>
+        public int RequiredCountOf(Thing thing)
+        {
+            if (collectDef == null || IsActive)
+            {
+                return 0;
+            }
+
+            int required = 0;
+            List<OfferingLine> lines = Ledger(collectDef, collectRune);
+            for (int i = 0; i < lines.Count; i++)
+            {
+                if (lines[i].Missing > 0 && lines[i].Cost.Matches(thing))
+                {
+                    required += lines[i].Missing;
+                }
+            }
+
+            return required;
+        }
+
+        public ThingOwner GetDirectlyHeldThings()
+        {
+            return offerings;
+        }
+
+        public void GetChildHolders(List<IThingHolder> outChildren)
+        {
+            ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, offerings);
+        }
 
         public string ActiveLabel => activeDef == null ? null
             : (activeDef.chooseRune && activeRune != null
@@ -127,9 +183,140 @@ namespace WhisperOfTheForest.Rituals
             return false;
         }
 
+        /// <summary>
+        /// Auto-repeat needs no [准备]: choosing the rite prepares it, and turning auto-repeat off stops the
+        /// collection it started. A running rite is left alone; its completion settles the collection.
+        /// </summary>
         public void SetAutoRitual(RitualDef def)
         {
+            RitualDef previous = autoRitual;
             autoRitual = def != null && def.autoRepeatable ? def : null;
+            if (IsActive || autoRitual == previous)
+            {
+                return;
+            }
+
+            if (autoRitual != null)
+            {
+                Prepare(autoRitual, null);
+            }
+            else if (IsPreparedFor(previous, null))
+            {
+                StopCollecting();
+            }
+        }
+
+        /// <summary>Whether the panel's [准备] may collect for this rite: it has offerings and is not already collecting.</summary>
+        public bool CanPrepare(RitualDef def, SpellGlyphDef rune)
+        {
+            return def != null && !IsActive && (!def.chooseRune || rune != null)
+                && RitualCosts(def, rune).Count > 0 && !IsPreparedFor(def, rune);
+        }
+
+        /// <summary>
+        /// Starts collecting this rite's offerings. Preparing a different rite than the one being collected
+        /// is a switch: what was delivered for the old one drops beside the altar first.
+        /// </summary>
+        public void Prepare(RitualDef def, SpellGlyphDef rune)
+        {
+            if (IsPreparedFor(def, rune))
+            {
+                return;
+            }
+
+            if (collectDef != null)
+            {
+                StopCollecting();
+            }
+
+            collectDef = def;
+            collectRune = rune;
+            WotfLog.Info(WotfLog.ModuleRitual, "collecting offerings for " + def.defName
+                + (rune == null ? "" : " / " + rune.defName) + " at " + parent.Position);
+        }
+
+        /// <summary>
+        /// The panel's cancel. A running rite fed from the container ends together with its preparation;
+        /// a rite without offerings only ends. Cancelling the auto-repeat rite's collection also turns
+        /// auto-repeat off, or the next rare tick would prepare it again.
+        /// </summary>
+        public void CancelByPlayer()
+        {
+            bool fedFromContainer = !IsActive || IsPreparedFor(activeDef, activeRune);
+            if (IsActive)
+            {
+                CancelRitual(null);
+            }
+
+            if (!fedFromContainer || collectDef == null)
+            {
+                return;
+            }
+
+            if (autoRitual == collectDef)
+            {
+                autoRitual = null;
+            }
+
+            StopCollecting();
+        }
+
+        private void StopCollecting()
+        {
+            RitualDef def = collectDef;
+            collectDef = null;
+            collectRune = null;
+            int dropped = offerings.TotalStackCount;
+            if (dropped > 0)
+            {
+                offerings.TryDropAll(parent.Position, parent.Map, ThingPlaceMode.Near);
+            }
+
+            WotfLog.Info(WotfLog.ModuleRitual, "stopped collecting " + def.defName + " at " + parent.Position
+                + ", dropped " + dropped + " offerings");
+        }
+
+        /// <summary>
+        /// Drops whatever the prepared rite does not count, all of it when nothing is prepared. A hauler
+        /// that was already carrying a stack when the preparation was cancelled or switched still puts it
+        /// in; this is where it comes back out.
+        /// </summary>
+        private void EjectSurplus()
+        {
+            if (offerings.Count == 0)
+            {
+                return;
+            }
+
+            var used = new Dictionary<Thing, int>();
+            if (collectDef != null)
+            {
+                Ledger(collectDef, collectRune, used);
+            }
+
+            for (int i = offerings.Count - 1; i >= 0; i--)
+            {
+                Thing thing = offerings[i];
+                int surplus = thing.stackCount - (used.TryGetValue(thing, out int kept) ? kept : 0);
+                if (surplus > 0)
+                {
+                    offerings.TryDrop(thing, parent.Position, parent.Map, ThingPlaceMode.Near, surplus, out _);
+                    WotfLog.Info(WotfLog.ModuleRitual, "ejected " + surplus + " " + thing.def.defName
+                        + " the prepared rite does not use at " + parent.Position);
+                }
+            }
+        }
+
+        public override void PostDeSpawn(Map map, DestroyMode mode = DestroyMode.Vanish)
+        {
+            base.PostDeSpawn(map, mode);
+            // As CompThingContainer.PostDeSpawn: a demolished or destroyed altar leaves its offerings on the ground.
+            if (mode != DestroyMode.WillReplace)
+            {
+                offerings.TryDropAll(parent.Position, map, ThingPlaceMode.Near);
+                collectDef = null;
+                collectRune = null;
+            }
         }
 
         public IEnumerable<RitualDef> Rituals
@@ -166,7 +353,9 @@ namespace WhisperOfTheForest.Rituals
             Scribe_Values.Look(ref activeDurationTicks, "ritualDurationTicks", 0);
             Scribe_Collections.Look(ref activeHelpers, "ritualHelpers", LookMode.Reference);
             Scribe_Collections.Look(ref stations, "ritualStations", LookMode.Deep);
-            Scribe_Collections.Look(ref offerings, "ritualOfferings", LookMode.Deep);
+            Scribe_Deep.Look(ref offerings, "ritualOfferings", this);
+            Scribe_Defs.Look(ref collectDef, "ritualCollectDef");
+            Scribe_Defs.Look(ref collectRune, "ritualCollectRune");
 
             if (Scribe.mode != LoadSaveMode.PostLoadInit)
             {
@@ -184,16 +373,15 @@ namespace WhisperOfTheForest.Rituals
                 return;
             }
 
-            // Save-load boundary: the performance only continues when the host, the rune, the target
-            // and every reserved stack are still there. Otherwise the rite ends here, with nothing
-            // spent, and the host's job fails on its own because IsHost turns false.
+            // Save-load boundary: the performance only continues when the host, the rune and the target
+            // are still there. Otherwise the rite ends here, with nothing spent, and the host's job fails
+            // on its own because IsHost turns false. The offerings stay in the container.
             if (activeHost == null || activeHost.Dead || !activeHost.Spawned
                 || (activeDef.chooseRune && activeRune == null)
                 || (activeDef.chooseTeleportTarget && activeTeleportTarget == null)
                 || (activeDef.chooseEquipment && (activeEquipment == null || activeBookSlot < 0))
                 || (activeDef.chooseRuinType && ActiveRuinOption == null)
-                || stations.Count != activeHelpers.Count + 1
-                || !OfferingsPresent(out _))
+                || stations.Count != activeHelpers.Count + 1)
             {
                 WotfLog.Info(WotfLog.ModuleRitual, "dropped a saved rite at load: " + activeDef.defName);
                 ClearRitualState();
@@ -209,10 +397,12 @@ namespace WhisperOfTheForest.Rituals
                 return;
             }
 
-            if (autoRitual != null)
+            if (autoRitual != null && collectDef == null)
             {
-                TryStart(new RitualRequest { Def = autoRitual, Host = BestCaster() }, true);
+                Prepare(autoRitual, null);
             }
+
+            EjectSurplus();
         }
 
         /// <summary>
@@ -357,6 +547,11 @@ namespace WhisperOfTheForest.Rituals
             string text = IsActive
                 ? (string)"WotF_Ritual_InspectActive".Translate(ActiveLabel)
                 : (string)"WotF_Ritual_InspectIdle".Translate();
+            if (!IsActive && collectDef != null)
+            {
+                text += "\n" + "WotF_Ritual_InspectCollecting".Translate(CollectLabel,
+                    ProgressText(Ledger(collectDef, collectRune)));
+            }
             if (IsActive)
             {
                 text += "\n" + "WotF_Ritual_Participants".Translate(activeHelpers.Count);
@@ -501,13 +696,84 @@ namespace WhisperOfTheForest.Rituals
             return TryStart(request, silent);
         }
 
-        /// <summary>The single start path: validate once, then hand the jobs out.</summary>
+        /// <summary>
+        /// The player's order (the panel's [开始仪式], Lab): validate with the chosen host, then give that
+        /// pawn a forced host job. Nothing is written here; the rite starts in <see cref="Commit"/> when
+        /// the job does, exactly like a rite a worker takes up from the work scan. True when the job was
+        /// taken: running already, or queued behind a job the pawn cannot drop.
+        /// </summary>
         public bool TryStart(RitualRequest request, bool silent = false)
         {
             RitualAssessment assessment = Assess(request);
             if (!assessment.CanStart)
             {
                 Reject(silent, assessment.FirstProblem);
+                return false;
+            }
+
+            Job hostJob = JobMaker.MakeJob(RitualJobDef, parent);
+            pendingOrder = request;
+            pendingJobId = hostJob.loadID;
+
+            // TryTakeOrderedJob makes the pre-toil reservations (Pawn_JobTracker.cs:924): the altar
+            // plus the equipment being inscribed. A false here means somebody else holds them.
+            if (!request.Host.jobs.TryTakeOrderedJob(hostJob, JobTag.Misc))
+            {
+                pendingOrder = null;
+                Reject(silent, "WotF_Ritual_AltarBusy".Translate());
+                return false;
+            }
+
+            // An idle or interruptible pawn starts the job inside TryTakeOrderedJob, and a commit that
+            // failed there has already ended it again.
+            return IsHost(request.Host) || HasRitualJob(request.Host, RitualJobDef);
+        }
+
+        /// <summary>
+        /// What a worker hosts when it takes the altar up as work: the prepared rite, by itself, with no
+        /// helpers. Rites that need choices beyond the rune (gate, item, ruin) cannot be prepared.
+        /// </summary>
+        public RitualRequest WorkRequest(Pawn host)
+        {
+            return new RitualRequest { Def = collectDef, Rune = collectRune, Host = host };
+        }
+
+        /// <summary>
+        /// The one start path, run by the host job when it actually starts (JobDriver_PerformRitual.
+        /// Notify_Starting): a job from the work scan or a right-click hosts the prepared rite, a job from
+        /// <see cref="TryStart(RitualRequest, bool)"/> hosts the order it was made for. The request is
+        /// validated again here, because the pawn may have walked off, been queued or the altar changed
+        /// since it was offered. False leaves the altar idle and the job ends with no toils.
+        /// </summary>
+        public bool Commit(Pawn host, Job job)
+        {
+            RitualRequest request;
+            if (job.workGiverDef != null)
+            {
+                request = WorkRequest(host);
+            }
+            else if (pendingOrder != null && pendingJobId == job.loadID && pendingOrder.Host == host)
+            {
+                request = pendingOrder;
+            }
+            else
+            {
+                // An order lives only between TryStart and the job's start and is not saved, so a queued
+                // order that crossed a save/load has nothing left to start.
+                WotfLog.Info(WotfLog.ModuleRitual, "host job of " + host.LabelShort + " at " + parent.Position
+                    + " has no order to start");
+                return false;
+            }
+
+            if (pendingJobId == job.loadID)
+            {
+                pendingOrder = null;
+            }
+
+            RitualAssessment assessment = Assess(request);
+            if (!assessment.CanStart)
+            {
+                RejectCommit(job, request, assessment.FirstProblem);
                 return false;
             }
 
@@ -521,30 +787,19 @@ namespace WhisperOfTheForest.Rituals
             activeHost = request.Host;
             activeHelpers = new List<Pawn>(request.Helpers);
             stations = new List<RitualStation>(assessment.Stations);
-            offerings = new List<RitualOffering>(assessment.Offerings);
             phase = RitualPhase.Gathering;
             activePower = assessment.Power;
             activeManaCost = assessment.ManaCost;
             activeRingSize = assessment.RingSize;
             activeChalkColor = assessment.ChalkColor;
             activeDurationTicks = assessment.DurationTicks;
-
-            Job hostJob = JobMaker.MakeJob(RitualJobDef, parent);
             if (TryGetStation(activeHost, out IntVec3 hostCell))
             {
-                hostJob.targetB = hostCell;
+                job.targetB = hostCell;
             }
 
-            // TryTakeOrderedJob makes the pre-toil reservations (Pawn_JobTracker.cs:924): the altar
-            // plus every offering stack. A false here means somebody else holds them, so nothing is
-            // started and nothing is spent.
-            if (!activeHost.jobs.TryTakeOrderedJob(hostJob, JobTag.Misc))
-            {
-                ClearRitualState();
-                Reject(silent, "WotF_Ritual_NoMaterials".Translate(""));
-                return false;
-            }
-
+            // Helpers are only ever the ones the player picked in the panel, so they are ordered the same
+            // way the host was; a worker taking the rite up as work hosts it alone.
             var helperJobs = new List<Job>(activeHelpers.Count);
             for (int i = 0; i < activeHelpers.Count; i++)
             {
@@ -557,51 +812,45 @@ namespace WhisperOfTheForest.Rituals
 
                 if (!helper.jobs.TryTakeOrderedJob(helperJob, JobTag.Misc))
                 {
-                    Pawn busyHost = activeHost;
                     for (int j = 0; j < helperJobs.Count; j++)
                     {
                         activeHelpers[j].jobs.EndCurrentOrQueuedJob(helperJobs[j], JobCondition.InterruptForced, false);
                     }
 
-                    // Clear before ending the host job: its finish action calls NotifyHostJobEnded, which
-                    // would otherwise announce a cancelled rite on top of the real reason below.
+                    // The host job is still starting; with the state cleared its driver builds no toils.
                     ClearRitualState();
-                    busyHost.jobs.EndCurrentOrQueuedJob(hostJob, JobCondition.InterruptForced, false);
-                    Reject(silent, "WotF_Ritual_HelperBusy".Translate(helper.LabelShort));
+                    RejectCommit(job, request, "WotF_Ritual_HelperBusy".Translate(helper.LabelShort));
                     return false;
                 }
 
                 helperJobs.Add(helperJob);
             }
 
-            SetAutoRitual(autoRitual);
             WotfLog.Info(WotfLog.ModuleRitual,
                 "started " + request.Def.defName + (request.Rune == null ? "" : " for " + request.Rune.defName)
-                + " hosted by " + activeHost.LabelShort + " with " + activeHelpers.Count + " helpers at " + parent.Position);
+                + " hosted by " + activeHost.LabelShort + " with " + activeHelpers.Count + " helpers at " + parent.Position
+                + (job.workGiverDef == null ? " (ordered)" : job.playerForced ? " (prioritized)" : " (work)"));
             return true;
         }
 
-        /// <summary>
-        /// Reserves every offering stack, and the equipment being inscribed, for the host's job so haulers
-        /// leave them on the ring. Called by the job's pre-toils.
-        /// </summary>
-        public bool ReserveOfferings(Pawn claimant, Job job, bool errorOnFailed)
+        /// <summary>A forced job tells the player why it did not start; a job from the work scan only logs.</summary>
+        private void RejectCommit(Job job, RitualRequest request, string reason)
         {
-            for (int i = 0; i < offerings.Count; i++)
-            {
-                RitualOffering portion = offerings[i];
-                if (portion?.Thing == null)
-                {
-                    return false;
-                }
+            WotfLog.Info(WotfLog.ModuleRitual, "could not start " + request.Def.defName + " at " + parent.Position
+                + " for " + request.Host.LabelShort + ": " + reason);
+            Reject(!job.playerForced, reason);
+        }
 
-                if (!claimant.Reserve(portion.Thing, job, 1, portion.Count, null, errorOnFailed))
-                {
-                    return false;
-                }
-            }
-
-            return activeEquipment == null || claimant.Reserve(activeEquipment, job, 1, -1, null, errorOnFailed);
+        /// <summary>
+        /// Reserves the equipment being inscribed for the host's job so haulers leave it beside the altar.
+        /// The offerings need none: they are inside the altar. Called by the job's pre-toils.
+        /// </summary>
+        public bool ReserveEquipment(Pawn claimant, Job job, bool errorOnFailed)
+        {
+            // Reservations are made before the job starts, so an ordered rite's item still sits in the order.
+            Thing equipment = IsActive ? activeEquipment
+                : pendingOrder != null && pendingJobId == job.loadID ? pendingOrder.Equipment : null;
+            return equipment == null || claimant.Reserve(equipment, job, 1, -1, null, errorOnFailed);
         }
 
         /// <summary>The host's last toil: pay, then apply. A missing stack or a short network fails loudly.</summary>
@@ -618,9 +867,10 @@ namespace WhisperOfTheForest.Rituals
                 return;
             }
 
-            if (!OfferingsPresent(out string missing))
+            List<OfferingLine> ledger = Ledger(activeDef, activeRune);
+            if (HasMissing(ledger))
             {
-                FailRitual("WotF_Ritual_Complete_OfferingsGone".Translate(missing));
+                FailRitual("WotF_Ritual_Complete_OfferingsGone".Translate(MissingText(ledger)));
                 return;
             }
 
@@ -696,7 +946,15 @@ namespace WhisperOfTheForest.Rituals
             }
 
             network.TryDraw(activeManaCost);
-            ConsumeOfferings();
+            ConsumeOfferings(def, rune);
+            // The collection this rite used is settled; an auto-repeat rite is prepared again on the next
+            // rare tick and keeps whatever is left inside that it can count.
+            if (IsPreparedFor(def, rune))
+            {
+                collectDef = null;
+                collectRune = null;
+            }
+
             ClearRitualState();
             def.EffectWorker.Apply(new RitualContext(parent.Map, (Building)parent, host, def, rune,
                 teleportTarget, participants, power, equipment, bookSlot, ruinOption, teleportLanding));
@@ -755,7 +1013,6 @@ namespace WhisperOfTheForest.Rituals
             activeDurationTicks = 0;
             activeHelpers = new List<Pawn>();
             stations = new List<RitualStation>();
-            offerings = new List<RitualOffering>();
         }
 
         private ManaNetwork Network()
@@ -991,11 +1248,9 @@ namespace WhisperOfTheForest.Rituals
             {
                 result.Problems.Add(hostReason);
             }
-            else if (HasRitualJob(request.Host, RitualJobDef) || HasRitualJob(request.Host, AssistJobDef))
-            {
-                result.Problems.Add("WotF_Ritual_Casting".Translate(request.Host.LabelShort));
-            }
 
+            // No check for the host already holding this altar's host job: Commit assesses while that very
+            // job is starting, and a second order is refused by the altar's reservation instead.
             var seen = new HashSet<Pawn>();
             if (request.Host != null)
             {
@@ -1100,79 +1355,108 @@ namespace WhisperOfTheForest.Rituals
                 result.Problems.Add("WotF_Ritual_NoMana".Translate());
             }
 
-            result.Offerings.Clear();
-            result.MissingOfferings.Clear();
-            PlanOfferings(def, result);
-            if (result.MissingOfferings.Count > 0)
+            // Only what haulers have put into the altar counts; a rite that is not the prepared one has
+            // nothing delivered yet.
+            result.OfferingLines.Clear();
+            SpellGlyphDef rune = result.Request.Rune;
+            if (!IsPreparedFor(def, rune))
             {
-                result.Problems.Add("WotF_Ritual_NoMaterials".Translate(string.Join(", ", result.MissingOfferings)));
+                List<SpellGlyphCost> costs = RitualCosts(def, rune);
+                for (int i = 0; i < costs.Count; i++)
+                {
+                    result.OfferingLines.Add(new OfferingLine { Cost = costs[i] });
+                }
+
+                if (costs.Count > 0)
+                {
+                    result.Problems.Add("WotF_Ritual_NotPrepared".Translate());
+                }
+
+                return;
+            }
+
+            result.OfferingLines.AddRange(Ledger(def, rune));
+            if (HasMissing(result.OfferingLines))
+            {
+                result.Problems.Add("WotF_Ritual_NoMaterials".Translate(MissingText(result.OfferingLines)));
             }
         }
 
         /// <summary>
-        /// Splits the Def's cost lines into concrete stacks inside the effect radius, then asks the
-        /// reservation manager how much of each is still free. Both the shortfall and the "somebody
-        /// else reserved it" cases are reported here, so the start press never hits the
-        /// TryMakePreToilReservations warning in Pawn_JobTracker.cs:937.
+        /// Each cost line of the rite against the container, filled greedily in line order so a stack
+        /// that matches two lines counts once. <paramref name="used"/> receives what each stack gives,
+        /// which is exactly what completion consumes.
         /// </summary>
-        private void PlanOfferings(RitualDef def, RitualAssessment result)
+        private List<OfferingLine> Ledger(RitualDef def, SpellGlyphDef rune, Dictionary<Thing, int> used = null)
         {
-            List<SpellGlyphCost> costs = RitualCosts(def, result.Request.Rune);
-            if (costs.Count == 0)
-            {
-                return;
-            }
-
-            float radius = def.RadiusFor(result.Power);
-            var things = new List<Thing>(GenRadial.RadialDistinctThingsAround(parent.Position, parent.Map, radius, true));
-            var claimed = new Dictionary<Thing, int>();
+            List<SpellGlyphCost> costs = RitualCosts(def, rune);
+            var lines = new List<OfferingLine>(costs.Count);
+            Dictionary<Thing, int> taken = used ?? new Dictionary<Thing, int>();
             for (int i = 0; i < costs.Count; i++)
             {
                 SpellGlyphCost cost = costs[i];
-                int remaining = cost.count;
-                for (int t = 0; t < things.Count && remaining > 0; t++)
+                int delivered = 0;
+                for (int t = 0; t < offerings.Count && delivered < cost.count; t++)
                 {
-                    Thing thing = things[t];
-                    if (!thing.Spawned || thing.Destroyed || !cost.Matches(thing))
+                    Thing thing = offerings[t];
+                    if (!cost.Matches(thing))
                     {
                         continue;
                     }
 
-                    int already = claimed.TryGetValue(thing, out int used) ? used : 0;
-                    int freeHere = thing.stackCount - already;
-                    if (freeHere <= 0)
+                    int already = taken.TryGetValue(thing, out int n) ? n : 0;
+                    int take = Math.Min(cost.count - delivered, thing.stackCount - already);
+                    if (take <= 0)
                     {
                         continue;
                     }
 
-                    int take = Math.Min(remaining, freeHere);
-                    claimed[thing] = already + take;
-                    result.Offerings.Add(new RitualOffering { Thing = thing, Count = take });
-                    remaining -= take;
+                    taken[thing] = already + take;
+                    delivered += take;
                 }
 
-                if (remaining > 0)
-                {
-                    result.MissingOfferings.Add(cost.Label + " x" + remaining);
-                }
+                lines.Add(new OfferingLine { Cost = cost, Delivered = delivered });
             }
 
-            foreach (KeyValuePair<Thing, int> pair in claimed)
+            return lines;
+        }
+
+        private static bool HasMissing(List<OfferingLine> lines)
+        {
+            for (int i = 0; i < lines.Count; i++)
             {
-                // 如果 request.Host 为空，则无法预留。此处若评估时无 host，应视作评估失败而非崩溃
-                Pawn claimant = result.Request.Host;
-                if (claimant == null)
+                if (lines[i].Missing > 0)
                 {
-                    result.MissingOfferings.Add(pair.Key.def.label + " x" + pair.Value + " (no host for reservation)");
-                    continue;
-                }
-                int unreserved = parent.Map.reservationManager.CanReserveStack(claimant, pair.Key, 1);
-                if (unreserved < pair.Value)
-                {
-                    result.MissingOfferings.Add(pair.Key.def.label + " x" + pair.Value
-                        + " (" + "WotF_Ritual_ReservedElsewhere".Translate() + ")");
+                    return true;
                 }
             }
+
+            return false;
+        }
+
+        private static string MissingText(List<OfferingLine> lines)
+        {
+            var parts = new List<string>();
+            for (int i = 0; i < lines.Count; i++)
+            {
+                if (lines[i].Missing > 0)
+                {
+                    parts.Add(lines[i].Cost.Label + " x" + lines[i].Missing);
+                }
+            }
+
+            return string.Join(", ", parts);
+        }
+
+        private static string ProgressText(List<OfferingLine> lines)
+        {
+            var parts = new List<string>(lines.Count);
+            for (int i = 0; i < lines.Count; i++)
+            {
+                parts.Add(lines[i].Cost.Label + " " + lines[i].Delivered + "/" + lines[i].Cost.count);
+            }
+
+            return string.Join(", ", parts);
         }
 
         private static List<SpellGlyphCost> RitualCosts(RitualDef def, SpellGlyphDef rune)
@@ -1195,42 +1479,13 @@ namespace WhisperOfTheForest.Rituals
             return costs;
         }
 
-        private bool OfferingsPresent(out string missing)
+        private void ConsumeOfferings(RitualDef def, SpellGlyphDef rune)
         {
-            var shortfalls = new List<string>();
-            for (int i = 0; i < offerings.Count; i++)
+            var used = new Dictionary<Thing, int>();
+            Ledger(def, rune, used);
+            foreach (KeyValuePair<Thing, int> pair in used)
             {
-                RitualOffering portion = offerings[i];
-                Thing thing = portion?.Thing;
-                if (thing == null || thing.Destroyed || !thing.Spawned || thing.stackCount < portion.Count)
-                {
-                    shortfalls.Add((thing?.def?.label ?? "?") + " x" + (portion?.Count ?? 0));
-                }
-            }
-
-            missing = string.Join(", ", shortfalls);
-            return shortfalls.Count == 0;
-        }
-
-        private void ConsumeOfferings()
-        {
-            for (int i = 0; i < offerings.Count; i++)
-            {
-                RitualOffering portion = offerings[i];
-                Thing thing = portion?.Thing;
-                if (thing == null || thing.Destroyed)
-                {
-                    continue;
-                }
-
-                if (portion.Count >= thing.stackCount)
-                {
-                    thing.Destroy(DestroyMode.Vanish);
-                }
-                else
-                {
-                    thing.SplitOff(portion.Count).Destroy(DestroyMode.Vanish);
-                }
+                offerings.Take(pair.Key, pair.Value).Destroy(DestroyMode.Vanish);
             }
         }
 

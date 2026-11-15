@@ -6,7 +6,9 @@
   <WotF_Ritual_InspectGathering>Gathering on the circle: the chant begins once every participant is on a chalk cell.</WotF_Ritual_InspectGathering>
   <WotF_Ritual_InspectChanting>Chanting: the mana and offerings are taken only when the chant completes.</WotF_Ritual_InspectChanting>
   <WotF_Ritual_AutoRepeat_Current>Auto-repeat: {0}</WotF_Ritual_AutoRepeat_Current>
-  <WotF_Ritual_AutoRepeat_Desc>Keep performing this production rite whenever the altar is idle, as long as a host, mana and offerings are available.</WotF_Ritual_AutoRepeat_Desc>
+  <WotF_Ritual_AutoRepeat_Desc>Keep performing this production rite whenever the altar is idle. Haulers bring the offerings into the altar; once they are all inside, a bloodline colonist takes up the hosting as basic work. The rite waits while a host, mana or offerings are missing.</WotF_Ritual_AutoRepeat_Desc>
+  <WotF_Ritual_HostGerund>hosting {0} at</WotF_Ritual_HostGerund>
+  <WotF_Ritual_InspectCollecting>Collecting offerings for {0}: {1}</WotF_Ritual_InspectCollecting>
   <WotF_Ritual_AutoRepeat_Off>Stop auto-repeat</WotF_Ritual_AutoRepeat_Off>
   <WotF_Ritual_AutoRepeat_None>No production rite can be auto-repeated.</WotF_Ritual_AutoRepeat_None>
   <WotF_Ritual_AlreadyRunning>{0} is already in progress.</WotF_Ritual_AlreadyRunning>
@@ -25,7 +27,9 @@
   <WotF_Ritual_AllRunesUnlocked>No unopened rune is available to this altar.</WotF_Ritual_AllRunesUnlocked>
   <WotF_Ritual_SuperRuneNeedsRubbing>Super runes can only be unlocked by reading rubbings, not at an altar.</WotF_Ritual_SuperRuneNeedsRubbing>
   <WotF_Ritual_ChooseRune>Choose a rune to awaken.</WotF_Ritual_ChooseRune>
-  <WotF_Ritual_NoMaterials>The altar lacks materials: {0}</WotF_Ritual_NoMaterials>
+  <WotF_Ritual_NoMaterials>The altar still lacks offerings: {0}</WotF_Ritual_NoMaterials>
+  <WotF_Ritual_NotPrepared>Press Prepare so haulers bring the offerings into the altar.</WotF_Ritual_NotPrepared>
+  <WotF_Ritual_AltarBusy>The altar or the chosen item is reserved by another job.</WotF_Ritual_AltarBusy>
   <WotF_Ritual_RuneAlreadyUnlocked>{0} is already awakened.</WotF_Ritual_RuneAlreadyUnlocked>
   <WotF_Ritual_RuneAwakening_Done>{0} is awakened for the whole colony.</WotF_Ritual_RuneAwakening_Done>
   <WotF_Ritual_SpellbookAwakening_Done>A spellbook is awakened beside the altar.</WotF_Ritual_SpellbookAwakening_Done>
@@ -63,11 +67,13 @@
   <WotF_Ritual_Gizmo_Codex>Ritual codex</WotF_Ritual_Gizmo_Codex>
   <WotF_Ritual_Gizmo_CodexDesc>Browse every rite by circle family, its circle shape, and the chalk cells an upgrade still needs.</WotF_Ritual_Gizmo_CodexDesc>
   <WotF_Ritual_Gizmo_Host>Host a rite…</WotF_Ritual_Gizmo_Host>
-  <WotF_Ritual_Gizmo_HostDesc>Choose the rite, the circle, the host and the helpers. Starting only reserves the offerings; the fee is taken when the chant completes.</WotF_Ritual_Gizmo_HostDesc>
+  <WotF_Ritual_Gizmo_HostDesc>Choose the rite, the circle, the host and the helpers. Prepare has haulers bring the offerings into the altar; the rite can begin once all are inside, and the fee is taken when the chant completes.</WotF_Ritual_Gizmo_HostDesc>
   <WotF_Ritual_Gizmo_Auto>Auto-transmute</WotF_Ritual_Gizmo_Auto>
 
   <!-- Hosting panel -->
   <WotF_Ritual_Begin>Begin the rite</WotF_Ritual_Begin>
+  <WotF_Ritual_Prepare>Prepare</WotF_Ritual_Prepare>
+  <WotF_Ritual_CancelPrepare>Cancel preparation</WotF_Ritual_CancelPrepare>
   <WotF_Ritual_CancelButton>Cancel the rite</WotF_Ritual_CancelButton>
   <WotF_Ritual_ChooseRitual>Rite</WotF_Ritual_ChooseRitual>
   <WotF_Ritual_NoneAvailable>This altar has no rite it can perform.</WotF_Ritual_NoneAvailable>
@@ -82,8 +88,8 @@
   <WotF_Ritual_ManaHave>Network mana {1} / needs {0}</WotF_Ritual_ManaHave>
   <WotF_Ritual_ManaShort>Not enough network mana: {1} / needs {0}</WotF_Ritual_ManaShort>
   <WotF_Ritual_NoOfferings>This rite needs no offerings.</WotF_Ritual_NoOfferings>
-  <WotF_Ritual_Offering>Offering: {0} ×{1}</WotF_Ritual_Offering>
-  <WotF_Ritual_OfferingMissing>Offering missing: {0}</WotF_Ritual_OfferingMissing>
+  <WotF_Ritual_Offering>Offering: {0} {1}/{2} delivered</WotF_Ritual_Offering>
+  <WotF_Ritual_Collecting>Collecting offerings for {0}.</WotF_Ritual_Collecting>
   <WotF_Ritual_FeeAtEnd>These are taken only when the chant completes.</WotF_Ritual_FeeAtEnd>
   <WotF_Ritual_RunningFeeNote>The mana and offerings are not yet spent; interrupting or cancelling costs nothing.</WotF_Ritual_RunningFeeNote>
   <WotF_Ritual_Resonance>Resonance: bloodline {0} + facilities {1} = {2}</WotF_Ritual_Resonance>
@@ -93,8 +99,7 @@
   <WotF_Ritual_HelperBusy>{0} cannot join this rite right now.</WotF_Ritual_HelperBusy>
   <WotF_Ritual_HelperDuplicate>{0} is chosen twice.</WotF_Ritual_HelperDuplicate>
   <WotF_Ritual_HelperDrafted>Helper {0} is drafted.</WotF_Ritual_HelperDrafted>
-  <WotF_Ritual_ReservedElsewhere>reserved by another job</WotF_Ritual_ReservedElsewhere>
-  <WotF_Ritual_Complete_OfferingsGone>The offerings were gone when the chant completed: {0}. This rite spent no mana and no offerings.</WotF_Ritual_Complete_OfferingsGone>
+  <WotF_Ritual_Complete_OfferingsGone>The altar was short of offerings when the chant completed: {0}. This rite spent no mana and no offerings.</WotF_Ritual_Complete_OfferingsGone>
   <WotF_Ritual_Complete_NoMana>The network was short of mana when the chant completed ({1} / needs {0}). This rite spent no mana and no offerings.</WotF_Ritual_Complete_NoMana>
 
   <!-- Ritual codex -->
