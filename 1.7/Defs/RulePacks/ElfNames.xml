@@ -4,9 +4,7 @@
     <defName>WotF_ElfNames</defName>
     <modExtensions>
       <li Class="WhisperOfTheForest.Race.ElfNameRules">
-        <reservedNames>
-          <li>Naivara Amastacia</li>
-        </reservedNames>
+        <reservedNames />
       </li>
     </modExtensions>
     <rulePack>

@@ -250,7 +250,8 @@
       <li Class="WhisperOfTheForest.Mana.CompProperties_ManaBattery">
         <capacity>200</capacity>
         <linkRadius>12.9</linkRadius>
-        <barOffset>(0,0.1,0)</barOffset>
+        <!-- y 只压过电池本体顶点（0.01）；树的顶点从 0 抬到 0.1（Plant.cs:1043），写 0.1 会穿过挡在前面的树 -->
+        <barOffset>(0,0.02,0)</barOffset>
         <barSize>(0.6,0.18)</barSize>
         <barMargin>0.04</barMargin>
         <barFilledColor>(0.31,0.71,1,1)</barFilledColor>

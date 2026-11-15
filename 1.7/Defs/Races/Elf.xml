@@ -122,7 +122,8 @@
       <renderTree>Humanlike</renderTree>
       <baseBodySize>1</baseBodySize>
       <baseHealthScale>1</baseHealthScale>
-      <foodType>VegetarianAnimal,Plant,Tree</foodType>
+      <!-- Human diet plus living plants; eating a plant costs WotF_AtePlant (ForestDiet.cs). -->
+      <foodType>OmnivoreHuman,Plant,Tree</foodType>
       <gestationPeriodDays>18</gestationPeriodDays>
       <meatMarketValue>0.8</meatMarketValue>
       <manhunterOnDamageChance>0.50</manhunterOnDamageChance>
@@ -486,6 +487,19 @@
       </li>
     </backstoryFiltersOverride>
     <initialResistanceRange>13~21</initialResistanceRange>
+    <!--
+      apparelMoney defaults to FloatRange.Zero (Verse/PawnKindDef.cs:205); with zero money every
+      candidate fails CanUsePair's price test (RimWorld/PawnApparelGenerator.cs:1042) and only
+      apparelRequired is generated (:889-900), whose price is also taken out of this budget (:898).
+      The range is the 300 of the spellbook plus room for one elven dress and maybe a cloak, made of
+      cloth through WotF_PlayerElf's apparelStuffFilter.
+    -->
+    <apparelTags>
+      <li>WotF_CourtDress</li>
+      <li>WotF_CourtCloak</li>
+    </apparelTags>
+    <apparelAllowHeadgearChance>0</apparelAllowHeadgearChance>
+    <apparelMoney>450~650</apparelMoney>
     <apparelRequired>
       <li>WotF_Spellbook_Apprentice</li>
     </apparelRequired>

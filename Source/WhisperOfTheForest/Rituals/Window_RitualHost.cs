@@ -15,8 +15,9 @@ namespace WhisperOfTheForest.Rituals
     /// and the resonance that comes out of it. The bottom button is enabled only when the same
     /// validation the altar runs would pass, so the panel can never offer a start the altar refuses.
     ///
-    /// Nothing is spent here. Starting only reserves the offerings; the mana and the stacks are taken
-    /// when the chant completes (技术/04-仪式实现.md:116).
+    /// Nothing is spent here. [准备] has haulers carry the offerings into the altar; the rite can begin
+    /// once they are all inside, and the mana and the stacks are taken when the chant completes
+    /// (技术/04-仪式实现.md:116).
     /// </summary>
     public sealed class Window_RitualHost : Window
     {
@@ -358,52 +359,25 @@ namespace WhisperOfTheForest.Rituals
                 ? "WotF_Ritual_ManaHave".Translate(found.ManaCost.ToString("0.#"), found.ManaStored.ToString("0.#"))
                 : "WotF_Ritual_ManaShort".Translate(found.ManaCost.ToString("0.#"), found.ManaStored.ToString("0.#")));
 
-            List<SpellGlyphCost> costs = Costs();
-            if (costs.Count == 0)
+            if (altar.CollectDef != null)
+            {
+                y = Line(0f, y, "WotF_Ritual_Collecting".Translate(altar.CollectLabel));
+            }
+
+            if (found.OfferingLines.Count == 0)
             {
                 y = Line(0f, y, "WotF_Ritual_NoOfferings".Translate());
             }
-            else
-            {
-                for (int i = 0; i < costs.Count; i++)
-                {
-                    y = Line(0f, y, "WotF_Ritual_Offering".Translate(costs[i].Label, costs[i].count));
-                }
-            }
 
-            for (int i = 0; i < found.MissingOfferings.Count; i++)
+            for (int i = 0; i < found.OfferingLines.Count; i++)
             {
-                GUI.color = new Color(1f, 0.6f, 0.55f);
-                y = Line(0f, y, "WotF_Ritual_OfferingMissing".Translate(found.MissingOfferings[i]));
+                OfferingLine line = found.OfferingLines[i];
+                GUI.color = line.Missing > 0 ? new Color(1f, 0.6f, 0.55f) : Color.white;
+                y = Line(0f, y, "WotF_Ritual_Offering".Translate(line.Cost.Label, line.Delivered, line.Cost.count));
                 GUI.color = Color.white;
             }
 
             return Line(0f, y, "WotF_Ritual_FeeAtEnd".Translate());
-        }
-
-        private List<SpellGlyphCost> Costs()
-        {
-            var costs = new List<SpellGlyphCost>();
-            if (selected == null)
-            {
-                return costs;
-            }
-
-            if (selected.inputCosts != null)
-            {
-                for (int i = 0; i < selected.inputCosts.Count; i++)
-                {
-                    ThingDefCountClass cost = selected.inputCosts[i];
-                    costs.Add(new SpellGlyphCost { thingDef = cost.thingDef, count = cost.count });
-                }
-            }
-
-            if (selectedRune?.unlockCost != null)
-            {
-                costs.AddRange(selectedRune.unlockCost);
-            }
-
-            return costs;
         }
 
         private float DrawRoster(float y, RitualAssessment found)
@@ -513,23 +487,38 @@ namespace WhisperOfTheForest.Rituals
             {
                 if (Widgets.ButtonText(new Rect(rect.x, rect.y, 180f, 32f), "WotF_Ritual_CancelButton".Translate()))
                 {
-                    altar.CancelRitual(altar.ActiveHost);
+                    altar.CancelByPlayer();
                 }
             }
             else
             {
                 RitualAssessment found = Assessment();
                 bool oldEnabled = GUI.enabled;
+                GUI.enabled = altar.CanPrepare(selected, selectedRune);
+                if (Widgets.ButtonText(new Rect(rect.x, rect.y, 140f, 32f), "WotF_Ritual_Prepare".Translate()))
+                {
+                    altar.Prepare(selected, selectedRune);
+                    dirty = true;
+                }
+
+                var begin = new Rect(rect.x + 148f, rect.y, 140f, 32f);
                 GUI.enabled = found.CanStart;
-                if (Widgets.ButtonText(new Rect(rect.x, rect.y, 180f, 32f), "WotF_Ritual_Begin".Translate()))
+                if (Widgets.ButtonText(begin, "WotF_Ritual_Begin".Translate()))
                 {
                     altar.TryStart(BuildRequest());
+                }
+
+                GUI.enabled = altar.CollectDef != null;
+                if (Widgets.ButtonText(new Rect(rect.x + 296f, rect.y, 140f, 32f), "WotF_Ritual_CancelPrepare".Translate()))
+                {
+                    altar.CancelByPlayer();
+                    dirty = true;
                 }
 
                 GUI.enabled = oldEnabled;
                 if (!found.CanStart && found.FirstProblem != null)
                 {
-                    Widgets.Label(new Rect(rect.x + 188f, rect.y + 6f, rect.width - 320f, 22f), found.FirstProblem);
+                    TooltipHandler.TipRegion(begin, found.FirstProblem);
                 }
             }
 

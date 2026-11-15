@@ -13,7 +13,7 @@
 
   <!-- 效果：杀伤 -->
   <WotF_Effect_Harm.label>穿刺</WotF_Effect_Harm.label>
-  <WotF_Effect_Harm.description>对法术触及的目标造成奥术冲击伤害，伤害类型与奥术飞弹相同。</WotF_Effect_Harm.description>
+  <WotF_Effect_Harm.description>对法术触及的目标造成钝击伤害，伤害类型与奥术飞弹相同。</WotF_Effect_Harm.description>
   <WotF_Effect_Explosion.label>爆裂</WotF_Effect_Explosion.label>
   <WotF_Effect_Explosion.description>在法术落点产生一次原生爆炸。范围只扩大这一次爆炸；精细让爆裂不伤害建筑。</WotF_Effect_Explosion.description>
 

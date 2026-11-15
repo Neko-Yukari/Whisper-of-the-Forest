@@ -13,8 +13,12 @@ namespace WhisperOfTheForest.Rituals
     /// PsychicRitualToil_Goto.cs:167) and each early arrival is parked on
     /// DutyDefOf.WaitForRitualParticipants (:201), so nobody chants while walking.
     ///
-    /// It owns no numbers: the altar holds the cost, the duration and the reserved offerings. Ending
+    /// It owns no numbers: the altar holds the cost, the duration and the offerings. Ending
     /// this job before the last toil is what "interrupted" means, and it costs nothing.
+    ///
+    /// The rite itself begins when this job does: Notify_Starting asks the altar to commit it, whether
+    /// the job came from the work scan, a right-click or the panel's order. A refused commit leaves the
+    /// driver without toils, so the job ends at once.
     /// </summary>
     public class JobDriver_PerformRitual : JobDriver
     {
@@ -32,7 +36,14 @@ namespace WhisperOfTheForest.Rituals
             }
 
             return pawn.Reserve(job.targetA, job, 1, -1, null, errorOnFailed)
-                && altar.ReserveOfferings(pawn, job, errorOnFailed);
+                && altar.ReserveEquipment(pawn, job, errorOnFailed);
+        }
+
+        public override void Notify_Starting()
+        {
+            base.Notify_Starting();
+            // TryMakePreToilReservations already refused a job whose target is not an altar.
+            Altar.Commit(pawn, job);
         }
 
         protected override IEnumerable<Toil> MakeNewToils()

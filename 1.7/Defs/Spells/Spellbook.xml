@@ -173,7 +173,7 @@
       <li>Plant</li>
     </targets>
     <label>harm</label>
-    <description>Deals arcane force damage to what the spell reaches, through the same damage type the arcane missiles already use.</description>
+    <description>Deals blunt damage to what the spell reaches, through the same damage type the arcane missiles already use.</description>
     <kind>Effect</kind>
     <damage>9</damage>
     <armorPenetration>0.5</armorPenetration>
