@@ -713,7 +713,7 @@ namespace WhisperOfTheForest.Rituals
         /// the job does, exactly like a rite a worker takes up from the work scan. True when the job was
         /// taken: running already, or queued behind a job the pawn cannot drop.
         /// </summary>
-        public bool TryStart(RitualRequest request, bool silent = false)
+        public bool TryStart(RitualRequest request, bool silent = false, WorkGiver prioritizedBy = null)
         {
             RitualAssessment assessment = Assess(request);
             if (!assessment.CanStart)
@@ -728,7 +728,11 @@ namespace WhisperOfTheForest.Rituals
 
             // TryTakeOrderedJob makes the pre-toil reservations (Pawn_JobTracker.cs:924): the altar
             // plus the equipment being inscribed. A false here means somebody else holds them.
-            if (!request.Host.jobs.TryTakeOrderedJob(hostJob, JobTag.Misc))
+            // A right-click goes through the vanilla prioritized-work order, like every other [优先 X].
+            bool taken = prioritizedBy == null
+                ? request.Host.jobs.TryTakeOrderedJob(hostJob, JobTag.Misc)
+                : request.Host.jobs.TryTakeOrderedJobPrioritizedWork(hostJob, prioritizedBy, parent.Position);
+            if (!taken)
             {
                 pendingOrder = null;
                 Reject(silent, "WotF_Ritual_AltarBusy".Translate());
@@ -766,14 +770,15 @@ namespace WhisperOfTheForest.Rituals
         public bool Commit(Pawn host, Job job)
         {
             RitualRequest request;
-            if (job.workGiverDef != null)
+            // The order goes first: a prioritized right-click job also carries workGiverDef.
+            if (pendingOrder != null && pendingJobId == job.loadID && pendingOrder.Host == host)
+            {
+                request = pendingOrder;
+            }
+            else if (job.workGiverDef != null)
             {
                 // WorkGiver_HostRitual offered this job in the same tick, so the auto rite is still set.
                 request = DirectRequest(autoRitual, host);
-            }
-            else if (pendingOrder != null && pendingJobId == job.loadID && pendingOrder.Host == host)
-            {
-                request = pendingOrder;
             }
             else
             {
