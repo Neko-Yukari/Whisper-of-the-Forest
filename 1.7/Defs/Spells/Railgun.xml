@@ -2,29 +2,13 @@
 <Defs>
 
   <!--
-    The railgun supra rune.
-
-    Two Defs live here and they are deliberately unaware of each other's internals:
-      1. WotF_Form_Railgun  - a Super rune that is a whole spell on its own. It carries the spell
-                              numbers (damage, width, range, charge) and the name of the visual
-                              effect it wants; it carries no look.
-      2. WotF_Vfx_Railgun   - the visual effect, drawn by RimUnity world geometry: a white-hot core,
-                              a warm glow, jagged arcs wrapping the beam and shock rings travelling
-                              down its length. Everything above the bright threshold survives the
-                              selective screen darkening that dims the rest of the map.
-
-    Two more effect Defs exist for comparison, not for play:
-      - WotF_Vfx_Railgun_WorldRing  same look with a true perpendicular ring instead of the 30° ellipse.
-      - WotF_Vfx_Railgun_Native     the previous GUI-sheet implementation, kept as a fallback.
-
-    The spell layer reaches the effect only through a semantic VfxRequest (origin, direction, length,
-    width, charge ticks); it never creates a GameObject, a material, a particle or an EfxClip.
+    The railgun supra rune, presented via RimLumen Layer 15 HDR geometry + L2 corridor particles/lights.
+    Everything visual and auditory lives on WotF_Vfx_Railgun; the rune carries only spell mechanics.
   -->
-
-  <!-- ============================================================ The rune -->
 
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Form_Railgun</defName>
+    <theme>WotF_Theme_HoloStorm</theme>
     <targets>
       <li>Humanlike</li>
       <li>Animal</li>
@@ -40,23 +24,11 @@
     <description>A single rune that is a complete spell: it charges for a moment and then fires one straight shot through everything in its path, walls and mountains included. Nobody in the line is spared, the caster excepted.</description>
     <kind>Super</kind>
     <requiresUnlock>true</requiresUnlock>
-    <!-- A Super rune is already complete: no effect or augment rune may follow it. -->
     <compatibleAugments />
-    <!--
-      The charge is this rune's channel: windup 0 means the orb starts forming the moment the player
-      releases the cast, 90 ticks later the corridor resolves, and the caster is rooted for the
-      recovery that follows. The three fields work like every other rune's (Spellbook.xml).
-    -->
     <windupTicks>0</windupTicks>
     <channelTicks>90</channelTicks>
     <recoveryTicks>25</recoveryTicks>
     <iconPath>Spellbook/Glyphs/WotF_Form_Railgun</iconPath>
-    <!--
-      Spell numbers only. damage is a placeholder value from the experiment sheet, not a balance
-      conclusion; hitWidth is the full corridor width (2.5 cells). range 0 means the whole map: the
-      shot is clipped only by the map edge, so the player can aim at any visible cell. The delay
-      between the cast and the damage is the channel above, not a number here.
-    -->
     <railgun>
       <damage>120</damage>
       <armorPenetration>0.5</armorPenetration>
@@ -69,40 +41,51 @@
     <experience>0</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
-  <!-- ============================================================ The effect (RimUnity, 30° rings) -->
-
-  <WhisperOfTheForest.Vfx.RailgunRimVfxDef>
+  <WhisperOfTheForest.Vfx.RailgunLumenVfxDef>
     <defName>WotF_Vfx_Railgun</defName>
-    <label>railgun effect</label>
-    <workerClass>WhisperOfTheForest.Vfx.RailgunRimVfxWorker</workerClass>
+    <label>railgun effect (RimLumen)</label>
+    <workerClass>WhisperOfTheForest.Vfx.RailgunLumenVfxWorker</workerClass>
     <lifetime>FixedDuration</lifetime>
 
-    <!-- One additive ribbon material, exported from the Unity project. Its colour arrives per line
-         from the LineRenderer gradient, so the effect never copies or edits the material. -->
-    <materialPath>Materials/RailgunGlow</materialPath>
-    <bloomLayer>29</bloomLayer>
+    <!-- Charge phase: front-of-caster plasma implosion with 2.5D Pawn silhouette occlusion -->
+    <chargeOffsetCells>0.48</chargeOffsetCells>
+    <wallClearanceMargin>0.18</wallClearanceMargin>
+    <backAltitudeY>7.95</backAltitudeY>
+    <frontAltitudeY>9.45</frontAltitudeY>
+    <zTransitionHalf>0.06</zTransitionHalf>
+    <chargeOriginHeightCells>0</chargeOriginHeightCells>
+    <chargeRadiusCells>1.02</chargeRadiusCells>
+    <chargeSpindleHalfHeight>0.72</chargeSpindleHalfHeight>
+    <chargeBaseRingThickness>0.075</chargeBaseRingThickness>
+    <chargeFunnelHeightCells>0.66</chargeFunnelHeightCells>
+    <chargeVortexArms>4</chargeVortexArms>
+    <chargeBoltCount>4</chargeBoltCount>
+    <chargeColor>#38C6FF</chargeColor>
+    <chargeCoreColor>#FFF8E0</chargeCoreColor>
+    <chargeIntensity>1.25</chargeIntensity>
+    <chargePulseHz>3.6</chargePulseHz>
+    <chargeLumenEffectId>NekoYukari.WhisperOfTheForest:RailgunCharge</chargeLumenEffectId>
+    <chargeSound>WotF_Sound_Railgun_Charge</chargeSound>
 
-    <!-- Beam: a pawn-wide white core inside a warm glow. Intensities above 1 push the core into the
-         Bloom layer so it acquires a real halo instead of just being a white line. -->
-    <beamHeight>1.35</beamHeight>
-    <coreWidthCells>0.6</coreWidthCells>
+    <!-- Fire phase: HDR white-hot core + warm gold glow + 0.9s quadratic heat linger -->
+    <beamAltitudeY>9.45</beamAltitudeY>
+    <coreWidthCells>0.58</coreWidthCells>
     <coreColor>#FFFDF4</coreColor>
-    <coreIntensity>1.85</coreIntensity>
-    <glowWidthCells>2.2</glowWidthCells>
+    <coreIntensity>1.65</coreIntensity>
+    <glowWidthCells>2.25</glowWidthCells>
     <glowColor>#FFB03A</glowColor>
-    <glowIntensity>1.3</glowIntensity>
+    <glowIntensity>1.05</glowIntensity>
+    <afterglowColor>#E5A93B</afterglowColor>
+    <afterglowIntensity>0.75</afterglowIntensity>
+    <beamHoldSeconds>0.60</beamHoldSeconds>
+    <beamFadeSeconds>0.70</beamFadeSeconds>
+    <glowLingerSeconds>0.90</glowLingerSeconds>
+    <ribbonEdgePower>1.65</ribbonEdgePower>
+    <muzzleFlareRadius>1.25</muzzleFlareRadius>
 
-    <!-- The beam arrives whole and holds briefly; the glow lags behind to sell the heat. -->
-    <beamHoldSeconds>0.6</beamHoldSeconds>
-    <beamFadeSeconds>0.7</beamFadeSeconds>
-    <glowLingerSeconds>0.9</glowLingerSeconds>
-
-    <!-- Bolts: seven independent strikes. Each one covers only a short stretch of the beam, keeps its
-         own jagged shape for 0.12 s, disappears, then strikes somewhere else. Point density is per cell
-         of the bolt's own length, so a 128-cell shot is as jagged as a 20-cell one. Radius 1.15 sits
-         just outside the 0.6-wide core, so the strikes read as separate arcs rather than a helix. -->
+    <!-- Seven independent re-striking jagged lightning bolts -->
     <arcColor>#FFF3C6</arcColor>
-    <arcIntensity>1.7</arcIntensity>
+    <arcIntensity>1.40</arcIntensity>
     <arcCount>7</arcCount>
     <arcMinLengthCells>3</arcMinLengthCells>
     <arcMaxLengthCells>9</arcMaxLengthCells>
@@ -111,172 +94,36 @@
     <arcRadiusCells>1.15</arcRadiusCells>
     <arcJitterCells>0.45</arcJitterCells>
     <arcAngleJitterDegrees>55</arcAngleJitterDegrees>
-    <arcThicknessCells>0.1</arcThicknessCells>
+    <arcThicknessCells>0.10</arcThicknessCells>
     <arcLifeSeconds>0.12</arcLifeSeconds>
-    <arcGapSeconds>0.1</arcGapSeconds>
+    <arcGapSeconds>0.08</arcGapSeconds>
 
-    <!-- Rings: sixteen purple rings spread along the beam. The shock front is timed off the beam's own
-         hold: it reaches the far end at 75% of beamHoldSeconds, so even a whole-map shot is swept
-         before the beam starts to fade and a short shot takes exactly as long. Each ring lights only
-         when the front reaches its own point, then stays fixed there. Main pulse: 0.5 s expanding
-         1.6 -> 5.2 cells and decaying the whole time. 45% of rings (fixed by the cast seed) then get a
-         0.18 s re-ionisation flash at 0.55x brightness. Ellipse30 keeps the 30-degree reading at any
-         camera pitch. -->
+    <!-- Sixteen travelling 30-degree elliptical shock and re-ionisation rings -->
     <ringMode>Ellipse30</ringMode>
     <ringCount>16</ringCount>
     <ringSegments>48</ringSegments>
     <ringShockArrivalFraction>0.75</ringShockArrivalFraction>
-    <ringMainPulseSeconds>0.5</ringMainPulseSeconds>
+    <ringMainPulseSeconds>0.50</ringMainPulseSeconds>
     <ringPulseRise>0.15</ringPulseRise>
     <ringPulseFall>0.75</ringPulseFall>
-    <ringStartRadiusCells>1.6</ringStartRadiusCells>
-    <ringMainEndRadiusCells>5.2</ringMainEndRadiusCells>
+    <ringStartRadiusCells>1.45</ringStartRadiusCells>
+    <ringMainEndRadiusCells>5.20</ringMainEndRadiusCells>
     <ringFlashChance>0.45</ringFlashChance>
     <ringFlashDelaySeconds>0.12</ringFlashDelaySeconds>
     <ringFlashSeconds>0.18</ringFlashSeconds>
-    <ringFlashRadiusCells>3.2</ringFlashRadiusCells>
-    <ringThicknessCells>0.16</ringThicknessCells>
-    <ringColor>#B45CFF</ringColor>
-    <ringIntensity>1.5</ringIntensity>
-    <ringMainIntensityScale>1.4</ringMainIntensityScale>
-    <ringFlashIntensityScale>0.55</ringFlashIntensityScale>
-    <ringEllipseRatio>0.5</ringEllipseRatio>
+    <ringFlashRadiusCells>3.20</ringFlashRadiusCells>
+    <ringThicknessCells>0.15</ringThicknessCells>
+    <ringColor>#00B4D8</ringColor>
+    <ringSecondaryColor>#FCE29C</ringSecondaryColor>
+    <ringIntensity>1.25</ringIntensity>
+    <ringMainIntensityScale>1.25</ringMainIntensityScale>
+    <ringFlashIntensityScale>0.60</ringFlashIntensityScale>
+    <ringEllipseRatio>0.50</ringEllipseRatio>
 
-    <!-- Charge: a soft orb at the caster that brightens and pulses during the channel. -->
-    <chargeRadiusCells>1</chargeRadiusCells>
-    <chargeColor>#FFD9A0</chargeColor>
-    <chargeIntensity>1.5</chargeIntensity>
-    <chargePulseHz>3.2</chargePulseHz>
-
-    <!-- Darkening: everything below the keep thresholds loses up to 62% of its brightness, so the
-         beam and its glow are the only bright things left on the map. UI is never touched. -->
-    <darkenStrength>0.62</darkenStrength>
-    <darkenInSeconds>0.05</darkenInSeconds>
-    <darkenHoldSeconds>0.22</darkenHoldSeconds>
-    <darkenOutSeconds>0.55</darkenOutSeconds>
-    <darkenKeepLow>0.5</darkenKeepLow>
-    <darkenKeepHigh>0.95</darkenKeepHigh>
-    <darkenMaterialPath>Materials/SelectiveDarken</darkenMaterialPath>
-  </WhisperOfTheForest.Vfx.RailgunRimVfxDef>
-
-  <!-- ============================================================ The effect (true perpendicular rings) -->
-
-  <!--
-    Identical to WotF_Vfx_Railgun except for the ring basis. Use this one to judge how a real ring
-    lying across the beam behaves as the camera pitch changes; the default effect reads better in
-    normal play because it keeps the ring face-on enough to see.
-  -->
-  <WhisperOfTheForest.Vfx.RailgunRimVfxDef>
-    <defName>WotF_Vfx_Railgun_WorldRing</defName>
-    <label>railgun effect (perpendicular rings)</label>
-    <workerClass>WhisperOfTheForest.Vfx.RailgunRimVfxWorker</workerClass>
-    <lifetime>FixedDuration</lifetime>
-
-    <materialPath>Materials/RailgunGlow</materialPath>
-    <bloomLayer>29</bloomLayer>
-
-    <beamHeight>1.35</beamHeight>
-    <coreWidthCells>0.6</coreWidthCells>
-    <coreColor>#FFFDF4</coreColor>
-    <coreIntensity>1.85</coreIntensity>
-    <glowWidthCells>2.2</glowWidthCells>
-    <glowColor>#FFB03A</glowColor>
-    <glowIntensity>1.3</glowIntensity>
-
-    <beamHoldSeconds>0.6</beamHoldSeconds>
-    <beamFadeSeconds>0.7</beamFadeSeconds>
-    <glowLingerSeconds>0.9</glowLingerSeconds>
-
-    <arcColor>#FFF3C6</arcColor>
-    <arcIntensity>1.7</arcIntensity>
-    <arcCount>7</arcCount>
-    <arcMinLengthCells>3</arcMinLengthCells>
-    <arcMaxLengthCells>9</arcMaxLengthCells>
-    <arcSegmentsPerCell>2.2</arcSegmentsPerCell>
-    <arcMaxSegments>24</arcMaxSegments>
-    <arcRadiusCells>1.15</arcRadiusCells>
-    <arcJitterCells>0.45</arcJitterCells>
-    <arcAngleJitterDegrees>55</arcAngleJitterDegrees>
-    <arcThicknessCells>0.1</arcThicknessCells>
-    <arcLifeSeconds>0.12</arcLifeSeconds>
-    <arcGapSeconds>0.1</arcGapSeconds>
-
-    <ringMode>WorldPerpendicular</ringMode>
-    <ringCount>16</ringCount>
-    <ringSegments>48</ringSegments>
-    <ringShockArrivalFraction>0.75</ringShockArrivalFraction>
-    <ringMainPulseSeconds>0.5</ringMainPulseSeconds>
-    <ringPulseRise>0.15</ringPulseRise>
-    <ringPulseFall>0.75</ringPulseFall>
-    <ringStartRadiusCells>1.6</ringStartRadiusCells>
-    <ringMainEndRadiusCells>5.2</ringMainEndRadiusCells>
-    <ringFlashChance>0.45</ringFlashChance>
-    <ringFlashDelaySeconds>0.12</ringFlashDelaySeconds>
-    <ringFlashSeconds>0.18</ringFlashSeconds>
-    <ringFlashRadiusCells>3.2</ringFlashRadiusCells>
-    <ringThicknessCells>0.16</ringThicknessCells>
-    <ringColor>#B45CFF</ringColor>
-    <ringIntensity>1.5</ringIntensity>
-    <ringMainIntensityScale>1.4</ringMainIntensityScale>
-    <ringFlashIntensityScale>0.55</ringFlashIntensityScale>
-    <ringEllipseRatio>0.5</ringEllipseRatio>
-
-    <chargeRadiusCells>1</chargeRadiusCells>
-    <chargeColor>#FFD9A0</chargeColor>
-    <chargeIntensity>1.5</chargeIntensity>
-    <chargePulseHz>3.2</chargePulseHz>
-
-    <darkenStrength>0.62</darkenStrength>
-    <darkenInSeconds>0.05</darkenInSeconds>
-    <darkenHoldSeconds>0.22</darkenHoldSeconds>
-    <darkenOutSeconds>0.55</darkenOutSeconds>
-    <darkenKeepLow>0.5</darkenKeepLow>
-    <darkenKeepHigh>0.95</darkenKeepHigh>
-    <darkenMaterialPath>Materials/SelectiveDarken</darkenMaterialPath>
-  </WhisperOfTheForest.Vfx.RailgunRimVfxDef>
-
-  <!-- ============================================================ Fallback: the GUI-sheet effect -->
-
-  <!--
-    The previous implementation, drawn as interface quads during the GUI pass. Kept, not deleted:
-    it needs no RimUnity assets at all, so it is the thing to switch to if the exported pipeline is
-    unavailable. It has no Bloom and no 3D rings.
-  -->
-  <WhisperOfTheForest.Vfx.RailgunVfxDef>
-    <defName>WotF_Vfx_Railgun_Native</defName>
-    <label>railgun effect (native fallback)</label>
-    <workerClass>WhisperOfTheForest.Vfx.RailgunVfxWorker</workerClass>
-    <!-- The shot owns its clock: it plays for its own fixed duration and ends by itself. -->
-    <lifetime>FixedDuration</lifetime>
-    <!-- Beam: a white-hot core inside a wider warm glow, both drawn above the darkening pass. -->
-    <coreWidthCells>0.55</coreWidthCells>
-    <coreColor>#FFFDF2</coreColor>
-    <glowWidthCells>2.5</glowWidthCells>
-    <glowColor>#FFB347</glowColor>
-    <beamHeight>1.2</beamHeight>
-    <!-- Timing: the beam holds, fades, then leaves a narrowing band behind. -->
-    <beamHoldSeconds>0.45</beamHoldSeconds>
-    <beamFadeSeconds>0.35</beamFadeSeconds>
-    <afterglowSeconds>1.6</afterglowSeconds>
-    <afterglowWidthCells>3.4</afterglowWidthCells>
-    <afterglowColor>#FF9A3C</afterglowColor>
-    <!-- Arcs: a few jittered filaments along the beam, re-rolled about 22 times per second. -->
-    <arcColor>#FFE2B0</arcColor>
-    <arcCount>3</arcCount>
-    <arcWidthCells>0.09</arcWidthCells>
-    <arcAmplitudeCells>0.7</arcAmplitudeCells>
-    <arcFps>22</arcFps>
-    <!-- Darkening: the map drops away for a moment so the beam is the only light left.
-         Peak alpha of the full-viewport tint; 0 disables it. -->
-    <darkenStrength>0.62</darkenStrength>
-    <darkenTint>#120B04</darkenTint>
-    <darkenInSeconds>0.05</darkenInSeconds>
-    <darkenHoldSeconds>0.22</darkenHoldSeconds>
-    <darkenOutSeconds>0.55</darkenOutSeconds>
-    <!-- Charge: an orb at the caster that brightens and pulses while the shot is gathering. -->
-    <chargeRadiusCells>1.1</chargeRadiusCells>
-    <chargeColor>#FFD9A0</chargeColor>
-    <chargePulseHz>3.2</chargePulseHz>
-  </WhisperOfTheForest.Vfx.RailgunVfxDef>
+    <!-- RimLumen L2 corridor sparks/embers + native screenDim + GlowGrid lights + layered fire sound -->
+    <fireOriginHeightCells>0</fireOriginHeightCells>
+    <fireLumenEffectId>NekoYukari.WhisperOfTheForest:RailgunFire</fireLumenEffectId>
+    <fireSound>WotF_Sound_Railgun_Fire</fireSound>
+  </WhisperOfTheForest.Vfx.RailgunLumenVfxDef>
 
 </Defs>

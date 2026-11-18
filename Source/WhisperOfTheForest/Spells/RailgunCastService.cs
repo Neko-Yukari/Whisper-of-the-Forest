@@ -25,17 +25,17 @@ namespace WhisperOfTheForest.Spells
         /// position when the charge ends, so walking during the channel changes the origin and not the
         /// aim. A visual failure never changes what the cast will do.
         /// </summary>
-        public static void PlayCharge(Map map, Pawn caster, IntVec3 aimCell, SpellRailgunSpec spec, int channelTicks)
+        public static VfxHandle PlayCharge(Map map, Pawn caster, IntVec3 aimCell, SpellRailgunSpec spec, int channelTicks)
         {
             if (map == null || caster == null || spec == null)
             {
-                return;
+                return null;
             }
 
             IntVec3 origin = caster.Position;
             if (!TryAim(map, origin, aimCell, caster, spec, out float dirX, out float dirZ, out float length))
             {
-                return;
+                return null;
             }
 
             var request = new VfxRequest
@@ -51,7 +51,7 @@ namespace WhisperOfTheForest.Spells
                 vfxDefName = spec.vfxDef
             };
 
-            VfxService.Play(request);
+            return VfxService.Play(request);
         }
 
         /// <summary>

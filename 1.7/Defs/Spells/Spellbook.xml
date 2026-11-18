@@ -162,6 +162,7 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.HarmGlyphDef">
     <defName>WotF_Effect_Harm</defName>
+    <theme>WotF_Theme_Runic</theme>
     <tier>0</tier>
     <targets>
       <li>Humanlike</li>
@@ -192,6 +193,7 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.HealGlyphDef">
     <defName>WotF_Effect_Heal</defName>
+    <theme>WotF_Theme_Vitality</theme>
     <tier>0</tier>
     <targets>
       <li>Humanlike</li>
@@ -220,6 +222,7 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.ExplosionGlyphDef">
     <defName>WotF_Effect_Explosion</defName>
+    <theme>WotF_Theme_HoloStorm</theme>
     <tier>2</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>
@@ -252,6 +255,7 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.GrowGlyphDef">
     <defName>WotF_Effect_Grow</defName>
+    <theme>WotF_Theme_Vitality</theme>
     <tier>1</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>
@@ -286,6 +290,7 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.LightningGlyphDef">
     <defName>WotF_Effect_Lightning</defName>
+    <theme>WotF_Theme_HoloStorm</theme>
     <tier>3</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>
@@ -322,6 +327,7 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.ColdSnapGlyphDef">
     <defName>WotF_Effect_ColdSnap</defName>
+    <theme>WotF_Theme_Frost</theme>
     <tier>2</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>
@@ -357,6 +363,7 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.FreezeGlyphDef">
     <defName>WotF_Effect_Freeze</defName>
+    <theme>WotF_Theme_Frost</theme>
     <tier>1</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>
@@ -387,6 +394,7 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.KnockbackGlyphDef">
     <defName>WotF_Effect_Knockback</defName>
+    <theme>WotF_Theme_HoloStorm</theme>
     <tier>1</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>
@@ -419,6 +427,7 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.PullGlyphDef">
     <defName>WotF_Effect_Pull</defName>
+    <theme>WotF_Theme_Runic</theme>
     <tier>1</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>
@@ -451,6 +460,7 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.SnareGlyphDef">
     <defName>WotF_Effect_Snare</defName>
+    <theme>WotF_Theme_Vitality</theme>
     <tier>1</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>
@@ -480,6 +490,7 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.HexGlyphDef">
     <defName>WotF_Effect_Hex</defName>
+    <theme>WotF_Theme_Runic</theme>
     <tier>2</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>
@@ -510,6 +521,7 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.HackGlyphDef">
     <defName>WotF_Effect_Hack</defName>
+    <theme>WotF_Theme_HoloStorm</theme>
     <tier>3</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>
@@ -545,6 +557,7 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.MagelightGlyphDef">
     <defName>WotF_Effect_Magelight</defName>
+    <theme>WotF_Theme_Starlight</theme>
     <tier>0</tier>
     <targets>
       <li>Cell</li>
@@ -571,6 +584,7 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.BlinkGlyphDef">
     <defName>WotF_Effect_Blink</defName>
+    <theme>WotF_Theme_Starlight</theme>
     <tier>3</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>
@@ -600,6 +614,7 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.LingerGlyphDef">
     <defName>WotF_Effect_Linger</defName>
+    <theme>WotF_Theme_Starlight</theme>
     <tier>3</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>
@@ -632,6 +647,7 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.RuneGlyphDef">
     <defName>WotF_Effect_Rune</defName>
+    <theme>WotF_Theme_Runic</theme>
     <tier>2</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>
@@ -656,6 +672,7 @@
 
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.DelayGlyphDef">
     <defName>WotF_Effect_Delay</defName>
+    <theme>WotF_Theme_Starlight</theme>
     <tier>1</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>
@@ -938,6 +955,8 @@
     <staffBluntArmorCostReduction>0.4</staffBluntArmorCostReduction>
     <staffMaxDurationFactor>1.75</staffMaxDurationFactor>
     <staffMaxDamageFactor>1.5</staffMaxDamageFactor>
+    <defaultTheme>WotF_Theme_Starlight</defaultTheme>
+    <castVfxDef>WotF_Vfx_SpellCast</castVfxDef>
   </WhisperOfTheForest.Spells.SpellTuningDef>
 
   <!-- ============================================================ Carrier ability -->

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    Spell Theme Templates (data-driven palettes + RimLumen particle rigs + charge/release audio).
+    Adding a new magic type only adds a SpellThemeDef here and binds glyphs to it in Spellbook XML.
+  -->
+
+  <WhisperOfTheForest.Vfx.SpellThemeDef>
+    <defName>WotF_Theme_Vitality</defName>
+    <label>vitality theme</label>
+    <coreColor>#E9FFF4</coreColor>
+    <primaryColor>#57D993</primaryColor>
+    <secondaryColor>#1D9E6C</secondaryColor>
+    <lightColor>#4AE090</lightColor>
+    <hdrIntensity>1.05</hdrIntensity>
+    <castLumenEffectId>NekoYukari.WhisperOfTheForest:CastVortex_Vitality</castLumenEffectId>
+    <castChargeSound>WotF_Sound_Cast_Vitality_Charge</castChargeSound>
+    <castReleaseSound>WotF_Sound_Cast_Vitality_Release</castReleaseSound>
+  </WhisperOfTheForest.Vfx.SpellThemeDef>
+
+  <WhisperOfTheForest.Vfx.SpellThemeDef>
+    <defName>WotF_Theme_Starlight</defName>
+    <label>starlight theme</label>
+    <coreColor>#FFFDF4</coreColor>
+    <primaryColor>#48D1CC</primaryColor>
+    <secondaryColor>#F4E285</secondaryColor>
+    <lightColor>#9EEAF0</lightColor>
+    <hdrIntensity>1.10</hdrIntensity>
+    <castLumenEffectId>NekoYukari.WhisperOfTheForest:CastVortex_Starlight</castLumenEffectId>
+    <castChargeSound>WotF_Sound_Cast_Starlight_Charge</castChargeSound>
+    <castReleaseSound>WotF_Sound_Cast_Starlight_Release</castReleaseSound>
+  </WhisperOfTheForest.Vfx.SpellThemeDef>
+
+  <WhisperOfTheForest.Vfx.SpellThemeDef>
+    <defName>WotF_Theme_Frost</defName>
+    <label>frost theme</label>
+    <coreColor>#F2FCFF</coreColor>
+    <primaryColor>#6CE8FF</primaryColor>
+    <secondaryColor>#2A82C9</secondaryColor>
+    <lightColor>#85DBFF</lightColor>
+    <hdrIntensity>1.08</hdrIntensity>
+    <castLumenEffectId>NekoYukari.WhisperOfTheForest:CastVortex_Frost</castLumenEffectId>
+    <castChargeSound>WotF_Sound_Cast_Frost_Charge</castChargeSound>
+    <castReleaseSound>WotF_Sound_Cast_Frost_Release</castReleaseSound>
+  </WhisperOfTheForest.Vfx.SpellThemeDef>
+
+  <WhisperOfTheForest.Vfx.SpellThemeDef>
+    <defName>WotF_Theme_HoloStorm</defName>
+    <label>holostorm theme</label>
+    <coreColor>#FFF6DC</coreColor>
+    <primaryColor>#38C6FF</primaryColor>
+    <secondaryColor>#FF9F38</secondaryColor>
+    <lightColor>#6CC4FF</lightColor>
+    <hdrIntensity>1.12</hdrIntensity>
+    <castLumenEffectId>NekoYukari.WhisperOfTheForest:CastVortex_HoloStorm</castLumenEffectId>
+    <castChargeSound>WotF_Sound_Cast_HoloStorm_Charge</castChargeSound>
+    <castReleaseSound>WotF_Sound_Cast_HoloStorm_Release</castReleaseSound>
+  </WhisperOfTheForest.Vfx.SpellThemeDef>
+
+  <WhisperOfTheForest.Vfx.SpellThemeDef>
+    <defName>WotF_Theme_Runic</defName>
+    <label>runic theme</label>
+    <coreColor>#F8E8FF</coreColor>
+    <primaryColor>#B45CFF</primaryColor>
+    <secondaryColor>#5D2FA8</secondaryColor>
+    <lightColor>#C67CFF</lightColor>
+    <hdrIntensity>1.08</hdrIntensity>
+    <castLumenEffectId>NekoYukari.WhisperOfTheForest:CastVortex_Runic</castLumenEffectId>
+    <castChargeSound>WotF_Sound_Cast_Runic_Charge</castChargeSound>
+    <castReleaseSound>WotF_Sound_Cast_Runic_Release</castReleaseSound>
+  </WhisperOfTheForest.Vfx.SpellThemeDef>
+
+</Defs>

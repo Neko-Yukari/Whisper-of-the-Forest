@@ -1,0 +1,495 @@
+{
+  "effectId": "RailgunCharge",
+  "defaultDuration": 1.5,
+  "nodes": [
+    {
+      "name": "plasma_inflow",
+      "parentIndex": -1,
+      "localPosition": [
+        0.0,
+        0.02,
+        0.0
+      ],
+      "spacePlane": "Vertical3D",
+      "emitter": {
+        "name": "plasma_inflow",
+        "preferredTier": "L2_GpuCompute",
+        "maxParticles": 360,
+        "duration": 1.5,
+        "looping": true,
+        "worldSpaceSimulation": false,
+        "rateOverTime": 96.0,
+        "shape": "CircleEdgeXZ",
+        "shapeExtents": [
+          1.05,
+          0.0,
+          1.05
+        ],
+        "arcSpread": 0.25,
+        "randomPositionAmount": 0.07,
+        "startLifetimeMin": 0.62,
+        "startLifetimeMax": 0.84,
+        "startSpeedMin": 0.0,
+        "startSpeedMax": 0.1,
+        "startSizeMin": 0.042,
+        "startSizeMax": 0.078,
+        "startColor": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "blendMode": "Additive",
+        "billboardMode": "Camera",
+        "softParticleFadeDistance": 0.06,
+        "hdrIntensity": 1.55,
+        "sizeOverLifetime": [
+          [
+            0.0,
+            0.35
+          ],
+          [
+            0.2,
+            1.0
+          ],
+          [
+            0.75,
+            0.78
+          ],
+          [
+            1.0,
+            0.1
+          ]
+        ],
+        "colorOverLifetime": [
+          [
+            0.0,
+            [
+              0.1,
+              0.65,
+              1.0,
+              0.0
+            ]
+          ],
+          [
+            0.15,
+            [
+              0.22,
+              0.78,
+              1.0,
+              0.85
+            ]
+          ],
+          [
+            0.55,
+            [
+              1.0,
+              0.72,
+              0.24,
+              0.92
+            ]
+          ],
+          [
+            0.85,
+            [
+              1.0,
+              0.97,
+              0.88,
+              0.88
+            ]
+          ],
+          [
+            1.0,
+            [
+              1.0,
+              1.0,
+              1.0,
+              0.0
+            ]
+          ]
+        ],
+        "forceFields": [
+          {
+            "kind": "GravityDrag",
+            "centerOrAxis": [
+              0.0,
+              -1.0,
+              0.0
+            ],
+            "parameters": [
+              6.8,
+              0.0,
+              0.0
+            ],
+            "radius": 0.0,
+            "strength": 0.0,
+            "frequency": 1.0
+          },
+          {
+            "kind": "Vortex",
+            "centerOrAxis": [
+              0.0,
+              1.0,
+              0.0
+            ],
+            "parameters": [
+              29.0,
+              5.2,
+              0.0
+            ],
+            "radius": 2.8,
+            "strength": 22.5,
+            "frequency": 1.0
+          },
+          {
+            "kind": "CurlTurbulence",
+            "centerOrAxis": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "parameters": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "radius": 0.0,
+            "strength": 0.45,
+            "frequency": 2.2
+          }
+        ],
+        "environmentChannels": "None"
+      }
+    },
+    {
+      "name": "funnel_core_motes",
+      "parentIndex": -1,
+      "localPosition": [
+        0.0,
+        0.18,
+        0.0
+      ],
+      "spacePlane": "Vertical3D",
+      "emitter": {
+        "name": "funnel_core_motes",
+        "preferredTier": "L2_GpuCompute",
+        "maxParticles": 200,
+        "duration": 1.5,
+        "looping": true,
+        "worldSpaceSimulation": false,
+        "rateOverTime": 46.0,
+        "shape": "Donut",
+        "shapeExtents": [
+          0.58,
+          0.0,
+          0.58
+        ],
+        "donutRadius": 0.1,
+        "startLifetimeMin": 0.45,
+        "startLifetimeMax": 0.68,
+        "startSpeedMin": 0.0,
+        "startSpeedMax": 0.12,
+        "startSizeMin": 0.036,
+        "startSizeMax": 0.065,
+        "startColor": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "blendMode": "Additive",
+        "billboardMode": "Camera",
+        "softParticleFadeDistance": 0.06,
+        "hdrIntensity": 1.45,
+        "sizeOverLifetime": [
+          [
+            0.0,
+            0.3
+          ],
+          [
+            0.25,
+            1.0
+          ],
+          [
+            0.8,
+            0.68
+          ],
+          [
+            1.0,
+            0.08
+          ]
+        ],
+        "colorOverLifetime": [
+          [
+            0.0,
+            [
+              0.22,
+              0.78,
+              1.0,
+              0.0
+            ]
+          ],
+          [
+            0.2,
+            [
+              0.22,
+              0.78,
+              1.0,
+              0.8
+            ]
+          ],
+          [
+            0.65,
+            [
+              1.0,
+              0.78,
+              0.32,
+              0.88
+            ]
+          ],
+          [
+            1.0,
+            [
+              1.0,
+              0.98,
+              0.9,
+              0.0
+            ]
+          ]
+        ],
+        "forceFields": [
+          {
+            "kind": "GravityDrag",
+            "centerOrAxis": [
+              0.0,
+              -1.0,
+              0.0
+            ],
+            "parameters": [
+              6.2,
+              0.0,
+              0.0
+            ],
+            "radius": 0.0,
+            "strength": 0.0,
+            "frequency": 1.0
+          },
+          {
+            "kind": "Vortex",
+            "centerOrAxis": [
+              0.0,
+              1.0,
+              0.0
+            ],
+            "parameters": [
+              24.0,
+              5.8,
+              0.0
+            ],
+            "radius": 2.2,
+            "strength": 19.5,
+            "frequency": 1.0
+          }
+        ],
+        "environmentChannels": "None"
+      }
+    },
+    {
+      "name": "base_rune_motes",
+      "parentIndex": -1,
+      "localPosition": [
+        0.0,
+        0.02,
+        0.0
+      ],
+      "spacePlane": "GroundXZ",
+      "depthMask": "NorthBehindReference",
+      "emitter": {
+        "name": "base_rune_motes",
+        "preferredTier": "L2_GpuCompute",
+        "maxParticles": 140,
+        "duration": 1.5,
+        "looping": true,
+        "worldSpaceSimulation": false,
+        "rateOverTime": 40.0,
+        "shape": "CircleEdgeXZ",
+        "shapeExtents": [
+          1.02,
+          0.0,
+          0.88
+        ],
+        "arcSpread": 0.25,
+        "randomPositionAmount": 0.04,
+        "startLifetimeMin": 0.5,
+        "startLifetimeMax": 0.76,
+        "startSpeedMin": 0.0,
+        "startSpeedMax": 0.06,
+        "startSizeMin": 0.036,
+        "startSizeMax": 0.064,
+        "startColor": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "blendMode": "Additive",
+        "billboardMode": "Camera",
+        "softParticleFadeDistance": 0.06,
+        "hdrIntensity": 1.45,
+        "sizeOverLifetime": [
+          [
+            0.0,
+            0.3
+          ],
+          [
+            0.25,
+            1.0
+          ],
+          [
+            0.8,
+            0.75
+          ],
+          [
+            1.0,
+            0.1
+          ]
+        ],
+        "colorOverLifetime": [
+          [
+            0.0,
+            [
+              0.1,
+              0.65,
+              1.0,
+              0.0
+            ]
+          ],
+          [
+            0.15,
+            [
+              0.22,
+              0.78,
+              1.0,
+              0.85
+            ]
+          ],
+          [
+            0.55,
+            [
+              1.0,
+              0.72,
+              0.24,
+              0.92
+            ]
+          ],
+          [
+            0.85,
+            [
+              1.0,
+              0.97,
+              0.88,
+              0.88
+            ]
+          ],
+          [
+            1.0,
+            [
+              1.0,
+              1.0,
+              1.0,
+              0.0
+            ]
+          ]
+        ],
+        "forceFields": [
+          {
+            "kind": "GravityDrag",
+            "centerOrAxis": [
+              0.0,
+              -1.0,
+              0.0
+            ],
+            "parameters": [
+              5.5,
+              0.0,
+              0.0
+            ],
+            "radius": 0.0,
+            "strength": 0.0,
+            "frequency": 1.0
+          },
+          {
+            "kind": "Vortex",
+            "centerOrAxis": [
+              0.0,
+              1.0,
+              0.0
+            ],
+            "parameters": [
+              2.4,
+              0.0,
+              0.0
+            ],
+            "radius": 2.4,
+            "strength": 6.2,
+            "frequency": 1.0
+          }
+        ],
+        "environmentChannels": "None"
+      }
+    },
+    {
+      "name": "charge_light",
+      "parentIndex": -1,
+      "localPosition": [
+        0.0,
+        0.4,
+        0.0
+      ],
+      "pointLight": {
+        "glowRadius": 4.8,
+        "color": [
+          0.75,
+          0.88,
+          1.0
+        ],
+        "intensity": 0.65,
+        "intensityOverTime": [
+          [
+            0.0,
+            0.35
+          ],
+          [
+            0.5,
+            0.65
+          ],
+          [
+            1.0,
+            0.95
+          ],
+          [
+            1.5,
+            1.25
+          ]
+        ]
+      }
+    },
+    {
+      "name": "charge_haze",
+      "parentIndex": -1,
+      "localPosition": [
+        0.0,
+        0.15,
+        0.0
+      ],
+      "spacePlane": "Vertical3D",
+      "distortion": {
+        "kind": "HeatHaze",
+        "radius": 1.35,
+        "strength": 0.035,
+        "frequency": 2.4,
+        "duration": 0.0
+      }
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using RimUnity;
+using UnityColor = UnityEngine.Color;
 
 namespace WhisperOfTheForest.Vfx
 {
@@ -15,22 +16,32 @@ namespace WhisperOfTheForest.Vfx
 
         public static bool IsValid(string hex)
         {
-            return TryParse(hex, out RimUnity.Color unused);
+            return TryParseComponents(hex, out _, out _, out _, out _);
         }
 
         public static RimUnity.Color Parse(string hex)
         {
-            if (!TryParse(hex, out RimUnity.Color color))
+            if (!TryParseComponents(hex, out float r, out float g, out float b, out float a))
             {
                 throw new FormatException("colour \"" + (hex ?? "null") + "\" is not " + Format);
             }
 
-            return color;
+            return new RimUnity.Color(r, g, b, a);
         }
 
-        private static bool TryParse(string hex, out RimUnity.Color color)
+        public static UnityColor ParseUnity(string hex)
         {
-            color = default(RimUnity.Color);
+            if (!TryParseComponents(hex, out float r, out float g, out float b, out float a))
+            {
+                throw new FormatException("colour \"" + (hex ?? "null") + "\" is not " + Format);
+            }
+
+            return new UnityColor(r, g, b, a);
+        }
+
+        private static bool TryParseComponents(string hex, out float r, out float g, out float b, out float a)
+        {
+            r = g = b = a = 0f;
             if (string.IsNullOrEmpty(hex))
             {
                 return false;
@@ -49,19 +60,17 @@ namespace WhisperOfTheForest.Vfx
 
             if (digits.Length == 6)
             {
-                color = new RimUnity.Color(
-                    ((value >> 16) & 0xFF) / 255f,
-                    ((value >> 8) & 0xFF) / 255f,
-                    (value & 0xFF) / 255f,
-                    1f);
+                r = ((value >> 16) & 0xFF) / 255f;
+                g = ((value >> 8) & 0xFF) / 255f;
+                b = (value & 0xFF) / 255f;
+                a = 1f;
                 return true;
             }
 
-            color = new RimUnity.Color(
-                ((value >> 24) & 0xFF) / 255f,
-                ((value >> 16) & 0xFF) / 255f,
-                ((value >> 8) & 0xFF) / 255f,
-                (value & 0xFF) / 255f);
+            r = ((value >> 24) & 0xFF) / 255f;
+            g = ((value >> 16) & 0xFF) / 255f;
+            b = ((value >> 8) & 0xFF) / 255f;
+            a = (value & 0xFF) / 255f;
             return true;
         }
     }

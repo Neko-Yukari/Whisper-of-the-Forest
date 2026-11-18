@@ -3,6 +3,7 @@ using UnityEngine;
 using Verse;
 using WhisperOfTheForest.Missiles;
 using WhisperOfTheForest.Equipment;
+using WhisperOfTheForest.Vfx;
 
 namespace WhisperOfTheForest.Spells
 {
@@ -84,6 +85,7 @@ namespace WhisperOfTheForest.Spells
                                      + " timing=" + plan.timing + " (windup/channel/recovery)"
                                      + " target=" + cell);
 
+            StartCastVisual(cast);
             component.Add(cast);
             if (Advance(cast, now))
             {
@@ -102,6 +104,7 @@ namespace WhisperOfTheForest.Spells
                 return false;
             }
 
+            cast.StopVisuals();
             GameComponent_SpellCasts.Current?.Remove(cast);
             SpellDiagnostics.Message("cast '" + NameOf(cast) + "' cancelled by request during " + cast.phase);
             return true;
@@ -428,9 +431,52 @@ namespace WhisperOfTheForest.Spells
 
             SpellService.PayFor(caster, plan.cost);
             GameComponent_Spellbook.Current?.NotifyCast(caster);
+            if (cast.castVfx != null)
+            {
+                cast.castVfx.Trigger(VfxStates.Release);
+                cast.castVfx = null;
+            }
             Messages.Message(SpellText.TF("WotF_Spells.CastDone", plan.recipeName),
                 MessageTypeDefOf.NeutralEvent, false);
             return true;
+        }
+
+        private static void StartCastVisual(SpellCast cast)
+        {
+            SpellCastPlan plan = cast.plan;
+            if (plan.form == SpellFormKind.Special)
+            {
+                return;
+            }
+
+            int totalPrepTicks = plan.timing.windupTicks + plan.timing.channelTicks;
+            SpellTuningDef tuning = SpellDefs.Tuning;
+            if (totalPrepTicks <= 0 || tuning == null || tuning.castVfxDef.NullOrEmpty())
+            {
+                return;
+            }
+
+            SpellThemeDef theme = SpellDefs.ResolveTheme(plan);
+            if (theme == null)
+            {
+                return;
+            }
+
+            Vector3 targetPos = cast.targetThing != null && cast.targetThing.Spawned && cast.targetThing.Map == cast.map
+                ? cast.targetThing.DrawPos
+                : cast.cell.ToVector3Shifted();
+
+            cast.castVfx = VfxService.Play(new VfxRequest
+            {
+                map = cast.map,
+                follow = cast.caster,
+                aimThing = cast.targetThing,
+                origin = cast.caster.DrawPos,
+                target = targetPos,
+                chargeTicks = totalPrepTicks,
+                vfxDefName = tuning.castVfxDef,
+                theme = theme
+            });
         }
 
         /// <summary>

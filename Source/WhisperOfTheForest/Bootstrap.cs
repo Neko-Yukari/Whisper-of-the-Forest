@@ -23,7 +23,7 @@ namespace WhisperOfTheForest
 
             initialized = true;
 
-            new Harmony(HarmonyId).PatchAll();
+            new Harmony(HarmonyId).PatchAll(typeof(Bootstrap).Assembly);
             WotfLog.Info(WotfLog.ModuleBoot, "Harmony patched with id " + HarmonyId);
         }
     }

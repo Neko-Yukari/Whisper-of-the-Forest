@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    Spell Cast Theme Audio (5 themed loopable charge sustainers + 5 one-shot releases)
+    and Railgun two-stage charge/fire audio.
+    Audio files live under 1.7/Sounds/Spells/*.ogg (44.1 kHz Ogg Vorbis).
+  -->
+
+  <!-- ==================== 1. Vitality ==================== -->
+
+  <SoundDef>
+    <defName>WotF_Sound_Cast_Vitality_Charge</defName>
+    <sustain>True</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Spells/WotF_Cast_Vitality_Charge</clipPath>
+          </li>
+        </grains>
+        <volumeRange>32~36</volumeRange>
+        <pitchRange>0.97~1.03</pitchRange>
+        <distRange>12~52</distRange>
+        <sustainLoop>True</sustainLoop>
+        <sustainAttack>0.06</sustainAttack>
+        <sustainRelease>0.12</sustainRelease>
+        <tempoAffectedByGameSpeed>True</tempoAffectedByGameSpeed>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Cast_Vitality_Release</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>4</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Spells/WotF_Cast_Vitality_Release</clipPath>
+          </li>
+        </grains>
+        <volumeRange>38~42</volumeRange>
+        <pitchRange>0.96~1.05</pitchRange>
+        <distRange>14~56</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <!-- ==================== 2. Starlight ==================== -->
+
+  <SoundDef>
+    <defName>WotF_Sound_Cast_Starlight_Charge</defName>
+    <sustain>True</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Spells/WotF_Cast_Starlight_Charge</clipPath>
+          </li>
+        </grains>
+        <volumeRange>32~36</volumeRange>
+        <pitchRange>0.97~1.03</pitchRange>
+        <distRange>12~52</distRange>
+        <sustainLoop>True</sustainLoop>
+        <sustainAttack>0.06</sustainAttack>
+        <sustainRelease>0.12</sustainRelease>
+        <tempoAffectedByGameSpeed>True</tempoAffectedByGameSpeed>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Cast_Starlight_Release</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>4</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Spells/WotF_Cast_Starlight_Release</clipPath>
+          </li>
+        </grains>
+        <volumeRange>38~42</volumeRange>
+        <pitchRange>0.96~1.05</pitchRange>
+        <distRange>14~56</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <!-- ==================== 3. Frost ==================== -->
+
+  <SoundDef>
+    <defName>WotF_Sound_Cast_Frost_Charge</defName>
+    <sustain>True</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Spells/WotF_Cast_Frost_Charge</clipPath>
+          </li>
+        </grains>
+        <volumeRange>32~36</volumeRange>
+        <pitchRange>0.97~1.03</pitchRange>
+        <distRange>12~52</distRange>
+        <sustainLoop>True</sustainLoop>
+        <sustainAttack>0.06</sustainAttack>
+        <sustainRelease>0.12</sustainRelease>
+        <tempoAffectedByGameSpeed>True</tempoAffectedByGameSpeed>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Cast_Frost_Release</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>4</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Spells/WotF_Cast_Frost_Release</clipPath>
+          </li>
+        </grains>
+        <volumeRange>38~42</volumeRange>
+        <pitchRange>0.96~1.05</pitchRange>
+        <distRange>14~56</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <!-- ==================== 4. HoloStorm ==================== -->
+
+  <SoundDef>
+    <defName>WotF_Sound_Cast_HoloStorm_Charge</defName>
+    <sustain>True</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Spells/WotF_Cast_HoloStorm_Charge</clipPath>
+          </li>
+        </grains>
+        <volumeRange>32~36</volumeRange>
+        <pitchRange>0.97~1.03</pitchRange>
+        <distRange>12~52</distRange>
+        <sustainLoop>True</sustainLoop>
+        <sustainAttack>0.06</sustainAttack>
+        <sustainRelease>0.12</sustainRelease>
+        <tempoAffectedByGameSpeed>True</tempoAffectedByGameSpeed>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Cast_HoloStorm_Release</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>4</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Spells/WotF_Cast_HoloStorm_Release</clipPath>
+          </li>
+        </grains>
+        <volumeRange>38~42</volumeRange>
+        <pitchRange>0.96~1.05</pitchRange>
+        <distRange>14~56</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <!-- ==================== 5. Runic ==================== -->
+
+  <SoundDef>
+    <defName>WotF_Sound_Cast_Runic_Charge</defName>
+    <sustain>True</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Spells/WotF_Cast_Runic_Charge</clipPath>
+          </li>
+        </grains>
+        <volumeRange>32~36</volumeRange>
+        <pitchRange>0.97~1.03</pitchRange>
+        <distRange>12~52</distRange>
+        <sustainLoop>True</sustainLoop>
+        <sustainAttack>0.06</sustainAttack>
+        <sustainRelease>0.12</sustainRelease>
+        <tempoAffectedByGameSpeed>True</tempoAffectedByGameSpeed>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Cast_Runic_Release</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>4</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Spells/WotF_Cast_Runic_Release</clipPath>
+          </li>
+        </grains>
+        <volumeRange>38~42</volumeRange>
+        <pitchRange>0.96~1.05</pitchRange>
+        <distRange>14~56</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <!-- ==================== 6. Railgun ==================== -->
+
+  <SoundDef>
+    <defName>WotF_Sound_Railgun_Charge</defName>
+    <sustain>True</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Spells/WotF_Railgun_Charge</clipPath>
+          </li>
+        </grains>
+        <volumeRange>42~46</volumeRange>
+        <pitchRange>1.0</pitchRange>
+        <distRange>18~65</distRange>
+        <sustainLoop>False</sustainLoop>
+        <sustainAttack>0.03</sustainAttack>
+        <sustainRelease>0.08</sustainRelease>
+        <tempoAffectedByGameSpeed>True</tempoAffectedByGameSpeed>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Railgun_Fire</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Spells/WotF_Railgun_Fire</clipPath>
+          </li>
+        </grains>
+        <volumeRange>50~55</volumeRange>
+        <pitchRange>0.98~1.02</pitchRange>
+        <distRange>22~78</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+</Defs>

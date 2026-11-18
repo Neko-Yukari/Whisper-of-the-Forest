@@ -15,6 +15,7 @@
   <li>brrainz.harmony</li>
   <li>erdelf.HumanoidAlienRaces</li>
   <li>Chezhou.RimUnity</li>
+  <li>NekoYukari.RimLumen</li>
 </loadAfter>
 <modDependenciesByVersion>
   <v1.7>
@@ -32,6 +33,11 @@
       <packageId>Chezhou.RimUnity</packageId>
       <displayName>RimUnity</displayName>
       <steamWorkshopUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=3819570122</steamWorkshopUrl>
+    </li>
+    <li>
+      <packageId>NekoYukari.RimLumen</packageId>
+      <displayName>RimLumen</displayName>
+      <steamWorkshopUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=3839499092</steamWorkshopUrl>
     </li>
     <li>
       <packageId>ludeon.rimworld.royalty</packageId>

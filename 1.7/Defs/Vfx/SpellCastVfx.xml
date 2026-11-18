@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <WhisperOfTheForest.Vfx.SpellCastVfxDef>
+    <defName>WotF_Vfx_SpellCast</defName>
+    <label>spell casting convergence vortex</label>
+    <workerClass>WhisperOfTheForest.Vfx.SpellCastVfxWorker</workerClass>
+    <lifetime>FollowThing</lifetime>
+
+    <!-- Positioning and 2.5D Pawn Depth Silhouette Masking (Pawn layer sits at Y ~ 8.415) -->
+    <forwardOffsetCells>0.48</forwardOffsetCells>
+    <wallClearanceMargin>0.18</wallClearanceMargin>
+    <backAltitudeY>7.95</backAltitudeY>
+    <frontAltitudeY>9.45</frontAltitudeY>
+    <zTransitionHalf>0.06</zTransitionHalf>
+    <lumenOriginHeightCells>0</lumenOriginHeightCells>
+
+    <!-- True 3D funnel swirling vortex arms + closed base ring (60-degree Vertical3D pitch: sin 60 = 0.8660254) -->
+    <vortexArmCount>3</vortexArmCount>
+    <vortexSegmentsPerArm>30</vortexSegmentsPerArm>
+    <vortexStartRadius>0.88</vortexStartRadius>
+    <vortexMinRadius>0.08</vortexMinRadius>
+    <vortexEllipseAspectZ>0.8660254</vortexEllipseAspectZ>
+    <vortexRibbonWidth>0.095</vortexRibbonWidth>
+    <vortexSpinRadPerSec>5.2</vortexSpinRadPerSec>
+    <vortexTwistTurns>1.40</vortexTwistTurns>
+    <outerVortexRingCount>2</outerVortexRingCount>
+    <baseRingThickness>0.065</baseRingThickness>
+    <funnelHeightCells>0.58</funnelHeightCells>
+
+    <!-- Vertical vortex-core spindle extending up and down through the center -->
+    <spindleHalfHeightStart>0.62</spindleHalfHeightStart>
+    <spindleHalfHeightMin>0.10</spindleHalfHeightMin>
+    <spindleWidthStart>0.13</spindleWidthStart>
+    <spindleWidthMin>0.05</spindleWidthMin>
+    <spindleSegments>18</spindleSegments>
+
+    <!-- Tightest collapse 0.1s (6 ticks) before completion, then soft translucent release flash -->
+    <leadCollapseSeconds>0.10</leadCollapseSeconds>
+    <releaseFlashDurationSeconds>0.22</releaseFlashDurationSeconds>
+    <releaseFlashRadius>0.64</releaseFlashRadius>
+    <hdrCoreMultiplier>1.25</hdrCoreMultiplier>
+    <hdrVortexMultiplier>0.95</hdrVortexMultiplier>
+    <releaseFlashHdrMultiplier>1.30</releaseFlashHdrMultiplier>
+    <ribbonEdgePower>1.65</ribbonEdgePower>
+    <coreDiscRadiusStart>0.20</coreDiscRadiusStart>
+    <coreDiscRadiusMin>0.10</coreDiscRadiusMin>
+  </WhisperOfTheForest.Vfx.SpellCastVfxDef>
+
+</Defs>
