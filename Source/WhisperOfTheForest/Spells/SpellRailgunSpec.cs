@@ -1,4 +1,5 @@
 using Verse;
+using WhisperOfTheForest.Vfx;
 
 namespace WhisperOfTheForest.Spells
 {
@@ -28,10 +29,29 @@ namespace WhisperOfTheForest.Spells
         /// <summary>Semantic visual request name. The spell never names colours, beams or screens.</summary>
         public string vfxDef = SpellDefs.VfxRailgun;
 
-        public string Release(SpellCast cast) => RailgunCastService.Resolve(cast.map, cast.caster, cast.cell, this);
+        public string Release(SpellCast cast)
+        {
+            string report = RailgunCastService.Resolve(cast.map, cast.caster, cast.cell, this);
+            if (!report.StartsWith("railgun dropped:", System.StringComparison.Ordinal))
+            {
+                cast.specialChannelVfx?.Trigger(VfxStates.Release);
+            }
+            else
+            {
+                cast.specialChannelVfx?.End();
+            }
+
+            cast.specialChannelVfx = null;
+            return report;
+        }
+
         public float Range => range;
-        public void BeginChannel(SpellCast cast) => RailgunCastService.PlayCharge(
-            cast.map, cast.caster, cast.cell, this, cast.plan.timing.channelTicks);
+
+        public void BeginChannel(SpellCast cast)
+        {
+            cast.specialChannelVfx = RailgunCastService.PlayCharge(
+                cast.map, cast.caster, cast.cell, this, cast.plan.timing.channelTicks);
+        }
 
         public void ExposeData()
         {

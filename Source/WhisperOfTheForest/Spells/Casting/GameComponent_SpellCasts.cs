@@ -53,6 +53,11 @@ namespace WhisperOfTheForest.Spells
 
         public void Remove(SpellCast cast)
         {
+            if (cast != null)
+            {
+                cast.StopVisuals();
+            }
+
             if (cast != null && casts != null)
             {
                 casts.Remove(cast);
@@ -123,6 +128,7 @@ namespace WhisperOfTheForest.Spells
                 SpellCast cast = casts[i];
                 if (cast == null || SpellCastingService.Advance(cast, now))
                 {
+                    cast?.StopVisuals();
                     casts.RemoveAt(i);
                 }
             }

@@ -70,6 +70,22 @@ namespace WhisperOfTheForest.Vfx
             }
         }
 
+        public override void MapComponentDraw()
+        {
+            if (workers.Count == 0 || Find.CurrentMap != map || !RimWorld.Planet.WorldRendererUtility.DrawingMap)
+            {
+                return;
+            }
+
+            for (int i = 0; i < workers.Count; i++)
+            {
+                if (!workers[i].Finished)
+                {
+                    workers[i].DrawWorld();
+                }
+            }
+        }
+
         public override void MapComponentOnGUI()
         {
             if (workers.Count == 0 || Event.current == null || Event.current.type != EventType.Repaint)

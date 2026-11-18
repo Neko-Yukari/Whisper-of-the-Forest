@@ -19,8 +19,7 @@ namespace WhisperOfTheForest.Vfx
         public void Trigger(string state)
         {
             if (Closed("Trigger(" + state + ")")) return;
-            if (!VfxStates.Contains(state) || !(worker.Def is SpellPrefabVfxDef spell)
-                || spell.states == null || !spell.states.Contains(state))
+            if (!VfxStates.Contains(state) || !worker.Def.SupportsState(state))
                 throw new InvalidOperationException(worker.Def.defName + ": undeclared state '" + state + "'");
             worker.Trigger(state);
         }

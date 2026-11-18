@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Verse;
 using WhisperOfTheForest.Missiles;
+using WhisperOfTheForest.Vfx;
 
 namespace WhisperOfTheForest.Spells
 {
@@ -89,6 +90,9 @@ namespace WhisperOfTheForest.Spells
 
         /// <summary>Orbit form: the orbs' count, distance, turn rate, touch radius and lifetime.</summary>
         public SpellOrbitSpec orbit;
+
+        /// <summary>Data-driven cast visual and sound theme for Effect and Super glyphs.</summary>
+        public SpellThemeDef theme;
 
         /// <summary>
         /// Ticks this rune adds to a spell's three phases. They are summed along the whole chain when
@@ -303,6 +307,11 @@ namespace WhisperOfTheForest.Spells
                         yield return "a Super glyph must not carry effect/augment numbers";
                     }
 
+                    if (theme == null)
+                    {
+                        yield return "a Super glyph must declare its theme";
+                    }
+
                     if (targets == null || targets.Count == 0)
                     {
                         yield return "a Super glyph must declare its own targets";
@@ -339,6 +348,11 @@ namespace WhisperOfTheForest.Spells
                     if (targets == null || targets.Count == 0)
                     {
                         yield return "an Effect glyph must declare its targets";
+                    }
+
+                    if (theme == null)
+                    {
+                        yield return "an Effect glyph must declare its theme";
                     }
 
                     if (!(this is EffectGlyphDef))
@@ -445,6 +459,12 @@ namespace WhisperOfTheForest.Spells
         /// <summary>Highest damage multiplier a material may reach.</summary>
         public float staffMaxDamageFactor;
 
+        /// <summary>Fallback spell theme when a plan contains no themed glyph.</summary>
+        public SpellThemeDef defaultTheme;
+
+        /// <summary>Shared VfxDef used during normal spell windup + channel convergence.</summary>
+        public string castVfxDef;
+
         public override IEnumerable<string> ConfigErrors()
         {
             foreach (string error in base.ConfigErrors())
@@ -500,6 +520,16 @@ namespace WhisperOfTheForest.Spells
             if (staffMaxDamageFactor < 1f)
             {
                 yield return "staffMaxDamageFactor must be at least 1";
+            }
+
+            if (defaultTheme == null)
+            {
+                yield return "defaultTheme is required";
+            }
+
+            if (castVfxDef.NullOrEmpty())
+            {
+                yield return "castVfxDef is required";
             }
         }
     }
@@ -565,6 +595,23 @@ namespace WhisperOfTheForest.Spells
         /// entries (compile, book, ability grant) refuse service instead.
         /// </summary>
         public static SpellTuningDef Tuning => DefDatabase<SpellTuningDef>.GetNamedSilentFail(TuningDefName);
+
+        public static SpellThemeDef ResolveTheme(SpellCastPlan plan)
+        {
+            if (plan?.glyphs != null)
+            {
+                for (int i = 0; i < plan.glyphs.Count; i++)
+                {
+                    SpellGlyphDef glyph = Glyph(plan.glyphs[i]);
+                    if (glyph?.theme != null)
+                    {
+                        return glyph.theme;
+                    }
+                }
+            }
+
+            return Tuning?.defaultTheme;
+        }
 
         public static string IconPathFor(SpellGlyphDef glyph)
         {

@@ -22,7 +22,7 @@ namespace WhisperOfTheForest.Vfx
 
     /// <summary>
     /// A visual effect definition: it chooses the worker that presents the request. Every look
-    /// parameter belongs to a derived Def (see <see cref="RailgunVfxDef"/> and the missile visuals), so
+    /// parameter belongs to a derived Def (see <see cref="RailgunLumenVfxDef"/> and the missile visuals), so
     /// the spell layer cannot reach any of them.
     /// </summary>
     public class VfxDef : Def
@@ -32,6 +32,8 @@ namespace WhisperOfTheForest.Vfx
 
         /// <summary>Lifecycle of the effect this Def describes.</summary>
         public VfxLifetime lifetime;
+
+        public virtual bool SupportsState(string state) => false;
 
         public override IEnumerable<string> ConfigErrors()
         {

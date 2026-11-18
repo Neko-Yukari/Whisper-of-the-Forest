@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    Layer 15 world-mesh programs routed into RimLumen's HDR target (RimLumenRenderHost.LumenRenderPassId).
+    Every shader routed to Layer 15 must keep depthWrite=false: writing shared scene depth inside the
+    RimLumenHdr pass trips RimLumen's session-wide fail-safe.
+  -->
+
+  <ShaderDef>
+    <defName>WotF_Shader_LumenRibbonDepth</defName>
+    <shaderProgram>
+      <vertexShaderFileName>WotF_LumenRibbon.vert.glsl</vertexShaderFileName>
+      <fragmentShaderFileName>WotF_LumenRibbon.frag.glsl</fragmentShaderFileName>
+      <useTexture>false</useTexture>
+      <flipTextureST>false</flipTextureST>
+      <transparent>true</transparent>
+      <depthTest>true</depthTest>
+      <depthWrite>false</depthWrite>
+      <cullMode>None</cullMode>
+      <renderQueue>3010</renderQueue>
+      <blendMode>Custom</blendMode>
+      <blendSrcFactor>One</blendSrcFactor>
+      <blendDstFactor>One</blendDstFactor>
+    </shaderProgram>
+  </ShaderDef>
+
+  <ShaderDef>
+    <defName>WotF_Shader_LumenRibbonOver</defName>
+    <shaderProgram>
+      <vertexShaderFileName>WotF_LumenRibbon.vert.glsl</vertexShaderFileName>
+      <fragmentShaderFileName>WotF_LumenRibbon.frag.glsl</fragmentShaderFileName>
+      <useTexture>false</useTexture>
+      <flipTextureST>false</flipTextureST>
+      <transparent>true</transparent>
+      <depthTest>false</depthTest>
+      <depthWrite>false</depthWrite>
+      <cullMode>None</cullMode>
+      <renderQueue>3020</renderQueue>
+      <blendMode>Custom</blendMode>
+      <blendSrcFactor>One</blendSrcFactor>
+      <blendDstFactor>One</blendDstFactor>
+    </shaderProgram>
+  </ShaderDef>
+
+</Defs>

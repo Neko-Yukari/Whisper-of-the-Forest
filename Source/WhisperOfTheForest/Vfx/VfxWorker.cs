@@ -38,6 +38,14 @@ namespace WhisperOfTheForest.Vfx
         }
 
         /// <summary>
+        /// Called during the active map draw pass so dynamic meshes submitted on Layer 15 enter
+        /// RimLumen's HDR render target cleanly before <c>MapComponentUpdate</c>.
+        /// </summary>
+        public virtual void DrawWorld()
+        {
+        }
+
+        /// <summary>
         /// Called during the GUI pass, which runs after the map and after RimUnity's screen effects.
         /// That is where a beam must be drawn if it has to stay bright over a darkening pass.
         /// </summary>

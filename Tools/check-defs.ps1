@@ -1,4 +1,4 @@
-#requires -Version 7.0
+﻿#requires -Version 7.0
 <#
   Cross-checks 1.7 Def XML against the actual assemblies and texture files:
     - Class="..." / <thingClass> / <workerClass> must exist in our DLL, Assembly-CSharp or AlienRace
@@ -103,10 +103,20 @@ $hardVerbConsumers = @(
 )
 
 $modAssemblyPath = if ($ModAssembly) { $ModAssembly } else { Join-Path $repo '1.7/Assemblies/WhisperOfTheForest.dll' }
+$rimLumenRoot = @(
+    'C:/Users/81004/orca/RimLumen',
+    (Join-Path $gameRoot 'Mods/RimLumen'),
+    (Join-Path $workshop '3839499092')
+) | Where-Object { Test-Path -LiteralPath (Join-Path $_ '1.7/Assemblies/RimLumen.Core.dll') } | Select-Object -First 1
+if (-not $rimLumenRoot) {
+    throw "RimLumen.Core.dll not found under GameRoot/Mods/RimLumen, C:/Users/81004/orca/RimLumen, or Workshop 3839499092"
+}
+$rimLumenAssemblyPath = Join-Path $rimLumenRoot '1.7/Assemblies/RimLumen.Core.dll'
 $catalogAssemblies = @(
     @{ Path = $modAssemblyPath; Mod = $true; Required = $true },
     @{ Path = (Join-Path $gameRoot 'Assembly-CSharp.dll'); Mod = $false; Required = $true },
     @{ Path = (Join-Path $workshop '839005762/1.7/Assemblies/AlienRace.dll'); Mod = $false; Required = $true },
+    @{ Path = $rimLumenAssemblyPath; Mod = $false; Required = $true },
     @{ Path = (Join-Path $gameRoot 'UnityStubs.dll'); Mod = $false; Required = $false },
     @{ Path = (Join-Path $workshop '3819570122/1.7/Assemblies/RimUnity.Core.dll'); Mod = $false; Required = $false },
     @{ Path = (Join-Path $workshop '3819570122/1.7/Assemblies/RimUnity.dll'); Mod = $false; Required = $false }
@@ -646,6 +656,70 @@ foreach ($entry in $modDefs) {
             }
         }
     }
+
+    if (Test-IsA $entry.RootType 'Verse.ShaderDef') {
+        $shaderProgram = Get-NodeAt $chain @('shaderProgram')
+        if ($null -ne $shaderProgram) {
+            foreach ($stageTag in @('vertexShaderFileName', 'fragmentShaderFileName')) {
+                $shaderFile = Get-ScalarAt $chain @('shaderProgram', $stageTag)
+                if ([string]::IsNullOrEmpty($shaderFile) -or $shaderFile.StartsWith('RimUnity/', [System.StringComparison]::OrdinalIgnoreCase)) { continue }
+                $ruleChecks++
+                $modShader = Join-Path (Join-Path $repo '1.7/Shaders') $shaderFile
+                $coreShadersDir = Join-Path $gameRoot 'Data/Core/Shaders'
+                $foundShader = (Test-Path -LiteralPath $modShader)
+                if (-not $foundShader -and (Test-Path -LiteralPath $coreShadersDir)) {
+                    $foundShader = $null -ne (Get-ChildItem -LiteralPath $coreShadersDir -Recurse -Filter $shaderFile -File | Select-Object -First 1)
+                }
+                if (-not $foundShader) {
+                    Add-Failure "ShaderDef '$($entry.DefName)' <$stageTag>$shaderFile</$stageTag> was not found under 1.7/Shaders/ or Core/Shaders/" $entry.File
+                }
+            }
+            if ($entry.DefName.StartsWith('WotF_Shader_Lumen', [System.StringComparison]::OrdinalIgnoreCase)) {
+                $ruleChecks++
+                $depthWrite = Get-ScalarAt $chain @('shaderProgram', 'depthWrite')
+                if ($depthWrite -ine 'false') {
+                    Add-Failure "Layer 15 ShaderDef '$($entry.DefName)' must set <depthWrite>false</depthWrite> so RimLumen does not trip FailSafeTripped" $entry.File
+                }
+            }
+        }
+    }
+
+    if (Test-IsA $entry.RootType 'Verse.SoundDef') {
+        $onCamera = ConvertTo-XmlBool (Get-ScalarAt $chain @('onCamera'))
+        $contextText = Get-ScalarAt $chain @('context')
+        if (-not $onCamera) {
+            $ruleChecks++
+            if ($contextText -ine 'MapOnly') {
+                Add-Failure "SoundDef '$($entry.DefName)' is a map sound and must declare <context>MapOnly</context>" $entry.File
+            }
+        }
+        foreach ($grainNode in $entry.Node.SelectNodes('.//grains/li')) {
+            $clipPathNode = $grainNode.SelectSingleNode('clipPath')
+            $clipFolderNode = $grainNode.SelectSingleNode('clipFolderPath')
+            $soundsRoot = Join-Path $repo '1.7/Sounds'
+            if ($null -ne $clipPathNode) {
+                $clipRel = $clipPathNode.InnerText.Trim()
+                if ($clipRel.StartsWith('Spells/', [System.StringComparison]::OrdinalIgnoreCase) -or $clipRel.StartsWith('WotF/', [System.StringComparison]::OrdinalIgnoreCase)) {
+                    $ruleChecks++
+                    $baseClip = Join-Path $soundsRoot $clipRel
+                    if (-not ((Test-Path -LiteralPath ($baseClip + '.ogg')) -or (Test-Path -LiteralPath ($baseClip + '.wav')))) {
+                        Add-Failure "SoundDef '$($entry.DefName)' clipPath '$clipRel' has no .ogg or .wav under 1.7/Sounds/" $entry.File
+                    }
+                }
+            }
+            if ($null -ne $clipFolderNode) {
+                $folderRel = $clipFolderNode.InnerText.Trim()
+                if ($folderRel.StartsWith('Spells/', [System.StringComparison]::OrdinalIgnoreCase) -or $folderRel.StartsWith('WotF/', [System.StringComparison]::OrdinalIgnoreCase)) {
+                    $ruleChecks++
+                    $folderFull = Join-Path $soundsRoot $folderRel
+                    $hasAudio = (Test-Path -LiteralPath $folderFull) -and (@(Get-ChildItem -LiteralPath $folderFull -File | Where-Object { $_.Extension -in '.ogg', '.wav' }).Count -gt 0)
+                    if (-not $hasAudio) {
+                        Add-Failure "SoundDef '$($entry.DefName)' clipFolderPath '$folderRel' contains no .ogg or .wav under 1.7/Sounds/" $entry.File
+                    }
+                }
+            }
+        }
+    }
 }
 
 # ------------------------------------------------------------ stuff named next to a thing
@@ -756,6 +830,7 @@ $cecilResolver = New-Object Mono.Cecil.DefaultAssemblyResolver
 foreach ($searchDirectory in @(
     $gameRoot,
     (Split-Path -Parent $modAssemblyPath),
+    (Split-Path -Parent $rimLumenAssemblyPath),
     (Join-Path $workshop '2009463077/1.7/Assemblies'),
     (Join-Path $workshop '839005762/1.7/Assemblies'),
     (Join-Path $workshop '3819570122/1.7/Assemblies')

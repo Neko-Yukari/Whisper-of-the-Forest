@@ -1,4 +1,5 @@
 using Verse;
+using WhisperOfTheForest.Vfx;
 
 namespace WhisperOfTheForest.Spells
 {
@@ -48,6 +49,17 @@ namespace WhisperOfTheForest.Spells
         public int phaseEndTick;
 
         public int startedTick;
+
+        internal VfxHandle castVfx;
+        internal VfxHandle specialChannelVfx;
+
+        internal void StopVisuals()
+        {
+            castVfx?.End();
+            castVfx = null;
+            specialChannelVfx?.End();
+            specialChannelVfx = null;
+        }
 
         public void ExposeData()
         {

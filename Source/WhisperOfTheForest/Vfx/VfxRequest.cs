@@ -19,6 +19,12 @@ namespace WhisperOfTheForest.Vfx
         /// <summary>Thing the charge follows. Null when the effect does not follow anything.</summary>
         public Thing follow;
 
+        /// <summary>Optional live target entity so oriented windup visuals track moving targets.</summary>
+        public Thing aimThing;
+
+        /// <summary>Semantic theme resolved from the spell's effect/super glyph.</summary>
+        public SpellThemeDef theme;
+
         /// <summary>Origin at request time, in world coordinates (XZ used, Y ignored).</summary>
         public Vector3 origin;
 

@@ -12,6 +12,8 @@ namespace WhisperOfTheForest.Vfx
         public int strikeDurationTicks;
         public Verse.SoundDef strikeSound;
 
+        public override bool SupportsState(string state) => states != null && states.Contains(state);
+
         public int MaxParticleLifetimeTicks
         {
             get
