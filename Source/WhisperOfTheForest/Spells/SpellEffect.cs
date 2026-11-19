@@ -6,7 +6,7 @@ namespace WhisperOfTheForest.Spells
     public abstract class SpellEffect : IExposable
     {
         public abstract string DiagnosticName { get; }
-        public abstract int Execute(Pawn caster, Thing primary, IntVec3 cell, Map map);
+        public abstract int Execute(Thing caster, Thing primary, IntVec3 cell, Map map);
         public abstract void ExposeData();
 
         internal static void CheckLoaded(List<SpellEffect> effects, string owner)

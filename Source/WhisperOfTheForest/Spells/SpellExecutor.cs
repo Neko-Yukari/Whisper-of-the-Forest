@@ -7,12 +7,12 @@ namespace WhisperOfTheForest.Spells
 {
     public static class SpellExecutor
     {
-        public static string Execute(SpellCastPlan plan, Pawn caster, Thing primary, IntVec3 cell, Map map)
+        public static string Execute(SpellCastPlan plan, Thing caster, Thing primary, IntVec3 cell, Map map)
         {
             return ExecuteStepList(plan.steps, caster, primary, cell, map);
         }
         public static string ExecuteStepList(IReadOnlyList<SpellEffect> steps,
-            Pawn caster, Thing primary, IntVec3 cell, Map map)
+            Thing caster, Thing primary, IntVec3 cell, Map map)
         {
             if (steps == null || map == null) return "no-plan";
             var report = new StringBuilder();

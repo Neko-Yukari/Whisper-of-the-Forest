@@ -96,7 +96,8 @@ namespace WhisperOfTheForest.Spells
 
             string[] things =
             {
-                SpellEffectDefs.ThingMagelight, SpellEffectDefs.ThingSpellField, SpellEffectDefs.ThingSpellOrbit
+                SpellEffectDefs.ThingMagelight, SpellEffectDefs.ThingSpellField,
+                SpellEffectDefs.ThingSpellOrbit, SpellEffectDefs.ThingSpellExplosion
             };
 
             for (int i = 0; i < things.Length; i++)
@@ -105,6 +106,12 @@ namespace WhisperOfTheForest.Spells
                 {
                     SpellDiagnostics.Error("spell thing " + things[i] + " is missing; that effect cannot place anything.");
                 }
+            }
+
+            HediffDef scorch = DefDatabase<HediffDef>.GetNamedSilentFail(SpellEffectDefs.HediffScorch);
+            if (scorch != null && scorch.GetModExtension<SpellCombatLogExtension>()?.combatLogRules == null)
+            {
+                SpellDiagnostics.Error("spell hediff " + SpellEffectDefs.HediffScorch + " is missing combatLogRules.");
             }
 
             if (DefDatabase<DamageDef>.GetNamedSilentFail(SpellDefs.ArcaneForceDamageDefName) == null)

@@ -52,11 +52,9 @@ namespace WhisperOfTheForest.Spells
             foreach (Thing thing in targets)
             {
                 if (!SpellTargets.CanTakeDamage(thing)) continue;
-                var damage = new DamageInfo(SpellDamage.ArcaneForce, spec.damagePerPulse,
-                    spec.armorPenetration, instigator: caster, intendedTarget: thing, spawnFilth: false);
                 // Bullet-derived force otherwise duplicates an internal hit onto outer body parts.
-                damage.SetAllowDamagePropagation(false);
-                thing.TakeDamage(damage);
+                SpellDamage.Deal(thing, spec.damagePerPulse, spec.armorPenetration, caster, spec.logSource,
+                    allowDamagePropagation: false);
                 if (thing is Pawn pawn && SpellTargets.CanTakeDamage(pawn)) RefreshScorch(pawn, now);
             }
 

@@ -15,6 +15,7 @@ namespace WhisperOfTheForest.Spells
         public int fadeTicks = 30;
         public string vfxDef;
         public float range;
+        public SpellDamageSource logSource;
 
         public float Range => range;
         public void BeginChannel(SpellCast cast) { }
@@ -25,7 +26,7 @@ namespace WhisperOfTheForest.Spells
             radius = radius, durationTicks = durationTicks, pulseIntervalTicks = pulseIntervalTicks,
             damagePerPulse = damagePerPulse, armorPenetration = armorPenetration,
             igniteChancePerPulse = igniteChancePerPulse, burnRefreshTicks = burnRefreshTicks,
-            fadeTicks = fadeTicks, vfxDef = vfxDef, range = range
+            fadeTicks = fadeTicks, vfxDef = vfxDef, range = range, logSource = logSource?.Copy()
         };
 
         public void ExposeData()
@@ -40,6 +41,11 @@ namespace WhisperOfTheForest.Spells
             Scribe_Values.Look(ref fadeTicks, "fadeTicks", 30);
             Scribe_Values.Look(ref vfxDef, "vfxDef");
             Scribe_Values.Look(ref range, "range");
+            Scribe_Deep.Look(ref logSource, "logSource");
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && logSource == null)
+            {
+                logSource = SpellDamageSource.FromGlyph(SpellDefs.Glyph(SpellDefs.SuperTornado));
+            }
         }
 
         public IEnumerable<string> ConfigErrors()

@@ -11,25 +11,28 @@ namespace WhisperOfTheForest.Spells
         private float armorPenetration;
         private bool useArea;
         private float targetRadius;
+        private SpellDamageSource logSource;
 
         public HarmEffect()
         {
         }
 
-        public HarmEffect(float damage, float armorPenetration, bool useArea, float targetRadius)
+        public HarmEffect(float damage, float armorPenetration, bool useArea, float targetRadius,
+            SpellDamageSource logSource)
         {
             this.damage = damage;
             this.armorPenetration = armorPenetration;
             this.useArea = useArea;
             this.targetRadius = targetRadius;
+            this.logSource = logSource;
         }
         public override string DiagnosticName => "harm";
-        public override int Execute(Pawn caster, Thing primary, IntVec3 cell, Map map)
+        public override int Execute(Thing caster, Thing primary, IntVec3 cell, Map map)
         {
             List<Thing> targets = SpellExecutor.CollectTargets(useArea, targetRadius, primary, cell, map,
                 SpellTargets.CanTakeDamage);
             for (int i = 0; i < targets.Count; i++)
-                SpellDamage.Deal(targets[i], damage, armorPenetration, caster);
+                SpellDamage.Deal(targets[i], damage, armorPenetration, caster, logSource);
             return targets.Count;
         }
         public override void ExposeData()
@@ -38,11 +41,15 @@ namespace WhisperOfTheForest.Spells
             Scribe_Values.Look(ref armorPenetration, "armorPenetration");
             Scribe_Values.Look(ref useArea, "useArea");
             Scribe_Values.Look(ref targetRadius, "targetRadius");
+            Scribe_Deep.Look(ref logSource, "logSource");
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && logSource == null)
+                logSource = SpellDamageSource.FromGlyph(SpellDefs.Glyph(SpellDefs.EffectHarm));
         }
     }
 
     public sealed class HarmGlyphDef : EffectGlyphDef
     {
+        protected override bool RequiresCombatLogRules => true;
         public float damage;
         public float armorPenetration;
         public override SpellEffect Compile(IReadOnlyList<SpellGlyphDef> augments,
@@ -75,7 +82,7 @@ namespace WhisperOfTheForest.Spells
                 }
             }
             if (value > 0f && staff != null) value *= staff.damageFactor;
-            return new HarmEffect(value, penetration, useArea, area);
+            return new HarmEffect(value, penetration, useArea, area, SpellDamageSource.FromGlyph(this));
         }
         public override IEnumerable<string> ConfigErrors()
         {

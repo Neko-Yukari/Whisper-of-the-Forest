@@ -43,15 +43,8 @@ namespace WhisperOfTheForest.Spells
 
             nextPulseTick = now + pulseIntervalTicks;
             if (now <= suppressedUntilTick) return;
-            pawn.TakeDamage(new DamageInfo(
-                damageDef,
-                damagePerPulse,
-                armorPenetration: armorPenetration,
-                angle: -1f,
-                instigator: instigator,
-                intendedTarget: pawn,
-                instigatorGuilty: true,
-                spawnFilth: false));
+            SpellDamage.Deal(pawn, damageDef, damagePerPulse, armorPenetration, instigator,
+                SpellDamageSource.FromHediff(def));
         }
 
         public override void ExposeData()

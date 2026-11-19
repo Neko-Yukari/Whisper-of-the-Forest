@@ -94,6 +94,9 @@ namespace WhisperOfTheForest.Spells
         /// <summary>Data-driven cast visual and sound theme for Effect and Super glyphs.</summary>
         public SpellThemeDef theme;
 
+        /// <summary>Combat-log flavor rules owned by each damaging Effect or Super glyph.</summary>
+        public RulePackDef combatLogRules;
+
         /// <summary>
         /// Ticks this rune adds to a spell's three phases. They are summed along the whole chain when
         /// the book creates the spell, and casting reads only that frozen sum, so neither a rebalance
@@ -249,6 +252,11 @@ namespace WhisperOfTheForest.Spells
                 }
             }
 
+            if ((kind == SpellGlyphKind.Form || kind == SpellGlyphKind.Augment) && combatLogRules != null)
+            {
+                yield return "only a damaging Effect or Super glyph may declare combatLogRules";
+            }
+
             switch (kind)
             {
                 case SpellGlyphKind.Form:
@@ -310,6 +318,11 @@ namespace WhisperOfTheForest.Spells
                     if (theme == null)
                     {
                         yield return "a Super glyph must declare its theme";
+                    }
+
+                    if (combatLogRules == null)
+                    {
+                        yield return "a Super glyph must declare its combatLogRules";
                     }
 
                     if (targets == null || targets.Count == 0)
@@ -541,6 +554,8 @@ namespace WhisperOfTheForest.Spells
         public const string FormTouch = "WotF_Form_Touch";
         public const string FormProjectile = "WotF_Form_Projectile";
         public const string FormOrbit = "WotF_Form_Orbit";
+        public const string SuperRailgun = "WotF_Form_Railgun";
+        public const string SuperTornado = "WotF_Super_Tornado";
 
         /// <summary>The railgun's visual effect Def; the spell only ever names it, never its look.</summary>
         public const string VfxRailgun = "WotF_Vfx_Railgun";

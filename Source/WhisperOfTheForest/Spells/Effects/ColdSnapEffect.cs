@@ -14,22 +14,24 @@ namespace WhisperOfTheForest.Spells
         private float frozenTargetMultiplier;
         private bool useArea;
         private float targetRadius;
+        private SpellDamageSource logSource;
 
         public ColdSnapEffect()
         {
         }
 
         public ColdSnapEffect(float damage, float armorPenetration, float frozenTargetMultiplier,
-            bool useArea, float targetRadius)
+            bool useArea, float targetRadius, SpellDamageSource logSource)
         {
             this.damage = damage;
             this.armorPenetration = armorPenetration;
             this.frozenTargetMultiplier = frozenTargetMultiplier;
             this.useArea = useArea;
             this.targetRadius = targetRadius;
+            this.logSource = logSource;
         }
         public override string DiagnosticName => "cold snap";
-        public override int Execute(Pawn caster, Thing primary, IntVec3 cell, Map map)
+        public override int Execute(Thing caster, Thing primary, IntVec3 cell, Map map)
         {
             List<Thing> targets = SpellExecutor.CollectTargets(useArea, targetRadius, primary, cell, map,
                 SpellTargets.CanTakeDamage);
@@ -39,7 +41,7 @@ namespace WhisperOfTheForest.Spells
                 bool slowed = target is Pawn pawn
                               && SpellEffectRuntime.FindHediff(pawn, SpellEffectDefs.HediffFreeze) != null;
                 float amount = slowed ? damage * Mathf.Max(1f, frozenTargetMultiplier) : damage;
-                SpellDamage.Deal(target, amount, armorPenetration, caster);
+                SpellDamage.Deal(target, amount, armorPenetration, caster, logSource);
             }
             return targets.Count;
         }
@@ -50,11 +52,15 @@ namespace WhisperOfTheForest.Spells
             Scribe_Values.Look(ref frozenTargetMultiplier, "frozenTargetMultiplier");
             Scribe_Values.Look(ref useArea, "useArea");
             Scribe_Values.Look(ref targetRadius, "targetRadius");
+            Scribe_Deep.Look(ref logSource, "logSource");
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && logSource == null)
+                logSource = SpellDamageSource.FromGlyph(SpellDefs.Glyph(SpellDefs.EffectColdSnap));
         }
     }
 
     public sealed class ColdSnapGlyphDef : EffectGlyphDef
     {
+        protected override bool RequiresCombatLogRules => true;
         public float damage;
         public float armorPenetration;
         public float vulnerableFactor;
@@ -78,7 +84,8 @@ namespace WhisperOfTheForest.Spells
                 }
             }
             if (value > 0f && staff != null) value *= staff.damageFactor;
-            return new ColdSnapEffect(value, armorPenetration, vulnerableFactor, useArea, area);
+            return new ColdSnapEffect(value, armorPenetration, vulnerableFactor, useArea, area,
+                SpellDamageSource.FromGlyph(this));
         }
         public override IEnumerable<string> ConfigErrors()
         {

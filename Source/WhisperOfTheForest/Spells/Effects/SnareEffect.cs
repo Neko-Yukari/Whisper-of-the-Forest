@@ -22,7 +22,7 @@ namespace WhisperOfTheForest.Spells
             this.targetRadius = targetRadius;
         }
         public override string DiagnosticName => "snare";
-        public override int Execute(Pawn caster, Thing primary, IntVec3 cell, Map map)
+        public override int Execute(Thing caster, Thing primary, IntVec3 cell, Map map)
         {
             List<Thing> targets = SpellExecutor.CollectTargets(useArea, targetRadius, primary, cell, map,
                 SpellTargets.CanBeHealed);

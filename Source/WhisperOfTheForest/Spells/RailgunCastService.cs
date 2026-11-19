@@ -100,7 +100,7 @@ namespace WhisperOfTheForest.Spells
                 IntVec3 position = thing.Position;
                 int hpBefore = thing.HitPoints;
 
-                SpellDamage.Deal(thing, spec.damage, spec.armorPenetration, caster);
+                SpellDamage.Deal(thing, spec.damage, spec.armorPenetration, caster, spec.logSource);
 
                 int hpAfter = thing.Destroyed ? 0 : thing.HitPoints;
                 hits++;

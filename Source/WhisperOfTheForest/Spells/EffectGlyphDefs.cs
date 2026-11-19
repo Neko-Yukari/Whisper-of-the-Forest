@@ -6,8 +6,18 @@ namespace WhisperOfTheForest.Spells
     public abstract class EffectGlyphDef : SpellGlyphDef
     {
         public virtual bool ConsumesRemainder => false;
+        protected virtual bool RequiresCombatLogRules => false;
         public abstract SpellEffect Compile(IReadOnlyList<SpellGlyphDef> augments,
             SpellStaffModifiers staff, SpellPayload payload = null);
+
+        public override IEnumerable<string> ConfigErrors()
+        {
+            foreach (string error in base.ConfigErrors()) yield return error;
+            if (RequiresCombatLogRules && combatLogRules == null)
+                yield return defName + " must declare combatLogRules";
+            else if (!RequiresCombatLogRules && combatLogRules != null)
+                yield return defName + " deals no spell damage and must not declare combatLogRules";
+        }
 
         protected static int ScaleTicks(int ticks, float factor)
         {

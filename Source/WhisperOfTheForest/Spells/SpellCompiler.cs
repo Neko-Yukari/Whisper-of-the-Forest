@@ -254,6 +254,8 @@ namespace WhisperOfTheForest.Spells
             {
                 plan.railgun = form.railgun?.Copy();
                 plan.tornado = form.tornado?.Copy();
+                if (plan.railgun != null) plan.railgun.logSource = SpellDamageSource.FromGlyph(form);
+                if (plan.tornado != null) plan.tornado.logSource = SpellDamageSource.FromGlyph(form);
                 if (staff != null && plan.railgun != null) plan.railgun.damage *= staff.damageFactor;
                 if (staff != null && plan.tornado != null) plan.tornado.damagePerPulse *= staff.damageFactor;
                 SpellTargeting.AddAll(plan.targets, form.targets);
