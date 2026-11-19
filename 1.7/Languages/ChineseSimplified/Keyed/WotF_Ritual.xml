@@ -41,7 +41,9 @@
   <WotF_Ritual_Transmute_Done>点化完成，产物落在祭坛旁。</WotF_Ritual_Transmute_Done>
   <WotF_Ritual_Transmute_NoRoom>祭坛旁没有空间放置点化产物。</WotF_Ritual_Transmute_NoRoom>
   <WotF_Ritual_Weather_Done>{0} 完成：天色转为{1}。</WotF_Ritual_Weather_Done>
-  <WotF_Ritual_ShieldDome_Done>古树护盾在祭坛上方展开。</WotF_Ritual_ShieldDome_Done>
+  <WotF_Ritual_ShieldDome_Done>古树护盾在祭坛上方展开（可抵挡 {0} 次）。</WotF_Ritual_ShieldDome_Done>
+  <WotF_Ritual_InspectShield>古树护盾：剩余 {0} / {1} 次（{2}）</WotF_Ritual_InspectShield>
+  <WotF_Ritual_ShieldCharges>护盾抵挡：{0} 次</WotF_Ritual_ShieldCharges>
   <WotF_Ritual_LeylineMining_Done>地脉献出 {0} 单位矿物。</WotF_Ritual_LeylineMining_Done>
   <WotF_Ritual_LeylineMining_NoResource>祭坛下方没有可汲取的深层矿脉。</WotF_Ritual_LeylineMining_NoResource>
   <WotF_Ritual_LeylineMining_NoRoom>祭坛旁没有空间放置汲取的矿物。</WotF_Ritual_LeylineMining_NoRoom>

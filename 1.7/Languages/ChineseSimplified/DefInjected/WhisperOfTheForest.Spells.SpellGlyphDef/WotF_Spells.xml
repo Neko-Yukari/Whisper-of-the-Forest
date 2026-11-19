@@ -41,6 +41,8 @@
   <WotF_Effect_Grow.description>不让作物直接成熟：命中格（配合范围为一圆域地块）在一段时间内获得额外的生长速度倍率。</WotF_Effect_Grow.description>
   <WotF_Effect_Magelight.label>光耀</WotF_Effect_Magelight.label>
   <WotF_Effect_Magelight.description>在法术落点放置一个临时光源，半径、颜色和持续时间都由符文与增幅冻结。</WotF_Effect_Magelight.description>
+  <WotF_Effect_PlanarShield.label>片盾</WotF_Effect_PlanarShield.label>
+  <WotF_Effect_PlanarShield.description>在落点展开一面垂直于「落点→施法者」连线的单向护盾，持续 15 秒。拦下敌方的平射投射物与奥术飞弹，每挡一次扣 1 次，友方弹射物从任意方向自由穿过；强化提高次数，范围加长盾面。</WotF_Effect_PlanarShield.description>
   <WotF_Effect_Blink.label>闪现</WotF_Effect_Blink.label>
   <WotF_Effect_Blink.description>自身形式时向面朝方向闪出；由弹射物或接触送出时，施法者闪到法术落点。</WotF_Effect_Blink.description>
 

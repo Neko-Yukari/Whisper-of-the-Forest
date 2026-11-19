@@ -41,7 +41,9 @@
   <WotF_Ritual_Transmute_Done>The transmutation is complete; its products lie beside the altar.</WotF_Ritual_Transmute_Done>
   <WotF_Ritual_Transmute_NoRoom>There is no room beside the altar for the products.</WotF_Ritual_Transmute_NoRoom>
   <WotF_Ritual_Weather_Done>{0} settles in: {1}.</WotF_Ritual_Weather_Done>
-  <WotF_Ritual_ShieldDome_Done>The grove shield closes over the altar.</WotF_Ritual_ShieldDome_Done>
+  <WotF_Ritual_ShieldDome_Done>The grove shield closes over the altar ({0} charges).</WotF_Ritual_ShieldDome_Done>
+  <WotF_Ritual_InspectShield>Grove shield: {0} / {1} charges ({2})</WotF_Ritual_InspectShield>
+  <WotF_Ritual_ShieldCharges>Shield charges: {0}</WotF_Ritual_ShieldCharges>
   <WotF_Ritual_LeylineMining_Done>The leyline yields {0} units of ore.</WotF_Ritual_LeylineMining_Done>
   <WotF_Ritual_LeylineMining_NoResource>No deep resource lies beneath the altar.</WotF_Ritual_LeylineMining_NoResource>
   <WotF_Ritual_LeylineMining_NoRoom>There is no room beside the altar for the ore.</WotF_Ritual_LeylineMining_NoRoom>

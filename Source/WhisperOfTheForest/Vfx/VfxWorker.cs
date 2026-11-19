@@ -37,6 +37,10 @@ namespace WhisperOfTheForest.Vfx
             throw new System.InvalidOperationException(Def.defName + ": worker cannot receive state '" + state + "'");
         }
 
+        public virtual void OnShieldHit(in ShieldHitEvent hit)
+        {
+        }
+
         /// <summary>
         /// Called during the active map draw pass so dynamic meshes submitted on Layer 15 enter
         /// RimLumen's HDR render target cleanly before <c>MapComponentUpdate</c>.

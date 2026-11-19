@@ -109,7 +109,7 @@ namespace WhisperOfTheForest.Missiles
 
             settled = true;
 
-            if (end == ArcaneMissileEnd.Impact)
+            if (end == ArcaneMissileEnd.Impact || end == ArcaneMissileEnd.Intercepted)
             {
                 try
                 {

@@ -5,10 +5,12 @@ namespace WhisperOfTheForest.Vfx
     public static class VfxStates
     {
         public const string Windup = "Windup", Channel = "Channel", Release = "Release",
-            Impact = "Impact", Sustain = "Sustain", Interrupt = "Interrupt", End = "End";
+            Impact = "Impact", Sustain = "Sustain", Interrupt = "Interrupt", End = "End",
+            Break = "Break", Expire = "Expire";
 
         public static bool Contains(string name) => name == Windup || name == Channel || name == Release
-            || name == Impact || name == Sustain || name == Interrupt || name == End;
+            || name == Impact || name == Sustain || name == Interrupt || name == End
+            || name == Break || name == Expire;
     }
 
     public sealed class VfxHandle
@@ -22,6 +24,11 @@ namespace WhisperOfTheForest.Vfx
             if (!VfxStates.Contains(state) || !worker.Def.SupportsState(state))
                 throw new InvalidOperationException(worker.Def.defName + ": undeclared state '" + state + "'");
             worker.Trigger(state);
+        }
+
+        public void ReportShieldHit(in ShieldHitEvent hit)
+        {
+            if (!Closed("ReportShieldHit")) worker.OnShieldHit(hit);
         }
 
         public void End()

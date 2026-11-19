@@ -586,6 +586,41 @@
     <experience>1</experience>
   </WhisperOfTheForest.Spells.SpellGlyphDef>
 
+  <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.PlanarShieldGlyphDef">
+    <defName>WotF_Effect_PlanarShield</defName>
+    <theme>WotF_Theme_Starlight</theme>
+    <tier>1</tier>
+    <requiresUnlock>true</requiresUnlock>
+    <unlockCost>
+      <li><thingDef>WotF_LivingWood</thingDef><count>10</count></li>
+      <li><thingDef>Jade</thingDef><count>10</count></li>
+    </unlockCost>
+    <targets>
+      <li>Cell</li>
+    </targets>
+    <label>planar shield</label>
+    <description>Raises a one-way barrier perpendicular to the line from the target point to the caster for 15 seconds. Hostile ground projectiles and arcane missiles are stopped at one charge per hit while allied shots pass freely from any direction. Amplify raises charges; Area lengthens the barrier.</description>
+    <kind>Effect</kind>
+    <baseCharges>4</baseCharges>
+    <maxCharges>36</maxCharges>
+    <lifetimeTicks>900</lifetimeTicks>
+    <radius>1.5</radius>
+    <maxLength>15</maxLength>
+    <selfForwardOffset>0.75</selfForwardOffset>
+    <vfxDef>WotF_Vfx_PlanarShield</vfxDef>
+    <compatibleAugments>
+      <li>WotF_Augment_Amplify</li>
+      <li>WotF_Augment_Dampen</li>
+      <li>WotF_Augment_AOE</li>
+    </compatibleAugments>
+    <windupTicks>5</windupTicks>
+    <recoveryTicks>5</recoveryTicks>
+    <iconPath>Spellbook/Glyphs/WotF_Effect_Linger</iconPath>
+    <manaCost>14</manaCost>
+    <entropyCost>0</entropyCost>
+    <experience>4</experience>
+  </WhisperOfTheForest.Spells.SpellGlyphDef>
+
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.BlinkGlyphDef">
     <defName>WotF_Effect_Blink</defName>
     <theme>WotF_Theme_Starlight</theme>

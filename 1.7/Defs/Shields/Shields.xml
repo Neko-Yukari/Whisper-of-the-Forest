@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Shared ethereal carrier for grove dome rites and planar shield spells. -->
+  <ThingDef ParentName="EtherealThingBase">
+    <defName>WotF_ShieldField</defName>
+    <label>arcane shield</label>
+    <thingClass>ThingWithComps</thingClass>
+    <tickerType>Normal</tickerType>
+    <selectable>false</selectable>
+    <comps>
+      <li Class="WhisperOfTheForest.Shields.CompProperties_WotfShield" />
+    </comps>
+  </ThingDef>
+
+  <WhisperOfTheForest.Vfx.ShieldLumenVfxDef>
+    <defName>WotF_Vfx_ShieldDome</defName>
+    <label>grove shield dome (RimLumen)</label>
+    <workerClass>WhisperOfTheForest.Vfx.ShieldLumenVfxWorker</workerClass>
+    <lifetime>FollowThing</lifetime>
+    <coreColor>#E9FFF4</coreColor>
+    <primaryColor>#57D993</primaryColor>
+    <hdrIntensity>1.15</hdrIntensity>
+    <altitudeY>9.45</altitudeY>
+    <coreWidthCells>0.12</coreWidthCells>
+    <glowWidthCells>0.55</glowWidthCells>
+    <edgePower>1.8</edgePower>
+    <pulseHz>0.45</pulseHz>
+    <pulseMinAlpha>0.24</pulseMinAlpha>
+    <pulseMaxAlpha>0.42</pulseMaxAlpha>
+    <ringSegments>64</ringSegments>
+    <hitFlashSeconds>0.35</hitFlashSeconds>
+    <hitFlashRadiusCells>1.65</hitFlashRadiusCells>
+    <breakSeconds>0.55</breakSeconds>
+    <expireSeconds>0.80</expireSeconds>
+  </WhisperOfTheForest.Vfx.ShieldLumenVfxDef>
+
+  <WhisperOfTheForest.Vfx.ShieldLumenVfxDef>
+    <defName>WotF_Vfx_PlanarShield</defName>
+    <label>planar shield barrier (RimLumen)</label>
+    <workerClass>WhisperOfTheForest.Vfx.ShieldLumenVfxWorker</workerClass>
+    <lifetime>FollowThing</lifetime>
+    <coreColor>#FFFDF4</coreColor>
+    <primaryColor>#48D1CC</primaryColor>
+    <hdrIntensity>1.30</hdrIntensity>
+    <altitudeY>9.45</altitudeY>
+    <coreWidthCells>0.18</coreWidthCells>
+    <glowWidthCells>0.68</glowWidthCells>
+    <edgePower>1.65</edgePower>
+    <pulseHz>0.90</pulseHz>
+    <pulseMinAlpha>0.48</pulseMinAlpha>
+    <pulseMaxAlpha>0.74</pulseMaxAlpha>
+    <ringSegments>24</ringSegments>
+    <hitFlashSeconds>0.28</hitFlashSeconds>
+    <hitFlashRadiusCells>0.95</hitFlashRadiusCells>
+    <breakSeconds>0.40</breakSeconds>
+    <expireSeconds>0.45</expireSeconds>
+  </WhisperOfTheForest.Vfx.ShieldLumenVfxDef>
+
+</Defs>

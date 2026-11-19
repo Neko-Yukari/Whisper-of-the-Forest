@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Verse;
+using WhisperOfTheForest.Shields;
 
 namespace WhisperOfTheForest.Missiles
 {
@@ -9,6 +10,7 @@ namespace WhisperOfTheForest.Missiles
     {
         Flying,
         Impact,
+        Intercepted,
         Expired
     }
 
@@ -149,6 +151,8 @@ namespace WhisperOfTheForest.Missiles
 
             for (int i = 0; i < substeps; i++)
             {
+                float prevX = posX;
+                float prevZ = posZ;
                 posX += stepX;
                 posZ += stepZ;
 
@@ -156,6 +160,11 @@ namespace WhisperOfTheForest.Missiles
                 if (!InBounds(map, cell))
                 {
                     return ArcaneMissileEnd.Expired;
+                }
+
+                if (ShieldInterception.TryInterceptArcaneMissile(map, caster, prevX, prevZ, ref posX, ref posZ))
+                {
+                    return ArcaneMissileEnd.Intercepted;
                 }
 
                 // Walls and pawns win over arrival, so a fast dart can never reach past a wall.

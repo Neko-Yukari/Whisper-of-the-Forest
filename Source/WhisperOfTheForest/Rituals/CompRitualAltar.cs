@@ -7,6 +7,7 @@ using WhisperOfTheForest.AncientRuins;
 using WhisperOfTheForest.Equipment;
 using WhisperOfTheForest.Mana;
 using WhisperOfTheForest.Race;
+using WhisperOfTheForest.Shields;
 using WhisperOfTheForest.Spells;
 using WhisperOfTheForest.Teleport;
 
@@ -813,6 +814,13 @@ namespace WhisperOfTheForest.Rituals
                 ? string.Format("WotF_Ritual_RitualStrength".Translate(), activeRitualStrength.ToString("0.#"))
                 : string.Format("WotF_Ritual_ResonanceStrength".Translate(),
                     ResonanceStrength.ToString("0.#"), ResonanceMultiplier.ToString("0.##")));
+            CompWotfShield activeShield = ShieldInterception.FindActiveOnAltar(parent as Building);
+            if (activeShield != null)
+            {
+                text += "\n" + string.Format("WotF_Ritual_InspectShield".Translate(),
+                    activeShield.RemainingCharges, activeShield.MaxCharges,
+                    activeShield.RemainingTicks.ToStringTicksToPeriod());
+            }
             return autoRitual == null
                 ? text
                 : text + "\n" + "WotF_Ritual_AutoRepeat_Current".Translate(autoRitual.LabelCap);
