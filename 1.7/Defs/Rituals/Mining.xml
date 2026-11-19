@@ -17,5 +17,6 @@
     <requiresDeepResources>true</requiresDeepResources>
     <maxResourceTypes>3</maxResourceTypes>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_LeylineMining</effectWorkerClass>
+    <researchPrerequisite>WotF_Research_Ritual_LeylineMining</researchPrerequisite>
   </WhisperOfTheForest.Rituals.RitualDef>
 </Defs>

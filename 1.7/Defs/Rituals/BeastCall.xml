@@ -21,5 +21,6 @@
       <Hay>50</Hay>
     </inputCosts>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_BeastCall</effectWorkerClass>
+    <researchPrerequisite>WotF_Research_Ritual_BeastCall</researchPrerequisite>
   </WhisperOfTheForest.Rituals.RitualDef>
 </Defs>

@@ -19,5 +19,6 @@
       <WotF_ManaVial>1</WotF_ManaVial>
     </outputProducts>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_Transmute</effectWorkerClass>
+    <researchPrerequisite>WotF_Research_Ritual_BottleMana</researchPrerequisite>
   </WhisperOfTheForest.Rituals.RitualDef>
 </Defs>

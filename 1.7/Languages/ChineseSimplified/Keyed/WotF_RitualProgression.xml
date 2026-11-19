@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <WotF_Ritual_TierRequired>这场仪式需要 {0} 阶或更高阶祭坛。</WotF_Ritual_TierRequired>
+  <WotF_Ritual_ResearchRequired>需要先完成研究：{0}。</WotF_Ritual_ResearchRequired>
   <WotF_Ritual_RitualStrength>仪式强度：{0}</WotF_Ritual_RitualStrength>
   <WotF_Ritual_ResonanceStrength>共鸣强度：{0}（×{1}）</WotF_Ritual_ResonanceStrength>
-  <WotF_Ritual_TierFamily>祭坛要求：{0} 阶；法阵族：{1}</WotF_Ritual_TierFamily>
-  <WotF_Ritual_Family_Crafting>塑形工造阵</WotF_Ritual_Family_Crafting>
-  <WotF_Ritual_Family_Life>生机灵脉阵</WotF_Ritual_Family_Life>
-  <WotF_Ritual_Family_Domain>界域天象阵</WotF_Ritual_Family_Domain>
   <WotF_Ritual_StrengthScaled>效果随仪式强度提升。</WotF_Ritual_StrengthScaled>
   <WotF_Ritual_StrengthSpeed>推进速度随仪式强度提升。</WotF_Ritual_StrengthSpeed>
   <WotF_Ritual_StrengthFixed>固定效果，不受仪式强度加成。</WotF_Ritual_StrengthFixed>

@@ -13,5 +13,6 @@
     <effectRadius>12.9</effectRadius>
     <chooseTeleportTarget>true</chooseTeleportTarget>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_Teleport</effectWorkerClass>
+    <researchPrerequisite>WotF_Research_Ritual_Teleport</researchPrerequisite>
   </WhisperOfTheForest.Rituals.RitualDef>
 </Defs>

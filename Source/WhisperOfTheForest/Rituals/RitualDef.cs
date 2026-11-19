@@ -146,6 +146,9 @@ namespace WhisperOfTheForest.Rituals
         /// <summary>True when the altar may repeat this production rite on its own while idle.</summary>
         public bool autoRepeatable;
 
+        /// <summary>Research project that must be completed before this rite becomes available.</summary>
+        public ResearchProjectDef researchPrerequisite;
+
         public Type effectWorkerClass;
 
         private RitualEffectWorker effectWorker;
@@ -171,6 +174,11 @@ namespace WhisperOfTheForest.Rituals
             || healingTable != null;
 
         public bool UsesRitualStrength => UsesWork || UsesEffectStrength;
+
+        /// <summary>
+        /// Single source of truth for whether this rite is unlocked by research in the active game.
+        /// </summary>
+        public bool IsResearchFinished => Current.Game?.researchManager != null && researchPrerequisite.IsFinished;
 
         public float HealingPoolFor(float ritualStrength)
         {
@@ -579,6 +587,11 @@ namespace WhisperOfTheForest.Rituals
             else if (!typeof(RitualEffectWorker).IsAssignableFrom(effectWorkerClass))
             {
                 yield return defName + " effectWorkerClass must derive from RitualEffectWorker.";
+            }
+
+            if (researchPrerequisite == null)
+            {
+                yield return defName + " must declare researchPrerequisite.";
             }
         }
     }

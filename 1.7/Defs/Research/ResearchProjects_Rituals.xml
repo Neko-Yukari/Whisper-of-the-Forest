@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Main progression chain (y = 0.00, except Adamantine/Mithril branch at x = 7.00).
+       techLevel is Neolithic for every node so tribal/elf starts (TechLevel.Neolithic) suffer no cost penalty. -->
+
+  <ResearchProjectDef>
+    <defName>WotF_Research_AltarT1</defName>
+    <label>wood-and-stone altar</label>
+    <description>Construct a first-tier wood-and-stone altar to anchor 3×3 white chalk rings and unlock tier 1 grove rites. Unlocks building: wood-and-stone altar.</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>300</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <researchViewX>0.00</researchViewX>
+    <researchViewY>0.00</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>WotF_Research_LivingWood</defName>
+    <label>living wood</label>
+    <description>Awaken ordinary timber with herbal medicine inside a 3×3 white chalk ring. Unlocks ritual: rite of living wood.</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>500</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <prerequisites>
+      <li>WotF_Research_AltarT1</li>
+    </prerequisites>
+    <customUnlockTexts>
+      <li>Ritual: rite of living wood</li>
+    </customUnlockTexts>
+    <researchViewX>1.00</researchViewX>
+    <researchViewY>0.00</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>WotF_Research_AltarT2</defName>
+    <label>livingwood altar</label>
+    <description>Grow a second-tier livingwood altar capable of sustaining 5×5 green chalk rings and tier 2 rites. Unlocks building: livingwood altar.</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>1000</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <prerequisites>
+      <li>WotF_Research_LivingWood</li>
+    </prerequisites>
+    <researchViewX>2.00</researchViewX>
+    <researchViewY>0.00</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>WotF_Research_GreenChalk</defName>
+    <label>green ritual chalk</label>
+    <description>Work white ritual chalk and herbal medicine into green ritual chalk for 5×5 tier 2 rings. Unlocks ritual: rite of green chalk.</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>600</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <prerequisites>
+      <li>WotF_Research_AltarT2</li>
+    </prerequisites>
+    <customUnlockTexts>
+      <li>Ritual: rite of green chalk</li>
+    </customUnlockTexts>
+    <researchViewX>3.00</researchViewX>
+    <researchViewY>0.00</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>WotF_Research_ElvenSteel</defName>
+    <label>elven steel</label>
+    <description>Temper ordinary steel with living wood in a 5×5 green chalk ring to forge elven steel. Unlocks ritual: rite of elven steel.</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>1200</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <prerequisites>
+      <li>WotF_Research_GreenChalk</li>
+    </prerequisites>
+    <customUnlockTexts>
+      <li>Ritual: rite of elven steel</li>
+    </customUnlockTexts>
+    <researchViewX>4.00</researchViewX>
+    <researchViewY>0.00</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>WotF_Research_StarChalk</defName>
+    <label>star ritual chalk</label>
+    <description>Infuse white ritual chalk with silver and jade inside a 5×5 green chalk ring to form star ritual chalk for 7×7 tier 3 rings. Unlocks ritual: rite of star chalk.</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>1500</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <prerequisites>
+      <li>WotF_Research_ElvenSteel</li>
+    </prerequisites>
+    <customUnlockTexts>
+      <li>Ritual: rite of star chalk</li>
+    </customUnlockTexts>
+    <researchViewX>5.00</researchViewX>
+    <researchViewY>0.00</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>WotF_Research_AltarT3</defName>
+    <label>starlight altar</label>
+    <description>Construct a third-tier starlight altar around an engineering-station resonance core to host 7×7 star chalk rings and tier 3 rites. Unlocks building: starlight altar.</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>2500</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <prerequisites>
+      <li>WotF_Research_StarChalk</li>
+    </prerequisites>
+    <researchViewX>6.00</researchViewX>
+    <researchViewY>0.00</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>WotF_Research_Adamantine</defName>
+    <label>adamantine</label>
+    <description>Refine elven steel and plasteel inside a 7×7 star chalk ring into durable adamantine. Unlocks ritual: rite of adamantine.</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>3000</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <prerequisites>
+      <li>WotF_Research_AltarT3</li>
+    </prerequisites>
+    <customUnlockTexts>
+      <li>Ritual: rite of adamantine</li>
+    </customUnlockTexts>
+    <researchViewX>7.00</researchViewX>
+    <researchViewY>0.00</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>WotF_Research_Mithril</defName>
+    <label>mithril</label>
+    <description>Refine elven steel and silver inside a 7×7 star chalk ring into spell-conducting mithril. Unlocks ritual: rite of mithril.</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>3000</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <prerequisites>
+      <li>WotF_Research_AltarT3</li>
+    </prerequisites>
+    <customUnlockTexts>
+      <li>Ritual: rite of mithril</li>
+    </customUnlockTexts>
+    <researchViewX>7.00</researchViewX>
+    <researchViewY>0.70</researchViewY>
+  </ResearchProjectDef>
+
+  <!-- Tier 1 ritual leaves (300) -->
+
+  <ResearchProjectDef>
+    <defName>WotF_Research_Ritual_HealingMinor</defName>
+    <label>rite of mending</label>
+    <description>Channel a life pool in a 3×3 white chalk ring to heal fresh wounds and blood loss. Unlocks ritual: rite of mending.</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>300</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <prerequisites>
+      <li>WotF_Research_AltarT1</li>
+    </prerequisites>
+    <customUnlockTexts>
+      <li>Ritual: rite of mending</li>
+    </customUnlockTexts>
+    <researchViewX>1.00</researchViewX>
+    <researchViewY>0.70</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>WotF_Research_Ritual_SpellbookAwakening</defName>
+    <label>rite of spellbook awakening</label>
+    <description>Call forth an apprentice spellbook in a 3×3 white chalk ring for a forest-blooded colonist to wear. Unlocks ritual: rite of spellbook awakening.</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>300</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <prerequisites>
+      <li>WotF_Research_AltarT1</li>
+    </prerequisites>
+    <customUnlockTexts>
+      <li>Ritual: rite of spellbook awakening</li>
+    </customUnlockTexts>
+    <researchViewX>1.00</researchViewX>
+    <researchViewY>1.40</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>WotF_Research_Ritual_ManaSpring</defName>
+    <label>rite of the mana spring</label>
+    <description>Restore mana to nearby forest-blooded colonists using network mana in a 3×3 white chalk ring. Unlocks ritual: rite of the mana spring.</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>300</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <prerequisites>
+      <li>WotF_Research_AltarT1</li>
+    </prerequisites>
+    <customUnlockTexts>
+      <li>Ritual: rite of the mana spring</li>
+    </customUnlockTexts>
+    <researchViewX>1.00</researchViewX>
+    <researchViewY>2.10</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>WotF_Research_Ritual_BottleMana</defName>
+    <label>rite of bottling</label>
+    <description>Seal network mana into portable mana vials using wood and herbal medicine in a 3×3 white chalk ring. Unlocks ritual: rite of bottling.</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>300</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <prerequisites>
+      <li>WotF_Research_AltarT1</li>
+    </prerequisites>
+    <customUnlockTexts>
+      <li>Ritual: rite of bottling</li>
+    </customUnlockTexts>
+    <researchViewX>1.00</researchViewX>
+    <researchViewY>2.80</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>WotF_Research_Ritual_RuneAwakening</defName>
+    <label>rite of rune awakening</label>
+    <description>Unlock new spell runes for the colony according to the rune's tier and altar capabilities. Unlocks ritual: rite of rune awakening.</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>300</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <prerequisites>
+      <li>WotF_Research_AltarT1</li>
+    </prerequisites>
+    <customUnlockTexts>
+      <li>Ritual: rite of rune awakening</li>
+    </customUnlockTexts>
+    <researchViewX>1.00</researchViewX>
+    <researchViewY>3.50</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>WotF_Research_Ritual_InscribeEquipment</defName>
+    <label>rite of spell inscribing</label>
+    <description>Inscribe a touch, self, or orbit spell from the host's spellbook into a weapon or piece of armour placed beside the altar. Unlocks ritual: rite of spell inscribing.</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>300</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <prerequisites>
+      <li>WotF_Research_AltarT1</li>
+    </prerequisites>
+    <customUnlockTexts>
+      <li>Ritual: rite of spell inscribing</li>
+    </customUnlockTexts>
+    <researchViewX>1.00</researchViewX>
+    <researchViewY>4.20</researchViewY>
+  </ResearchProjectDef>
+
+  <!-- Tier 2 ritual leaves (800) -->
+
+  <ResearchProjectDef>
+    <defName>WotF_Research_Ritual_HealingMedium</defName>
+    <label>rite of mending (green ring)</label>
+    <description>Expand the mending rite with a 5×5 green chalk ring to heal scars and regrow lost limbs. Unlocks ritual: rite of mending (green ring).</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>800</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <prerequisites>
+      <li>WotF_Research_AltarT2</li>
+      <li>WotF_Research_Ritual_HealingMinor</li>
+    </prerequisites>
+    <customUnlockTexts>
+      <li>Ritual: rite of mending (green ring)</li>
+    </customUnlockTexts>
+    <researchViewX>3.00</researchViewX>
+    <researchViewY>0.70</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>WotF_Research_Ritual_SpellbookUpgradeAdept</defName>
+    <label>rite of the woven spellbook</label>
+    <description>Upgrade an apprentice spellbook with elven steel and jade into an adept spellbook with seven spell slots. Unlocks ritual: rite of the woven spellbook.</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>800</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <prerequisites>
+      <li>WotF_Research_AltarT2</li>
+    </prerequisites>
+    <customUnlockTexts>
+      <li>Ritual: rite of the woven spellbook</li>
+    </customUnlockTexts>
+    <researchViewX>3.00</researchViewX>
+    <researchViewY>1.40</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>WotF_Research_Ritual_FertileSoil</defName>
+    <label>rite of fertile awakening</label>
+    <description>Transform natural soil around the altar into rich soil using a 5×5 green chalk ring. Unlocks ritual: rite of fertile awakening.</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>800</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <prerequisites>
+      <li>WotF_Research_AltarT2</li>
+    </prerequisites>
+    <customUnlockTexts>
+      <li>Ritual: rite of fertile awakening</li>
+    </customUnlockTexts>
+    <researchViewX>3.00</researchViewX>
+    <researchViewY>2.10</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>WotF_Research_Ritual_TransmuteComponent</defName>
+    <label>rite of components</label>
+    <description>Transmute steel and herbal medicine into industrial components inside a 5×5 green chalk ring. Unlocks ritual: rite of components.</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>800</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <prerequisites>
+      <li>WotF_Research_AltarT2</li>
+    </prerequisites>
+    <customUnlockTexts>
+      <li>Ritual: rite of components</li>
+    </customUnlockTexts>
+    <researchViewX>3.00</researchViewX>
+    <researchViewY>2.80</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>WotF_Research_Ritual_ShieldDome</defName>
+    <label>rite of the grove shield</label>
+    <description>Raise a one-way dome shield over the altar that blocks hostile projectiles and arcane missiles while letting friendly shots pass. Unlocks ritual: rite of the grove shield.</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>800</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <prerequisites>
+      <li>WotF_Research_AltarT2</li>
+    </prerequisites>
+    <customUnlockTexts>
+      <li>Ritual: rite of the grove shield</li>
+    </customUnlockTexts>
+    <researchViewX>3.00</researchViewX>
+    <researchViewY>3.50</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>WotF_Research_Ritual_BeastCall</defName>
+    <label>rite of beast calling</label>
+    <description>Offer hay in a 5×5 green chalk ring to summon a wild horse and attempt to tame it. Unlocks ritual: rite of beast calling.</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>800</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <prerequisites>
+      <li>WotF_Research_AltarT2</li>
+    </prerequisites>
+    <customUnlockTexts>
+      <li>Ritual: rite of beast calling</li>
+    </customUnlockTexts>
+    <researchViewX>3.00</researchViewX>
+    <researchViewY>4.20</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>WotF_Research_Ritual_ClearSky</defName>
+    <label>rite of clear skies</label>
+    <description>Dispel rain and storms over the settlement with a 5×5 green chalk ring, bringing clear weather. Unlocks ritual: rite of clear skies.</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>800</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <prerequisites>
+      <li>WotF_Research_AltarT2</li>
+    </prerequisites>
+    <customUnlockTexts>
+      <li>Ritual: rite of clear skies</li>
+    </customUnlockTexts>
+    <researchViewX>4.00</researchViewX>
+    <researchViewY>2.80</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>WotF_Research_Ritual_RainCall</defName>
+    <label>rite of rain</label>
+    <description>Call gentle rain over the settlement with a 5×5 green chalk ring to douse fires and water crops. Unlocks ritual: rite of rain.</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>800</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <prerequisites>
+      <li>WotF_Research_AltarT2</li>
+    </prerequisites>
+    <customUnlockTexts>
+      <li>Ritual: rite of rain</li>
+    </customUnlockTexts>
+    <researchViewX>4.00</researchViewX>
+    <researchViewY>3.50</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>WotF_Research_Ritual_Teleport</defName>
+    <label>local teleport</label>
+    <description>Transport nearby colonists from the altar to an active teleport gate on the same map. Unlocks ritual: local teleport.</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>800</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <prerequisites>
+      <li>WotF_Research_AltarT2</li>
+    </prerequisites>
+    <customUnlockTexts>
+      <li>Ritual: local teleport</li>
+    </customUnlockTexts>
+    <researchViewX>4.00</researchViewX>
+    <researchViewY>4.20</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>WotF_Research_Ritual_SeekRuin</defName>
+    <label>rite of seeking</label>
+    <description>Locate an overgrown forest ruin or an ancient engineering station on the world map to raid for relics and resonance cores. Unlocks ritual: rite of seeking.</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>800</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <prerequisites>
+      <li>WotF_Research_AltarT2</li>
+    </prerequisites>
+    <customUnlockTexts>
+      <li>Ritual: rite of seeking</li>
+    </customUnlockTexts>
+    <researchViewX>4.00</researchViewX>
+    <researchViewY>4.90</researchViewY>
+  </ResearchProjectDef>
+
+  <!-- Tier 3 ritual leaves (2000) -->
+
+  <ResearchProjectDef>
+    <defName>WotF_Research_Ritual_HealingGrand</defName>
+    <label>rite of mending (star ring)</label>
+    <description>Complete the mending path in a 7×7 star chalk ring, restoring missing organs, addictions, and chronic conditions. Unlocks ritual: rite of mending (star ring).</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>2000</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <prerequisites>
+      <li>WotF_Research_AltarT3</li>
+      <li>WotF_Research_Ritual_HealingMedium</li>
+    </prerequisites>
+    <customUnlockTexts>
+      <li>Ritual: rite of mending (star ring)</li>
+    </customUnlockTexts>
+    <researchViewX>7.00</researchViewX>
+    <researchViewY>1.40</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>WotF_Research_Ritual_SpellbookUpgradeArchmage</defName>
+    <label>rite of the starlight codex</label>
+    <description>Upgrade an adept spellbook with mithril and star chalk into a ten-slot starlight codex capable of holding super runes. Unlocks ritual: rite of the starlight codex.</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>2000</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <prerequisites>
+      <li>WotF_Research_AltarT3</li>
+      <li>WotF_Research_Ritual_SpellbookUpgradeAdept</li>
+    </prerequisites>
+    <customUnlockTexts>
+      <li>Ritual: rite of the starlight codex</li>
+    </customUnlockTexts>
+    <researchViewX>7.00</researchViewX>
+    <researchViewY>2.10</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>WotF_Research_Ritual_Thunderstorm</defName>
+    <label>rite of thunderstorm</label>
+    <description>Summon a heavy thunderstorm over the map from a 7×7 star chalk ring. Unlocks ritual: rite of thunderstorm.</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>2000</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <prerequisites>
+      <li>WotF_Research_AltarT3</li>
+    </prerequisites>
+    <customUnlockTexts>
+      <li>Ritual: rite of thunderstorm</li>
+    </customUnlockTexts>
+    <researchViewX>7.00</researchViewX>
+    <researchViewY>2.80</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>WotF_Research_Ritual_SkyWrath</defName>
+    <label>rite of sky wrath</label>
+    <description>Channel sustained lightning strikes from a 7×7 star chalk ring onto unroofed enemies near the altar. Unlocks ritual: rite of sky wrath.</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>2000</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <prerequisites>
+      <li>WotF_Research_AltarT3</li>
+    </prerequisites>
+    <customUnlockTexts>
+      <li>Ritual: rite of sky wrath</li>
+    </customUnlockTexts>
+    <researchViewX>7.00</researchViewX>
+    <researchViewY>3.50</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>WotF_Research_Ritual_LeylineMining</defName>
+    <label>rite of leyline mining</label>
+    <description>Draw deep underground mineral veins to the surface in a 7×7 star chalk ring. Unlocks ritual: rite of leyline mining.</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>2000</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <prerequisites>
+      <li>WotF_Research_AltarT3</li>
+    </prerequisites>
+    <customUnlockTexts>
+      <li>Ritual: rite of leyline mining</li>
+    </customUnlockTexts>
+    <researchViewX>7.00</researchViewX>
+    <researchViewY>4.20</researchViewY>
+  </ResearchProjectDef>
+
+</Defs>

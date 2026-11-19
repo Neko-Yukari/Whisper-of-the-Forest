@@ -15,6 +15,7 @@
     <manaCost>40</manaCost><workAmount>300</workAmount>
     <inputCosts><WoodLog>20</WoodLog><MedicineHerbal>2</MedicineHerbal></inputCosts>
     <outputProducts><WotF_LivingWood>10</WotF_LivingWood></outputProducts>
+    <researchPrerequisite>WotF_Research_LivingWood</researchPrerequisite>
   </WhisperOfTheForest.Rituals.RitualDef>
   <WhisperOfTheForest.Rituals.RitualDef ParentName="WotF_MaterialTransmutation">
     <defName>WotF_Ritual_TransmuteElvenSteel</defName>
@@ -24,6 +25,7 @@
     <manaCost>80</manaCost><workAmount>600</workAmount>
     <inputCosts><Steel>20</Steel><WotF_LivingWood>5</WotF_LivingWood></inputCosts>
     <outputProducts><WotF_ElvenSteel>10</WotF_ElvenSteel></outputProducts>
+    <researchPrerequisite>WotF_Research_ElvenSteel</researchPrerequisite>
   </WhisperOfTheForest.Rituals.RitualDef>
   <WhisperOfTheForest.Rituals.RitualDef ParentName="WotF_MaterialTransmutation">
     <defName>WotF_Ritual_TransmuteAdamantine</defName>
@@ -33,6 +35,7 @@
     <manaCost>160</manaCost><workAmount>900</workAmount>
     <inputCosts><WotF_ElvenSteel>20</WotF_ElvenSteel><Plasteel>10</Plasteel></inputCosts>
     <outputProducts><WotF_Adamantine>10</WotF_Adamantine></outputProducts>
+    <researchPrerequisite>WotF_Research_Adamantine</researchPrerequisite>
   </WhisperOfTheForest.Rituals.RitualDef>
   <WhisperOfTheForest.Rituals.RitualDef ParentName="WotF_MaterialTransmutation">
     <defName>WotF_Ritual_TransmuteMithril</defName>
@@ -42,5 +45,6 @@
     <manaCost>160</manaCost><workAmount>900</workAmount>
     <inputCosts><WotF_ElvenSteel>20</WotF_ElvenSteel><Silver>20</Silver></inputCosts>
     <outputProducts><WotF_Mithril>10</WotF_Mithril></outputProducts>
+    <researchPrerequisite>WotF_Research_Mithril</researchPrerequisite>
   </WhisperOfTheForest.Rituals.RitualDef>
 </Defs>

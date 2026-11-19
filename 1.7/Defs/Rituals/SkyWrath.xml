@@ -30,5 +30,6 @@
       </points>
     </strengthEffectFactor>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_SkyWrath</effectWorkerClass>
+    <researchPrerequisite>WotF_Research_Ritual_SkyWrath</researchPrerequisite>
   </WhisperOfTheForest.Rituals.RitualDef>
 </Defs>

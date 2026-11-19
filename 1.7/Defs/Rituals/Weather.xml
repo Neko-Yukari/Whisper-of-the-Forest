@@ -13,6 +13,7 @@
     <effectRadius>12.9</effectRadius>
     <weatherDef>Clear</weatherDef>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_Weather</effectWorkerClass>
+    <researchPrerequisite>WotF_Research_Ritual_ClearSky</researchPrerequisite>
   </WhisperOfTheForest.Rituals.RitualDef>
 
   <WhisperOfTheForest.Rituals.RitualDef>
@@ -28,6 +29,7 @@
     <effectRadius>12.9</effectRadius>
     <weatherDef>Rain</weatherDef>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_Weather</effectWorkerClass>
+    <researchPrerequisite>WotF_Research_Ritual_RainCall</researchPrerequisite>
   </WhisperOfTheForest.Rituals.RitualDef>
 
   <WhisperOfTheForest.Rituals.RitualDef>
@@ -43,5 +45,6 @@
     <effectRadius>12.9</effectRadius>
     <weatherDef>RainyThunderstorm</weatherDef>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_Weather</effectWorkerClass>
+    <researchPrerequisite>WotF_Research_Ritual_Thunderstorm</researchPrerequisite>
   </WhisperOfTheForest.Rituals.RitualDef>
 </Defs>

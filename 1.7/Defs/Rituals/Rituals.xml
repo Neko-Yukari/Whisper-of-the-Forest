@@ -30,6 +30,7 @@
     <strengthEffectFactor><points><li>(0,1)</li><li>(25,1.8)</li><li>(60,2.5)</li><li>(100,3)</li></points></strengthEffectFactor>
     <manaRestore>40</manaRestore>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_ManaSpring</effectWorkerClass>
+    <researchPrerequisite>WotF_Research_Ritual_ManaSpring</researchPrerequisite>
   </WhisperOfTheForest.Rituals.RitualDef>
 
   <WhisperOfTheForest.Rituals.RitualDef>
@@ -46,6 +47,7 @@
     <healingTable>WotF_HealingTable</healingTable>
     <healingPoolFactor>1.0</healingPoolFactor>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_Healing</effectWorkerClass>
+    <researchPrerequisite>WotF_Research_Ritual_HealingMinor</researchPrerequisite>
   </WhisperOfTheForest.Rituals.RitualDef>
 
   <WhisperOfTheForest.Rituals.RitualDef>
@@ -62,6 +64,7 @@
     <healingTable>WotF_HealingTable</healingTable>
     <healingPoolFactor>1.4</healingPoolFactor>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_Healing</effectWorkerClass>
+    <researchPrerequisite>WotF_Research_Ritual_HealingMedium</researchPrerequisite>
   </WhisperOfTheForest.Rituals.RitualDef>
 
   <WhisperOfTheForest.Rituals.RitualDef>
@@ -79,6 +82,7 @@
     <healingTable>WotF_HealingTable</healingTable>
     <healingPoolFactor>1.8</healingPoolFactor>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_Healing</effectWorkerClass>
+    <researchPrerequisite>WotF_Research_Ritual_HealingGrand</researchPrerequisite>
   </WhisperOfTheForest.Rituals.RitualDef>
 
   <WhisperOfTheForest.Rituals.RitualDef>
@@ -95,6 +99,7 @@
     <!-- 占位：0..100 仪式强度将沃土覆盖半径从 1 倍放大至 2 倍。 -->
     <strengthRadiusFactor><points><li>(0,1)</li><li>(25,1.45)</li><li>(60,1.8)</li><li>(100,2)</li></points></strengthRadiusFactor>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_FertileSoil</effectWorkerClass>
+    <researchPrerequisite>WotF_Research_Ritual_FertileSoil</researchPrerequisite>
   </WhisperOfTheForest.Rituals.RitualDef>
 
   <WhisperOfTheForest.Rituals.RitualDef ParentName="WotF_WorkRitualBase">
@@ -109,6 +114,7 @@
     <workAmount>900</workAmount>
     <effectRadius>12.9</effectRadius>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_SpellbookAwakening</effectWorkerClass>
+    <researchPrerequisite>WotF_Research_Ritual_SpellbookAwakening</researchPrerequisite>
   </WhisperOfTheForest.Rituals.RitualDef>
 
   <WhisperOfTheForest.Rituals.RitualDef ParentName="WotF_WorkRitualBase">
@@ -126,6 +132,7 @@
     <effectRadius>12.9</effectRadius>
     <chooseRune>true</chooseRune>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_UnlockRune</effectWorkerClass>
+    <researchPrerequisite>WotF_Research_Ritual_RuneAwakening</researchPrerequisite>
   </WhisperOfTheForest.Rituals.RitualDef>
 
   <WhisperOfTheForest.Rituals.RitualDef ParentName="WotF_WorkRitualBase">
@@ -142,6 +149,7 @@
     <effectRadius>1.9</effectRadius>
     <chooseEquipment>true</chooseEquipment>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_InscribeEquipment</effectWorkerClass>
+    <researchPrerequisite>WotF_Research_Ritual_InscribeEquipment</researchPrerequisite>
   </WhisperOfTheForest.Rituals.RitualDef>
 
   <JobDef>
