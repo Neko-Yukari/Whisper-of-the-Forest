@@ -42,7 +42,12 @@ namespace WhisperOfTheForest.Rituals
         public Window_RitualHost(CompRitualAltar altar)
         {
             this.altar = altar;
-            selected = FirstRitual();
+            selected = altar.SelectedDef;
+            selectedRune = altar.SelectedRune;
+            selectedNode = altar.SelectedTeleportTarget;
+            selectedRuin = altar.SelectedRuinOption;
+            selectedEquipment = altar.SelectedEquipment;
+            selectedBookSlot = altar.SelectedBookSlot;
 
             draggable = true;
             forcePause = false;
@@ -64,14 +69,10 @@ namespace WhisperOfTheForest.Rituals
             }
         }
 
-        private RitualDef FirstRitual()
+        private void SyncSelection()
         {
-            foreach (RitualDef def in altar.Rituals)
-            {
-                return def;
-            }
-
-            return null;
+            altar.SetSelectedRitual(selected, selectedRune, selectedNode, selectedEquipment,
+                selectedBookSlot, selectedRuin?.quest);
         }
 
         public override void DoWindowContents(Rect inRect)
@@ -101,10 +102,13 @@ namespace WhisperOfTheForest.Rituals
             Widgets.BeginScrollView(body, ref scroll, new Rect(0f, 0f, body.width - 16f, viewHeight));
             float y = 0f;
             y = DrawPicker(y);
-            y = DrawFormation(y, found);
-            y = DrawCosts(y, found);
-            y = DrawRoster(y, found);
-            y = DrawProblems(y, found);
+            if (selected != null)
+            {
+                y = DrawFormation(y, found);
+                y = DrawCosts(y, found);
+                y = DrawRoster(y, found);
+                y = DrawProblems(y, found);
+            }
             contentBottom = y;
             Widgets.EndScrollView();
             viewHeight = Mathf.Max(400f, contentBottom + 24f);
@@ -144,8 +148,10 @@ namespace WhisperOfTheForest.Rituals
         private float DrawPicker(float y)
         {
             y = Header(y, "WotF_Ritual_ChooseRitual".Translate());
+            bool anyRitual = false;
             foreach (RitualDef def in altar.Rituals)
             {
+                anyRitual = true;
                 if (Widgets.RadioButton(new Vector2(0f, y + 2f), def == selected) && selected != def)
                 {
                     selected = def;
@@ -154,6 +160,7 @@ namespace WhisperOfTheForest.Rituals
                     selectedRuin = null;
                     selectedEquipment = null;
                     selectedBookSlot = -1;
+                    SyncSelection();
                     dirty = true;
                 }
 
@@ -161,9 +168,14 @@ namespace WhisperOfTheForest.Rituals
                 y += 26f;
             }
 
-            if (selected == null)
+            if (!anyRitual)
             {
                 return Line(0f, y, "WotF_Ritual_NoneAvailable".Translate());
+            }
+
+            if (selected == null)
+            {
+                return Line(0f, y, "WotF_Ritual_NotSelected".Translate());
             }
 
             if (selected.chooseRune)
@@ -180,9 +192,10 @@ namespace WhisperOfTheForest.Rituals
                     }
 
                     anyRune = true;
-                    if (Widgets.RadioButton(new Vector2(0f, y + 2f), glyph == selectedRune))
+                    if (Widgets.RadioButton(new Vector2(0f, y + 2f), glyph == selectedRune) && selectedRune != glyph)
                     {
                         selectedRune = glyph;
+                        SyncSelection();
                         dirty = true;
                     }
 
@@ -211,9 +224,11 @@ namespace WhisperOfTheForest.Rituals
 
                     anyGate = true;
                     bool usable = gate.Running;
-                    if (Widgets.RadioButton(new Vector2(0f, y + 2f), building == selectedNode, !usable) && usable)
+                    if (Widgets.RadioButton(new Vector2(0f, y + 2f), building == selectedNode, !usable)
+                        && usable && selectedNode != building)
                     {
                         selectedNode = building;
+                        SyncSelection();
                         dirty = true;
                     }
 
@@ -237,9 +252,10 @@ namespace WhisperOfTheForest.Rituals
                 for (int i = 0; i < selected.ruinOptions.Count; i++)
                 {
                     RuinSeekOption option = selected.ruinOptions[i];
-                    if (Widgets.RadioButton(new Vector2(0f, y + 2f), option == selectedRuin))
+                    if (Widgets.RadioButton(new Vector2(0f, y + 2f), option == selectedRuin) && selectedRuin != option)
                     {
                         selectedRuin = option;
+                        SyncSelection();
                         dirty = true;
                     }
 
@@ -266,9 +282,10 @@ namespace WhisperOfTheForest.Rituals
             for (int i = 0; i < items.Count; i++)
             {
                 Thing item = items[i];
-                if (Widgets.RadioButton(new Vector2(0f, y + 2f), item == selectedEquipment))
+                if (Widgets.RadioButton(new Vector2(0f, y + 2f), item == selectedEquipment) && selectedEquipment != item)
                 {
                     selectedEquipment = item;
+                    SyncSelection();
                     dirty = true;
                 }
 
@@ -306,9 +323,10 @@ namespace WhisperOfTheForest.Rituals
                 anyPage = true;
                 bool disabled = !Equipment.CompEnchantedEquipment.AcceptsRecipe(recipe, out string reason);
                 if (Widgets.RadioButton(new Vector2(0f, y + 2f), slot == selectedBookSlot, disabled)
-                    && !disabled)
+                    && !disabled && selectedBookSlot != slot)
                 {
                     selectedBookSlot = slot;
+                    SyncSelection();
                     dirty = true;
                 }
 
@@ -396,6 +414,7 @@ namespace WhisperOfTheForest.Rituals
                     selectedHost = pawn;
                     selectedBookSlot = -1;
                     helpers.Remove(pawn);
+                    SyncSelection();
                     dirty = true;
                 }
 
@@ -548,9 +567,9 @@ namespace WhisperOfTheForest.Rituals
                 Def = selected,
                 Rune = selectedRune,
                 TeleportTarget = selectedNode,
-                RuinOption = selected.chooseRuinType ? selectedRuin : null,
-                Equipment = selected.chooseEquipment ? selectedEquipment : null,
-                BookSlot = selected.chooseEquipment ? selectedBookSlot : -1,
+                RuinOption = selected != null && selected.chooseRuinType ? selectedRuin : null,
+                Equipment = selected != null && selected.chooseEquipment ? selectedEquipment : null,
+                BookSlot = selected != null && selected.chooseEquipment ? selectedBookSlot : -1,
                 Host = selectedHost
             };
             var list = new List<Pawn>();
