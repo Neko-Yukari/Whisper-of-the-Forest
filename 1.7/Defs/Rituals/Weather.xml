@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <WhisperOfTheForest.Rituals.RitualDef>
+    <defName>WotF_Ritual_ClearSky</defName>
+    <tier>2</tier>
+    <family>Domain</family>
+    <label>rite of clear skies</label>
+    <description>The caster traces a green chalk ring and parts the clouds above the altar. Clear skies settle in after the rite and last until the weather turns on its own.</description>
+    <ringSize>5</ringSize>
+    <chalkColor>Green</chalkColor>
+    <manaCost>100</manaCost>
+    <durationTicks>600</durationTicks>
+    <effectRadius>12.9</effectRadius>
+    <weatherDef>Clear</weatherDef>
+    <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_Weather</effectWorkerClass>
+  </WhisperOfTheForest.Rituals.RitualDef>
+
+  <WhisperOfTheForest.Rituals.RitualDef>
     <defName>WotF_Ritual_RainCall</defName>
     <tier>2</tier>
     <family>Domain</family>
@@ -16,17 +31,16 @@
   </WhisperOfTheForest.Rituals.RitualDef>
 
   <WhisperOfTheForest.Rituals.RitualDef>
-    <defName>WotF_Ritual_SkyWrath</defName>
+    <defName>WotF_Ritual_Thunderstorm</defName>
     <tier>3</tier>
     <family>Domain</family>
-    <label>rite of sky wrath</label>
-    <description>The caster traces a star chalk ring and calls a thunderstorm down on the altar. The storm settles in after the rite and lasts until the weather turns on its own.</description>
+    <label>rite of thunderstorm</label>
+    <description>The caster traces a star chalk ring and calls a thunderstorm down over the altar. The storm settles in after the rite and lasts until the weather turns on its own.</description>
     <ringSize>7</ringSize>
     <chalkColor>Star</chalkColor>
-    <manaCost>300</manaCost>
-    <durationTicks>900</durationTicks>
+    <manaCost>180</manaCost>
+    <durationTicks>600</durationTicks>
     <effectRadius>12.9</effectRadius>
-    <minParticipants>1</minParticipants>
     <weatherDef>RainyThunderstorm</weatherDef>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_Weather</effectWorkerClass>
   </WhisperOfTheForest.Rituals.RitualDef>

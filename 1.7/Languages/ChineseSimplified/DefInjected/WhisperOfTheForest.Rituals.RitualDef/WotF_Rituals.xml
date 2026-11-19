@@ -19,10 +19,14 @@
   <WotF_Ritual_TransmuteStarChalk.description>主持者在祭坛周围画下翠叶粉笔环，把白垩粉笔、白银与翡翠炼成星辉粉笔。5 支白垩粉笔、10 份白银和 10 份翡翠会变成 5 支星辉粉笔。</WotF_Ritual_TransmuteStarChalk.description>
   <WotF_Ritual_TransmuteComponent.label>点化：零部件</WotF_Ritual_TransmuteComponent.label>
   <WotF_Ritual_TransmuteComponent.description>主持者在祭坛周围画下翠叶粉笔环，把钢铁与草药炼成工业零部件。30 份钢铁和 15 份草药会变成 1 个工业零部件。</WotF_Ritual_TransmuteComponent.description>
+  <WotF_Ritual_ClearSky.label>祈晴</WotF_Ritual_ClearSky.label>
+  <WotF_Ritual_ClearSky.description>主持者在祭坛周围画下翠叶粉笔环，驱散阴霾与雨雾，唤来晴朗天空。仪式结束后，晴空会接管当地天气，直到天候自行转变。</WotF_Ritual_ClearSky.description>
   <WotF_Ritual_RainCall.label>祈雨</WotF_Ritual_RainCall.label>
   <WotF_Ritual_RainCall.description>主持者在祭坛周围画下翠叶粉笔环，向天空求来一场细雨。仪式结束后，雨水会接管当地天气，直到天候自行转变。</WotF_Ritual_RainCall.description>
+  <WotF_Ritual_Thunderstorm.label>召雷暴</WotF_Ritual_Thunderstorm.label>
+  <WotF_Ritual_Thunderstorm.description>主持者在祭坛周围画下星辉粉笔环，把雷暴雨召到祭坛上空。仪式结束后，雷雨会接管当地天气，直到天候自行转变。</WotF_Ritual_Thunderstorm.description>
   <WotF_Ritual_SkyWrath.label>天怒</WotF_Ritual_SkyWrath.label>
-  <WotF_Ritual_SkyWrath.description>主持者在祭坛周围画下星辉粉笔环，把雷暴召到祭坛上空。仪式结束后，雷雨会接管当地天气，直到天候自行转变。</WotF_Ritual_SkyWrath.description>
+  <WotF_Ritual_SkyWrath.description>主持者在祭坛周围画下星辉粉笔环，持续引落雷电劈向离祭坛最近的露天敌人，直到手动停止、主持人倒地昏迷或网络魔源耗尽。仪式强度越高，落雷越密集；收容中的异象实体、囚犯与建筑不会成为目标。</WotF_Ritual_SkyWrath.description>
   <WotF_Ritual_ShieldDome.label>古树护盾</WotF_Ritual_ShieldDome.label>
   <WotF_Ritual_ShieldDome.description>主持者在祭坛周围画下翠叶粉笔环，唤醒祭坛里沉睡的古老守护。半径 12.9 格内会升起一层活着的护盾，挡下来袭的投射物，直到护盾耗尽或一天后自行消散。</WotF_Ritual_ShieldDome.description>
   <WotF_Ritual_LeylineMining.label>地脉汲矿</WotF_Ritual_LeylineMining.label>

@@ -54,10 +54,19 @@ namespace WhisperOfTheForest.Rituals
         public int ringSize = 3;
         public ChalkColor chalkColor = ChalkColor.White;
         public float manaCost;
+        public bool sustained;
+        public float manaPerSecond;
         public int durationTicks;
         public float workAmount;
         public float effectRadius = 12.9f;
         public float manaRestore;
+        public float baseStrikesPerMinute;
+        public float minStrikeRadius;
+        public int strikeDamage;
+        public float strikeArmorPenetration;
+        public float strikeRadius;
+        public float strikeIntervalJitter;
+        public int idleScanIntervalTicks;
 
         public SimpleCurve strengthSpeedFactor;
         public SimpleCurve strengthRadiusFactor;
@@ -172,6 +181,11 @@ namespace WhisperOfTheForest.Rituals
             return strengthEffectFactor == null ? 1f : strengthEffectFactor.Evaluate(ritualStrength);
         }
 
+        public float StrikesPerMinuteFor(float ritualStrength)
+        {
+            return baseStrikesPerMinute * EffectFactorFor(ritualStrength);
+        }
+
         private static bool AltarHasShieldComp()
         {
             ThingDef altar = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_RitualAltar");
@@ -205,6 +219,34 @@ namespace WhisperOfTheForest.Rituals
             if (manaCost < 0f)
             {
                 yield return defName + " manaCost must not be negative.";
+            }
+
+            if (manaPerSecond < 0f)
+            {
+                yield return defName + " manaPerSecond must not be negative.";
+            }
+
+            if (sustained)
+            {
+                if (UsesWork)
+                {
+                    yield return defName + " is sustained and must use durationTicks, not workAmount.";
+                }
+
+                if (manaPerSecond <= 0f)
+                {
+                    yield return defName + " is sustained and must declare a positive manaPerSecond.";
+                }
+
+                if (autoRepeatable || outputProducts != null || chooseRune || chooseTeleportTarget
+                    || chooseRuinType || chooseEquipment || requiresDeepResources)
+                {
+                    yield return defName + " is sustained and cannot combine with production or target-picking flags.";
+                }
+            }
+            else if (manaPerSecond > 0f)
+            {
+                yield return defName + " sets manaPerSecond but is not sustained.";
             }
 
             if (workAmount < 0f)
@@ -433,6 +475,56 @@ namespace WhisperOfTheForest.Rituals
                 && weatherDef == null)
             {
                 yield return defName + " uses RitualEffect_Weather but has no weatherDef.";
+            }
+
+            if (effectWorkerClass != null
+                && typeof(RitualEffect_SkyWrath).IsAssignableFrom(effectWorkerClass))
+            {
+                if (!sustained)
+                {
+                    yield return defName + " uses RitualEffect_SkyWrath and must set sustained=true.";
+                }
+
+                if (baseStrikesPerMinute <= 0f)
+                {
+                    yield return defName + " uses RitualEffect_SkyWrath and needs a positive baseStrikesPerMinute.";
+                }
+
+                if (minStrikeRadius < 0f)
+                {
+                    yield return defName + " minStrikeRadius must not be negative.";
+                }
+
+                if (strikeDamage <= 0)
+                {
+                    yield return defName + " uses RitualEffect_SkyWrath and needs a positive strikeDamage.";
+                }
+
+                if (strikeArmorPenetration < 0f)
+                {
+                    yield return defName + " strikeArmorPenetration must not be negative.";
+                }
+
+                if (strikeRadius <= 0f)
+                {
+                    yield return defName + " uses RitualEffect_SkyWrath and needs a positive strikeRadius.";
+                }
+
+                if (strikeIntervalJitter < 0f || strikeIntervalJitter >= 1f)
+                {
+                    yield return defName + " strikeIntervalJitter must be in [0, 1).";
+                }
+
+                if (idleScanIntervalTicks <= 0)
+                {
+                    yield return defName + " uses RitualEffect_SkyWrath and needs a positive idleScanIntervalTicks.";
+                }
+            }
+            else if (baseStrikesPerMinute != 0f || minStrikeRadius != 0f || strikeDamage != 0
+                || strikeArmorPenetration != 0f || strikeRadius != 0f || strikeIntervalJitter != 0f
+                || idleScanIntervalTicks != 0)
+            {
+                yield return defName + " sets sky-wrath strike fields without using RitualEffect_SkyWrath.";
             }
 
             if (effectWorkerClass != null

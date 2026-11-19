@@ -58,6 +58,16 @@ namespace WhisperOfTheForest.Rituals
     /// Hosting is a separate step: any rite whose Assess passes may start, and for a rite with offerings
     /// that means they are all inside, not that it is the prepared one.
     /// </summary>
+    public enum SustainedEndReason
+    {
+        StoppedByPlayer,
+        HostLost,
+        ManaDepleted,
+        HelpersLost,
+        RingBroken,
+        Despawned
+    }
+
     public class CompRitualAltar : ThingComp, IThingHolder
     {
         private Pawn activeHost;
@@ -76,6 +86,7 @@ namespace WhisperOfTheForest.Rituals
         private float activeWorkAmount;
         private int activeDurationTicks;
         private float activeProgress;
+        private int sustainedTicksLeft;
 
         private List<Pawn> activeHelpers = new List<Pawn>();
         private List<RitualStation> stations = new List<RitualStation>();
@@ -114,6 +125,9 @@ namespace WhisperOfTheForest.Rituals
         public float ActiveProgressTotal => activeWorkAmount > 0f ? activeWorkAmount : activeDurationTicks;
         public float ActiveProgressFraction => ActiveProgressTotal > 0f
             ? Math.Min(1f, Math.Max(0f, activeProgress / ActiveProgressTotal))
+            : 0f;
+        public float ActiveStrikesPerMinute => activeDef != null && activeDef.baseStrikesPerMinute > 0f
+            ? activeDef.StrikesPerMinuteFor(activeRitualStrength)
             : 0f;
 
         public float ResonanceStrength => parent.GetComp<CompAffectedByFacilities>()?.GetStatOffset(Props.resonanceStrengthStat) ?? 0f;
@@ -342,7 +356,14 @@ namespace WhisperOfTheForest.Rituals
             bool fedFromContainer = !IsActive || IsPreparedFor(activeDef, activeRune);
             if (IsActive)
             {
-                CancelRitual(null);
+                if (phase == RitualPhase.Sustaining)
+                {
+                    StopSustainedRitual(SustainedEndReason.StoppedByPlayer);
+                }
+                else
+                {
+                    CancelRitual(null);
+                }
             }
 
             if (!fedFromContainer || collectDef == null)
@@ -410,6 +431,15 @@ namespace WhisperOfTheForest.Rituals
             // As CompThingContainer.PostDeSpawn: a demolished or destroyed altar leaves its offerings on the ground.
             if (mode != DestroyMode.WillReplace)
             {
+                if (phase == RitualPhase.Sustaining)
+                {
+                    StopSustainedRitual(SustainedEndReason.Despawned);
+                }
+                else if (IsActive)
+                {
+                    ClearRitualState();
+                }
+
                 offerings.TryDropAll(parent.Position, map, ThingPlaceMode.Near);
                 collectDef = null;
                 collectRune = null;
@@ -450,6 +480,7 @@ namespace WhisperOfTheForest.Rituals
             Scribe_Values.Look(ref activeWorkAmount, "ritualWorkAmount", 0f);
             Scribe_Values.Look(ref activeDurationTicks, "ritualDurationTicks", 0);
             Scribe_Values.Look(ref activeProgress, "ritualProgress", 0f);
+            Scribe_Values.Look(ref sustainedTicksLeft, "ritualSustainedTicksLeft", 0);
             Scribe_Collections.Look(ref activeHelpers, "ritualHelpers", LookMode.Reference);
             Scribe_Collections.Look(ref stations, "ritualStations", LookMode.Deep);
             stations ??= new List<RitualStation>();
@@ -517,6 +548,7 @@ namespace WhisperOfTheForest.Rituals
             // are still there. Otherwise the rite ends here, with nothing spent, and the host's job fails
             // on its own because IsHost turns false. The offerings stay in the container.
             if (activeHost == null || activeHost.Dead || !activeHost.Spawned
+                || (phase == RitualPhase.Sustaining && !activeDef.sustained)
                 || (activeDef.chooseRune && activeRune == null)
                 || (activeDef.chooseTeleportTarget && activeTeleportTarget == null)
                 || (activeDef.chooseEquipment && (activeEquipment == null || activeBookSlot < 0))
@@ -555,14 +587,34 @@ namespace WhisperOfTheForest.Rituals
             if (activeHost == null || activeHost.Dead || !activeHost.Spawned
                 || !HasRitualJob(activeHost, RitualJobDef))
             {
-                CancelRitual(null);
+                if (phase == RitualPhase.Sustaining)
+                {
+                    SustainedEndReason reason = activeHost == null || activeHost.Dead || !activeHost.Spawned
+                        || activeHost.Downed || activeHost.InMentalState
+                        ? SustainedEndReason.HostLost
+                        : SustainedEndReason.StoppedByPlayer;
+                    StopSustainedRitual(reason);
+                }
+                else
+                {
+                    CancelRitual(null);
+                }
+
                 return;
             }
 
             PruneLostHelpers();
             if (activeHelpers.Count < activeDef.minParticipants)
             {
-                CancelRitual(null);
+                if (phase == RitualPhase.Sustaining)
+                {
+                    StopSustainedRitual(SustainedEndReason.HelpersLost);
+                }
+                else
+                {
+                    CancelRitual(null);
+                }
+
                 return;
             }
 
@@ -629,7 +681,17 @@ namespace WhisperOfTheForest.Rituals
         /// </summary>
         public bool TickChant(Pawn host)
         {
-            if (activeDef == null || activeHost != host || phase != RitualPhase.Chanting)
+            if (activeDef == null || activeHost != host)
+            {
+                return false;
+            }
+
+            if (phase == RitualPhase.Sustaining)
+            {
+                return true;
+            }
+
+            if (phase != RitualPhase.Chanting)
             {
                 return false;
             }
@@ -658,7 +720,7 @@ namespace WhisperOfTheForest.Rituals
                 return false;
             }
 
-            if (phase == RitualPhase.Chanting)
+            if (phase == RitualPhase.Chanting || phase == RitualPhase.Sustaining)
             {
                 return true;
             }
@@ -724,6 +786,16 @@ namespace WhisperOfTheForest.Rituals
                 if (phase == RitualPhase.Gathering)
                 {
                     text += "\n" + "WotF_Ritual_InspectGathering".Translate();
+                }
+                else if (phase == RitualPhase.Sustaining)
+                {
+                    text += "\n" + string.Format("WotF_Ritual_InspectSustaining".Translate(),
+                        activeDef.manaPerSecond.ToString("0.#"));
+                    if (ActiveStrikesPerMinute > 0f)
+                    {
+                        text += "\n" + string.Format("WotF_Ritual_StrikeRate".Translate(),
+                            ActiveStrikesPerMinute.ToString("0.#"));
+                    }
                 }
 
                 if (activeDef.chooseRune && activeRune != null)
@@ -1000,6 +1072,7 @@ namespace WhisperOfTheForest.Rituals
             activeWorkAmount = assessment.WorkAmount;
             activeDurationTicks = assessment.DurationTicks;
             activeProgress = 0f;
+            sustainedTicksLeft = 0;
             if (TryGetStation(activeHost, out IntVec3 hostCell))
             {
                 job.targetB = hostCell;
@@ -1170,11 +1243,189 @@ namespace WhisperOfTheForest.Rituals
                 + " by " + host.LabelShort + " participants=" + participants + " ritualStrength=" + ritualStrength);
         }
 
-        /// <summary>The host's job ended while the rite was still running: nothing is charged.</summary>
+        /// <summary>
+        /// Settles startup costs when a sustained ritual's opening chant completes, then transitions
+        /// the altar into <see cref="RitualPhase.Sustaining"/> until cancelled or interrupted.
+        /// </summary>
+        public void BeginSustainedRitual(Pawn host)
+        {
+            if (activeDef == null || activeHost != host || phase == RitualPhase.Sustaining)
+            {
+                return;
+            }
+
+            if (!parent.Spawned)
+            {
+                CancelRitual(host);
+                return;
+            }
+
+            List<OfferingLine> ledger = Ledger(activeDef, activeRune);
+            if (HasMissing(ledger))
+            {
+                FailRitual(string.Format("WotF_Ritual_Complete_OfferingsGone".Translate(), MissingText(ledger)));
+                return;
+            }
+
+            float requiredMana = activeManaCost > 0f ? activeManaCost : activeDef.manaPerSecond;
+            ManaNetwork network = Network();
+            if (network == null || network.Stored + 0.0001f < requiredMana)
+            {
+                FailRitual(string.Format("WotF_Ritual_Complete_NoMana".Translate(),
+                    requiredMana.ToString("0.#"), (network == null ? 0f : network.Stored).ToString("0.#")));
+                return;
+            }
+
+            network.TryDraw(activeManaCost);
+            ConsumeOfferings(activeDef, activeRune);
+            if (IsPreparedFor(activeDef, activeRune))
+            {
+                collectDef = null;
+                collectRune = null;
+            }
+
+            activeRitualStrength = RitualStrengthOf(activeHost, activeHelpers);
+            phase = RitualPhase.Sustaining;
+            sustainedTicksLeft = activeDef.EffectWorker.InitialSustainedDelayTicks(activeDef, activeRitualStrength);
+            Messages.Message(
+                string.Format("WotF_Ritual_Sustained_Started".Translate(), activeDef.LabelCap),
+                parent,
+                MessageTypeDefOf.PositiveEvent,
+                false);
+            WotfLog.Info(WotfLog.ModuleRitual,
+                "sustaining " + activeDef.defName + " by " + host.LabelShort
+                + " participants=" + activeHelpers.Count + " ritualStrength=" + activeRitualStrength
+                + " at " + parent.Position);
+        }
+
+        public void TickSustainedRitual(Pawn host)
+        {
+            if (activeDef == null || activeHost != host || phase != RitualPhase.Sustaining)
+            {
+                return;
+            }
+
+            if (!parent.Spawned)
+            {
+                StopSustainedRitual(SustainedEndReason.Despawned);
+                return;
+            }
+
+            if (host == null || host.Dead || !host.Spawned || host.Downed || host.InMentalState || host.Drafted)
+            {
+                SustainedEndReason reason = host != null && host.Drafted
+                    && !host.Dead && host.Spawned && !host.Downed && !host.InMentalState
+                    ? SustainedEndReason.StoppedByPlayer
+                    : SustainedEndReason.HostLost;
+                StopSustainedRitual(reason);
+                return;
+            }
+
+            ManaNetwork network = Network();
+            if (network == null || !network.TryDraw(activeDef.manaPerSecond / GenTicks.TicksPerRealSecond))
+            {
+                StopSustainedRitual(SustainedEndReason.ManaDepleted);
+                return;
+            }
+
+            if (parent.IsHashIntervalTick(GenTicks.TicksPerRealSecond))
+            {
+                PruneLostHelpers();
+                if (activeHelpers.Count < activeDef.minParticipants)
+                {
+                    StopSustainedRitual(SustainedEndReason.HelpersLost);
+                    return;
+                }
+
+                if (RitualRing.MissingCells(parent.Map, parent.Position, activeRingSize, activeChalkColor).Count > 0)
+                {
+                    StopSustainedRitual(SustainedEndReason.RingBroken);
+                    return;
+                }
+
+                activeRitualStrength = RitualStrengthOf(activeHost, activeHelpers);
+            }
+
+            if (sustainedTicksLeft > 0)
+            {
+                sustainedTicksLeft--;
+                return;
+            }
+
+            PruneLostHelpers();
+            if (activeHelpers.Count < activeDef.minParticipants)
+            {
+                StopSustainedRitual(SustainedEndReason.HelpersLost);
+                return;
+            }
+
+            if (RitualRing.MissingCells(parent.Map, parent.Position, activeRingSize, activeChalkColor).Count > 0)
+            {
+                StopSustainedRitual(SustainedEndReason.RingBroken);
+                return;
+            }
+
+            activeRitualStrength = RitualStrengthOf(activeHost, activeHelpers);
+            sustainedTicksLeft = activeDef.EffectWorker.SustainedTick(
+                (Building)parent, host, activeDef, activeRitualStrength);
+        }
+
+        public void StopSustainedRitual(SustainedEndReason reason)
+        {
+            if (activeDef == null)
+            {
+                return;
+            }
+
+            RitualDef def = activeDef;
+            def.EffectWorker.OnSustainedEnd((Building)parent, def);
+            ClearRitualState();
+            WotfLog.Info(WotfLog.ModuleRitual, "sustained ritual " + def.defName + " ended (" + reason + ") at " + parent.Position);
+            if (reason == SustainedEndReason.Despawned)
+            {
+                return;
+            }
+
+            string key;
+            MessageTypeDef messageType = MessageTypeDefOf.NegativeEvent;
+            switch (reason)
+            {
+                case SustainedEndReason.StoppedByPlayer:
+                    key = "WotF_Ritual_Sustained_Stopped";
+                    messageType = MessageTypeDefOf.NeutralEvent;
+                    break;
+                case SustainedEndReason.ManaDepleted:
+                    key = "WotF_Ritual_Sustained_ManaDepleted";
+                    break;
+                case SustainedEndReason.HelpersLost:
+                    key = "WotF_Ritual_Sustained_HelpersLost";
+                    break;
+                case SustainedEndReason.RingBroken:
+                    key = "WotF_Ritual_Sustained_RingBroken";
+                    break;
+                default:
+                    key = "WotF_Ritual_Sustained_HostLost";
+                    break;
+            }
+
+            LookTargets lookTarget = parent.Spawned ? new LookTargets(parent) : LookTargets.Invalid;
+            Messages.Message(string.Format(key.Translate(), def.LabelCap), lookTarget, messageType, false);
+        }
+
+        /// <summary>The host's job ended while the rite was still running: nothing is charged before sustaining.</summary>
         public void NotifyHostJobEnded(Pawn host)
         {
             if (activeDef == null || activeHost != host)
             {
+                return;
+            }
+
+            if (phase == RitualPhase.Sustaining)
+            {
+                SustainedEndReason reason = host == null || host.Dead || !host.Spawned || host.Downed || host.InMentalState
+                    ? SustainedEndReason.HostLost
+                    : SustainedEndReason.StoppedByPlayer;
+                StopSustainedRitual(reason);
                 return;
             }
 
@@ -1220,6 +1471,7 @@ namespace WhisperOfTheForest.Rituals
             activeWorkAmount = 0f;
             activeDurationTicks = 0;
             activeProgress = 0f;
+            sustainedTicksLeft = 0;
             activeHelpers = new List<Pawn>();
             stations = new List<RitualStation>();
         }
@@ -1278,6 +1530,7 @@ namespace WhisperOfTheForest.Rituals
             result.RingSize = def.ringSize;
             result.ChalkColor = def.chalkColor;
             result.ManaCost = def.manaCost;
+            result.ManaPerSecond = def.manaPerSecond;
             result.WorkAmount = def.workAmount;
             result.DurationTicks = def.durationTicks;
 
@@ -1571,7 +1824,8 @@ namespace WhisperOfTheForest.Rituals
 
             ManaNetwork network = Network();
             result.ManaStored = network == null ? 0f : network.Stored;
-            result.ManaEnough = network != null && result.ManaStored + 0.0001f >= result.ManaCost;
+            float requiredMana = def.sustained && result.ManaCost <= 0f ? def.manaPerSecond : result.ManaCost;
+            result.ManaEnough = network != null && result.ManaStored + 0.0001f >= requiredMana;
             if (!result.ManaEnough)
             {
                 result.Problems.Add("WotF_Ritual_NoMana".Translate());

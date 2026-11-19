@@ -61,7 +61,34 @@ namespace WhisperOfTheForest.Rituals
             yield return Toils_Goto.GotoCell(StationInd, PathEndMode.OnCell);
             yield return Gather(altar);
             yield return Chant(altar);
-            yield return Toils_General.Do(delegate { altar.CompleteRitual(pawn); });
+            if (altar.ActiveDef.sustained)
+            {
+                yield return Toils_General.Do(delegate { altar.BeginSustainedRitual(pawn); });
+                yield return Sustain(altar);
+            }
+            else
+            {
+                yield return Toils_General.Do(delegate { altar.CompleteRitual(pawn); });
+            }
+        }
+
+        private Toil Sustain(CompRitualAltar altar)
+        {
+            Toil toil = ToilMaker.MakeToil("RitualSustain");
+            toil.initAction = delegate
+            {
+                pawn.pather.StopDead();
+                pawn.rotationTracker.FaceTarget(job.targetA);
+            };
+            toil.handlingFacing = true;
+            toil.defaultCompleteMode = ToilCompleteMode.Never;
+            toil.tickAction = delegate
+            {
+                pawn.rotationTracker.FaceTarget(job.targetA);
+                altar.TickSustainedRitual(pawn);
+            };
+            toil.FailOnDespawnedOrNull(AltarInd);
+            return toil;
         }
 
         private Toil Chant(CompRitualAltar altar)
