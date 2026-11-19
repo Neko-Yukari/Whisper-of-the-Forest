@@ -11,8 +11,14 @@ namespace WhisperOfTheForest.Rituals
     /// </summary>
     public sealed class RitualEffect_ManaSpring : RitualEffectWorker
     {
+        public static float ManaRestoreFor(RitualDef def, float ritualStrength)
+        {
+            return def.manaRestore * def.EffectFactorFor(ritualStrength);
+        }
+
         public override void Apply(RitualContext context)
         {
+            float amount = ManaRestoreFor(context.Def, context.RitualStrength);
             int restored = 0;
             foreach (Pawn pawn in context.Map.mapPawns.AllPawnsSpawned)
             {
@@ -28,7 +34,7 @@ namespace WhisperOfTheForest.Rituals
                 }
 
                 float before = gene.CurrentMana;
-                gene.OffsetMana(context.Def.manaRestore * context.EffectFactor);
+                gene.OffsetMana(amount);
                 if (gene.CurrentMana > before)
                 {
                     restored++;

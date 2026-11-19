@@ -41,6 +41,11 @@ namespace WhisperOfTheForest.Rituals
 
         public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
         {
+            if (pawn.Drafted)
+            {
+                return false;
+            }
+
             CompRitualAltar altar = t.TryGetComp<CompRitualAltar>();
             if (altar == null || altar.AutoRitual == null || !altar.AutoRitual.IsResearchFinished || altar.IsActive)
             {

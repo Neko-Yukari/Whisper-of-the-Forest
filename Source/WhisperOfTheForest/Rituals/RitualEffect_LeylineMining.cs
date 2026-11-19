@@ -14,9 +14,15 @@ namespace WhisperOfTheForest.Rituals
     {
         private const int DefaultPortion = 20;
 
+        public static float YieldFactorFor(RitualDef def, float ritualStrength)
+        {
+            return def.EffectFactorFor(ritualStrength);
+        }
+
         public override void Apply(RitualContext context)
         {
             List<ThingDef> resources = DeepResources(context.Map, context.Altar.Position, context.EffectRadius);
+            float yieldFactor = YieldFactorFor(context.Def, context.RitualStrength);
             int yieldedTypes = 0;
             int total = 0;
             foreach (ThingDef resource in resources)
@@ -27,7 +33,7 @@ namespace WhisperOfTheForest.Rituals
                 }
 
                 int portion = resource.deepCountPerPortion > 0 ? resource.deepCountPerPortion : DefaultPortion;
-                portion = UnityEngine.Mathf.CeilToInt(portion * context.EffectFactor);
+                portion = UnityEngine.Mathf.CeilToInt(portion * yieldFactor);
                 int taken = TakeFromGrid(context.Map, context.Altar.Position, context.EffectRadius, resource, portion);
                 if (taken <= 0)
                 {

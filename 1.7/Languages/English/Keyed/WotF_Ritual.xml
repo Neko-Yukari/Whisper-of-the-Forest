@@ -18,15 +18,14 @@
   <WotF_Ritual_AlreadyRunning>{0} is already in progress.</WotF_Ritual_AlreadyRunning>
   <WotF_Ritual_NoCaster>No bloodline member is available to host the ritual.</WotF_Ritual_NoCaster>
   <WotF_Ritual_ChooseHost>Choose a host.</WotF_Ritual_ChooseHost>
-  <WotF_Ritual_Drafted>The host cannot be drafted.</WotF_Ritual_Drafted>
   <WotF_Ritual_CannotAct>{0} cannot perform a ritual right now.</WotF_Ritual_CannotAct>
   <WotF_Ritual_Casting>{0} is casting a spell and cannot host a ritual.</WotF_Ritual_Casting>
   <WotF_Ritual_NoBloodline>{0} has no forest bloodline and cannot perform the ritual.</WotF_Ritual_NoBloodline>
+  <WotF_Ritual_MinStrengthRequired>Ritual strength {1} is below the required {0}.</WotF_Ritual_MinStrengthRequired>
   <WotF_Ritual_RingComplete>The chalk ring is complete.</WotF_Ritual_RingComplete>
   <WotF_Ritual_RingIncomplete>The chalk ring is incomplete: {0} marks are missing.</WotF_Ritual_RingIncomplete>
   <WotF_Ritual_NoMana>The altar is not connected to a mana network, or the network has too little mana.</WotF_Ritual_NoMana>
   <WotF_Ritual_ManaSpring_Done>The mana spring is restored: {0} members recovered mana.</WotF_Ritual_ManaSpring_Done>
-  <WotF_Ritual_HealingPool>Life pool: {0}</WotF_Ritual_HealingPool>
   <WotF_Ritual_Healing_AllDone>Rite of mending complete: healed {1} conditions across {0} colonists; everyone in range is whole (life pool {2} / {3}).</WotF_Ritual_Healing_AllDone>
   <WotF_Ritual_Healing_PoolSpent>Rite of mending complete: cured {1} conditions across {0} colonists (life pool {2} / {3} spent; further conditions remain).</WotF_Ritual_Healing_PoolSpent>
   <WotF_Ritual_Healing_PartialDone>Rite of mending complete: cured {1} and partially eased {2} conditions across {0} colonists (life pool {3} / {4} spent).</WotF_Ritual_Healing_PartialDone>
@@ -48,7 +47,6 @@
   <WotF_Ritual_Weather_Done>{0} settles in: {1}.</WotF_Ritual_Weather_Done>
   <WotF_Ritual_ShieldDome_Done>The grove shield closes over the altar ({0} charges).</WotF_Ritual_ShieldDome_Done>
   <WotF_Ritual_InspectShield>Grove shield: {0} / {1} charges ({2})</WotF_Ritual_InspectShield>
-  <WotF_Ritual_ShieldCharges>Shield charges: {0}</WotF_Ritual_ShieldCharges>
   <WotF_Ritual_LeylineMining_Done>The leyline yields {0} units of ore.</WotF_Ritual_LeylineMining_Done>
   <WotF_Ritual_LeylineMining_NoResource>No deep resource lies beneath the altar.</WotF_Ritual_LeylineMining_NoResource>
   <WotF_Ritual_LeylineMining_NoRoom>There is no room beside the altar for the ore.</WotF_Ritual_LeylineMining_NoRoom>
@@ -64,15 +62,9 @@
   <WotF_ManaVial_NoBloodline>Only a forest-blooded pawn can drink a mana vial.</WotF_ManaVial_NoBloodline>
   <WotF_ManaVial_Full>That pawn's mana is already full.</WotF_ManaVial_Full>
   <WotF_Ritual_Participants>Helpers: {0}</WotF_Ritual_Participants>
-  <WotF_Ritual_ParticipantsHint>Chant strength equals host bloodline plus half of helpers' bloodline, amplified by resonance strength into ritual strength.</WotF_Ritual_ParticipantsHint>
-  <WotF_Ritual_MinParticipants>At least {0} bloodline helpers are required.</WotF_Ritual_MinParticipants>
   <WotF_Ritual_NeedsParticipants>This rite needs {0} bloodline helpers; {1} are chosen.</WotF_Ritual_NeedsParticipants>
   <WotF_Ritual_SpellbookUpgrade_Done>Spellbook upgrade complete: {0} lies beside the altar.</WotF_Ritual_SpellbookUpgrade_Done>
   <WotF_Ritual_SpellbookUpgrade_NoRoom>There is no room beside the altar for the upgraded spellbook.</WotF_Ritual_SpellbookUpgrade_NoRoom>
-  <WotF_Ritual_WorkRequirements>Tier {0} / {1}×{1} circle / {2} mana / {3} work</WotF_Ritual_WorkRequirements>
-  <WotF_Ritual_Chalk_White>white chalk</WotF_Ritual_Chalk_White>
-  <WotF_Ritual_Chalk_Green>green chalk</WotF_Ritual_Chalk_Green>
-  <WotF_Ritual_Chalk_Star>star chalk</WotF_Ritual_Chalk_Star>
 
   <!-- Altar buttons -->
   <WotF_Ritual_Gizmo_Host>Host a rite…</WotF_Ritual_Gizmo_Host>
@@ -80,46 +72,91 @@
   <WotF_Ritual_Gizmo_Auto>Auto-transmute</WotF_Ritual_Gizmo_Auto>
 
   <!-- Hosting panel -->
-  <WotF_Ritual_Begin>Begin the rite</WotF_Ritual_Begin>
-  <WotF_Ritual_Prepare>Prepare</WotF_Ritual_Prepare>
-  <WotF_Ritual_CancelPrepare>Cancel preparation</WotF_Ritual_CancelPrepare>
-  <WotF_Ritual_CancelButton>Cancel the rite</WotF_Ritual_CancelButton>
-  <WotF_Ritual_StopButton>Stop the rite</WotF_Ritual_StopButton>
-  <WotF_Ritual_ChooseRitual>Rite</WotF_Ritual_ChooseRitual>
-  <WotF_Ritual_NoneAvailable>This altar has no rite it can perform.</WotF_Ritual_NoneAvailable>
-  <WotF_Ritual_ChooseGate>Teleport gate</WotF_Ritual_ChooseGate>
-  <WotF_Ritual_SectionFormation>Circle</WotF_Ritual_SectionFormation>
-  <WotF_Ritual_SectionCost>Mana and offerings</WotF_Ritual_SectionCost>
-  <WotF_Ritual_SectionHost>Host</WotF_Ritual_SectionHost>
-  <WotF_Ritual_SectionHelpers>Helpers</WotF_Ritual_SectionHelpers>
-  <WotF_Ritual_SectionBlocked>Not ready yet</WotF_Ritual_SectionBlocked>
-  <WotF_Ritual_MissingCell>Missing cell at offset ({0}, {1})</WotF_Ritual_MissingCell>
-  <WotF_Ritual_MoreCells>{0} more cells are not listed.</WotF_Ritual_MoreCells>
-  <WotF_Ritual_ManaHave>Network mana {1} / needs {0}</WotF_Ritual_ManaHave>
-  <WotF_Ritual_ManaShort>Not enough network mana: {1} / needs {0}</WotF_Ritual_ManaShort>
-  <WotF_Ritual_ManaPerStrike>Per lightning strike: {0} network mana</WotF_Ritual_ManaPerStrike>
-  <WotF_Ritual_NoOfferings>This rite needs no offerings.</WotF_Ritual_NoOfferings>
-  <WotF_Ritual_Offering>Offering: {0} {1}/{2} delivered</WotF_Ritual_Offering>
-  <WotF_Ritual_Collecting>Collecting offerings for {0}.</WotF_Ritual_Collecting>
-  <WotF_Ritual_FeeAtEnd>These are taken only when the chant completes.</WotF_Ritual_FeeAtEnd>
-  <WotF_Ritual_RunningFeeNote>The mana and offerings are not yet spent; interrupting or cancelling costs nothing.</WotF_Ritual_RunningFeeNote>
-  <WotF_Ritual_SustainingFeeNote>Continues until stopped, the host cannot continue, or the mana network lacks mana for a strike.</WotF_Ritual_SustainingFeeNote>
+  <WotF_RitualPanel_Title>Host Ritual</WotF_RitualPanel_Title>
+  <WotF_RitualPanel_FamilyCrafting>Crafting</WotF_RitualPanel_FamilyCrafting>
+  <WotF_RitualPanel_FamilyLife>Life</WotF_RitualPanel_FamilyLife>
+  <WotF_RitualPanel_FamilyDomain>Domain</WotF_RitualPanel_FamilyDomain>
+  <WotF_RitualPanel_NoResearched>No rituals researched yet.</WotF_RitualPanel_NoResearched>
+  <WotF_RitualPanel_TierHeader>Tier {0}</WotF_RitualPanel_TierHeader>
+  <WotF_RitualPanel_BadgeRunning>Active</WotF_RitualPanel_BadgeRunning>
+  <WotF_RitualPanel_BadgeMissingMat>No mat.</WotF_RitualPanel_BadgeMissingMat>
+  <WotF_RitualPanel_BadgeCollecting>Hauling</WotF_RitualPanel_BadgeCollecting>
+  <WotF_RitualPanel_BadgeAuto>Auto</WotF_RitualPanel_BadgeAuto>
+  <WotF_RitualPanel_TierLockedTip>Requires {0} (Tier {1} altar).</WotF_RitualPanel_TierLockedTip>
+  <WotF_RitualPanel_MissingMatTip>Required offerings are currently short on this map.</WotF_RitualPanel_MissingMatTip>
+  <WotF_RitualPanel_AltarTierLabel>Altar tier</WotF_RitualPanel_AltarTierLabel>
+  <WotF_RitualPanel_AltarTierValue>{0} (T{1})</WotF_RitualPanel_AltarTierValue>
+  <WotF_RitualPanel_ResonanceLabel>Resonance F</WotF_RitualPanel_ResonanceLabel>
+  <WotF_RitualPanel_ResonanceValue>{0} (×{1})</WotF_RitualPanel_ResonanceValue>
+  <WotF_RitualPanel_TierCallout>T{0}</WotF_RitualPanel_TierCallout>
+  <WotF_RitualPanel_MinStrengthCallout>Need R ≥ {0}</WotF_RitualPanel_MinStrengthCallout>
+  <WotF_RitualPanel_AltarCellMark>A</WotF_RitualPanel_AltarCellMark>
+  <WotF_RitualPanel_RingTip>{0}×{1} {2} chalk circle</WotF_RitualPanel_RingTip>
+  <WotF_RitualPanel_ChalkWhite>White</WotF_RitualPanel_ChalkWhite>
+  <WotF_RitualPanel_ChalkGreen>Livingwood</WotF_RitualPanel_ChalkGreen>
+  <WotF_RitualPanel_ChalkStar>Starlight</WotF_RitualPanel_ChalkStar>
+  <WotF_RitualPanel_ManaLabel>Mana</WotF_RitualPanel_ManaLabel>
+  <WotF_RitualPanel_ManaPerStrikeLabel>Sustain</WotF_RitualPanel_ManaPerStrikeLabel>
+  <WotF_RitualPanel_PerStrike>{0}/strike</WotF_RitualPanel_PerStrike>
+  <WotF_RitualPanel_CostHeader>Cost:</WotF_RitualPanel_CostHeader>
+  <WotF_RitualPanel_PrepHeader>Prep progress:</WotF_RitualPanel_PrepHeader>
+  <WotF_RitualPanel_ManaTip>Network mana: {0} / needs {1}</WotF_RitualPanel_ManaTip>
+  <WotF_RitualPanel_CostMissingTip>Available on map &amp; altar: {0} / needs {1}</WotF_RitualPanel_CostMissingTip>
+  <WotF_RitualPanel_ParamHeader>Parameters</WotF_RitualPanel_ParamHeader>
+  <WotF_RitualPanel_PickRune>Choose rune…</WotF_RitualPanel_PickRune>
+  <WotF_RitualPanel_PickGate>Choose teleport gate…</WotF_RitualPanel_PickGate>
+  <WotF_RitualPanel_GateReady>Online</WotF_RitualPanel_GateReady>
+  <WotF_RitualPanel_PickRuin>Choose ruin type…</WotF_RitualPanel_PickRuin>
+  <WotF_RitualPanel_BookSlotPrefix>Page {0}</WotF_RitualPanel_BookSlotPrefix>
+  <WotF_RitualPanel_BookSlotSelected>Page {0}: {1}</WotF_RitualPanel_BookSlotSelected>
+  <WotF_RitualPanel_BookSlotEmpty>Empty</WotF_RitualPanel_BookSlotEmpty>
+  <WotF_RitualPanel_HostLabel>Host</WotF_RitualPanel_HostLabel>
+  <WotF_RitualPanel_HelperLabel>Helpers</WotF_RitualPanel_HelperLabel>
+  <WotF_RitualPanel_HelperHeaderMin>Helpers (min {0})</WotF_RitualPanel_HelperHeaderMin>
+  <WotF_RitualPanel_ChooseShort>Choose</WotF_RitualPanel_ChooseShort>
+  <WotF_RitualPanel_AddHelperShort>Add</WotF_RitualPanel_AddHelperShort>
+  <WotF_RitualPanel_LockedWhileRunning>Participants are locked while this ritual is active.</WotF_RitualPanel_LockedWhileRunning>
+  <WotF_RitualPanel_StrengthLabel>Ritual Strength R</WotF_RitualPanel_StrengthLabel>
+  <WotF_RitualPanel_SustainingActive>Active</WotF_RitualPanel_SustainingActive>
+  <WotF_RitualPanel_MetricWork>Work</WotF_RitualPanel_MetricWork>
+  <WotF_RitualPanel_MetricHealingPool>Life pool</WotF_RitualPanel_MetricHealingPool>
+  <WotF_RitualPanel_MetricManaRestore>Mana restored</WotF_RitualPanel_MetricManaRestore>
+  <WotF_RitualPanel_MetricRadius>Effect radius</WotF_RitualPanel_MetricRadius>
+  <WotF_RitualPanel_CellsUnit>{0} cells</WotF_RitualPanel_CellsUnit>
+  <WotF_RitualPanel_MetricYieldFactor>Yield multiplier</WotF_RitualPanel_MetricYieldFactor>
+  <WotF_RitualPanel_MetricTameChance>Tame chance</WotF_RitualPanel_MetricTameChance>
+  <WotF_RitualPanel_MetricStrikeRate>Strike rate</WotF_RitualPanel_MetricStrikeRate>
+  <WotF_RitualPanel_PerMinuteUnit>{0}/min</WotF_RitualPanel_PerMinuteUnit>
+  <WotF_RitualPanel_MetricShieldCharges>Shield charges</WotF_RitualPanel_MetricShieldCharges>
+  <WotF_RitualPanel_PhaseGathering>Gathering</WotF_RitualPanel_PhaseGathering>
+  <WotF_RitualPanel_PhaseChanting>Chanting</WotF_RitualPanel_PhaseChanting>
+  <WotF_RitualPanel_PhaseSustaining>Sustaining</WotF_RitualPanel_PhaseSustaining>
+  <WotF_RitualPanel_RunningBtn>Ritual in progress…</WotF_RitualPanel_RunningBtn>
+  <WotF_RitualPanel_PrepareBtn>Prepare</WotF_RitualPanel_PrepareBtn>
+  <WotF_RitualPanel_StartBtn>Start ritual</WotF_RitualPanel_StartBtn>
+  <WotF_RitualPanel_AbortBtn>Abort</WotF_RitualPanel_AbortBtn>
+  <WotF_RitualPanel_AbortActiveTip>Abort active ritual: {0}</WotF_RitualPanel_AbortActiveTip>
+  <WotF_RitualPanel_AbortPrepTip>Cancel preparation and drop collected offerings for {0}.</WotF_RitualPanel_AbortPrepTip>
+  <WotF_RitualPanel_AbortIdleTip>No active ritual or preparation to abort.</WotF_RitualPanel_AbortIdleTip>
+  <WotF_RitualPanel_AutoExecute>Auto-repeat</WotF_RitualPanel_AutoExecute>
+  <WotF_RitualPanel_PickHostTitle>Choose Host</WotF_RitualPanel_PickHostTitle>
+  <WotF_RitualPanel_PickHelperTitle>Choose Helpers</WotF_RitualPanel_PickHelperTitle>
+  <WotF_RitualPanel_TagIsHelper>Helper</WotF_RitualPanel_TagIsHelper>
+  <WotF_RitualPanel_TagIsHost>Host</WotF_RitualPanel_TagIsHost>
+  <WotF_RitualPanel_ChantLevelShort>Chant {0}</WotF_RitualPanel_ChantLevelShort>
+
+  <!-- Sustained end / roster / completion messages -->
   <WotF_Ritual_Sustained_Started>{0} is now channeling.</WotF_Ritual_Sustained_Started>
   <WotF_Ritual_Sustained_Stopped>{0} has ended.</WotF_Ritual_Sustained_Stopped>
   <WotF_Ritual_Sustained_HostLost>{0} ended because the host can no longer channel it.</WotF_Ritual_Sustained_HostLost>
   <WotF_Ritual_Sustained_ManaDepleted>{0} ended because the mana network ran dry.</WotF_Ritual_Sustained_ManaDepleted>
   <WotF_Ritual_Sustained_HelpersLost>{0} ended because too few helpers remain on the circle.</WotF_Ritual_Sustained_HelpersLost>
   <WotF_Ritual_Sustained_RingBroken>{0} ended because the chalk circle was broken.</WotF_Ritual_Sustained_RingBroken>
-  <WotF_Ritual_StrengthBreakdown>Ritual strength: {2} (chant strength {0}, resonance strength {1})</WotF_Ritual_StrengthBreakdown>
-  <WotF_Ritual_TierShort>tier {0}</WotF_Ritual_TierShort>
-  <WotF_Ritual_RingShort>{0}×{0} {1}</WotF_Ritual_RingShort>
   <WotF_Ritual_NoStandingCell>{0} cannot walk to a free place on the circle.</WotF_Ritual_NoStandingCell>
   <WotF_Ritual_HelperBusy>{0} cannot join this rite right now.</WotF_Ritual_HelperBusy>
   <WotF_Ritual_HelperDuplicate>{0} is chosen twice.</WotF_Ritual_HelperDuplicate>
-  <WotF_Ritual_HelperDrafted>Helper {0} is drafted.</WotF_Ritual_HelperDrafted>
   <WotF_Ritual_Complete_OfferingsGone>The altar was short of offerings when the chant completed: {0}. This rite spent no mana and no offerings.</WotF_Ritual_Complete_OfferingsGone>
   <WotF_Ritual_Complete_NoMana>The network was short of mana when the chant completed ({1} / needs {0}). This rite spent no mana and no offerings.</WotF_Ritual_Complete_NoMana>
-  <WotF_Ritual_CodexRing>{0}×{0} {1}</WotF_Ritual_CodexRing>
 
   <!-- Equipment inscription -->
   <WotF_Ritual_ChooseEquipment>Choose a weapon or a piece of armour beside the altar to inscribe.</WotF_Ritual_ChooseEquipment>

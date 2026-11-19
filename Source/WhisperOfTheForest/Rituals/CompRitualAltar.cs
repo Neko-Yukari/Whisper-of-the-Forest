@@ -180,7 +180,7 @@ namespace WhisperOfTheForest.Rituals
             selectedRuinQuest = null;
         }
 
-        private bool SupportsRitual(RitualDef def)
+        internal bool SupportsRitual(RitualDef def)
         {
             if (def == null || def.tier > Props.tier)
             {
@@ -200,6 +200,8 @@ namespace WhisperOfTheForest.Rituals
 
         /// <summary>The rite whose offerings the altar is collecting; null when nothing is prepared.</summary>
         public RitualDef CollectDef => collectDef;
+
+        public SpellGlyphDef CollectRune => collectRune;
 
         public string CollectLabel => collectDef == null ? null
             : collectRune == null ? (string)collectDef.LabelCap : collectDef.LabelCap + ": " + collectRune.LabelCap;
@@ -296,7 +298,7 @@ namespace WhisperOfTheForest.Rituals
         public void SetAutoRitual(RitualDef def)
         {
             RitualDef previous = autoRitual;
-            autoRitual = def != null && def.autoRepeatable && def.IsResearchFinished ? def : null;
+            autoRitual = def != null && def.autoRepeatable && def.IsResearchFinished && SupportsRitual(def) ? def : null;
             if (IsActive || autoRitual == previous)
             {
                 return;
@@ -315,7 +317,7 @@ namespace WhisperOfTheForest.Rituals
         /// <summary>Whether the panel's [准备] may collect for this rite: it has offerings and is not already collecting.</summary>
         public bool CanPrepare(RitualDef def, SpellGlyphDef rune)
         {
-            return def != null && def.IsResearchFinished && !IsActive && (!def.chooseRune || rune != null)
+            return SupportsRitual(def) && def.IsResearchFinished && !IsActive && (!def.chooseRune || rune != null)
                 && RitualCosts(def, rune).Count > 0 && !IsPreparedFor(def, rune);
         }
 
@@ -331,7 +333,7 @@ namespace WhisperOfTheForest.Rituals
 
         private void Prepare(RitualDef def, SpellGlyphDef rune, bool select)
         {
-            if (def == null || !def.IsResearchFinished)
+            if (!SupportsRitual(def) || !def.IsResearchFinished)
             {
                 return;
             }
@@ -967,6 +969,13 @@ namespace WhisperOfTheForest.Rituals
                 return false;
             }
 
+            if (request.Host.Drafted && request.Host.drafter != null)
+            {
+                // Vanilla Ideology undrafts participants right as the ritual begins (LordJob_Ritual.cs:271-274),
+                // and must run before TryTakeOrderedJob because Drafted=false clears queued/current jobs.
+                request.Host.drafter.Drafted = false;
+            }
+
             Job hostJob = JobMaker.MakeJob(RitualJobDef, parent);
             pendingOrder = request;
             pendingJobId = hostJob.loadID;
@@ -1099,6 +1108,12 @@ namespace WhisperOfTheForest.Rituals
             for (int i = 0; i < activeHelpers.Count; i++)
             {
                 Pawn helper = activeHelpers[i];
+                if (helper.Drafted && helper.drafter != null)
+                {
+                    // Same vanilla Ideology prepare rule for helpers (LordJob_Ritual.cs:271-274) before giving AssistJobDef.
+                    helper.drafter.Drafted = false;
+                }
+
                 Job helperJob = JobMaker.MakeJob(AssistJobDef, parent);
                 if (TryGetStation(helper, out IntVec3 cell))
                 {
@@ -1739,10 +1754,6 @@ namespace WhisperOfTheForest.Rituals
                 // missing piece is the choice, and only an empty roster means there is nobody to host.
                 result.Problems.Add((HasEligibleHostCandidate() ? "WotF_Ritual_ChooseHost" : "WotF_Ritual_NoCaster").Translate());
             }
-            else if (request.Host.Drafted)
-            {
-                result.Problems.Add("WotF_Ritual_Drafted".Translate());
-            }
             else if (!IsEligibleRitualCaster(request.Host, out string hostReason))
             {
                 result.Problems.Add(hostReason);
@@ -1771,11 +1782,7 @@ namespace WhisperOfTheForest.Rituals
                     continue;
                 }
 
-                if (helper.Drafted)
-                {
-                    result.Problems.Add("WotF_Ritual_HelperDrafted".Translate(helper.LabelShort));
-                }
-                else if (!IsEligibleRitualCaster(helper, out string helperReason))
+                if (!IsEligibleRitualCaster(helper, out string helperReason))
                 {
                     result.Problems.Add(helperReason);
                 }
@@ -1789,6 +1796,11 @@ namespace WhisperOfTheForest.Rituals
             result.ResonanceStrength = ResonanceStrength;
             result.ResonanceMultiplier = ResonanceMultiplier;
             result.RitualStrength = RitualStrengthFor(result.ChantStrength, result.ResonanceStrength, Props.resonanceStrengthScale);
+            if (request.Def.minRitualStrength > 0f && result.RitualStrength + 0.0001f < request.Def.minRitualStrength)
+            {
+                result.Problems.Add(string.Format("WotF_Ritual_MinStrengthRequired".Translate(),
+                    request.Def.minRitualStrength.ToString("0.#"), result.RitualStrength.ToString("0.00")));
+            }
         }
 
         /// <summary>
@@ -1946,7 +1958,7 @@ namespace WhisperOfTheForest.Rituals
             return string.Join(", ", parts);
         }
 
-        private static List<SpellGlyphCost> RitualCosts(RitualDef def, SpellGlyphDef rune)
+        internal static List<SpellGlyphCost> RitualCosts(RitualDef def, SpellGlyphDef rune)
         {
             var costs = new List<SpellGlyphCost>();
             if (def.inputCosts != null)

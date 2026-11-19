@@ -4,7 +4,4 @@
   <WotF_Ritual_ResearchRequired>Requires research: {0}.</WotF_Ritual_ResearchRequired>
   <WotF_Ritual_RitualStrength>Ritual strength: {0}</WotF_Ritual_RitualStrength>
   <WotF_Ritual_ResonanceStrength>Resonance strength: {0} (×{1})</WotF_Ritual_ResonanceStrength>
-  <WotF_Ritual_StrengthScaled>Effects increase with ritual strength.</WotF_Ritual_StrengthScaled>
-  <WotF_Ritual_StrengthSpeed>Progress speed increases with ritual strength.</WotF_Ritual_StrengthSpeed>
-  <WotF_Ritual_StrengthFixed>Fixed effect; no ritual strength bonus.</WotF_Ritual_StrengthFixed>
 </LanguageData>

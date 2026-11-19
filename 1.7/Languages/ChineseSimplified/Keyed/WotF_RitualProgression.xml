@@ -4,7 +4,4 @@
   <WotF_Ritual_ResearchRequired>需要先完成研究：{0}。</WotF_Ritual_ResearchRequired>
   <WotF_Ritual_RitualStrength>仪式强度：{0}</WotF_Ritual_RitualStrength>
   <WotF_Ritual_ResonanceStrength>共鸣强度：{0}（×{1}）</WotF_Ritual_ResonanceStrength>
-  <WotF_Ritual_StrengthScaled>效果随仪式强度提升。</WotF_Ritual_StrengthScaled>
-  <WotF_Ritual_StrengthSpeed>推进速度随仪式强度提升。</WotF_Ritual_StrengthSpeed>
-  <WotF_Ritual_StrengthFixed>固定效果，不受仪式强度加成。</WotF_Ritual_StrengthFixed>
 </LanguageData>

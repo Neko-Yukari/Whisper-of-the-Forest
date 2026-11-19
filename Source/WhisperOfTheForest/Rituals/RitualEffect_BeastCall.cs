@@ -10,6 +10,16 @@ namespace WhisperOfTheForest.Rituals
     /// </summary>
     public sealed class RitualEffect_BeastCall : RitualEffectWorker
     {
+        public static float TameChanceFor(RitualDef def, Pawn handler, float ritualStrength, float wildness)
+        {
+            int skill = handler?.skills?.GetSkill(SkillDefOf.Animals)?.Level ?? 0;
+            float raw = def.tameChanceBase
+                + def.tameChancePerSkill * skill
+                + def.tameChancePerStrength * ritualStrength
+                - def.tameWildnessFactor * wildness;
+            return Mathf.Clamp01(raw);
+        }
+
         public override void Apply(RitualContext context)
         {
             RitualDef def = context.Def;
@@ -29,11 +39,8 @@ namespace WhisperOfTheForest.Rituals
                 canGeneratePawnRelations: false));
             GenSpawn.Spawn(animal, cell, context.Map, WipeMode.Vanish);
 
-            int skill = context.Caster.skills?.GetSkill(SkillDefOf.Animals)?.Level ?? 0;
-            float chance = def.tameChanceBase
-                + def.tameChancePerSkill * skill
-                + def.tameChancePerStrength * context.RitualStrength
-                - def.tameWildnessFactor * animal.GetStatValue(StatDefOf.Wildness);
+            float chance = TameChanceFor(def, context.Caster, context.RitualStrength,
+                animal.GetStatValue(StatDefOf.Wildness));
             bool tamed = TryTame(context.Caster, animal, chance);
 
             Messages.Message(
