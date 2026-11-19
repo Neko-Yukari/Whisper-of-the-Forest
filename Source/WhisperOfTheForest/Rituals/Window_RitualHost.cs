@@ -5,26 +5,28 @@ using UnityEngine;
 using Verse;
 using WhisperOfTheForest.Race;
 using WhisperOfTheForest.Spells;
-using WhisperOfTheForest.Teleport;
 
 namespace WhisperOfTheForest.Rituals
 {
     /// <summary>
-    /// 【主持仪式…】 on one page: which rite, which rune or teleport node, the circle (with the cells
-    /// still missing, also outlined on the map), the offerings and network mana, who hosts, who helps
-    /// and the ritual strength that comes out of it. The bottom button is enabled only when the same
-    /// validation the altar runs would pass, so the panel can never offer a start the altar refuses.
-    ///
-    /// Nothing is spent here. [准备] has haulers carry the offerings into the altar; the rite can begin
-    /// once they are all inside, and the mana and the stacks are taken when the chant completes
-    /// (技术/04-仪式实现.md:116).
+    /// Two-page book ritual host window replacing the legacy single-column host dialog.
+    /// Left page shows researched rituals grouped by T1/T2/T3 (with tier-locked cards greyed out)
+    /// and the altar tier + facility resonance footer. Right page shows the centered chalk formation
+    /// diagram with tier/resonance/family callouts, single-sentence description + flavour placeholder,
+    /// dynamic parameters, cost <-> preparation progress transition, host/helper portraits, live
+    /// ritual metrics computed via the effect workers' shared formulas, and fixed action footer.
     /// </summary>
-    public sealed class Window_RitualHost : Window
+    public sealed partial class Window_RitualHost : Window
     {
-        private const float ContentWidth = 580f;
+        private const float CostAnimDuration = 0.40f;
+        private const float AutoPulseDuration = 0.24f;
 
         private readonly CompRitualAltar altar;
         private readonly HashSet<Pawn> helpers = new HashSet<Pawn>();
+        private readonly List<RitualDef> researchedRituals = new List<RitualDef>();
+        private readonly HashSet<RitualDef> missingMapMaterials = new HashSet<RitualDef>();
+        private readonly Dictionary<int, ThingDef> altarDefsByTier = new Dictionary<int, ThingDef>();
+
         private RitualDef selected;
         private SpellGlyphDef selectedRune;
         private Building selectedNode;
@@ -32,47 +34,159 @@ namespace WhisperOfTheForest.Rituals
         private Thing selectedEquipment;
         private int selectedBookSlot = -1;
         private Pawn selectedHost;
+
         private RitualAssessment assessment;
         private bool dirty = true;
         private int assessedTick = -9999;
-        private float contentBottom;
-        private float viewHeight = 900f;
-        private Vector2 scroll;
+
+        private Vector2 leftScroll;
+        private Vector2 rightScroll;
+        private float leftViewHeight = 400f;
+        private float rightViewHeight = 320f;
+
+        // Cost <-> preparation progress transition state
+        private RitualDef lastCostRitual;
+        private bool? lastCostShowProgress;
+        private float costAnimStart = -1000f;
+
+        // Auto-repeat checkbox click pulse timestamp
+        private float autoPulseStart = -1000f;
+
+        private PopoverWindow activePopover;
 
         public Window_RitualHost(CompRitualAltar altar)
         {
             this.altar = altar;
-            selected = altar.SelectedDef != null && altar.SelectedDef.IsResearchFinished ? altar.SelectedDef : null;
-            selectedRune = selected != null ? altar.SelectedRune : null;
-            selectedNode = selected != null ? altar.SelectedTeleportTarget : null;
-            selectedRuin = selected != null ? altar.SelectedRuinOption : null;
-            selectedEquipment = selected != null ? altar.SelectedEquipment : null;
-            selectedBookSlot = selected != null ? altar.SelectedBookSlot : -1;
+            BuildAltarTierIndex();
+            InitializeSelection();
 
+            doWindowBackground = false;
+            doCloseX = false;
+            doCloseButton = false;
             draggable = true;
             forcePause = false;
             preventCameraMotion = false;
             absorbInputAroundWindow = false;
             closeOnClickedOutside = false;
-            onlyOneOfTypeAllowed = false;
+            onlyOneOfTypeAllowed = true;
+            closeOnAccept = false;
             closeOnCancel = true;
-            doCloseX = true;
-            doCloseButton = false;
+            drawShadow = true;
         }
+
+        protected override float Margin => 0f;
 
         public override Vector2 InitialSize
         {
             get
             {
-                float height = Mathf.Clamp(UI.screenHeight - 80f, 560f, 780f);
-                return new Vector2(660f, height);
+                float width = Mathf.Clamp(UI.screenWidth - 40f, 820f, 1088f);
+                float height = Mathf.Clamp(UI.screenHeight - 60f, 560f, 728f);
+                return new Vector2(width, height);
             }
+        }
+
+        protected override void SetInitialSizeAndPosition()
+        {
+            Vector2 size = InitialSize;
+            float x = Mathf.Clamp((UI.screenWidth - size.x) * 0.5f, 0f, Mathf.Max(0f, UI.screenWidth - size.x));
+            float y = Mathf.Clamp((UI.screenHeight - size.y) * 0.5f, 0f, Mathf.Max(0f, UI.screenHeight - size.y));
+            windowRect = GenUI.Rounded(new Rect(x, y, size.x, size.y));
+        }
+
+        public override void PostClose()
+        {
+            base.PostClose();
+            ClosePopover();
+        }
+
+        private void BuildAltarTierIndex()
+        {
+            List<ThingDef> allThings = DefDatabase<ThingDef>.AllDefsListForReading;
+            for (int i = 0; i < allThings.Count; i++)
+            {
+                ThingDef def = allThings[i];
+                CompProperties_RitualAltar props = def?.GetCompProperties<CompProperties_RitualAltar>();
+                if (props != null && !altarDefsByTier.ContainsKey(props.tier))
+                {
+                    altarDefsByTier[props.tier] = def;
+                }
+            }
+        }
+
+        private ThingDef AltarDefForTier(int tier)
+        {
+            return altarDefsByTier.TryGetValue(tier, out ThingDef def) ? def : null;
+        }
+
+        private void InitializeSelection()
+        {
+            RefreshResearchedRituals();
+            if (altar.IsActive && altar.ActiveDef != null && altar.ActiveDef.IsResearchFinished)
+            {
+                selected = altar.ActiveDef;
+            }
+            else if (altar.CollectDef != null && altar.CollectDef.IsResearchFinished)
+            {
+                selected = altar.CollectDef;
+                selectedRune = altar.CollectRune;
+            }
+            else if (altar.SelectedDef != null && altar.SelectedDef.IsResearchFinished)
+            {
+                selected = altar.SelectedDef;
+                selectedRune = altar.SelectedRune;
+                selectedNode = altar.SelectedTeleportTarget;
+                selectedRuin = altar.SelectedRuinOption;
+                selectedEquipment = altar.SelectedEquipment;
+                selectedBookSlot = altar.SelectedBookSlot;
+            }
+            else
+            {
+                selected = FindDefaultRitual();
+            }
+        }
+
+        private RitualDef FindDefaultRitual()
+        {
+            for (int i = 0; i < researchedRituals.Count; i++)
+            {
+                if (researchedRituals[i].tier <= altar.Props.tier)
+                {
+                    return researchedRituals[i];
+                }
+            }
+
+            return researchedRituals.Count > 0 ? researchedRituals[0] : null;
+        }
+
+        private void SelectRitual(RitualDef def)
+        {
+            if (selected == def)
+            {
+                return;
+            }
+
+            selected = def;
+            selectedRune = def != null && def == altar.CollectDef ? altar.CollectRune : null;
+            selectedNode = null;
+            selectedRuin = null;
+            selectedEquipment = null;
+            selectedBookSlot = -1;
+            lastCostRitual = null;
+            lastCostShowProgress = null;
+            costAnimStart = -1000f;
+            rightScroll = Vector2.zero;
+            SyncSelection();
+            dirty = true;
         }
 
         private void SyncSelection()
         {
-            altar.SetSelectedRitual(selected, selectedRune, selectedNode, selectedEquipment,
-                selectedBookSlot, selectedRuin?.quest);
+            if (selected == null || altar.SupportsRitual(selected))
+            {
+                altar.SetSelectedRitual(selected, selectedRune, selectedNode, selectedEquipment,
+                    selectedBookSlot, selectedRuin?.quest);
+            }
         }
 
         public override void DoWindowContents(Rect inRect)
@@ -83,517 +197,195 @@ namespace WhisperOfTheForest.Rituals
                 return;
             }
 
-            Rect footer = new Rect(inRect.x, inRect.yMax - 34f, inRect.width, 34f);
-            Rect body = new Rect(inRect.x, inRect.y, inRect.width, inRect.height - 42f);
-
-            if (altar.IsActive)
+            using (TechLabDrawScope.Begin())
             {
-                DrawRunning(body);
-                DrawFooter(footer);
-                return;
-            }
+                RefreshFrameState();
 
-            RitualAssessment found = Assessment();
-            if (found.MissingCells.Count > 0)
-            {
-                GenDraw.DrawFieldEdges(found.MissingCells);
-            }
+                if (!altar.IsActive && selected != null && assessment != null && assessment.MissingCells.Count > 0)
+                {
+                    GenDraw.DrawFieldEdges(assessment.MissingCells);
+                }
 
-            Widgets.BeginScrollView(body, ref scroll, new Rect(0f, 0f, body.width - 16f, viewHeight));
-            float y = 0f;
-            y = DrawPicker(y);
-            if (selected != null)
-            {
-                y = DrawFormation(y, found);
-                y = DrawCosts(y, found);
-                y = DrawRoster(y, found);
-                y = DrawProblems(y, found);
+                RitualPanelStyle.DrawBookSpread(inRect, 26f, out Rect headerRect, out Rect leftPageRect,
+                    out Rect rightPageRect);
+
+                DrawHeader(headerRect);
+                DrawLeftPage(leftPageRect);
+                DrawRightPage(rightPageRect);
             }
-            contentBottom = y;
-            Widgets.EndScrollView();
-            viewHeight = Mathf.Max(400f, contentBottom + 24f);
-            DrawFooter(footer);
         }
 
-        private void DrawRunning(Rect rect)
+        private void DrawHeader(Rect rect)
         {
-            float y = rect.y;
-            Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(rect.x, y, rect.width, 30f), "WotF_Ritual_InProgress".Translate(altar.ActiveLabel));
-            Text.Font = GameFont.Small;
-            y += 34f;
+            RitualPanelStyle.DrawLabel(
+                new Rect(rect.x + 4f, rect.y, rect.width - 34f, rect.height),
+                "WotF_RitualPanel_Title".Translate(),
+                GameFont.Medium,
+                RitualPanelStyle.TitleCream,
+                TextAnchor.MiddleLeft);
 
-            y = Line(rect.x, y, "WotF_Ritual_Participants".Translate(altar.ActiveParticipants));
-            y = Line(rect.x, y, altar.Phase == RitualPhase.Gathering
-                ? "WotF_Ritual_InspectGathering".Translate()
-                : altar.Phase == RitualPhase.Sustaining
-                    ? (TaggedString)string.Format("WotF_Ritual_InspectSustaining".Translate(),
-                        altar.ActiveDef.manaPerStrike.ToString("0.#"))
-                    : "WotF_Ritual_InspectChanting".Translate());
-            y = Line(rect.x, y, string.Format("WotF_Ritual_RitualStrength".Translate(), altar.ActiveRitualStrength.ToString("0.#")));
-            if (altar.Phase == RitualPhase.Sustaining && altar.ActiveStrikesPerMinute > 0f)
+            Rect closeRect = new Rect(rect.xMax - 24f, rect.y + (rect.height - 24f) * 0.5f, 24f, 24f);
+            bool overClose = Mouse.IsOver(closeRect);
+            if (overClose)
             {
-                y = Line(rect.x, y, string.Format("WotF_Ritual_StrikeRate".Translate(),
-                    altar.ActiveStrikesPerMinute.ToString("0.#")));
+                RitualPanelStyle.DrawBox(closeRect, new Color(1f, 1f, 1f, 0.08f), RitualPanelStyle.CoverBorder);
             }
 
-            Line(rect.x, y, altar.Phase == RitualPhase.Sustaining
-                ? "WotF_Ritual_SustainingFeeNote".Translate()
-                : "WotF_Ritual_RunningFeeNote".Translate());
-        }
-
-        private static float Line(float x, float y, string text)
-        {
-            Widgets.Label(new Rect(x, y, ContentWidth, 22f), text);
-            return y + 24f;
-        }
-
-        private static float Header(float y, string text)
-        {
-            GUI.color = new Color(0.72f, 0.78f, 0.68f);
-            Widgets.Label(new Rect(0f, y, ContentWidth, 24f), text);
-            GUI.color = Color.white;
-            return y + 26f;
-        }
-
-        private float DrawPicker(float y)
-        {
-            y = Header(y, "WotF_Ritual_ChooseRitual".Translate());
-            bool anyRitual = false;
-            foreach (RitualDef def in altar.Rituals)
-            {
-                anyRitual = true;
-                if (Widgets.RadioButton(new Vector2(0f, y + 2f), def == selected) && selected != def)
-                {
-                    selected = def;
-                    selectedRune = null;
-                    selectedNode = null;
-                    selectedRuin = null;
-                    selectedEquipment = null;
-                    selectedBookSlot = -1;
-                    SyncSelection();
-                    dirty = true;
-                }
-
-                Widgets.Label(new Rect(28f, y, ContentWidth - 28f, 24f), RitualRowLabel(def));
-                y += 26f;
-            }
-
-            if (!anyRitual)
-            {
-                return Line(0f, y, "WotF_Ritual_NoneAvailable".Translate());
-            }
-
-            if (selected == null)
-            {
-                return Line(0f, y, "WotF_Ritual_NotSelected".Translate());
-            }
-
-            if (selected.chooseRune)
-            {
-                y += 6f;
-                y = Header(y, "WotF_Ritual_ChooseRune".Translate());
-                bool anyRune = false;
-                foreach (SpellGlyphDef glyph in DefDatabase<SpellGlyphDef>.AllDefsListForReading)
-                {
-                    if (glyph.kind == SpellGlyphKind.Super || !glyph.requiresUnlock
-                        || glyph.tier > altar.Props.tier || GameComponent_Spellbook.IsUnlockedInData(glyph))
-                    {
-                        continue;
-                    }
-
-                    anyRune = true;
-                    if (Widgets.RadioButton(new Vector2(0f, y + 2f), glyph == selectedRune) && selectedRune != glyph)
-                    {
-                        selectedRune = glyph;
-                        SyncSelection();
-                        dirty = true;
-                    }
-
-                    Widgets.Label(new Rect(28f, y, ContentWidth - 28f, 24f), RuneLabel(glyph));
-                    y += 26f;
-                }
-
-                if (!anyRune)
-                {
-                    y = Line(0f, y, "WotF_Ritual_AllRunesUnlocked".Translate());
-                }
-            }
-
-            if (selected.chooseTeleportTarget)
-            {
-                y += 6f;
-                y = Header(y, "WotF_Ritual_ChooseGate".Translate());
-                bool anyGate = false;
-                foreach (Building building in altar.parent.Map.listerBuildings.allBuildingsColonist)
-                {
-                    CompTeleportGate gate = building.TryGetComp<CompTeleportGate>();
-                    if (gate == null || gate.Ruined)
-                    {
-                        continue;
-                    }
-
-                    anyGate = true;
-                    bool usable = gate.Running;
-                    if (Widgets.RadioButton(new Vector2(0f, y + 2f), building == selectedNode, !usable)
-                        && usable && selectedNode != building)
-                    {
-                        selectedNode = building;
-                        SyncSelection();
-                        dirty = true;
-                    }
-
-                    GUI.color = usable ? Color.white : new Color(1f, 1f, 1f, 0.5f);
-                    Widgets.Label(new Rect(28f, y, ContentWidth - 28f, 24f),
-                        building.LabelCap + (usable ? string.Empty : " — " + gate.StateText()));
-                    GUI.color = Color.white;
-                    y += 26f;
-                }
-
-                if (!anyGate)
-                {
-                    y = Line(0f, y, "WotF_Ritual_Teleport_NoGate".Translate());
-                }
-            }
-
-            if (selected.chooseRuinType)
-            {
-                y += 6f;
-                y = Header(y, "WotF_Ritual_RuinSeek_Choose".Translate());
-                for (int i = 0; i < selected.ruinOptions.Count; i++)
-                {
-                    RuinSeekOption option = selected.ruinOptions[i];
-                    if (Widgets.RadioButton(new Vector2(0f, y + 2f), option == selectedRuin) && selectedRuin != option)
-                    {
-                        selectedRuin = option;
-                        SyncSelection();
-                        dirty = true;
-                    }
-
-                    var row = new Rect(28f, y, ContentWidth - 28f, 24f);
-                    Widgets.Label(row, option.sitePart.LabelCap);
-                    TooltipHandler.TipRegion(row, option.sitePart.description);
-                    y += 26f;
-                }
-            }
-
-            if (selected.chooseEquipment)
-            {
-                y = DrawEquipmentPicker(y);
-            }
-            return y;
-        }
-
-        /// <summary>The item beside the altar, then which page of the host's book goes into it.</summary>
-        private float DrawEquipmentPicker(float y)
-        {
-            y += 6f;
-            y = Header(y, "WotF_Ritual_ChooseEquipment".Translate());
-            List<Thing> items = altar.EnchantableNearby(selected);
-            for (int i = 0; i < items.Count; i++)
-            {
-                Thing item = items[i];
-                if (Widgets.RadioButton(new Vector2(0f, y + 2f), item == selectedEquipment) && selectedEquipment != item)
-                {
-                    selectedEquipment = item;
-                    SyncSelection();
-                    dirty = true;
-                }
-
-                string held = item.TryGetComp<Equipment.CompEnchantedEquipment>().CompInspectStringExtra();
-                Widgets.Label(new Rect(28f, y, ContentWidth - 28f, 24f), item.LabelCap + "  ·  " + held);
-                y += 26f;
-            }
-
-            if (items.Count == 0)
-            {
-                y = Line(0f, y, "WotF_Ritual_NoEnchantable".Translate());
-            }
-
-            y += 6f;
-            y = Header(y, "WotF_Ritual_ChooseBookSlot".Translate());
-            if (selectedHost == null)
-            {
-                return Line(0f, y, "WotF_Ritual_HostFirst".Translate());
-            }
-
-            if (SpellService.OpenSlotCount(selectedHost) == 0)
-            {
-                return Line(0f, y, "WotF_Ritual_HostNoBook".Translate());
-            }
-
-            bool anyPage = false;
-            for (int slot = 0; slot < GameComponent_Spellbook.SlotCount; slot++)
-            {
-                SpellRecipe recipe = GameComponent_Spellbook.Current.GetSlot(selectedHost, slot);
-                if (recipe == null)
-                {
-                    continue;
-                }
-
-                anyPage = true;
-                bool disabled = !Equipment.CompEnchantedEquipment.AcceptsRecipe(recipe, out string reason);
-                if (Widgets.RadioButton(new Vector2(0f, y + 2f), slot == selectedBookSlot, disabled)
-                    && !disabled && selectedBookSlot != slot)
-                {
-                    selectedBookSlot = slot;
-                    SyncSelection();
-                    dirty = true;
-                }
-
-                GUI.color = disabled ? new Color(1f, 1f, 1f, 0.5f) : Color.white;
-                Widgets.Label(new Rect(28f, y, ContentWidth - 28f, 24f),
-                    (slot + 1) + ". " + recipe.name + (disabled ? " — " + reason : ""));
-                GUI.color = Color.white;
-                y += 26f;
-            }
-
-            if (!anyPage)
-            {
-                y = Line(0f, y, "WotF_Equipment.Gizmo.NoSavedSpell".Translate());
-            }
-
-            return y;
-        }
-
-        private float DrawFormation(float y, RitualAssessment found)
-        {
-            y += 10f;
-            y = Header(y, "WotF_Ritual_SectionFormation".Translate());
-            y = Line(0f, y, "WotF_Ritual_CodexRing".Translate(found.RingSize,
-                ("WotF_Ritual_Chalk_" + found.ChalkColor).Translate()));
-            y = Line(0f, y, found.RingComplete
-                ? "WotF_Ritual_RingComplete".Translate()
-                : "WotF_Ritual_RingIncomplete".Translate(found.MissingCells.Count));
-
-            for (int i = 0; i < found.MissingCells.Count && i < 8; i++)
-            {
-                IntVec3 delta = found.MissingCells[i] - altar.parent.Position;
-                y = Line(0f, y, "WotF_Ritual_MissingCell".Translate(delta.x, delta.z));
-            }
-
-            if (found.MissingCells.Count > 8)
-            {
-                y = Line(0f, y, "WotF_Ritual_MoreCells".Translate(found.MissingCells.Count - 8));
-            }
-
-            return y;
-        }
-
-        private float DrawCosts(float y, RitualAssessment found)
-        {
-            y += 10f;
-            y = Header(y, "WotF_Ritual_SectionCost".Translate());
-            y = Line(0f, y, found.ManaEnough
-                ? "WotF_Ritual_ManaHave".Translate(found.ManaCost.ToString("0.#"), found.ManaStored.ToString("0.#"))
-                : "WotF_Ritual_ManaShort".Translate(found.ManaCost.ToString("0.#"), found.ManaStored.ToString("0.#")));
-            if (found.ManaPerStrike > 0f)
-            {
-                y = Line(0f, y, string.Format("WotF_Ritual_ManaPerStrike".Translate(),
-                    found.ManaPerStrike.ToString("0.#")));
-            }
-
-            if (altar.CollectDef != null)
-            {
-                y = Line(0f, y, "WotF_Ritual_Collecting".Translate(altar.CollectLabel));
-            }
-
-            if (found.OfferingLines.Count == 0)
-            {
-                y = Line(0f, y, "WotF_Ritual_NoOfferings".Translate());
-            }
-
-            for (int i = 0; i < found.OfferingLines.Count; i++)
-            {
-                OfferingLine line = found.OfferingLines[i];
-                GUI.color = line.Missing > 0 ? new Color(1f, 0.6f, 0.55f) : Color.white;
-                y = Line(0f, y, "WotF_Ritual_Offering".Translate(line.Cost.Label, line.Delivered, line.Cost.count));
-                GUI.color = Color.white;
-            }
-
-            return Line(0f, y, "WotF_Ritual_FeeAtEnd".Translate());
-        }
-
-        private float DrawRoster(float y, RitualAssessment found)
-        {
-            y += 10f;
-            y = Header(y, "WotF_Ritual_SectionHost".Translate());
-            List<Pawn> bloodline = BloodlinePawns();
-            for (int i = 0; i < bloodline.Count; i++)
-            {
-                Pawn pawn = bloodline[i];
-                string reason = Verdict(pawn);
-                bool disabled = reason != null;
-                if (Widgets.RadioButton(new Vector2(0f, y + 2f), pawn == selectedHost, disabled)
-                    && !disabled && selectedHost != pawn)
-                {
-                    selectedHost = pawn;
-                    selectedBookSlot = -1;
-                    helpers.Remove(pawn);
-                    SyncSelection();
-                    dirty = true;
-                }
-
-                GUI.color = disabled ? new Color(1f, 1f, 1f, 0.5f) : Color.white;
-                Widgets.Label(new Rect(28f, y, ContentWidth - 28f, 24f),
-                    PawnLabel(pawn) + (disabled ? " — " + reason : ""));
-                GUI.color = Color.white;
-                y += 26f;
-            }
-
-            if (bloodline.Count == 0)
-            {
-                y = Line(0f, y, "WotF_Ritual_NoCaster".Translate());
-            }
-
-            y += 8f;
-            y = Header(y, "WotF_Ritual_SectionHelpers".Translate());
-            for (int i = 0; i < bloodline.Count; i++)
-            {
-                Pawn pawn = bloodline[i];
-                if (pawn == selectedHost)
-                {
-                    continue;
-                }
-
-                string reason = Verdict(pawn);
-                bool disabled = reason != null;
-                bool on = helpers.Contains(pawn);
-                Widgets.Checkbox(new Vector2(0f, y + 2f), ref on, 24f, disabled);
-                if (!disabled && on != helpers.Contains(pawn))
-                {
-                    if (on)
-                    {
-                        helpers.Add(pawn);
-                    }
-                    else
-                    {
-                        helpers.Remove(pawn);
-                    }
-
-                    dirty = true;
-                }
-
-                GUI.color = disabled ? new Color(1f, 1f, 1f, 0.5f) : Color.white;
-                Widgets.Label(new Rect(28f, y, ContentWidth - 28f, 24f),
-                    PawnLabel(pawn) + (disabled ? " — " + reason : ""));
-                GUI.color = Color.white;
-                y += 26f;
-            }
-
-            y += 6f;
-            y = Line(0f, y, "WotF_Ritual_Participants".Translate(found.Participants));
-            if (selected != null && selected.minParticipants > 0)
-            {
-                y = Line(0f, y, "WotF_Ritual_MinParticipants".Translate(selected.minParticipants));
-            }
-
-            y = Line(0f, y, string.Format("WotF_Ritual_StrengthBreakdown".Translate(),
-                found.ChantStrength.ToString("0.#"), found.ResonanceStrength.ToString("0.#"),
-                found.RitualStrength.ToString("0.#")));
-            if (selected != null && selected.baseStrikesPerMinute > 0f)
-            {
-                y = Line(0f, y, string.Format("WotF_Ritual_StrikeRate".Translate(),
-                    selected.StrikesPerMinuteFor(found.RitualStrength).ToString("0.#")));
-            }
-            if (selected != null && selected.shieldCharges > 0)
-            {
-                y = Line(0f, y, string.Format("WotF_Ritual_ShieldCharges".Translate(),
-                    selected.ShieldChargesFor(found.RitualStrength)));
-            }
-            if (selected != null && selected.healingTable != null)
-            {
-                y = Line(0f, y, string.Format("WotF_Ritual_HealingPool".Translate(),
-                    selected.HealingPoolFor(found.RitualStrength).ToString("0.#")));
-            }
-            y = Line(0f, y, selected != null && selected.UsesEffectStrength
-                ? "WotF_Ritual_StrengthScaled".Translate()
-                : selected != null && selected.UsesWork
-                    ? "WotF_Ritual_StrengthSpeed".Translate()
-                    : "WotF_Ritual_StrengthFixed".Translate());
-            return Line(0f, y, "WotF_Ritual_ParticipantsHint".Translate());
-        }
-
-        private static float DrawProblems(float y, RitualAssessment found)
-        {
-            if (found.CanStart)
-            {
-                return y;
-            }
-
-            y += 10f;
-            y = Header(y, "WotF_Ritual_SectionBlocked".Translate());
-            for (int i = 0; i < found.Problems.Count; i++)
-            {
-                GUI.color = new Color(1f, 0.6f, 0.55f);
-                y = Line(0f, y, found.Problems[i]);
-                GUI.color = Color.white;
-            }
-
-            return y;
-        }
-
-        private void DrawFooter(Rect rect)
-        {
-            if (altar.IsActive)
-            {
-                string label = altar.Phase == RitualPhase.Sustaining
-                    ? "WotF_Ritual_StopButton".Translate()
-                    : "WotF_Ritual_CancelButton".Translate();
-                if (Widgets.ButtonText(new Rect(rect.x, rect.y, 180f, 32f), label))
-                {
-                    altar.CancelByPlayer();
-                }
-            }
-            else
-            {
-                RitualAssessment found = Assessment();
-                bool oldEnabled = GUI.enabled;
-                GUI.enabled = altar.CanPrepare(selected, selectedRune);
-                if (Widgets.ButtonText(new Rect(rect.x, rect.y, 140f, 32f), "WotF_Ritual_Prepare".Translate()))
-                {
-                    altar.Prepare(selected, selectedRune);
-                    dirty = true;
-                }
-
-                var begin = new Rect(rect.x + 148f, rect.y, 140f, 32f);
-                GUI.enabled = found.CanStart;
-                if (Widgets.ButtonText(begin, "WotF_Ritual_Begin".Translate()))
-                {
-                    altar.TryStart(BuildRequest());
-                }
-
-                GUI.enabled = altar.CollectDef != null;
-                if (Widgets.ButtonText(new Rect(rect.x + 296f, rect.y, 140f, 32f), "WotF_Ritual_CancelPrepare".Translate()))
-                {
-                    altar.CancelByPlayer();
-                    dirty = true;
-                }
-
-                GUI.enabled = oldEnabled;
-                if (!found.CanStart && found.FirstProblem != null)
-                {
-                    TooltipHandler.TipRegion(begin, found.FirstProblem);
-                }
-            }
-
-            if (Widgets.ButtonText(new Rect(rect.xMax - 120f, rect.y, 120f, 32f), "CloseButton".Translate()))
+            RitualPanelStyle.DrawIcon(
+                closeRect.ContractedBy(4f),
+                TexButton.CloseXSmall,
+                overClose ? Color.white : RitualPanelStyle.TextSubtle);
+            TooltipHandler.TipRegion(closeRect, "CloseButton".Translate());
+            if (Widgets.ButtonInvisible(closeRect, doMouseoverSound: true))
             {
                 Close();
             }
         }
 
-        private RitualAssessment Assessment()
+        private void RefreshFrameState()
         {
+            PruneSelectedRoster();
             int now = Find.TickManager.TicksGame;
-            if (assessment == null || dirty || now - assessedTick > 15)
+            if (!dirty && assessment != null && now - assessedTick <= 15)
             {
-                assessment = altar.Assess(BuildRequest());
-                assessedTick = now;
-                dirty = false;
+                return;
             }
 
-            return assessment;
+            RefreshResearchedRituals();
+            if (selected != null && !researchedRituals.Contains(selected))
+            {
+                selected = FindDefaultRitual();
+            }
+
+            RefreshMissingMapMaterials();
+            assessment = altar.Assess(BuildRequest());
+            assessedTick = now;
+            dirty = false;
+        }
+
+        private void RefreshResearchedRituals()
+        {
+            researchedRituals.Clear();
+            List<RitualDef> all = DefDatabase<RitualDef>.AllDefsListForReading;
+            for (int i = 0; i < all.Count; i++)
+            {
+                RitualDef def = all[i];
+                if (def != null && def.IsResearchFinished)
+                {
+                    researchedRituals.Add(def);
+                }
+            }
+
+            researchedRituals.Sort(CompareRituals);
+        }
+
+        private static int CompareRituals(RitualDef a, RitualDef b)
+        {
+            int byTier = a.tier.CompareTo(b.tier);
+            if (byTier != 0)
+            {
+                return byTier;
+            }
+
+            int byFamily = ((int)a.family).CompareTo((int)b.family);
+            if (byFamily != 0)
+            {
+                return byFamily;
+            }
+
+            return a.index.CompareTo(b.index);
+        }
+
+        private void RefreshMissingMapMaterials()
+        {
+            missingMapMaterials.Clear();
+            Map map = altar.parent.Map;
+            if (map == null)
+            {
+                return;
+            }
+
+            ThingOwner held = altar.GetDirectlyHeldThings();
+            var availableCache = new Dictionary<ThingDef, int>();
+
+            for (int i = 0; i < researchedRituals.Count; i++)
+            {
+                RitualDef def = researchedRituals[i];
+                if (def.tier > altar.Props.tier || def.inputCosts == null || def.inputCosts.Count == 0)
+                {
+                    continue;
+                }
+
+                for (int c = 0; c < def.inputCosts.Count; c++)
+                {
+                    ThingDefCountClass cost = def.inputCosts[c];
+                    if (cost?.thingDef == null)
+                    {
+                        continue;
+                    }
+
+                    if (!availableCache.TryGetValue(cost.thingDef, out int available))
+                    {
+                        available = CountAvailableOnMapAndAltar(map, held, cost.thingDef);
+                        availableCache[cost.thingDef] = available;
+                    }
+
+                    if (available < cost.count)
+                    {
+                        missingMapMaterials.Add(def);
+                        break;
+                    }
+                }
+            }
+        }
+
+        private static int CountAvailableOnMapAndAltar(Map map, ThingOwner held, ThingDef def)
+        {
+            int total = 0;
+            if (held != null)
+            {
+                for (int i = 0; i < held.Count; i++)
+                {
+                    if (held[i].def == def)
+                    {
+                        total += held[i].stackCount;
+                    }
+                }
+            }
+
+            List<Thing> things = map.listerThings.ThingsOfDef(def);
+            for (int i = 0; i < things.Count; i++)
+            {
+                Thing t = things[i];
+                if (t.Spawned && !t.IsForbidden(Faction.OfPlayer))
+                {
+                    total += t.stackCount;
+                }
+            }
+
+            return total;
+        }
+
+        private void PruneSelectedRoster()
+        {
+            Map map = altar.parent.Map;
+            if (selectedHost != null && !IsPawnOnAltarMap(selectedHost, map))
+            {
+                selectedHost = null;
+                selectedBookSlot = -1;
+                dirty = true;
+            }
+
+            if (helpers.Count > 0)
+            {
+                helpers.RemoveWhere(p => p == null || p == selectedHost || !IsPawnOnAltarMap(p, map));
+            }
+        }
+
+        private static bool IsPawnOnAltarMap(Pawn pawn, Map map)
+        {
+            return !pawn.Destroyed && pawn.Spawned && !pawn.Dead && pawn.Map == map
+                && Gene_ForestBloodline.Get(pawn) != null;
         }
 
         private RitualRequest BuildRequest()
@@ -608,6 +400,7 @@ namespace WhisperOfTheForest.Rituals
                 BookSlot = selected != null && selected.chooseEquipment ? selectedBookSlot : -1,
                 Host = selectedHost
             };
+
             var list = new List<Pawn>();
             foreach (Pawn helper in helpers)
             {
@@ -617,10 +410,7 @@ namespace WhisperOfTheForest.Rituals
                 }
             }
 
-            list.Sort(delegate(Pawn a, Pawn b)
-            {
-                return string.Compare(a.LabelShort, b.LabelShort, StringComparison.Ordinal);
-            });
+            list.Sort((a, b) => string.Compare(a.LabelShort, b.LabelShort, StringComparison.Ordinal));
             request.Helpers.AddRange(list);
             return request;
         }
@@ -628,7 +418,13 @@ namespace WhisperOfTheForest.Rituals
         private List<Pawn> BloodlinePawns()
         {
             var pawns = new List<Pawn>();
-            foreach (Pawn pawn in altar.parent.Map.mapPawns.FreeColonistsSpawned)
+            Map map = altar.parent.Map;
+            if (map == null)
+            {
+                return pawns;
+            }
+
+            foreach (Pawn pawn in map.mapPawns.FreeColonistsSpawned)
             {
                 if (Gene_ForestBloodline.Get(pawn) != null)
                 {
@@ -636,41 +432,8 @@ namespace WhisperOfTheForest.Rituals
                 }
             }
 
-            pawns.Sort(delegate(Pawn a, Pawn b)
-            {
-                return string.Compare(a.LabelShort, b.LabelShort, StringComparison.Ordinal);
-            });
+            pawns.Sort((a, b) => string.Compare(a.LabelShort, b.LabelShort, StringComparison.Ordinal));
             return pawns;
-        }
-
-        private static string PawnLabel(Pawn pawn)
-        {
-            Gene_ForestBloodline gene = Gene_ForestBloodline.Get(pawn);
-            return pawn.LabelShortCap + " (" + gene.Level + ")";
-        }
-
-        private static string Verdict(Pawn pawn)
-        {
-            return CompRitualAltar.IsEligibleRitualCaster(pawn, out string reason) ? null : reason;
-        }
-
-        private static string RitualRowLabel(RitualDef def)
-        {
-            return def.LabelCap + "  ·  " + "WotF_Ritual_TierShort".Translate(def.tier) + "  ·  "
-                + "WotF_Ritual_RingShort".Translate(def.ringSize, ("WotF_Ritual_Chalk_" + def.chalkColor).Translate());
-        }
-
-        private static string RuneLabel(SpellGlyphDef glyph)
-        {
-            RitualDef awakening = DefDatabase<RitualDef>.GetNamedSilentFail("WotF_Ritual_RuneAwakening");
-            RuneAwakeningTier tier = awakening?.RuneTierFor(glyph.tier);
-            if (tier == null)
-            {
-                return glyph.LabelCap;
-            }
-
-            return glyph.LabelCap + " — " + string.Format("WotF_Ritual_WorkRequirements".Translate(),
-                tier.tier, tier.ringSize, tier.manaCost.ToString("0.#"), tier.workAmount.ToString("0.#"));
         }
     }
 }
