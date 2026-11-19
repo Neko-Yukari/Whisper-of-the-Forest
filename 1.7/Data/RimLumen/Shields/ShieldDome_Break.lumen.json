@@ -1,0 +1,38 @@
+{
+  "effectId": "ShieldDome_Break",
+  "defaultDuration": 0.85,
+  "nodes": [
+    {
+      "name": "break_shockwave",
+      "parentIndex": -1,
+      "localPosition": [
+        0.0,
+        0.1,
+        0.0
+      ],
+      "spacePlane": "GroundXZ",
+      "distortion": {
+        "kind": "RingWave",
+        "radius": 14.2,
+        "strength": 0.15,
+        "thickness": 1.1,
+        "speed": 22.0,
+        "duration": 0.64,
+        "strengthOverTime": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.32,
+            0.7
+          ],
+          [
+            0.64,
+            0.0
+          ]
+        ]
+      }
+    }
+  ]
+}

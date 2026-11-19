@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Grove Shield Dome audio -->
+  <SoundDef>
+    <defName>WotF_Sound_ShieldDome_Activate</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Shields/WotF_Shield_Dome_Activate</clipPath>
+          </li>
+        </grains>
+        <volumeRange>34~40</volumeRange>
+        <pitchRange>0.96~1.04</pitchRange>
+        <distRange>15~55</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_ShieldDome_Hit</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>5</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Shields/WotF_Shield_Dome_Hit</clipPath>
+          </li>
+        </grains>
+        <volumeRange>28~34</volumeRange>
+        <pitchRange>0.93~1.08</pitchRange>
+        <distRange>12~48</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_ShieldDome_Break</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Shields/WotF_Shield_Dome_Break</clipPath>
+          </li>
+        </grains>
+        <volumeRange>38~44</volumeRange>
+        <pitchRange>0.95~1.03</pitchRange>
+        <distRange>18~60</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <!-- Planar Shield Barrier audio -->
+  <SoundDef>
+    <defName>WotF_Sound_PlanarShield_Activate</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Shields/WotF_Shield_Planar_Activate</clipPath>
+          </li>
+        </grains>
+        <volumeRange>28~34</volumeRange>
+        <pitchRange>0.96~1.05</pitchRange>
+        <distRange>10~42</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_PlanarShield_Hit</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>6</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Shields/WotF_Shield_Planar_Hit</clipPath>
+          </li>
+        </grains>
+        <volumeRange>26~32</volumeRange>
+        <pitchRange>0.94~1.08</pitchRange>
+        <distRange>10~42</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_PlanarShield_Break</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Shields/WotF_Shield_Planar_Break</clipPath>
+          </li>
+        </grains>
+        <volumeRange>34~40</volumeRange>
+        <pitchRange>0.95~1.04</pitchRange>
+        <distRange>12~48</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <!-- Subtle friendly projectile pass-through phase shimmer whisper -->
+  <SoundDef>
+    <defName>WotF_Sound_Shield_PassThrough</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>4</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Shields/WotF_Shield_PassThrough</clipPath>
+          </li>
+        </grains>
+        <volumeRange>13~18</volumeRange>
+        <pitchRange>1.02~1.16</pitchRange>
+        <distRange>8~32</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+</Defs>

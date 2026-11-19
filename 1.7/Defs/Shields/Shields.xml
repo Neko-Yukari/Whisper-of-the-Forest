@@ -18,21 +18,52 @@
     <label>grove shield dome (RimLumen)</label>
     <workerClass>WhisperOfTheForest.Vfx.ShieldLumenVfxWorker</workerClass>
     <lifetime>FollowThing</lifetime>
+
     <coreColor>#E9FFF4</coreColor>
     <primaryColor>#57D993</primaryColor>
-    <hdrIntensity>1.15</hdrIntensity>
-    <altitudeY>9.45</altitudeY>
+    <secondaryColor>#D7F598</secondaryColor>
+    <lowChargeColor>#FFAF50</lowChargeColor>
+    <hdrIntensity>1.20</hdrIntensity>
+
+    <backAltitudeY>7.95</backAltitudeY>
+    <frontAltitudeY>9.45</frontAltitudeY>
+    <zTransitionHalf>0.06</zTransitionHalf>
+
     <coreWidthCells>0.12</coreWidthCells>
-    <glowWidthCells>0.55</glowWidthCells>
-    <edgePower>1.8</edgePower>
-    <pulseHz>0.45</pulseHz>
-    <pulseMinAlpha>0.24</pulseMinAlpha>
-    <pulseMaxAlpha>0.42</pulseMaxAlpha>
-    <ringSegments>64</ringSegments>
-    <hitFlashSeconds>0.35</hitFlashSeconds>
-    <hitFlashRadiusCells>1.65</hitFlashRadiusCells>
-    <breakSeconds>0.55</breakSeconds>
-    <expireSeconds>0.80</expireSeconds>
+    <glowWidthCells>0.52</glowWidthCells>
+    <edgePower>1.75</edgePower>
+    <pulseHz>0.38</pulseHz>
+    <pulseMinAlpha>0.78</pulseMinAlpha>
+    <pulseMaxAlpha>1.00</pulseMaxAlpha>
+    <ringSegments>96</ringSegments>
+
+    <openSeconds>0.65</openSeconds>
+    <breakSeconds>0.65</breakSeconds>
+    <expireSeconds>0.85</expireSeconds>
+
+    <rippleDurationSeconds>0.78</rippleDurationSeconds>
+    <passRippleDurationSeconds>0.42</passRippleDurationSeconds>
+    <rippleWaveSpeed>6.60</rippleWaveSpeed>
+    <passWaveSpeed>4.20</passWaveSpeed>
+    <rippleCrestSpacing>0.46</rippleCrestSpacing>
+    <rippleCrestCount>4</rippleCrestCount>
+
+    <domeCanopyHeightCells>5.80</domeCanopyHeightCells>
+    <domeCanopyRibCount>3</domeCanopyRibCount>
+    <domeRuneArcCount>6</domeRuneArcCount>
+    <domeSpinRadPerSec>0.22</domeSpinRadPerSec>
+
+    <activateLumenEffectId>NekoYukari.WhisperOfTheForest:ShieldDome_Activate</activateLumenEffectId>
+    <sustainLumenEffectId>NekoYukari.WhisperOfTheForest:ShieldDome_Sustain</sustainLumenEffectId>
+    <hitLumenEffectId>NekoYukari.WhisperOfTheForest:ShieldDome_Hit</hitLumenEffectId>
+    <airHitLumenEffectId>NekoYukari.WhisperOfTheForest:ShieldDome_AirHit</airHitLumenEffectId>
+    <passLumenEffectId>NekoYukari.WhisperOfTheForest:Shield_PassThrough</passLumenEffectId>
+    <breakLumenEffectId>NekoYukari.WhisperOfTheForest:ShieldDome_Break</breakLumenEffectId>
+
+    <activateSound>WotF_Sound_ShieldDome_Activate</activateSound>
+    <hitSound>WotF_Sound_ShieldDome_Hit</hitSound>
+    <passSound>WotF_Sound_Shield_PassThrough</passSound>
+    <breakSound>WotF_Sound_ShieldDome_Break</breakSound>
   </WhisperOfTheForest.Vfx.ShieldLumenVfxDef>
 
   <WhisperOfTheForest.Vfx.ShieldLumenVfxDef>
@@ -40,21 +71,48 @@
     <label>planar shield barrier (RimLumen)</label>
     <workerClass>WhisperOfTheForest.Vfx.ShieldLumenVfxWorker</workerClass>
     <lifetime>FollowThing</lifetime>
+
     <coreColor>#FFFDF4</coreColor>
     <primaryColor>#48D1CC</primaryColor>
-    <hdrIntensity>1.30</hdrIntensity>
-    <altitudeY>9.45</altitudeY>
-    <coreWidthCells>0.18</coreWidthCells>
-    <glowWidthCells>0.68</glowWidthCells>
+    <secondaryColor>#F5E384</secondaryColor>
+    <lowChargeColor>#FFA84C</lowChargeColor>
+    <hdrIntensity>1.32</hdrIntensity>
+
+    <backAltitudeY>7.95</backAltitudeY>
+    <frontAltitudeY>9.45</frontAltitudeY>
+    <zTransitionHalf>0.06</zTransitionHalf>
+
+    <coreWidthCells>0.095</coreWidthCells>
+    <glowWidthCells>0.38</glowWidthCells>
     <edgePower>1.65</edgePower>
-    <pulseHz>0.90</pulseHz>
-    <pulseMinAlpha>0.48</pulseMinAlpha>
-    <pulseMaxAlpha>0.74</pulseMaxAlpha>
-    <ringSegments>24</ringSegments>
-    <hitFlashSeconds>0.28</hitFlashSeconds>
-    <hitFlashRadiusCells>0.95</hitFlashRadiusCells>
-    <breakSeconds>0.40</breakSeconds>
-    <expireSeconds>0.45</expireSeconds>
+    <pulseHz>0.68</pulseHz>
+    <pulseMinAlpha>0.86</pulseMinAlpha>
+    <pulseMaxAlpha>1.00</pulseMaxAlpha>
+    <ringSegments>36</ringSegments>
+
+    <openSeconds>0.28</openSeconds>
+    <breakSeconds>0.55</breakSeconds>
+    <expireSeconds>0.65</expireSeconds>
+
+    <rippleDurationSeconds>0.62</rippleDurationSeconds>
+    <passRippleDurationSeconds>0.42</passRippleDurationSeconds>
+    <rippleWaveSpeed>6.40</rippleWaveSpeed>
+    <passWaveSpeed>3.20</passWaveSpeed>
+    <rippleCrestSpacing>0.42</rippleCrestSpacing>
+    <rippleCrestCount>4</rippleCrestCount>
+
+    <wallHeightCells>2.20</wallHeightCells>
+    <camberCells>0.36</camberCells>
+    <topRakeCells>0.30</topRakeCells>
+    <curtainAlpha>0.30</curtainAlpha>
+
+    <hitLumenEffectId>NekoYukari.WhisperOfTheForest:PlanarShield_Hit</hitLumenEffectId>
+    <passLumenEffectId>NekoYukari.WhisperOfTheForest:Shield_PassThrough</passLumenEffectId>
+
+    <activateSound>WotF_Sound_PlanarShield_Activate</activateSound>
+    <hitSound>WotF_Sound_PlanarShield_Hit</hitSound>
+    <passSound>WotF_Sound_Shield_PassThrough</passSound>
+    <breakSound>WotF_Sound_PlanarShield_Break</breakSound>
   </WhisperOfTheForest.Vfx.ShieldLumenVfxDef>
 
 </Defs>

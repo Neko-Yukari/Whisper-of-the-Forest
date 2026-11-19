@@ -116,6 +116,54 @@ namespace WhisperOfTheForest.Shields
         }
 
         /// <summary>
+        /// Bidirectional circle boundary crossing test (either outgoing from inside or incoming from outside),
+        /// used to place subtle pass-through ripples when allied projectiles cross a dome rim.
+        /// </summary>
+        public static bool TryIntersectCircleCrossing(
+            Vector2 center,
+            float radius,
+            Vector2 p0,
+            Vector2 p1,
+            out Vector2 crossingPoint)
+        {
+            crossingPoint = default;
+            if (radius <= 0f)
+            {
+                return false;
+            }
+
+            Vector2 d0 = p0 - center;
+            Vector2 d1 = p1 - center;
+            float rSq = radius * radius;
+            bool in0 = d0.sqrMagnitude <= rSq;
+            bool in1 = d1.sqrMagnitude <= rSq;
+            if (in0 == in1)
+            {
+                return false;
+            }
+
+            Vector2 step = p1 - p0;
+            float a = Vector2.Dot(step, step);
+            if (a < 1e-10f)
+            {
+                return false;
+            }
+
+            float b = Vector2.Dot(d0, step);
+            float c = d0.sqrMagnitude - rSq;
+            float disc = Mathf.Max(0f, b * b - a * c);
+            float sqrtDisc = Mathf.Sqrt(disc);
+            float t = in0 ? (-b + sqrtDisc) / a : (-b - sqrtDisc) / a;
+            if (t < -Epsilon || t > 1f + Epsilon)
+            {
+                return false;
+            }
+
+            crossingPoint = p0 + step * Mathf.Clamp01(t);
+            return true;
+        }
+
+        /// <summary>
         /// Exact 2D segment-segment intersection between shield segment [segA, segB] and projectile step [p0, p1].
         /// </summary>
         public static bool TryIntersectSegment(

@@ -14,6 +14,7 @@ namespace WhisperOfTheForest.Tests
             ("shield planar: self cast steps forward along facing normal", PlanarSelfCastStepsForward),
             ("shield planar: crossing shot hits exact point while wide shot misses", PlanarSegmentIntersection),
             ("shield dome: blocks incoming chord on rim and ignores shots starting inside", DomeIncomingVsOutgoing),
+            ("shield dome: pass-through crossing locates rim point for outgoing and incoming chords", DomePassThroughCrossing),
             ("shield spell: amplify scales charges with cap and AOE widens span with cap", PlanarGlyphCompileCurves),
         };
 
@@ -73,6 +74,22 @@ namespace WhisperOfTheForest.Tests
             bool outgoing = ShieldGeometry.TryIntersectCircleIncoming(
                 center, radius, new Vector2(20f, 25f), new Vector2(20f, 35f), out _);
             Check.True(!outgoing, "shot starting inside dome passes out freely");
+        }
+
+        private static void DomePassThroughCrossing()
+        {
+            var center = new Vector2(20f, 20f);
+            const float radius = 10f;
+
+            bool outCross = ShieldGeometry.TryIntersectCircleCrossing(
+                center, radius, new Vector2(20f, 25f), new Vector2(20f, 35f), out Vector2 pOut);
+            Check.True(outCross, "outgoing friendly shot crosses rim");
+            Check.True(Mathf.Abs(pOut.x - 20f) < 0.001f && Mathf.Abs(pOut.y - 30f) < 0.01f,
+                $"expected outgoing rim crossing (20, 30), got {pOut}");
+
+            bool interiorOnly = ShieldGeometry.TryIntersectCircleCrossing(
+                center, radius, new Vector2(20f, 22f), new Vector2(20f, 26f), out _);
+            Check.True(!interiorOnly, "purely interior step does not cross rim");
         }
 
         private static void PlanarGlyphCompileCurves()

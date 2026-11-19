@@ -1,0 +1,199 @@
+{
+  "effectId": "PlanarShield_Hit",
+  "defaultDuration": 0.58,
+  "nodes": [
+    {
+      "name": "planar_ripple",
+      "parentIndex": -1,
+      "localPosition": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "spacePlane": "Vertical3D",
+      "distortion": {
+        "kind": "Ripple",
+        "radius": 1.95,
+        "strength": 0.088,
+        "thickness": 0.24,
+        "speed": 5.4,
+        "frequency": 2.5,
+        "duration": 0.46,
+        "strengthOverTime": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.22,
+            0.7
+          ],
+          [
+            0.46,
+            0.0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "planar_rebound_sparks",
+      "parentIndex": -1,
+      "localPosition": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "localRotation": [
+        0.7071068,
+        0.0,
+        0.0,
+        0.7071068
+      ],
+      "spacePlane": "Vertical3D",
+      "emitter": {
+        "name": "planar_rebound_sparks",
+        "preferredTier": "L2_GpuCompute",
+        "maxParticles": 64,
+        "duration": 0.5,
+        "looping": false,
+        "worldSpaceSimulation": true,
+        "rateOverTime": 0.0,
+        "bursts": [
+          {
+            "time": 0.0,
+            "count": 24
+          }
+        ],
+        "shape": "Cone",
+        "shapeExtents": [
+          0.1,
+          0.0,
+          0.1
+        ],
+        "coneAngleDegrees": 52.0,
+        "startLifetimeMin": 0.2,
+        "startLifetimeMax": 0.42,
+        "startSpeedMin": 3.4,
+        "startSpeedMax": 8.6,
+        "startSizeMin": 0.032,
+        "startSizeMax": 0.064,
+        "startColor": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "blendMode": "Additive",
+        "billboardMode": "StretchedVelocity",
+        "velocityStretchFactor": 0.046,
+        "lengthScale": 1.1,
+        "softParticleFadeDistance": 0.06,
+        "hdrIntensity": 1.65,
+        "killBelowFloor": true,
+        "sizeOverLifetime": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.45,
+            0.76
+          ],
+          [
+            1.0,
+            0.08
+          ]
+        ],
+        "colorOverLifetime": [
+          [
+            0.0,
+            [
+              1.0,
+              0.99,
+              0.95,
+              0.96
+            ]
+          ],
+          [
+            0.35,
+            [
+              0.96,
+              0.89,
+              0.52,
+              0.88
+            ]
+          ],
+          [
+            0.75,
+            [
+              0.28,
+              0.82,
+              0.8,
+              0.55
+            ]
+          ],
+          [
+            1.0,
+            [
+              0.28,
+              0.82,
+              0.8,
+              0.0
+            ]
+          ]
+        ],
+        "forceFields": [
+          {
+            "kind": "GravityDrag",
+            "centerOrAxis": [
+              0.0,
+              -1.0,
+              0.0
+            ],
+            "parameters": [
+              3.8,
+              0.0,
+              0.0
+            ],
+            "radius": 0.0,
+            "strength": 6.8,
+            "frequency": 1.0
+          }
+        ],
+        "environmentChannels": "Explosion"
+      }
+    },
+    {
+      "name": "planar_hit_light",
+      "parentIndex": -1,
+      "localPosition": [
+        0.0,
+        0.5,
+        0.0
+      ],
+      "pointLight": {
+        "glowRadius": 3.4,
+        "color": [
+          0.62,
+          0.94,
+          0.92
+        ],
+        "intensity": 0.72,
+        "intensityOverTime": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.12,
+            0.6
+          ],
+          [
+            0.3,
+            0.0
+          ]
+        ]
+      }
+    }
+  ]
+}

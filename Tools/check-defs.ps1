@@ -699,7 +699,7 @@ foreach ($entry in $modDefs) {
             $soundsRoot = Join-Path $repo '1.7/Sounds'
             if ($null -ne $clipPathNode) {
                 $clipRel = $clipPathNode.InnerText.Trim()
-                if ($clipRel.StartsWith('Spells/', [System.StringComparison]::OrdinalIgnoreCase) -or $clipRel.StartsWith('WotF/', [System.StringComparison]::OrdinalIgnoreCase)) {
+                if ($clipRel.StartsWith('Spells/', [System.StringComparison]::OrdinalIgnoreCase) -or $clipRel.StartsWith('Shields/', [System.StringComparison]::OrdinalIgnoreCase) -or $clipRel.StartsWith('WotF/', [System.StringComparison]::OrdinalIgnoreCase)) {
                     $ruleChecks++
                     $baseClip = Join-Path $soundsRoot $clipRel
                     if (-not ((Test-Path -LiteralPath ($baseClip + '.ogg')) -or (Test-Path -LiteralPath ($baseClip + '.wav')))) {

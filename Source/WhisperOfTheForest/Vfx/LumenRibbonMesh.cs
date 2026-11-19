@@ -80,6 +80,68 @@ namespace WhisperOfTheForest.Vfx
             }
         }
 
+        /// <summary>
+        /// Appends a shaded 4-corner quad with uniform cross-spine weight (<c>u = 0.5</c>) so translucent
+        /// 3D shield curtain slices and shatter shards interpolate smooth vertex colors in a single batch.
+        /// </summary>
+        public void AddShadedQuad(
+            Vector3 p00,
+            Vector3 p10,
+            Vector3 p11,
+            Vector3 p01,
+            Color bottomColor,
+            Color topColor,
+            float hdrIntensity)
+        {
+            if (bottomColor.a <= 0.0005f && topColor.a <= 0.0005f)
+            {
+                return;
+            }
+
+            int baseIdx = vertices.Count;
+            Color bot = AdaptColor(bottomColor);
+            Color top = AdaptColor(topColor);
+            var uvBot = new Vector4(0.5f, 0f, hdrIntensity, 1f);
+            var uvTop = new Vector4(0.5f, 1f, hdrIntensity, 1f);
+
+            vertices.Add(p00); colors.Add(bot); uvs.Add(uvBot);
+            vertices.Add(p10); colors.Add(bot); uvs.Add(uvBot);
+            vertices.Add(p11); colors.Add(top); uvs.Add(uvTop);
+            vertices.Add(p01); colors.Add(top); uvs.Add(uvTop);
+
+            indices.Add(baseIdx);
+            indices.Add(baseIdx + 1);
+            indices.Add(baseIdx + 2);
+            indices.Add(baseIdx);
+            indices.Add(baseIdx + 2);
+            indices.Add(baseIdx + 3);
+        }
+
+        public void AddShadedTriangle(
+            Vector3 p0,
+            Vector3 p1,
+            Vector3 p2,
+            Color c0,
+            Color c1,
+            Color c2,
+            float hdrIntensity)
+        {
+            if (c0.a <= 0.0005f && c1.a <= 0.0005f && c2.a <= 0.0005f)
+            {
+                return;
+            }
+
+            int baseIdx = vertices.Count;
+            var uv = new Vector4(0.5f, 0.5f, hdrIntensity, 1f);
+            vertices.Add(p0); colors.Add(AdaptColor(c0)); uvs.Add(uv);
+            vertices.Add(p1); colors.Add(AdaptColor(c1)); uvs.Add(uv);
+            vertices.Add(p2); colors.Add(AdaptColor(c2)); uvs.Add(uv);
+
+            indices.Add(baseIdx);
+            indices.Add(baseIdx + 1);
+            indices.Add(baseIdx + 2);
+        }
+
         public void AddRadialGlowDisc(
             Vector3 centerXZ,
             float radius,

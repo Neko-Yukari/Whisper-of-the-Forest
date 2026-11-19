@@ -43,6 +43,9 @@ namespace WhisperOfTheForest.Shields
 
         private VfxHandle vfx;
         private bool ended;
+        private readonly int[] recentPassIds = new int[8];
+        private readonly int[] recentPassTicks = new int[8];
+        private int recentPassCursor;
 
         public ShieldVfxShape Shape => shape;
         public Thing AnchorThing => anchorThing;
@@ -186,15 +189,20 @@ namespace WhisperOfTheForest.Shields
                 return false;
             }
 
+            var stepStart = new Vector2(lastExactPos.x, lastExactPos.z);
+            var stepEnd = new Vector2(newExactPos.x, newExactPos.z);
+            float stepReach = projectile.def.projectile.SpeedTilesPerTick;
+
             if (!ShieldInterception.IsHostileLauncher(projectile.Launcher, ownerFaction))
             {
+                TryNotifyFriendlyPass(projectile.thingIDNumber, stepStart, stepEnd, stepReach, isAir);
                 return false;
             }
 
             return TryIntersectAndSpend(
-                new Vector2(lastExactPos.x, lastExactPos.z),
-                new Vector2(newExactPos.x, newExactPos.z),
-                projectile.def.projectile.SpeedTilesPerTick,
+                stepStart,
+                stepEnd,
+                stepReach,
                 isAir,
                 projectile.def.defName,
                 out _);
@@ -245,13 +253,67 @@ namespace WhisperOfTheForest.Shields
                 return false;
             }
 
+            float stepDist = (newPos - prevPos).magnitude;
             if (!ShieldInterception.IsHostileLauncher(caster, ownerFaction))
             {
+                int sourceKey = caster != null ? (caster.thingIDNumber ^ 0x40000000) : 0;
+                TryNotifyFriendlyPass(sourceKey, prevPos, newPos, stepDist, isAir: false);
                 return false;
             }
 
-            float stepDist = (newPos - prevPos).magnitude;
             return TryIntersectAndSpend(prevPos, newPos, stepDist, isAirProjectile: false, "ArcaneMissile", out hitPos);
+        }
+
+        private void TryNotifyFriendlyPass(int sourceId, Vector2 p0, Vector2 p1, float stepReach, bool isAir)
+        {
+            if (vfx == null)
+            {
+                return;
+            }
+
+            int now = Find.TickManager.TicksGame;
+            if (sourceId != 0)
+            {
+                for (int i = 0; i < recentPassIds.Length; i++)
+                {
+                    if (recentPassIds[i] == sourceId && now - recentPassTicks[i] < 8)
+                    {
+                        return;
+                    }
+                }
+            }
+
+            var center2D = new Vector2(exactCenter.x, exactCenter.z);
+            float boundRadius = (shape == ShieldVfxShape.Dome ? domeRadius : spanLength * 0.5f) + stepReach + 0.25f;
+            if ((p1 - center2D).sqrMagnitude > boundRadius * boundRadius)
+            {
+                return;
+            }
+
+            Vector2 passPoint;
+            bool crossed = shape == ShieldVfxShape.Dome
+                ? ShieldGeometry.TryIntersectCircleCrossing(center2D, domeRadius, p0, p1, out passPoint)
+                : ShieldGeometry.TryIntersectSegment(segmentA, segmentB, p0, p1, out passPoint);
+            if (!crossed)
+            {
+                return;
+            }
+
+            if (sourceId != 0)
+            {
+                recentPassIds[recentPassCursor] = sourceId;
+                recentPassTicks[recentPassCursor] = now;
+                recentPassCursor = (recentPassCursor + 1) % recentPassIds.Length;
+            }
+
+            Vector2 delta = p1 - p0;
+            Vector3 travelDir = delta.sqrMagnitude > 1e-8f
+                ? new Vector3(delta.x, 0f, delta.y).normalized
+                : new Vector3(normalXZ.x, 0f, normalXZ.y);
+            vfx.ReportShieldPassThrough(new ShieldPassEvent(
+                new Vector3(passPoint.x, 0f, passPoint.y),
+                travelDir,
+                isAir));
         }
 
         internal void ReplaceSilently()
