@@ -5,7 +5,7 @@
   <WotF_Ritual_InspectIdle>No ritual in progress</WotF_Ritual_InspectIdle>
   <WotF_Ritual_InspectGathering>Gathering on the circle: the chant begins once every participant is on a chalk cell.</WotF_Ritual_InspectGathering>
   <WotF_Ritual_InspectChanting>Chanting: the mana and offerings are taken only when the chant completes.</WotF_Ritual_InspectChanting>
-  <WotF_Ritual_InspectSustaining>Channeling: consuming {0} network mana/s.</WotF_Ritual_InspectSustaining>
+  <WotF_Ritual_InspectSustaining>Channeling: {0} network mana per strike.</WotF_Ritual_InspectSustaining>
   <WotF_Ritual_StrikeRate>Lightning rate: {0}/min</WotF_Ritual_StrikeRate>
   <WotF_Ritual_AutoRepeat_Current>Auto-repeat: {0}</WotF_Ritual_AutoRepeat_Current>
   <WotF_Ritual_AutoRepeat_Desc>Keep performing this production rite whenever the altar is idle. Haulers bring the offerings into the altar; once they are all inside, a bloodline colonist takes up the hosting as basic work. The rite waits while a host, mana or offerings are missing.</WotF_Ritual_AutoRepeat_Desc>
@@ -64,7 +64,7 @@
   <WotF_Ritual_SpellbookUpgrade_NoRoom>There is no room beside the altar for the upgraded spellbook.</WotF_Ritual_SpellbookUpgrade_NoRoom>
   <WotF_Ritual_RuneRequirements>Tier {0} / {1}×{1} circle / {2} mana / {3} ticks</WotF_Ritual_RuneRequirements>
   <WotF_Ritual_WorkRequirements>Tier {0} / {1}×{1} circle / {2} mana / {3} work</WotF_Ritual_WorkRequirements>
-  <WotF_Ritual_SustainedRequirements>Tier {0} / {1}×{1} circle / {2} mana + {3}/s / {4} ticks</WotF_Ritual_SustainedRequirements>
+  <WotF_Ritual_SustainedRequirements>Tier {0} / {1}×{1} circle / {2} mana + {3}/strike / {4} ticks</WotF_Ritual_SustainedRequirements>
   <WotF_Ritual_Chalk_White>white chalk</WotF_Ritual_Chalk_White>
   <WotF_Ritual_Chalk_Green>green chalk</WotF_Ritual_Chalk_Green>
   <WotF_Ritual_Chalk_Star>star chalk</WotF_Ritual_Chalk_Star>
@@ -94,13 +94,13 @@
   <WotF_Ritual_MoreCells>{0} more cells are not listed.</WotF_Ritual_MoreCells>
   <WotF_Ritual_ManaHave>Network mana {1} / needs {0}</WotF_Ritual_ManaHave>
   <WotF_Ritual_ManaShort>Not enough network mana: {1} / needs {0}</WotF_Ritual_ManaShort>
-  <WotF_Ritual_ManaUpkeep>Sustained upkeep: {0} network mana/s</WotF_Ritual_ManaUpkeep>
+  <WotF_Ritual_ManaPerStrike>Per lightning strike: {0} network mana</WotF_Ritual_ManaPerStrike>
   <WotF_Ritual_NoOfferings>This rite needs no offerings.</WotF_Ritual_NoOfferings>
   <WotF_Ritual_Offering>Offering: {0} {1}/{2} delivered</WotF_Ritual_Offering>
   <WotF_Ritual_Collecting>Collecting offerings for {0}.</WotF_Ritual_Collecting>
   <WotF_Ritual_FeeAtEnd>These are taken only when the chant completes.</WotF_Ritual_FeeAtEnd>
   <WotF_Ritual_RunningFeeNote>The mana and offerings are not yet spent; interrupting or cancelling costs nothing.</WotF_Ritual_RunningFeeNote>
-  <WotF_Ritual_SustainingFeeNote>Continues until stopped, the host cannot continue, or the mana network runs dry.</WotF_Ritual_SustainingFeeNote>
+  <WotF_Ritual_SustainingFeeNote>Continues until stopped, the host cannot continue, or the mana network lacks mana for a strike.</WotF_Ritual_SustainingFeeNote>
   <WotF_Ritual_Sustained_Started>{0} is now channeling.</WotF_Ritual_Sustained_Started>
   <WotF_Ritual_Sustained_Stopped>{0} has ended.</WotF_Ritual_Sustained_Stopped>
   <WotF_Ritual_Sustained_HostLost>{0} ended because the host can no longer channel it.</WotF_Ritual_Sustained_HostLost>

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using RimWorld;
 using Verse;
+using WhisperOfTheForest.Mana;
 using WhisperOfTheForest.Spells;
 
 namespace WhisperOfTheForest.Rituals
@@ -18,8 +19,15 @@ namespace WhisperOfTheForest.Rituals
             return 0;
         }
 
-        public virtual int SustainedTick(Building altar, Pawn host, RitualDef def, float ritualStrength)
+        public virtual int SustainedTick(
+            Building altar,
+            Pawn host,
+            RitualDef def,
+            float ritualStrength,
+            ManaNetwork network,
+            out bool manaDepleted)
         {
+            manaDepleted = false;
             return 0;
         }
 

@@ -790,7 +790,7 @@ namespace WhisperOfTheForest.Rituals
                 else if (phase == RitualPhase.Sustaining)
                 {
                     text += "\n" + string.Format("WotF_Ritual_InspectSustaining".Translate(),
-                        activeDef.manaPerSecond.ToString("0.#"));
+                        activeDef.manaPerStrike.ToString("0.#"));
                     if (ActiveStrikesPerMinute > 0f)
                     {
                         text += "\n" + string.Format("WotF_Ritual_StrikeRate".Translate(),
@@ -1267,7 +1267,7 @@ namespace WhisperOfTheForest.Rituals
                 return;
             }
 
-            float requiredMana = activeManaCost > 0f ? activeManaCost : activeDef.manaPerSecond;
+            float requiredMana = activeManaCost > 0f ? activeManaCost : activeDef.manaPerStrike;
             ManaNetwork network = Network();
             if (network == null || network.Stored + 0.0001f < requiredMana)
             {
@@ -1321,13 +1321,6 @@ namespace WhisperOfTheForest.Rituals
                 return;
             }
 
-            ManaNetwork network = Network();
-            if (network == null || !network.TryDraw(activeDef.manaPerSecond / GenTicks.TicksPerRealSecond))
-            {
-                StopSustainedRitual(SustainedEndReason.ManaDepleted);
-                return;
-            }
-
             if (parent.IsHashIntervalTick(GenTicks.TicksPerRealSecond))
             {
                 PruneLostHelpers();
@@ -1366,8 +1359,20 @@ namespace WhisperOfTheForest.Rituals
             }
 
             activeRitualStrength = RitualStrengthOf(activeHost, activeHelpers);
-            sustainedTicksLeft = activeDef.EffectWorker.SustainedTick(
-                (Building)parent, host, activeDef, activeRitualStrength);
+            int nextDelay = activeDef.EffectWorker.SustainedTick(
+                (Building)parent,
+                host,
+                activeDef,
+                activeRitualStrength,
+                Network(),
+                out bool manaDepleted);
+            if (manaDepleted)
+            {
+                StopSustainedRitual(SustainedEndReason.ManaDepleted);
+                return;
+            }
+
+            sustainedTicksLeft = nextDelay;
         }
 
         public void StopSustainedRitual(SustainedEndReason reason)
@@ -1530,7 +1535,7 @@ namespace WhisperOfTheForest.Rituals
             result.RingSize = def.ringSize;
             result.ChalkColor = def.chalkColor;
             result.ManaCost = def.manaCost;
-            result.ManaPerSecond = def.manaPerSecond;
+            result.ManaPerStrike = def.manaPerStrike;
             result.WorkAmount = def.workAmount;
             result.DurationTicks = def.durationTicks;
 
@@ -1824,7 +1829,7 @@ namespace WhisperOfTheForest.Rituals
 
             ManaNetwork network = Network();
             result.ManaStored = network == null ? 0f : network.Stored;
-            float requiredMana = def.sustained && result.ManaCost <= 0f ? def.manaPerSecond : result.ManaCost;
+            float requiredMana = def.sustained && result.ManaCost <= 0f ? def.manaPerStrike : result.ManaCost;
             result.ManaEnough = network != null && result.ManaStored + 0.0001f >= requiredMana;
             if (!result.ManaEnough)
             {

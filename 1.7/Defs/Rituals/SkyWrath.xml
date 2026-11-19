@@ -5,19 +5,19 @@
     <tier>3</tier>
     <family>Domain</family>
     <label>rite of sky wrath</label>
-    <description>The caster traces a star chalk ring and channels lightning down upon the closest unroofed enemy until the rite is stopped, the host falls, or the mana network runs dry. Higher ritual strength calls lightning down more often. Contained entities, prisoners and buildings are spared.</description>
+    <description>The caster traces a star chalk ring and channels lightning down upon the closest unroofed enemy until the rite is stopped, the host falls, or the mana network lacks the 10 mana a strike needs. No mana is spent while no target is struck, and higher ritual strength calls lightning down more often. Contained entities, prisoners and buildings are spared.</description>
     <ringSize>7</ringSize>
     <chalkColor>Star</chalkColor>
     <sustained>true</sustained>
     <manaCost>100</manaCost>
-    <manaPerSecond>4</manaPerSecond>
+    <manaPerStrike>10</manaPerStrike>
     <durationTicks>600</durationTicks>
     <effectRadius>12.9</effectRadius>
     <minParticipants>1</minParticipants>
     <baseStrikesPerMinute>6</baseStrikesPerMinute>
     <minStrikeRadius>5.9</minStrikeRadius>
-    <strikeDamage>10</strikeDamage>
-    <strikeArmorPenetration>0</strikeArmorPenetration>
+    <strikeDamage>25</strikeDamage>
+    <strikeArmorPenetration>0.35</strikeArmorPenetration>
     <strikeRadius>1.9</strikeRadius>
     <strikeIntervalJitter>0.15</strikeIntervalJitter>
     <idleScanIntervalTicks>30</idleScanIntervalTicks>

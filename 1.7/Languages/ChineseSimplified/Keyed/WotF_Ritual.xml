@@ -5,7 +5,7 @@
   <WotF_Ritual_InspectIdle>尚未举行仪式</WotF_Ritual_InspectIdle>
   <WotF_Ritual_InspectGathering>正在集合法阵：全员站上粉笔格后才开始吟唱。</WotF_Ritual_InspectGathering>
   <WotF_Ritual_InspectChanting>正在吟唱：魔源与祭品在圆满落定时才扣除。</WotF_Ritual_InspectChanting>
-  <WotF_Ritual_InspectSustaining>正在持续维持：每秒消耗 {0} 网络魔源。</WotF_Ritual_InspectSustaining>
+  <WotF_Ritual_InspectSustaining>正在持续引导：每次落雷消耗 {0} 网络魔源。</WotF_Ritual_InspectSustaining>
   <WotF_Ritual_StrikeRate>落雷频率：每分钟 {0} 次</WotF_Ritual_StrikeRate>
   <WotF_Ritual_AutoRepeat_Current>自动重复：{0}</WotF_Ritual_AutoRepeat_Current>
   <WotF_Ritual_PrioritizeHost>优先主持「{0}」</WotF_Ritual_PrioritizeHost>
@@ -64,7 +64,7 @@
   <WotF_Ritual_SpellbookUpgrade_NoRoom>祭坛旁没有空间放置升阶后的魔术书。</WotF_Ritual_SpellbookUpgrade_NoRoom>
   <WotF_Ritual_RuneRequirements>{0} 阶 / {1}×{1} 法阵 / 魔源 {2} / 工时 {3} tick</WotF_Ritual_RuneRequirements>
   <WotF_Ritual_WorkRequirements>{0} 阶 / {1}×{1} 法阵 / 魔源 {2} / 工作量 {3}</WotF_Ritual_WorkRequirements>
-  <WotF_Ritual_SustainedRequirements>{0} 阶 / {1}×{1} 法阵 / 魔源 {2} + {3}/秒 / 起手 {4} tick</WotF_Ritual_SustainedRequirements>
+  <WotF_Ritual_SustainedRequirements>{0} 阶 / {1}×{1} 法阵 / 启动魔源 {2}，每次落雷 {3} / 起手 {4} tick</WotF_Ritual_SustainedRequirements>
   <WotF_Ritual_Chalk_White>白垩</WotF_Ritual_Chalk_White>
   <WotF_Ritual_Chalk_Green>翠叶</WotF_Ritual_Chalk_Green>
   <WotF_Ritual_Chalk_Star>星辉</WotF_Ritual_Chalk_Star>
@@ -94,13 +94,13 @@
   <WotF_Ritual_MoreCells>还有 {0} 格未列出。</WotF_Ritual_MoreCells>
   <WotF_Ritual_ManaHave>网络魔源 {1} / 需要 {0}</WotF_Ritual_ManaHave>
   <WotF_Ritual_ManaShort>网络魔源不足：{1} / 需要 {0}</WotF_Ritual_ManaShort>
-  <WotF_Ritual_ManaUpkeep>持续维持：每秒消耗 {0} 网络魔源</WotF_Ritual_ManaUpkeep>
+  <WotF_Ritual_ManaPerStrike>每次落雷：消耗 {0} 网络魔源</WotF_Ritual_ManaPerStrike>
   <WotF_Ritual_NoOfferings>这场仪式不需要祭品。</WotF_Ritual_NoOfferings>
   <WotF_Ritual_Offering>祭品：{0} 已送达 {1}/{2}</WotF_Ritual_Offering>
   <WotF_Ritual_Collecting>正在为{0}收集祭品。</WotF_Ritual_Collecting>
   <WotF_Ritual_FeeAtEnd>以上魔源与祭品在吟唱圆满落定时才扣除。</WotF_Ritual_FeeAtEnd>
   <WotF_Ritual_RunningFeeNote>魔源与祭品尚未扣除；打断或取消不会消耗任何物资。</WotF_Ritual_RunningFeeNote>
-  <WotF_Ritual_SustainingFeeNote>仪式将持续进行，直到手动停止、主持人无法继续或网络魔源耗尽。</WotF_Ritual_SustainingFeeNote>
+  <WotF_Ritual_SustainingFeeNote>仪式将持续进行，直到手动停止、主持人无法继续，或落雷前网络魔源不足。</WotF_Ritual_SustainingFeeNote>
   <WotF_Ritual_Sustained_Started>{0}已开始持续生效。</WotF_Ritual_Sustained_Started>
   <WotF_Ritual_Sustained_Stopped>已停止{0}。</WotF_Ritual_Sustained_Stopped>
   <WotF_Ritual_Sustained_HostLost>{0}因主持人无法继续而终止。</WotF_Ritual_Sustained_HostLost>

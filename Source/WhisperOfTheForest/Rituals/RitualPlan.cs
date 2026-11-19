@@ -69,7 +69,7 @@ namespace WhisperOfTheForest.Rituals
         public int RingSize;
         public ChalkColor ChalkColor;
         public float ManaCost;
-        public float ManaPerSecond;
+        public float ManaPerStrike;
         public float ManaStored;
         public bool ManaEnough;
         public float WorkAmount;
