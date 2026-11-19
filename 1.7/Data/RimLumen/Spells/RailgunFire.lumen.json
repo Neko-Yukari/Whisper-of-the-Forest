@@ -547,7 +547,7 @@
       "parentIndex": -1,
       "localPosition": [
         0.0,
-        0.0,
+        1.6,
         2.5
       ],
       "pointLight": {
@@ -583,7 +583,7 @@
       "parentIndex": -1,
       "localPosition": [
         0.0,
-        0.0,
+        1.6,
         14.0
       ],
       "pointLight": {
@@ -619,7 +619,7 @@
       "parentIndex": -1,
       "localPosition": [
         0.0,
-        0.0,
+        1.6,
         26.0
       ],
       "pointLight": {
@@ -655,7 +655,7 @@
       "parentIndex": -1,
       "localPosition": [
         0.0,
-        0.0,
+        1.6,
         38.0
       ],
       "pointLight": {
