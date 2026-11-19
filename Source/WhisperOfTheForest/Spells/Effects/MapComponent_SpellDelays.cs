@@ -6,7 +6,7 @@ namespace WhisperOfTheForest.Spells
     /// <summary>One "run these steps on this cell later" registration, saved with the map.</summary>
     public class SpellDelayedPayload : IExposable
     {
-        public Pawn caster;
+        public Thing caster;
         public IntVec3 cell;
         public int dueTick;
         public List<SpellEffect> steps = new List<SpellEffect>();
@@ -68,7 +68,7 @@ namespace WhisperOfTheForest.Spells
             }
         }
 
-        public void Schedule(Pawn caster, IntVec3 cell, int dueTick, IReadOnlyList<SpellEffect> steps)
+        public void Schedule(Thing caster, IntVec3 cell, int dueTick, IReadOnlyList<SpellEffect> steps)
         {
             if (pending == null)
             {

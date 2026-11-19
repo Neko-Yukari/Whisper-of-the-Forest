@@ -9,6 +9,7 @@
   <WhisperOfTheForest.Spells.SpellGlyphDef>
     <defName>WotF_Form_Railgun</defName>
     <theme>WotF_Theme_HoloStorm</theme>
+    <combatLogRules>WotF_CombatLog_Railgun</combatLogRules>
     <targets>
       <li>Humanlike</li>
       <li>Animal</li>

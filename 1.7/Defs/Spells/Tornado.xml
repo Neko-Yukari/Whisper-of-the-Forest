@@ -6,6 +6,7 @@
     <description>A stationary flame tornado strikes every target in its radius and leaves a lingering scorch after they leave.</description>
     <kind>Super</kind>
     <theme>WotF_Theme_HoloStorm</theme>
+    <combatLogRules>WotF_CombatLog_Tornado</combatLogRules>
     <requiresUnlock>true</requiresUnlock>
     <compatibleAugments />
     <iconPath>Spellbook/Glyphs/WotF_Form_Railgun</iconPath>

@@ -163,6 +163,7 @@
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.HarmGlyphDef">
     <defName>WotF_Effect_Harm</defName>
     <theme>WotF_Theme_Runic</theme>
+    <combatLogRules>WotF_CombatLog_Harm</combatLogRules>
     <tier>0</tier>
     <targets>
       <li>Humanlike</li>
@@ -223,6 +224,7 @@
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.ExplosionGlyphDef">
     <defName>WotF_Effect_Explosion</defName>
     <theme>WotF_Theme_HoloStorm</theme>
+    <combatLogRules>WotF_CombatLog_Explosion</combatLogRules>
     <tier>2</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>
@@ -291,6 +293,7 @@
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.LightningGlyphDef">
     <defName>WotF_Effect_Lightning</defName>
     <theme>WotF_Theme_HoloStorm</theme>
+    <combatLogRules>WotF_CombatLog_Lightning</combatLogRules>
     <tier>3</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>
@@ -328,6 +331,7 @@
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.ColdSnapGlyphDef">
     <defName>WotF_Effect_ColdSnap</defName>
     <theme>WotF_Theme_Frost</theme>
+    <combatLogRules>WotF_CombatLog_ColdSnap</combatLogRules>
     <tier>2</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>

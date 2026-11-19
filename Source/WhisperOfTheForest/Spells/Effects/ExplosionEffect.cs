@@ -12,27 +12,28 @@ namespace WhisperOfTheForest.Spells
         private float blastRadius;
         private float armorPenetration;
         private bool ignoreBuildings;
+        private SpellDamageSource logSource;
 
         public ExplosionEffect()
         {
         }
 
-        public ExplosionEffect(float blastDamage, float blastRadius, float armorPenetration, bool ignoreBuildings)
+        public ExplosionEffect(float blastDamage, float blastRadius, float armorPenetration, bool ignoreBuildings,
+            SpellDamageSource logSource)
         {
             this.blastDamage = blastDamage;
             this.blastRadius = blastRadius;
             this.armorPenetration = armorPenetration;
             this.ignoreBuildings = ignoreBuildings;
+            this.logSource = logSource;
         }
         public override string DiagnosticName => "explosion";
-        public override int Execute(Pawn caster, Thing primary, IntVec3 cell, Map map)
+        public override int Execute(Thing caster, Thing primary, IntVec3 cell, Map map)
         {
             if (!cell.InBounds(map)) return 0;
             List<Thing> ignored = ignoreBuildings ? BuildingsAround(cell, map, blastRadius) : null;
-            GenExplosion.DoExplosion(cell, map, blastRadius, SpellDamage.ArcaneForce, caster,
-                damAmount: Mathf.Max(1, Mathf.RoundToInt(blastDamage)), armorPenetration: armorPenetration,
-                doVisualEffects: false, damageFalloff: true, ignoredThings: ignored);
-            return 1;
+            return SpellDamage.Explode(cell, map, blastRadius, Mathf.Max(1, Mathf.RoundToInt(blastDamage)),
+                armorPenetration, caster, logSource, ignored) ? 1 : 0;
         }
         private static List<Thing> BuildingsAround(IntVec3 cell, Map map, float radius)
         {
@@ -47,11 +48,15 @@ namespace WhisperOfTheForest.Spells
             Scribe_Values.Look(ref blastRadius, "blastRadius");
             Scribe_Values.Look(ref armorPenetration, "armorPenetration");
             Scribe_Values.Look(ref ignoreBuildings, "ignoreBuildings");
+            Scribe_Deep.Look(ref logSource, "logSource");
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && logSource == null)
+                logSource = SpellDamageSource.FromGlyph(SpellDefs.Glyph(SpellDefs.EffectExplosion));
         }
     }
 
     public sealed class ExplosionGlyphDef : EffectGlyphDef
     {
+        protected override bool RequiresCombatLogRules => true;
         public float blastDamage;
         public float armorPenetration;
         public override SpellEffect Compile(IReadOnlyList<SpellGlyphDef> augments,
@@ -78,7 +83,7 @@ namespace WhisperOfTheForest.Spells
                 else if (augment.defName == SpellDefs.AugmentBreakArmor) penetration += augment.factor;
             }
             if (value > 0f && staff != null) value *= staff.damageFactor;
-            return new ExplosionEffect(value, area, penetration, ignoreBuildings);
+            return new ExplosionEffect(value, area, penetration, ignoreBuildings, SpellDamageSource.FromGlyph(this));
         }
         public override IEnumerable<string> ConfigErrors()
         {

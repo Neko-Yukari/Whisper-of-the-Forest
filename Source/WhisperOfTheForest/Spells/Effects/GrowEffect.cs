@@ -25,7 +25,7 @@ namespace WhisperOfTheForest.Spells
             this.soilRadius = soilRadius;
         }
         public override string DiagnosticName => "grow";
-        public override int Execute(Pawn caster, Thing primary, IntVec3 cell, Map map)
+        public override int Execute(Thing caster, Thing primary, IntVec3 cell, Map map)
         {
             if (!cell.InBounds(map) || fertilityDurationTicks <= 0 || growthFactor <= 1f) return 0;
             if (!useArea)

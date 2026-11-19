@@ -29,6 +29,8 @@ namespace WhisperOfTheForest.Spells
         /// <summary>Semantic visual request name. The spell never names colours, beams or screens.</summary>
         public string vfxDef = SpellDefs.VfxRailgun;
 
+        public SpellDamageSource logSource;
+
         public string Release(SpellCast cast)
         {
             string report = RailgunCastService.Resolve(cast.map, cast.caster, cast.cell, this);
@@ -60,6 +62,11 @@ namespace WhisperOfTheForest.Spells
             Scribe_Values.Look(ref hitWidth, "hitWidth", 2.5f);
             Scribe_Values.Look(ref range, "range", 0f);
             Scribe_Values.Look(ref vfxDef, "vfxDef");
+            Scribe_Deep.Look(ref logSource, "logSource");
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && logSource == null)
+            {
+                logSource = SpellDamageSource.FromGlyph(SpellDefs.Glyph(SpellDefs.SuperRailgun));
+            }
         }
 
         public SpellRailgunSpec Copy()
@@ -70,7 +77,8 @@ namespace WhisperOfTheForest.Spells
                 armorPenetration = armorPenetration,
                 hitWidth = hitWidth,
                 range = range,
-                vfxDef = vfxDef
+                vfxDef = vfxDef,
+                logSource = logSource?.Copy()
             };
         }
     }

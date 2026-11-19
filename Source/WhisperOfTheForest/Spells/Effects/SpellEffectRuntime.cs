@@ -126,7 +126,7 @@ namespace WhisperOfTheForest.Spells
         }
 
         internal static int SpawnField(SpellPayload payload, int lifetimeTicks, float radius, int intervalTicks,
-            SpellFieldMode mode, Pawn caster, IntVec3 cell, Map map)
+            SpellFieldMode mode, Thing caster, IntVec3 cell, Map map)
         {
             if (!GenGrid.InBounds(cell, map) || payload == null || payload.steps.Count == 0) return 0;
             ThingDef def = DefDatabase<ThingDef>.GetNamedSilentFail(SpellEffectDefs.ThingSpellField);

@@ -15,7 +15,7 @@ namespace WhisperOfTheForest.Spells
 
         public void Resolve(ArcaneMissileImpactContext context)
         {
-            string report = SpellExecutor.Execute(plan, context.Caster as Pawn, context.Hit, context.ImpactCell, context.Map);
+            string report = SpellExecutor.Execute(plan, context.Caster, context.Hit, context.ImpactCell, context.Map);
             SpellDiagnostics.Message("impact '" + plan.recipeName + "' cell=" + context.ImpactCell
                                      + " hit=" + (context.Hit != null ? context.Hit.LabelShort : "ground")
                                      + " " + report);

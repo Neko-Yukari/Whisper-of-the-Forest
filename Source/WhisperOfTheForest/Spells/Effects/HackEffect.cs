@@ -37,9 +37,9 @@ namespace WhisperOfTheForest.Spells
         public int MaxTicks => maxTicks;
         public int ControlTicks => controlTicks;
         public override string DiagnosticName => "hack";
-        public override int Execute(Pawn caster, Thing primary, IntVec3 cell, Map map)
+        public override int Execute(Thing caster, Thing primary, IntVec3 cell, Map map)
         {
-            return MechHackService.Apply(this, caster, primary, cell, map);
+            return MechHackService.Apply(this, caster as Pawn, primary, cell, map);
         }
         public override void ExposeData()
         {

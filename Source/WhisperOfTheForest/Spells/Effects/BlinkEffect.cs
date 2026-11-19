@@ -19,13 +19,13 @@ namespace WhisperOfTheForest.Spells
             this.selfForwardDistance = selfForwardDistance;
         }
         public override string DiagnosticName => "blink";
-        public override int Execute(Pawn caster, Thing primary, IntVec3 cell, Map map)
+        public override int Execute(Thing caster, Thing primary, IntVec3 cell, Map map)
         {
-            if (caster == null || !caster.Spawned || caster.Map != map) return 0;
-            IntVec3 destination = primary == caster
-                ? SpellEffectRuntime.ForwardCell(caster, Mathf.RoundToInt(selfForwardDistance))
+            if (!(caster is Pawn casterPawn) || !casterPawn.Spawned || casterPawn.Map != map) return 0;
+            IntVec3 destination = primary == casterPawn
+                ? SpellEffectRuntime.ForwardCell(casterPawn, Mathf.RoundToInt(selfForwardDistance))
                 : cell;
-            return SpellEffectRuntime.TryTeleport(caster, destination, map) ? 1 : 0;
+            return SpellEffectRuntime.TryTeleport(casterPawn, destination, map) ? 1 : 0;
         }
         public override void ExposeData()
         {

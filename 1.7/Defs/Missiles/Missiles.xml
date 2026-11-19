@@ -6,12 +6,14 @@
     <defName>WotF_ArcaneMissileDamage</defName>
     <label>blunt</label>
     <description>Heavy concussive force that crushes rather than cuts.</description>
+    <workerClass>WhisperOfTheForest.Spells.DamageWorker_SpellArcaneForce</workerClass>
     <deathMessage>{0} was crushed to death by blunt force.</deathMessage>
     <hediff>Bruise</hediff>
     <hediffSolid>Crack</hediffSolid>
     <armorCategory>Blunt</armorCategory>
     <makesAnimalsFlee>false</makesAnimalsFlee>
     <soundExplosion>Explosion_Bomb</soundExplosion>
+    <combatLogRules>Damage_Bomb</combatLogRules>
   </DamageDef>
 
   <!--

@@ -24,7 +24,7 @@ namespace WhisperOfTheForest.Spells
             this.pulseIntervalTicks = pulseIntervalTicks;
         }
         public override string DiagnosticName => "linger";
-        public override int Execute(Pawn caster, Thing primary, IntVec3 cell, Map map)
+        public override int Execute(Thing caster, Thing primary, IntVec3 cell, Map map)
         {
             return SpellEffectRuntime.SpawnField(payload, lifetimeTicks, fieldRadius, pulseIntervalTicks,
                 SpellFieldMode.Linger, caster, cell, map);

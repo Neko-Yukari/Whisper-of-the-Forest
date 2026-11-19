@@ -17,13 +17,15 @@ namespace WhisperOfTheForest.Spells
         private int chargeDurationTicks;
         private bool useArea;
         private float targetRadius;
+        private SpellDamageSource logSource;
 
         public LightningEffect()
         {
         }
 
         public LightningEffect(float burnDamage, float burnArmorPenetration, float empDamage,
-            float bonusPerChargeStack, int chargeDurationTicks, bool useArea, float targetRadius)
+            float bonusPerChargeStack, int chargeDurationTicks, bool useArea, float targetRadius,
+            SpellDamageSource logSource)
         {
             this.burnDamage = burnDamage;
             this.burnArmorPenetration = burnArmorPenetration;
@@ -32,9 +34,10 @@ namespace WhisperOfTheForest.Spells
             this.chargeDurationTicks = chargeDurationTicks;
             this.useArea = useArea;
             this.targetRadius = targetRadius;
+            this.logSource = logSource;
         }
         public override string DiagnosticName => "lightning";
-        public override int Execute(Pawn caster, Thing primary, IntVec3 cell, Map map)
+        public override int Execute(Thing caster, Thing primary, IntVec3 cell, Map map)
         {
             VfxService.Play(new VfxRequest
             {
@@ -53,13 +56,9 @@ namespace WhisperOfTheForest.Spells
                     stacks = charge?.Severity ?? 0f;
                 }
                 if (empDamage > 0f)
-                    target.TakeDamage(new DamageInfo(DamageDefOf.EMP, empDamage, armorPenetration: 0f,
-                        angle: -1f, instigator: caster, intendedTarget: target, instigatorGuilty: true,
-                        spawnFilth: false));
+                    SpellDamage.Deal(target, DamageDefOf.EMP, empDamage, 0f, caster, logSource);
                 float damage = burnDamage * (1f + stacks * bonusPerChargeStack);
-                target.TakeDamage(new DamageInfo(DamageDefOf.Burn, damage,
-                    armorPenetration: burnArmorPenetration, angle: -1f, instigator: caster,
-                    intendedTarget: target, instigatorGuilty: true, spawnFilth: false));
+                SpellDamage.Deal(target, DamageDefOf.Burn, damage, burnArmorPenetration, caster, logSource);
                 if (target is Pawn charged)
                     SpellEffectRuntime.AddTimedHediff(charged, SpellEffectDefs.HediffLightningCharge,
                         chargeDurationTicks);
@@ -75,11 +74,15 @@ namespace WhisperOfTheForest.Spells
             Scribe_Values.Look(ref chargeDurationTicks, "chargeDurationTicks");
             Scribe_Values.Look(ref useArea, "useArea");
             Scribe_Values.Look(ref targetRadius, "targetRadius");
+            Scribe_Deep.Look(ref logSource, "logSource");
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && logSource == null)
+                logSource = SpellDamageSource.FromGlyph(SpellDefs.Glyph(SpellDefs.EffectLightning));
         }
     }
 
     public sealed class LightningGlyphDef : EffectGlyphDef
     {
+        protected override bool RequiresCombatLogRules => true;
         public float burnDamage;
         public float armorPenetration;
         public float empAmount;
@@ -110,7 +113,8 @@ namespace WhisperOfTheForest.Spells
                     duration = Duration(duration, extendBaseChargeDurationTicks, augment);
             }
             if (value > 0f && staff != null) value *= staff.damageFactor;
-            return new LightningEffect(value, penetration, empAmount, perStackFactor, duration, useArea, area);
+            return new LightningEffect(value, penetration, empAmount, perStackFactor, duration, useArea, area,
+                SpellDamageSource.FromGlyph(this));
         }
         public override IEnumerable<string> ConfigErrors()
         {

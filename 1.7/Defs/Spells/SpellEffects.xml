@@ -162,6 +162,11 @@
     <duplicationAllowed>false</duplicationAllowed>
     <initialSeverity>1</initialSeverity>
     <maxSeverity>1</maxSeverity>
+    <modExtensions>
+      <li Class="WhisperOfTheForest.Spells.SpellCombatLogExtension">
+        <combatLogRules>WotF_CombatLog_Scorch</combatLogRules>
+      </li>
+    </modExtensions>
     <comps>
       <li Class="HediffCompProperties_Disappears">
         <disappearsAfterTicks>600~600</disappearsAfterTicks>
@@ -205,6 +210,15 @@
     <defName>WotF_SpellOrbit</defName>
     <label>arcane orb</label>
     <thingClass>WhisperOfTheForest.Spells.Thing_SpellOrbit</thingClass>
+    <tickerType>Normal</tickerType>
+    <selectable>false</selectable>
+  </ThingDef>
+
+  <!-- Explosion carrier that preserves the spell effect's combat-log source across ticks and saves. -->
+  <ThingDef ParentName="EtherealThingBase">
+    <defName>WotF_SpellExplosion</defName>
+    <label>arcane explosion</label>
+    <thingClass>WhisperOfTheForest.Spells.Thing_SpellExplosion</thingClass>
     <tickerType>Normal</tickerType>
     <selectable>false</selectable>
   </ThingDef>

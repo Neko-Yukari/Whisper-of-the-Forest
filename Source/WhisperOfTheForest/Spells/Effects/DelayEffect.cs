@@ -22,7 +22,7 @@ namespace WhisperOfTheForest.Spells
         internal SpellPayload Payload => payload;
 
         public override string DiagnosticName => "delay";
-        public override int Execute(Pawn caster, Thing primary, IntVec3 cell, Map map)
+        public override int Execute(Thing caster, Thing primary, IntVec3 cell, Map map)
         {
             if (payload == null || payload.steps.Count == 0 || delayTicks <= 0) return 0;
             MapComponent_SpellDelays component = map.GetComponent<MapComponent_SpellDelays>();

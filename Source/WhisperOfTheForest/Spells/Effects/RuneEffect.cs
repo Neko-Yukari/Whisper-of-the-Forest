@@ -20,7 +20,7 @@ namespace WhisperOfTheForest.Spells
             this.lifetimeTicks = lifetimeTicks;
         }
         public override string DiagnosticName => "rune";
-        public override int Execute(Pawn caster, Thing primary, IntVec3 cell, Map map)
+        public override int Execute(Thing caster, Thing primary, IntVec3 cell, Map map)
         {
             return SpellEffectRuntime.SpawnField(payload, lifetimeTicks, 0f, 0, SpellFieldMode.Rune,
                 caster, cell, map);

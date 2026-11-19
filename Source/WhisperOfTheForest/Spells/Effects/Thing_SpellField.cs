@@ -26,7 +26,7 @@ namespace WhisperOfTheForest.Spells
     public class Thing_SpellField : Thing
     {
         private SpellFieldMode mode;
-        private Pawn caster;
+        private Thing caster;
         private List<SpellEffect> payload = new List<SpellEffect>();
         private float radius;
         private int intervalTicks;
@@ -36,7 +36,7 @@ namespace WhisperOfTheForest.Spells
 
         internal IReadOnlyList<SpellEffect> Payload => payload;
 
-        public void Configure(SpellFieldMode mode, Pawn caster, IReadOnlyList<SpellEffect> steps,
+        public void Configure(SpellFieldMode mode, Thing caster, IReadOnlyList<SpellEffect> steps,
             int lifetimeTicks, float radius, int intervalTicks)
         {
             this.mode = mode;
