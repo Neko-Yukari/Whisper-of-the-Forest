@@ -55,7 +55,7 @@ namespace WhisperOfTheForest.Rituals
         public ChalkColor chalkColor = ChalkColor.White;
         public float manaCost;
         public bool sustained;
-        public float manaPerSecond;
+        public float manaPerStrike;
         public int durationTicks;
         public float workAmount;
         public float effectRadius = 12.9f;
@@ -221,9 +221,9 @@ namespace WhisperOfTheForest.Rituals
                 yield return defName + " manaCost must not be negative.";
             }
 
-            if (manaPerSecond < 0f)
+            if (manaPerStrike < 0f)
             {
-                yield return defName + " manaPerSecond must not be negative.";
+                yield return defName + " manaPerStrike must not be negative.";
             }
 
             if (sustained)
@@ -233,20 +233,11 @@ namespace WhisperOfTheForest.Rituals
                     yield return defName + " is sustained and must use durationTicks, not workAmount.";
                 }
 
-                if (manaPerSecond <= 0f)
-                {
-                    yield return defName + " is sustained and must declare a positive manaPerSecond.";
-                }
-
                 if (autoRepeatable || outputProducts != null || chooseRune || chooseTeleportTarget
                     || chooseRuinType || chooseEquipment || requiresDeepResources)
                 {
                     yield return defName + " is sustained and cannot combine with production or target-picking flags.";
                 }
-            }
-            else if (manaPerSecond > 0f)
-            {
-                yield return defName + " sets manaPerSecond but is not sustained.";
             }
 
             if (workAmount < 0f)
@@ -485,6 +476,11 @@ namespace WhisperOfTheForest.Rituals
                     yield return defName + " uses RitualEffect_SkyWrath and must set sustained=true.";
                 }
 
+                if (manaPerStrike <= 0f)
+                {
+                    yield return defName + " uses RitualEffect_SkyWrath and needs a positive manaPerStrike.";
+                }
+
                 if (baseStrikesPerMinute <= 0f)
                 {
                     yield return defName + " uses RitualEffect_SkyWrath and needs a positive baseStrikesPerMinute.";
@@ -520,7 +516,7 @@ namespace WhisperOfTheForest.Rituals
                     yield return defName + " uses RitualEffect_SkyWrath and needs a positive idleScanIntervalTicks.";
                 }
             }
-            else if (baseStrikesPerMinute != 0f || minStrikeRadius != 0f || strikeDamage != 0
+            else if (manaPerStrike != 0f || baseStrikesPerMinute != 0f || minStrikeRadius != 0f || strikeDamage != 0
                 || strikeArmorPenetration != 0f || strikeRadius != 0f || strikeIntervalJitter != 0f
                 || idleScanIntervalTicks != 0)
             {

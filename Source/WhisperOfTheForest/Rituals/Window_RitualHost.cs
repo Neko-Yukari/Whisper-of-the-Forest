@@ -128,7 +128,7 @@ namespace WhisperOfTheForest.Rituals
                 ? "WotF_Ritual_InspectGathering".Translate()
                 : altar.Phase == RitualPhase.Sustaining
                     ? (TaggedString)string.Format("WotF_Ritual_InspectSustaining".Translate(),
-                        altar.ActiveDef.manaPerSecond.ToString("0.#"))
+                        altar.ActiveDef.manaPerStrike.ToString("0.#"))
                     : "WotF_Ritual_InspectChanting".Translate());
             y = Line(rect.x, y, string.Format("WotF_Ritual_RitualStrength".Translate(), altar.ActiveRitualStrength.ToString("0.#")));
             if (altar.Phase == RitualPhase.Sustaining && altar.ActiveStrikesPerMinute > 0f)
@@ -387,10 +387,10 @@ namespace WhisperOfTheForest.Rituals
             y = Line(0f, y, found.ManaEnough
                 ? "WotF_Ritual_ManaHave".Translate(found.ManaCost.ToString("0.#"), found.ManaStored.ToString("0.#"))
                 : "WotF_Ritual_ManaShort".Translate(found.ManaCost.ToString("0.#"), found.ManaStored.ToString("0.#")));
-            if (found.ManaPerSecond > 0f)
+            if (found.ManaPerStrike > 0f)
             {
-                y = Line(0f, y, string.Format("WotF_Ritual_ManaUpkeep".Translate(),
-                    found.ManaPerSecond.ToString("0.#")));
+                y = Line(0f, y, string.Format("WotF_Ritual_ManaPerStrike".Translate(),
+                    found.ManaPerStrike.ToString("0.#")));
             }
 
             if (altar.CollectDef != null)

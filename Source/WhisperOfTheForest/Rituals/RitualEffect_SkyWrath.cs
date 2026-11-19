@@ -5,13 +5,15 @@ using UnityEngine;
 using Verse;
 using Verse.AI;
 using Verse.Sound;
+using WhisperOfTheForest.Mana;
 
 namespace WhisperOfTheForest.Rituals
 {
     /// <summary>
-    /// Sustained T3 Sky Wrath rite: while the circle holds and the network feeds it, lightning strikes
-    /// the closest unroofed hostile pawn at a rate governed by ritual strength. Contained or queued-for-capture
-    /// anomaly entities, colony prisoners (even during prison breaks or berserk states) and buildings are spared.
+    /// Sustained T3 Sky Wrath rite: while the circle holds, lightning strikes the closest unroofed
+    /// hostile pawn at a rate governed by ritual strength, spending <see cref="RitualDef.manaPerStrike"/>
+    /// from the network before each strike (nothing is spent while no target is struck). Contained or
+    /// queued-for-capture anomaly entities, colony prisoners and buildings are spared.
     /// </summary>
     public sealed class RitualEffect_SkyWrath : RitualEffectWorker
     {
@@ -25,15 +27,29 @@ namespace WhisperOfTheForest.Rituals
             return 0;
         }
 
-        public override int SustainedTick(Building altar, Pawn host, RitualDef def, float ritualStrength)
+        public override int SustainedTick(
+            Building altar,
+            Pawn host,
+            RitualDef def,
+            float ritualStrength,
+            ManaNetwork network,
+            out bool manaDepleted)
         {
             Map map = altar.Map;
             Pawn target = FindClosestTarget(map, altar.Position, def.minStrikeRadius);
             if (target == null)
             {
+                manaDepleted = false;
                 return def.idleScanIntervalTicks;
             }
 
+            if (network == null || !network.TryDraw(def.manaPerStrike))
+            {
+                manaDepleted = true;
+                return 0;
+            }
+
+            manaDepleted = false;
             IntVec3 strikeCell = target.Position;
             map.weatherManager.eventHandler.AddEvent(new WeatherEvent_SkyWrathStrike(
                 map,
@@ -47,7 +63,7 @@ namespace WhisperOfTheForest.Rituals
             WotfLog.Debug(
                 WotfLog.ModuleRitual,
                 "sky wrath struck " + target.LabelShort + " at " + strikeCell
-                + " damage=" + def.strikeDamage + " nextTicks=" + nextDelay);
+                + " mana=" + def.manaPerStrike + " damage=" + def.strikeDamage + " nextTicks=" + nextDelay);
             return nextDelay;
         }
 
