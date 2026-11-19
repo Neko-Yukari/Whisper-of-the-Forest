@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <!-- 寻踪：2 阶祭坛的界域阵（Domain），5×5 翠叶粉笔环，沿用现有 5×5 绿环的配色。
-       120 魔源 / 600 tick 是任务书定值，其余为占位。主持者在这里二选一：通用遗迹或核心遗迹。 -->
-  <WhisperOfTheForest.Rituals.RitualDef>
+       120 魔源 / 600 工作量是任务书定值，其余为占位。主持者在这里二选一：通用遗迹或核心遗迹。 -->
+  <WhisperOfTheForest.Rituals.RitualDef ParentName="WotF_WorkRitualBase">
     <defName>WotF_Ritual_SeekRuin</defName>
     <tier>2</tier>
     <family>Domain</family>
@@ -11,7 +11,7 @@
     <ringSize>5</ringSize>
     <chalkColor>Green</chalkColor>
     <manaCost>120</manaCost>
-    <durationTicks>600</durationTicks>
+    <workAmount>600</workAmount>
     <effectRadius>12.9</effectRadius>
     <chooseRuinType>true</chooseRuinType>
     <effectWorkerClass>WhisperOfTheForest.AncientRuins.RitualEffect_SeekRuin</effectWorkerClass>

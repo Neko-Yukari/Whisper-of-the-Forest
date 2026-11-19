@@ -7,7 +7,7 @@
   <WotF_EngineeringResonanceCore.label>工程站谐振核</WotF_EngineeringResonanceCore.label>
   <WotF_EngineeringResonanceCore.description>只能从远古工程站遗迹深处取得、不可制造的核心部件，用于建造星辉祭坛。遗迹获取途径尚未开放。</WotF_EngineeringResonanceCore.description>
   <WotF_RitualLivingwoodLamp.label>灵木灯台</WotF_RitualLivingwoodLamp.label>
-  <WotF_RitualLivingwoodLamp.description>以活木与翡翠制成的仪式灯台。每座为附近连接的祭坛提供 2 级共鸣，每座祭坛最多连接 4 座。</WotF_RitualLivingwoodLamp.description>
+  <WotF_RitualLivingwoodLamp.description>以活木与翡翠制成的仪式灯台。每座为附近连接的祭坛提供 2 点共鸣强度，每座祭坛最多连接 4 座。</WotF_RitualLivingwoodLamp.description>
   <WotF_RitualElvenStatue.label>精灵仪式雕像</WotF_RitualElvenStatue.label>
-  <WotF_RitualElvenStatue.description>按照艺术品质为附近连接的祭坛提供共鸣等级的精灵雕像，每座祭坛最多连接 6 座。兼作艺术冥想焦点。</WotF_RitualElvenStatue.description>
+  <WotF_RitualElvenStatue.description>按照艺术品质为附近连接的祭坛提供共鸣强度的精灵雕像，每座祭坛最多连接 6 座。兼作艺术冥想焦点。</WotF_RitualElvenStatue.description>
 </LanguageData>

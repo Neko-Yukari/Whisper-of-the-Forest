@@ -12,7 +12,7 @@ namespace WhisperOfTheForest.Rituals
     /// <summary>
     /// 【主持仪式…】 on one page: which rite, which rune or teleport node, the circle (with the cells
     /// still missing, also outlined on the map), the offerings and network mana, who hosts, who helps
-    /// and the resonance that comes out of it. The bottom button is enabled only when the same
+    /// and the ritual strength that comes out of it. The bottom button is enabled only when the same
     /// validation the altar runs would pass, so the panel can never offer a start the altar refuses.
     ///
     /// Nothing is spent here. [准备] has haulers carry the offerings into the altar; the rite can begin
@@ -127,7 +127,7 @@ namespace WhisperOfTheForest.Rituals
             y = Line(rect.x, y, altar.Phase == RitualPhase.Gathering
                 ? "WotF_Ritual_InspectGathering".Translate()
                 : "WotF_Ritual_InspectChanting".Translate());
-            y = Line(rect.x, y, string.Format("WotF_Ritual_Power".Translate(), altar.ActivePower.ToString("0.#")));
+            y = Line(rect.x, y, string.Format("WotF_Ritual_RitualStrength".Translate(), altar.ActiveRitualStrength.ToString("0.#")));
             Line(rect.x, y, "WotF_Ritual_RunningFeeNote".Translate());
         }
 
@@ -472,12 +472,14 @@ namespace WhisperOfTheForest.Rituals
                 y = Line(0f, y, "WotF_Ritual_MinParticipants".Translate(selected.minParticipants));
             }
 
-            y = Line(0f, y, "WotF_Ritual_Resonance".Translate(
-                found.BloodlinePower.ToString("0.#"), found.FacilityPower.ToString("0.#"),
-                found.Power.ToString("0.#")));
-            y = Line(0f, y, selected != null && selected.UsesPower
-                ? "WotF_Ritual_PowerScaled".Translate()
-                : "WotF_Ritual_PowerFixed".Translate());
+            y = Line(0f, y, string.Format("WotF_Ritual_StrengthBreakdown".Translate(),
+                found.ChantStrength.ToString("0.#"), found.ResonanceStrength.ToString("0.#"),
+                found.RitualStrength.ToString("0.#")));
+            y = Line(0f, y, selected != null && selected.UsesEffectStrength
+                ? "WotF_Ritual_StrengthScaled".Translate()
+                : selected != null && selected.UsesWork
+                    ? "WotF_Ritual_StrengthSpeed".Translate()
+                    : "WotF_Ritual_StrengthFixed".Translate());
             return Line(0f, y, "WotF_Ritual_ParticipantsHint".Translate());
         }
 
@@ -633,8 +635,8 @@ namespace WhisperOfTheForest.Rituals
                 return glyph.LabelCap;
             }
 
-            return glyph.LabelCap + " — " + "WotF_Ritual_RuneRequirements".Translate(tier.tier, tier.ringSize,
-                tier.manaCost.ToString("0.#"), tier.durationTicks);
+            return glyph.LabelCap + " — " + string.Format("WotF_Ritual_WorkRequirements".Translate(),
+                tier.tier, tier.ringSize, tier.manaCost.ToString("0.#"), tier.workAmount.ToString("0.#"));
         }
     }
 }

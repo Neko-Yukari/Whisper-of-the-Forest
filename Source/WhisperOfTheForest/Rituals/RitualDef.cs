@@ -29,7 +29,7 @@ namespace WhisperOfTheForest.Rituals
         public int ringSize;
         public ChalkColor chalkColor;
         public float manaCost;
-        public int durationTicks;
+        public float workAmount;
     }
 
     /// <summary>
@@ -54,16 +54,18 @@ namespace WhisperOfTheForest.Rituals
         public int ringSize = 3;
         public ChalkColor chalkColor = ChalkColor.White;
         public float manaCost;
-        public int durationTicks = 600;
+        public int durationTicks;
+        public float workAmount;
         public float effectRadius = 12.9f;
         public float manaRestore;
 
-        public SimpleCurve powerRadiusFactor;
-        public SimpleCurve powerEffectFactor;
-        public float tameChancePerPower;
+        public SimpleCurve strengthSpeedFactor;
+        public SimpleCurve strengthRadiusFactor;
+        public SimpleCurve strengthEffectFactor;
+        public float tameChancePerStrength;
 
-        /// <summary>Minimum resonance required to perform this rite; 0 means none.</summary>
-        public float minResonance;
+        /// <summary>Minimum ritual strength required to perform this rite; 0 means none.</summary>
+        public float minRitualStrength;
 
         /// <summary>Bloodline participants required on the ring before the rite may start.</summary>
         public int minParticipants;
@@ -147,16 +149,27 @@ namespace WhisperOfTheForest.Rituals
             }
         }
 
-        public bool UsesPower => powerRadiusFactor != null || powerEffectFactor != null || tameChancePerPower > 0f;
+        public bool UsesWork => workAmount > 0f || chooseRune;
 
-        public float RadiusFor(float power)
+        public bool UsesEffectStrength => strengthRadiusFactor != null
+            || strengthEffectFactor != null
+            || tameChancePerStrength > 0f;
+
+        public bool UsesRitualStrength => UsesWork || UsesEffectStrength;
+
+        public float SpeedFactorFor(float ritualStrength)
         {
-            return effectRadius * (powerRadiusFactor == null ? 1f : powerRadiusFactor.Evaluate(power));
+            return strengthSpeedFactor.Evaluate(ritualStrength);
         }
 
-        public float EffectFactorFor(float power)
+        public float RadiusFor(float ritualStrength)
         {
-            return powerEffectFactor == null ? 1f : powerEffectFactor.Evaluate(power);
+            return effectRadius * (strengthRadiusFactor == null ? 1f : strengthRadiusFactor.Evaluate(ritualStrength));
+        }
+
+        public float EffectFactorFor(float ritualStrength)
+        {
+            return strengthEffectFactor == null ? 1f : strengthEffectFactor.Evaluate(ritualStrength);
         }
 
         private static bool AltarHasShieldComp()
@@ -194,13 +207,23 @@ namespace WhisperOfTheForest.Rituals
                 yield return defName + " manaCost must not be negative.";
             }
 
-            if (durationTicks <= 0)
+            if (workAmount < 0f)
             {
-                yield return defName + " durationTicks must be positive.";
+                yield return defName + " workAmount must not be negative.";
+            }
+
+            if (durationTicks < 0)
+            {
+                yield return defName + " durationTicks must not be negative.";
             }
 
             if (chooseRune)
             {
+                if (workAmount > 0f || durationTicks > 0)
+                {
+                    yield return defName + " uses runeTiers and must not set top-level workAmount or durationTicks.";
+                }
+
                 for (int runeTier = 1; runeTier <= 3; runeTier++)
                 {
                     if (runeTiers == null || runeTiers.FindAll(entry => entry != null && entry.tier == runeTier).Count != 1)
@@ -213,10 +236,26 @@ namespace WhisperOfTheForest.Rituals
                         if (entry == null || entry.tier < 1 || entry.tier > 3
                             || entry.ringSize < 3 || entry.ringSize > 7 || entry.ringSize % 2 == 0
                             || !Enum.IsDefined(typeof(ChalkColor), entry.chalkColor)
-                            || entry.manaCost < 0f || entry.durationTicks <= 0)
+                            || entry.manaCost < 0f || entry.workAmount <= 0f)
                             yield return defName + " has an invalid runeTiers entry.";
                     }
                 }
+            }
+            else if ((workAmount > 0f) == (durationTicks > 0))
+            {
+                yield return defName + " must set either workAmount or durationTicks, not both.";
+            }
+
+            if (UsesWork)
+            {
+                if (strengthSpeedFactor == null || strengthSpeedFactor.PointsCount == 0 || strengthSpeedFactor.MinY <= 0f)
+                {
+                    yield return defName + " uses workAmount and must declare a positive strengthSpeedFactor.";
+                }
+            }
+            else if (strengthSpeedFactor != null)
+            {
+                yield return defName + " uses fixed durationTicks and must not declare strengthSpeedFactor.";
             }
 
             if (effectRadius <= 0f)
@@ -224,20 +263,20 @@ namespace WhisperOfTheForest.Rituals
                 yield return defName + " effectRadius must be positive.";
             }
 
-            if (powerRadiusFactor != null && (powerRadiusFactor.PointsCount == 0 || powerRadiusFactor.MinY <= 0f
-                || effectRadius * powerRadiusFactor.MaxY > GenRadial.MaxRadialPatternRadius))
+            if (strengthRadiusFactor != null && (strengthRadiusFactor.PointsCount == 0 || strengthRadiusFactor.MinY <= 0f
+                || effectRadius * strengthRadiusFactor.MaxY > GenRadial.MaxRadialPatternRadius))
             {
-                yield return defName + " powerRadiusFactor must be positive and stay inside GenRadial's radius limit.";
+                yield return defName + " strengthRadiusFactor must be positive and stay inside GenRadial's radius limit.";
             }
 
-            if (powerEffectFactor != null && (powerEffectFactor.PointsCount == 0 || powerEffectFactor.MinY <= 0f))
+            if (strengthEffectFactor != null && (strengthEffectFactor.PointsCount == 0 || strengthEffectFactor.MinY <= 0f))
             {
-                yield return defName + " powerEffectFactor must be positive.";
+                yield return defName + " strengthEffectFactor must be positive.";
             }
 
-            if (tameChancePerPower < 0f) yield return defName + " tameChancePerPower must not be negative.";
+            if (tameChancePerStrength < 0f) yield return defName + " tameChancePerStrength must not be negative.";
 
-            if (minResonance < 0f) yield return defName + " minResonance must not be negative.";
+            if (minRitualStrength < 0f) yield return defName + " minRitualStrength must not be negative.";
 
             if (minParticipants < 0)
             {

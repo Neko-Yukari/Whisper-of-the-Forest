@@ -46,9 +46,9 @@ namespace WhisperOfTheForest.Rituals
         /// <summary>Extra bloodline pawns that stood on the ring when the rite started.</summary>
         public readonly int Participants;
 
-        public readonly float Power;
-        public float EffectRadius => Def.RadiusFor(Power);
-        public float EffectFactor => Def.EffectFactorFor(Power);
+        public readonly float RitualStrength;
+        public float EffectRadius => Def.RadiusFor(RitualStrength);
+        public float EffectFactor => Def.EffectFactorFor(RitualStrength);
 
         public RitualContext(
             Map map,
@@ -58,7 +58,7 @@ namespace WhisperOfTheForest.Rituals
             SpellGlyphDef rune,
             Building teleportTarget = null,
             int participants = 0,
-            float power = 0f,
+            float ritualStrength = 0f,
             Thing equipment = null,
             int bookSlot = -1,
             RuinSeekOption ruinOption = null,
@@ -71,7 +71,7 @@ namespace WhisperOfTheForest.Rituals
             Rune = rune;
             TeleportTarget = teleportTarget;
             Participants = participants;
-            Power = power;
+            RitualStrength = ritualStrength;
             Equipment = equipment;
             BookSlot = bookSlot;
             RuinOption = ruinOption;

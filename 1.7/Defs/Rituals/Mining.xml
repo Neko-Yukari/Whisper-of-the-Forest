@@ -5,15 +5,14 @@
     <tier>3</tier>
     <family>Domain</family>
     <label>rite of leyline mining</label>
-    <description>The caster traces a star chalk ring and drives the grove's roots into the deep veins below. The rite brings up the first few deep resources under the altar, with resonance increasing its reach and yield, and refuses to start if the ground beneath holds none.</description>
+    <description>The caster traces a star chalk ring and drives the grove's roots into the deep veins below. The rite brings up the first few deep resources under the altar, with ritual strength increasing its yield, and refuses to start if the ground beneath holds none.</description>
     <ringSize>7</ringSize>
     <chalkColor>Star</chalkColor>
     <manaCost>180</manaCost>
     <durationTicks>1200</durationTicks>
     <effectRadius>12.9</effectRadius>
-    <!-- 占位：共鸣等级 0..100 将范围放大至 2 倍、单矿产量至 3 倍，超过端点维持上限。 -->
-    <powerRadiusFactor><points><li>(0,1)</li><li>(25,1.45)</li><li>(60,1.8)</li><li>(100,2)</li></points></powerRadiusFactor>
-    <powerEffectFactor><points><li>(0,1)</li><li>(25,1.8)</li><li>(60,2.5)</li><li>(100,3)</li></points></powerEffectFactor>
+    <!-- 占位：仪式强度 0..100 将单矿产量放大至 3 倍，超过端点维持上限。 -->
+    <strengthEffectFactor><points><li>(0,1)</li><li>(25,1.8)</li><li>(60,2.5)</li><li>(100,3)</li></points></strengthEffectFactor>
     <minParticipants>1</minParticipants>
     <requiresDeepResources>true</requiresDeepResources>
     <maxResourceTypes>3</maxResourceTypes>

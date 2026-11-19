@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
-  <WhisperOfTheForest.Rituals.RitualDef>
+  <WhisperOfTheForest.Rituals.RitualDef ParentName="WotF_WorkRitualBase">
     <defName>WotF_Ritual_Teleport</defName>
     <tier>2</tier>
     <family>Domain</family>
@@ -9,7 +9,7 @@
     <ringSize>5</ringSize>
     <chalkColor>Green</chalkColor>
     <manaCost>60</manaCost>
-    <durationTicks>600</durationTicks>
+    <workAmount>600</workAmount>
     <effectRadius>12.9</effectRadius>
     <chooseTeleportTarget>true</chooseTeleportTarget>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_Teleport</effectWorkerClass>

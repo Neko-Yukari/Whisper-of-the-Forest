@@ -70,11 +70,12 @@ namespace WhisperOfTheForest.Rituals
         public float ManaCost;
         public float ManaStored;
         public bool ManaEnough;
+        public float WorkAmount;
         public int DurationTicks;
-        public float Power;
-        public float BloodlinePower;
-        public float FacilityPower;
-        public float FacilityMultiplier = 1f;
+        public float RitualStrength;
+        public float ChantStrength;
+        public float ResonanceStrength;
+        public float ResonanceMultiplier = 1f;
         public bool RingComplete;
         public readonly List<IntVec3> MissingCells = new List<IntVec3>();
         public readonly List<string> Problems = new List<string>();

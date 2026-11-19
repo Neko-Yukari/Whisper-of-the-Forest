@@ -60,10 +60,31 @@ namespace WhisperOfTheForest.Rituals
 
             yield return Toils_Goto.GotoCell(StationInd, PathEndMode.OnCell);
             yield return Gather(altar);
-            yield return Toils_General.Wait(altar.ActiveDurationTicks, AltarInd)
-                .WithProgressBarToilDelay(AltarInd)
-                .FailOnDespawnedOrNull(AltarInd);
+            yield return Chant(altar);
             yield return Toils_General.Do(delegate { altar.CompleteRitual(pawn); });
+        }
+
+        private Toil Chant(CompRitualAltar altar)
+        {
+            Toil toil = ToilMaker.MakeToil("RitualChant");
+            toil.initAction = delegate
+            {
+                pawn.pather.StopDead();
+                pawn.rotationTracker.FaceTarget(job.targetA);
+            };
+            toil.handlingFacing = true;
+            toil.defaultCompleteMode = ToilCompleteMode.Never;
+            toil.tickAction = delegate
+            {
+                pawn.rotationTracker.FaceTarget(job.targetA);
+                if (altar.TickChant(pawn))
+                {
+                    ReadyForNextToil();
+                }
+            };
+            toil.WithProgressBar(AltarInd, () => altar.ActiveProgressFraction);
+            toil.FailOnDespawnedOrNull(AltarInd);
+            return toil;
         }
 
         /// <summary>Stand on the cell until the altar says every participant is in place.</summary>

@@ -163,9 +163,22 @@ namespace WhisperOfTheForest.Rituals
 
             y = Line(view, y, string.Format("WotF_Ritual_TierFamily".Translate(), def.tier,
                 ("WotF_Ritual_Family_" + def.family).Translate()));
-            y = Line(view, y, def.UsesPower ? "WotF_Ritual_PowerScaled".Translate() : "WotF_Ritual_PowerFixed".Translate());
-            y = Line(view, y, "WotF_Ritual_RuneRequirements".Translate(def.tier, def.ringSize,
-                def.manaCost.ToString("0.#"), def.durationTicks));
+            y = Line(view, y, def.UsesEffectStrength
+                ? "WotF_Ritual_StrengthScaled".Translate()
+                : def.UsesWork ? "WotF_Ritual_StrengthSpeed".Translate() : "WotF_Ritual_StrengthFixed".Translate());
+            if (def.UsesWork)
+            {
+                RuneAwakeningTier runeTier = def.chooseRune ? def.RuneTierFor(1) : null;
+                float mana = runeTier != null ? runeTier.manaCost : def.manaCost;
+                float work = runeTier != null ? runeTier.workAmount : def.workAmount;
+                y = Line(view, y, string.Format("WotF_Ritual_WorkRequirements".Translate(), def.tier, def.ringSize,
+                    mana.ToString("0.#"), work.ToString("0.#")));
+            }
+            else
+            {
+                y = Line(view, y, string.Format("WotF_Ritual_RuneRequirements".Translate(), def.tier, def.ringSize,
+                    def.manaCost.ToString("0.#"), def.durationTicks));
+            }
             if (def.minParticipants > 0)
             {
                 y = Line(view, y, "WotF_Ritual_MinParticipants".Translate(def.minParticipants));

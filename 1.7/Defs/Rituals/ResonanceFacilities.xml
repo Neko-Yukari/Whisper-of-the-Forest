@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <StatDef>
-    <defName>WotF_RitualPower</defName>
-    <label>ritual resonance</label>
-    <description>Facility resonance supplied by linked buildings. During a ritual, total resonance equals (host bloodline level + 0.5 × helpers' bloodline levels) × √(1 + facility resonance / 10).</description>
+    <defName>WotF_ResonanceStrength</defName>
+    <label>resonance strength</label>
+    <description>Resonance strength supplied by linked buildings. During a ritual, ritual strength equals chant strength (host bloodline level + 0.5 × helpers' bloodline levels) × √(1 + resonance strength / 10).</description>
     <category>Building</category>
     <defaultBaseValue>0</defaultBaseValue>
     <toStringStyle>FloatOne</toStringStyle>
@@ -12,7 +12,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>WotF_RitualLivingwoodLamp</defName>
     <label>livingwood ritual lamp</label>
-    <description>A livingwood lamp that adds two resonance levels to a nearby altar. Up to four lamps can assist one altar.</description>
+    <description>A livingwood lamp that adds 2 resonance strength to a nearby altar. Up to four lamps can assist one altar.</description>
     <thingClass>Building</thingClass>
     <designationCategory>Misc</designationCategory>
     <size>(1,1)</size><rotatable>false</rotatable>
@@ -23,19 +23,19 @@
     <comps>
       <li Class="CompProperties_Facility">
         <maxSimultaneous>4</maxSimultaneous><maxDistance>10</maxDistance>
-        <statOffsets><WotF_RitualPower>2</WotF_RitualPower></statOffsets>
+        <statOffsets><WotF_ResonanceStrength>2</WotF_ResonanceStrength></statOffsets>
       </li>
       <li Class="CompProperties_Glower"><glowRadius>5</glowRadius><glowColor>(0.55,0.82,0.59,0)</glowColor></li>
     </comps>
     <placeWorkers><li>PlaceWorker_ShowFacilitiesConnections</li></placeWorkers>
   </ThingDef>
   <!-- 原版 Core SculptureBase 自带 CompQuality、CompArt 与艺术冥想焦点；不引用 Anomaly Def。
-       占位：品质 Awful..Legendary 提供 1/1/2/3/4/5/6 级，距离10；最多6座是已定值。
+       占位：品质 Awful..Legendary 提供 1/1/2/3/4/5/6 点共鸣强度，距离10；最多6座是已定值。
        造价、工时、美观、耐久为占位，冥想强度沿用 Core SculptureBase 品质曲线。 -->
   <ThingDef ParentName="SculptureBase">
     <defName>WotF_RitualElvenStatue</defName>
     <label>elven ritual statue</label>
-    <description>A carved elven figure that amplifies nearby forest rites according to its artistic quality. Up to six statues can assist one altar. It also serves as an artistic meditation focus.</description>
+    <description>A carved elven figure that adds resonance strength to nearby altars according to its artistic quality. Up to six statues can assist one altar. It also serves as an artistic meditation focus.</description>
     <graphicData><texPath>Buildings/RitualElvenStatuePlaceholder</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(1,1)</drawSize></graphicData>
     <size>(1,1)</size><fillPercent>0.35</fillPercent>
     <designationCategory>Furniture</designationCategory>
@@ -47,7 +47,7 @@
       <li Class="CompProperties_FacilityQualityBased">
         <maxSimultaneous>6</maxSimultaneous><maxDistance>10</maxDistance>
         <statOffsetsPerQuality>
-          <li><key>WotF_RitualPower</key><value>
+          <li><key>WotF_ResonanceStrength</key><value>
             <li><key>Awful</key><value>1</value></li>
             <li><key>Poor</key><value>1</value></li>
             <li><key>Normal</key><value>2</value></li>

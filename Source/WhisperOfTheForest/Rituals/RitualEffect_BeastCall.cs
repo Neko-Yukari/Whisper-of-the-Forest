@@ -32,7 +32,7 @@ namespace WhisperOfTheForest.Rituals
             int skill = context.Caster.skills?.GetSkill(SkillDefOf.Animals)?.Level ?? 0;
             float chance = def.tameChanceBase
                 + def.tameChancePerSkill * skill
-                + def.tameChancePerPower * context.Power
+                + def.tameChancePerStrength * context.RitualStrength
                 - def.tameWildnessFactor * animal.GetStatValue(StatDefOf.Wildness);
             bool tamed = TryTame(context.Caster, animal, chance);
 

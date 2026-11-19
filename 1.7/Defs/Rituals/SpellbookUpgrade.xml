@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <!-- 升阶仪式：消耗 1 本低阶旧书 + 升阶材料，产出 1 本高阶书（技术/02 施法硬件：三阶分档）。
-       设定只写了「学徒书 + 精灵钢 + 翡翠」「织法书 + 秘银 + 星辉粉笔」，没有给数量、魔源与时长，
-       所以材料数量、manaCost、durationTicks 都是占位值；圈尺寸与颜色按同阶仪式的骨架。
+       设定只写了「学徒书 + 精灵钢 + 翡翠」「织法书 + 秘银 + 星辉粉笔」，没有给数量、魔源与工作量，
+       所以材料数量、manaCost、workAmount 都是占位值；圈尺寸与颜色按同阶仪式的骨架。
        旧书从祭坛周围的地面取用：佩戴中的书不算，需要先脱下丢到地上。 -->
-  <WhisperOfTheForest.Rituals.RitualDef>
+  <WhisperOfTheForest.Rituals.RitualDef ParentName="WotF_WorkRitualBase">
     <defName>WotF_Ritual_SpellbookUpgradeAdept</defName>
     <tier>2</tier>
     <family>Crafting</family>
@@ -13,9 +13,9 @@
     <ringSize>5</ringSize>
     <chalkColor>Green</chalkColor>
     <manaCost>150</manaCost>
-    <durationTicks>900</durationTicks>
+    <workAmount>900</workAmount>
     <effectRadius>12.9</effectRadius>
-    <!-- 占位：设定未给升阶材料数量、魔源与读条时长。 -->
+    <!-- 占位：设定未给升阶材料数量、魔源与工作量。 -->
     <inputCosts>
       <WotF_Spellbook_Apprentice>1</WotF_Spellbook_Apprentice>
       <WotF_ElvenSteel>12</WotF_ElvenSteel>
@@ -27,7 +27,7 @@
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_SpellbookUpgrade</effectWorkerClass>
   </WhisperOfTheForest.Rituals.RitualDef>
 
-  <WhisperOfTheForest.Rituals.RitualDef>
+  <WhisperOfTheForest.Rituals.RitualDef ParentName="WotF_WorkRitualBase">
     <defName>WotF_Ritual_SpellbookUpgradeArchmage</defName>
     <tier>3</tier>
     <family>Crafting</family>
@@ -36,9 +36,9 @@
     <ringSize>7</ringSize>
     <chalkColor>Star</chalkColor>
     <manaCost>300</manaCost>
-    <durationTicks>1500</durationTicks>
+    <workAmount>1500</workAmount>
     <effectRadius>12.9</effectRadius>
-    <!-- 占位：设定未给升阶材料数量、魔源与读条时长。 -->
+    <!-- 占位：设定未给升阶材料数量、魔源与工作量。 -->
     <inputCosts>
       <WotF_Spellbook_Adept>1</WotF_Spellbook_Adept>
       <WotF_Mithril>12</WotF_Mithril>
