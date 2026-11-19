@@ -97,9 +97,11 @@
     <pulseMaxAlpha>1.00</pulseMaxAlpha>
     <ringSegments>36</ringSegments>
 
-    <openSeconds>0.28</openSeconds>
+    <openSeconds>0.85</openSeconds>
     <breakSeconds>0.55</breakSeconds>
     <expireSeconds>0.65</expireSeconds>
+    <planarPylonRiseFraction>0.44</planarPylonRiseFraction>
+    <planarMiddleStartFraction>0.42</planarMiddleStartFraction>
 
     <!-- 1-2 thin, razor-crisp vibration wave filaments calibrated to H=2.20 wall height & full curtain span -->
     <rippleDurationSeconds>1.15</rippleDurationSeconds>

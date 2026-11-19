@@ -111,6 +111,8 @@ namespace WhisperOfTheForest.Vfx
         public float camberCells;
         public float topRakeCells;
         public float curtainAlpha;
+        public float planarPylonRiseFraction;
+        public float planarMiddleStartFraction;
 
         // Grove Dome 3D canopy geometry (used when shape == Dome)
         public float domeCanopyHeightCells;
@@ -188,6 +190,12 @@ namespace WhisperOfTheForest.Vfx
             if (domeHexRings < 0 || (domeHexRings > 0 && domeHexSizeCells <= 0f))
             {
                 yield return "domeHexSizeCells must be positive when domeHexRings > 0";
+            }
+
+            if (wallHeightCells > 0f && (planarPylonRiseFraction <= 0f || planarPylonRiseFraction > 1f
+                || planarMiddleStartFraction < 0f || planarMiddleStartFraction >= 1f))
+            {
+                yield return "Planar shield requires 0 < planarPylonRiseFraction <= 1 and 0 <= planarMiddleStartFraction < 1";
             }
         }
     }
@@ -566,17 +574,15 @@ namespace WhisperOfTheForest.Vfx
 
             float elapsed = SecondsSince(startTick);
             float openU = shieldReq.respawningAfterLoad ? 1f : Mathf.Clamp01(elapsed / def.openSeconds);
-            float openEase = 1f - (1f - openU) * (1f - openU) * (1f - openU);
 
             float masterAlpha = 1f;
-            float heightScale = openEase;
-            float spanScale = 0.35f + 0.65f * openEase;
+            float expireHeightScale = 1f;
 
             if (phase == Phase.Expiring)
             {
                 float u = Mathf.Clamp01(SecondsSince(endPhaseTick) / def.expireSeconds);
                 masterAlpha = 1f - u;
-                heightScale *= Mathf.Max(0.02f, 1f - u * u);
+                expireHeightScale = Mathf.Max(0.02f, 1f - u * u);
             }
             else if (phase == Phase.Breaking)
             {
@@ -594,7 +600,7 @@ namespace WhisperOfTheForest.Vfx
                 CollectNearbyPawnsForOcclusion();
                 if (masterAlpha > 0.005f)
                 {
-                    DrawPlanar3D(curPrimary, curSecondary, breath * masterAlpha, hdr, heightScale, spanScale);
+                    DrawPlanar3D(curPrimary, curSecondary, breath * masterAlpha, hdr, openU, expireHeightScale);
                 }
 
                 if (phase == Phase.Breaking)
@@ -777,78 +783,90 @@ namespace WhisperOfTheForest.Vfx
             Color curSecondary,
             float masterAlpha,
             float hdr,
-            float heightScale,
-            float spanScale)
+            float openU,
+            float expireHeightScale)
         {
+            const float spanScale = 1f;
+
+            // Stage 1: Left & Right anchor pylons erect vertically at full span!
+            float pylonU = Mathf.Clamp01(openU / def.planarPylonRiseFraction);
+            float pylonHeightScale = (1f - (1f - pylonU) * (1f - pylonU) * (1f - pylonU)) * expireHeightScale;
+            float pylonAlpha = masterAlpha * Mathf.Clamp01(openU / 0.16f);
+
+            // Stage 2: Entire full-height middle curtain & rails gradually materialize in-place!
+            float midU = Mathf.Clamp01((openU - def.planarMiddleStartFraction) / Mathf.Max(0.01f, 1f - def.planarMiddleStartFraction));
+            float midAppearAlpha = midU * midU * (3f - 2f * midU);
+            float middleAlpha = masterAlpha * midAppearAlpha;
+            float midCondenseBoost = Mathf.Sin(midU * Mathf.PI) * 0.24f;
+            float heightScale = expireHeightScale;
+
             int segs = Mathf.Max(24, def.ringSegments);
             float frontFactor = 0.82f + 0.24f * (-normalXZ.z);
             float halfSpan = spanLength * 0.5f * spanScale;
 
-            // 1. Translucent 2-band 3D vertical energy curtain + rails + ribs
-            for (int i = 0; i < segs; i++)
+            // 1. Translucent 2-band 3D vertical energy curtain + rails + ribs (materializes in Stage 2!)
+            if (middleAlpha > 0.004f)
             {
-                float s0 = -1f + (2f * i) / segs;
-                float s1 = -1f + (2f * (i + 1)) / segs;
-                float sm = 0.5f * (s0 + s1);
-
-                Vector3 b0 = ProjectPlanarScreen(s0, 0f, heightScale, spanScale, true, out _);
-                Vector3 b1 = ProjectPlanarScreen(s1, 0f, heightScale, spanScale, true, out _);
-                Vector3 m0 = ProjectPlanarScreen(s0, 0.52f, heightScale, spanScale, true, out _);
-                Vector3 m1 = ProjectPlanarScreen(s1, 0.52f, heightScale, spanScale, true, out _);
-                Vector3 t0 = ProjectPlanarScreen(s0, 1f, heightScale, spanScale, true, out _);
-                Vector3 t1 = ProjectPlanarScreen(s1, 1f, heightScale, spanScale, true, out _);
-
-                float waveGlow = SampleSliceExcitation(sm, halfSpan);
-                float cAlpha = def.curtainAlpha * masterAlpha * frontFactor;
-
-                var colBot = new Color(curPrimary.r, curPrimary.g, curPrimary.b, Mathf.Clamp01(cAlpha * (1.10f + 0.55f * waveGlow)));
-                var colMid = new Color(curSecondary.r, curSecondary.g, curSecondary.b, Mathf.Clamp01(cAlpha * (0.45f + 0.50f * waveGlow)));
-                var colTop = new Color(coreColor.r, coreColor.g, coreColor.b, Mathf.Clamp01(cAlpha * (0.90f + 0.55f * waveGlow)));
-
-                depthMesh.AddShadedQuad(b0, b1, m1, m0, colBot, colMid, hdr * 0.90f);
-                depthMesh.AddShadedQuad(m0, m1, t1, t0, colMid, colTop, hdr * 0.95f);
-
-                // Mid-waist runic seam
-                var seamCol = new Color(curSecondary.r, curSecondary.g, curSecondary.b, Mathf.Clamp01((0.16f + 0.30f * waveGlow) * masterAlpha));
-                depthMesh.AddTaperedSegment(m0, m1, def.coreWidthCells * 0.42f, def.coreWidthCells * 0.42f, seamCol, seamCol, hdr * 0.9f, def.edgePower, null);
-
-                // Ground rail (outer glow + crisp core)
-                var railGlow = new Color(curPrimary.r, curPrimary.g, curPrimary.b, Mathf.Clamp01((0.52f + 0.25f * waveGlow) * masterAlpha));
-                var railCore = new Color(coreColor.r, coreColor.g, coreColor.b, Mathf.Clamp01(0.88f * masterAlpha));
-                depthMesh.AddTaperedSegment(b0, b1, def.glowWidthCells * 0.72f, def.glowWidthCells * 0.72f, railGlow, railGlow, hdr * 0.9f, def.edgePower, null);
-                depthMesh.AddTaperedSegment(b0, b1, def.coreWidthCells * 0.85f, def.coreWidthCells * 0.85f, railCore, railCore, hdr * 1.1f, def.edgePower, null);
-
-                // Top elevated crest rail
-                var topGlow = new Color(curSecondary.r, curSecondary.g, curSecondary.b, Mathf.Clamp01((0.48f + 0.25f * waveGlow) * masterAlpha));
-                depthMesh.AddTaperedSegment(t0, t1, def.glowWidthCells * 0.65f, def.glowWidthCells * 0.65f, topGlow, topGlow, hdr * 0.95f, def.edgePower, null);
-                depthMesh.AddTaperedSegment(t0, t1, def.coreWidthCells * 0.82f, def.coreWidthCells * 0.82f, railCore, railCore, hdr * 1.15f, def.edgePower, null);
-
-                // Outward hostile-side chevron ticks
-                if (i % 6 == 3)
+                for (int i = 0; i < segs; i++)
                 {
-                    EvalPlanar3D(sm, 0f, heightScale, spanScale, false, out Vector2 tickRoot);
-                    float alt = EvaluatePlanarAltitude(tickRoot.x, tickRoot.y);
-                    var pRoot = new Vector3(tickRoot.x, alt, tickRoot.y);
-                    var pTip = new Vector3(tickRoot.x + normalXZ.x * 0.24f, alt, tickRoot.y + normalXZ.z * 0.24f);
-                    var tickCol = new Color(curSecondary.r, curSecondary.g, curSecondary.b, Mathf.Clamp01(0.62f * masterAlpha));
-                    depthMesh.AddTaperedSegment(pRoot, pTip, def.coreWidthCells * 0.62f, def.coreWidthCells * 0.24f, tickCol, tickCol, hdr, def.edgePower, null);
-                }
+                    float s0 = -1f + (2f * i) / segs;
+                    float s1 = -1f + (2f * (i + 1)) / segs;
+                    float sm = 0.5f * (s0 + s1);
 
-                // Vertical structural energy ribs
-                if (i % 6 == 0 && i > 0)
-                {
-                    var ribCol = new Color(coreColor.r, coreColor.g, coreColor.b, Mathf.Clamp01((0.38f + 0.32f * waveGlow) * masterAlpha));
-                    depthMesh.AddTaperedSegment(b0, t0, def.coreWidthCells * 0.62f, def.coreWidthCells * 0.52f, ribCol, ribCol, hdr, def.edgePower, null);
+                    Vector3 b0 = ProjectPlanarScreen(s0, 0f, heightScale, spanScale, true, out _);
+                    Vector3 b1 = ProjectPlanarScreen(s1, 0f, heightScale, spanScale, true, out _);
+                    Vector3 m0 = ProjectPlanarScreen(s0, 0.52f, heightScale, spanScale, true, out _);
+                    Vector3 m1 = ProjectPlanarScreen(s1, 0.52f, heightScale, spanScale, true, out _);
+                    Vector3 t0 = ProjectPlanarScreen(s0, 1f, heightScale, spanScale, true, out _);
+                    Vector3 t1 = ProjectPlanarScreen(s1, 1f, heightScale, spanScale, true, out _);
+
+                    float waveGlow = SampleSliceExcitation(sm, halfSpan) + midCondenseBoost;
+                    float cAlpha = def.curtainAlpha * middleAlpha * frontFactor;
+
+                    var colBot = new Color(curPrimary.r, curPrimary.g, curPrimary.b, Mathf.Clamp01(cAlpha * (1.10f + 0.55f * waveGlow)));
+                    var colMid = new Color(curSecondary.r, curSecondary.g, curSecondary.b, Mathf.Clamp01(cAlpha * (0.45f + 0.50f * waveGlow)));
+                    var colTop = new Color(coreColor.r, coreColor.g, coreColor.b, Mathf.Clamp01(cAlpha * (0.90f + 0.55f * waveGlow)));
+
+                    depthMesh.AddShadedQuad(b0, b1, m1, m0, colBot, colMid, hdr * 0.90f);
+                    depthMesh.AddShadedQuad(m0, m1, t1, t0, colMid, colTop, hdr * 0.95f);
+
+                    var seamCol = new Color(curSecondary.r, curSecondary.g, curSecondary.b, Mathf.Clamp01((0.16f + 0.30f * waveGlow) * middleAlpha));
+                    depthMesh.AddTaperedSegment(m0, m1, def.coreWidthCells * 0.42f, def.coreWidthCells * 0.42f, seamCol, seamCol, hdr * 0.9f, def.edgePower, null);
+
+                    var railGlow = new Color(curPrimary.r, curPrimary.g, curPrimary.b, Mathf.Clamp01((0.52f + 0.25f * waveGlow) * middleAlpha));
+                    var railCore = new Color(coreColor.r, coreColor.g, coreColor.b, Mathf.Clamp01(0.88f * middleAlpha));
+                    depthMesh.AddTaperedSegment(b0, b1, def.glowWidthCells * 0.72f, def.glowWidthCells * 0.72f, railGlow, railGlow, hdr * 0.9f, def.edgePower, null);
+                    depthMesh.AddTaperedSegment(b0, b1, def.coreWidthCells * 0.85f, def.coreWidthCells * 0.85f, railCore, railCore, hdr * 1.1f, def.edgePower, null);
+
+                    var topGlow = new Color(curSecondary.r, curSecondary.g, curSecondary.b, Mathf.Clamp01((0.48f + 0.25f * waveGlow) * middleAlpha));
+                    depthMesh.AddTaperedSegment(t0, t1, def.glowWidthCells * 0.65f, def.glowWidthCells * 0.65f, topGlow, topGlow, hdr * 0.95f, def.edgePower, null);
+                    depthMesh.AddTaperedSegment(t0, t1, def.coreWidthCells * 0.82f, def.coreWidthCells * 0.82f, railCore, railCore, hdr * 1.15f, def.edgePower, null);
+
+                    if (i % 6 == 3)
+                    {
+                        EvalPlanar3D(sm, 0f, heightScale, spanScale, false, out Vector2 tickRoot);
+                        float alt = EvaluatePlanarAltitude(tickRoot.x, tickRoot.y);
+                        var pRoot = new Vector3(tickRoot.x, alt, tickRoot.y);
+                        var pTip = new Vector3(tickRoot.x + normalXZ.x * 0.24f, alt, tickRoot.y + normalXZ.z * 0.24f);
+                        var tickCol = new Color(curSecondary.r, curSecondary.g, curSecondary.b, Mathf.Clamp01(0.62f * middleAlpha));
+                        depthMesh.AddTaperedSegment(pRoot, pTip, def.coreWidthCells * 0.62f, def.coreWidthCells * 0.24f, tickCol, tickCol, hdr, def.edgePower, null);
+                    }
+
+                    if (i % 6 == 0 && i > 0)
+                    {
+                        var ribCol = new Color(coreColor.r, coreColor.g, coreColor.b, Mathf.Clamp01((0.38f + 0.32f * waveGlow) * middleAlpha));
+                        depthMesh.AddTaperedSegment(b0, t0, def.coreWidthCells * 0.62f, def.coreWidthCells * 0.52f, ribCol, ribCol, hdr, def.edgePower, null);
+                    }
                 }
             }
 
-            // 2. End Anchor Pylons
+            // 2. Left & Right End Anchor Pylons (erect vertically first in Stage 1!)
             for (int e = -1; e <= 1; e += 2)
             {
-                EvalPlanar3D(e, 0f, heightScale, spanScale, false, out Vector2 outerFoot);
+                EvalPlanar3D(e, 0f, 1f, spanScale, false, out Vector2 outerFoot);
                 var innerFoot = new Vector2(outerFoot.x - normalXZ.x * def.topRakeCells, outerFoot.y - normalXZ.z * def.topRakeCells);
                 float alt = EvaluatePlanarAltitude(outerFoot.x, outerFoot.y);
-                float pylonH = def.wallHeightCells * 1.08f * heightScale;
+                float pylonH = def.wallHeightCells * 1.08f * pylonHeightScale;
 
                 var pOuter = new Vector3(outerFoot.x, alt, outerFoot.y);
                 var pInner = new Vector3(innerFoot.x, alt, innerFoot.y);
@@ -857,32 +875,41 @@ namespace WhisperOfTheForest.Vfx
                 depthMesh.AddTiltedEllipseRing(
                     pInner, Vector3.right, Vector3.forward, 0.25f, LumenRibbonMesh.Ortho60AspectZ,
                     18, def.coreWidthCells * 0.65f,
-                    new Color(curPrimary.r, curPrimary.g, curPrimary.b, Mathf.Clamp01(0.62f * masterAlpha)),
+                    new Color(curPrimary.r, curPrimary.g, curPrimary.b, Mathf.Clamp01(0.66f * pylonAlpha)),
                     hdr, def.edgePower, null);
 
-                var bevelCol = new Color(curPrimary.r, curPrimary.g, curPrimary.b, Mathf.Clamp01(0.22f * masterAlpha));
-                depthMesh.AddShadedTriangle(pOuter, pInner, pTop, bevelCol, bevelCol,
-                    new Color(coreColor.r, coreColor.g, coreColor.b, Mathf.Clamp01(0.28f * masterAlpha)), hdr * 0.9f);
+                if (middleAlpha > 0.004f)
+                {
+                    var bevelCol = new Color(curPrimary.r, curPrimary.g, curPrimary.b, Mathf.Clamp01(0.22f * middleAlpha));
+                    depthMesh.AddShadedTriangle(pOuter, pInner, pTop, bevelCol, bevelCol,
+                        new Color(coreColor.r, coreColor.g, coreColor.b, Mathf.Clamp01(0.28f * middleAlpha)), hdr * 0.9f);
 
-                var slopeCol = new Color(curSecondary.r, curSecondary.g, curSecondary.b, Mathf.Clamp01(0.65f * masterAlpha));
-                depthMesh.AddTaperedSegment(pOuter, pTop, def.coreWidthCells * 0.8f, def.coreWidthCells * 0.55f, slopeCol, slopeCol, hdr, def.edgePower, null);
+                    var slopeCol = new Color(curSecondary.r, curSecondary.g, curSecondary.b, Mathf.Clamp01(0.65f * middleAlpha));
+                    depthMesh.AddTaperedSegment(pOuter, pTop, def.coreWidthCells * 0.8f, def.coreWidthCells * 0.55f, slopeCol, slopeCol, hdr, def.edgePower, null);
+                }
 
-                var colGlow = new Color(curPrimary.r, curPrimary.g, curPrimary.b, Mathf.Clamp01(0.75f * masterAlpha));
-                var colCore = new Color(coreColor.r, coreColor.g, coreColor.b, Mathf.Clamp01(0.95f * masterAlpha));
-                depthMesh.AddTaperedSegment(pInner, pTop, def.glowWidthCells * 0.55f, def.glowWidthCells * 0.45f, colGlow, colGlow, hdr, def.edgePower, null);
-                depthMesh.AddTaperedSegment(pInner, pTop, def.coreWidthCells * 1.05f, def.coreWidthCells * 0.85f, colCore, colCore, hdr * 1.2f, def.edgePower, null);
+                if (pylonHeightScale > 0.01f)
+                {
+                    var colGlow = new Color(curPrimary.r, curPrimary.g, curPrimary.b, Mathf.Clamp01(0.80f * pylonAlpha));
+                    var colCore = new Color(coreColor.r, coreColor.g, coreColor.b, Mathf.Clamp01(0.98f * pylonAlpha));
+                    depthMesh.AddTaperedSegment(pInner, pTop, def.glowWidthCells * 0.55f, def.glowWidthCells * 0.45f, colGlow, colGlow, hdr, def.edgePower, null);
+                    depthMesh.AddTaperedSegment(pInner, pTop, def.coreWidthCells * 1.05f, def.coreWidthCells * 0.85f, colCore, colCore, hdr * 1.25f, def.edgePower, null);
 
-                float rFin = 0.14f;
-                depthMesh.AddShadedQuad(
-                    pTop + new Vector3(0f, 0f, -rFin * 1.35f),
-                    pTop + new Vector3(rFin * 0.85f, 0f, 0f),
-                    pTop + new Vector3(0f, 0f, rFin * 1.35f),
-                    pTop + new Vector3(-rFin * 0.85f, 0f, 0f),
-                    colCore, colCore, hdr * 1.25f);
+                    float rFin = 0.14f * (1f + 0.26f * Mathf.Sin(pylonU * Mathf.PI));
+                    depthMesh.AddShadedQuad(
+                        pTop + new Vector3(0f, 0f, -rFin * 1.35f),
+                        pTop + new Vector3(rFin * 0.85f, 0f, 0f),
+                        pTop + new Vector3(0f, 0f, rFin * 1.35f),
+                        pTop + new Vector3(-rFin * 0.85f, 0f, 0f),
+                        colCore, colCore, hdr * 1.35f);
+                }
             }
 
-            // 3. Strictly shield-surface-clamped 1-2 vibration wave bands + Layer 14 refraction (0% outside shield!)
-            DrawPlanarSurfaceRipples(curPrimary, curSecondary, masterAlpha, hdr, heightScale, spanScale);
+            // 3. Strictly shield-surface-clamped 1-2 thin vibration wave filaments + Layer 14 refraction
+            if (middleAlpha > 0.004f)
+            {
+                DrawPlanarSurfaceRipples(curPrimary, curSecondary, middleAlpha, hdr, heightScale, spanScale);
+            }
         }
 
         private float SampleSliceExcitation(float s, float halfSpan)
