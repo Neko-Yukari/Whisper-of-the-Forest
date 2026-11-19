@@ -3,39 +3,6 @@
   "defaultDuration": 0.75,
   "nodes": [
     {
-      "name": "canopy_ripple",
-      "parentIndex": -1,
-      "localPosition": [
-        0.0,
-        0.0,
-        0.0
-      ],
-      "spacePlane": "Vertical3D",
-      "distortion": {
-        "kind": "Ripple",
-        "radius": 3.4,
-        "strength": 0.12,
-        "thickness": 0.36,
-        "speed": 6.8,
-        "frequency": 1.85,
-        "duration": 0.62,
-        "strengthOverTime": [
-          [
-            0.0,
-            1.0
-          ],
-          [
-            0.28,
-            0.72
-          ],
-          [
-            0.62,
-            0.0
-          ]
-        ]
-      }
-    },
-    {
       "name": "canopy_burst",
       "parentIndex": -1,
       "localPosition": [
@@ -161,7 +128,7 @@
       "parentIndex": -1,
       "localPosition": [
         0.0,
-        0.4,
+        1.25,
         0.0
       ],
       "pointLight": {

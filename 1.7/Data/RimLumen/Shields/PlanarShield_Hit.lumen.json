@@ -3,39 +3,6 @@
   "defaultDuration": 0.58,
   "nodes": [
     {
-      "name": "planar_ripple",
-      "parentIndex": -1,
-      "localPosition": [
-        0.0,
-        0.0,
-        0.0
-      ],
-      "spacePlane": "Vertical3D",
-      "distortion": {
-        "kind": "Ripple",
-        "radius": 1.95,
-        "strength": 0.088,
-        "thickness": 0.24,
-        "speed": 5.4,
-        "frequency": 2.5,
-        "duration": 0.46,
-        "strengthOverTime": [
-          [
-            0.0,
-            1.0
-          ],
-          [
-            0.22,
-            0.7
-          ],
-          [
-            0.46,
-            0.0
-          ]
-        ]
-      }
-    },
-    {
       "name": "planar_rebound_sparks",
       "parentIndex": -1,
       "localPosition": [
@@ -168,7 +135,7 @@
       "parentIndex": -1,
       "localPosition": [
         0.0,
-        0.5,
+        1.25,
         0.0
       ],
       "pointLight": {

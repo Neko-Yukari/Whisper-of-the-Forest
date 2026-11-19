@@ -3,39 +3,6 @@
   "defaultDuration": 0.42,
   "nodes": [
     {
-      "name": "pass_phase_ripple",
-      "parentIndex": -1,
-      "localPosition": [
-        0.0,
-        0.0,
-        0.0
-      ],
-      "spacePlane": "Vertical3D",
-      "distortion": {
-        "kind": "Ripple",
-        "radius": 1.15,
-        "strength": 0.042,
-        "thickness": 0.2,
-        "speed": 3.8,
-        "frequency": 2.8,
-        "duration": 0.32,
-        "strengthOverTime": [
-          [
-            0.0,
-            0.95
-          ],
-          [
-            0.15,
-            0.6
-          ],
-          [
-            0.32,
-            0.0
-          ]
-        ]
-      }
-    },
-    {
       "name": "pass_slip_motes",
       "parentIndex": -1,
       "localPosition": [

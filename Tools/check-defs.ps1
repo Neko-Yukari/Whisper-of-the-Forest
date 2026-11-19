@@ -678,7 +678,14 @@ foreach ($entry in $modDefs) {
                 $ruleChecks++
                 $depthWrite = Get-ScalarAt $chain @('shaderProgram', 'depthWrite')
                 if ($depthWrite -ine 'false') {
-                    Add-Failure "Layer 15 ShaderDef '$($entry.DefName)' must set <depthWrite>false</depthWrite> so RimLumen does not trip FailSafeTripped" $entry.File
+                    Add-Failure "Layer 14/15 ShaderDef '$($entry.DefName)' must set <depthWrite>false</depthWrite> so RimLumen does not trip FailSafeTripped" $entry.File
+                }
+                if ($entry.DefName.Equals('WotF_Shader_LumenDistortion', [System.StringComparison]::OrdinalIgnoreCase)) {
+                    $ruleChecks++
+                    $depthTest = Get-ScalarAt $chain @('shaderProgram', 'depthTest')
+                    if ($depthTest -ine 'false') {
+                        Add-Failure "Layer 14 ShaderDef '$($entry.DefName)' must set <depthTest>false</depthTest> because RimLumen DistortionPass has VkFormat.Undefined depth" $entry.File
+                    }
                 }
             }
         }

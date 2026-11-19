@@ -2,9 +2,10 @@
 <Defs>
 
   <!--
-    Layer 15 world-mesh programs routed into RimLumen's HDR target (RimLumenRenderHost.LumenRenderPassId).
-    Every shader routed to Layer 15 must keep depthWrite=false: writing shared scene depth inside the
-    RimLumenHdr pass trips RimLumen's session-wide fail-safe.
+    Layer 15 world-mesh programs routed into RimLumen's HDR target (RimLumenRenderHost.LumenRenderPassId)
+    and Layer 14 world-mesh program routed into RimLumen's RG16F Distortion target (RimLumenRenderHost.DistortionPassId).
+    Every shader routed to Layer 14/15 must keep depthWrite=false; Layer 14 also requires depthTest=false
+    because DistortionPass has no depth attachment (VkFormat.Undefined).
   -->
 
   <ShaderDef>
@@ -37,6 +38,24 @@
       <depthWrite>false</depthWrite>
       <cullMode>None</cullMode>
       <renderQueue>3020</renderQueue>
+      <blendMode>Custom</blendMode>
+      <blendSrcFactor>One</blendSrcFactor>
+      <blendDstFactor>One</blendDstFactor>
+    </shaderProgram>
+  </ShaderDef>
+
+  <ShaderDef>
+    <defName>WotF_Shader_LumenDistortion</defName>
+    <shaderProgram>
+      <vertexShaderFileName>WotF_LumenDistortion.vert.glsl</vertexShaderFileName>
+      <fragmentShaderFileName>WotF_LumenDistortion.frag.glsl</fragmentShaderFileName>
+      <useTexture>false</useTexture>
+      <flipTextureST>false</flipTextureST>
+      <transparent>true</transparent>
+      <depthTest>false</depthTest>
+      <depthWrite>false</depthWrite>
+      <cullMode>None</cullMode>
+      <renderQueue>3000</renderQueue>
       <blendMode>Custom</blendMode>
       <blendSrcFactor>One</blendSrcFactor>
       <blendDstFactor>One</blendDstFactor>

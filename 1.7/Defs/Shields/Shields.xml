@@ -37,18 +37,23 @@
     <pulseMaxAlpha>1.00</pulseMaxAlpha>
     <ringSegments>96</ringSegments>
 
-    <openSeconds>0.65</openSeconds>
+    <openSeconds>0.68</openSeconds>
     <breakSeconds>0.65</breakSeconds>
     <expireSeconds>0.85</expireSeconds>
 
-    <rippleDurationSeconds>0.78</rippleDurationSeconds>
-    <passRippleDurationSeconds>0.42</passRippleDurationSeconds>
-    <rippleWaveSpeed>6.60</rippleWaveSpeed>
-    <passWaveSpeed>4.20</passWaveSpeed>
-    <rippleCrestSpacing>0.46</rippleCrestSpacing>
-    <rippleCrestCount>4</rippleCrestCount>
+    <!-- 1-2 wide, uncrowded spherical wave bands sweeping ~20 cells across the R=12.9 dome with vibration decay -->
+    <rippleDurationSeconds>1.42</rippleDurationSeconds>
+    <passRippleDurationSeconds>0.92</passRippleDurationSeconds>
+    <rippleWaveSpeed>14.20</rippleWaveSpeed>
+    <passWaveSpeed>10.20</passWaveSpeed>
+    <rippleCrestSpacing>4.20</rippleCrestSpacing>
+    <rippleCrestCount>2</rippleCrestCount>
+    <rippleBandHalfWidth>0.46</rippleBandHalfWidth>
+    <rippleSpreadScale>6.80</rippleSpreadScale>
+    <hitDistortionCells>0.15</hitDistortionCells>
+    <passDistortionCells>0.055</passDistortionCells>
 
-    <domeCanopyHeightCells>5.80</domeCanopyHeightCells>
+    <domeCanopyHeightCells>5.60</domeCanopyHeightCells>
     <domeCanopyRibCount>3</domeCanopyRibCount>
     <domeRuneArcCount>6</domeRuneArcCount>
     <domeSpinRadPerSec>0.22</domeSpinRadPerSec>
@@ -94,12 +99,17 @@
     <breakSeconds>0.55</breakSeconds>
     <expireSeconds>0.65</expireSeconds>
 
-    <rippleDurationSeconds>0.62</rippleDurationSeconds>
-    <passRippleDurationSeconds>0.42</passRippleDurationSeconds>
-    <rippleWaveSpeed>6.40</rippleWaveSpeed>
-    <passWaveSpeed>3.20</passWaveSpeed>
-    <rippleCrestSpacing>0.42</rippleCrestSpacing>
-    <rippleCrestCount>4</rippleCrestCount>
+    <!-- 1-2 wide, uncrowded surface wave bands sweeping ~7.5 cells across the 2.2-cell tall wall with vibration decay -->
+    <rippleDurationSeconds>1.05</rippleDurationSeconds>
+    <passRippleDurationSeconds>0.68</passRippleDurationSeconds>
+    <rippleWaveSpeed>7.20</rippleWaveSpeed>
+    <passWaveSpeed>4.80</passWaveSpeed>
+    <rippleCrestSpacing>1.85</rippleCrestSpacing>
+    <rippleCrestCount>2</rippleCrestCount>
+    <rippleBandHalfWidth>0.28</rippleBandHalfWidth>
+    <rippleSpreadScale>3.20</rippleSpreadScale>
+    <hitDistortionCells>0.11</hitDistortionCells>
+    <passDistortionCells>0.048</passDistortionCells>
 
     <wallHeightCells>2.20</wallHeightCells>
     <camberCells>0.36</camberCells>
