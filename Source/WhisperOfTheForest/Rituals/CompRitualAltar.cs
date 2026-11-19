@@ -15,10 +15,10 @@ namespace WhisperOfTheForest.Rituals
     public class CompProperties_RitualAltar : CompProperties
     {
         public int tier;
-        public StatDef powerStat;
+        public StatDef resonanceStrengthStat;
         public float linkRadius = 12.9f;
-        public float helperPowerFactor;
-        public float facilityPowerScale;
+        public float helperChantStrengthFactor;
+        public float resonanceStrengthScale;
         public List<string> ritualDefNames = new List<string>();
 
         public CompProperties_RitualAltar()
@@ -30,9 +30,9 @@ namespace WhisperOfTheForest.Rituals
         {
             foreach (string error in base.ConfigErrors(parentDef)) yield return error;
             if (tier < 1 || tier > 3) yield return parentDef.defName + " altar tier must be between 1 and 3.";
-            if (powerStat == null) yield return parentDef.defName + " altar must declare powerStat.";
-            if (helperPowerFactor < 0f) yield return parentDef.defName + " altar helperPowerFactor must not be negative.";
-            if (facilityPowerScale <= 0f) yield return parentDef.defName + " altar facilityPowerScale must be positive.";
+            if (resonanceStrengthStat == null) yield return parentDef.defName + " altar must declare resonanceStrengthStat.";
+            if (helperChantStrengthFactor < 0f) yield return parentDef.defName + " altar helperChantStrengthFactor must not be negative.";
+            if (resonanceStrengthScale <= 0f) yield return parentDef.defName + " altar resonanceStrengthScale must be positive.";
             var runeRituals = new List<RitualDef>();
             foreach (string name in ritualDefNames)
             {
@@ -69,11 +69,13 @@ namespace WhisperOfTheForest.Rituals
         private QuestScriptDef activeRuinQuest;
         private RitualDef autoRitual;
         private RitualPhase phase;
-        private float activePower;
+        private float activeRitualStrength;
         private float activeManaCost;
         private int activeRingSize = 3;
         private ChalkColor activeChalkColor;
+        private float activeWorkAmount;
         private int activeDurationTicks;
+        private float activeProgress;
 
         private List<Pawn> activeHelpers = new List<Pawn>();
         private List<RitualStation> stations = new List<RitualStation>();
@@ -105,11 +107,17 @@ namespace WhisperOfTheForest.Rituals
         public RitualPhase Phase => phase;
         public RitualDef AutoRitual => autoRitual;
         public int ActiveParticipants => activeHelpers.Count;
-        public float ActivePower => activePower;
+        public float ActiveRitualStrength => activeRitualStrength;
+        public float ActiveWorkAmount => activeWorkAmount;
         public int ActiveDurationTicks => activeDurationTicks;
+        public float ActiveProgress => activeProgress;
+        public float ActiveProgressTotal => activeWorkAmount > 0f ? activeWorkAmount : activeDurationTicks;
+        public float ActiveProgressFraction => ActiveProgressTotal > 0f
+            ? Math.Min(1f, Math.Max(0f, activeProgress / ActiveProgressTotal))
+            : 0f;
 
-        public float FacilityPower => parent.GetComp<CompAffectedByFacilities>()?.GetStatOffset(Props.powerStat) ?? 0f;
-        public float FacilityMultiplier => FacilityMultiplierFor(FacilityPower, Props.facilityPowerScale);
+        public float ResonanceStrength => parent.GetComp<CompAffectedByFacilities>()?.GetStatOffset(Props.resonanceStrengthStat) ?? 0f;
+        public float ResonanceMultiplier => ResonanceMultiplierFor(ResonanceStrength, Props.resonanceStrengthScale);
 
         /// <summary>The rite chosen in the hosting panel for right-click hosting; null until chosen.</summary>
         public RitualDef SelectedDef => selectedDef;
@@ -435,11 +443,13 @@ namespace WhisperOfTheForest.Rituals
             Scribe_Defs.Look(ref activeRuinQuest, "ritualRuinQuest");
             Scribe_Defs.Look(ref autoRitual, "ritualAuto");
             Scribe_Values.Look(ref phase, "ritualPhase", RitualPhase.Gathering);
-            Scribe_Values.Look(ref activePower, "ritualPower", 0f);
+            Scribe_Values.Look(ref activeRitualStrength, "ritualStrength", 0f);
             Scribe_Values.Look(ref activeManaCost, "ritualManaCost", 0f);
             Scribe_Values.Look(ref activeRingSize, "ritualRingSize", 3);
             Scribe_Values.Look(ref activeChalkColor, "ritualChalkColor", ChalkColor.White);
+            Scribe_Values.Look(ref activeWorkAmount, "ritualWorkAmount", 0f);
             Scribe_Values.Look(ref activeDurationTicks, "ritualDurationTicks", 0);
+            Scribe_Values.Look(ref activeProgress, "ritualProgress", 0f);
             Scribe_Collections.Look(ref activeHelpers, "ritualHelpers", LookMode.Reference);
             Scribe_Collections.Look(ref stations, "ritualStations", LookMode.Deep);
             stations ??= new List<RitualStation>();
@@ -511,6 +521,7 @@ namespace WhisperOfTheForest.Rituals
                 || (activeDef.chooseTeleportTarget && activeTeleportTarget == null)
                 || (activeDef.chooseEquipment && (activeEquipment == null || activeBookSlot < 0))
                 || (activeDef.chooseRuinType && ActiveRuinOption == null)
+                || ActiveProgressTotal <= 0f
                 || stations.Count != activeHelpers.Count + 1)
             {
                 WotfLog.Info(WotfLog.ModuleRitual, "dropped a saved rite at load: " + activeDef.defName);
@@ -552,7 +563,10 @@ namespace WhisperOfTheForest.Rituals
             if (activeHelpers.Count < activeDef.minParticipants)
             {
                 CancelRitual(null);
+                return;
             }
+
+            activeRitualStrength = RitualStrengthOf(activeHost, activeHelpers);
         }
 
         private bool HasRitualJob(Pawn pawn, JobDef def)
@@ -601,12 +615,34 @@ namespace WhisperOfTheForest.Rituals
                 }
             }
 
-            // Resonance is "everyone actually in the circle" (技术/04-仪式实现.md:105-116), so the
+            // Ritual strength is "everyone actually in the circle" (技术/04-仪式实现.md:105-116), so the
             // number the altar displays and the number Apply receives have to follow the seated roster.
             if (changed)
             {
-                activePower = ResonanceOf(activeHost, activeHelpers);
+                activeRitualStrength = RitualStrengthOf(activeHost, activeHelpers);
             }
+        }
+
+        /// <summary>
+        /// Advances one chanting tick from the host's driver: work-based rites add strengthSpeedFactor(ritualStrength)
+        /// toward activeWorkAmount, and fixed-duration rites add 1 toward activeDurationTicks.
+        /// </summary>
+        public bool TickChant(Pawn host)
+        {
+            if (activeDef == null || activeHost != host || phase != RitualPhase.Chanting)
+            {
+                return false;
+            }
+
+            float total = ActiveProgressTotal;
+            if (total <= 0f)
+            {
+                return true;
+            }
+
+            float step = activeDef.UsesWork ? activeDef.SpeedFactorFor(activeRitualStrength) : 1f;
+            activeProgress = Math.Min(total, activeProgress + step);
+            return activeProgress >= total;
         }
 
         /// <summary>
@@ -702,9 +738,9 @@ namespace WhisperOfTheForest.Rituals
             }
 
             text += "\n" + (IsActive
-                ? string.Format("WotF_Ritual_Power".Translate(), activePower.ToString("0.#"))
-                : string.Format("WotF_Ritual_FacilityPower".Translate(),
-                    FacilityPower.ToString("0.#"), FacilityMultiplier.ToString("0.##")));
+                ? string.Format("WotF_Ritual_RitualStrength".Translate(), activeRitualStrength.ToString("0.#"))
+                : string.Format("WotF_Ritual_ResonanceStrength".Translate(),
+                    ResonanceStrength.ToString("0.#"), ResonanceMultiplier.ToString("0.##")));
             return autoRitual == null
                 ? text
                 : text + "\n" + "WotF_Ritual_AutoRepeat_Current".Translate(autoRitual.LabelCap);
@@ -957,11 +993,13 @@ namespace WhisperOfTheForest.Rituals
             activeHelpers = new List<Pawn>(request.Helpers);
             stations = new List<RitualStation>(assessment.Stations);
             phase = RitualPhase.Gathering;
-            activePower = assessment.Power;
+            activeRitualStrength = assessment.RitualStrength;
             activeManaCost = assessment.ManaCost;
             activeRingSize = assessment.RingSize;
             activeChalkColor = assessment.ChalkColor;
+            activeWorkAmount = assessment.WorkAmount;
             activeDurationTicks = assessment.DurationTicks;
+            activeProgress = 0f;
             if (TryGetStation(activeHost, out IntVec3 hostCell))
             {
                 job.targetB = hostCell;
@@ -1090,7 +1128,7 @@ namespace WhisperOfTheForest.Rituals
             int bookSlot = activeBookSlot;
             RuinSeekOption ruinOption = ActiveRuinOption;
             int participants = activeHelpers.Count;
-            float power = ResonanceOf(activeHost, activeHelpers);
+            float ritualStrength = RitualStrengthOf(activeHost, activeHelpers);
 
             // The rite carries the colonists standing near the altar to the gate. Their landing cells are
             // settled here, with the offerings and the mana, so a gate hemmed in by walls or pawns costs
@@ -1099,7 +1137,7 @@ namespace WhisperOfTheForest.Rituals
             if (def.chooseTeleportTarget)
             {
                 List<Pawn> passengers = TeleportGateTransfer.RitePassengers(parent.Map, parent.Position,
-                    def.RadiusFor(power));
+                    def.RadiusFor(ritualStrength));
                 if (passengers.Count == 0)
                 {
                     FailRitual("WotF_Ritual_Teleport_NoPassengers".Translate());
@@ -1126,10 +1164,10 @@ namespace WhisperOfTheForest.Rituals
 
             ClearRitualState();
             def.EffectWorker.Apply(new RitualContext(parent.Map, (Building)parent, host, def, rune,
-                teleportTarget, participants, power, equipment, bookSlot, ruinOption, teleportLanding));
+                teleportTarget, participants, ritualStrength, equipment, bookSlot, ruinOption, teleportLanding));
             WotfLog.Info(WotfLog.ModuleRitual,
                 "completed " + def.defName + (rune == null ? "" : " for " + rune.defName)
-                + " by " + host.LabelShort + " participants=" + participants + " power=" + power);
+                + " by " + host.LabelShort + " participants=" + participants + " ritualStrength=" + ritualStrength);
         }
 
         /// <summary>The host's job ended while the rite was still running: nothing is charged.</summary>
@@ -1175,11 +1213,13 @@ namespace WhisperOfTheForest.Rituals
             activeBookSlot = -1;
             activeRuinQuest = null;
             phase = RitualPhase.Gathering;
-            activePower = 0f;
+            activeRitualStrength = 0f;
             activeManaCost = 0f;
             activeRingSize = 3;
             activeChalkColor = ChalkColor.White;
+            activeWorkAmount = 0f;
             activeDurationTicks = 0;
+            activeProgress = 0f;
             activeHelpers = new List<Pawn>();
             stations = new List<RitualStation>();
         }
@@ -1189,18 +1229,18 @@ namespace WhisperOfTheForest.Rituals
             return MapComponent_ManaNetwork.For(parent.Map)?.NetworkNear(parent.Position, Props.linkRadius);
         }
 
-        public static float FacilityMultiplierFor(float facilityPower, float facilityPowerScale)
+        public static float ResonanceMultiplierFor(float resonanceStrength, float resonanceStrengthScale)
         {
-            float clamped = facilityPower > 0f ? facilityPower : 0f;
-            return (float)Math.Sqrt(1.0 + clamped / facilityPowerScale);
+            float clamped = resonanceStrength > 0f ? resonanceStrength : 0f;
+            return (float)Math.Sqrt(1.0 + clamped / resonanceStrengthScale);
         }
 
-        public static float ResonanceFor(float bloodlinePower, float facilityPower, float facilityPowerScale)
+        public static float RitualStrengthFor(float chantStrength, float resonanceStrength, float resonanceStrengthScale)
         {
-            return bloodlinePower * FacilityMultiplierFor(facilityPower, facilityPowerScale);
+            return chantStrength * ResonanceMultiplierFor(resonanceStrength, resonanceStrengthScale);
         }
 
-        private float BloodlinePowerOf(Pawn host, IList<Pawn> helpers)
+        private float ChantStrengthOf(Pawn host, IList<Pawn> helpers)
         {
             float hostLevel = host == null ? 0f : (Gene_ForestBloodline.Get(host)?.Level ?? 0f);
             float helperTotal = 0f;
@@ -1213,12 +1253,12 @@ namespace WhisperOfTheForest.Rituals
                 }
             }
 
-            return hostLevel + Props.helperPowerFactor * helperTotal;
+            return hostLevel + Props.helperChantStrengthFactor * helperTotal;
         }
 
-        private float ResonanceOf(Pawn host, IList<Pawn> helpers)
+        private float RitualStrengthOf(Pawn host, IList<Pawn> helpers)
         {
-            return ResonanceFor(BloodlinePowerOf(host, helpers), FacilityPower, Props.facilityPowerScale);
+            return RitualStrengthFor(ChantStrengthOf(host, helpers), ResonanceStrength, Props.resonanceStrengthScale);
         }
 
         /// <summary>
@@ -1238,6 +1278,7 @@ namespace WhisperOfTheForest.Rituals
             result.RingSize = def.ringSize;
             result.ChalkColor = def.chalkColor;
             result.ManaCost = def.manaCost;
+            result.WorkAmount = def.workAmount;
             result.DurationTicks = def.durationTicks;
 
             if (def.tier > Props.tier)
@@ -1278,7 +1319,7 @@ namespace WhisperOfTheForest.Rituals
                         result.RingSize = tier.ringSize;
                         result.ChalkColor = tier.chalkColor;
                         result.ManaCost = tier.manaCost;
-                        result.DurationTicks = tier.durationTicks;
+                        result.WorkAmount = tier.workAmount;
                     }
                 }
             }
@@ -1466,10 +1507,10 @@ namespace WhisperOfTheForest.Rituals
                 }
             }
 
-            result.BloodlinePower = BloodlinePowerOf(request.Host, request.Helpers);
-            result.FacilityPower = FacilityPower;
-            result.FacilityMultiplier = FacilityMultiplier;
-            result.Power = ResonanceFor(result.BloodlinePower, result.FacilityPower, Props.facilityPowerScale);
+            result.ChantStrength = ChantStrengthOf(request.Host, request.Helpers);
+            result.ResonanceStrength = ResonanceStrength;
+            result.ResonanceMultiplier = ResonanceMultiplier;
+            result.RitualStrength = RitualStrengthFor(result.ChantStrength, result.ResonanceStrength, Props.resonanceStrengthScale);
         }
 
         /// <summary>
@@ -1487,7 +1528,7 @@ namespace WhisperOfTheForest.Rituals
 
             var standingBy = new List<Pawn> { request.Host };
             standingBy.AddRange(request.Helpers);
-            if (TeleportGateTransfer.RitePassengers(parent.Map, parent.Position, def.RadiusFor(result.Power),
+            if (TeleportGateTransfer.RitePassengers(parent.Map, parent.Position, def.RadiusFor(result.RitualStrength),
                     standingBy).Count == 0)
             {
                 result.Problems.Add("WotF_Ritual_Teleport_NoPassengers".Translate());
@@ -1523,7 +1564,7 @@ namespace WhisperOfTheForest.Rituals
         private void AssessCosts(RitualDef def, RitualAssessment result)
         {
             if (def.requiresDeepResources
-                && !RitualEffect_LeylineMining.HasDeepResources(parent.Map, parent.Position, def.RadiusFor(result.Power)))
+                && !RitualEffect_LeylineMining.HasDeepResources(parent.Map, parent.Position, def.RadiusFor(result.RitualStrength)))
             {
                 result.Problems.Add("WotF_Ritual_LeylineMining_NoResource".Translate());
             }

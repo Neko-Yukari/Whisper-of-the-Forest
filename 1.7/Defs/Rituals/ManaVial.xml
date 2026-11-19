@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
-  <WhisperOfTheForest.Rituals.RitualDef>
+  <WhisperOfTheForest.Rituals.RitualDef ParentName="WotF_WorkRitualBase">
     <defName>WotF_Ritual_BottleMana</defName>
     <tier>1</tier>
     <family>Crafting</family>
@@ -9,7 +9,7 @@
     <ringSize>3</ringSize>
     <chalkColor>White</chalkColor>
     <manaCost>60</manaCost>
-    <durationTicks>300</durationTicks>
+    <workAmount>300</workAmount>
     <effectRadius>12.9</effectRadius>
     <inputCosts>
       <WoodLog>5</WoodLog>

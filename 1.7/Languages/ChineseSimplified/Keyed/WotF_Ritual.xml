@@ -55,12 +55,13 @@
   <WotF_ManaVial_NoBloodline>只有林庭血脉成员才能饮下魔源蓝瓶。</WotF_ManaVial_NoBloodline>
   <WotF_ManaVial_Full>该成员的魔力已满。</WotF_ManaVial_Full>
   <WotF_Ritual_Participants>协力者：{0} 人</WotF_Ritual_Participants>
-  <WotF_Ritual_ParticipantsHint>共鸣等级为主持人血脉等级加上协力者血脉等级之和的一半，再由连接设施放大。</WotF_Ritual_ParticipantsHint>
+  <WotF_Ritual_ParticipantsHint>咏唱强度为主持人血脉等级加上协力者血脉等级之和的一半，再经共鸣强度放大为仪式强度。</WotF_Ritual_ParticipantsHint>
   <WotF_Ritual_MinParticipants>至少需要 {0} 名林庭血脉协力者。</WotF_Ritual_MinParticipants>
   <WotF_Ritual_NeedsParticipants>这场仪式需要 {0} 名林庭血脉协力者，目前只有 {1} 名。</WotF_Ritual_NeedsParticipants>
   <WotF_Ritual_SpellbookUpgrade_Done>魔术书升阶完成：{0} 已放在祭坛旁。</WotF_Ritual_SpellbookUpgrade_Done>
   <WotF_Ritual_SpellbookUpgrade_NoRoom>祭坛旁没有空间放置升阶后的魔术书。</WotF_Ritual_SpellbookUpgrade_NoRoom>
   <WotF_Ritual_RuneRequirements>{0} 阶 / {1}×{1} 法阵 / 魔源 {2} / 工时 {3} tick</WotF_Ritual_RuneRequirements>
+  <WotF_Ritual_WorkRequirements>{0} 阶 / {1}×{1} 法阵 / 魔源 {2} / 工作量 {3}</WotF_Ritual_WorkRequirements>
   <WotF_Ritual_Chalk_White>白垩</WotF_Ritual_Chalk_White>
   <WotF_Ritual_Chalk_Green>翠叶</WotF_Ritual_Chalk_Green>
   <WotF_Ritual_Chalk_Star>星辉</WotF_Ritual_Chalk_Star>
@@ -94,7 +95,7 @@
   <WotF_Ritual_Collecting>正在为{0}收集祭品。</WotF_Ritual_Collecting>
   <WotF_Ritual_FeeAtEnd>以上魔源与祭品在吟唱圆满落定时才扣除。</WotF_Ritual_FeeAtEnd>
   <WotF_Ritual_RunningFeeNote>魔源与祭品尚未扣除；打断或取消不会消耗任何物资。</WotF_Ritual_RunningFeeNote>
-  <WotF_Ritual_Resonance>共鸣等级：{2}（血脉 {0}，设施 {1}）</WotF_Ritual_Resonance>
+  <WotF_Ritual_StrengthBreakdown>仪式强度：{2}（咏唱强度 {0}，共鸣强度 {1}）</WotF_Ritual_StrengthBreakdown>
   <WotF_Ritual_TierShort>{0} 阶</WotF_Ritual_TierShort>
   <WotF_Ritual_RingShort>{0}×{0} {1}</WotF_Ritual_RingShort>
   <WotF_Ritual_NoStandingCell>{0} 无法走到法阵上的空位。</WotF_Ritual_NoStandingCell>

@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LanguageData>
-  <WotF_RitualPower.label>仪式共鸣</WotF_RitualPower.label>
-  <WotF_RitualPower.description>连接设施提供的设施共鸣。举行仪式时，最终共鸣为（主持人林庭血脉等级 + 0.5 × 协力者血脉等级之和）× √(1 + 设施共鸣 / 10)。</WotF_RitualPower.description>
-</LanguageData>

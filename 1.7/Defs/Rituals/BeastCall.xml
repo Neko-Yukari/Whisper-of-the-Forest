@@ -11,8 +11,8 @@
     <manaCost>120</manaCost>
     <durationTicks>900</durationTicks>
     <effectRadius>12.9</effectRadius>
-    <!-- 占位：每级共鸣增加 0.005 驯服概率，另叠主持人驯兽；最终概率沿用 Clamp01。 -->
-    <tameChancePerPower>0.005</tameChancePerPower>
+    <!-- 占位：每点仪式强度增加 0.005 驯服概率，另叠主持人驯兽；最终概率沿用 Clamp01。 -->
+    <tameChancePerStrength>0.005</tameChancePerStrength>
     <summonedAnimal>Horse</summonedAnimal>
     <tameChanceBase>0.4</tameChanceBase>
     <tameChancePerSkill>0.05</tameChancePerSkill>

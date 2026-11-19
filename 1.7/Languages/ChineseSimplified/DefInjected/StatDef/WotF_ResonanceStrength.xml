@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_ResonanceStrength.label>共鸣强度</WotF_ResonanceStrength.label>
+  <WotF_ResonanceStrength.description>连接设施提供的共鸣强度。举行仪式时，仪式强度为咏唱强度（主持人林庭血脉等级 + 0.5 × 协力者血脉等级之和）× √(1 + 共鸣强度 / 10)。</WotF_ResonanceStrength.description>
+</LanguageData>

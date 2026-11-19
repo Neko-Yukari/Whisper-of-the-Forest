@@ -10,7 +10,7 @@
   <WotF_Ritual_RuneAwakening.label>符文启封</WotF_Ritual_RuneAwakening.label>
   <WotF_Ritual_RuneAwakening.description>按所选符文阶位使用 3×3 白垩、5×5 翠叶或 7×7 星辉塑形工造阵，为整个殖民地启封符文。启动时只预约该符文的引子与网络魔源，吟唱圆满落定才扣除；超位符文须研读拓片。</WotF_Ritual_RuneAwakening.description>
   <WotF_Ritual_FertileSoil.label>沃土活化</WotF_Ritual_FertileSoil.label>
-  <WotF_Ritual_FertileSoil.description>主持者在祭坛周围画下翠绿叶粉笔环，唤醒脚下的土地。仪式范围内的天然土壤变为沃土，共鸣越高覆盖越广；地板、岩石、建筑和生长中的植物不受影响。</WotF_Ritual_FertileSoil.description>
+  <WotF_Ritual_FertileSoil.description>主持者在祭坛周围画下翠绿叶粉笔环，唤醒脚下的土地。仪式范围内的天然土壤变为沃土，仪式强度越高覆盖越广；地板、岩石、建筑和生长中的植物不受影响。</WotF_Ritual_FertileSoil.description>
   <WotF_Ritual_SpellbookAwakening.label>魔术书唤醒</WotF_Ritual_SpellbookAwakening.label>
   <WotF_Ritual_SpellbookAwakening.description>主持者在祭坛周围画下白色粉笔环，从旧世界的残余中唤出一本沉睡的魔术书。仪式结束后，祭坛旁会留下一本基础魔术书，供林庭血脉成员佩戴。</WotF_Ritual_SpellbookAwakening.description>
   <WotF_Ritual_TransmuteGreenChalk.label>点化：翠叶粉笔</WotF_Ritual_TransmuteGreenChalk.label>
@@ -26,7 +26,7 @@
   <WotF_Ritual_ShieldDome.label>古树护盾</WotF_Ritual_ShieldDome.label>
   <WotF_Ritual_ShieldDome.description>主持者在祭坛周围画下翠叶粉笔环，唤醒祭坛里沉睡的古老守护。半径 12.9 格内会升起一层活着的护盾，挡下来袭的投射物，直到护盾耗尽或一天后自行消散。</WotF_Ritual_ShieldDome.description>
   <WotF_Ritual_LeylineMining.label>地脉汲矿</WotF_Ritual_LeylineMining.label>
-  <WotF_Ritual_LeylineMining.description>主持者在祭坛周围画下星辉粉笔环，把古林的根须探入深层矿脉。仪式会从祭坛下方汲取最多三种深层矿物，共鸣等级提高开采范围与每种矿物的产量；如果脚下没有深层矿脉，仪式会在扣魔源前被拒绝。</WotF_Ritual_LeylineMining.description>
+  <WotF_Ritual_LeylineMining.description>主持者在祭坛周围画下星辉粉笔环，把古林的根须探入深层矿脉。仪式会从祭坛下方汲取最多三种深层矿物，仪式强度提高每种矿物的产量；如果脚下没有深层矿脉，仪式会在扣魔源前被拒绝。</WotF_Ritual_LeylineMining.description>
   <WotF_Ritual_BeastCall.label>灵兽召契</WotF_Ritual_BeastCall.label>
   <WotF_Ritual_BeastCall.description>主持者在祭坛周围画下翠叶粉笔环，献上 50 份干草。仪式结束时，一头野马会出现在祭坛旁；主持者随后进行一次驯服尝试，成功则它加入殖民地，失败则转身离开。</WotF_Ritual_BeastCall.description>
   <WotF_Ritual_Teleport.label>本地传送</WotF_Ritual_Teleport.label>
