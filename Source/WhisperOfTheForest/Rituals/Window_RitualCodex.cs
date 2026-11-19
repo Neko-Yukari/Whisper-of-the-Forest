@@ -174,6 +174,11 @@ namespace WhisperOfTheForest.Rituals
                 y = Line(view, y, string.Format("WotF_Ritual_WorkRequirements".Translate(), def.tier, def.ringSize,
                     mana.ToString("0.#"), work.ToString("0.#")));
             }
+            else if (def.sustained)
+            {
+                y = Line(view, y, string.Format("WotF_Ritual_SustainedRequirements".Translate(), def.tier, def.ringSize,
+                    def.manaCost.ToString("0.#"), def.manaPerSecond.ToString("0.#"), def.durationTicks));
+            }
             else
             {
                 y = Line(view, y, string.Format("WotF_Ritual_RuneRequirements".Translate(), def.tier, def.ringSize,

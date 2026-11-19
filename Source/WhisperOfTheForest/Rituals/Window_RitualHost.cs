@@ -126,9 +126,20 @@ namespace WhisperOfTheForest.Rituals
             y = Line(rect.x, y, "WotF_Ritual_Participants".Translate(altar.ActiveParticipants));
             y = Line(rect.x, y, altar.Phase == RitualPhase.Gathering
                 ? "WotF_Ritual_InspectGathering".Translate()
-                : "WotF_Ritual_InspectChanting".Translate());
+                : altar.Phase == RitualPhase.Sustaining
+                    ? (TaggedString)string.Format("WotF_Ritual_InspectSustaining".Translate(),
+                        altar.ActiveDef.manaPerSecond.ToString("0.#"))
+                    : "WotF_Ritual_InspectChanting".Translate());
             y = Line(rect.x, y, string.Format("WotF_Ritual_RitualStrength".Translate(), altar.ActiveRitualStrength.ToString("0.#")));
-            Line(rect.x, y, "WotF_Ritual_RunningFeeNote".Translate());
+            if (altar.Phase == RitualPhase.Sustaining && altar.ActiveStrikesPerMinute > 0f)
+            {
+                y = Line(rect.x, y, string.Format("WotF_Ritual_StrikeRate".Translate(),
+                    altar.ActiveStrikesPerMinute.ToString("0.#")));
+            }
+
+            Line(rect.x, y, altar.Phase == RitualPhase.Sustaining
+                ? "WotF_Ritual_SustainingFeeNote".Translate()
+                : "WotF_Ritual_RunningFeeNote".Translate());
         }
 
         private static float Line(float x, float y, string text)
@@ -376,6 +387,11 @@ namespace WhisperOfTheForest.Rituals
             y = Line(0f, y, found.ManaEnough
                 ? "WotF_Ritual_ManaHave".Translate(found.ManaCost.ToString("0.#"), found.ManaStored.ToString("0.#"))
                 : "WotF_Ritual_ManaShort".Translate(found.ManaCost.ToString("0.#"), found.ManaStored.ToString("0.#")));
+            if (found.ManaPerSecond > 0f)
+            {
+                y = Line(0f, y, string.Format("WotF_Ritual_ManaUpkeep".Translate(),
+                    found.ManaPerSecond.ToString("0.#")));
+            }
 
             if (altar.CollectDef != null)
             {
@@ -475,6 +491,11 @@ namespace WhisperOfTheForest.Rituals
             y = Line(0f, y, string.Format("WotF_Ritual_StrengthBreakdown".Translate(),
                 found.ChantStrength.ToString("0.#"), found.ResonanceStrength.ToString("0.#"),
                 found.RitualStrength.ToString("0.#")));
+            if (selected != null && selected.baseStrikesPerMinute > 0f)
+            {
+                y = Line(0f, y, string.Format("WotF_Ritual_StrikeRate".Translate(),
+                    selected.StrikesPerMinuteFor(found.RitualStrength).ToString("0.#")));
+            }
             y = Line(0f, y, selected != null && selected.UsesEffectStrength
                 ? "WotF_Ritual_StrengthScaled".Translate()
                 : selected != null && selected.UsesWork
@@ -506,7 +527,10 @@ namespace WhisperOfTheForest.Rituals
         {
             if (altar.IsActive)
             {
-                if (Widgets.ButtonText(new Rect(rect.x, rect.y, 180f, 32f), "WotF_Ritual_CancelButton".Translate()))
+                string label = altar.Phase == RitualPhase.Sustaining
+                    ? "WotF_Ritual_StopButton".Translate()
+                    : "WotF_Ritual_CancelButton".Translate();
+                if (Widgets.ButtonText(new Rect(rect.x, rect.y, 180f, 32f), label))
                 {
                     altar.CancelByPlayer();
                 }

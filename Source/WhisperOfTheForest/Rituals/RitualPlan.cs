@@ -4,11 +4,12 @@ using WhisperOfTheForest.Spells;
 
 namespace WhisperOfTheForest.Rituals
 {
-    /// <summary>Where one performance stands: still gathering on the chalk, or chanting.</summary>
+    /// <summary>Where one performance stands: gathering on the chalk, chanting, or sustaining.</summary>
     public enum RitualPhase
     {
         Gathering,
-        Chanting
+        Chanting,
+        Sustaining
     }
 
     /// <summary>One cost line of a rite against what haulers have already put into the altar.</summary>
@@ -68,6 +69,7 @@ namespace WhisperOfTheForest.Rituals
         public int RingSize;
         public ChalkColor ChalkColor;
         public float ManaCost;
+        public float ManaPerSecond;
         public float ManaStored;
         public bool ManaEnough;
         public float WorkAmount;

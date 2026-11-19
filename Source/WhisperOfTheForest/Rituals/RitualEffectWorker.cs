@@ -12,6 +12,20 @@ namespace WhisperOfTheForest.Rituals
     public abstract class RitualEffectWorker
     {
         public abstract void Apply(RitualContext context);
+
+        public virtual int InitialSustainedDelayTicks(RitualDef def, float ritualStrength)
+        {
+            return 0;
+        }
+
+        public virtual int SustainedTick(Building altar, Pawn host, RitualDef def, float ritualStrength)
+        {
+            return 0;
+        }
+
+        public virtual void OnSustainedEnd(Building altar, RitualDef def)
+        {
+        }
     }
 
     public sealed class RitualContext

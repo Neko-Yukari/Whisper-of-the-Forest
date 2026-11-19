@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <WhisperOfTheForest.Rituals.RitualDef>
+    <defName>WotF_Ritual_SkyWrath</defName>
+    <tier>3</tier>
+    <family>Domain</family>
+    <label>rite of sky wrath</label>
+    <description>The caster traces a star chalk ring and channels lightning down upon the closest unroofed enemy until the rite is stopped, the host falls, or the mana network runs dry. Higher ritual strength calls lightning down more often. Contained entities, prisoners and buildings are spared.</description>
+    <ringSize>7</ringSize>
+    <chalkColor>Star</chalkColor>
+    <sustained>true</sustained>
+    <manaCost>100</manaCost>
+    <manaPerSecond>4</manaPerSecond>
+    <durationTicks>600</durationTicks>
+    <effectRadius>12.9</effectRadius>
+    <minParticipants>1</minParticipants>
+    <baseStrikesPerMinute>6</baseStrikesPerMinute>
+    <minStrikeRadius>5.9</minStrikeRadius>
+    <strikeDamage>10</strikeDamage>
+    <strikeArmorPenetration>0</strikeArmorPenetration>
+    <strikeRadius>1.9</strikeRadius>
+    <strikeIntervalJitter>0.15</strikeIntervalJitter>
+    <idleScanIntervalTicks>30</idleScanIntervalTicks>
+    <strengthEffectFactor>
+      <points>
+        <li>(0, 1)</li>
+        <li>(25, 2.5)</li>
+        <li>(60, 3.8)</li>
+        <li>(120, 5.2)</li>
+      </points>
+    </strengthEffectFactor>
+    <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_SkyWrath</effectWorkerClass>
+  </WhisperOfTheForest.Rituals.RitualDef>
+</Defs>
