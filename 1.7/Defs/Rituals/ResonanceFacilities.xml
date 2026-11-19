@@ -3,7 +3,7 @@
   <StatDef>
     <defName>WotF_RitualPower</defName>
     <label>ritual resonance</label>
-    <description>Ritual levels supplied by linked facilities. The host and all helpers add their forest bloodline levels.</description>
+    <description>Facility resonance supplied by linked buildings. During a ritual, total resonance equals (host bloodline level + 0.5 × helpers' bloodline levels) × √(1 + facility resonance / 10).</description>
     <category>Building</category>
     <defaultBaseValue>0</defaultBaseValue>
     <toStringStyle>FloatOne</toStringStyle>
