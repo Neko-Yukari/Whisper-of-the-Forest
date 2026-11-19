@@ -18,21 +18,58 @@
     <label>grove shield dome (RimLumen)</label>
     <workerClass>WhisperOfTheForest.Vfx.ShieldLumenVfxWorker</workerClass>
     <lifetime>FollowThing</lifetime>
+
     <coreColor>#E9FFF4</coreColor>
     <primaryColor>#57D993</primaryColor>
-    <hdrIntensity>1.15</hdrIntensity>
-    <altitudeY>9.45</altitudeY>
+    <secondaryColor>#D7F598</secondaryColor>
+    <lowChargeColor>#FFAF50</lowChargeColor>
+    <hdrIntensity>1.20</hdrIntensity>
+
+    <backAltitudeY>7.95</backAltitudeY>
+    <frontAltitudeY>9.45</frontAltitudeY>
+    <zTransitionHalf>0.06</zTransitionHalf>
+
     <coreWidthCells>0.12</coreWidthCells>
-    <glowWidthCells>0.55</glowWidthCells>
-    <edgePower>1.8</edgePower>
-    <pulseHz>0.45</pulseHz>
-    <pulseMinAlpha>0.24</pulseMinAlpha>
-    <pulseMaxAlpha>0.42</pulseMaxAlpha>
-    <ringSegments>64</ringSegments>
-    <hitFlashSeconds>0.35</hitFlashSeconds>
-    <hitFlashRadiusCells>1.65</hitFlashRadiusCells>
-    <breakSeconds>0.55</breakSeconds>
-    <expireSeconds>0.80</expireSeconds>
+    <glowWidthCells>0.52</glowWidthCells>
+    <edgePower>1.75</edgePower>
+    <pulseHz>0.38</pulseHz>
+    <pulseMinAlpha>0.78</pulseMinAlpha>
+    <pulseMaxAlpha>1.00</pulseMaxAlpha>
+    <ringSegments>96</ringSegments>
+
+    <openSeconds>0.68</openSeconds>
+    <breakSeconds>0.65</breakSeconds>
+    <expireSeconds>0.85</expireSeconds>
+
+    <!-- 1-2 thin, crisp spherical geodesic wave filaments + localized 3D hexagonal honeycomb lattice -->
+    <rippleDurationSeconds>1.45</rippleDurationSeconds>
+    <passRippleDurationSeconds>0.92</passRippleDurationSeconds>
+    <rippleWaveSpeed>13.80</rippleWaveSpeed>
+    <passWaveSpeed>9.80</passWaveSpeed>
+    <rippleCrestSpacing>3.60</rippleCrestSpacing>
+    <rippleCrestCount>2</rippleCrestCount>
+    <rippleBandHalfWidth>0.14</rippleBandHalfWidth>
+    <rippleSpreadScale>7.20</rippleSpreadScale>
+    <hitDistortionCells>0.16</hitDistortionCells>
+    <passDistortionCells>0.058</passDistortionCells>
+
+    <domeCanopyHeightCells>5.60</domeCanopyHeightCells>
+    <domeCanopyRibCount>3</domeCanopyRibCount>
+    <domeRuneArcCount>6</domeRuneArcCount>
+    <domeSpinRadPerSec>0.22</domeSpinRadPerSec>
+    <domeHexSizeCells>0.76</domeHexSizeCells>
+    <domeHexRings>3</domeHexRings>
+
+    <activateLumenEffectId>NekoYukari.WhisperOfTheForest:ShieldDome_Activate</activateLumenEffectId>
+    <sustainLumenEffectId>NekoYukari.WhisperOfTheForest:ShieldDome_Sustain</sustainLumenEffectId>
+    <hitLumenEffectId>NekoYukari.WhisperOfTheForest:ShieldDome_Hit</hitLumenEffectId>
+    <airHitLumenEffectId>NekoYukari.WhisperOfTheForest:ShieldDome_AirHit</airHitLumenEffectId>
+    <breakLumenEffectId>NekoYukari.WhisperOfTheForest:ShieldDome_Break</breakLumenEffectId>
+
+    <activateSound>WotF_Sound_ShieldDome_Activate</activateSound>
+    <hitSound>WotF_Sound_ShieldDome_Hit</hitSound>
+    <passSound>WotF_Sound_Shield_PassThrough</passSound>
+    <breakSound>WotF_Sound_ShieldDome_Break</breakSound>
   </WhisperOfTheForest.Vfx.ShieldLumenVfxDef>
 
   <WhisperOfTheForest.Vfx.ShieldLumenVfxDef>
@@ -40,21 +77,55 @@
     <label>planar shield barrier (RimLumen)</label>
     <workerClass>WhisperOfTheForest.Vfx.ShieldLumenVfxWorker</workerClass>
     <lifetime>FollowThing</lifetime>
+
     <coreColor>#FFFDF4</coreColor>
     <primaryColor>#48D1CC</primaryColor>
-    <hdrIntensity>1.30</hdrIntensity>
-    <altitudeY>9.45</altitudeY>
-    <coreWidthCells>0.18</coreWidthCells>
-    <glowWidthCells>0.68</glowWidthCells>
+    <secondaryColor>#F5E384</secondaryColor>
+    <lowChargeColor>#FFA84C</lowChargeColor>
+    <hdrIntensity>1.34</hdrIntensity>
+
+    <backAltitudeY>7.95</backAltitudeY>
+    <frontAltitudeY>9.45</frontAltitudeY>
+    <zTransitionHalf>0.06</zTransitionHalf>
+
+    <coreWidthCells>0.095</coreWidthCells>
+    <glowWidthCells>0.38</glowWidthCells>
     <edgePower>1.65</edgePower>
-    <pulseHz>0.90</pulseHz>
-    <pulseMinAlpha>0.48</pulseMinAlpha>
-    <pulseMaxAlpha>0.74</pulseMaxAlpha>
-    <ringSegments>24</ringSegments>
-    <hitFlashSeconds>0.28</hitFlashSeconds>
-    <hitFlashRadiusCells>0.95</hitFlashRadiusCells>
-    <breakSeconds>0.40</breakSeconds>
-    <expireSeconds>0.45</expireSeconds>
+    <pulseHz>0.68</pulseHz>
+    <pulseMinAlpha>0.86</pulseMinAlpha>
+    <pulseMaxAlpha>1.00</pulseMaxAlpha>
+    <ringSegments>36</ringSegments>
+
+    <!-- Snappy 0.36s 2-stage combat deploy: left/right pylons snap up (0..42%), middle materializes (38..100%) -->
+    <openSeconds>0.36</openSeconds>
+    <breakSeconds>0.55</breakSeconds>
+    <expireSeconds>0.65</expireSeconds>
+    <planarPylonRiseFraction>0.42</planarPylonRiseFraction>
+    <planarMiddleStartFraction>0.38</planarMiddleStartFraction>
+
+    <!-- 1-2 thin, razor-crisp vibration wave filaments calibrated to H=2.20 wall height & full curtain span -->
+    <rippleDurationSeconds>1.15</rippleDurationSeconds>
+    <passRippleDurationSeconds>0.72</passRippleDurationSeconds>
+    <rippleWaveSpeed>4.40</rippleWaveSpeed>
+    <passWaveSpeed>3.20</passWaveSpeed>
+    <rippleCrestSpacing>0.95</rippleCrestSpacing>
+    <rippleCrestCount>2</rippleCrestCount>
+    <rippleBandHalfWidth>0.085</rippleBandHalfWidth>
+    <rippleSpreadScale>3.40</rippleSpreadScale>
+    <hitDistortionCells>0.13</hitDistortionCells>
+    <passDistortionCells>0.052</passDistortionCells>
+
+    <wallHeightCells>2.20</wallHeightCells>
+    <camberCells>0.36</camberCells>
+    <topRakeCells>0.30</topRakeCells>
+    <curtainAlpha>0.30</curtainAlpha>
+
+    <hitLumenEffectId>NekoYukari.WhisperOfTheForest:PlanarShield_Hit</hitLumenEffectId>
+
+    <activateSound>WotF_Sound_PlanarShield_Activate</activateSound>
+    <hitSound>WotF_Sound_PlanarShield_Hit</hitSound>
+    <passSound>WotF_Sound_Shield_PassThrough</passSound>
+    <breakSound>WotF_Sound_PlanarShield_Break</breakSound>
   </WhisperOfTheForest.Vfx.ShieldLumenVfxDef>
 
 </Defs>

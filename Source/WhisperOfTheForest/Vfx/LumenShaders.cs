@@ -5,24 +5,31 @@ using Verse;
 namespace WhisperOfTheForest.Vfx
 {
     /// <summary>
-    /// Cached world materials routed to Layer 15 (RimLumenRenderHost.LumenRenderPassId).
+    /// Cached world materials routed to RimLumen's custom render layers:
+    ///   - Layer 15 (<c>RimLumenRenderHost.LumenRenderPassId</c>): unclamped HDR additive ribbons &amp; shields.
+    ///   - Layer 14 (<c>RimLumenRenderHost.DistortionPassId</c>): RG16F additive screen-space refraction offsets.
     /// Marked StaticConstructorOnStartup per static-asset loading rules; materials materialize lazily
     /// on main-thread draw once DefDatabase&lt;ShaderDef&gt; and ShaderDefRegistry are populated.
     /// </summary>
     [StaticConstructorOnStartup]
     public static class LumenShaders
     {
+        public const int LumenDistortionLayer = 14;
         public const int LumenLayer = 15;
 
         public const string RibbonDepthShaderName = "WotF_Shader_LumenRibbonDepth";
         public const string RibbonOverShaderName = "WotF_Shader_LumenRibbonOver";
+        public const string DistortionShaderName = "WotF_Shader_LumenDistortion";
 
         private static Material ribbonDepth;
         private static Material ribbonOver;
+        private static Material distortion;
 
         public static Material RibbonDepth => ribbonDepth ??= LoadMaterial(RibbonDepthShaderName);
 
         public static Material RibbonOver => ribbonOver ??= LoadMaterial(RibbonOverShaderName);
+
+        public static Material Distortion => distortion ??= LoadMaterial(DistortionShaderName);
 
         public static void DrawLumen(Mesh mesh, Material material)
         {
@@ -32,6 +39,16 @@ namespace WhisperOfTheForest.Vfx
             }
 
             Graphics.DrawMesh(mesh, Matrix4x4.identity, material, LumenLayer);
+        }
+
+        public static void DrawDistortion(Mesh mesh)
+        {
+            if (mesh == null || mesh.vertexCount == 0)
+            {
+                return;
+            }
+
+            Graphics.DrawMesh(mesh, Matrix4x4.identity, Distortion, LumenDistortionLayer);
         }
 
         private static Material LoadMaterial(string shaderDefName)

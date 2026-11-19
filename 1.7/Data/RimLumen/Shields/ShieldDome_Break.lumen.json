@@ -1,0 +1,151 @@
+{
+  "effectId": "ShieldDome_Break",
+  "defaultDuration": 0.85,
+  "nodes": [
+    {
+      "name": "dome_shatter_motes",
+      "parentIndex": -1,
+      "localPosition": [
+        0.0,
+        0.35,
+        0.0
+      ],
+      "spacePlane": "Vertical3D",
+      "emitter": {
+        "name": "dome_shatter_motes",
+        "preferredTier": "L2_GpuCompute",
+        "maxParticles": 96,
+        "duration": 0.75,
+        "looping": false,
+        "worldSpaceSimulation": true,
+        "rateOverTime": 0.0,
+        "bursts": [
+          {
+            "time": 0.0,
+            "count": 64
+          }
+        ],
+        "shape": "CircleEdgeXZ",
+        "shapeExtents": [
+          1.0,
+          0.0,
+          1.0
+        ],
+        "randomPositionAmount": 0.03,
+        "startLifetimeMin": 0.32,
+        "startLifetimeMax": 0.68,
+        "startSpeedMin": 0.8,
+        "startSpeedMax": 2.6,
+        "startSizeMin": 0.045,
+        "startSizeMax": 0.095,
+        "startColor": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "blendMode": "Additive",
+        "billboardMode": "StretchedVelocity",
+        "velocityStretchFactor": 0.04,
+        "lengthScale": 1.1,
+        "softParticleFadeDistance": 0.06,
+        "hdrIntensity": 1.65,
+        "killBelowFloor": true,
+        "sizeOverLifetime": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.55,
+            0.72
+          ],
+          [
+            1.0,
+            0.0
+          ]
+        ],
+        "colorOverLifetime": [
+          [
+            0.0,
+            [
+              0.96,
+              1.0,
+              0.96,
+              0.95
+            ]
+          ],
+          [
+            0.45,
+            [
+              1.0,
+              0.72,
+              0.36,
+              0.78
+            ]
+          ],
+          [
+            1.0,
+            [
+              0.34,
+              0.85,
+              0.58,
+              0.0
+            ]
+          ]
+        ],
+        "forceFields": [
+          {
+            "kind": "GravityDrag",
+            "centerOrAxis": [
+              0.0,
+              -1.0,
+              0.0
+            ],
+            "parameters": [
+              2.4,
+              0.0,
+              0.0
+            ],
+            "radius": 0.0,
+            "strength": 5.6,
+            "frequency": 1.0
+          }
+        ],
+        "environmentChannels": "Explosion"
+      }
+    },
+    {
+      "name": "dome_break_light",
+      "parentIndex": -1,
+      "localPosition": [
+        0.0,
+        1.6,
+        0.0
+      ],
+      "pointLight": {
+        "glowRadius": 6.5,
+        "color": [
+          1.0,
+          0.76,
+          0.42
+        ],
+        "intensity": 0.82,
+        "intensityOverTime": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.18,
+            0.55
+          ],
+          [
+            0.52,
+            0.0
+          ]
+        ]
+      }
+    }
+  ]
+}

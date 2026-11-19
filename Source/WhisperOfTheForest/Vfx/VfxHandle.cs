@@ -31,6 +31,11 @@ namespace WhisperOfTheForest.Vfx
             if (!Closed("ReportShieldHit")) worker.OnShieldHit(hit);
         }
 
+        public void ReportShieldPassThrough(in ShieldPassEvent pass)
+        {
+            if (!Closed("ReportShieldPassThrough")) worker.OnShieldPassThrough(pass);
+        }
+
         public void End()
         {
             if (!Closed("End")) worker.FollowLost();

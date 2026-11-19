@@ -80,6 +80,178 @@ namespace WhisperOfTheForest.Vfx
             }
         }
 
+        /// <summary>
+        /// Appends a shaded 4-corner quad with uniform cross-spine weight (<c>u = 0.5</c>) so translucent
+        /// 3D shield curtain slices and shatter shards interpolate smooth vertex colors in a single batch.
+        /// </summary>
+        public void AddShadedQuad(
+            Vector3 p00,
+            Vector3 p10,
+            Vector3 p11,
+            Vector3 p01,
+            Color bottomColor,
+            Color topColor,
+            float hdrIntensity)
+        {
+            if (bottomColor.a <= 0.0005f && topColor.a <= 0.0005f)
+            {
+                return;
+            }
+
+            int baseIdx = vertices.Count;
+            Color bot = AdaptColor(bottomColor);
+            Color top = AdaptColor(topColor);
+            var uvBot = new Vector4(0.5f, 0f, hdrIntensity, 1f);
+            var uvTop = new Vector4(0.5f, 1f, hdrIntensity, 1f);
+
+            vertices.Add(p00); colors.Add(bot); uvs.Add(uvBot);
+            vertices.Add(p10); colors.Add(bot); uvs.Add(uvBot);
+            vertices.Add(p11); colors.Add(top); uvs.Add(uvTop);
+            vertices.Add(p01); colors.Add(top); uvs.Add(uvTop);
+
+            indices.Add(baseIdx);
+            indices.Add(baseIdx + 1);
+            indices.Add(baseIdx + 2);
+            indices.Add(baseIdx);
+            indices.Add(baseIdx + 2);
+            indices.Add(baseIdx + 3);
+        }
+
+        public void AddShadedTriangle(
+            Vector3 p0,
+            Vector3 p1,
+            Vector3 p2,
+            Color c0,
+            Color c1,
+            Color c2,
+            float hdrIntensity)
+        {
+            if (c0.a <= 0.0005f && c1.a <= 0.0005f && c2.a <= 0.0005f)
+            {
+                return;
+            }
+
+            int baseIdx = vertices.Count;
+            var uv = new Vector4(0.5f, 0.5f, hdrIntensity, 1f);
+            vertices.Add(p0); colors.Add(AdaptColor(c0)); uvs.Add(uv);
+            vertices.Add(p1); colors.Add(AdaptColor(c1)); uvs.Add(uv);
+            vertices.Add(p2); colors.Add(AdaptColor(c2)); uvs.Add(uv);
+
+            indices.Add(baseIdx);
+            indices.Add(baseIdx + 1);
+            indices.Add(baseIdx + 2);
+        }
+
+        /// <summary>
+        /// Appends a surface-clamped wave-band quad with explicit cross-band profile coordinates (<c>u in [0..1]</c>,
+        /// <c>0.5</c> = wave crest) so analytically boundary-clipped shield ripples preserve their exact profile
+        /// right up to the shield edge with zero out-of-bounds geometry.
+        /// </summary>
+        public void AddWaveBandQuad(
+            Vector3 inner0,
+            Vector3 outer0,
+            Vector3 outer1,
+            Vector3 inner1,
+            float uIn0,
+            float uOut0,
+            float uOut1,
+            float uIn1,
+            Color color,
+            float hdrIntensity,
+            float edgePower)
+        {
+            if (color.a <= 0.0005f)
+            {
+                return;
+            }
+
+            int baseIdx = vertices.Count;
+            Color col = AdaptColor(color);
+            vertices.Add(inner0); colors.Add(col); uvs.Add(new Vector4(uIn0, 0f, hdrIntensity, edgePower));
+            vertices.Add(outer0); colors.Add(col); uvs.Add(new Vector4(uOut0, 0f, hdrIntensity, edgePower));
+            vertices.Add(outer1); colors.Add(col); uvs.Add(new Vector4(uOut1, 1f, hdrIntensity, edgePower));
+            vertices.Add(inner1); colors.Add(col); uvs.Add(new Vector4(uIn1, 1f, hdrIntensity, edgePower));
+
+            indices.Add(baseIdx);
+            indices.Add(baseIdx + 1);
+            indices.Add(baseIdx + 2);
+            indices.Add(baseIdx);
+            indices.Add(baseIdx + 2);
+            indices.Add(baseIdx + 3);
+        }
+
+        /// <summary>
+        /// Appends one radial sector of a boundary-clipped standing glow disc (<c>frac0, frac1 in [0..1]</c> are
+        /// normalized radii <c>r / glowRadius</c>), keeping 100% of the triangle inside the shield silhouette.
+        /// </summary>
+        public void AddClippedGlowSector(
+            Vector3 center,
+            Vector3 rim0,
+            Vector3 rim1,
+            float frac0,
+            float frac1,
+            Color innerColor,
+            Color outerColor,
+            float hdrIntensity,
+            float edgePower)
+        {
+            if (innerColor.a <= 0.0005f)
+            {
+                return;
+            }
+
+            int baseIdx = vertices.Count;
+            Color cCenter = AdaptColor(innerColor);
+            Color cRim0 = AdaptColor(Color.Lerp(innerColor, outerColor, frac0));
+            Color cRim1 = AdaptColor(Color.Lerp(innerColor, outerColor, frac1));
+
+            vertices.Add(center); colors.Add(cCenter); uvs.Add(new Vector4(0.5f, 0.5f, hdrIntensity, edgePower));
+            vertices.Add(rim0); colors.Add(cRim0); uvs.Add(new Vector4(0.5f * (1f - frac0), 0f, hdrIntensity, edgePower));
+            vertices.Add(rim1); colors.Add(cRim1); uvs.Add(new Vector4(0.5f * (1f - frac1), 1f, hdrIntensity, edgePower));
+
+            indices.Add(baseIdx);
+            indices.Add(baseIdx + 1);
+            indices.Add(baseIdx + 2);
+        }
+
+        /// <summary>
+        /// Appends a surface-clamped refraction wave quad for Layer 14 (<c>WotF_Shader_LumenDistortion</c>).
+        /// <c>UV0 = (uCross, weight, sampleOffsetWorldX, sampleOffsetWorldZ)</c>.
+        /// </summary>
+        public void AddDistortionBandQuad(
+            Vector3 inner0,
+            Vector3 outer0,
+            Vector3 outer1,
+            Vector3 inner1,
+            float uIn0,
+            float uOut0,
+            float uOut1,
+            float uIn1,
+            Vector2 sampleOffsetXZ0,
+            Vector2 sampleOffsetXZ1,
+            float weight0,
+            float weight1)
+        {
+            if ((weight0 <= 0.0005f && weight1 <= 0.0005f)
+                || (sampleOffsetXZ0.sqrMagnitude <= 1e-9f && sampleOffsetXZ1.sqrMagnitude <= 1e-9f))
+            {
+                return;
+            }
+
+            int baseIdx = vertices.Count;
+            vertices.Add(inner0); colors.Add(Color.white); uvs.Add(new Vector4(uIn0, weight0, sampleOffsetXZ0.x, sampleOffsetXZ0.y));
+            vertices.Add(outer0); colors.Add(Color.white); uvs.Add(new Vector4(uOut0, weight0, sampleOffsetXZ0.x, sampleOffsetXZ0.y));
+            vertices.Add(outer1); colors.Add(Color.white); uvs.Add(new Vector4(uOut1, weight1, sampleOffsetXZ1.x, sampleOffsetXZ1.y));
+            vertices.Add(inner1); colors.Add(Color.white); uvs.Add(new Vector4(uIn1, weight1, sampleOffsetXZ1.x, sampleOffsetXZ1.y));
+
+            indices.Add(baseIdx);
+            indices.Add(baseIdx + 1);
+            indices.Add(baseIdx + 2);
+            indices.Add(baseIdx);
+            indices.Add(baseIdx + 2);
+            indices.Add(baseIdx + 3);
+        }
+
         public void AddRadialGlowDisc(
             Vector3 centerXZ,
             float radius,

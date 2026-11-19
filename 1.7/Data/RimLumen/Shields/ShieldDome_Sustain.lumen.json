@@ -1,0 +1,139 @@
+{
+  "effectId": "ShieldDome_Sustain",
+  "defaultDuration": 10.0,
+  "nodes": [
+    {
+      "name": "perimeter_fireflies",
+      "parentIndex": -1,
+      "localPosition": [
+        0.0,
+        0.05,
+        0.0
+      ],
+      "spacePlane": "Vertical3D",
+      "emitter": {
+        "name": "perimeter_fireflies",
+        "preferredTier": "L2_GpuCompute",
+        "maxParticles": 160,
+        "duration": 10.0,
+        "looping": true,
+        "worldSpaceSimulation": true,
+        "rateOverTime": 22.0,
+        "shape": "CircleEdgeXZ",
+        "shapeExtents": [
+          1.0,
+          0.0,
+          1.0
+        ],
+        "randomPositionAmount": 0.02,
+        "startLifetimeMin": 1.6,
+        "startLifetimeMax": 2.8,
+        "startSpeedMin": 0.02,
+        "startSpeedMax": 0.08,
+        "startSizeMin": 0.055,
+        "startSizeMax": 0.11,
+        "startColor": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "blendMode": "Additive",
+        "billboardMode": "Camera",
+        "softParticleFadeDistance": 0.08,
+        "hdrIntensity": 1.35,
+        "sizeOverLifetime": [
+          [
+            0.0,
+            0.2
+          ],
+          [
+            0.25,
+            1.0
+          ],
+          [
+            0.8,
+            0.85
+          ],
+          [
+            1.0,
+            0.0
+          ]
+        ],
+        "colorOverLifetime": [
+          [
+            0.0,
+            [
+              0.34,
+              0.85,
+              0.58,
+              0.0
+            ]
+          ],
+          [
+            0.25,
+            [
+              0.52,
+              0.94,
+              0.68,
+              0.72
+            ]
+          ],
+          [
+            0.75,
+            [
+              0.88,
+              0.98,
+              0.62,
+              0.65
+            ]
+          ],
+          [
+            1.0,
+            [
+              0.92,
+              1.0,
+              0.96,
+              0.0
+            ]
+          ]
+        ],
+        "forceFields": [
+          {
+            "kind": "GravityDrag",
+            "centerOrAxis": [
+              0.0,
+              1.0,
+              0.0
+            ],
+            "parameters": [
+              1.8,
+              0.0,
+              0.0
+            ],
+            "radius": 0.0,
+            "strength": 0.55,
+            "frequency": 1.0
+          },
+          {
+            "kind": "CurlTurbulence",
+            "centerOrAxis": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "parameters": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "radius": 0.0,
+            "strength": 0.35,
+            "frequency": 1.2
+          }
+        ],
+        "environmentChannels": "None"
+      }
+    }
+  ]
+}
