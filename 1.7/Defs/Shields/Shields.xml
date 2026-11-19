@@ -41,22 +41,24 @@
     <breakSeconds>0.65</breakSeconds>
     <expireSeconds>0.85</expireSeconds>
 
-    <!-- 1-2 wide, uncrowded spherical wave bands sweeping ~20 cells across the R=12.9 dome with vibration decay -->
-    <rippleDurationSeconds>1.42</rippleDurationSeconds>
+    <!-- 1-2 thin, crisp spherical geodesic wave filaments + localized 3D hexagonal honeycomb lattice -->
+    <rippleDurationSeconds>1.45</rippleDurationSeconds>
     <passRippleDurationSeconds>0.92</passRippleDurationSeconds>
-    <rippleWaveSpeed>14.20</rippleWaveSpeed>
-    <passWaveSpeed>10.20</passWaveSpeed>
-    <rippleCrestSpacing>4.20</rippleCrestSpacing>
+    <rippleWaveSpeed>13.80</rippleWaveSpeed>
+    <passWaveSpeed>9.80</passWaveSpeed>
+    <rippleCrestSpacing>3.60</rippleCrestSpacing>
     <rippleCrestCount>2</rippleCrestCount>
-    <rippleBandHalfWidth>0.46</rippleBandHalfWidth>
-    <rippleSpreadScale>6.80</rippleSpreadScale>
-    <hitDistortionCells>0.15</hitDistortionCells>
-    <passDistortionCells>0.055</passDistortionCells>
+    <rippleBandHalfWidth>0.14</rippleBandHalfWidth>
+    <rippleSpreadScale>7.20</rippleSpreadScale>
+    <hitDistortionCells>0.16</hitDistortionCells>
+    <passDistortionCells>0.058</passDistortionCells>
 
     <domeCanopyHeightCells>5.60</domeCanopyHeightCells>
     <domeCanopyRibCount>3</domeCanopyRibCount>
     <domeRuneArcCount>6</domeRuneArcCount>
     <domeSpinRadPerSec>0.22</domeSpinRadPerSec>
+    <domeHexSizeCells>0.76</domeHexSizeCells>
+    <domeHexRings>3</domeHexRings>
 
     <activateLumenEffectId>NekoYukari.WhisperOfTheForest:ShieldDome_Activate</activateLumenEffectId>
     <sustainLumenEffectId>NekoYukari.WhisperOfTheForest:ShieldDome_Sustain</sustainLumenEffectId>
@@ -81,7 +83,7 @@
     <primaryColor>#48D1CC</primaryColor>
     <secondaryColor>#F5E384</secondaryColor>
     <lowChargeColor>#FFA84C</lowChargeColor>
-    <hdrIntensity>1.32</hdrIntensity>
+    <hdrIntensity>1.34</hdrIntensity>
 
     <backAltitudeY>7.95</backAltitudeY>
     <frontAltitudeY>9.45</frontAltitudeY>
@@ -99,17 +101,17 @@
     <breakSeconds>0.55</breakSeconds>
     <expireSeconds>0.65</expireSeconds>
 
-    <!-- 1-2 wide, uncrowded surface wave bands sweeping ~7.5 cells across the 2.2-cell tall wall with vibration decay -->
-    <rippleDurationSeconds>1.05</rippleDurationSeconds>
-    <passRippleDurationSeconds>0.68</passRippleDurationSeconds>
-    <rippleWaveSpeed>7.20</rippleWaveSpeed>
-    <passWaveSpeed>4.80</passWaveSpeed>
-    <rippleCrestSpacing>1.85</rippleCrestSpacing>
+    <!-- 1-2 thin, razor-crisp vibration wave filaments calibrated to H=2.20 wall height & full curtain span -->
+    <rippleDurationSeconds>1.15</rippleDurationSeconds>
+    <passRippleDurationSeconds>0.72</passRippleDurationSeconds>
+    <rippleWaveSpeed>4.40</rippleWaveSpeed>
+    <passWaveSpeed>3.20</passWaveSpeed>
+    <rippleCrestSpacing>0.95</rippleCrestSpacing>
     <rippleCrestCount>2</rippleCrestCount>
-    <rippleBandHalfWidth>0.28</rippleBandHalfWidth>
-    <rippleSpreadScale>3.20</rippleSpreadScale>
-    <hitDistortionCells>0.11</hitDistortionCells>
-    <passDistortionCells>0.048</passDistortionCells>
+    <rippleBandHalfWidth>0.085</rippleBandHalfWidth>
+    <rippleSpreadScale>3.40</rippleSpreadScale>
+    <hitDistortionCells>0.13</hitDistortionCells>
+    <passDistortionCells>0.052</passDistortionCells>
 
     <wallHeightCells>2.20</wallHeightCells>
     <camberCells>0.36</camberCells>

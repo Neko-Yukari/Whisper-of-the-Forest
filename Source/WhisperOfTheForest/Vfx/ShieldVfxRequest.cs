@@ -117,6 +117,8 @@ namespace WhisperOfTheForest.Vfx
         public int domeCanopyRibCount;
         public int domeRuneArcCount;
         public float domeSpinRadPerSec;
+        public float domeHexSizeCells;
+        public int domeHexRings;
 
         // Native RimLumen EffectAssets & SoundDefs
         public string activateLumenEffectId;
@@ -181,6 +183,11 @@ namespace WhisperOfTheForest.Vfx
                 || hitDistortionCells < 0f || passDistortionCells < 0f)
             {
                 yield return "surface ripple durations, speeds, spacing, bandHalfWidth, spreadScale and distortion must be valid";
+            }
+
+            if (domeHexRings < 0 || (domeHexRings > 0 && domeHexSizeCells <= 0f))
+            {
+                yield return "domeHexSizeCells must be positive when domeHexRings > 0";
             }
         }
     }
@@ -250,6 +257,7 @@ namespace WhisperOfTheForest.Vfx
         private readonly List<Vector3> polylineBuf = new List<Vector3>(128);
         private readonly List<float> nearbyPawnZs = new List<float>(32);
         private readonly List<float> nearbyPawnXs = new List<float>(32);
+        private readonly Vector3[] hexCorners = new Vector3[6];
         private BreakShard[] shards;
 
         private LumenRibbonMesh depthMesh;
@@ -962,35 +970,40 @@ namespace WhisperOfTheForest.Vfx
                     }
                 }
 
-                // 2. Uncrowded 1-2 wide vibration wave bands + Layer 14 refraction strictly clamped to the Planar Shield
+                // 2. Uncrowded 1-2 thin, crisp vibration wave filaments + Layer 14 refraction strictly clamped to the Planar Shield
                 int crests = w.isFriendly ? 1 : def.rippleCrestCount;
                 float speed = w.isFriendly ? def.passWaveSpeed : def.rippleWaveSpeed;
                 float baseDistort = w.isFriendly ? def.passDistortionCells : def.hitDistortionCells;
+                const float HorizStretch = 1.32f;
 
                 for (int c = 0; c < crests; c++)
                 {
                     float rWave = age * speed - c * def.rippleCrestSpacing;
-                    if (rWave <= 0.04f) continue;
+                    if (rWave <= 0.03f) continue;
 
                     float env = EvaluateVibrationEnvelope(age, w.durationSeconds, rWave, def.rippleSpreadScale)
-                        * (c == 0 ? 1f : 0.52f);
+                        * (c == 0 ? 1f : 0.62f);
                     if (env <= 0.012f) continue;
 
-                    float bw = def.rippleBandHalfWidth
-                        * (w.isFriendly ? 0.88f : (c == 0 ? 1.0f : 1.35f))
-                        * (1f + 0.30f * uLife);
+                    float bw = def.rippleBandHalfWidth * (w.isFriendly ? 0.85f : (c == 0 ? 1.0f : 1.15f));
                     float rBandStart = rWave - bw;
                     float rIn = Mathf.Max(0f, rBandStart);
                     float rOut = rWave + bw;
                     float invSpan = 1f / Mathf.Max(0.001f, 2f * bw);
 
+                    float bwDist = Mathf.Max(0.18f, bw * 2.1f);
+                    float rDistStart = rWave - bwDist;
+                    float rDistIn = Mathf.Max(0f, rDistStart);
+                    float rDistOut = rWave + bwDist;
+                    float invDistSpan = 1f / Mathf.Max(0.001f, 2f * bwDist);
+
                     Color wakeRgb = w.isFriendly ? curPrimary : (c == 0 ? curPrimary : curSecondary);
                     Color crestRgb = w.isFriendly ? new Color(0.76f, 1f, 0.93f) : (c == 0 ? coreColor : curSecondary);
-                    var wakeCol = new Color(wakeRgb.r, wakeRgb.g, wakeRgb.b, Mathf.Clamp01((w.isFriendly ? 0.44f : 0.46f) * env * masterAlpha));
-                    var crestCol = new Color(crestRgb.r, crestRgb.g, crestRgb.b, Mathf.Clamp01(0.90f * env * masterAlpha));
+                    var wakeCol = new Color(wakeRgb.r, wakeRgb.g, wakeRgb.b, Mathf.Clamp01((w.isFriendly ? 0.36f : 0.42f) * env * masterAlpha));
+                    var crestCol = new Color(crestRgb.r, crestRgb.g, crestRgb.b, Mathf.Clamp01((w.isFriendly ? 0.78f : 0.96f) * env * masterAlpha));
                     float distortAmp = baseDistort * env * masterAlpha;
 
-                    float bwSpine = bw * 0.28f;
+                    float bwSpine = bw * 0.34f;
                     float rSpineStart = rWave - bwSpine;
                     float rSpineIn = Mathf.Max(0f, rSpineStart);
                     float rSpineOut = rWave + bwSpine;
@@ -1000,50 +1013,60 @@ namespace WhisperOfTheForest.Vfx
                     {
                         float a0 = (k / (float)WaveSteps) * Mathf.PI * 2f;
                         float a1 = ((k + 1) / (float)WaveSteps) * Mathf.PI * 2f;
-                        float dx0 = Mathf.Cos(a0), dy0 = Mathf.Sin(a0);
-                        float dx1 = Mathf.Cos(a1), dy1 = Mathf.Sin(a1);
+                        float dx0 = Mathf.Cos(a0) * HorizStretch, dy0 = Mathf.Sin(a0);
+                        float dx1 = Mathf.Cos(a1) * HorizStretch, dy1 = Mathf.Sin(a1);
 
                         float rb0 = PlanarRayExitDistance(u0, h0, dx0, dy0, halfSpan, H);
                         float rb1 = PlanarRayExitDistance(u0, h0, dx1, dy1, halfSpan, H);
+
+                        if (distortAmp > 0.0005f && (rDistIn < rb0 || rDistIn < rb1))
+                        {
+                            float da0 = Mathf.Min(rDistIn, rb0), db0 = Mathf.Min(rDistOut, rb0);
+                            float da1 = Mathf.Min(rDistIn, rb1), db1 = Mathf.Min(rDistOut, rb1);
+                            if (db0 - da0 > 0.002f || db1 - da1 > 0.002f)
+                            {
+                                Vector3 din0 = ProjectPlanarScreen((u0 + dx0 * da0) / halfSpan, (h0 + dy0 * da0) / H, heightScale, spanScale, true, out float maskIn0);
+                                Vector3 dout0 = ProjectPlanarScreen((u0 + dx0 * db0) / halfSpan, (h0 + dy0 * db0) / H, heightScale, spanScale, true, out float maskOut0);
+                                Vector3 din1 = ProjectPlanarScreen((u0 + dx1 * da1) / halfSpan, (h0 + dy1 * da1) / H, heightScale, spanScale, true, out float maskIn1);
+                                Vector3 dout1 = ProjectPlanarScreen((u0 + dx1 * db1) / halfSpan, (h0 + dy1 * db1) / H, heightScale, spanScale, true, out float maskOut1);
+
+                                Vector2 dir0 = SafeOutwardXZ(din0, dout0);
+                                Vector2 dir1 = SafeOutwardXZ(din1, dout1);
+                                distortionMesh.AddDistortionBandQuad(
+                                    din0, dout0, dout1, din1,
+                                    Mathf.Clamp01((da0 - rDistStart) * invDistSpan),
+                                    Mathf.Clamp01((db0 - rDistStart) * invDistSpan),
+                                    Mathf.Clamp01((db1 - rDistStart) * invDistSpan),
+                                    Mathf.Clamp01((da1 - rDistStart) * invDistSpan),
+                                    -dir0 * distortAmp, -dir1 * distortAmp,
+                                    0.5f * (maskIn0 + maskOut0), 0.5f * (maskIn1 + maskOut1));
+                            }
+                        }
+
                         if (rIn >= rb0 && rIn >= rb1) continue;
 
                         float ra0 = Mathf.Min(rIn, rb0), rbOut0 = Mathf.Min(rOut, rb0);
                         float ra1 = Mathf.Min(rIn, rb1), rbOut1 = Mathf.Min(rOut, rb1);
-                        if (rbOut0 - ra0 <= 0.003f && rbOut1 - ra1 <= 0.003f) continue;
+                        if (rbOut0 - ra0 <= 0.002f && rbOut1 - ra1 <= 0.002f) continue;
 
-                        Vector3 in0 = ProjectPlanarScreen((u0 + dx0 * ra0) / halfSpan, (h0 + dy0 * ra0) / H, heightScale, spanScale, true, out float maskIn0);
-                        Vector3 out0 = ProjectPlanarScreen((u0 + dx0 * rbOut0) / halfSpan, (h0 + dy0 * rbOut0) / H, heightScale, spanScale, true, out float maskOut0);
-                        Vector3 in1 = ProjectPlanarScreen((u0 + dx1 * ra1) / halfSpan, (h0 + dy1 * ra1) / H, heightScale, spanScale, true, out float maskIn1);
-                        Vector3 out1 = ProjectPlanarScreen((u0 + dx1 * rbOut1) / halfSpan, (h0 + dy1 * rbOut1) / H, heightScale, spanScale, true, out float maskOut1);
-
-                        float uIn0 = Mathf.Clamp01((ra0 - rBandStart) * invSpan);
-                        float uOut0 = Mathf.Clamp01((rbOut0 - rBandStart) * invSpan);
-                        float uIn1 = Mathf.Clamp01((ra1 - rBandStart) * invSpan);
-                        float uOut1 = Mathf.Clamp01((rbOut1 - rBandStart) * invSpan);
+                        Vector3 in0 = ProjectPlanarScreen((u0 + dx0 * ra0) / halfSpan, (h0 + dy0 * ra0) / H, heightScale, spanScale, true, out _);
+                        Vector3 out0 = ProjectPlanarScreen((u0 + dx0 * rbOut0) / halfSpan, (h0 + dy0 * rbOut0) / H, heightScale, spanScale, true, out _);
+                        Vector3 in1 = ProjectPlanarScreen((u0 + dx1 * ra1) / halfSpan, (h0 + dy1 * ra1) / H, heightScale, spanScale, true, out _);
+                        Vector3 out1 = ProjectPlanarScreen((u0 + dx1 * rbOut1) / halfSpan, (h0 + dy1 * rbOut1) / H, heightScale, spanScale, true, out _);
 
                         depthMesh.AddWaveBandQuad(
                             in0, out0, out1, in1,
-                            uIn0, uOut0, uOut1, uIn1,
-                            wakeCol, hdr * (w.isFriendly ? 0.95f : 1.05f), 1.45f);
+                            Mathf.Clamp01((ra0 - rBandStart) * invSpan),
+                            Mathf.Clamp01((rbOut0 - rBandStart) * invSpan),
+                            Mathf.Clamp01((rbOut1 - rBandStart) * invSpan),
+                            Mathf.Clamp01((ra1 - rBandStart) * invSpan),
+                            wakeCol, hdr * (w.isFriendly ? 1.0f : 1.15f), 1.45f);
 
-                        if (distortAmp > 0.0005f)
-                        {
-                            Vector2 dir0 = SafeOutwardXZ(in0, out0);
-                            Vector2 dir1 = SafeOutwardXZ(in1, out1);
-                            float wMask0 = 0.5f * (maskIn0 + maskOut0);
-                            float wMask1 = 0.5f * (maskIn1 + maskOut1);
-                            distortionMesh.AddDistortionBandQuad(
-                                in0, out0, out1, in1,
-                                uIn0, uOut0, uOut1, uIn1,
-                                -dir0 * distortAmp, -dir1 * distortAmp,
-                                wMask0, wMask1);
-                        }
-
-                        if (!w.isFriendly && (rSpineIn < rb0 || rSpineIn < rb1))
+                        if (rSpineIn < rb0 || rSpineIn < rb1)
                         {
                             float sa0 = Mathf.Min(rSpineIn, rb0), sb0 = Mathf.Min(rSpineOut, rb0);
                             float sa1 = Mathf.Min(rSpineIn, rb1), sb1 = Mathf.Min(rSpineOut, rb1);
-                            if (sb0 - sa0 > 0.002f || sb1 - sa1 > 0.002f)
+                            if (sb0 - sa0 > 0.0015f || sb1 - sa1 > 0.0015f)
                             {
                                 Vector3 sin0 = ProjectPlanarScreen((u0 + dx0 * sa0) / halfSpan, (h0 + dy0 * sa0) / H, heightScale, spanScale, true, out _);
                                 Vector3 sout0 = ProjectPlanarScreen((u0 + dx0 * sb0) / halfSpan, (h0 + dy0 * sb0) / H, heightScale, spanScale, true, out _);
@@ -1056,7 +1079,7 @@ namespace WhisperOfTheForest.Vfx
                                     Mathf.Clamp01((sb0 - rSpineStart) * invSpineSpan),
                                     Mathf.Clamp01((sb1 - rSpineStart) * invSpineSpan),
                                     Mathf.Clamp01((sa1 - rSpineStart) * invSpineSpan),
-                                    crestCol, hdr * 1.25f, 2.0f);
+                                    crestCol, hdr * 1.40f, 1.9f);
                             }
                         }
                     }
@@ -1068,16 +1091,16 @@ namespace WhisperOfTheForest.Vfx
                         {
                             float dyRail = Mathf.Abs(rv * H - h0);
                             if (rWave <= dyRail) continue;
-                            float duHit = Mathf.Sqrt(rWave * rWave - dyRail * dyRail);
+                            float duHit = Mathf.Sqrt(rWave * rWave - dyRail * dyRail) * HorizStretch;
                             for (int sign = -1; sign <= 1; sign += 2)
                             {
                                 float uHit = u0 + sign * duHit;
                                 if (Mathf.Abs(uHit) > halfSpan) continue;
                                 float sHit = uHit / halfSpan;
-                                Vector3 pA = ProjectPlanarScreen(Mathf.Clamp(sHit - 0.10f, -1f, 1f), rv, heightScale, spanScale, true, out _);
-                                Vector3 pB = ProjectPlanarScreen(Mathf.Clamp(sHit + 0.10f, -1f, 1f), rv, heightScale, spanScale, true, out _);
-                                var pulseCol = new Color(coreColor.r, coreColor.g, coreColor.b, Mathf.Clamp01(0.92f * env * masterAlpha));
-                                depthMesh.AddTaperedSegment(pA, pB, def.coreWidthCells * 1.35f, def.coreWidthCells * 1.35f, pulseCol, pulseCol, hdr * 1.25f, def.edgePower, null);
+                                Vector3 pA = ProjectPlanarScreen(Mathf.Clamp(sHit - 0.09f, -1f, 1f), rv, heightScale, spanScale, true, out _);
+                                Vector3 pB = ProjectPlanarScreen(Mathf.Clamp(sHit + 0.09f, -1f, 1f), rv, heightScale, spanScale, true, out _);
+                                var pulseCol = new Color(coreColor.r, coreColor.g, coreColor.b, Mathf.Clamp01(0.94f * env * masterAlpha));
+                                depthMesh.AddTaperedSegment(pA, pB, def.coreWidthCells * 1.35f, def.coreWidthCells * 1.35f, pulseCol, pulseCol, hdr * 1.30f, def.edgePower, null);
                             }
                         }
                     }
@@ -1294,7 +1317,13 @@ namespace WhisperOfTheForest.Vfx
                     }
                 }
 
-                // 2. Uncrowded 1-2 Far-Sweeping Spherical Wave Bands + Layer 14 Refraction Strictly Inside R = domeRadius
+                // 1B. Localized 3D Spherical Hexagonal Honeycomb Ward Lattice (flashes at impact & shimmers along Ring 0!)
+                if (def.domeHexRings > 0)
+                {
+                    DrawDomeHexLattice(w, age, curPrimary, curSecondary, masterAlpha, hdr);
+                }
+
+                // 2. Uncrowded 1-2 Thin, Crisp Spherical Wave Filaments + Layer 14 Refraction Strictly Inside R = domeRadius
                 int crests = w.isFriendly ? 1 : def.rippleCrestCount;
                 float speed = w.isFriendly ? def.passWaveSpeed : def.rippleWaveSpeed;
                 float baseDistort = w.isFriendly ? def.passDistortionCells : def.hitDistortionCells;
@@ -1307,25 +1336,29 @@ namespace WhisperOfTheForest.Vfx
                     if (gammaWave >= Mathf.PI * 0.88f) continue;
 
                     float env = EvaluateVibrationEnvelope(age, w.durationSeconds, arcDist, def.rippleSpreadScale)
-                        * (c == 0 ? 1f : 0.52f);
+                        * (c == 0 ? 1f : 0.56f);
                     if (env <= 0.012f) continue;
 
-                    float bwCells = def.rippleBandHalfWidth
-                        * (w.isFriendly ? 0.86f : (c == 0 ? 1.0f : 1.38f))
-                        * (1f + 0.32f * uLife);
+                    float bwCells = def.rippleBandHalfWidth * (w.isFriendly ? 0.85f : (c == 0 ? 1.0f : 1.18f));
                     float dGamma = bwCells / domeRadius;
                     float gBandStart = gammaWave - dGamma;
                     float gIn = Mathf.Max(0f, gBandStart);
                     float gOut = gammaWave + dGamma;
                     float invGSpan = 1f / Mathf.Max(1e-4f, 2f * dGamma);
 
+                    float dGammaDist = Mathf.Max(0.26f, bwCells * 1.9f) / domeRadius;
+                    float gDistStart = gammaWave - dGammaDist;
+                    float gDistIn = Mathf.Max(0f, gDistStart);
+                    float gDistOut = gammaWave + dGammaDist;
+                    float invGDistSpan = 1f / Mathf.Max(1e-4f, 2f * dGammaDist);
+
                     Color wakeRgb = w.isFriendly ? curPrimary : (c == 0 ? curPrimary : curSecondary);
                     Color crestRgb = w.isFriendly ? new Color(0.76f, 1f, 0.92f) : (c == 0 ? coreColor : curSecondary);
-                    var wakeCol = new Color(wakeRgb.r, wakeRgb.g, wakeRgb.b, Mathf.Clamp01((w.isFriendly ? 0.44f : 0.46f) * env * masterAlpha));
-                    var crestCol = new Color(crestRgb.r, crestRgb.g, crestRgb.b, Mathf.Clamp01(0.92f * env * masterAlpha));
+                    var wakeCol = new Color(wakeRgb.r, wakeRgb.g, wakeRgb.b, Mathf.Clamp01((w.isFriendly ? 0.34f : 0.38f) * env * masterAlpha));
+                    var crestCol = new Color(crestRgb.r, crestRgb.g, crestRgb.b, Mathf.Clamp01((w.isFriendly ? 0.76f : 0.94f) * env * masterAlpha));
                     float distortAmp = baseDistort * env * masterAlpha;
 
-                    float dGammaSpine = dGamma * 0.28f;
+                    float dGammaSpine = dGamma * 0.34f;
                     float gSpineStart = gammaWave - dGammaSpine;
                     float gSpineIn = Mathf.Max(0f, gSpineStart);
                     float gSpineOut = gammaWave + dGammaSpine;
@@ -1340,43 +1373,55 @@ namespace WhisperOfTheForest.Vfx
 
                         float gb0 = SphericalHorizonGamma(u0, t0);
                         float gb1 = SphericalHorizonGamma(u0, t1);
+
+                        if (distortAmp > 0.0005f && (gDistIn < gb0 || gDistIn < gb1))
+                        {
+                            float da0 = Mathf.Min(gDistIn, gb0), db0 = Mathf.Min(gDistOut, gb0);
+                            float da1 = Mathf.Min(gDistIn, gb1), db1 = Mathf.Min(gDistOut, gb1);
+                            if (db0 - da0 > 0.0004f || db1 - da1 > 0.0004f)
+                            {
+                                Vector3 din0 = ProjectDomeHemisphere(u0 * Mathf.Cos(da0) + t0 * Mathf.Sin(da0));
+                                Vector3 dout0 = ProjectDomeHemisphere(u0 * Mathf.Cos(db0) + t0 * Mathf.Sin(db0));
+                                Vector3 din1 = ProjectDomeHemisphere(u0 * Mathf.Cos(da1) + t1 * Mathf.Sin(da1));
+                                Vector3 dout1 = ProjectDomeHemisphere(u0 * Mathf.Cos(db1) + t1 * Mathf.Sin(db1));
+
+                                Vector2 dir0 = SafeOutwardXZ(din0, dout0);
+                                Vector2 dir1 = SafeOutwardXZ(din1, dout1);
+                                distortionMesh.AddDistortionBandQuad(
+                                    din0, dout0, dout1, din1,
+                                    Mathf.Clamp01((da0 - gDistStart) * invGDistSpan),
+                                    Mathf.Clamp01((db0 - gDistStart) * invGDistSpan),
+                                    Mathf.Clamp01((db1 - gDistStart) * invGDistSpan),
+                                    Mathf.Clamp01((da1 - gDistStart) * invGDistSpan),
+                                    -dir0 * distortAmp, -dir1 * distortAmp,
+                                    1f, 1f);
+                            }
+                        }
+
                         if (gIn >= gb0 && gIn >= gb1) continue;
 
                         float ga0 = Mathf.Min(gIn, gb0), gbOut0 = Mathf.Min(gOut, gb0);
                         float ga1 = Mathf.Min(gIn, gb1), gbOut1 = Mathf.Min(gOut, gb1);
-                        if (gbOut0 - ga0 <= 0.0005f && gbOut1 - ga1 <= 0.0005f) continue;
+                        if (gbOut0 - ga0 <= 0.0004f && gbOut1 - ga1 <= 0.0004f) continue;
 
                         Vector3 in0 = ProjectDomeHemisphere(u0 * Mathf.Cos(ga0) + t0 * Mathf.Sin(ga0));
                         Vector3 out0 = ProjectDomeHemisphere(u0 * Mathf.Cos(gbOut0) + t0 * Mathf.Sin(gbOut0));
                         Vector3 in1 = ProjectDomeHemisphere(u0 * Mathf.Cos(ga1) + t1 * Mathf.Sin(ga1));
                         Vector3 out1 = ProjectDomeHemisphere(u0 * Mathf.Cos(gbOut1) + t1 * Mathf.Sin(gbOut1));
 
-                        float uIn0 = Mathf.Clamp01((ga0 - gBandStart) * invGSpan);
-                        float uOut0 = Mathf.Clamp01((gbOut0 - gBandStart) * invGSpan);
-                        float uIn1 = Mathf.Clamp01((ga1 - gBandStart) * invGSpan);
-                        float uOut1 = Mathf.Clamp01((gbOut1 - gBandStart) * invGSpan);
-
                         overMesh.AddWaveBandQuad(
                             in0, out0, out1, in1,
-                            uIn0, uOut0, uOut1, uIn1,
-                            wakeCol, hdr * (w.isFriendly ? 0.95f : 1.08f), 1.45f);
+                            Mathf.Clamp01((ga0 - gBandStart) * invGSpan),
+                            Mathf.Clamp01((gbOut0 - gBandStart) * invGSpan),
+                            Mathf.Clamp01((gbOut1 - gBandStart) * invGSpan),
+                            Mathf.Clamp01((ga1 - gBandStart) * invGSpan),
+                            wakeCol, hdr * (w.isFriendly ? 1.0f : 1.12f), 1.45f);
 
-                        if (distortAmp > 0.0005f)
-                        {
-                            Vector2 dir0 = SafeOutwardXZ(in0, out0);
-                            Vector2 dir1 = SafeOutwardXZ(in1, out1);
-                            distortionMesh.AddDistortionBandQuad(
-                                in0, out0, out1, in1,
-                                uIn0, uOut0, uOut1, uIn1,
-                                -dir0 * distortAmp, -dir1 * distortAmp,
-                                1f, 1f);
-                        }
-
-                        if (!w.isFriendly && (gSpineIn < gb0 || gSpineIn < gb1))
+                        if (gSpineIn < gb0 || gSpineIn < gb1)
                         {
                             float sa0 = Mathf.Min(gSpineIn, gb0), sb0 = Mathf.Min(gSpineOut, gb0);
                             float sa1 = Mathf.Min(gSpineIn, gb1), sb1 = Mathf.Min(gSpineOut, gb1);
-                            if (sb0 - sa0 > 0.0004f || sb1 - sa1 > 0.0004f)
+                            if (sb0 - sa0 > 0.0003f || sb1 - sa1 > 0.0003f)
                             {
                                 Vector3 sin0 = ProjectDomeHemisphere(u0 * Mathf.Cos(sa0) + t0 * Mathf.Sin(sa0));
                                 Vector3 sout0 = ProjectDomeHemisphere(u0 * Mathf.Cos(sb0) + t0 * Mathf.Sin(sb0));
@@ -1389,7 +1434,7 @@ namespace WhisperOfTheForest.Vfx
                                     Mathf.Clamp01((sb0 - gSpineStart) * invGSpineSpan),
                                     Mathf.Clamp01((sb1 - gSpineStart) * invGSpineSpan),
                                     Mathf.Clamp01((sa1 - gSpineStart) * invGSpineSpan),
-                                    crestCol, hdr * 1.25f, 2.0f);
+                                    crestCol, hdr * 1.38f, 1.9f);
                             }
                         }
                     }
@@ -1411,6 +1456,121 @@ namespace WhisperOfTheForest.Vfx
                             var pB = new Vector3(centerXZ.x + Mathf.Cos(aMid + 0.055f) * rimR, def.frontAltitudeY, centerXZ.z + Mathf.Sin(aMid + 0.055f) * rimR);
                             overMesh.AddTaperedSegment(pA, pB, def.coreWidthCells * 1.65f, def.coreWidthCells * 1.65f, pulseCol, pulseCol, hdr * 1.25f, def.edgePower, null);
                         }
+                    }
+                }
+            }
+        }
+
+        private void DrawDomeHexLattice(
+            in SurfaceWave w,
+            float age,
+            Color curPrimary,
+            Color curSecondary,
+            float masterAlpha,
+            float hdr)
+        {
+            float hUx = (w.worldPos.x - centerXZ.x) / domeRadius;
+            float hUz = (w.worldPos.z - centerXZ.z) / domeRadius;
+            float hRh = Mathf.Sqrt(hUx * hUx + hUz * hUz);
+            if (!w.isAir && hRh > 0.86f)
+            {
+                hUx *= 0.86f / hRh;
+                hUz *= 0.86f / hRh;
+            }
+            else if (hRh > 0.96f)
+            {
+                hUx *= 0.96f / hRh;
+                hUz *= 0.96f / hRh;
+            }
+
+            float hUy = Mathf.Sqrt(Mathf.Max(0.06f, 1f - hUx * hUx - hUz * hUz));
+            var hU0 = new Vector3(hUx, hUy, hUz).normalized;
+            var he1 = new Vector3(-hU0.z, 0f, hU0.x);
+            if (he1.sqrMagnitude < 1e-5f) he1 = Vector3.right;
+            else he1.Normalize();
+            Vector3 he2 = Vector3.Cross(hU0, he1).normalized;
+
+            float speed = w.isFriendly ? def.passWaveSpeed : def.rippleWaveSpeed;
+            float rWave0 = age * speed;
+            float hexSize = def.domeHexSizeCells;
+            float rCorner = hexSize * 0.92f;
+            int hexRange = w.isFriendly ? 0 : (w.isAir ? def.domeHexRings : Mathf.Max(1, def.domeHexRings - 1));
+
+            for (int hq = -hexRange; hq <= hexRange; hq++)
+            {
+                for (int hr = -hexRange; hr <= hexRange; hr++)
+                {
+                    if (Mathf.Abs(hq + hr) > hexRange) continue;
+
+                    float cx = hexSize * 1.7320508f * (hq + hr * 0.5f);
+                    float cy = hexSize * 1.5f * hr;
+                    float hDist = Mathf.Sqrt(cx * cx + cy * cy);
+
+                    float hexAlpha;
+                    if (w.isFriendly)
+                    {
+                        hexAlpha = 0.42f * Mathf.Exp(-age * 3.8f) * masterAlpha;
+                    }
+                    else
+                    {
+                        float impactExcite = Mathf.Exp(-age * 2.8f) * Mathf.Exp(-(hDist * hDist) / (w.isAir ? 5.2f : 3.4f));
+                        float delta = (hDist - rWave0) / 0.58f;
+                        float waveExcite = EvaluateVibrationEnvelope(age, w.durationSeconds, rWave0, def.rippleSpreadScale)
+                            * Mathf.Exp(-delta * delta)
+                            * Mathf.Exp(-hDist * (w.isAir ? 0.18f : 0.24f));
+                        hexAlpha = Mathf.Min(0.94f, impactExcite * 0.90f + waveExcite * 0.78f) * masterAlpha;
+                    }
+
+                    if (hexAlpha < 0.025f) continue;
+
+                    bool allInside = true;
+                    for (int v = 0; v < 6; v++)
+                    {
+                        float ang = (v * Mathf.PI) / 3f + Mathf.PI / 6f;
+                        float vx = cx + Mathf.Cos(ang) * rCorner;
+                        float vy = cy + Mathf.Sin(ang) * rCorner;
+                        float d = Mathf.Sqrt(vx * vx + vy * vy);
+                        Vector3 q;
+                        if (d > 1e-4f)
+                        {
+                            float gAng = d / domeRadius;
+                            Vector3 tDir = (he1 * vx + he2 * vy) / d;
+                            q = hU0 * Mathf.Cos(gAng) + tDir * Mathf.Sin(gAng);
+                        }
+                        else
+                        {
+                            q = hU0;
+                        }
+
+                        if (q.y < 0.012f)
+                        {
+                            allInside = false;
+                            break;
+                        }
+
+                        hexCorners[v] = ProjectDomeHemisphere(q);
+                    }
+
+                    if (!allInside) continue;
+
+                    bool isCenter = hq == 0 && hr == 0;
+                    if (!w.isFriendly && hexAlpha > 0.18f)
+                    {
+                        Vector3 hCenter = (hexCorners[0] + hexCorners[3]) * 0.5f;
+                        Color fillRgb = isCenter ? coreColor : curPrimary;
+                        var fillCol = new Color(fillRgb.r, fillRgb.g, fillRgb.b, Mathf.Clamp01(hexAlpha * 0.14f));
+                        for (int v = 0; v < 6; v++)
+                        {
+                            overMesh.AddShadedTriangle(hCenter, hexCorners[v], hexCorners[(v + 1) % 6], fillCol, fillCol, fillCol, hdr * 0.95f);
+                        }
+                    }
+
+                    Color lineRgb = isCenter ? coreColor : curSecondary;
+                    var lineCol = new Color(lineRgb.r, lineRgb.g, lineRgb.b, Mathf.Clamp01(hexAlpha));
+                    float lineW = def.coreWidthCells * (isCenter ? 0.48f : 0.36f);
+                    for (int v = 0; v < 6; v++)
+                    {
+                        overMesh.AddTaperedSegment(hexCorners[v], hexCorners[(v + 1) % 6], lineW, lineW, lineCol, lineCol, hdr * 1.18f, def.edgePower, null);
                     }
                 }
             }
