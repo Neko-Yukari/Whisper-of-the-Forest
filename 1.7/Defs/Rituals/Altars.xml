@@ -11,6 +11,7 @@
     <comps>
       <li Class="WhisperOfTheForest.Rituals.CompProperties_RitualAltar">
         <tier>1</tier><linkRadius>12.9</linkRadius><powerStat>WotF_RitualPower</powerStat>
+        <helperPowerFactor>0.5</helperPowerFactor><facilityPowerScale>10</facilityPowerScale>
         <ritualDefNames>
           <li>WotF_Ritual_TransmuteLivingWood</li><li>WotF_Ritual_ManaSpring</li><li>WotF_Ritual_HealingMinor</li>
           <li>WotF_Ritual_BottleMana</li><li>WotF_Ritual_SpellbookAwakening</li><li>WotF_Ritual_RuneAwakening</li>
@@ -30,6 +31,7 @@
     <comps>
       <li Class="WhisperOfTheForest.Rituals.CompProperties_RitualAltar">
         <tier>2</tier><linkRadius>12.9</linkRadius><powerStat>WotF_RitualPower</powerStat>
+        <helperPowerFactor>0.5</helperPowerFactor><facilityPowerScale>10</facilityPowerScale>
         <ritualDefNames>
           <li>WotF_Ritual_SpellbookUpgradeAdept</li>
           <li>WotF_Ritual_TransmuteLivingWood</li><li>WotF_Ritual_ManaSpring</li><li>WotF_Ritual_HealingMinor</li>
@@ -52,6 +54,7 @@
     <comps>
       <li Class="WhisperOfTheForest.Rituals.CompProperties_RitualAltar">
         <tier>3</tier><linkRadius>12.9</linkRadius><powerStat>WotF_RitualPower</powerStat>
+        <helperPowerFactor>0.5</helperPowerFactor><facilityPowerScale>10</facilityPowerScale>
         <ritualDefNames>
           
           <li>WotF_Ritual_SpellbookUpgradeAdept</li><li>WotF_Ritual_SpellbookUpgradeArchmage</li>

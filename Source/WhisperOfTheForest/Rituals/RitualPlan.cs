@@ -74,6 +74,7 @@ namespace WhisperOfTheForest.Rituals
         public float Power;
         public float BloodlinePower;
         public float FacilityPower;
+        public float FacilityMultiplier = 1f;
         public bool RingComplete;
         public readonly List<IntVec3> MissingCells = new List<IntVec3>();
         public readonly List<string> Problems = new List<string>();

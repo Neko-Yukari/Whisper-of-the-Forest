@@ -62,6 +62,9 @@ namespace WhisperOfTheForest.Rituals
         public SimpleCurve powerEffectFactor;
         public float tameChancePerPower;
 
+        /// <summary>Minimum resonance required to perform this rite; 0 means none.</summary>
+        public float minResonance;
+
         /// <summary>Bloodline participants required on the ring before the rite may start.</summary>
         public int minParticipants;
 
@@ -233,6 +236,8 @@ namespace WhisperOfTheForest.Rituals
             }
 
             if (tameChancePerPower < 0f) yield return defName + " tameChancePerPower must not be negative.";
+
+            if (minResonance < 0f) yield return defName + " minResonance must not be negative.";
 
             if (minParticipants < 0)
             {

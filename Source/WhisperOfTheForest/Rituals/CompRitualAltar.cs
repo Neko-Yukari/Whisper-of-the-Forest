@@ -17,6 +17,8 @@ namespace WhisperOfTheForest.Rituals
         public int tier;
         public StatDef powerStat;
         public float linkRadius = 12.9f;
+        public float helperPowerFactor;
+        public float facilityPowerScale;
         public List<string> ritualDefNames = new List<string>();
 
         public CompProperties_RitualAltar()
@@ -29,6 +31,8 @@ namespace WhisperOfTheForest.Rituals
             foreach (string error in base.ConfigErrors(parentDef)) yield return error;
             if (tier < 1 || tier > 3) yield return parentDef.defName + " altar tier must be between 1 and 3.";
             if (powerStat == null) yield return parentDef.defName + " altar must declare powerStat.";
+            if (helperPowerFactor < 0f) yield return parentDef.defName + " altar helperPowerFactor must not be negative.";
+            if (facilityPowerScale <= 0f) yield return parentDef.defName + " altar facilityPowerScale must be positive.";
             var runeRituals = new List<RitualDef>();
             foreach (string name in ritualDefNames)
             {
@@ -105,6 +109,7 @@ namespace WhisperOfTheForest.Rituals
         public int ActiveDurationTicks => activeDurationTicks;
 
         public float FacilityPower => parent.GetComp<CompAffectedByFacilities>()?.GetStatOffset(Props.powerStat) ?? 0f;
+        public float FacilityMultiplier => FacilityMultiplierFor(FacilityPower, Props.facilityPowerScale);
 
         /// <summary>The rite chosen in the hosting panel for right-click hosting; null until chosen.</summary>
         public RitualDef SelectedDef => selectedDef;
@@ -600,7 +605,7 @@ namespace WhisperOfTheForest.Rituals
             // number the altar displays and the number Apply receives have to follow the seated roster.
             if (changed)
             {
-                activePower = FacilityPower + PowerOf(activeHost, activeHelpers);
+                activePower = ResonanceOf(activeHost, activeHelpers);
             }
         }
 
@@ -696,7 +701,10 @@ namespace WhisperOfTheForest.Rituals
                 }
             }
 
-            text += "\n" + string.Format("WotF_Ritual_Power".Translate(), (IsActive ? activePower : FacilityPower).ToString("0.#"));
+            text += "\n" + (IsActive
+                ? string.Format("WotF_Ritual_Power".Translate(), activePower.ToString("0.#"))
+                : string.Format("WotF_Ritual_FacilityPower".Translate(),
+                    FacilityPower.ToString("0.#"), FacilityMultiplier.ToString("0.##")));
             return autoRitual == null
                 ? text
                 : text + "\n" + "WotF_Ritual_AutoRepeat_Current".Translate(autoRitual.LabelCap);
@@ -1082,7 +1090,7 @@ namespace WhisperOfTheForest.Rituals
             int bookSlot = activeBookSlot;
             RuinSeekOption ruinOption = ActiveRuinOption;
             int participants = activeHelpers.Count;
-            float power = FacilityPower + PowerOf(activeHost, activeHelpers);
+            float power = ResonanceOf(activeHost, activeHelpers);
 
             // The rite carries the colonists standing near the altar to the gate. Their landing cells are
             // settled here, with the offerings and the mana, so a gate hemmed in by walls or pawns costs
@@ -1181,25 +1189,36 @@ namespace WhisperOfTheForest.Rituals
             return MapComponent_ManaNetwork.For(parent.Map)?.NetworkNear(parent.Position, Props.linkRadius);
         }
 
-        private static float PowerOf(Pawn host, IList<Pawn> helpers)
+        public static float FacilityMultiplierFor(float facilityPower, float facilityPowerScale)
         {
-            float total = 0f;
-            Gene_ForestBloodline hostGene = host == null ? null : Gene_ForestBloodline.Get(host);
-            if (hostGene != null)
-            {
-                total += hostGene.Level;
-            }
+            float clamped = facilityPower > 0f ? facilityPower : 0f;
+            return (float)Math.Sqrt(1.0 + clamped / facilityPowerScale);
+        }
 
+        public static float ResonanceFor(float bloodlinePower, float facilityPower, float facilityPowerScale)
+        {
+            return bloodlinePower * FacilityMultiplierFor(facilityPower, facilityPowerScale);
+        }
+
+        private float BloodlinePowerOf(Pawn host, IList<Pawn> helpers)
+        {
+            float hostLevel = host == null ? 0f : (Gene_ForestBloodline.Get(host)?.Level ?? 0f);
+            float helperTotal = 0f;
             for (int i = 0; i < helpers.Count; i++)
             {
                 Gene_ForestBloodline gene = helpers[i] == null ? null : Gene_ForestBloodline.Get(helpers[i]);
                 if (gene != null)
                 {
-                    total += gene.Level;
+                    helperTotal += gene.Level;
                 }
             }
 
-            return total;
+            return hostLevel + Props.helperPowerFactor * helperTotal;
+        }
+
+        private float ResonanceOf(Pawn host, IList<Pawn> helpers)
+        {
+            return ResonanceFor(BloodlinePowerOf(host, helpers), FacilityPower, Props.facilityPowerScale);
         }
 
         /// <summary>
@@ -1447,9 +1466,10 @@ namespace WhisperOfTheForest.Rituals
                 }
             }
 
-            result.BloodlinePower = PowerOf(request.Host, request.Helpers);
+            result.BloodlinePower = BloodlinePowerOf(request.Host, request.Helpers);
             result.FacilityPower = FacilityPower;
-            result.Power = result.BloodlinePower + result.FacilityPower;
+            result.FacilityMultiplier = FacilityMultiplier;
+            result.Power = ResonanceFor(result.BloodlinePower, result.FacilityPower, Props.facilityPowerScale);
         }
 
         /// <summary>

@@ -55,7 +55,7 @@
   <WotF_ManaVial_NoBloodline>Only a forest-blooded pawn can drink a mana vial.</WotF_ManaVial_NoBloodline>
   <WotF_ManaVial_Full>That pawn's mana is already full.</WotF_ManaVial_Full>
   <WotF_Ritual_Participants>Helpers: {0}</WotF_Ritual_Participants>
-  <WotF_Ritual_ParticipantsHint>Resonance is the sum of the host's and all helpers' bloodline levels, plus levels supplied by linked facilities.</WotF_Ritual_ParticipantsHint>
+  <WotF_Ritual_ParticipantsHint>Resonance equals (host bloodline + half of helpers' bloodline) amplified by linked facilities.</WotF_Ritual_ParticipantsHint>
   <WotF_Ritual_MinParticipants>At least {0} bloodline helpers are required.</WotF_Ritual_MinParticipants>
   <WotF_Ritual_NeedsParticipants>This rite needs {0} bloodline helpers; {1} are chosen.</WotF_Ritual_NeedsParticipants>
   <WotF_Ritual_SpellbookUpgrade_Done>Spellbook upgrade complete: {0} lies beside the altar.</WotF_Ritual_SpellbookUpgrade_Done>
@@ -94,7 +94,7 @@
   <WotF_Ritual_Collecting>Collecting offerings for {0}.</WotF_Ritual_Collecting>
   <WotF_Ritual_FeeAtEnd>These are taken only when the chant completes.</WotF_Ritual_FeeAtEnd>
   <WotF_Ritual_RunningFeeNote>The mana and offerings are not yet spent; interrupting or cancelling costs nothing.</WotF_Ritual_RunningFeeNote>
-  <WotF_Ritual_Resonance>Resonance: bloodline {0} + facilities {1} = {2}</WotF_Ritual_Resonance>
+  <WotF_Ritual_Resonance>Resonance: {2} (bloodline {0}, facilities {1})</WotF_Ritual_Resonance>
   <WotF_Ritual_TierShort>tier {0}</WotF_Ritual_TierShort>
   <WotF_Ritual_RingShort>{0}×{0} {1}</WotF_Ritual_RingShort>
   <WotF_Ritual_NoStandingCell>{0} cannot walk to a free place on the circle.</WotF_Ritual_NoStandingCell>
