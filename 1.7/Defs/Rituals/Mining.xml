@@ -12,8 +12,8 @@
     <durationTicks>1200</durationTicks>
     <effectRadius>12.9</effectRadius>
     <!-- 占位：共鸣等级 0..100 将范围放大至 2 倍、单矿产量至 3 倍，超过端点维持上限。 -->
-    <powerRadiusFactor><points><li>(0,1)</li><li>(100,2)</li></points></powerRadiusFactor>
-    <powerEffectFactor><points><li>(0,1)</li><li>(100,3)</li></points></powerEffectFactor>
+    <powerRadiusFactor><points><li>(0,1)</li><li>(25,1.45)</li><li>(60,1.8)</li><li>(100,2)</li></points></powerRadiusFactor>
+    <powerEffectFactor><points><li>(0,1)</li><li>(25,1.8)</li><li>(60,2.5)</li><li>(100,3)</li></points></powerEffectFactor>
     <minParticipants>1</minParticipants>
     <requiresDeepResources>true</requiresDeepResources>
     <maxResourceTypes>3</maxResourceTypes>
