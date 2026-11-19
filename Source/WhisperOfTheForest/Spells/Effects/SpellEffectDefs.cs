@@ -20,6 +20,7 @@ namespace WhisperOfTheForest.Spells
         public const string ThingSpellField = "WotF_SpellField";
         public const string ThingSpellOrbit = "WotF_SpellOrbit";
         public const string ThingSpellExplosion = "WotF_SpellExplosion";
+        public const string ThingShieldField = "WotF_ShieldField";
 
         /// <summary>The vanilla flying carrier used by knockback and pull.</summary>
         public const string ThingPawnFlyer = "PawnFlyer";

@@ -572,6 +572,7 @@ namespace WhisperOfTheForest.Spells
         public const string EffectSnare = "WotF_Effect_Snare";
         public const string EffectHex = "WotF_Effect_Hex";
         public const string EffectMagelight = "WotF_Effect_Magelight";
+        public const string EffectPlanarShield = "WotF_Effect_PlanarShield";
         public const string EffectBlink = "WotF_Effect_Blink";
         public const string EffectLinger = "WotF_Effect_Linger";
         public const string EffectRune = "WotF_Effect_Rune";

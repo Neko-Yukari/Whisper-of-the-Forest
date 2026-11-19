@@ -60,6 +60,9 @@ namespace WhisperOfTheForest.Rituals
         public float workAmount;
         public float effectRadius = 12.9f;
         public float manaRestore;
+        public int shieldCharges;
+        public int shieldDurationTicks;
+        public string shieldVfxDef;
         public float baseStrikesPerMinute;
         public float minStrikeRadius;
         public int strikeDamage;
@@ -186,12 +189,9 @@ namespace WhisperOfTheForest.Rituals
             return baseStrikesPerMinute * EffectFactorFor(ritualStrength);
         }
 
-        private static bool AltarHasShieldComp()
+        public int ShieldChargesFor(float ritualStrength)
         {
-            ThingDef altar = DefDatabase<ThingDef>.GetNamedSilentFail("WotF_RitualAltar");
-            return altar != null
-                && altar.comps != null
-                && altar.comps.Exists(comp => comp is CompProperties_ProjectileInterceptor);
+            return UnityEngine.Mathf.Max(1, UnityEngine.Mathf.RoundToInt(shieldCharges * EffectFactorFor(ritualStrength)));
         }
 
         public override IEnumerable<string> ConfigErrors()
@@ -524,10 +524,26 @@ namespace WhisperOfTheForest.Rituals
             }
 
             if (effectWorkerClass != null
-                && typeof(RitualEffect_ShieldDome).IsAssignableFrom(effectWorkerClass)
-                && !AltarHasShieldComp())
+                && typeof(RitualEffect_ShieldDome).IsAssignableFrom(effectWorkerClass))
             {
-                yield return defName + " uses RitualEffect_ShieldDome but WotF_RitualAltar has no CompProjectileInterceptor.";
+                if (shieldCharges <= 0)
+                {
+                    yield return defName + " uses RitualEffect_ShieldDome and needs a positive shieldCharges.";
+                }
+
+                if (shieldDurationTicks <= 0)
+                {
+                    yield return defName + " uses RitualEffect_ShieldDome and needs a positive shieldDurationTicks.";
+                }
+
+                if (shieldVfxDef.NullOrEmpty())
+                {
+                    yield return defName + " uses RitualEffect_ShieldDome and must name its shieldVfxDef.";
+                }
+            }
+            else if (shieldCharges != 0 || shieldDurationTicks != 0 || !shieldVfxDef.NullOrEmpty())
+            {
+                yield return defName + " sets shield fields without using RitualEffect_ShieldDome.";
             }
 
             if (effectWorkerClass == null)

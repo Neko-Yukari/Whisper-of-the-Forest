@@ -64,6 +64,7 @@ namespace WhisperOfTheForest.Spells
                 SpellDefs.EffectLightning, SpellDefs.EffectFreeze,
                 SpellDefs.EffectColdSnap, SpellDefs.EffectKnockback, SpellDefs.EffectPull,
                 SpellDefs.EffectSnare, SpellDefs.EffectHex, SpellDefs.EffectMagelight,
+                SpellDefs.EffectPlanarShield,
                 SpellDefs.EffectBlink, SpellDefs.EffectLinger, SpellDefs.EffectRune, SpellDefs.EffectDelay,
                 SpellDefs.AugmentAmplify, SpellDefs.AugmentAoe, SpellDefs.AugmentAccelerate,
                 SpellDefs.AugmentDecelerate, SpellDefs.AugmentSplit, SpellDefs.AugmentDampen,
@@ -97,7 +98,8 @@ namespace WhisperOfTheForest.Spells
             string[] things =
             {
                 SpellEffectDefs.ThingMagelight, SpellEffectDefs.ThingSpellField,
-                SpellEffectDefs.ThingSpellOrbit, SpellEffectDefs.ThingSpellExplosion
+                SpellEffectDefs.ThingSpellOrbit, SpellEffectDefs.ThingSpellExplosion,
+                SpellEffectDefs.ThingShieldField
             };
 
             for (int i = 0; i < things.Length; i++)

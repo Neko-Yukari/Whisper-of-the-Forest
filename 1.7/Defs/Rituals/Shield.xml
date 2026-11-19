@@ -5,12 +5,16 @@
     <tier>2</tier>
     <family>Domain</family>
     <label>rite of the grove shield</label>
-    <description>The caster traces a green chalk ring and wakes the old ward in the altar. A living shield closes over the grove for a day, turning aside incoming projectiles until its charge is spent.</description>
+    <description>The caster traces a green chalk ring and wakes the old ward in the altar. A one-way shield closes over the grove for a day, stopping incoming hostile ground and aerial projectiles—including arcane missiles—while letting allied shots pass freely. Each blocked shot spends one charge; ritual strength raises the charge count.</description>
     <ringSize>5</ringSize>
     <chalkColor>Green</chalkColor>
     <manaCost>150</manaCost>
     <durationTicks>900</durationTicks>
     <effectRadius>12.9</effectRadius>
+    <strengthEffectFactor><points><li>(0,1)</li><li>(25,1.8)</li><li>(60,2.5)</li><li>(100,3)</li></points></strengthEffectFactor>
+    <shieldCharges>15</shieldCharges>
+    <shieldDurationTicks>60000</shieldDurationTicks>
+    <shieldVfxDef>WotF_Vfx_ShieldDome</shieldVfxDef>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_ShieldDome</effectWorkerClass>
   </WhisperOfTheForest.Rituals.RitualDef>
 </Defs>

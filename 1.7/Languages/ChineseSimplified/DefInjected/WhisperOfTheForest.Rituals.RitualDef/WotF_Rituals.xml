@@ -28,7 +28,7 @@
   <WotF_Ritual_SkyWrath.label>天怒</WotF_Ritual_SkyWrath.label>
   <WotF_Ritual_SkyWrath.description>主持者在祭坛周围画下星辉粉笔环，持续引落雷电劈向离祭坛最近的露天敌人，每次落雷消耗 10 点网络魔源（无目标不落雷时不消耗），直到手动停止、主持人倒地昏迷或落雷前网络魔源不足。仪式强度越高，落雷越密集；收容中的异象实体、囚犯与建筑不会成为目标。</WotF_Ritual_SkyWrath.description>
   <WotF_Ritual_ShieldDome.label>古树护盾</WotF_Ritual_ShieldDome.label>
-  <WotF_Ritual_ShieldDome.description>主持者在祭坛周围画下翠叶粉笔环，唤醒祭坛里沉睡的古老守护。半径 12.9 格内会升起一层活着的护盾，挡下来袭的投射物，直到护盾耗尽或一天后自行消散。</WotF_Ritual_ShieldDome.description>
+  <WotF_Ritual_ShieldDome.description>主持者在祭坛周围画下翠叶粉笔环，唤醒祭坛里沉睡的古老守护。半径 12.9 格内会升起一层持续一天的单向护盾，拦下地面与空中的敌方投射物（含奥术飞弹），友方弹射物可自由穿过；每挡一次消耗 1 次，总次数随仪式强度提升。</WotF_Ritual_ShieldDome.description>
   <WotF_Ritual_LeylineMining.label>地脉汲矿</WotF_Ritual_LeylineMining.label>
   <WotF_Ritual_LeylineMining.description>主持者在祭坛周围画下星辉粉笔环，把古林的根须探入深层矿脉。仪式会从祭坛下方汲取最多三种深层矿物，仪式强度提高每种矿物的产量；如果脚下没有深层矿脉，仪式会在扣魔源前被拒绝。</WotF_Ritual_LeylineMining.description>
   <WotF_Ritual_BeastCall.label>灵兽召契</WotF_Ritual_BeastCall.label>

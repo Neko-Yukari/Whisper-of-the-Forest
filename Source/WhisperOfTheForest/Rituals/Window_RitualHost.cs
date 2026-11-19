@@ -496,6 +496,11 @@ namespace WhisperOfTheForest.Rituals
                 y = Line(0f, y, string.Format("WotF_Ritual_StrikeRate".Translate(),
                     selected.StrikesPerMinuteFor(found.RitualStrength).ToString("0.#")));
             }
+            if (selected != null && selected.shieldCharges > 0)
+            {
+                y = Line(0f, y, string.Format("WotF_Ritual_ShieldCharges".Translate(),
+                    selected.ShieldChargesFor(found.RitualStrength)));
+            }
             y = Line(0f, y, selected != null && selected.UsesEffectStrength
                 ? "WotF_Ritual_StrengthScaled".Translate()
                 : selected != null && selected.UsesWork

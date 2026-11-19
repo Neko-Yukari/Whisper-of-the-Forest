@@ -17,6 +17,7 @@ namespace WhisperOfTheForest.Tests
             tests.AddRange(ManaTopologyTests.All);
             tests.AddRange(RailgunGeometryTests.All);
             tests.AddRange(SpellCastVfxSeamTests.All);
+            tests.AddRange(ShieldGeometryTests.All);
 
             var clock = Stopwatch.StartNew();
             int run = 0;

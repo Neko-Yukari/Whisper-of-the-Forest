@@ -41,6 +41,8 @@
   <WotF_Effect_Grow.description>No instant maturity: the hit cell (a circle of cells with Area) grows plants faster for a while.</WotF_Effect_Grow.description>
   <WotF_Effect_Magelight.label>magelight</WotF_Effect_Magelight.label>
   <WotF_Effect_Magelight.description>Places a temporary light at the spell's point. Radius, colour and lifetime are frozen from the rune and its augments.</WotF_Effect_Magelight.description>
+  <WotF_Effect_PlanarShield.label>planar shield</WotF_Effect_PlanarShield.label>
+  <WotF_Effect_PlanarShield.description>Raises a one-way barrier perpendicular to the line from the target point to the caster for 15 seconds. Hostile ground projectiles and arcane missiles are stopped at one charge per hit while allied shots pass freely from any direction. Amplify raises charges; Area lengthens the barrier.</WotF_Effect_PlanarShield.description>
   <WotF_Effect_Blink.label>blink</WotF_Effect_Blink.label>
   <WotF_Effect_Blink.description>From a self cast the caster flickers forward; delivered by a dart or touch, the caster lands at the spell's point.</WotF_Effect_Blink.description>
 
