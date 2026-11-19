@@ -501,6 +501,11 @@ namespace WhisperOfTheForest.Rituals
                 y = Line(0f, y, string.Format("WotF_Ritual_ShieldCharges".Translate(),
                     selected.ShieldChargesFor(found.RitualStrength)));
             }
+            if (selected != null && selected.healingTable != null)
+            {
+                y = Line(0f, y, string.Format("WotF_Ritual_HealingPool".Translate(),
+                    selected.HealingPoolFor(found.RitualStrength).ToString("0.#")));
+            }
             y = Line(0f, y, selected != null && selected.UsesEffectStrength
                 ? "WotF_Ritual_StrengthScaled".Translate()
                 : selected != null && selected.UsesWork

@@ -75,6 +75,8 @@ namespace WhisperOfTheForest.Rituals
         public SimpleCurve strengthRadiusFactor;
         public SimpleCurve strengthEffectFactor;
         public float tameChancePerStrength;
+        public RitualHealingTableDef healingTable;
+        public float healingPoolFactor;
 
         /// <summary>Minimum ritual strength required to perform this rite; 0 means none.</summary>
         public float minRitualStrength;
@@ -165,9 +167,15 @@ namespace WhisperOfTheForest.Rituals
 
         public bool UsesEffectStrength => strengthRadiusFactor != null
             || strengthEffectFactor != null
-            || tameChancePerStrength > 0f;
+            || tameChancePerStrength > 0f
+            || healingTable != null;
 
         public bool UsesRitualStrength => UsesWork || UsesEffectStrength;
+
+        public float HealingPoolFor(float ritualStrength)
+        {
+            return healingTable.BasePoolFor(ritualStrength) * healingPoolFactor;
+        }
 
         public float SpeedFactorFor(float ritualStrength)
         {
@@ -521,6 +529,24 @@ namespace WhisperOfTheForest.Rituals
                 || idleScanIntervalTicks != 0)
             {
                 yield return defName + " sets sky-wrath strike fields without using RitualEffect_SkyWrath.";
+            }
+
+            if (effectWorkerClass != null
+                && typeof(RitualEffect_Healing).IsAssignableFrom(effectWorkerClass))
+            {
+                if (healingTable == null)
+                {
+                    yield return defName + " uses RitualEffect_Healing and must declare healingTable.";
+                }
+
+                if (healingPoolFactor <= 0f)
+                {
+                    yield return defName + " uses RitualEffect_Healing and needs a positive healingPoolFactor.";
+                }
+            }
+            else if (healingTable != null || healingPoolFactor != 0f)
+            {
+                yield return defName + " sets healing pool fields without using RitualEffect_Healing.";
             }
 
             if (effectWorkerClass != null

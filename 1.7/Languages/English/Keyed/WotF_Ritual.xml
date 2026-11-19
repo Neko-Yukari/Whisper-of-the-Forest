@@ -26,7 +26,12 @@
   <WotF_Ritual_RingIncomplete>The chalk ring is incomplete: {0} marks are missing.</WotF_Ritual_RingIncomplete>
   <WotF_Ritual_NoMana>The altar is not connected to a mana network, or the network has too little mana.</WotF_Ritual_NoMana>
   <WotF_Ritual_ManaSpring_Done>The mana spring is restored: {0} members recovered mana.</WotF_Ritual_ManaSpring_Done>
-  <WotF_Ritual_Healing_Done>The rite of mending restores {0} people.</WotF_Ritual_Healing_Done>
+  <WotF_Ritual_HealingPool>Life pool: {0}</WotF_Ritual_HealingPool>
+  <WotF_Ritual_Healing_AllDone>Rite of mending complete: healed {1} conditions across {0} colonists; everyone in range is whole (life pool {2} / {3}).</WotF_Ritual_Healing_AllDone>
+  <WotF_Ritual_Healing_PoolSpent>Rite of mending complete: cured {1} conditions across {0} colonists (life pool {2} / {3} spent; further conditions remain).</WotF_Ritual_Healing_PoolSpent>
+  <WotF_Ritual_Healing_PartialDone>Rite of mending complete: cured {1} and partially eased {2} conditions across {0} colonists (life pool {3} / {4} spent).</WotF_Ritual_Healing_PartialDone>
+  <WotF_Ritual_Healing_PoolTooLow>Rite of mending had no effect: the life pool ({0}) cannot cover {1}'s {2} (requires {3}). Raise ritual strength and try again.</WotF_Ritual_Healing_PoolTooLow>
+  <WotF_Ritual_Healing_NoneNeeded>Rite of mending complete: nobody in range had a condition this ring can heal.</WotF_Ritual_Healing_NoneNeeded>
   <WotF_Ritual_FertileSoil_Done>The fertile awakening raises {0} cells to rich soil.</WotF_Ritual_FertileSoil_Done>
   <WotF_Ritual_AllRunesUnlocked>No unopened rune is available to this altar.</WotF_Ritual_AllRunesUnlocked>
   <WotF_Ritual_SuperRuneNeedsRubbing>Super runes can only be unlocked by reading rubbings, not at an altar.</WotF_Ritual_SuperRuneNeedsRubbing>

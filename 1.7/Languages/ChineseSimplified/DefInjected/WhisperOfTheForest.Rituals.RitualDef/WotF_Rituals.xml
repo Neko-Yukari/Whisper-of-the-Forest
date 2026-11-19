@@ -3,10 +3,11 @@
   <WotF_Ritual_ManaSpring.label>灵泉仪式</WotF_Ritual_ManaSpring.label>
   <WotF_Ritual_ManaSpring.description>主持者在祭坛周围画下白色粉笔环，把森林的储备唤回血脉。祭坛附近的每名林庭血脉成员恢复魔力。</WotF_Ritual_ManaSpring.description>
   <WotF_Ritual_HealingMinor.label>生命再生</WotF_Ritual_HealingMinor.label>
-  <WotF_Ritual_HealingMinor.description>主持者在祭坛周围画下白色粉笔环，治愈附近所有人的普通伤口与失血。陈年疤痕不在其列。</WotF_Ritual_HealingMinor.description>
+  <WotF_Ritual_HealingMinor.description>主持者在祭坛周围画下白色粉笔环，按仪式强度汇聚生命池，从主持者开始依次为附近殖民者轮流治愈最严重的普通伤口与失血，直到生命池耗尽。陈年疤痕不在其列。</WotF_Ritual_HealingMinor.description>
   <WotF_Ritual_HealingMedium.label>生命再生（翠环）</WotF_Ritual_HealingMedium.label>
-  <WotF_Ritual_HealingMedium.description>主持者在祭坛周围画下翠绿粉笔环。附近所有人的新旧伤口都会愈合，断肢也会再生。内脏留给更高一级的仪式。</WotF_Ritual_HealingMedium.description>
+  <WotF_Ritual_HealingMedium.description>主持者在祭坛周围画下翠叶粉笔环，按仪式强度汇聚更高的生命池，从主持者向外依次轮流治愈新旧伤疤并再生缺失肢体。内脏与长期病症留给星环。</WotF_Ritual_HealingMedium.description>
   <WotF_Ritual_HealingGrand.label>生命再生（星环）</WotF_Ritual_HealingGrand.label>
+  <WotF_Ritual_HealingGrand.description>主持者在祭坛周围画下星辉粉笔环，按仪式强度汇聚丰沛的生命池，从主持者向外依次治愈外伤、疤痕、断肢、缺失内脏、成瘾与可治长期病症（包括魔鬼素渴求与心智摧毁）。心灵熵、麻醉与人造义体不受影响。</WotF_Ritual_HealingGrand.description>
   <WotF_Ritual_RuneAwakening.label>符文启封</WotF_Ritual_RuneAwakening.label>
   <WotF_Ritual_RuneAwakening.description>按所选符文阶位使用 3×3 白垩、5×5 翠叶或 7×7 星辉塑形工造阵，为整个殖民地启封符文。启动时只预约该符文的引子与网络魔源，吟唱圆满落定才扣除；超位符文须研读拓片。</WotF_Ritual_RuneAwakening.description>
   <WotF_Ritual_FertileSoil.label>沃土活化</WotF_Ritual_FertileSoil.label>
