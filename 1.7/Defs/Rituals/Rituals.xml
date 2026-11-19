@@ -248,6 +248,8 @@
          spots (CompPsychicRitualSpot.cs:86). -->
     <passability>Standable</passability>
     <fillPercent>0.01</fillPercent>
+    <!-- Chalk only leaves the ring by deconstruction; at 1 HP a stray bullet or molotov broke sustained rites. -->
+    <useHitPoints>false</useHitPoints>
     <pathCost>0</pathCost>
     <rotatable>false</rotatable>
     <selectable>true</selectable>
@@ -291,6 +293,8 @@
          spots (CompPsychicRitualSpot.cs:86). -->
     <passability>Standable</passability>
     <fillPercent>0.01</fillPercent>
+    <!-- Chalk only leaves the ring by deconstruction; at 1 HP a stray bullet or molotov broke sustained rites. -->
+    <useHitPoints>false</useHitPoints>
     <pathCost>0</pathCost>
     <rotatable>false</rotatable>
     <selectable>true</selectable>
@@ -334,6 +338,8 @@
          spots (CompPsychicRitualSpot.cs:86). -->
     <passability>Standable</passability>
     <fillPercent>0.01</fillPercent>
+    <!-- Chalk only leaves the ring by deconstruction; at 1 HP a stray bullet or molotov broke sustained rites. -->
+    <useHitPoints>false</useHitPoints>
     <pathCost>0</pathCost>
     <rotatable>false</rotatable>
     <selectable>true</selectable>
