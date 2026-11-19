@@ -64,7 +64,6 @@
     <sustainLumenEffectId>NekoYukari.WhisperOfTheForest:ShieldDome_Sustain</sustainLumenEffectId>
     <hitLumenEffectId>NekoYukari.WhisperOfTheForest:ShieldDome_Hit</hitLumenEffectId>
     <airHitLumenEffectId>NekoYukari.WhisperOfTheForest:ShieldDome_AirHit</airHitLumenEffectId>
-    <passLumenEffectId>NekoYukari.WhisperOfTheForest:Shield_PassThrough</passLumenEffectId>
     <breakLumenEffectId>NekoYukari.WhisperOfTheForest:ShieldDome_Break</breakLumenEffectId>
 
     <activateSound>WotF_Sound_ShieldDome_Activate</activateSound>
@@ -97,11 +96,12 @@
     <pulseMaxAlpha>1.00</pulseMaxAlpha>
     <ringSegments>36</ringSegments>
 
-    <openSeconds>0.85</openSeconds>
+    <!-- Snappy 0.36s 2-stage combat deploy: left/right pylons snap up (0..42%), middle materializes (38..100%) -->
+    <openSeconds>0.36</openSeconds>
     <breakSeconds>0.55</breakSeconds>
     <expireSeconds>0.65</expireSeconds>
-    <planarPylonRiseFraction>0.44</planarPylonRiseFraction>
-    <planarMiddleStartFraction>0.42</planarMiddleStartFraction>
+    <planarPylonRiseFraction>0.42</planarPylonRiseFraction>
+    <planarMiddleStartFraction>0.38</planarMiddleStartFraction>
 
     <!-- 1-2 thin, razor-crisp vibration wave filaments calibrated to H=2.20 wall height & full curtain span -->
     <rippleDurationSeconds>1.15</rippleDurationSeconds>
@@ -121,7 +121,6 @@
     <curtainAlpha>0.30</curtainAlpha>
 
     <hitLumenEffectId>NekoYukari.WhisperOfTheForest:PlanarShield_Hit</hitLumenEffectId>
-    <passLumenEffectId>NekoYukari.WhisperOfTheForest:Shield_PassThrough</passLumenEffectId>
 
     <activateSound>WotF_Sound_PlanarShield_Activate</activateSound>
     <hitSound>WotF_Sound_PlanarShield_Hit</hitSound>

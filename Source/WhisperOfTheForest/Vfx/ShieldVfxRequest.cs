@@ -127,7 +127,6 @@ namespace WhisperOfTheForest.Vfx
         public string sustainLumenEffectId;
         public string hitLumenEffectId;
         public string airHitLumenEffectId;
-        public string passLumenEffectId;
         public string breakLumenEffectId;
 
         public SoundDef activateSound;
@@ -265,6 +264,7 @@ namespace WhisperOfTheForest.Vfx
         private readonly List<Vector3> polylineBuf = new List<Vector3>(128);
         private readonly List<float> nearbyPawnZs = new List<float>(32);
         private readonly List<float> nearbyPawnXs = new List<float>(32);
+        private readonly Vector3[] hexUnitQ = new Vector3[6];
         private readonly Vector3[] hexCorners = new Vector3[6];
         private BreakShard[] shards;
 
@@ -381,7 +381,8 @@ namespace WhisperOfTheForest.Vfx
                 }
                 else
                 {
-                    spawnHeightY = 0.55f;
+                    // Vanilla flat-shot Projectile draws at ExactPosition on ground XZ (0 Vertical3D Y offset).
+                    spawnHeightY = 0f;
                 }
             }
 
@@ -429,7 +430,6 @@ namespace WhisperOfTheForest.Vfx
 
             float sParam = 0f;
             float vParam = 0.46f;
-            float spawnHeightY = 0.65f;
             Vector3 spawnWorld = pass.PassWorldPos;
 
             if (shieldReq.shape == ShieldVfxShape.Planar)
@@ -440,9 +440,9 @@ namespace WhisperOfTheForest.Vfx
                 sParam = Mathf.Clamp(along / half, -0.95f, 0.95f);
                 Vector3 pt3 = EvalPlanar3D(sParam, vParam, 1f, 1f, includeFlex: false, out _);
                 spawnWorld = new Vector3(pt3.x, 0f, pt3.z);
-                spawnHeightY = pt3.y;
             }
 
+            // Friendly pass-through spawns ONLY the subtle 1-ring surface ripple (+ shield-confined refraction), zero particles.
             PushWave(new SurfaceWave
             {
                 worldPos = spawnWorld,
@@ -453,18 +453,6 @@ namespace WhisperOfTheForest.Vfx
                 isAir = false,
                 isFriendly = true
             });
-
-            if (RimLumenApi.IsReady && !def.passLumenEffectId.NullOrEmpty())
-            {
-                float rot = Mathf.Atan2(pass.TravelDirectionXZ.x, pass.TravelDirectionXZ.z) * Mathf.Rad2Deg;
-                RimLumenApi.Play(
-                    def.passLumenEffectId,
-                    map,
-                    new System.Numerics.Vector3(spawnWorld.x, spawnHeightY, spawnWorld.z),
-                    1f,
-                    rot,
-                    false);
-            }
 
             if (map == Find.CurrentMap && def.passSound != null)
             {
@@ -967,14 +955,12 @@ namespace WhisperOfTheForest.Vfx
                 float h0 = Mathf.Clamp(w.vParam, 0.08f, 0.92f) * H;
                 Vector3 centerScreen = ProjectPlanarScreen(u0 / halfSpan, h0 / H, heightScale, spanScale, true, out _);
 
-                // 1. Standing elastic membrane glow strictly clipped inside [-halfSpan, +halfSpan] x [0, H]
+                // 1. Standing elastic membrane glow strictly clipped inside [-halfSpan, +halfSpan] x [0, H] (hostile impacts only; friendly has ripple only)
                 float standEnv = Mathf.Exp(-age * 3.8f) * (0.76f + 0.24f * Mathf.Cos(age * 22f));
-                if (standEnv > 0.015f)
+                if (!w.isFriendly && standEnv > 0.015f)
                 {
-                    float glowR = w.isFriendly ? 0.55f : 0.95f;
-                    Color innerCol = w.isFriendly
-                        ? new Color(0.76f, 1f, 0.93f, Mathf.Clamp01(0.38f * standEnv * masterAlpha))
-                        : new Color(coreColor.r, coreColor.g, coreColor.b, Mathf.Clamp01(0.76f * standEnv * masterAlpha));
+                    const float glowR = 0.95f;
+                    var innerCol = new Color(coreColor.r, coreColor.g, coreColor.b, Mathf.Clamp01(0.76f * standEnv * masterAlpha));
                     var outerZero = new Color(curPrimary.r, curPrimary.g, curPrimary.b, 0f);
 
                     for (int k = 0; k < GlowSteps; k++)
@@ -1302,8 +1288,8 @@ namespace WhisperOfTheForest.Vfx
                     uz /= rHoriz;
                 }
 
-                // Lift rim hits slightly onto the curved shoulder (0.14) so 1-2 geodesic rings visibly sweep far inward!
-                float uy = w.isAir ? Mathf.Sqrt(Mathf.Max(0.04f, 1f - ux * ux - uz * uz)) : 0.14f;
+                // Flat-shot rim hits sit directly at ground rim (uy ~ 0.004) so VFX aligns 1:1 with Projectile.ExactPosition!
+                float uy = w.isAir ? Mathf.Sqrt(Mathf.Max(0.04f, 1f - ux * ux - uz * uz)) : 0.004f;
                 Vector3 u0 = new Vector3(ux, uy, uz).normalized;
 
                 var e1 = new Vector3(-u0.z, 0f, u0.x);
@@ -1313,15 +1299,13 @@ namespace WhisperOfTheForest.Vfx
 
                 Vector3 hitScreen = ProjectDomeHemisphere(u0);
 
-                // 1. Standing vibration bloom analytically horizon-clamped inside R = domeRadius
+                // 1. Standing vibration bloom analytically horizon-clamped inside R = domeRadius (hostile impacts only)
                 float standEnv = Mathf.Exp(-age * 3.8f) * (0.76f + 0.24f * Mathf.Cos(age * 22f));
-                if (standEnv > 0.015f)
+                if (!w.isFriendly && standEnv > 0.015f)
                 {
-                    float glowArc = w.isFriendly ? 1.15f : (w.isAir ? 2.35f : 1.85f);
+                    float glowArc = w.isAir ? 2.25f : 1.55f;
                     float gammaGlow = glowArc / domeRadius;
-                    Color innerCol = w.isFriendly
-                        ? new Color(0.76f, 1f, 0.91f, Mathf.Clamp01(0.38f * standEnv * masterAlpha))
-                        : new Color(coreColor.r, coreColor.g, coreColor.b, Mathf.Clamp01(0.76f * standEnv * masterAlpha));
+                    var innerCol = new Color(coreColor.r, coreColor.g, coreColor.b, Mathf.Clamp01(0.76f * standEnv * masterAlpha));
                     var outerZero = new Color(curPrimary.r, curPrimary.g, curPrimary.b, 0f);
 
                     for (int k = 0; k < GlowSteps; k++)
@@ -1340,14 +1324,14 @@ namespace WhisperOfTheForest.Vfx
                             hitScreen, rim0, rim1,
                             g0 / gammaGlow, g1 / gammaGlow,
                             innerCol, outerZero,
-                            hdr * (w.isFriendly ? 0.95f : 1.20f), 1.5f);
+                            hdr * 1.20f, 1.5f);
                     }
                 }
 
-                // 1B. Localized 3D Spherical Hexagonal Honeycomb Ward Lattice (flashes at impact & shimmers along Ring 0!)
-                if (def.domeHexRings > 0)
+                // 1B. Localized 3D Spherical Hexagonal Honeycomb Ward Lattice (hostile impacts only; anchored at u0!)
+                if (!w.isFriendly && def.domeHexRings > 0)
                 {
-                    DrawDomeHexLattice(w, age, curPrimary, curSecondary, masterAlpha, hdr);
+                    DrawDomeHexLattice(w, u0, e1, e2, age, curPrimary, curSecondary, masterAlpha, hdr);
                 }
 
                 // 2. Uncrowded 1-2 Thin, Crisp Spherical Wave Filaments + Layer 14 Refraction Strictly Inside R = domeRadius
@@ -1466,7 +1450,7 @@ namespace WhisperOfTheForest.Vfx
                         }
                     }
 
-                    // Perimeter Rim Guided Shock Pulses racing far around the dome ring!
+                    // Perimeter Rim Guided Shock Pulses originating right from the rim contact point!
                     float sinG = Mathf.Sin(gammaWave);
                     if (u0.y < sinG && !w.isFriendly && c == 0)
                     {
@@ -1474,7 +1458,7 @@ namespace WhisperOfTheForest.Vfx
                         float baseAng = Mathf.Atan2(u0.z, u0.x);
                         float dAng = Mathf.Acos(Mathf.Clamp(Mathf.Cos(gammaWave) / hLen, -1f, 1f));
                         var pulseCol = new Color(coreColor.r, coreColor.g, coreColor.b, Mathf.Clamp01(0.92f * env * masterAlpha));
-                        float rimR = domeRadius - def.coreWidthCells * 0.85f;
+                        float rimR = domeRadius - def.coreWidthCells * 0.5f;
 
                         for (int sign = -1; sign <= 1; sign += 2)
                         {
@@ -1490,38 +1474,19 @@ namespace WhisperOfTheForest.Vfx
 
         private void DrawDomeHexLattice(
             in SurfaceWave w,
+            Vector3 hU0,
+            Vector3 he1,
+            Vector3 he2,
             float age,
             Color curPrimary,
             Color curSecondary,
             float masterAlpha,
             float hdr)
         {
-            float hUx = (w.worldPos.x - centerXZ.x) / domeRadius;
-            float hUz = (w.worldPos.z - centerXZ.z) / domeRadius;
-            float hRh = Mathf.Sqrt(hUx * hUx + hUz * hUz);
-            if (!w.isAir && hRh > 0.86f)
-            {
-                hUx *= 0.86f / hRh;
-                hUz *= 0.86f / hRh;
-            }
-            else if (hRh > 0.96f)
-            {
-                hUx *= 0.96f / hRh;
-                hUz *= 0.96f / hRh;
-            }
-
-            float hUy = Mathf.Sqrt(Mathf.Max(0.06f, 1f - hUx * hUx - hUz * hUz));
-            var hU0 = new Vector3(hUx, hUy, hUz).normalized;
-            var he1 = new Vector3(-hU0.z, 0f, hU0.x);
-            if (he1.sqrMagnitude < 1e-5f) he1 = Vector3.right;
-            else he1.Normalize();
-            Vector3 he2 = Vector3.Cross(hU0, he1).normalized;
-
-            float speed = w.isFriendly ? def.passWaveSpeed : def.rippleWaveSpeed;
-            float rWave0 = age * speed;
+            float rWave0 = age * def.rippleWaveSpeed;
             float hexSize = def.domeHexSizeCells;
             float rCorner = hexSize * 0.92f;
-            int hexRange = w.isFriendly ? 0 : (w.isAir ? def.domeHexRings : Mathf.Max(1, def.domeHexRings - 1));
+            int hexRange = def.domeHexRings;
 
             for (int hq = -hexRange; hq <= hexRange; hq++)
             {
@@ -1533,23 +1498,15 @@ namespace WhisperOfTheForest.Vfx
                     float cy = hexSize * 1.5f * hr;
                     float hDist = Mathf.Sqrt(cx * cx + cy * cy);
 
-                    float hexAlpha;
-                    if (w.isFriendly)
-                    {
-                        hexAlpha = 0.42f * Mathf.Exp(-age * 3.8f) * masterAlpha;
-                    }
-                    else
-                    {
-                        float impactExcite = Mathf.Exp(-age * 2.8f) * Mathf.Exp(-(hDist * hDist) / (w.isAir ? 5.2f : 3.4f));
-                        float delta = (hDist - rWave0) / 0.58f;
-                        float waveExcite = EvaluateVibrationEnvelope(age, w.durationSeconds, rWave0, def.rippleSpreadScale)
-                            * Mathf.Exp(-delta * delta)
-                            * Mathf.Exp(-hDist * (w.isAir ? 0.18f : 0.24f));
-                        hexAlpha = Mathf.Min(0.94f, impactExcite * 0.90f + waveExcite * 0.78f) * masterAlpha;
-                    }
-
+                    float impactExcite = Mathf.Exp(-age * 2.8f) * Mathf.Exp(-(hDist * hDist) / (w.isAir ? 5.2f : 4.2f));
+                    float delta = (hDist - rWave0) / 0.58f;
+                    float waveExcite = EvaluateVibrationEnvelope(age, w.durationSeconds, rWave0, def.rippleSpreadScale)
+                        * Mathf.Exp(-delta * delta)
+                        * Mathf.Exp(-hDist * (w.isAir ? 0.18f : 0.22f));
+                    float hexAlpha = Mathf.Min(0.94f, impactExcite * 0.90f + waveExcite * 0.78f) * masterAlpha;
                     if (hexAlpha < 0.025f) continue;
 
+                    bool anyInside = false;
                     bool allInside = true;
                     for (int v = 0; v < 6; v++)
                     {
@@ -1569,19 +1526,16 @@ namespace WhisperOfTheForest.Vfx
                             q = hU0;
                         }
 
-                        if (q.y < 0.012f)
-                        {
-                            allInside = false;
-                            break;
-                        }
-
-                        hexCorners[v] = ProjectDomeHemisphere(q);
+                        hexUnitQ[v] = q;
+                        if (q.y >= 0.002f) anyInside = true;
+                        if (q.y < 0f) allInside = false;
+                        else hexCorners[v] = ProjectDomeHemisphere(q);
                     }
 
-                    if (!allInside) continue;
+                    if (!anyInside) continue;
 
                     bool isCenter = hq == 0 && hr == 0;
-                    if (!w.isFriendly && hexAlpha > 0.18f)
+                    if (allInside && hexAlpha > 0.18f)
                     {
                         Vector3 hCenter = (hexCorners[0] + hexCorners[3]) * 0.5f;
                         Color fillRgb = isCenter ? coreColor : curPrimary;
@@ -1597,10 +1551,32 @@ namespace WhisperOfTheForest.Vfx
                     float lineW = def.coreWidthCells * (isCenter ? 0.48f : 0.36f);
                     for (int v = 0; v < 6; v++)
                     {
-                        overMesh.AddTaperedSegment(hexCorners[v], hexCorners[(v + 1) % 6], lineW, lineW, lineCol, lineCol, hdr * 1.18f, def.edgePower, null);
+                        Vector3 qA = hexUnitQ[v];
+                        Vector3 qB = hexUnitQ[(v + 1) % 6];
+                        if (qA.y < 0f && qB.y < 0f) continue;
+
+                        Vector3 pA = qA.y >= 0f ? hexCorners[v] : ClipToDomeRim(qB, qA);
+                        Vector3 pB = qB.y >= 0f ? hexCorners[(v + 1) % 6] : ClipToDomeRim(qA, qB);
+                        overMesh.AddTaperedSegment(pA, pB, lineW, lineW, lineCol, lineCol, hdr * 1.18f, def.edgePower, null);
                     }
                 }
             }
+        }
+
+        private Vector3 ClipToDomeRim(Vector3 insideQ, Vector3 outsideQ)
+        {
+            float denom = insideQ.y - outsideQ.y;
+            float t = denom > 1e-6f ? Mathf.Clamp01(insideQ.y / denom) : 0f;
+            float rx = insideQ.x + (outsideQ.x - insideQ.x) * t;
+            float rz = insideQ.z + (outsideQ.z - insideQ.z) * t;
+            float len = Mathf.Sqrt(rx * rx + rz * rz);
+            if (len > 1e-5f)
+            {
+                rx /= len;
+                rz /= len;
+            }
+
+            return new Vector3(centerXZ.x + domeRadius * rx, def.frontAltitudeY, centerXZ.z + domeRadius * rz);
         }
 
         private static Vector2 SafeOutwardXZ(Vector3 innerPt, Vector3 outerPt)
