@@ -37,12 +37,14 @@
     <tier>1</tier>
     <family>Life</family>
     <label>rite of mending</label>
-    <description>The caster traces a white chalk ring around the altar and closes the ordinary wounds of everyone nearby. Fresh injuries and blood loss are healed; old scars are not.</description>
+    <description>The caster traces a white chalk ring around the altar and channels a life pool scaled by ritual strength, healing the host's worst fresh wound or blood loss first and then nearby colonists in ascending distance until the pool is spent. Old scars are untouched.</description>
     <ringSize>3</ringSize>
     <chalkColor>White</chalkColor>
     <manaCost>50</manaCost>
     <durationTicks>600</durationTicks>
     <effectRadius>12.9</effectRadius>
+    <healingTable>WotF_HealingTable</healingTable>
+    <healingPoolFactor>1.0</healingPoolFactor>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_Healing</effectWorkerClass>
   </WhisperOfTheForest.Rituals.RitualDef>
 
@@ -51,12 +53,14 @@
     <tier>2</tier>
     <family>Life</family>
     <label>rite of mending (green ring)</label>
-    <description>The caster traces a green chalk ring around the altar. Everyone nearby is healed of fresh and old injuries, and lost limbs grow back. Organs are left to the greater rite.</description>
+    <description>The caster traces a green chalk ring around the altar and channels a greater life pool scaled by ritual strength, healing fresh injuries, blood loss, scars and lost limbs in priority round-robin from the host outward. Internal organs are left to the star ring.</description>
     <ringSize>5</ringSize>
     <chalkColor>Green</chalkColor>
     <manaCost>120</manaCost>
     <durationTicks>900</durationTicks>
     <effectRadius>12.9</effectRadius>
+    <healingTable>WotF_HealingTable</healingTable>
+    <healingPoolFactor>1.4</healingPoolFactor>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_Healing</effectWorkerClass>
   </WhisperOfTheForest.Rituals.RitualDef>
 
@@ -65,13 +69,15 @@
     <tier>3</tier>
     <family>Life</family>
     <label>rite of mending (star ring)</label>
-    <description>The caster traces a silver star-chalk ring around the altar. Everyone nearby is restored whole: wounds, scars, lost limbs and lost organs. Addictions and other curable lasting conditions are lifted, including some no healer mech serum can cure. Psychic entropy, anesthetic and artificial parts remain.</description>
+    <description>The caster traces a silver star-chalk ring around the altar and channels the greatest life pool scaled by ritual strength, restoring wounds, scars, lost limbs, lost organs, addictions and curable lasting conditions from the host outward, including luciferium need and crumbled mind. Psychic entropy, anesthetic and artificial parts remain.</description>
     <ringSize>7</ringSize>
     <chalkColor>Star</chalkColor>
     <manaCost>300</manaCost>
     <durationTicks>1500</durationTicks>
     <effectRadius>12.9</effectRadius>
     <minParticipants>1</minParticipants>
+    <healingTable>WotF_HealingTable</healingTable>
+    <healingPoolFactor>1.8</healingPoolFactor>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_Healing</effectWorkerClass>
   </WhisperOfTheForest.Rituals.RitualDef>
 

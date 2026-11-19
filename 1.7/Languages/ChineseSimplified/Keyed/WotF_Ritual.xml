@@ -26,7 +26,12 @@
   <WotF_Ritual_RingIncomplete>粉笔环不完整：缺少 {0} 道粉笔记号。</WotF_Ritual_RingIncomplete>
   <WotF_Ritual_NoMana>祭坛未接入魔源网络，或网络中的魔源不足。</WotF_Ritual_NoMana>
   <WotF_Ritual_ManaSpring_Done>灵泉回充完成：{0} 名成员恢复了魔力。</WotF_Ritual_ManaSpring_Done>
-  <WotF_Ritual_Healing_Done>生命再生完成：{0} 人得到治疗。</WotF_Ritual_Healing_Done>
+  <WotF_Ritual_HealingPool>生命池：{0}</WotF_Ritual_HealingPool>
+  <WotF_Ritual_Healing_AllDone>生命再生完成：{0} 人共治愈 {1} 处伤病，范围内伤患已全部复原（生命池 {2} / {3}）。</WotF_Ritual_Healing_AllDone>
+  <WotF_Ritual_Healing_PoolSpent>生命再生完成：{0} 人共治愈 {1} 处伤病（消耗生命池 {2} / {3}，仍有伤病待下次治疗）。</WotF_Ritual_Healing_PoolSpent>
+  <WotF_Ritual_Healing_PartialDone>生命再生完成：{0} 人共治愈 {1} 处、部分缓解 {2} 处伤病（消耗生命池 {3} / {4}）。</WotF_Ritual_Healing_PartialDone>
+  <WotF_Ritual_Healing_PoolTooLow>生命再生未能生效：生命池（{0}）不足以恢复 {1} 的「{2}」（需要 {3}）。请提升仪式强度后再试。</WotF_Ritual_Healing_PoolTooLow>
+  <WotF_Ritual_Healing_NoneNeeded>生命再生完成：范围内没有本阶仪式可治疗的伤病。</WotF_Ritual_Healing_NoneNeeded>
   <WotF_Ritual_FertileSoil_Done>沃土活化完成：{0} 格土壤化为沃土。</WotF_Ritual_FertileSoil_Done>
   <WotF_Ritual_AllRunesUnlocked>这座祭坛没有尚未启封的可用符文。</WotF_Ritual_AllRunesUnlocked>
   <WotF_Ritual_SuperRuneNeedsRubbing>超位符文只能通过研读拓片解锁，不能由祭坛启封。</WotF_Ritual_SuperRuneNeedsRubbing>

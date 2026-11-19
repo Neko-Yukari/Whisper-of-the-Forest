@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <WhisperOfTheForest.Rituals.RitualHealingTableDef>
+    <defName>WotF_HealingTable</defName>
+    <label>ritual healing priority and cost table</label>
+
+    <!-- 共享基础曲线 B(R)，实际生命池 = B(仪式强度) × RitualDef.healingPoolFactor（三档 1.0 / 1.4 / 1.8）。 -->
+    <basePoolCurve>
+      <points>
+        <li>(0, 15)</li>
+        <li>(1, 20)</li>
+        <li>(3, 30)</li>
+        <li>(10, 52)</li>
+        <li>(25, 88)</li>
+        <li>(60, 158)</li>
+        <li>(120, 248)</li>
+      </points>
+    </basePoolCurve>
+
+    <lifeThreateningPriorityBonus>400</lifeThreateningPriorityBonus>
+    <bleedDeathWindowTicks>10000</bleedDeathWindowTicks>
+    <bleedRateEmergencyThreshold>0.1</bleedRateEmergencyThreshold>
+    <immunePriorityFactor>0.2</immunePriorityFactor>
+
+    <!-- 普通伤口（T1+，连续 severity，池不足时按比例部分治愈） -->
+    <freshInjury>
+      <basePriority>10</basePriority>
+      <priorityPerSeverity>2.0</priorityPerSeverity>
+      <priorityPerBleedRate>15.0</priorityPerBleedRate>
+      <baseCost>0</baseCost>
+      <costPerSeverity>1.0</costPerSeverity>
+    </freshInjury>
+
+    <!-- 疤痕与永久伤（T2+，连续 severity，池不足时按比例部分治愈） -->
+    <permanentInjury>
+      <basePriority>35</basePriority>
+      <priorityPerSeverity>3.0</priorityPerSeverity>
+      <baseCost>0</baseCost>
+      <costPerSeverity>3.2</costPerSeverity>
+    </permanentInjury>
+
+    <!-- 表中未列出的模组部位（如外星种族的翅膀、尾巴）一律按「单独肢体」档结算，不按部位血量另算公式。 -->
+    <unlistedLimb>
+      <costFactor>1.0</costFactor>
+      <priorityWeight>1.2</priorityWeight>
+      <regrowCost>48</regrowCost>
+      <regrowPriority>180</regrowPriority>
+    </unlistedLimb>
+
+    <!-- 未单独列名的可治病症默认档（T3） -->
+    <defaultAddiction>
+      <priority>85</priority>
+      <priorityPerSeverity>20</priorityPerSeverity>
+      <baseCost>0</baseCost>
+      <costPerSeverity>90</costPerSeverity>
+      <allowPartialHeal>true</allowPartialHeal>
+    </defaultAddiction>
+
+    <defaultInfection>
+      <priority>135</priority>
+      <priorityPerSeverity>50</priorityPerSeverity>
+      <baseCost>15</baseCost>
+      <costPerSeverity>35</costPerSeverity>
+      <allowPartialHeal>true</allowPartialHeal>
+    </defaultInfection>
+
+    <defaultChronic>
+      <priority>130</priority>
+      <priorityPerSeverity>20</priorityPerSeverity>
+      <baseCost>35</baseCost>
+      <costPerSeverity>20</costPerSeverity>
+      <allowPartialHeal>true</allowPartialHeal>
+    </defaultChronic>
+
+    <defaultCondition>
+      <priority>40</priority>
+      <priorityPerSeverity>20</priorityPerSeverity>
+      <baseCost>15</baseCost>
+      <costPerSeverity>20</costPerSeverity>
+      <allowPartialHeal>true</allowPartialHeal>
+    </defaultCondition>
+
+    <bodyParts>
+      <!-- 中枢与核心内脏 -->
+      <li><part>Brain</part><costFactor>4.2</costFactor><priorityWeight>6.0</priorityWeight><regrowCost>130</regrowCost><regrowPriority>380</regrowPriority></li>
+      <li><part>Heart</part><costFactor>2.5</costFactor><priorityWeight>5.0</priorityWeight><regrowCost>90</regrowCost><regrowPriority>350</regrowPriority></li>
+      <li><part>Spine</part><costFactor>2.2</costFactor><priorityWeight>3.5</priorityWeight><regrowCost>90</regrowCost><regrowPriority>260</regrowPriority></li>
+      <li><part>Neck</part><costFactor>1.5</costFactor><priorityWeight>3.5</priorityWeight><regrowCost>85</regrowCost><regrowPriority>320</regrowPriority></li>
+      <li><part>Liver</part><costFactor>2.0</costFactor><priorityWeight>3.0</priorityWeight><regrowCost>80</regrowCost><regrowPriority>330</regrowPriority></li>
+      <li><part>Lung</part><costFactor>1.8</costFactor><priorityWeight>3.0</priorityWeight><regrowCost>60</regrowCost><regrowPriority>195</regrowPriority></li>
+      <li><part>Kidney</part><costFactor>1.8</costFactor><priorityWeight>2.6</priorityWeight><regrowCost>55</regrowCost><regrowPriority>185</regrowPriority></li>
+      <li><part>Stomach</part><costFactor>1.6</costFactor><priorityWeight>2.4</priorityWeight><regrowCost>55</regrowCost><regrowPriority>175</regrowPriority></li>
+
+      <!-- 头躯与重要感官 -->
+      <li><part>Eye</part><costFactor>1.6</costFactor><priorityWeight>2.6</priorityWeight><regrowCost>48</regrowCost><regrowPriority>155</regrowPriority></li>
+      <li><part>Head</part><costFactor>1.2</costFactor><priorityWeight>1.5</priorityWeight><regrowCost>70</regrowCost><regrowPriority>280</regrowPriority></li>
+      <li><part>Skull</part><costFactor>1.2</costFactor><priorityWeight>1.5</priorityWeight><regrowCost>70</regrowCost><regrowPriority>280</regrowPriority></li>
+      <li><part>Torso</part><costFactor>1.0</costFactor><priorityWeight>1.3</priorityWeight><regrowCost>100</regrowCost><regrowPriority>350</regrowPriority></li>
+
+      <!-- 单独肢体档（与 unlistedLimb 对齐） -->
+      <li><part>Leg</part><costFactor>1.0</costFactor><priorityWeight>1.2</priorityWeight><regrowCost>50</regrowCost><regrowPriority>190</regrowPriority></li>
+      <li><part>Shoulder</part><costFactor>1.0</costFactor><priorityWeight>1.2</priorityWeight><regrowCost>50</regrowCost><regrowPriority>182</regrowPriority></li>
+      <li><part>Arm</part><costFactor>1.0</costFactor><priorityWeight>1.2</priorityWeight><regrowCost>48</regrowCost><regrowPriority>180</regrowPriority></li>
+
+      <!-- 手足、颌面与次要外官 -->
+      <li><part>Foot</part><costFactor>1.0</costFactor><priorityWeight>1.0</priorityWeight><regrowCost>40</regrowCost><regrowPriority>125</regrowPriority></li>
+      <li><part>Hand</part><costFactor>1.0</costFactor><priorityWeight>1.0</priorityWeight><regrowCost>32</regrowCost><regrowPriority>130</regrowPriority></li>
+      <li><part>Jaw</part><costFactor>1.0</costFactor><priorityWeight>1.0</priorityWeight><regrowCost>30</regrowCost><regrowPriority>115</regrowPriority></li>
+      <li><part>Tongue</part><costFactor>0.9</costFactor><priorityWeight>0.8</priorityWeight><regrowCost>22</regrowCost><regrowPriority>65</regrowPriority></li>
+      <li><part>Ear</part><costFactor>0.9</costFactor><priorityWeight>0.7</priorityWeight><regrowCost>20</regrowCost><regrowPriority>55</regrowPriority></li>
+      <li><part>Nose</part><costFactor>0.8</costFactor><priorityWeight>0.6</priorityWeight><regrowCost>16</regrowCost><regrowPriority>40</regrowPriority></li>
+
+      <!-- 躯干与四肢内部骨骼 -->
+      <li><part>Pelvis</part><costFactor>1.0</costFactor><priorityWeight>0.8</priorityWeight><regrowCost>25</regrowCost><regrowPriority>70</regrowPriority></li>
+      <li><part>Ribcage</part><costFactor>1.0</costFactor><priorityWeight>0.8</priorityWeight><regrowCost>25</regrowCost><regrowPriority>70</regrowPriority></li>
+      <li><part>Sternum</part><costFactor>1.0</costFactor><priorityWeight>0.8</priorityWeight><regrowCost>25</regrowCost><regrowPriority>70</regrowPriority></li>
+      <li><part>Clavicle</part><costFactor>1.0</costFactor><priorityWeight>0.8</priorityWeight><regrowCost>25</regrowCost><regrowPriority>70</regrowPriority></li>
+      <li><part>Humerus</part><costFactor>1.0</costFactor><priorityWeight>0.8</priorityWeight><regrowCost>25</regrowCost><regrowPriority>70</regrowPriority></li>
+      <li><part>Radius</part><costFactor>1.0</costFactor><priorityWeight>0.8</priorityWeight><regrowCost>25</regrowCost><regrowPriority>70</regrowPriority></li>
+      <li><part>Femur</part><costFactor>1.0</costFactor><priorityWeight>0.8</priorityWeight><regrowCost>25</regrowCost><regrowPriority>70</regrowPriority></li>
+      <li><part>Tibia</part><costFactor>1.0</costFactor><priorityWeight>0.8</priorityWeight><regrowCost>25</regrowCost><regrowPriority>70</regrowPriority></li>
+      <li><part>Waist</part><costFactor>1.0</costFactor><priorityWeight>0.5</priorityWeight><regrowCost>20</regrowCost><regrowPriority>50</regrowPriority></li>
+
+      <!-- 指趾末梢 -->
+      <li><part>Finger</part><costFactor>0.7</costFactor><priorityWeight>0.35</priorityWeight><regrowCost>13</regrowCost><regrowPriority>22</regrowPriority></li>
+      <li><part>Toe</part><costFactor>0.7</costFactor><priorityWeight>0.35</priorityWeight><regrowCost>13</regrowCost><regrowPriority>22</regrowPriority></li>
+    </bodyParts>
+
+    <conditions>
+      <!-- T1+ 失血（连续 severity） -->
+      <li>
+        <hediff>BloodLoss</hediff>
+        <priority>12</priority><priorityPerSeverity>55</priorityPerSeverity>
+        <baseCost>0</baseCost><costPerSeverity>30</costPerSeverity>
+        <allowPartialHeal>true</allowPartialHeal>
+      </li>
+
+      <!-- T3 显式放行的超机械液不可逆病症（无连续恢复进度，池不足时跳过） -->
+      <li>
+        <hediff>LuciferiumAddiction</hediff>
+        <priority>240</priority>
+        <baseCost>110</baseCost>
+        <allowUncurableByItem>true</allowUncurableByItem>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Anomaly">
+        <hediff>CrumbledMind</hediff>
+        <priority>270</priority>
+        <baseCost>100</baseCost>
+        <allowUncurableByItem>true</allowUncurableByItem>
+      </li>
+
+      <!-- T3 渐进型脑损、心脏病变与局部肿瘤/衰竭（连续 severity，池不足时按比例缓解） -->
+      <li MayRequire="Ludeon.RimWorld.Anomaly">
+        <hediff>CrumblingMind</hediff>
+        <priority>265</priority><priorityPerSeverity>30</priorityPerSeverity>
+        <baseCost>40</baseCost><costPerSeverity>50</costPerSeverity>
+        <allowPartialHeal>true</allowPartialHeal>
+      </li>
+      <li>
+        <hediff>ResurrectionPsychosis</hediff>
+        <priority>235</priority><priorityPerSeverity>40</priorityPerSeverity>
+        <baseCost>45</baseCost><costPerSeverity>55</costPerSeverity>
+        <allowPartialHeal>true</allowPartialHeal>
+      </li>
+      <li>
+        <hediff>Alzheimers</hediff>
+        <priority>215</priority><priorityPerSeverity>30</priorityPerSeverity>
+        <baseCost>35</baseCost><costPerSeverity>50</costPerSeverity>
+        <allowPartialHeal>true</allowPartialHeal>
+      </li>
+      <li>
+        <hediff>HeartAttack</hediff>
+        <priority>230</priority><priorityPerSeverity>50</priorityPerSeverity>
+        <baseCost>25</baseCost><costPerSeverity>45</costPerSeverity>
+        <allowPartialHeal>true</allowPartialHeal>
+      </li>
+      <li>
+        <hediff>HeartArteryBlockage</hediff>
+        <priority>185</priority><priorityPerSeverity>40</priorityPerSeverity>
+        <baseCost>25</baseCost><costPerSeverity>45</costPerSeverity>
+        <allowPartialHeal>true</allowPartialHeal>
+      </li>
+      <li>
+        <hediff>OrganDecay</hediff>
+        <priority>70</priority><priorityPerSeverity>20</priorityPerSeverity>
+        <baseCost>18</baseCost><costPerSeverity>25</costPerSeverity>
+        <applyPartFactors>true</applyPartFactors>
+        <allowPartialHeal>true</allowPartialHeal>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Anomaly">
+        <hediff>OrganDecayCreepjoiner</hediff>
+        <priority>75</priority><priorityPerSeverity>20</priorityPerSeverity>
+        <baseCost>20</baseCost><costPerSeverity>25</costPerSeverity>
+        <applyPartFactors>true</applyPartFactors>
+        <allowPartialHeal>true</allowPartialHeal>
+      </li>
+      <li>
+        <hediff>Carcinoma</hediff>
+        <priority>65</priority><priorityPerSeverity>25</priorityPerSeverity>
+        <baseCost>15</baseCost><costPerSeverity>30</costPerSeverity>
+        <applyPartFactors>true</applyPartFactors>
+        <allowPartialHeal>true</allowPartialHeal>
+      </li>
+      <li>
+        <hediff>Asthma</hediff>
+        <priority>110</priority><priorityPerSeverity>20</priorityPerSeverity>
+        <baseCost>16</baseCost><costPerSeverity>32</costPerSeverity>
+        <allowPartialHeal>true</allowPartialHeal>
+      </li>
+
+      <!-- T3 单阶段定常病症（原版无连续 severity，池不足时跳过） -->
+      <li><hediff>Dementia</hediff><priority>220</priority><baseCost>70</baseCost></li>
+      <li><hediff>TraumaSavant</hediff><priority>140</priority><baseCost>65</baseCost></li>
+      <li MayRequire="Ludeon.RimWorld.Royalty">
+        <hediff>Abasia</hediff><priority>225</priority><baseCost>70</baseCost>
+      </li>
+      <li><hediff>Frail</hediff><priority>155</priority><baseCost>50</baseCost></li>
+      <li><hediff>Cirrhosis</hediff><priority>150</priority><baseCost>48</baseCost></li>
+      <li><hediff>BadBack</hediff><priority>145</priority><baseCost>42</baseCost></li>
+      <li><hediff>Blindness</hediff><priority>150</priority><baseCost>40</baseCost></li>
+      <li><hediff>Cataract</hediff><priority>115</priority><baseCost>28</baseCost></li>
+      <li><hediff>HearingLoss</hediff><priority>90</priority><baseCost>20</baseCost></li>
+      <li><hediff>ChemicalDamageModerate</hediff><priority>55</priority><baseCost>22</baseCost><applyPartFactors>true</applyPartFactors></li>
+      <li><hediff>ChemicalDamageSevere</hediff><priority>70</priority><baseCost>30</baseCost><applyPartFactors>true</applyPartFactors></li>
+      <li><hediff>Scaria</hediff><priority>175</priority><baseCost>55</baseCost></li>
+      <li><hediff>GutWorms</hediff><priority>115</priority><baseCost>32</baseCost></li>
+      <li><hediff>MuscleParasites</hediff><priority>115</priority><baseCost>32</baseCost></li>
+
+      <!-- T3 渐进感染、机械体与中毒/环境急症（连续 severity，池不足时按比例缓解） -->
+      <li><hediff>Plague</hediff><priority>165</priority><priorityPerSeverity>80</priorityPerSeverity><baseCost>20</baseCost><costPerSeverity>45</costPerSeverity><allowPartialHeal>true</allowPartialHeal></li>
+      <li><hediff>Malaria</hediff><priority>165</priority><priorityPerSeverity>80</priorityPerSeverity><baseCost>20</baseCost><costPerSeverity>45</costPerSeverity><allowPartialHeal>true</allowPartialHeal></li>
+      <li><hediff>SleepingSickness</hediff><priority>160</priority><priorityPerSeverity>80</priorityPerSeverity><baseCost>20</baseCost><costPerSeverity>45</costPerSeverity><allowPartialHeal>true</allowPartialHeal></li>
+      <li><hediff>WoundInfection</hediff><priority>145</priority><priorityPerSeverity>75</priorityPerSeverity><baseCost>15</baseCost><costPerSeverity>35</costPerSeverity><allowPartialHeal>true</allowPartialHeal></li>
+      <li><hediff>Flu</hediff><priority>140</priority><priorityPerSeverity>75</priorityPerSeverity><baseCost>15</baseCost><costPerSeverity>35</costPerSeverity><allowPartialHeal>true</allowPartialHeal></li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">
+        <hediff>InfantIllness</hediff><priority>155</priority><priorityPerSeverity>75</priorityPerSeverity><baseCost>15</baseCost><costPerSeverity>35</costPerSeverity><allowPartialHeal>true</allowPartialHeal>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Royalty">
+        <hediff>BloodRot</hediff><priority>160</priority><priorityPerSeverity>40</priorityPerSeverity><baseCost>25</baseCost><costPerSeverity>35</costPerSeverity><allowPartialHeal>true</allowPartialHeal>
+      </li>
+      <li><hediff>LungRot</hediff><priority>160</priority><priorityPerSeverity>40</priorityPerSeverity><baseCost>25</baseCost><costPerSeverity>35</costPerSeverity><allowPartialHeal>true</allowPartialHeal></li>
+      <li><hediff>ScariaInfection</hediff><priority>155</priority><priorityPerSeverity>50</priorityPerSeverity><baseCost>20</baseCost><costPerSeverity>35</costPerSeverity><allowPartialHeal>true</allowPartialHeal></li>
+      <li><hediff>FibrousMechanites</hediff><priority>110</priority><priorityPerSeverity>20</priorityPerSeverity><baseCost>20</baseCost><costPerSeverity>22</costPerSeverity><allowPartialHeal>true</allowPartialHeal></li>
+      <li><hediff>SensoryMechanites</hediff><priority>110</priority><priorityPerSeverity>20</priorityPerSeverity><baseCost>20</baseCost><costPerSeverity>22</costPerSeverity><allowPartialHeal>true</allowPartialHeal></li>
+      <li><hediff>ToxicBuildup</hediff><priority>50</priority><priorityPerSeverity>60</priorityPerSeverity><baseCost>8</baseCost><costPerSeverity>32</costPerSeverity><allowPartialHeal>true</allowPartialHeal></li>
+      <li><hediff>DrugOverdose</hediff><priority>55</priority><priorityPerSeverity>60</priorityPerSeverity><baseCost>8</baseCost><costPerSeverity>32</costPerSeverity><allowPartialHeal>true</allowPartialHeal></li>
+      <li><hediff>Heatstroke</hediff><priority>45</priority><priorityPerSeverity>60</priorityPerSeverity><baseCost>6</baseCost><costPerSeverity>26</costPerSeverity><allowPartialHeal>true</allowPartialHeal></li>
+      <li><hediff>Hypothermia</hediff><priority>45</priority><priorityPerSeverity>60</priorityPerSeverity><baseCost>6</baseCost><costPerSeverity>26</costPerSeverity><allowPartialHeal>true</allowPartialHeal></li>
+      <li><hediff>Malnutrition</hediff><priority>40</priority><priorityPerSeverity>60</priorityPerSeverity><baseCost>8</baseCost><costPerSeverity>32</costPerSeverity><allowPartialHeal>true</allowPartialHeal></li>
+      <li><hediff>FoodPoisoning</hediff><priority>35</priority><priorityPerSeverity>30</priorityPerSeverity><baseCost>5</baseCost><costPerSeverity>20</costPerSeverity><allowPartialHeal>true</allowPartialHeal></li>
+    </conditions>
+  </WhisperOfTheForest.Rituals.RitualHealingTableDef>
+
+</Defs>
