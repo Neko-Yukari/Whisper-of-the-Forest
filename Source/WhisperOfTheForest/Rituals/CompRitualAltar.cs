@@ -73,6 +73,12 @@ namespace WhisperOfTheForest.Rituals
 
         private List<Pawn> activeHelpers = new List<Pawn>();
         private List<RitualStation> stations = new List<RitualStation>();
+        private RitualDef selectedDef;
+        private SpellGlyphDef selectedRune;
+        private Building selectedTeleportTarget;
+        private Thing selectedEquipment;
+        private int selectedBookSlot = -1;
+        private QuestScriptDef selectedRuinQuest;
         private RitualDef collectDef;
         private SpellGlyphDef collectRune;
         private ThingOwner<Thing> offerings;
@@ -99,6 +105,65 @@ namespace WhisperOfTheForest.Rituals
         public int ActiveDurationTicks => activeDurationTicks;
 
         public float FacilityPower => parent.GetComp<CompAffectedByFacilities>()?.GetStatOffset(Props.powerStat) ?? 0f;
+
+        /// <summary>The rite chosen in the hosting panel for right-click hosting; null until chosen.</summary>
+        public RitualDef SelectedDef => selectedDef;
+        public SpellGlyphDef SelectedRune => selectedRune;
+        public Building SelectedTeleportTarget => selectedTeleportTarget;
+        public Thing SelectedEquipment => selectedEquipment;
+        public int SelectedBookSlot => selectedBookSlot;
+        public RuinSeekOption SelectedRuinOption => selectedDef == null ? null : selectedDef.RuinOptionFor(selectedRuinQuest);
+
+        public string SelectedLabel => selectedDef == null ? null
+            : (selectedDef.chooseRune && selectedRune != null
+                ? selectedDef.LabelCap + ": " + selectedRune.LabelCap
+                : selectedDef.chooseEquipment && selectedEquipment != null
+                    ? selectedDef.LabelCap + ": " + selectedEquipment.LabelShort
+                    : selectedDef.chooseRuinType && SelectedRuinOption != null
+                        ? selectedDef.LabelCap + ": " + SelectedRuinOption.sitePart.LabelCap
+                        : selectedDef.chooseTeleportTarget && selectedTeleportTarget != null
+                            ? selectedDef.LabelCap + ": " + selectedTeleportTarget.LabelShort
+                            : (string)selectedDef.LabelCap);
+
+        public void SetSelectedRitual(RitualDef def, SpellGlyphDef rune = null, Building teleportTarget = null,
+            Thing equipment = null, int bookSlot = -1, QuestScriptDef ruinQuest = null)
+        {
+            if (def == null)
+            {
+                ClearSelection();
+                return;
+            }
+
+            selectedDef = def;
+            selectedRune = def.chooseRune ? rune : null;
+            selectedTeleportTarget = def.chooseTeleportTarget ? teleportTarget : null;
+            selectedEquipment = def.chooseEquipment ? equipment : null;
+            selectedBookSlot = def.chooseEquipment ? bookSlot : -1;
+            selectedRuinQuest = def.chooseRuinType ? ruinQuest : null;
+        }
+
+        public void ClearSelection()
+        {
+            selectedDef = null;
+            selectedRune = null;
+            selectedTeleportTarget = null;
+            selectedEquipment = null;
+            selectedBookSlot = -1;
+            selectedRuinQuest = null;
+        }
+
+        private bool SupportsRitual(RitualDef def)
+        {
+            foreach (RitualDef candidate in Rituals)
+            {
+                if (candidate == def)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
         /// <summary>The rite whose offerings the altar is collecting; null when nothing is prepared.</summary>
         public RitualDef CollectDef => collectDef;
@@ -206,7 +271,7 @@ namespace WhisperOfTheForest.Rituals
 
             if (autoRitual != null)
             {
-                Prepare(autoRitual, null);
+                Prepare(autoRitual, null, select: false);
             }
             else if (IsPreparedFor(previous, null))
             {
@@ -222,11 +287,22 @@ namespace WhisperOfTheForest.Rituals
         }
 
         /// <summary>
-        /// Starts collecting this rite's offerings. Preparing a different rite than the one being collected
-        /// is a switch: what was delivered for the old one drops beside the altar first.
+        /// Starts collecting this rite's offerings and makes it the altar's selected rite if not already.
+        /// Preparing a different rite than the one being collected is a switch: what was delivered for the
+        /// old one drops beside the altar first.
         /// </summary>
         public void Prepare(RitualDef def, SpellGlyphDef rune)
         {
+            Prepare(def, rune, select: true);
+        }
+
+        private void Prepare(RitualDef def, SpellGlyphDef rune, bool select)
+        {
+            if (select && (selectedDef != def || selectedRune != rune))
+            {
+                SetSelectedRitual(def, rune);
+            }
+
             if (IsPreparedFor(def, rune))
             {
                 return;
@@ -367,10 +443,48 @@ namespace WhisperOfTheForest.Rituals
             offerings ??= new ThingOwner<Thing>(this);
             Scribe_Defs.Look(ref collectDef, "ritualCollectDef");
             Scribe_Defs.Look(ref collectRune, "ritualCollectRune");
+            Scribe_Defs.Look(ref selectedDef, "ritualSelectedDef");
+            Scribe_Defs.Look(ref selectedRune, "ritualSelectedRune");
+            Scribe_References.Look(ref selectedTeleportTarget, "ritualSelectedTeleportTarget", true);
+            Scribe_References.Look(ref selectedEquipment, "ritualSelectedEquipment", true);
+            Scribe_Values.Look(ref selectedBookSlot, "ritualSelectedBookSlot", -1);
+            Scribe_Defs.Look(ref selectedRuinQuest, "ritualSelectedRuinQuest");
 
             if (Scribe.mode != LoadSaveMode.PostLoadInit)
             {
                 return;
+            }
+
+            if (selectedDef == null || !SupportsRitual(selectedDef))
+            {
+                ClearSelection();
+            }
+            else
+            {
+                if (!selectedDef.chooseRune)
+                {
+                    selectedRune = null;
+                }
+
+                if (!selectedDef.chooseTeleportTarget || (selectedTeleportTarget != null && selectedTeleportTarget.Destroyed))
+                {
+                    selectedTeleportTarget = null;
+                }
+
+                if (!selectedDef.chooseEquipment || (selectedEquipment != null && selectedEquipment.Destroyed))
+                {
+                    selectedEquipment = null;
+                }
+
+                if (!selectedDef.chooseEquipment)
+                {
+                    selectedBookSlot = -1;
+                }
+
+                if (!selectedDef.chooseRuinType || SelectedRuinOption == null)
+                {
+                    selectedRuinQuest = null;
+                }
             }
 
             if (autoRitual != null && !autoRitual.autoRepeatable)
@@ -410,7 +524,7 @@ namespace WhisperOfTheForest.Rituals
 
             if (autoRitual != null && collectDef == null)
             {
-                Prepare(autoRitual, null);
+                Prepare(autoRitual, null, select: false);
             }
 
             EjectSurplus();
@@ -745,9 +859,32 @@ namespace WhisperOfTheForest.Rituals
         }
 
         /// <summary>
-        /// A rite hosted without the panel (work scan, right-click): this pawn alone, no helpers. The only
+        /// Builds a hosting request for the ritual selected in the panel, using this pawn as host and no
+        /// helpers. Returns null when no ritual has been selected on this altar yet.
+        /// </summary>
+        public RitualRequest SelectedRequest(Pawn host)
+        {
+            if (selectedDef == null)
+            {
+                return null;
+            }
+
+            return new RitualRequest
+            {
+                Def = selectedDef,
+                Rune = selectedDef.chooseRune ? selectedRune : null,
+                TeleportTarget = selectedDef.chooseTeleportTarget ? selectedTeleportTarget : null,
+                Equipment = selectedDef.chooseEquipment ? selectedEquipment : null,
+                BookSlot = selectedDef.chooseEquipment ? selectedBookSlot : -1,
+                RuinOption = selectedDef.chooseRuinType ? SelectedRuinOption : null,
+                Host = host
+            };
+        }
+
+        /// <summary>
+        /// A rite hosted without the panel (auto-repeat work scan): this pawn alone, no helpers. The only
         /// choice it can reuse is the rune the preparation was made for; a rite that needs a gate, an item
-        /// and page, or a ruin, or a rune nobody prepared, has none and returns null - the panel hosts it.
+        /// and page, or a ruin, or a rune nobody prepared, has none and returns null.
         /// </summary>
         public RitualRequest DirectRequest(RitualDef def, Pawn host)
         {
@@ -1074,7 +1211,7 @@ namespace WhisperOfTheForest.Rituals
             var result = new RitualAssessment { Request = request };
             if (request?.Def == null)
             {
-                result.Problems.Add("WotF_Ritual_NoCaster".Translate());
+                result.Problems.Add("WotF_Ritual_NotSelected".Translate());
                 return result;
             }
 

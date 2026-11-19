@@ -8,9 +8,9 @@ namespace WhisperOfTheForest.Rituals
     /// <summary>
     /// Hosting as work, for the auto-repeat rite only: an idle altar whose auto rite would pass Assess
     /// (its offerings all inside) is a work target, and a pawn takes it up by its own work priorities
-    /// and schedule. The Def is not directOrderable: a right-click lists every rite of the altar through
-    /// FloatMenuOptionProvider_HostRitual instead. The job only carries the altar; JobDriver_PerformRitual
-    /// commits the rite when it starts.
+    /// and schedule. The Def is not directOrderable: a right-click offers the altar's selected rite
+    /// through FloatMenuOptionProvider_HostRitual instead. The job only carries the altar;
+    /// JobDriver_PerformRitual commits the rite when it starts.
     /// </summary>
     public class WorkGiver_HostRitual : WorkGiver_Scanner
     {

@@ -8,7 +8,8 @@
   <WotF_Ritual_AutoRepeat_Current>Auto-repeat: {0}</WotF_Ritual_AutoRepeat_Current>
   <WotF_Ritual_AutoRepeat_Desc>Keep performing this production rite whenever the altar is idle. Haulers bring the offerings into the altar; once they are all inside, a bloodline colonist takes up the hosting as basic work. The rite waits while a host, mana or offerings are missing.</WotF_Ritual_AutoRepeat_Desc>
   <WotF_Ritual_PrioritizeHost>Prioritize hosting {0}</WotF_Ritual_PrioritizeHost>
-  <WotF_Ritual_ChooseInPanel>choose the rune, gate, item or ruin in the Host ritual panel first</WotF_Ritual_ChooseInPanel>
+  <WotF_Ritual_PrioritizeHostNone>Prioritize hosting ritual</WotF_Ritual_PrioritizeHostNone>
+  <WotF_Ritual_NotSelected>choose a rite in the Host ritual panel first</WotF_Ritual_NotSelected>
   <WotF_Ritual_InspectCollecting>Collecting offerings for {0}: {1}</WotF_Ritual_InspectCollecting>
   <WotF_Ritual_AutoRepeat_Off>Stop auto-repeat</WotF_Ritual_AutoRepeat_Off>
   <WotF_Ritual_AutoRepeat_None>No production rite can be auto-repeated.</WotF_Ritual_AutoRepeat_None>
