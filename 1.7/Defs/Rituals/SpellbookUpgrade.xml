@@ -25,6 +25,7 @@
       <WotF_Spellbook_Adept>1</WotF_Spellbook_Adept>
     </outputProducts>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_SpellbookUpgrade</effectWorkerClass>
+    <researchPrerequisite>WotF_Research_Ritual_SpellbookUpgradeAdept</researchPrerequisite>
   </WhisperOfTheForest.Rituals.RitualDef>
 
   <WhisperOfTheForest.Rituals.RitualDef ParentName="WotF_WorkRitualBase">
@@ -48,5 +49,6 @@
       <WotF_Spellbook_Archmage>1</WotF_Spellbook_Archmage>
     </outputProducts>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_SpellbookUpgrade</effectWorkerClass>
+    <researchPrerequisite>WotF_Research_Ritual_SpellbookUpgradeArchmage</researchPrerequisite>
   </WhisperOfTheForest.Rituals.RitualDef>
 </Defs>

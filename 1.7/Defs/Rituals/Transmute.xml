@@ -20,6 +20,7 @@
     </outputProducts>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_Transmute</effectWorkerClass>
     <autoRepeatable>true</autoRepeatable>
+    <researchPrerequisite>WotF_Research_GreenChalk</researchPrerequisite>
   </WhisperOfTheForest.Rituals.RitualDef>
 
   <WhisperOfTheForest.Rituals.RitualDef ParentName="WotF_WorkRitualBase">
@@ -43,6 +44,7 @@
     </outputProducts>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_Transmute</effectWorkerClass>
     <autoRepeatable>true</autoRepeatable>
+    <researchPrerequisite>WotF_Research_StarChalk</researchPrerequisite>
   </WhisperOfTheForest.Rituals.RitualDef>
 
   <WhisperOfTheForest.Rituals.RitualDef ParentName="WotF_WorkRitualBase">
@@ -65,5 +67,6 @@
     </outputProducts>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_Transmute</effectWorkerClass>
     <autoRepeatable>true</autoRepeatable>
+    <researchPrerequisite>WotF_Research_Ritual_TransmuteComponent</researchPrerequisite>
   </WhisperOfTheForest.Rituals.RitualDef>
 </Defs>

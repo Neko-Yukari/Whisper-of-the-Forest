@@ -42,12 +42,12 @@ namespace WhisperOfTheForest.Rituals
         public Window_RitualHost(CompRitualAltar altar)
         {
             this.altar = altar;
-            selected = altar.SelectedDef;
-            selectedRune = altar.SelectedRune;
-            selectedNode = altar.SelectedTeleportTarget;
-            selectedRuin = altar.SelectedRuinOption;
-            selectedEquipment = altar.SelectedEquipment;
-            selectedBookSlot = altar.SelectedBookSlot;
+            selected = altar.SelectedDef != null && altar.SelectedDef.IsResearchFinished ? altar.SelectedDef : null;
+            selectedRune = selected != null ? altar.SelectedRune : null;
+            selectedNode = selected != null ? altar.SelectedTeleportTarget : null;
+            selectedRuin = selected != null ? altar.SelectedRuinOption : null;
+            selectedEquipment = selected != null ? altar.SelectedEquipment : null;
+            selectedBookSlot = selected != null ? altar.SelectedBookSlot : -1;
 
             draggable = true;
             forcePause = false;

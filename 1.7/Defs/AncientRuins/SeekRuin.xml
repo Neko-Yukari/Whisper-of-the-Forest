@@ -15,6 +15,7 @@
     <effectRadius>12.9</effectRadius>
     <chooseRuinType>true</chooseRuinType>
     <effectWorkerClass>WhisperOfTheForest.AncientRuins.RitualEffect_SeekRuin</effectWorkerClass>
+    <researchPrerequisite>WotF_Research_Ritual_SeekRuin</researchPrerequisite>
     <ruinOptions>
       <li>
         <quest>WotF_RuinSeek_Common</quest>

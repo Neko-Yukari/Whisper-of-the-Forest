@@ -69,16 +69,12 @@
   <WotF_Ritual_NeedsParticipants>This rite needs {0} bloodline helpers; {1} are chosen.</WotF_Ritual_NeedsParticipants>
   <WotF_Ritual_SpellbookUpgrade_Done>Spellbook upgrade complete: {0} lies beside the altar.</WotF_Ritual_SpellbookUpgrade_Done>
   <WotF_Ritual_SpellbookUpgrade_NoRoom>There is no room beside the altar for the upgraded spellbook.</WotF_Ritual_SpellbookUpgrade_NoRoom>
-  <WotF_Ritual_RuneRequirements>Tier {0} / {1}×{1} circle / {2} mana / {3} ticks</WotF_Ritual_RuneRequirements>
   <WotF_Ritual_WorkRequirements>Tier {0} / {1}×{1} circle / {2} mana / {3} work</WotF_Ritual_WorkRequirements>
-  <WotF_Ritual_SustainedRequirements>Tier {0} / {1}×{1} circle / {2} mana + {3}/strike / {4} ticks</WotF_Ritual_SustainedRequirements>
   <WotF_Ritual_Chalk_White>white chalk</WotF_Ritual_Chalk_White>
   <WotF_Ritual_Chalk_Green>green chalk</WotF_Ritual_Chalk_Green>
   <WotF_Ritual_Chalk_Star>star chalk</WotF_Ritual_Chalk_Star>
 
-  <!-- The three altar buttons -->
-  <WotF_Ritual_Gizmo_Codex>Ritual codex</WotF_Ritual_Gizmo_Codex>
-  <WotF_Ritual_Gizmo_CodexDesc>Browse every rite by circle family, its circle shape, and the chalk cells an upgrade still needs.</WotF_Ritual_Gizmo_CodexDesc>
+  <!-- Altar buttons -->
   <WotF_Ritual_Gizmo_Host>Host a rite…</WotF_Ritual_Gizmo_Host>
   <WotF_Ritual_Gizmo_HostDesc>Choose the rite, the circle, the host and the helpers. Prepare has haulers bring the offerings into the altar; the rite can begin once all are inside, and the fee is taken when the chant completes.</WotF_Ritual_Gizmo_HostDesc>
   <WotF_Ritual_Gizmo_Auto>Auto-transmute</WotF_Ritual_Gizmo_Auto>
@@ -123,14 +119,7 @@
   <WotF_Ritual_HelperDrafted>Helper {0} is drafted.</WotF_Ritual_HelperDrafted>
   <WotF_Ritual_Complete_OfferingsGone>The altar was short of offerings when the chant completed: {0}. This rite spent no mana and no offerings.</WotF_Ritual_Complete_OfferingsGone>
   <WotF_Ritual_Complete_NoMana>The network was short of mana when the chant completed ({1} / needs {0}). This rite spent no mana and no offerings.</WotF_Ritual_Complete_NoMana>
-
-  <!-- Ritual codex -->
-  <WotF_Ritual_CodexEmpty>No rite is defined yet.</WotF_Ritual_CodexEmpty>
   <WotF_Ritual_CodexRing>{0}×{0} {1}</WotF_Ritual_CodexRing>
-  <WotF_Ritual_CodexThisRite>this rite</WotF_Ritual_CodexThisRite>
-  <WotF_Ritual_CodexUpgrade>{0} cells to add on upgrade</WotF_Ritual_CodexUpgrade>
-  <WotF_Ritual_CodexUndecided>undecided</WotF_Ritual_CodexUndecided>
-  <WotF_Ritual_CodexLegend>Each frame is one chalk ring: the outer ring is what an upgrade adds, the inner rings are kept so lower rites still run. The per-family cell pattern is not decided yet, so the frames stand in for it.</WotF_Ritual_CodexLegend>
 
   <!-- Equipment inscription -->
   <WotF_Ritual_ChooseEquipment>Choose a weapon or a piece of armour beside the altar to inscribe.</WotF_Ritual_ChooseEquipment>

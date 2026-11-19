@@ -69,16 +69,12 @@
   <WotF_Ritual_NeedsParticipants>这场仪式需要 {0} 名林庭血脉协力者，目前只有 {1} 名。</WotF_Ritual_NeedsParticipants>
   <WotF_Ritual_SpellbookUpgrade_Done>魔术书升阶完成：{0} 已放在祭坛旁。</WotF_Ritual_SpellbookUpgrade_Done>
   <WotF_Ritual_SpellbookUpgrade_NoRoom>祭坛旁没有空间放置升阶后的魔术书。</WotF_Ritual_SpellbookUpgrade_NoRoom>
-  <WotF_Ritual_RuneRequirements>{0} 阶 / {1}×{1} 法阵 / 魔源 {2} / 工时 {3} tick</WotF_Ritual_RuneRequirements>
   <WotF_Ritual_WorkRequirements>{0} 阶 / {1}×{1} 法阵 / 魔源 {2} / 工作量 {3}</WotF_Ritual_WorkRequirements>
-  <WotF_Ritual_SustainedRequirements>{0} 阶 / {1}×{1} 法阵 / 启动魔源 {2}，每次落雷 {3} / 起手 {4} tick</WotF_Ritual_SustainedRequirements>
   <WotF_Ritual_Chalk_White>白垩</WotF_Ritual_Chalk_White>
   <WotF_Ritual_Chalk_Green>翠叶</WotF_Ritual_Chalk_Green>
   <WotF_Ritual_Chalk_Star>星辉</WotF_Ritual_Chalk_Star>
 
-  <!-- 三个祭坛按钮 -->
-  <WotF_Ritual_Gizmo_Codex>仪式图鉴</WotF_Ritual_Gizmo_Codex>
-  <WotF_Ritual_Gizmo_CodexDesc>查看各法阵族的仪式、法阵形状与升阶时需要补画的粉笔格。</WotF_Ritual_Gizmo_CodexDesc>
+  <!-- 祭坛按钮 -->
   <WotF_Ritual_Gizmo_Host>主持仪式…</WotF_Ritual_Gizmo_Host>
   <WotF_Ritual_Gizmo_HostDesc>选择仪式、法阵、主持人与协力者。点「准备」后搬运工把祭品送进祭坛，祭品齐了才能开始；吟唱圆满落定才扣费。</WotF_Ritual_Gizmo_HostDesc>
   <WotF_Ritual_Gizmo_Auto>自动点化</WotF_Ritual_Gizmo_Auto>
@@ -123,14 +119,7 @@
   <WotF_Ritual_HelperDrafted>协力者 {0} 处于征召状态。</WotF_Ritual_HelperDrafted>
   <WotF_Ritual_Complete_OfferingsGone>吟唱完成时祭坛里的祭品不足：{0}。本次仪式没有消耗任何魔源与祭品。</WotF_Ritual_Complete_OfferingsGone>
   <WotF_Ritual_Complete_NoMana>吟唱完成时网络魔源不足（{1} / 需要 {0}）。本次仪式没有消耗任何魔源与祭品。</WotF_Ritual_Complete_NoMana>
-
-  <!-- 仪式图鉴 -->
-  <WotF_Ritual_CodexEmpty>还没有定义任何仪式。</WotF_Ritual_CodexEmpty>
   <WotF_Ritual_CodexRing>{0}×{0} {1}</WotF_Ritual_CodexRing>
-  <WotF_Ritual_CodexThisRite>本仪式</WotF_Ritual_CodexThisRite>
-  <WotF_Ritual_CodexUpgrade>升阶需补 {0} 格</WotF_Ritual_CodexUpgrade>
-  <WotF_Ritual_CodexUndecided>未定</WotF_Ritual_CodexUndecided>
-  <WotF_Ritual_CodexLegend>每个方框是一圈粉笔环：外圈是升阶时要补画的格子，内圈保留即可继续举行低阶仪式。族内具体格位尚未定稿，暂以同心方框占位。</WotF_Ritual_CodexLegend>
 
   <!-- 武具注法 -->
   <WotF_Ritual_ChooseEquipment>请在祭坛周围选择要注法的武器或护甲。</WotF_Ritual_ChooseEquipment>

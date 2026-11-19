@@ -8,6 +8,7 @@
     <stuffCategories Inherit="False"><li>Stony</li></stuffCategories>
     <costStuffCount>30</costStuffCount>
     <costList><WoodLog>50</WoodLog></costList>
+    <researchPrerequisites><li>WotF_Research_AltarT1</li></researchPrerequisites>
     <comps>
       <li Class="WhisperOfTheForest.Rituals.CompProperties_RitualAltar">
         <tier>1</tier><linkRadius>12.9</linkRadius><resonanceStrengthStat>WotF_ResonanceStrength</resonanceStrengthStat>
@@ -28,6 +29,7 @@
     <stuffCategories Inherit="False"><li>Stony</li></stuffCategories>
     <costStuffCount>30</costStuffCount>
     <costList><WoodLog>40</WoodLog><WotF_LivingWood>40</WotF_LivingWood></costList>
+    <researchPrerequisites><li>WotF_Research_AltarT2</li></researchPrerequisites>
     <comps>
       <li Class="WhisperOfTheForest.Rituals.CompProperties_RitualAltar">
         <tier>2</tier><linkRadius>12.9</linkRadius><resonanceStrengthStat>WotF_ResonanceStrength</resonanceStrengthStat>
@@ -51,6 +53,7 @@
     <description>A third-tier altar centered on an engineering-station resonance core recovered from ancient ruins. It transmutes adamantine and mithril and supports all three tiers of rites.</description>
     <graphicData><texPath>Buildings/RitualAltarStarlightPlaceholder</texPath></graphicData>
     <costList><WotF_LivingWood>60</WotF_LivingWood><WotF_ElvenSteel>40</WotF_ElvenSteel><WotF_EngineeringResonanceCore>1</WotF_EngineeringResonanceCore></costList>
+    <researchPrerequisites><li>WotF_Research_AltarT3</li></researchPrerequisites>
     <comps>
       <li Class="WhisperOfTheForest.Rituals.CompProperties_RitualAltar">
         <tier>3</tier><linkRadius>12.9</linkRadius><resonanceStrengthStat>WotF_ResonanceStrength</resonanceStrengthStat>

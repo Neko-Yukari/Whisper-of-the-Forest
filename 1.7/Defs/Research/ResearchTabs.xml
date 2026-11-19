@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ResearchTabDef>
+    <defName>WotF_GroveRites</defName>
+    <label>Grove Rites</label>
+    <generalTitle>Grove Rites</generalTitle>
+    <generalDescription>Progressive research for forest chalk rituals, altar tiers, and transmuted materials. Unlock higher altar tiers along the main path to open their corresponding rites.</generalDescription>
+  </ResearchTabDef>
+</Defs>

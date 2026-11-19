@@ -16,5 +16,6 @@
     <shieldDurationTicks>60000</shieldDurationTicks>
     <shieldVfxDef>WotF_Vfx_ShieldDome</shieldVfxDef>
     <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_ShieldDome</effectWorkerClass>
+    <researchPrerequisite>WotF_Research_Ritual_ShieldDome</researchPrerequisite>
   </WhisperOfTheForest.Rituals.RitualDef>
 </Defs>

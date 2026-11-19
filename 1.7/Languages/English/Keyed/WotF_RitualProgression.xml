@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <WotF_Ritual_TierRequired>This rite requires an altar of tier {0} or higher.</WotF_Ritual_TierRequired>
+  <WotF_Ritual_ResearchRequired>Requires research: {0}.</WotF_Ritual_ResearchRequired>
   <WotF_Ritual_RitualStrength>Ritual strength: {0}</WotF_Ritual_RitualStrength>
   <WotF_Ritual_ResonanceStrength>Resonance strength: {0} (×{1})</WotF_Ritual_ResonanceStrength>
-  <WotF_Ritual_TierFamily>Altar tier: {0}; circle family: {1}</WotF_Ritual_TierFamily>
-  <WotF_Ritual_Family_Crafting>Shaping and craft</WotF_Ritual_Family_Crafting>
-  <WotF_Ritual_Family_Life>Life and spirit</WotF_Ritual_Family_Life>
-  <WotF_Ritual_Family_Domain>Domain and sky</WotF_Ritual_Family_Domain>
   <WotF_Ritual_StrengthScaled>Effects increase with ritual strength.</WotF_Ritual_StrengthScaled>
   <WotF_Ritual_StrengthSpeed>Progress speed increases with ritual strength.</WotF_Ritual_StrengthSpeed>
   <WotF_Ritual_StrengthFixed>Fixed effect; no ritual strength bonus.</WotF_Ritual_StrengthFixed>

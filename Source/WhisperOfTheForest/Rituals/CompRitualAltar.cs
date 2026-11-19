@@ -156,7 +156,7 @@ namespace WhisperOfTheForest.Rituals
         public void SetSelectedRitual(RitualDef def, SpellGlyphDef rune = null, Building teleportTarget = null,
             Thing equipment = null, int bookSlot = -1, QuestScriptDef ruinQuest = null)
         {
-            if (def == null)
+            if (def == null || !def.IsResearchFinished)
             {
                 ClearSelection();
                 return;
@@ -182,9 +182,14 @@ namespace WhisperOfTheForest.Rituals
 
         private bool SupportsRitual(RitualDef def)
         {
-            foreach (RitualDef candidate in Rituals)
+            if (def == null || def.tier > Props.tier)
             {
-                if (candidate == def)
+                return false;
+            }
+
+            for (int i = 0; i < Props.ritualDefNames.Count; i++)
+            {
+                if (Props.ritualDefNames[i] == def.defName)
                 {
                     return true;
                 }
@@ -291,7 +296,7 @@ namespace WhisperOfTheForest.Rituals
         public void SetAutoRitual(RitualDef def)
         {
             RitualDef previous = autoRitual;
-            autoRitual = def != null && def.autoRepeatable ? def : null;
+            autoRitual = def != null && def.autoRepeatable && def.IsResearchFinished ? def : null;
             if (IsActive || autoRitual == previous)
             {
                 return;
@@ -310,7 +315,7 @@ namespace WhisperOfTheForest.Rituals
         /// <summary>Whether the panel's [准备] may collect for this rite: it has offerings and is not already collecting.</summary>
         public bool CanPrepare(RitualDef def, SpellGlyphDef rune)
         {
-            return def != null && !IsActive && (!def.chooseRune || rune != null)
+            return def != null && def.IsResearchFinished && !IsActive && (!def.chooseRune || rune != null)
                 && RitualCosts(def, rune).Count > 0 && !IsPreparedFor(def, rune);
         }
 
@@ -326,6 +331,10 @@ namespace WhisperOfTheForest.Rituals
 
         private void Prepare(RitualDef def, SpellGlyphDef rune, bool select)
         {
+            if (def == null || !def.IsResearchFinished)
+            {
+                return;
+            }
             if (select && (selectedDef != def || selectedRune != rune))
             {
                 SetSelectedRitual(def, rune);
@@ -454,7 +463,7 @@ namespace WhisperOfTheForest.Rituals
                 for (int i = 0; i < Props.ritualDefNames.Count; i++)
                 {
                     RitualDef def = DefDatabase<RitualDef>.GetNamedSilentFail(Props.ritualDefNames[i]);
-                    if (def != null && def.tier <= Props.tier)
+                    if (def != null && def.tier <= Props.tier && def.IsResearchFinished)
                     {
                         yield return def;
                     }
@@ -569,6 +578,16 @@ namespace WhisperOfTheForest.Rituals
             {
                 VerifyRitual();
                 return;
+            }
+
+            if (autoRitual != null && !autoRitual.IsResearchFinished)
+            {
+                if (IsPreparedFor(autoRitual, null))
+                {
+                    StopCollecting();
+                }
+
+                autoRitual = null;
             }
 
             if (autoRitual != null && collectDef == null)
@@ -766,7 +785,6 @@ namespace WhisperOfTheForest.Rituals
                 yield break;
             }
 
-            yield return CodexGizmo();
             yield return HostGizmo();
             yield return AutoRitualGizmo();
         }
@@ -824,17 +842,6 @@ namespace WhisperOfTheForest.Rituals
             return autoRitual == null
                 ? text
                 : text + "\n" + "WotF_Ritual_AutoRepeat_Current".Translate(autoRitual.LabelCap);
-        }
-
-        private Gizmo CodexGizmo()
-        {
-            return new Command_Action
-            {
-                defaultLabel = "WotF_Ritual_Gizmo_Codex".Translate(),
-                defaultDesc = "WotF_Ritual_Gizmo_CodexDesc".Translate(),
-                icon = RitualIcons.Codex,
-                action = delegate { Find.WindowStack.Add(new Window_RitualCodex(this)); }
-            };
         }
 
         private Gizmo HostGizmo()
@@ -988,7 +995,7 @@ namespace WhisperOfTheForest.Rituals
         /// </summary>
         public RitualRequest SelectedRequest(Pawn host)
         {
-            if (selectedDef == null)
+            if (selectedDef == null || !selectedDef.IsResearchFinished)
             {
                 return null;
             }
@@ -1012,8 +1019,8 @@ namespace WhisperOfTheForest.Rituals
         /// </summary>
         public RitualRequest DirectRequest(RitualDef def, Pawn host)
         {
-            if (def.chooseTeleportTarget || def.chooseEquipment || def.chooseRuinType
-                || (def.chooseRune && collectDef != def))
+            if (def == null || !def.IsResearchFinished || def.chooseTeleportTarget || def.chooseEquipment
+                || def.chooseRuinType || (def.chooseRune && collectDef != def))
             {
                 return null;
             }
@@ -1550,6 +1557,11 @@ namespace WhisperOfTheForest.Rituals
             if (def.tier > Props.tier)
             {
                 result.Problems.Add(string.Format("WotF_Ritual_TierRequired".Translate(), def.tier));
+            }
+
+            if (!def.IsResearchFinished)
+            {
+                result.Problems.Add(string.Format("WotF_Ritual_ResearchRequired".Translate(), def.researchPrerequisite.LabelCap));
             }
 
             if (def.chooseRune)

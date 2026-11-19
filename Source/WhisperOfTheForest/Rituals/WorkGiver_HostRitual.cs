@@ -22,7 +22,7 @@ namespace WhisperOfTheForest.Rituals
             for (int i = 0; i < buildings.Count; i++)
             {
                 CompRitualAltar altar = buildings[i].TryGetComp<CompRitualAltar>();
-                if (altar != null && altar.AutoRitual != null && !altar.IsActive)
+                if (altar != null && altar.AutoRitual != null && altar.AutoRitual.IsResearchFinished && !altar.IsActive)
                 {
                     yield return buildings[i];
                 }
@@ -42,7 +42,7 @@ namespace WhisperOfTheForest.Rituals
         public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
         {
             CompRitualAltar altar = t.TryGetComp<CompRitualAltar>();
-            if (altar == null || altar.AutoRitual == null || altar.IsActive)
+            if (altar == null || altar.AutoRitual == null || !altar.AutoRitual.IsResearchFinished || altar.IsActive)
             {
                 return false;
             }
