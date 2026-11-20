@@ -108,19 +108,18 @@ namespace WhisperOfTheForest.Rituals
 
                 using (TechLabDrawScope.Begin())
                 {
-                    RitualPanelStyle.DrawBox(inRect, RitualPanelStyle.PopoverBg,
-                        RitualPanelStyle.CoverBorder, 1);
+                    RitualPanelStyle.DrawCoverBackdrop(inRect);
 
-                    Rect headerRect = new Rect(Pad, Pad, inRect.width - Pad * 2f, HeaderHeight);
+                    Rect headerRect = new Rect(Pad + 2f, Pad, inRect.width - (Pad + 2f) * 2f, HeaderHeight);
                     string title = (ForHost
                         ? "WotF_RitualPanel_PickHostTitle"
                         : "WotF_RitualPanel_PickHelperTitle").Translate();
                     RitualPanelStyle.DrawLabel(new Rect(headerRect.x, headerRect.y, headerRect.width - 24f, HeaderHeight),
-                        title, GameFont.Small, RitualPanelStyle.TitleCream, TextAnchor.MiddleLeft);
+                        title, GameFont.Small, RitualPanelStyle.CoverGold, TextAnchor.MiddleLeft);
 
                     Rect closeRect = new Rect(headerRect.xMax - 20f, headerRect.y + 4f, 20f, 20f);
                     RitualPanelStyle.DrawIcon(closeRect.ContractedBy(3f), TexButton.CloseXSmall,
-                        Mouse.IsOver(closeRect) ? Color.white : RitualPanelStyle.TextSubtle);
+                        Mouse.IsOver(closeRect) ? RitualPanelStyle.CoverGold : RitualPanelStyle.CoverTextDim);
                     if (Widgets.ButtonInvisible(closeRect, doMouseoverSound: true))
                     {
                         Close(doCloseSound: false);
@@ -128,18 +127,17 @@ namespace WhisperOfTheForest.Rituals
                     }
 
                     Widgets.DrawBoxSolid(
-                        new Rect(Pad, headerRect.yMax, inRect.width - Pad * 2f, 1f),
-                        RitualPanelStyle.SepColor);
+                        new Rect(Pad + 2f, headerRect.yMax, inRect.width - (Pad + 2f) * 2f, 1f),
+                        RitualPanelStyle.CoverRim);
 
-                    Rect listOuter = new Rect(Pad, headerRect.yMax + 6f, inRect.width - Pad * 2f,
-                        inRect.height - (headerRect.yMax + 6f) - Pad);
+                    Rect listOuter = new Rect(Pad + 2f, headerRect.yMax + 6f, inRect.width - (Pad + 2f) * 2f,
+                        inRect.height - (headerRect.yMax + 6f) - Pad - 2f);
 
                     List<Pawn> candidates = parentWindow.BloodlinePawns();
                     if (candidates.Count == 0)
                     {
-                        RitualPanelStyle.DrawLabel(listOuter, "WotF_Ritual_NoCaster".Translate(),
-                            GameFont.Small, RitualPanelStyle.TextMuted, TextAnchor.MiddleCenter,
-                            ellipsis: false);
+                        RitualPanelStyle.DrawWrappedLabel(listOuter, "WotF_Ritual_NoCaster".Translate(),
+                            GameFont.Small, RitualPanelStyle.CoverTextDim, TextAnchor.MiddleCenter);
                         return;
                     }
 
@@ -175,8 +173,8 @@ namespace WhisperOfTheForest.Rituals
                 Color border;
                 if (isCurrent)
                 {
-                    fill = RitualPanelStyle.CardSelBg;
-                    border = RitualPanelStyle.CardSelBorder;
+                    fill = RitualPanelStyle.PopoverRowSelBg;
+                    border = RitualPanelStyle.CoverBorder;
                 }
                 else if (inOtherRole)
                 {
@@ -185,29 +183,30 @@ namespace WhisperOfTheForest.Rituals
                 }
                 else if (!eligible)
                 {
-                    fill = RitualPanelStyle.CardLockedBg;
-                    border = RitualPanelStyle.CardLockedBorder;
+                    fill = RitualPanelStyle.PopoverRowLockedBg;
+                    border = RitualPanelStyle.PopoverBorder;
                 }
                 else
                 {
                     fill = over ? RitualPanelStyle.PopoverRowHoverBg : RitualPanelStyle.PopoverRowBg;
-                    border = over ? RitualPanelStyle.CardHoverBorder : RitualPanelStyle.CardBorder;
+                    border = over ? RitualPanelStyle.CoverBorder : RitualPanelStyle.PopoverBorder;
                 }
 
-                RitualPanelStyle.DrawBox(rowRect, fill, border, 1);
+                RitualPanelStyle.DrawPanel(rowRect, fill);
+                RitualPanelStyle.DrawBox(rowRect, Color.clear, border, 1);
 
                 Rect checkRect = new Rect(rowRect.x + 8f, rowRect.center.y - 8f, 16f, 16f);
                 Texture2D checkTex = ForHost
                     ? (isCurrent ? RitualPanelStyle.RadioOn : RitualPanelStyle.RadioOff)
                     : (isCurrent ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex);
-                Color checkTint = !eligible ? RitualPanelStyle.TextMuted
-                    : isCurrent ? RitualPanelStyle.OkGreen
-                    : RitualPanelStyle.TextSubtle;
+                Color checkTint = !eligible ? RitualPanelStyle.CoverTextDim
+                    : isCurrent ? RitualPanelStyle.PopoverOkGreen
+                    : RitualPanelStyle.CoverTextDim;
                 RitualPanelStyle.DrawIcon(checkRect, checkTex, checkTint);
 
                 Rect portraitRect = new Rect(checkRect.xMax + 8f, rowRect.y + 4f, 36f, 36f);
                 RitualPanelStyle.DrawBox(portraitRect, RitualPanelStyle.PortraitBg,
-                    RitualPanelStyle.CardBorder, 1);
+                    RitualPanelStyle.PopoverBorder, 1);
                 RitualPanelStyle.DrawPawnPortrait(portraitRect.ContractedBy(1f), pawn, new Vector2(34f, 34f));
 
                 string tagText = null;
@@ -217,9 +216,9 @@ namespace WhisperOfTheForest.Rituals
                 if (!eligible)
                 {
                     tagText = ineligibleReason;
-                    tagBg = new Color(0.28f, 0.12f, 0.11f, 0.85f);
-                    tagBorder = RitualPanelStyle.WarnBorder;
-                    tagColor = RitualPanelStyle.WarnRed;
+                    tagBg = RitualPanelStyle.PopoverWarnBg;
+                    tagBorder = RitualPanelStyle.RubricRed;
+                    tagColor = RitualPanelStyle.PopoverWarnText;
                 }
                 else if (inOtherRole)
                 {
@@ -245,7 +244,7 @@ namespace WhisperOfTheForest.Rituals
                 float infoW = Mathf.Max(40f, rowRect.xMax - infoX - (tagW > 0f ? tagW + 14f : 8f));
                 RitualPanelStyle.DrawLabel(new Rect(infoX, rowRect.y + 4f, infoW, 18f),
                     pawn.LabelShortCap, GameFont.Small,
-                    eligible ? RitualPanelStyle.TitleCream : RitualPanelStyle.TextMuted,
+                    eligible ? RitualPanelStyle.CoverText : RitualPanelStyle.CoverTextDim,
                     TextAnchor.MiddleLeft);
 
                 float level = Gene_ForestBloodline.Get(pawn)?.Level ?? 0f;
@@ -253,7 +252,7 @@ namespace WhisperOfTheForest.Rituals
                     level.ToString("0.#"));
                 RitualPanelStyle.DrawLabel(new Rect(infoX, rowRect.y + 22f, infoW, 18f),
                     chantStr, GameFont.Tiny,
-                    eligible ? RitualPanelStyle.LevelTagText : RitualPanelStyle.TextMuted,
+                    eligible ? RitualPanelStyle.LevelTagText : RitualPanelStyle.CoverTextDim,
                     TextAnchor.MiddleLeft);
 
                 if (!eligible && !ineligibleReason.NullOrEmpty())

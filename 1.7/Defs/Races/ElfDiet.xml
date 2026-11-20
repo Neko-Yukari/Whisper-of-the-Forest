@@ -2,12 +2,27 @@
 <Defs>
 
   <!--
-    An elf eats what a human eats plus living plants (Elf.xml foodType OmnivoreHuman,Plant,Tree).
-    Eating anything whose ingestible.foodType is Plant or Tree (grass, bushes, trees, hay) leaves this
-    memory; Source/WhisperOfTheForest/Race/ForestDiet.cs adds it to vanilla's ingest thoughts.
+    An elf eats what a human eats plus living grasses and flowers (Elf.xml foodType OmnivoreHuman,Plant,
+    narrowed by WotF_ForestPlantDiet in ForestDiet.cs to exclude trees, harvestable crops, bushes and thorns).
+    Eating anything whose ingestible.foodType is Plant leaves this memory;
+    Source/WhisperOfTheForest/Race/ForestDiet.cs adds it to vanilla's ingest thoughts.
     Shape copied from vanilla AteRawFood (Core/Defs/ThoughtDefs/Thoughts_Memory_Eating.xml): same class,
     bubble, icon and one-day duration, milder mood (-4 against -7).
   -->
+  <WhisperOfTheForest.Race.ForestPlantDietDef>
+    <defName>WotF_ForestPlantDiet</defName>
+    <label>forest plant diet</label>
+    <!-- Tall grass has pathCost 14 and fillPercent 0; bushes/cacti/chokevine have pathCost 30-42 or fillPercent >= 0.20. -->
+    <maxPathCost>14</maxPathCost>
+    <maxFillPercent>0.19</maxFillPercent>
+    <excludedPlantDefNames>
+      <li>Plant_Brambles</li>
+      <li>Plant_ShrubLow</li>
+      <li>Plant_Ripthorn</li>
+      <li>Plant_Thornvine</li>
+    </excludedPlantDefNames>
+  </WhisperOfTheForest.Race.ForestPlantDietDef>
+
   <ThoughtDef>
     <defName>WotF_AtePlant</defName>
     <thoughtClass>Thought_FoodEaten</thoughtClass>

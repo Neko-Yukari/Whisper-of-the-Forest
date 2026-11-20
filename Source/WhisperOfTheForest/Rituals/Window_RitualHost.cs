@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using RimWorld;
+using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 using WhisperOfTheForest.Race;
@@ -38,6 +39,7 @@ namespace WhisperOfTheForest.Rituals
         private RitualAssessment assessment;
         private bool dirty = true;
         private int assessedTick = -9999;
+        private float assessedRealTime = -9999f;
 
         private Vector2 leftScroll;
         private Vector2 rightScroll;
@@ -189,6 +191,42 @@ namespace WhisperOfTheForest.Rituals
             }
         }
 
+        public override void WindowUpdate()
+        {
+            base.WindowUpdate();
+            if (altar?.parent == null || !altar.parent.Spawned || altar.parent.Map != Find.CurrentMap
+                || !WorldRendererUtility.DrawingMap || Find.ScreenshotModeHandler.Active)
+            {
+                return;
+            }
+
+            RefreshFrameState();
+
+            if (altar.IsActive || selected == null || assessment == null || assessment.MissingCells.Count == 0)
+            {
+                return;
+            }
+
+            Map map = altar.parent.Map;
+            Material mat = RitualPanelStyle.ChalkPreviewMaterial(assessment.ChalkColor);
+            if (mat == null)
+            {
+                return;
+            }
+
+            for (int i = 0; i < assessment.MissingCells.Count; i++)
+            {
+                IntVec3 cell = assessment.MissingCells[i];
+                if (!cell.InBounds(map) || cell.Fogged(map))
+                {
+                    continue;
+                }
+
+                Vector3 pos = cell.ToVector3ShiftedWithAltitude(AltitudeLayer.MetaOverlays);
+                Graphics.DrawMesh(MeshPool.plane10, pos, Quaternion.identity, mat, 0);
+            }
+        }
+
         public override void DoWindowContents(Rect inRect)
         {
             if (altar == null || altar.parent == null || !altar.parent.Spawned)
@@ -200,11 +238,6 @@ namespace WhisperOfTheForest.Rituals
             using (TechLabDrawScope.Begin())
             {
                 RefreshFrameState();
-
-                if (!altar.IsActive && selected != null && assessment != null && assessment.MissingCells.Count > 0)
-                {
-                    GenDraw.DrawFieldEdges(assessment.MissingCells);
-                }
 
                 RitualPanelStyle.DrawBookSpread(inRect, 26f, out Rect headerRect, out Rect leftPageRect,
                     out Rect rightPageRect);
@@ -221,7 +254,7 @@ namespace WhisperOfTheForest.Rituals
                 new Rect(rect.x + 4f, rect.y, rect.width - 34f, rect.height),
                 "WotF_RitualPanel_Title".Translate(),
                 GameFont.Medium,
-                RitualPanelStyle.TitleCream,
+                RitualPanelStyle.CoverGold,
                 TextAnchor.MiddleLeft);
 
             Rect closeRect = new Rect(rect.xMax - 24f, rect.y + (rect.height - 24f) * 0.5f, 24f, 24f);
@@ -234,7 +267,7 @@ namespace WhisperOfTheForest.Rituals
             RitualPanelStyle.DrawIcon(
                 closeRect.ContractedBy(4f),
                 TexButton.CloseXSmall,
-                overClose ? Color.white : RitualPanelStyle.TextSubtle);
+                overClose ? RitualPanelStyle.CoverGold : RitualPanelStyle.CoverTextDim);
             TooltipHandler.TipRegion(closeRect, "CloseButton".Translate());
             if (Widgets.ButtonInvisible(closeRect, doMouseoverSound: true))
             {
@@ -246,7 +279,8 @@ namespace WhisperOfTheForest.Rituals
         {
             PruneSelectedRoster();
             int now = Find.TickManager.TicksGame;
-            if (!dirty && assessment != null && now - assessedTick <= 15)
+            float realNow = Time.realtimeSinceStartup;
+            if (!dirty && assessment != null && now - assessedTick <= 15 && realNow - assessedRealTime <= 0.25f)
             {
                 return;
             }
@@ -260,6 +294,7 @@ namespace WhisperOfTheForest.Rituals
             RefreshMissingMapMaterials();
             assessment = altar.Assess(BuildRequest());
             assessedTick = now;
+            assessedRealTime = realNow;
             dirty = false;
         }
 

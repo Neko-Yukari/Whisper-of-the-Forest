@@ -14,22 +14,34 @@ namespace WhisperOfTheForest.Rituals
         {
             if (selected == null)
             {
-                RitualPanelStyle.DrawLabel(pageRect, "WotF_RitualPanel_NoResearched".Translate(),
-                    GameFont.Small, RitualPanelStyle.TextMuted, TextAnchor.MiddleCenter, ellipsis: false);
+                RitualPanelStyle.DrawWrappedLabel(pageRect, "WotF_RitualPanel_NoResearched".Translate(),
+                    GameFont.Small, RitualPanelStyle.InkMuted, TextAnchor.MiddleCenter);
                 return;
             }
 
-            Rect inner = pageRect.ContractedBy(14f, 12f);
+            Rect inner = pageRect.ContractedBy(20f, 34f);
 
-            const float heroHeight = 136f;
-            const float footerHeight = 72f;
-            const float metricsHeight = 68f;
+            const float titleHeight = 26f;
+            const float dividerHeight = 10f;
+            const float heroHeight = 126f;
+            const float footerHeight = 70f;
+            const float metricsHeight = 72f;
 
-            Rect heroRect = new Rect(inner.x, inner.y, inner.width, heroHeight);
+            // Editorial header + botanical divider
+            Rect titleRect = new Rect(inner.x, inner.y, inner.width, titleHeight);
+            RitualPanelStyle.DrawLabel(titleRect, selected.LabelCap, GameFont.Medium,
+                RitualPanelStyle.InkPrimary, TextAnchor.MiddleCenter, ellipsis: true);
+
+            float divW = inner.width * 0.78f;
+            Rect divRect = new Rect(inner.center.x - divW * 0.5f, titleRect.yMax + 1f, divW, dividerHeight);
+            RitualPanelStyle.DrawIcon(divRect, RitualPanelStyle.Divider, Color.white);
+
+            float heroTop = divRect.yMax + 4f;
+            Rect heroRect = new Rect(inner.x, heroTop, inner.width, heroHeight);
             Rect footerRect = new Rect(inner.x, inner.yMax - footerHeight, inner.width, footerHeight);
             Rect metricsRect = new Rect(inner.x, footerRect.y - metricsHeight - 8f, inner.width, metricsHeight);
             Rect middleRect = new Rect(inner.x, heroRect.yMax + 6f, inner.width,
-                metricsRect.y - (heroRect.yMax + 6f) - 8f);
+                Mathf.Max(60f, metricsRect.y - (heroRect.yMax + 6f) - 8f));
 
             DrawFormationHero(heroRect);
             DrawRightScrollBody(middleRect);
@@ -41,77 +53,95 @@ namespace WhisperOfTheForest.Rituals
         {
             const float boardSize = 122f;
             Rect boardRect = new Rect(
-                Mathf.Round(rect.center.x - boardSize * 0.5f),
-                rect.y + 6f,
+                rect.x,
+                rect.y + Mathf.Floor((rect.height - boardSize) * 0.5f),
                 boardSize,
                 boardSize);
-
-            if (RitualPanelStyle.HeroGlow != null)
-            {
-                Rect glowRect = boardRect.ExpandedBy(42f, 18f);
-                RitualPanelStyle.DrawIcon(glowRect, RitualPanelStyle.HeroGlow, RitualPanelStyle.HeroGlowTint);
-            }
 
             int ringSize = assessment != null && assessment.RingSize > 0 ? assessment.RingSize : selected.ringSize;
             ChalkColor chalk = assessment != null && assessment.RingSize > 0 ? assessment.ChalkColor : selected.chalkColor;
             DrawChalkBoard(boardRect, ringSize, chalk);
 
+            // Structured rubricated metadata stack beside the calibration slate
+            float metaX = boardRect.xMax + 14f;
+            float metaW = Mathf.Max(80f, rect.xMax - metaX);
+            float y = boardRect.y + 4f;
+
+            // Row 1: Family crest + label on left, Tier badge on right
+            Color famColor = RitualPanelStyle.FamilyColor(selected.family);
+            string famLabel = RitualPanelStyle.FamilyLabel(selected.family);
             bool tierLocked = !altar.SupportsRitual(selected);
             string tierText = string.Format("WotF_RitualPanel_TierCallout".Translate(), selected.tier);
-            Color tierColor = tierLocked ? RitualPanelStyle.WarnRed : RitualPanelStyle.CalloutText;
+            float tierW = Mathf.Max(34f, Mathf.Ceil(RitualPanelStyle.CalcTextWidth(tierText, GameFont.Small)) + 12f);
 
-            // Top-left polyline: Tx (+ altar hint if tier locked)
-            Vector2 tlAnchor = new Vector2(boardRect.x, boardRect.y + 22f);
-            Vector2 tlElbow = new Vector2(boardRect.x - 18f, boardRect.y + 10f);
-            float tlLabelEnd = Mathf.Max(rect.x + 12f, tlElbow.x - 78f);
-            DrawCalloutPolyline(tlAnchor, tlElbow, tlLabelEnd);
-            Rect tlRect = new Rect(rect.x, tlElbow.y - 20f, tlElbow.x - rect.x - 4f, 20f);
-            RitualPanelStyle.DrawLabel(tlRect, tierText, GameFont.Small, tierColor, TextAnchor.LowerRight);
+            Rect tierRect = new Rect(rect.xMax - tierW, y, tierW, 20f);
+            Color tierBg = tierLocked
+                ? RitualPanelStyle.SealMissingBg
+                : new Color(0.24f, 0.19f, 0.13f, 0.85f);
+            RitualPanelStyle.DrawBox(tierRect, tierBg, RitualPanelStyle.Darken(tierBg, 0.25f), 1);
+            RitualPanelStyle.DrawLabel(tierRect, tierText, GameFont.Small, RitualPanelStyle.SealText,
+                TextAnchor.MiddleCenter, ellipsis: false);
             if (tierLocked)
             {
                 string reqAltar = AltarDefForTier(selected.tier)?.LabelCap ?? ("T" + selected.tier);
-                TooltipHandler.TipRegion(tlRect,
+                TooltipHandler.TipRegion(tierRect,
                     string.Format("WotF_RitualPanel_TierLockedTip".Translate(), reqAltar, selected.tier));
             }
 
-            // Bottom-left polyline: minRitualStrength requirement (only when > 0)
+            Rect famIconRect = new Rect(metaX, y + 2f, 16f, 16f);
+            RitualPanelStyle.DrawIcon(famIconRect, RitualPanelStyle.FamilyIcon(selected.family), famColor);
+            RitualPanelStyle.DrawLabel(
+                new Rect(famIconRect.xMax + 6f, y, Mathf.Max(20f, tierRect.x - (famIconRect.xMax + 10f)), 20f),
+                famLabel, GameFont.Small, famColor, TextAnchor.MiddleLeft, ellipsis: true);
+            y += 24f;
+
+            RitualPanelStyle.DrawHairline(metaX, y, metaW);
+            y += 6f;
+
+            // Row 2: Chalk ring dimension & chalk type
+            int clampedSize = ringSize >= 3 ? ringSize : 3;
+            string ringSpec = string.Format("WotF_RitualPanel_RingTip".Translate(),
+                clampedSize, clampedSize, ChalkLabel(chalk));
+            RitualPanelStyle.DrawLabel(new Rect(metaX, y, metaW, 20f), ringSpec,
+                GameFont.Small, RitualPanelStyle.InkSecondary, TextAnchor.MiddleLeft, ellipsis: true);
+            y += 22f;
+
+            // Row 3 (optional): Minimum Ritual Strength R
             if (selected.minRitualStrength > 0f)
             {
                 bool strengthShort = assessment != null
                     && assessment.RitualStrength + 0.0001f < selected.minRitualStrength;
                 string minText = string.Format("WotF_RitualPanel_MinStrengthCallout".Translate(),
                     selected.minRitualStrength.ToString("0.#"));
-                Vector2 blAnchor = new Vector2(boardRect.x, boardRect.yMax - 22f);
-                Vector2 blElbow = new Vector2(boardRect.x - 18f, boardRect.yMax - 10f);
-                float blLabelEnd = Mathf.Max(rect.x + 12f, blElbow.x - 84f);
-                DrawCalloutPolyline(blAnchor, blElbow, blLabelEnd);
-                Rect blRect = new Rect(rect.x, blElbow.y + 2f, blElbow.x - rect.x - 4f, 20f);
-                RitualPanelStyle.DrawLabel(blRect, minText, GameFont.Small,
-                    strengthShort ? RitualPanelStyle.WarnRed : RitualPanelStyle.CalloutText,
-                    TextAnchor.UpperRight);
+                RitualPanelStyle.DrawLabel(new Rect(metaX, y, metaW, 20f), minText,
+                    GameFont.Small,
+                    strengthShort ? RitualPanelStyle.RubricRed : RitualPanelStyle.InkSecondary,
+                    TextAnchor.MiddleLeft, ellipsis: true);
+                y += 22f;
             }
 
-            // Right shallower polyline: ritual family icon + label
-            Vector2 rAnchor = new Vector2(boardRect.xMax, boardRect.y + 26f);
-            Vector2 rElbow = new Vector2(boardRect.xMax + 20f, boardRect.y + 18f);
-            float rLabelEnd = Mathf.Min(rect.xMax - 12f, rElbow.x + 86f);
-            DrawCalloutPolyline(rAnchor, rElbow, rLabelEnd);
-
-            Color famColor = RitualPanelStyle.FamilyColor(selected.family);
-            string famLabel = RitualPanelStyle.FamilyLabel(selected.family);
-            Rect rIconRect = new Rect(rElbow.x + 6f, rElbow.y - 20f, 16f, 16f);
-            RitualPanelStyle.DrawIcon(rIconRect, RitualPanelStyle.FamilyIcon(selected.family), famColor);
-            Rect rTextRect = new Rect(rIconRect.xMax + 5f, rElbow.y - 22f, rect.xMax - (rIconRect.xMax + 5f), 20f);
-            RitualPanelStyle.DrawLabel(rTextRect, famLabel, GameFont.Small, famColor, TextAnchor.MiddleLeft);
+            // Row 4: Live ring completeness status
+            if (assessment != null)
+            {
+                bool complete = assessment.MissingCells.Count == 0;
+                string ringStatus = complete
+                    ? "WotF_Ritual_RingComplete".Translate()
+                    : "WotF_Ritual_RingIncomplete".Translate(assessment.MissingCells.Count);
+                Color statusColor = complete ? RitualPanelStyle.BotanicalJade : RitualPanelStyle.RubricRed;
+                float remainH = Mathf.Max(20f, boardRect.yMax - y);
+                RitualPanelStyle.DrawWrappedLabel(new Rect(metaX, y, metaW, remainH),
+                    ringStatus, GameFont.Small, statusColor, TextAnchor.UpperLeft);
+            }
         }
 
         private void DrawChalkBoard(Rect boardRect, int ringSize, ChalkColor chalk)
         {
-            RitualPanelStyle.DrawBox(boardRect, RitualPanelStyle.BoardBg, RitualPanelStyle.BoardBorder, 1);
+            RitualPanelStyle.DrawPanel(boardRect, RitualPanelStyle.SlateBg);
+            RitualPanelStyle.DrawBox(boardRect, Color.clear, RitualPanelStyle.SlateBorder, 1);
 
             int clampedSize = ringSize >= 3 ? ringSize : 3;
             int radius = (clampedSize - 1) / 2;
-            const float pad = 6f;
+            const float pad = 7f;
             const float gap = 2f;
             float usable = boardRect.width - pad * 2f - gap * (clampedSize - 1);
             float cellSize = Mathf.Floor(usable / clampedSize);
@@ -120,13 +150,16 @@ namespace WhisperOfTheForest.Rituals
             float startY = Mathf.Round(boardRect.center.y - totalSpan * 0.5f);
 
             GetChalkColors(chalk, out Color chalkBg, out Color chalkBorder);
+            IntVec3 center = altar.parent.Position;
 
             for (int row = 0; row < clampedSize; row++)
             {
-                int dz = row - radius;
                 for (int col = 0; col < clampedSize; col++)
                 {
-                    int dx = col - radius;
+                    IntVec3 offset = RitualLayoutMath.DiagramOffset(row, col, radius);
+                    int dx = offset.x;
+                    int dz = offset.z;
+
                     Rect cellRect = new Rect(
                         startX + col * (cellSize + gap),
                         startY + row * (cellSize + gap),
@@ -148,12 +181,29 @@ namespace WhisperOfTheForest.Rituals
                     }
                     else if (isRing)
                     {
-                        RitualPanelStyle.DrawBox(cellRect, chalkBg, chalkBorder, 1);
+                        bool isMissing = assessment != null
+                            && assessment.MissingCells.Contains(center + offset);
+                        if (isMissing)
+                        {
+                            Color dimFill = Color.Lerp(RitualPanelStyle.SlateCellEmpty, chalkBg, 0.10f);
+                            Color dimBorder = new Color(chalkBorder.r, chalkBorder.g, chalkBorder.b, 0.24f);
+                            Color dimRune = new Color(chalkBg.r, chalkBg.g, chalkBg.b, 0.22f);
+                            RitualPanelStyle.DrawBox(cellRect, dimFill, dimBorder, 1);
+                            RitualPanelStyle.DrawIcon(cellRect.ContractedBy(1f),
+                                RitualPanelStyle.ChalkRuneCell, dimRune);
+                        }
+                        else
+                        {
+                            Color litFill = new Color(chalkBg.r, chalkBg.g, chalkBg.b, 0.22f);
+                            RitualPanelStyle.DrawBox(cellRect, litFill, chalkBorder, 1);
+                            RitualPanelStyle.DrawIcon(cellRect.ContractedBy(1f),
+                                RitualPanelStyle.ChalkRuneCell, chalkBg);
+                        }
                     }
                     else
                     {
-                        RitualPanelStyle.DrawBox(cellRect, RitualPanelStyle.BoardCellEmpty,
-                            RitualPanelStyle.BoardCellBorder, 1);
+                        RitualPanelStyle.DrawBox(cellRect, RitualPanelStyle.SlateCellEmpty,
+                            RitualPanelStyle.SlateCellEmptyBorder, 1);
                     }
                 }
             }
@@ -171,17 +221,6 @@ namespace WhisperOfTheForest.Rituals
             }
 
             TooltipHandler.TipRegion(boardRect, ringTip);
-        }
-
-        private static void DrawCalloutPolyline(Vector2 anchor, Vector2 elbow, float horizontalEndX)
-        {
-            Widgets.DrawLine(anchor, elbow, RitualPanelStyle.CalloutLine, 1f);
-            Widgets.DrawLine(elbow, new Vector2(horizontalEndX, elbow.y), RitualPanelStyle.CalloutLine, 1f);
-            if (RitualPanelStyle.Dot != null)
-            {
-                Rect dotRect = new Rect(anchor.x - 2.5f, anchor.y - 2.5f, 5f, 5f);
-                RitualPanelStyle.DrawIcon(dotRect, RitualPanelStyle.Dot, RitualPanelStyle.CalloutLine);
-            }
         }
 
         private static void GetChalkColors(ChalkColor chalk, out Color bg, out Color border)
@@ -225,23 +264,22 @@ namespace WhisperOfTheForest.Rituals
             Widgets.BeginScrollView(outerRect, ref rightScroll, viewRect);
             float y = 0f;
 
-            // Single-line / wrapped description
             string desc = selected.description;
             if (!desc.NullOrEmpty())
             {
                 float descH = Mathf.Max(20f, RitualPanelStyle.CalcTextHeight(desc, GameFont.Small, viewWidth));
-                RitualPanelStyle.DrawLabel(new Rect(0f, y, viewWidth, descH), desc, GameFont.Small,
-                    RitualPanelStyle.TextMain, TextAnchor.UpperLeft, ellipsis: false);
+                RitualPanelStyle.DrawWrappedLabel(new Rect(0f, y, viewWidth, descH), desc, GameFont.Small,
+                    RitualPanelStyle.InkPrimary, TextAnchor.UpperLeft);
                 y += descH + 8f;
             }
 
-            // Cost <-> Preparation progress block
+            // Cost <-> Preparation progress ledger
             y = DrawCostBlock(viewWidth, y);
 
             // Dynamic parameter section (rune / gate / ruin / equipment & spellbook)
             if (NeedsParamSection(selected))
             {
-                y += 8f;
+                y += 10f;
                 y = DrawParamSection(viewWidth, y);
             }
 
@@ -279,15 +317,14 @@ namespace WhisperOfTheForest.Rituals
                 ? Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(animAge / CostAnimDuration))
                 : 1f;
 
-            Color fromBg = showPrep ? RitualPanelStyle.CostBoxBg : RitualPanelStyle.PrepBoxBg;
-            Color toBg = showPrep ? RitualPanelStyle.PrepBoxBg : RitualPanelStyle.CostBoxBg;
-            Color fromBorder = showPrep ? RitualPanelStyle.CostBoxBorder : RitualPanelStyle.PrepBoxBorder;
-            Color toBorder = showPrep ? RitualPanelStyle.PrepBoxBorder : RitualPanelStyle.CostBoxBorder;
+            Color fromBg = showPrep ? RitualPanelStyle.CostLedgerBg : RitualPanelStyle.PrepLedgerBg;
+            Color toBg = showPrep ? RitualPanelStyle.PrepLedgerBg : RitualPanelStyle.CostLedgerBg;
+            Color fromBorder = showPrep ? RitualPanelStyle.LedgerBorder : RitualPanelStyle.LedgerPrepBorder;
+            Color toBorder = showPrep ? RitualPanelStyle.LedgerPrepBorder : RitualPanelStyle.LedgerBorder;
 
             Color boxBg = Color.Lerp(fromBg, toBg, t);
             Color boxBorder = Color.Lerp(fromBorder, toBorder, t);
 
-            // Pre-compute chip widths so box height adapts to wrapping cleanly
             const float padX = 10f;
             const float padY = 8f;
             const float headerH = 20f;
@@ -326,24 +363,26 @@ namespace WhisperOfTheForest.Rituals
 
             int rowCount = CountWrappedRows(chipWidths, innerWidth, chipGapX);
             float chipsTotalH = rowCount == 0 ? 0f : rowCount * chipH + (rowCount - 1) * chipGapY;
-            float totalH = padY * 2f + headerH + (chipsTotalH > 0f ? 4f + chipsTotalH : 0f);
+            float totalH = padY * 2f + headerH + (chipsTotalH > 0f ? 6f + chipsTotalH : 0f);
 
             Rect boxRect = new Rect(0f, startY, width, totalH);
-            RitualPanelStyle.DrawBox(boxRect, boxBg, boxBorder, 1);
+            RitualPanelStyle.DrawPanel(boxRect, boxBg);
+            RitualPanelStyle.DrawBox(boxRect, Color.clear, boxBorder, 1);
 
             string headerText = (showPrep
                 ? "WotF_RitualPanel_PrepHeader"
                 : "WotF_RitualPanel_CostHeader").Translate();
             float slideOffset = (1f - t) * 14f;
             Color headerColor = showPrep
-                ? Color.Lerp(RitualPanelStyle.TextSubtle, RitualPanelStyle.PrepGoldText, t)
-                : Color.Lerp(RitualPanelStyle.PrepGoldText, RitualPanelStyle.TextSubtle, t);
+                ? Color.Lerp(RitualPanelStyle.InkSecondary, RitualPanelStyle.AmberAccent, t)
+                : Color.Lerp(RitualPanelStyle.AmberAccent, RitualPanelStyle.InkSecondary, t);
             RitualPanelStyle.DrawLabel(
                 new Rect(padX + slideOffset, startY + padY, innerWidth - slideOffset, headerH),
                 headerText,
                 GameFont.Small,
                 headerColor,
-                TextAnchor.MiddleLeft);
+                TextAnchor.MiddleLeft,
+                ellipsis: false);
 
             if (rowCount == 0)
             {
@@ -351,7 +390,7 @@ namespace WhisperOfTheForest.Rituals
             }
 
             float cx = padX;
-            float cy = startY + padY + headerH + 4f;
+            float cy = startY + padY + headerH + 6f;
             int chipIdx = 0;
 
             if (hasMana)
@@ -359,14 +398,15 @@ namespace WhisperOfTheForest.Rituals
                 float w = chipWidths[chipIdx++];
                 Rect r = PlaceWrappedChip(padX, innerWidth, chipH, chipGapX, chipGapY, ref cx, ref cy, w);
                 bool manaShort = assessment != null && !assessment.ManaEnough;
-                Color bg = manaShort ? new Color(0.28f, 0.12f, 0.11f, 0.88f) : RitualPanelStyle.ChipBg;
-                Color br = manaShort ? RitualPanelStyle.WarnBorder : RitualPanelStyle.ManaBorder;
-                Color countC = manaShort ? RitualPanelStyle.WarnRed : RitualPanelStyle.ManaBlue;
+                Color bg = manaShort ? RitualPanelStyle.ChipWarnBg : RitualPanelStyle.ChipManaBg;
+                Color br = manaShort ? RitualPanelStyle.ChipWarnBorder : RitualPanelStyle.ChipManaBorder;
+                Color countC = manaShort ? RitualPanelStyle.RubricRed : RitualPanelStyle.CrystalBlue;
+                Color iconTint = manaShort ? RitualPanelStyle.PopoverWarnText : new Color(0.42f, 0.84f, 1f, 1f);
                 string storedStr = assessment != null ? assessment.ManaStored.ToString("0.#") : "0";
                 string manaTip = string.Format("WotF_RitualPanel_ManaTip".Translate(), storedStr, manaCountText);
                 RitualPanelStyle.DrawCostChip(r, RitualPanelStyle.ManaCrystal, null,
                     "WotF_RitualPanel_ManaLabel".Translate(), manaCountText,
-                    bg, br, RitualPanelStyle.TextMain, countC, manaTip);
+                    bg, br, RitualPanelStyle.InkPrimary, countC, manaTip, iconTint);
             }
 
             if (hasStrikeMana)
@@ -375,8 +415,9 @@ namespace WhisperOfTheForest.Rituals
                 Rect r = PlaceWrappedChip(padX, innerWidth, chipH, chipGapX, chipGapY, ref cx, ref cy, w);
                 RitualPanelStyle.DrawCostChip(r, RitualPanelStyle.ManaCrystal, null,
                     "WotF_RitualPanel_ManaPerStrikeLabel".Translate(), strikeCountText,
-                    RitualPanelStyle.ChipBg, RitualPanelStyle.ManaBorder,
-                    RitualPanelStyle.TextMain, RitualPanelStyle.ManaBlue);
+                    RitualPanelStyle.ChipManaBg, RitualPanelStyle.ChipManaBorder,
+                    RitualPanelStyle.InkPrimary, RitualPanelStyle.CrystalBlue,
+                    iconTint: new Color(0.42f, 0.84f, 1f, 1f));
             }
 
             for (int i = 0; i < lines.Count; i++)
@@ -389,28 +430,24 @@ namespace WhisperOfTheForest.Rituals
                 {
                     bool missing = line.Missing > 0;
                     string countStr = line.Delivered + "/" + line.Cost.count;
-                    Color bg = missing
-                        ? new Color(0.27f, 0.12f, 0.11f, 0.88f)
-                        : new Color(0.11f, 0.21f, 0.13f, 0.88f);
-                    Color br = missing ? RitualPanelStyle.WarnBorder : RitualPanelStyle.OkBorder;
-                    Color cc = missing ? RitualPanelStyle.WarnRed : RitualPanelStyle.OkText;
+                    Color bg = missing ? RitualPanelStyle.ChipWarnBg : RitualPanelStyle.ChipOkBg;
+                    Color br = missing ? RitualPanelStyle.ChipWarnBorder : RitualPanelStyle.ChipOkBorder;
+                    Color cc = missing ? RitualPanelStyle.RubricRed : RitualPanelStyle.BotanicalJade;
                     RitualPanelStyle.DrawOfferingChip(r, line.Cost, countStr,
-                        bg, br, RitualPanelStyle.TextMain, cc);
+                        bg, br, RitualPanelStyle.InkPrimary, cc);
                 }
                 else
                 {
                     int available = CountCostAvailableOnMapAndAltar(line.Cost);
                     bool missingOnMap = available < line.Cost.count;
-                    Color bg = missingOnMap
-                        ? new Color(0.25f, 0.12f, 0.11f, 0.82f)
-                        : RitualPanelStyle.ChipBg;
-                    Color br = missingOnMap ? RitualPanelStyle.WarnBorder : RitualPanelStyle.ChipBorder;
-                    Color cc = missingOnMap ? RitualPanelStyle.WarnRed : RitualPanelStyle.TitleCream;
+                    Color bg = missingOnMap ? RitualPanelStyle.ChipWarnBg : RitualPanelStyle.ChipBg;
+                    Color br = missingOnMap ? RitualPanelStyle.ChipWarnBorder : RitualPanelStyle.ChipBorder;
+                    Color cc = missingOnMap ? RitualPanelStyle.RubricRed : RitualPanelStyle.InkPrimary;
                     string tip = missingOnMap
                         ? string.Format("WotF_RitualPanel_CostMissingTip".Translate(), available, line.Cost.count)
                         : null;
                     RitualPanelStyle.DrawOfferingChip(r, line.Cost, "×" + line.Cost.count,
-                        bg, br, RitualPanelStyle.TextMain, cc, tip);
+                        bg, br, RitualPanelStyle.InkPrimary, cc, tip);
                 }
             }
 
@@ -458,10 +495,10 @@ namespace WhisperOfTheForest.Rituals
 
         private static float MeasureChipWidth(string label, string countText, float maxWidth)
         {
-            float textW = RitualPanelStyle.CalcTextWidth(label, GameFont.Small);
-            float countW = RitualPanelStyle.CalcTextWidth(countText, GameFont.Small);
-            float w = 5f + 24f + 6f + textW + 5f + countW + 10f;
-            return Mathf.Clamp(w, 86f, maxWidth);
+            float rawLabelW = !label.NullOrEmpty() ? RitualPanelStyle.CalcTextWidth(label, GameFont.Small) : 0f;
+            bool hasCount = !countText.NullOrEmpty();
+            float rawCountW = hasCount ? RitualPanelStyle.CalcTextWidth(countText, GameFont.Small) : 0f;
+            return RitualLayoutMath.MeasureChipWidth(rawLabelW, rawCountW, hasCount, maxWidth);
         }
 
         private static int CountWrappedRows(List<float> widths, float innerWidth, float gapX)
@@ -511,8 +548,8 @@ namespace WhisperOfTheForest.Rituals
 
         private float DrawParamSection(float width, float startY)
         {
-            const float rowH = 30f;
-            const float pad = 10f;
+            const float rowH = 32f;
+            const float pad = 8f;
             bool locked = altar.IsActive && altar.ActiveDef == selected;
 
             int controlRows = (selected.chooseRune ? 1 : 0)
@@ -521,41 +558,40 @@ namespace WhisperOfTheForest.Rituals
                 + (selected.chooseEquipment ? 2 : 0);
 
             float headerH = 20f;
-            float boxH = pad * 2f + headerH + 4f + controlRows * rowH + Mathf.Max(0, controlRows - 1) * 6f;
-            Rect boxRect = new Rect(0f, startY, width, boxH);
-            RitualPanelStyle.DrawBox(boxRect, RitualPanelStyle.PanelSurfaceSoft, RitualPanelStyle.PageInnerBorder, 1);
+            float boxH = pad * 2f + headerH + 6f + controlRows * rowH + Mathf.Max(0, controlRows - 1) * 6f;
 
-            RitualPanelStyle.DrawLabel(new Rect(pad, startY + pad, width - pad * 2f, headerH),
+            RitualPanelStyle.DrawHairline(0f, startY, width);
+            RitualPanelStyle.DrawLabel(new Rect(2f, startY + pad, width - 4f, headerH),
                 "WotF_RitualPanel_ParamHeader".Translate(),
-                GameFont.Small, RitualPanelStyle.TextSubtle, TextAnchor.MiddleLeft);
+                GameFont.Small, RitualPanelStyle.InkSecondary, TextAnchor.MiddleLeft, ellipsis: false);
 
-            float y = startY + pad + headerH + 4f;
-            float btnWidth = width - pad * 2f;
+            float y = startY + pad + headerH + 6f;
+            float btnWidth = width - 4f;
 
             if (selected.chooseRune)
             {
-                DrawRuneSelector(new Rect(pad, y, btnWidth, rowH), locked);
+                DrawRuneSelector(new Rect(2f, y, btnWidth, rowH), locked);
                 y += rowH + 6f;
             }
 
             if (selected.chooseTeleportTarget)
             {
-                DrawGateSelector(new Rect(pad, y, btnWidth, rowH), locked);
+                DrawGateSelector(new Rect(2f, y, btnWidth, rowH), locked);
                 y += rowH + 6f;
             }
 
             if (selected.chooseRuinType)
             {
-                DrawRuinSelector(new Rect(pad, y, btnWidth, rowH), locked);
+                DrawRuinSelector(new Rect(2f, y, btnWidth, rowH), locked);
                 y += rowH + 6f;
             }
 
             if (selected.chooseEquipment)
             {
-                DrawEquipmentSelectors(pad, y, btnWidth, rowH, locked);
+                DrawEquipmentSelectors(2f, y, btnWidth, rowH, locked);
             }
 
-            return boxRect.yMax;
+            return startY + boxH;
         }
 
         private void DrawRuneSelector(Rect rect, bool locked)
@@ -568,7 +604,7 @@ namespace WhisperOfTheForest.Rituals
                     : "WotF_RitualPanel_PickRune".Translate();
             bool enabled = !locked && unlockable.Count > 0;
 
-            if (RitualPanelStyle.DrawActionButton(rect, label, RitualPanelStyle.BtnBorder, enabled))
+            if (RitualPanelStyle.DrawActionButton(rect, label, RitualButtonRole.Secondary, enabled))
             {
                 ClosePopover();
                 var options = new List<FloatMenuOption>(unlockable.Count);
@@ -618,7 +654,7 @@ namespace WhisperOfTheForest.Rituals
                     : "WotF_RitualPanel_PickGate".Translate();
             bool enabled = !locked && gates.Count > 0;
 
-            if (RitualPanelStyle.DrawActionButton(rect, label, RitualPanelStyle.BtnBorder, enabled))
+            if (RitualPanelStyle.DrawActionButton(rect, label, RitualButtonRole.Secondary, enabled))
             {
                 ClosePopover();
                 var options = new List<FloatMenuOption>(gates.Count);
@@ -674,7 +710,7 @@ namespace WhisperOfTheForest.Rituals
                 : "WotF_RitualPanel_PickRuin".Translate();
             bool enabled = !locked && ruins != null && ruins.Count > 0;
 
-            if (RitualPanelStyle.DrawActionButton(rect, label, RitualPanelStyle.BtnBorder, enabled))
+            if (RitualPanelStyle.DrawActionButton(rect, label, RitualButtonRole.Secondary, enabled))
             {
                 ClosePopover();
                 var options = new List<FloatMenuOption>(ruins.Count);
@@ -704,7 +740,7 @@ namespace WhisperOfTheForest.Rituals
                     ? "WotF_Ritual_NoEnchantable".Translate()
                     : "WotF_Ritual_ChooseEquipment".Translate();
             Rect equipRect = new Rect(x, y, width, rowH);
-            if (RitualPanelStyle.DrawActionButton(equipRect, equipLabel, RitualPanelStyle.BtnBorder,
+            if (RitualPanelStyle.DrawActionButton(equipRect, equipLabel, RitualButtonRole.Secondary,
                     !locked && nearby.Count > 0))
             {
                 ClosePopover();
@@ -757,7 +793,7 @@ namespace WhisperOfTheForest.Rituals
             }
 
             Rect bookRect = new Rect(x, y + rowH + 6f, width, rowH);
-            if (RitualPanelStyle.DrawActionButton(bookRect, bookLabel, RitualPanelStyle.BtnBorder, bookEnabled))
+            if (RitualPanelStyle.DrawActionButton(bookRect, bookLabel, RitualButtonRole.Secondary, bookEnabled))
             {
                 ClosePopover();
                 var options = new List<FloatMenuOption>(slots);
@@ -823,7 +859,7 @@ namespace WhisperOfTheForest.Rituals
                 displayHelpers.Sort((a, b) => string.Compare(a.LabelShort, b.LabelShort, System.StringComparison.Ordinal));
             }
 
-            const float pad = 10f;
+            const float pad = 8f;
             const float labelH = 18f;
             const float slotW = 62f;
             const float slotH = 74f;
@@ -838,27 +874,27 @@ namespace WhisperOfTheForest.Rituals
 
             float contentH = labelH + 6f + helperRows * slotH + (helperRows - 1) * slotGap;
             float boxH = pad * 2f + contentH;
-            Rect boxRect = new Rect(0f, startY, width, boxH);
-            RitualPanelStyle.DrawBox(boxRect, RitualPanelStyle.PanelSurfaceSoft, RitualPanelStyle.PageInnerBorder, 1);
+
+            RitualPanelStyle.DrawHairline(0f, startY, width);
 
             float topY = startY + pad;
             RitualPanelStyle.DrawLabel(new Rect(pad, topY, hostColW, labelH),
                 "WotF_RitualPanel_HostLabel".Translate(), GameFont.Small,
-                RitualPanelStyle.TextSubtle, TextAnchor.MiddleLeft);
+                RitualPanelStyle.InkSecondary, TextAnchor.MiddleLeft, ellipsis: false);
 
             string helperHeader = selected.minParticipants > 0
                 ? string.Format("WotF_RitualPanel_HelperHeaderMin".Translate(), selected.minParticipants)
                 : "WotF_RitualPanel_HelperLabel".Translate();
             Color helperHeaderColor = !viewingActive && displayHelpers.Count < selected.minParticipants
-                ? RitualPanelStyle.WarnRed
-                : RitualPanelStyle.TextSubtle;
+                ? RitualPanelStyle.RubricRed
+                : RitualPanelStyle.InkSecondary;
             RitualPanelStyle.DrawLabel(new Rect(helpersStartX, topY, helpersAvailW, labelH),
-                helperHeader, GameFont.Small, helperHeaderColor, TextAnchor.MiddleLeft);
+                helperHeader, GameFont.Small, helperHeaderColor, TextAnchor.MiddleLeft, ellipsis: false);
 
-            // Vertical divider between Host and Helpers
+            // Vertical hairline between Host and Helpers
             Widgets.DrawBoxSolid(
                 new Rect(helpersStartX - 6f, topY + 2f, 1f, contentH - 4f),
-                RitualPanelStyle.SepColor);
+                RitualPanelStyle.HairlineInk);
 
             float portraitsTop = topY + labelH + 6f;
             Rect hostSlotRect = new Rect(pad, portraitsTop, slotW, slotH);
@@ -877,7 +913,7 @@ namespace WhisperOfTheForest.Rituals
                 DrawPortraitSlot(slotRect, helper, forHost: false, interactive: !viewingActive);
             }
 
-            return boxRect.yMax;
+            return startY + boxH;
         }
 
         private void DrawPortraitSlot(Rect rect, Pawn pawn, bool forHost, bool interactive)
@@ -902,18 +938,18 @@ namespace WhisperOfTheForest.Rituals
                 Rect nameRect = new Rect(rect.x + 1f, rect.yMax - 19f, rect.width - 2f, 18f);
                 Widgets.DrawBoxSolid(nameRect, RitualPanelStyle.NameTagBg);
                 RitualPanelStyle.DrawLabel(nameRect.ContractedBy(3f, 0f), pawn.LabelShortCap, GameFont.Tiny,
-                    RitualPanelStyle.TitleCream, TextAnchor.MiddleCenter);
+                    RitualPanelStyle.CoverText, TextAnchor.MiddleCenter, ellipsis: true);
             }
             else
             {
                 RitualPanelStyle.DrawBox(rect, RitualPanelStyle.PortraitEmptyBg, Color.clear, 0);
                 RitualPanelStyle.DrawDashedRect(rect,
-                    over ? RitualPanelStyle.PortraitHoverBorder : RitualPanelStyle.PortraitEmptyBorder);
+                    over ? RitualPanelStyle.GoldAccent : RitualPanelStyle.PortraitEmptyBorder);
 
                 RitualPanelStyle.DrawIcon(
                     new Rect(rect.center.x - 10f, rect.y + 18f, 20f, 20f),
                     RitualPanelStyle.Plus,
-                    over ? RitualPanelStyle.TitleCream : RitualPanelStyle.TextSubtle);
+                    over ? RitualPanelStyle.GoldAccent : RitualPanelStyle.InkSecondary);
 
                 string emptyLabel = (forHost
                     ? "WotF_RitualPanel_ChooseShort"
@@ -921,8 +957,8 @@ namespace WhisperOfTheForest.Rituals
                 RitualPanelStyle.DrawLabel(
                     new Rect(rect.x + 3f, rect.yMax - 24f, rect.width - 6f, 20f),
                     emptyLabel, GameFont.Tiny,
-                    over ? RitualPanelStyle.TitleCream : RitualPanelStyle.TextSubtle,
-                    TextAnchor.MiddleCenter);
+                    over ? RitualPanelStyle.InkPrimary : RitualPanelStyle.InkSecondary,
+                    TextAnchor.MiddleCenter, ellipsis: true);
             }
 
             if (!interactive)
@@ -960,7 +996,7 @@ namespace WhisperOfTheForest.Rituals
 
         private void DrawMetricsBar(Rect rect)
         {
-            RitualPanelStyle.DrawBox(rect, RitualPanelStyle.PanelSurface, RitualPanelStyle.PageInnerBorder, 1);
+            RitualPanelStyle.DrawPanel(rect, RitualPanelStyle.MetricsVellumBg);
 
             bool viewingActive = altar.IsActive && altar.ActiveDef == selected;
             float strength = viewingActive ? altar.ActiveRitualStrength : (assessment?.RitualStrength ?? 0f);
@@ -977,22 +1013,24 @@ namespace WhisperOfTheForest.Rituals
             {
                 Rect leftRect = new Rect(topRow.x, topRow.y, halfW, topRow.height);
                 RitualPanelStyle.DrawLabel(new Rect(leftRect.x, leftRect.y, leftRect.width, 18f),
-                    metricLabel, GameFont.Small, RitualPanelStyle.TextSubtle, TextAnchor.MiddleLeft);
+                    metricLabel, GameFont.Small, RitualPanelStyle.InkSecondary, TextAnchor.MiddleLeft,
+                    ellipsis: false);
                 RitualPanelStyle.DrawLabel(new Rect(leftRect.x, leftRect.y + 18f, leftRect.width, leftRect.height - 18f),
-                    metricValue, GameFont.Medium, RitualPanelStyle.TitleCream, TextAnchor.MiddleLeft);
+                    metricValue, GameFont.Medium, RitualPanelStyle.InkPrimary, TextAnchor.MiddleLeft,
+                    ellipsis: true);
             }
 
             Rect rightRect = new Rect(topRow.x + halfW, topRow.y, topRow.width - halfW, topRow.height);
             RitualPanelStyle.DrawLabel(new Rect(rightRect.x, rightRect.y, rightRect.width, 18f),
                 "WotF_RitualPanel_StrengthLabel".Translate(),
-                GameFont.Small, RitualPanelStyle.TextSubtle, TextAnchor.MiddleRight);
+                GameFont.Small, RitualPanelStyle.InkSecondary, TextAnchor.MiddleRight, ellipsis: false);
 
             bool belowMin = selected.minRitualStrength > 0f && strength + 0.0001f < selected.minRitualStrength;
-            Color rColor = belowMin ? RitualPanelStyle.WarnRed
-                : strength > 0f ? RitualPanelStyle.ManaBlue
-                : RitualPanelStyle.TextMuted;
+            Color rColor = belowMin ? RitualPanelStyle.RubricRed
+                : strength > 0f ? RitualPanelStyle.CrystalBlue
+                : RitualPanelStyle.InkMuted;
             RitualPanelStyle.DrawLabel(new Rect(rightRect.x, rightRect.y + 18f, rightRect.width, rightRect.height - 18f),
-                strength.ToString("0.##"), GameFont.Medium, rColor, TextAnchor.MiddleRight);
+                strength.ToString("0.##"), GameFont.Medium, rColor, TextAnchor.MiddleRight, ellipsis: false);
 
             if (viewingActive)
             {
@@ -1001,14 +1039,16 @@ namespace WhisperOfTheForest.Rituals
                 string phaseLabel = PhaseLabel(altar.Phase);
                 float phaseW = Mathf.Max(60f, RitualPanelStyle.CalcTextWidth(phaseLabel, GameFont.Tiny) + 6f);
                 RitualPanelStyle.DrawLabel(new Rect(progRow.x, progRow.y - 1f, phaseW, 15f),
-                    phaseLabel, GameFont.Tiny, RitualPanelStyle.OkText, TextAnchor.MiddleLeft);
+                    phaseLabel, GameFont.Tiny, RitualPanelStyle.BotanicalJade, TextAnchor.MiddleLeft,
+                    ellipsis: false);
 
                 string pctText = altar.Phase == RitualPhase.Sustaining
                     ? "WotF_RitualPanel_SustainingActive".Translate()
                     : Mathf.RoundToInt(frac * 100f) + "%";
                 float pctW = Mathf.Max(38f, RitualPanelStyle.CalcTextWidth(pctText, GameFont.Tiny) + 4f);
                 RitualPanelStyle.DrawLabel(new Rect(progRow.xMax - pctW, progRow.y - 1f, pctW, 15f),
-                    pctText, GameFont.Tiny, RitualPanelStyle.OkText, TextAnchor.MiddleRight);
+                    pctText, GameFont.Tiny, RitualPanelStyle.BotanicalJade, TextAnchor.MiddleRight,
+                    ellipsis: false);
 
                 Rect barRect = new Rect(progRow.x + phaseW + 4f, progRow.y + 2f,
                     progRow.width - phaseW - pctW - 8f, 8f);
@@ -1126,7 +1166,7 @@ namespace WhisperOfTheForest.Rituals
 
         private void DrawFooter(Rect rect)
         {
-            Widgets.DrawBoxSolid(new Rect(rect.x, rect.y, rect.width, 1f), RitualPanelStyle.SepColor);
+            RitualPanelStyle.DrawHairline(rect.x, rect.y, rect.width);
 
             float topY = rect.y + 8f;
             const float btnH = 34f;
@@ -1151,7 +1191,7 @@ namespace WhisperOfTheForest.Rituals
             if (altar.IsActive)
             {
                 RitualPanelStyle.DrawActionButton(rect, "WotF_RitualPanel_RunningBtn".Translate(),
-                    RitualPanelStyle.BtnPrimaryBorder, enabled: false);
+                    RitualButtonRole.Primary, enabled: false);
                 TooltipHandler.TipRegion(rect,
                     string.Format("WotF_Ritual_AlreadyRunning".Translate(), altar.ActiveLabel));
                 return;
@@ -1179,7 +1219,7 @@ namespace WhisperOfTheForest.Rituals
                 }
 
                 if (RitualPanelStyle.DrawActionButton(rect, "WotF_RitualPanel_PrepareBtn".Translate(),
-                        RitualPanelStyle.BtnPrimaryBorder, canPrepare))
+                        RitualButtonRole.Primary, canPrepare))
                 {
                     ClosePopover();
                     altar.Prepare(selected, selectedRune);
@@ -1197,7 +1237,7 @@ namespace WhisperOfTheForest.Rituals
             }
 
             if (RitualPanelStyle.DrawActionButton(rect, "WotF_RitualPanel_StartBtn".Translate(),
-                    RitualPanelStyle.BtnPrimaryBorder, canStart))
+                    RitualButtonRole.Primary, canStart))
             {
                 ClosePopover();
                 if (altar.TryStart(BuildRequest(), silent: false))
@@ -1222,7 +1262,7 @@ namespace WhisperOfTheForest.Rituals
             TooltipHandler.TipRegion(rect, tip);
 
             if (RitualPanelStyle.DrawActionButton(rect, "WotF_RitualPanel_AbortBtn".Translate(),
-                    RitualPanelStyle.BtnDangerBorder, canAbort))
+                    RitualButtonRole.Danger, canAbort))
             {
                 ClosePopover();
                 altar.CancelByPlayer();
@@ -1237,7 +1277,7 @@ namespace WhisperOfTheForest.Rituals
             string label = "WotF_RitualPanel_AutoExecute".Translate();
             float textW = RitualPanelStyle.CalcTextWidth(label, GameFont.Small);
             const float iconSize = 18f;
-            float totalW = iconSize + 6f + textW + 8f;
+            float totalW = iconSize + 6f + textW + 10f;
             Rect hitRect = new Rect(
                 Mathf.Round(rowRect.center.x - totalW * 0.5f),
                 rowRect.y,
@@ -1252,11 +1292,15 @@ namespace WhisperOfTheForest.Rituals
 
             if (over || pulse > 0.01f)
             {
-                Color hl = new Color(RitualPanelStyle.BtnPrimaryBorder.r,
-                    RitualPanelStyle.BtnPrimaryBorder.g,
-                    RitualPanelStyle.BtnPrimaryBorder.b,
-                    0.12f + 0.25f * pulse);
-                Widgets.DrawBoxSolid(hitRect, hl);
+                Color hl = new Color(RitualPanelStyle.BotanicalJade.r,
+                    RitualPanelStyle.BotanicalJade.g,
+                    RitualPanelStyle.BotanicalJade.b,
+                    0.12f + 0.20f * pulse);
+                Color hlBorder = new Color(RitualPanelStyle.BotanicalJade.r,
+                    RitualPanelStyle.BotanicalJade.g,
+                    RitualPanelStyle.BotanicalJade.b,
+                    0.35f + 0.30f * pulse);
+                RitualPanelStyle.DrawBox(hitRect, hl, hlBorder, 1);
             }
 
             float extra = pulse * 3f;
@@ -1266,17 +1310,17 @@ namespace WhisperOfTheForest.Rituals
                 iconSize + extra,
                 iconSize + extra);
             Texture2D checkTex = isAuto ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex;
-            Color tint = !enabled ? RitualPanelStyle.TextMuted
-                : isAuto ? RitualPanelStyle.OkGreen
-                : over ? RitualPanelStyle.TitleCream
-                : RitualPanelStyle.TextSubtle;
+            Color tint = !enabled ? RitualPanelStyle.InkMuted
+                : isAuto ? RitualPanelStyle.BotanicalJade
+                : over ? RitualPanelStyle.InkPrimary
+                : RitualPanelStyle.InkSecondary;
             RitualPanelStyle.DrawIcon(iconRect, checkTex, tint);
 
             Rect textRect = new Rect(hitRect.x + 4f + iconSize + 6f, hitRect.y, textW + 4f, hitRect.height);
             RitualPanelStyle.DrawLabel(textRect, label, GameFont.Small,
-                !enabled ? RitualPanelStyle.TextMuted
-                    : isAuto ? RitualPanelStyle.TitleCream
-                    : RitualPanelStyle.TextSubtle,
+                !enabled ? RitualPanelStyle.InkMuted
+                    : isAuto ? RitualPanelStyle.InkPrimary
+                    : RitualPanelStyle.InkSecondary,
                 TextAnchor.MiddleLeft, ellipsis: false);
 
             if (!enabled)

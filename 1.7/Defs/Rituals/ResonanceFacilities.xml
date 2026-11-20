@@ -44,7 +44,7 @@
     <statBases><MaxHitPoints>150</MaxHitPoints><Mass>5</Mass><Beauty>80</Beauty><WorkToMake>18000</WorkToMake><Flammability>0.2</Flammability></statBases>
     <costList><WotF_LivingWood>50</WotF_LivingWood><Jade>10</Jade></costList>
     <comps>
-      <li Class="CompProperties_FacilityQualityBased">
+      <li Class="WhisperOfTheForest.Rituals.CompProperties_QualityResonanceFacility">
         <maxSimultaneous>6</maxSimultaneous><maxDistance>10</maxDistance>
         <statOffsetsPerQuality>
           <li><key>WotF_ResonanceStrength</key><value>

@@ -33,7 +33,7 @@ namespace WhisperOfTheForest.Race
 
         internal static bool IsWildForage(Plant plant)
         {
-            return IsWildPlant(plant) && plant.IngestibleNow;
+            return IsWildPlant(plant) && plant.IngestibleNow && ForestDiet.IsEdibleGrassOrFlower(plant.def);
         }
 
         internal static bool IsWildPlant(Plant plant)
@@ -123,13 +123,24 @@ namespace WhisperOfTheForest.Race
     {
         private static void Postfix(Thing clickedThing, FloatMenuContext context, ref FloatMenuOption __result)
         {
-            if (__result?.action == null || !(clickedThing is Plant plant))
+            if (__result == null || !(clickedThing is Plant plant))
             {
                 return;
             }
 
             Pawn pawn = context.FirstSelectedPawn;
-            if (Gene_ForestBloodline.Get(pawn) == null)
+            if (!ForestDiet.UsesGrassFlowerDiet(pawn))
+            {
+                return;
+            }
+
+            if (!ForestDiet.IsEdibleGrassOrFlower(plant.def))
+            {
+                __result = null;
+                return;
+            }
+
+            if (__result.action == null)
             {
                 return;
             }
