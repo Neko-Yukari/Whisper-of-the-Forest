@@ -12,8 +12,8 @@ namespace WhisperOfTheForest.Tests
         {
             get
             {
-                yield return ("forest-diet: grass, tall grass and flowers are edible", GrassAndFlowersEdible);
-                yield return ("forest-diet: trees, harvestable crops, bushes and excluded thorns are rejected", NonGrassPlantsRejected);
+                yield return ("forest-diet: grass, sowable flowers and bush-based flowers are edible", GrassAndFlowersEdible);
+                yield return ("forest-diet: trees, harvestable crops and blacklisted non-flowers are rejected", NonGrassPlantsRejected);
             }
         }
 
@@ -22,9 +22,7 @@ namespace WhisperOfTheForest.Tests
             var diet = new ForestPlantDietDef
             {
                 defName = "Test_ForestPlantDiet",
-                maxPathCost = 14,
-                maxFillPercent = 0.19f,
-                excludedPlantDefNames = new List<string> { "Test_Brambles" }
+                excludedPlantDefNames = new List<string> { "Test_Bush", "Test_Brambles" }
             };
             diet.ResolveReferences();
             return diet;
@@ -58,8 +56,9 @@ namespace WhisperOfTheForest.Tests
         {
             ForestPlantDietDef diet = SampleDiet();
             Check.True(ForestDiet.IsEdibleGrassOrFlower(Plant("Test_Grass"), diet), "ordinary grass should be edible");
-            Check.True(ForestDiet.IsEdibleGrassOrFlower(Plant("Test_TallGrass", pathCost: 14), diet), "tall grass at pathCost threshold should be edible");
-            Check.True(ForestDiet.IsEdibleGrassOrFlower(Plant("Test_Flower"), diet), "decorative flower should be edible");
+            Check.True(ForestDiet.IsEdibleGrassOrFlower(Plant("Test_Dandelion"), diet), "sowable dandelion should be edible");
+            Check.True(ForestDiet.IsEdibleGrassOrFlower(Plant("Test_Clivia", pathCost: 30, fillPercent: 0.20f), diet),
+                "bush-based flower like Clivia should stay edible without pathCost/fillPercent cutoff");
         }
 
         private static void NonGrassPlantsRejected()
@@ -72,9 +71,9 @@ namespace WhisperOfTheForest.Tests
             Check.True(!ForestDiet.IsEdibleGrassOrFlower(Plant("Test_Rice", harvestYield: 6f, pathCost: 14), diet),
                 "harvestable crop must be rejected");
             Check.True(!ForestDiet.IsEdibleGrassOrFlower(Plant("Test_Bush", pathCost: 30, fillPercent: 0.20f), diet),
-                "bush exceeding pathCost/fillPercent must be rejected");
+                "blacklisted bush must be rejected");
             Check.True(!ForestDiet.IsEdibleGrassOrFlower(Plant("Test_Brambles", pathCost: 14), diet),
-                "explicitly excluded thorny shrub must be rejected");
+                "blacklisted thorny shrub must be rejected");
         }
     }
 }

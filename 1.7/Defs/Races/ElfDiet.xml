@@ -12,14 +12,25 @@
   <WhisperOfTheForest.Race.ForestPlantDietDef>
     <defName>WotF_ForestPlantDiet</defName>
     <label>forest plant diet</label>
-    <!-- Tall grass has pathCost 14 and fillPercent 0; bushes/cacti/chokevine have pathCost 30-42 or fillPercent >= 0.20. -->
-    <maxPathCost>14</maxPathCost>
-    <maxFillPercent>0.19</maxFillPercent>
+    <!-- Trees (plant.IsTree) and harvestable crops (plant.Harvestable) are excluded by rule;
+         remaining non-grass/non-flower plants (bushes, thorns, cacti, rafflesia, giant fungi) are excluded here
+         so bush-based or modded flowers like Plant_Clivia remain edible. -->
     <excludedPlantDefNames>
-      <li>Plant_Brambles</li>
+      <li>Plant_Bush</li>
+      <li>Plant_Bush_Leafless</li>
       <li>Plant_ShrubLow</li>
+      <li>Plant_Alocasia</li>
+      <li>Plant_Brambles</li>
+      <li>Plant_Brambles_Leafless</li>
+      <li>Plant_Chokevine</li>
       <li>Plant_Ripthorn</li>
       <li>Plant_Thornvine</li>
+      <li>Plant_PincushionCactus</li>
+      <li>Plant_MagmaCactus</li>
+      <li>Plant_Rafflesia</li>
+      <li>Plant_NightRafflesia</li>
+      <li>Bryolux</li>
+      <li>Plant_Willowgill</li>
     </excludedPlantDefNames>
   </WhisperOfTheForest.Race.ForestPlantDietDef>
 

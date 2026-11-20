@@ -6,13 +6,11 @@ using Verse;
 namespace WhisperOfTheForest.Race
 {
     /// <summary>
-    /// Tuning thresholds and explicit exclusions defining which living plants count as edible grasses
-    /// or flowers for elves and forest-bloodline foraging (all values live in ElfDiet.xml).
+    /// Explicit exclusions defining which non-tree, non-harvestable living plants are NOT edible
+    /// grasses or flowers for elves and forest-bloodline foraging (all entries live in ElfDiet.xml).
     /// </summary>
     public sealed class ForestPlantDietDef : Def
     {
-        public int maxPathCost;
-        public float maxFillPercent;
         public List<string> excludedPlantDefNames;
 
         private HashSet<string> excludedSet;
@@ -47,14 +45,9 @@ namespace WhisperOfTheForest.Race
                 yield return error;
             }
 
-            if (maxPathCost < 0)
+            if (excludedPlantDefNames == null)
             {
-                yield return defName + " maxPathCost must not be negative.";
-            }
-
-            if (maxFillPercent <= 0f || maxFillPercent > 1f)
-            {
-                yield return defName + " maxFillPercent must be in (0, 1].";
+                yield return defName + " excludedPlantDefNames must be defined.";
             }
         }
     }
@@ -77,9 +70,10 @@ namespace WhisperOfTheForest.Race
         }
 
         /// <summary>
-        /// Narrows living plant edibility to low, non-harvestable grasses and flowers: excludes trees,
-        /// harvestable crops/berries/mushrooms, bushes/cacti above the pathCost/fillPercent limits, and
-        /// thorny low shrubs listed in <see cref="ForestPlantDietDef.excludedPlantDefNames"/>.
+        /// Narrows living plant edibility to grasses and flowers: excludes trees (<see cref="PlantProperties.IsTree"/>),
+        /// harvestable crops/berries/mushrooms (<see cref="PlantProperties.Harvestable"/>), and non-flower bushes,
+        /// thorns, cacti and giant fungi listed in <see cref="ForestPlantDietDef.excludedPlantDefNames"/>.
+        /// Does not filter by pathCost/fillPercent so bush-based or modded flowers (e.g. Plant_Clivia) stay edible.
         /// </summary>
         public static bool IsEdibleGrassOrFlower(ThingDef food, ForestPlantDietDef diet)
         {
@@ -94,11 +88,6 @@ namespace WhisperOfTheForest.Race
             }
 
             if (food.plant.IsTree || food.plant.Harvestable)
-            {
-                return false;
-            }
-
-            if (food.pathCost > diet.maxPathCost || food.fillPercent > diet.maxFillPercent)
             {
                 return false;
             }
