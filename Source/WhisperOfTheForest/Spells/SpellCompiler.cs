@@ -374,7 +374,10 @@ namespace WhisperOfTheForest.Spells
                     // A timing rune only ever places its field, seal or timer, so its payload's
                     // categories do not become aim targets.
                     SpellTargeting.Add(targets, SpellTargetClass.Cell);
-                    var payload = new SpellPayload();
+                    var payload = new SpellPayload
+                    {
+                        theme = SpellDefs.ResolveTheme(defs, j, end, effect.theme)
+                    };
                     BuildSteps(defs, j, end, payload.steps, new List<SpellTargetClass>(), staff);
                     into.Add(effect.Compile(augments, staff, payload));
                     return;

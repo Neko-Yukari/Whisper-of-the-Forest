@@ -15,6 +15,7 @@
     <lightColor>#4AE090</lightColor>
     <hdrIntensity>1.05</hdrIntensity>
     <castLumenEffectId>NekoYukari.WhisperOfTheForest:CastVortex_Vitality</castLumenEffectId>
+    <quickCastLumenEffectId>NekoYukari.WhisperOfTheForest:CastQuick_Vitality</quickCastLumenEffectId>
     <castChargeSound>WotF_Sound_Cast_Vitality_Charge</castChargeSound>
     <castReleaseSound>WotF_Sound_Cast_Vitality_Release</castReleaseSound>
   </WhisperOfTheForest.Vfx.SpellThemeDef>
@@ -28,6 +29,7 @@
     <lightColor>#9EEAF0</lightColor>
     <hdrIntensity>1.10</hdrIntensity>
     <castLumenEffectId>NekoYukari.WhisperOfTheForest:CastVortex_Starlight</castLumenEffectId>
+    <quickCastLumenEffectId>NekoYukari.WhisperOfTheForest:CastQuick_Starlight</quickCastLumenEffectId>
     <castChargeSound>WotF_Sound_Cast_Starlight_Charge</castChargeSound>
     <castReleaseSound>WotF_Sound_Cast_Starlight_Release</castReleaseSound>
   </WhisperOfTheForest.Vfx.SpellThemeDef>
@@ -41,6 +43,7 @@
     <lightColor>#85DBFF</lightColor>
     <hdrIntensity>1.08</hdrIntensity>
     <castLumenEffectId>NekoYukari.WhisperOfTheForest:CastVortex_Frost</castLumenEffectId>
+    <quickCastLumenEffectId>NekoYukari.WhisperOfTheForest:CastQuick_Frost</quickCastLumenEffectId>
     <castChargeSound>WotF_Sound_Cast_Frost_Charge</castChargeSound>
     <castReleaseSound>WotF_Sound_Cast_Frost_Release</castReleaseSound>
   </WhisperOfTheForest.Vfx.SpellThemeDef>
@@ -54,6 +57,7 @@
     <lightColor>#6CC4FF</lightColor>
     <hdrIntensity>1.12</hdrIntensity>
     <castLumenEffectId>NekoYukari.WhisperOfTheForest:CastVortex_HoloStorm</castLumenEffectId>
+    <quickCastLumenEffectId>NekoYukari.WhisperOfTheForest:CastQuick_HoloStorm</quickCastLumenEffectId>
     <castChargeSound>WotF_Sound_Cast_HoloStorm_Charge</castChargeSound>
     <castReleaseSound>WotF_Sound_Cast_HoloStorm_Release</castReleaseSound>
   </WhisperOfTheForest.Vfx.SpellThemeDef>
@@ -67,6 +71,7 @@
     <lightColor>#C67CFF</lightColor>
     <hdrIntensity>1.08</hdrIntensity>
     <castLumenEffectId>NekoYukari.WhisperOfTheForest:CastVortex_Runic</castLumenEffectId>
+    <quickCastLumenEffectId>NekoYukari.WhisperOfTheForest:CastQuick_Runic</quickCastLumenEffectId>
     <castChargeSound>WotF_Sound_Cast_Runic_Charge</castChargeSound>
     <castReleaseSound>WotF_Sound_Cast_Runic_Release</castReleaseSound>
   </WhisperOfTheForest.Vfx.SpellThemeDef>

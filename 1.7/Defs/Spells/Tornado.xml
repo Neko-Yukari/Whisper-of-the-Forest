@@ -35,5 +35,24 @@
     <thingClass>WhisperOfTheForest.Spells.Thing_SpellTornado</thingClass>
     <tickerType>Normal</tickerType>
     <selectable>false</selectable>
+    <comps>
+      <li Class="WhisperOfTheForest.Spells.CompProperties_TornadoSkyTint">
+        <glow>0.86</glow>
+        <lerpDarken>false</lerpDarken>
+        <lightsourceShineSize>1.25</lightsourceShineSize>
+        <lightsourceShineIntensity>1.15</lightsourceShineIntensity>
+        <detonationRiseTicks>8</detonationRiseTicks>
+        <detonationDecayTicks>28</detonationDecayTicks>
+        <peakLerpFactor>0.76</peakLerpFactor>
+        <sustainLerpFactor>0.48</sustainLerpFactor>
+        <pulseWaveAmplitude>0.045</pulseWaveAmplitude>
+        <skyColors>
+          <sky>(232, 74, 38)</sky>
+          <shadow>(68, 18, 22)</shadow>
+          <overlay>(255, 96, 48)</overlay>
+          <saturation>1.18</saturation>
+        </skyColors>
+      </li>
+    </comps>
   </ThingDef>
 </Defs>

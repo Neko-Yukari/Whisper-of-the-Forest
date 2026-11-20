@@ -6,7 +6,7 @@ namespace WhisperOfTheForest.Vfx
 {
     /// <summary>
     /// Per-map owner of the running visual effects. It drives them every frame on a game-tick clock,
-    /// lets them draw during the GUI pass (which runs after the map and after RimUnity's screen effects),
+    /// submits world-space HDR geometry during the map draw pass, lets overlays draw during the GUI pass,
     /// and drops all of them when the map goes away.
     ///
     /// Nothing here is scribed: a visual effect is rebuilt from gameplay state, never restored.

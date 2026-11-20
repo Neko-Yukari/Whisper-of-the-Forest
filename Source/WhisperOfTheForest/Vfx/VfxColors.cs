@@ -1,6 +1,5 @@
 using System;
 using System.Globalization;
-using RimUnity;
 using UnityColor = UnityEngine.Color;
 
 namespace WhisperOfTheForest.Vfx
@@ -17,16 +16,6 @@ namespace WhisperOfTheForest.Vfx
         public static bool IsValid(string hex)
         {
             return TryParseComponents(hex, out _, out _, out _, out _);
-        }
-
-        public static RimUnity.Color Parse(string hex)
-        {
-            if (!TryParseComponents(hex, out float r, out float g, out float b, out float a))
-            {
-                throw new FormatException("colour \"" + (hex ?? "null") + "\" is not " + Format);
-            }
-
-            return new RimUnity.Color(r, g, b, a);
         }
 
         public static UnityColor ParseUnity(string hex)

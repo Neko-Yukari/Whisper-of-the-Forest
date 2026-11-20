@@ -28,6 +28,7 @@ namespace WhisperOfTheForest.Spells
         private SpellFieldMode mode;
         private Thing caster;
         private List<SpellEffect> payload = new List<SpellEffect>();
+        private SpellThemeDef theme;
         private float radius;
         private int intervalTicks;
         private int nextPulseTick;
@@ -37,11 +38,12 @@ namespace WhisperOfTheForest.Spells
         internal IReadOnlyList<SpellEffect> Payload => payload;
 
         public void Configure(SpellFieldMode mode, Thing caster, IReadOnlyList<SpellEffect> steps,
-            int lifetimeTicks, float radius, int intervalTicks)
+            int lifetimeTicks, float radius, int intervalTicks, SpellThemeDef theme = null)
         {
             this.mode = mode;
             this.caster = caster;
             payload = SpellExecutor.CopySteps(steps);
+            this.theme = theme ?? SpellDefs.Tuning?.defaultTheme;
             this.radius = radius;
             this.intervalTicks = intervalTicks;
             expiresTick = Find.TickManager.TicksGame + lifetimeTicks;
@@ -53,7 +55,11 @@ namespace WhisperOfTheForest.Spells
             base.SpawnSetup(map, respawningAfterLoad);
             vfx = VfxService.Play(new VfxRequest
             {
-                map = map, follow = this, origin = DrawPos, width = radius * 2f,
+                map = map,
+                follow = this,
+                origin = DrawPos,
+                width = radius * 2f,
+                theme = theme ?? SpellDefs.Tuning?.defaultTheme,
                 vfxDefName = mode == SpellFieldMode.Rune ? "WotF_Vfx_Rune" : "WotF_Vfx_Linger"
             });
         }
@@ -93,6 +99,7 @@ namespace WhisperOfTheForest.Spells
         /// </summary>
         private void Pulse()
         {
+            vfx?.Trigger(VfxStates.Pulse);
             var targets = new List<Pawn>();
             foreach (Thing thing in GenRadial.RadialDistinctThingsAround(Position, Map, radius, true))
             {
@@ -141,6 +148,7 @@ namespace WhisperOfTheForest.Spells
             Scribe_Values.Look(ref mode, "spellFieldMode", SpellFieldMode.Linger);
             Scribe_References.Look(ref caster, "caster");
             Scribe_Collections.Look(ref payload, "payload", LookMode.Deep);
+            Scribe_Defs.Look(ref theme, "theme");
             Scribe_Values.Look(ref radius, "radius", 0f);
             Scribe_Values.Look(ref intervalTicks, "intervalTicks", 0);
             Scribe_Values.Look(ref nextPulseTick, "nextPulseTick", 0);
@@ -151,6 +159,11 @@ namespace WhisperOfTheForest.Spells
             if (payload == null)
             {
                 payload = new List<SpellEffect>();
+            }
+
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && theme == null)
+            {
+                theme = SpellDefs.Tuning?.defaultTheme;
             }
         }
     }

@@ -117,9 +117,7 @@ $catalogAssemblies = @(
     @{ Path = (Join-Path $gameRoot 'Assembly-CSharp.dll'); Mod = $false; Required = $true },
     @{ Path = (Join-Path $workshop '839005762/1.7/Assemblies/AlienRace.dll'); Mod = $false; Required = $true },
     @{ Path = $rimLumenAssemblyPath; Mod = $false; Required = $true },
-    @{ Path = (Join-Path $gameRoot 'UnityStubs.dll'); Mod = $false; Required = $false },
-    @{ Path = (Join-Path $workshop '3819570122/1.7/Assemblies/RimUnity.Core.dll'); Mod = $false; Required = $false },
-    @{ Path = (Join-Path $workshop '3819570122/1.7/Assemblies/RimUnity.dll'); Mod = $false; Required = $false }
+    @{ Path = (Join-Path $gameRoot 'UnityStubs.dll'); Mod = $false; Required = $false }
 )
 
 $typeNames = New-Object System.Collections.Generic.HashSet[string]
@@ -662,7 +660,7 @@ foreach ($entry in $modDefs) {
         if ($null -ne $shaderProgram) {
             foreach ($stageTag in @('vertexShaderFileName', 'fragmentShaderFileName')) {
                 $shaderFile = Get-ScalarAt $chain @('shaderProgram', $stageTag)
-                if ([string]::IsNullOrEmpty($shaderFile) -or $shaderFile.StartsWith('RimUnity/', [System.StringComparison]::OrdinalIgnoreCase)) { continue }
+                if ([string]::IsNullOrEmpty($shaderFile)) { continue }
                 $ruleChecks++
                 $modShader = Join-Path (Join-Path $repo '1.7/Shaders') $shaderFile
                 $coreShadersDir = Join-Path $gameRoot 'Data/Core/Shaders'
@@ -839,8 +837,7 @@ foreach ($searchDirectory in @(
     (Split-Path -Parent $modAssemblyPath),
     (Split-Path -Parent $rimLumenAssemblyPath),
     (Join-Path $workshop '2009463077/1.7/Assemblies'),
-    (Join-Path $workshop '839005762/1.7/Assemblies'),
-    (Join-Path $workshop '3819570122/1.7/Assemblies')
+    (Join-Path $workshop '839005762/1.7/Assemblies')
 )) {
     $cecilResolver.AddSearchDirectory($searchDirectory)
 }

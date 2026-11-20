@@ -16,6 +16,7 @@ namespace WhisperOfTheForest.Vfx
         public string lightColor;
         public float hdrIntensity;
         public string castLumenEffectId;
+        public string quickCastLumenEffectId;
         public SoundDef castChargeSound;
         public SoundDef castReleaseSound;
 
@@ -59,6 +60,11 @@ namespace WhisperOfTheForest.Vfx
             if (castLumenEffectId.NullOrEmpty())
             {
                 yield return "castLumenEffectId is required";
+            }
+
+            if (quickCastLumenEffectId.NullOrEmpty())
+            {
+                yield return "quickCastLumenEffectId is required";
             }
 
             if (castChargeSound == null)

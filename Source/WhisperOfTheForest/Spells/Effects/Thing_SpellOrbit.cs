@@ -19,16 +19,19 @@ namespace WhisperOfTheForest.Spells
     {
         private Pawn caster;
         private List<SpellEffect> payload = new List<SpellEffect>();
+        private SpellThemeDef theme;
         private float distance;
         private float angleDegrees;
         private float degreesPerSecond;
         private float hitRadius;
         private int expiresTick;
+        private VfxHandle vfx;
 
         public void Configure(Pawn caster, SpellCastPlan plan, float startAngleDegrees)
         {
             this.caster = caster;
             payload = SpellExecutor.CopySteps(plan.steps);
+            theme = SpellDefs.ResolveTheme(plan);
             distance = plan.orbit.distance;
             degreesPerSecond = plan.orbit.angularSpeedDegrees;
             hitRadius = plan.orbit.hitRadius;
@@ -50,9 +53,12 @@ namespace WhisperOfTheForest.Spells
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
             base.SpawnSetup(map, respawningAfterLoad);
-            VfxService.Play(new VfxRequest
+            vfx = VfxService.Play(new VfxRequest
             {
-                map = map, follow = this, origin = DrawPos,
+                map = map,
+                follow = this,
+                origin = DrawPos,
+                theme = theme ?? SpellDefs.Tuning?.defaultTheme,
                 vfxDefName = "WotF_Vfx_Orbit"
             });
         }
@@ -128,6 +134,7 @@ namespace WhisperOfTheForest.Spells
 
             string report = SpellExecutor.ExecuteStepList(payload, caster, target, target.Position, Map);
             SpellDiagnostics.Message("orbit released on " + target.LabelShort + " at " + Position + " " + report);
+            vfx?.Trigger(VfxStates.Impact);
             Destroy();
         }
 
@@ -136,6 +143,7 @@ namespace WhisperOfTheForest.Spells
             base.ExposeData();
             Scribe_References.Look(ref caster, "caster");
             Scribe_Collections.Look(ref payload, "payload", LookMode.Deep);
+            Scribe_Defs.Look(ref theme, "theme");
             SpellEffect.CheckLoaded(payload, "Thing_SpellOrbit");
             Scribe_Values.Look(ref distance, "orbitDistance", 0f);
             Scribe_Values.Look(ref angleDegrees, "orbitAngle", 0f);
@@ -146,6 +154,11 @@ namespace WhisperOfTheForest.Spells
             if (payload == null)
             {
                 payload = new List<SpellEffect>();
+            }
+
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && theme == null)
+            {
+                theme = SpellDefs.Tuning?.defaultTheme;
             }
         }
     }

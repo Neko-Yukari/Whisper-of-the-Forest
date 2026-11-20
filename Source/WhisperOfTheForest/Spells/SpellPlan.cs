@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Verse;
 using WhisperOfTheForest.Missiles;
+using WhisperOfTheForest.Vfx;
 
 namespace WhisperOfTheForest.Spells
 {
@@ -36,19 +37,30 @@ namespace WhisperOfTheForest.Spells
     public class SpellPayload : IExposable
     {
         public List<SpellEffect> steps = new List<SpellEffect>();
+        public SpellThemeDef theme;
 
         public SpellPayload Copy()
         {
-            return new SpellPayload { steps = SpellExecutor.CopySteps(steps) };
+            return new SpellPayload
+            {
+                steps = SpellExecutor.CopySteps(steps),
+                theme = theme
+            };
         }
 
         public void ExposeData()
         {
             Scribe_Collections.Look(ref steps, "steps", LookMode.Deep);
+            Scribe_Defs.Look(ref theme, "theme");
             SpellEffect.CheckLoaded(steps, GetType().Name);
             if (steps == null)
             {
                 steps = new List<SpellEffect>();
+            }
+
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && theme == null)
+            {
+                theme = SpellDefs.Tuning?.defaultTheme;
             }
         }
     }

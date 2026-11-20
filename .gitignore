@@ -8,8 +8,6 @@ Source/**/bin/
 .vs/
 .idea/
 *.log
-1.7/Data/RimUnity/.export.lock
-
 
 Tests/**/obj/
 Tests/**/bin/

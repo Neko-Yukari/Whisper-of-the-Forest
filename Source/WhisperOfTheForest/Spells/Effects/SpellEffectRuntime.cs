@@ -136,7 +136,7 @@ namespace WhisperOfTheForest.Spells
                 return 0;
             }
             var field = (Thing_SpellField)ThingMaker.MakeThing(def);
-            field.Configure(mode, caster, payload.steps, lifetimeTicks, radius, intervalTicks);
+            field.Configure(mode, caster, payload.steps, lifetimeTicks, radius, intervalTicks, payload.theme);
             GenSpawn.Spawn(field, cell, map);
             return 1;
         }

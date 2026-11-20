@@ -54,8 +54,8 @@ namespace WhisperOfTheForest.Vfx
         }
 
         /// <summary>
-        /// Called during the GUI pass, which runs after the map and after RimUnity's screen effects.
-        /// That is where a beam must be drawn if it has to stay bright over a darkening pass.
+        /// Called during the GUI pass, which runs after the map render pass.
+        /// That is where an overlay element must be drawn if it belongs to screen space.
         /// </summary>
         public virtual void DrawOverlay()
         {
