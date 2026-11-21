@@ -37,6 +37,15 @@ namespace WhisperOfTheForest.Spells
             this.logSource = logSource;
         }
         public override string DiagnosticName => "lightning";
+        public override void AppendSummary(List<string> lines, int indent)
+        {
+            string chargeDur = chargeDurationTicks > 0
+                ? SpellText.TF("WotF_SpellPlan.ChargeDurSuffix", FormatSeconds(chargeDurationTicks))
+                : string.Empty;
+            lines.Add(SummaryIndent(indent) + SpellText.TF("WotF_SpellPlan.EffectLightning",
+                burnDamage.ToString("0.#"), FormatApSuffix(burnArmorPenetration), empDamage.ToString("0.#"),
+                bonusPerChargeStack.ToStringPercent("0"), chargeDur, FormatAreaSuffix(useArea, targetRadius)));
+        }
         public override int Execute(Thing caster, Thing primary, IntVec3 cell, Map map)
         {
             VfxService.Play(new VfxRequest

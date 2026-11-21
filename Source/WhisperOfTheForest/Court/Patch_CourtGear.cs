@@ -91,7 +91,7 @@ namespace WhisperOfTheForest.Court
                 return;
             }
 
-            // Without a worn book every slot reads as sealed and SaveSlot would refuse with SlotSealed.
+            // Without a worn book every slot is unavailable and SaveSlot would refuse with NoBook.
             // That is not a fault: a stripped caster (captured, then loaded: Map.cs:775 respawns it)
             // simply cannot cast, and the cast gate says so itself. The staff keeps its saved slot.
             if (!GameComponent_Spellbook.IsSlotOpen(__instance, 0))
@@ -99,7 +99,7 @@ namespace WhisperOfTheForest.Court
                 return;
             }
 
-            CompSpellStaff staff = __instance.equipment?.Primary?.GetComp<CompSpellStaff>();
+            CompSpellStaff staff = CompSpellStaff.FindEquipped(__instance);
             GameComponent_Spellbook component = GameComponent_Spellbook.Current;
             if (component == null)
             {

@@ -23,6 +23,11 @@ namespace WhisperOfTheForest.Spells
             this.targetRadius = targetRadius;
         }
         public override string DiagnosticName => "heal";
+        public override void AppendSummary(List<string> lines, int indent)
+        {
+            lines.Add(SummaryIndent(indent) + SpellText.TF("WotF_SpellPlan.EffectHeal",
+                tendQuality.ToStringPercent("0"), FormatSeconds(clottingDurationTicks), FormatAreaSuffix(useArea, targetRadius)));
+        }
         public override int Execute(Thing caster, Thing primary, IntVec3 cell, Map map)
         {
             List<Thing> targets = SpellExecutor.CollectTargets(useArea, targetRadius, primary, cell, map,

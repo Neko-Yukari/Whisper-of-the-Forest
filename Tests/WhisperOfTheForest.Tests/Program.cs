@@ -13,6 +13,7 @@ namespace WhisperOfTheForest.Tests
 
             var tests = new List<(string Name, Action Run)>();
             tests.AddRange(SpellGrammarTests.All);
+            tests.AddRange(SpellbookTierTests.All);
             tests.AddRange(SpellCarrierTests.All);
             tests.AddRange(ManaTopologyTests.All);
             tests.AddRange(RailgunGeometryTests.All);
@@ -21,6 +22,7 @@ namespace WhisperOfTheForest.Tests
             tests.AddRange(HealingPoolTests.All);
             tests.AddRange(RitualResearchTests.All);
             tests.AddRange(ForestDietTests.All);
+            tests.AddRange(WandAndCounterRitualTests.All);
 
             var clock = Stopwatch.StartNew();
             int run = 0;

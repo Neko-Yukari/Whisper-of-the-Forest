@@ -4,14 +4,15 @@ using Verse;
 namespace WhisperOfTheForest.Spells
 {
     /// <summary>
-    /// Marks an apparel Def as a spellbook. Wearing one is what lets a forest-blooded pawn cast; its
-    /// slot count says how many of the pawn's own spell slots are open. Spells live with the pawn,
-    /// not in the book, so taking a book off or swapping it never deletes a spell: slots beyond the
-    /// worn book's count are only sealed until a larger book is worn.
+    /// Marks an apparel Def as a spellbook. Wearing any spellbook opens all ten of the pawn's own
+    /// spell bookmarks; <see cref="maxGlyphs"/> limits how many runes a single spell chain may hold
+    /// (e.g. 4 / 7 / 10 across book tiers). Spells live with the pawn, not in the book, so swapping
+    /// to a smaller book never deletes longer spells: they remain visible in their bookmarks and
+    /// become castable again once a higher-tier book is worn.
     /// </summary>
     public class SpellbookExtension : DefModExtension
     {
-        public int slotCount;
+        public int maxGlyphs;
         public bool allowsSuperGlyphs;
 
         public override IEnumerable<string> ConfigErrors()
@@ -21,9 +22,10 @@ namespace WhisperOfTheForest.Spells
                 yield return error;
             }
 
-            if (slotCount < 1 || slotCount > GameComponent_Spellbook.SlotCount)
+            int ceiling = SpellDefs.Tuning != null ? SpellDefs.Tuning.maxGlyphs : 10;
+            if (maxGlyphs < 1 || maxGlyphs > ceiling)
             {
-                yield return "slotCount must be 1.." + GameComponent_Spellbook.SlotCount + ", is " + slotCount;
+                yield return "maxGlyphs must be 1.." + ceiling + ", is " + maxGlyphs;
             }
         }
     }

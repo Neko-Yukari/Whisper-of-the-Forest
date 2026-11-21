@@ -50,6 +50,11 @@
           <method>Standing</method>
         </li>
 
+        <li Class="ScenPart_StartingResearch">
+          <def>StartingResearch</def>
+          <project>Stonecutting</project>
+        </li>
+
         <!-- Carried in. -->
         <li Class="ScenPart_StartingThing_Defined">
           <def>StartingThing_Defined</def>
@@ -78,7 +83,8 @@
         </li>
         <li Class="ScenPart_StartingThing_Defined">
           <def>StartingThing_Defined</def>
-          <thingDef>WotF_SpellStaffShort</thingDef>
+          <thingDef>WotF_SpellWand</thingDef>
+          <stuff>WotF_LivingWood</stuff>
           <count>1</count>
         </li>
         <li Class="ScenPart_StartingThing_Defined">

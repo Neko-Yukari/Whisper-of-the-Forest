@@ -42,6 +42,7 @@
           <li>WotF_Ritual_TransmuteGreenChalk</li><li>WotF_Ritual_TransmuteStarChalk</li><li>WotF_Ritual_TransmuteComponent</li>
           <li>WotF_Ritual_ClearSky</li><li>WotF_Ritual_RainCall</li><li>WotF_Ritual_ShieldDome</li><li>WotF_Ritual_BeastCall</li><li>WotF_Ritual_Teleport</li>
           <li>WotF_Ritual_SeekRuin</li>
+          <li MayRequire="Ludeon.RimWorld.Anomaly">WotF_Ritual_CounterPsychic</li>
           <li>WotF_Ritual_InscribeEquipment</li>
         </ritualDefNames>
       </li>
@@ -69,6 +70,7 @@
           <li>WotF_Ritual_TransmuteAdamantine</li><li>WotF_Ritual_TransmuteMithril</li><li>WotF_Ritual_HealingGrand</li>
           <li>WotF_Ritual_Thunderstorm</li><li>WotF_Ritual_SkyWrath</li><li>WotF_Ritual_LeylineMining</li>
           <li>WotF_Ritual_SeekRuin</li>
+          <li MayRequire="Ludeon.RimWorld.Anomaly">WotF_Ritual_CounterPsychic</li>
           <li>WotF_Ritual_InscribeEquipment</li>
         </ritualDefNames>
       </li>

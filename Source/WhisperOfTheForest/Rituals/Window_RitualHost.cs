@@ -61,19 +61,7 @@ namespace WhisperOfTheForest.Rituals
             this.altar = altar;
             BuildAltarTierIndex();
             InitializeSelection();
-
-            doWindowBackground = false;
-            doCloseX = false;
-            doCloseButton = false;
-            draggable = true;
-            forcePause = false;
-            preventCameraMotion = false;
-            absorbInputAroundWindow = false;
-            closeOnClickedOutside = false;
-            onlyOneOfTypeAllowed = true;
-            closeOnAccept = false;
-            closeOnCancel = true;
-            drawShadow = true;
+            BookUi.ConfigureBookWindow(this, onlyOneOfType: true);
         }
 
         protected override float Margin => 0f;
@@ -90,10 +78,7 @@ namespace WhisperOfTheForest.Rituals
 
         protected override void SetInitialSizeAndPosition()
         {
-            Vector2 size = InitialSize;
-            float x = Mathf.Clamp((UI.screenWidth - size.x) * 0.5f, 0f, Mathf.Max(0f, UI.screenWidth - size.x));
-            float y = Mathf.Clamp((UI.screenHeight - size.y) * 0.5f, 0f, Mathf.Max(0f, UI.screenHeight - size.y));
-            windowRect = GenUI.Rounded(new Rect(x, y, size.x, size.y));
+            windowRect = BookUi.CenteredWindowRect(InitialSize);
         }
 
         public override void PostClose()
@@ -250,29 +235,15 @@ namespace WhisperOfTheForest.Rituals
 
         private void DrawHeader(Rect rect)
         {
-            RitualPanelStyle.DrawLabel(
+            BookUi.DrawLabel(
                 new Rect(rect.x + 4f, rect.y, rect.width - 34f, rect.height),
                 "WotF_RitualPanel_Title".Translate(),
                 GameFont.Medium,
-                RitualPanelStyle.CoverGold,
+                BookUi.CoverGold,
                 TextAnchor.MiddleLeft);
 
             Rect closeRect = new Rect(rect.xMax - 24f, rect.y + (rect.height - 24f) * 0.5f, 24f, 24f);
-            bool overClose = Mouse.IsOver(closeRect);
-            if (overClose)
-            {
-                RitualPanelStyle.DrawBox(closeRect, new Color(1f, 1f, 1f, 0.08f), RitualPanelStyle.CoverBorder);
-            }
-
-            RitualPanelStyle.DrawIcon(
-                closeRect.ContractedBy(4f),
-                TexButton.CloseXSmall,
-                overClose ? RitualPanelStyle.CoverGold : RitualPanelStyle.CoverTextDim);
-            TooltipHandler.TipRegion(closeRect, "CloseButton".Translate());
-            if (Widgets.ButtonInvisible(closeRect, doMouseoverSound: true))
-            {
-                Close();
-            }
+            BookUi.DrawCloseButton(closeRect, () => Close());
         }
 
         private void RefreshFrameState()

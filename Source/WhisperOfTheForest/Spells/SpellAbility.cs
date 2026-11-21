@@ -121,8 +121,6 @@ namespace WhisperOfTheForest.Spells
 
             if (recipe == null)
             {
-                // A spell kept in a slot the worn book does not open says so instead of looking empty.
-                bool sealedSpell = component != null && component.StoredSpellName(caster, slot) != null;
                 return new Command_Action
                 {
                     defaultLabel = SpellText.T("WotF_Spells.Gizmo.NoSpell"),
@@ -130,9 +128,7 @@ namespace WhisperOfTheForest.Spells
                     icon = bookIconResolved ? bookIcon : ResolveIcon(),
                     action = delegate { SpellService.OpenSpellbook(caster); },
                     Disabled = true,
-                    disabledReason = sealedSpell
-                        ? SpellText.TF("WotF_Spells.Reason.SlotSealed", slot + 1)
-                        : SpellText.TF("WotF_Spells.Gizmo.NoSpellReason", slot + 1)
+                    disabledReason = SpellText.TF("WotF_Spells.Gizmo.NoSpellReason", slot + 1)
                 };
             }
 

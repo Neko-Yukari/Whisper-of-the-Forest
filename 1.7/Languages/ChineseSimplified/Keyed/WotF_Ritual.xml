@@ -128,6 +128,8 @@
   <WotF_RitualPanel_MetricStrikeRate>落雷频率</WotF_RitualPanel_MetricStrikeRate>
   <WotF_RitualPanel_PerMinuteUnit>{0} 次/分钟</WotF_RitualPanel_PerMinuteUnit>
   <WotF_RitualPanel_MetricShieldCharges>拦截次数</WotF_RitualPanel_MetricShieldCharges>
+  <WotF_RitualPanel_MetricCounterStun>控制时长</WotF_RitualPanel_MetricCounterStun>
+  <WotF_RitualPanel_SecondsUnit>{0} 秒</WotF_RitualPanel_SecondsUnit>
   <WotF_RitualPanel_PhaseGathering>集结中</WotF_RitualPanel_PhaseGathering>
   <WotF_RitualPanel_PhaseChanting>吟唱中</WotF_RitualPanel_PhaseChanting>
   <WotF_RitualPanel_PhaseSustaining>持续引导</WotF_RitualPanel_PhaseSustaining>
@@ -167,4 +169,10 @@
   <WotF_Ritual_EquipmentForm>这个法术的攻击形式无法注入武具：只能注入接触、自身与环绕。</WotF_Ritual_EquipmentForm>
   <WotF_Ritual_Inscribe_Done>已把「{1}」注入 {0} 的第 {2} 槽。</WotF_Ritual_Inscribe_Done>
   <WotF_Ritual_Inscribe_Lost>注法失败：物品已离开祭坛范围，或所选法术页已被清空。本次仪式没有消耗任何魔源与祭品。</WotF_Ritual_Inscribe_Lost>
+
+  <!-- 全反制灵能仪式 -->
+  <WotF_Ritual_CounterPsychic_NoTarget>当前地图上没有正在进行的敌对灵能仪式。</WotF_Ritual_CounterPsychic_NoTarget>
+  <WotF_Ritual_CounterPsychic_CancelReason>被 {0} 主持的林庭灵能反制仪式强行截断。</WotF_Ritual_CounterPsychic_CancelReason>
+  <WotF_Ritual_CounterPsychic_Done>灵能截断完成：反制了 {0} 场敌对灵能仪式，使 {1} 名参与者陷入眩晕，持续 {2} 秒。</WotF_Ritual_CounterPsychic_Done>
+  <WotF_Ritual_CounterPsychic_NoneActive>灵能截断落定，但地图上已没有进行中的敌对灵能仪式。</WotF_Ritual_CounterPsychic_NoneActive>
 </LanguageData>

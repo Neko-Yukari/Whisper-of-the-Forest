@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <WhisperOfTheForest.Rituals.RitualDef MayRequire="Ludeon.RimWorld.Anomaly">
+    <defName>WotF_Ritual_CounterPsychic</defName>
+    <tier>2</tier>
+    <family>Domain</family>
+    <label>rite of psychic severance</label>
+    <description>The caster traces a 5×5 green chalk ring and drives a resonant shock through the map's psychic weave, canceling every active hostile psychic ritual on the map and stunning all of its participants. Higher ritual strength extends the stun duration from 10 to 70 seconds.</description>
+    <ringSize>5</ringSize>
+    <chalkColor>Green</chalkColor>
+    <manaCost>40</manaCost>
+    <durationTicks>900</durationTicks>
+    <effectRadius>12.9</effectRadius>
+    <counterStunTicks>600</counterStunTicks>
+    <strengthEffectFactor>
+      <points>
+        <li>(0,1)</li>
+        <li>(15,2)</li>
+        <li>(35,3.5)</li>
+        <li>(60,5)</li>
+        <li>(100,7)</li>
+      </points>
+    </strengthEffectFactor>
+    <effectWorkerClass>WhisperOfTheForest.Rituals.RitualEffect_CounterPsychic</effectWorkerClass>
+    <researchPrerequisite>WotF_Research_Ritual_CounterPsychic</researchPrerequisite>
+  </WhisperOfTheForest.Rituals.RitualDef>
+</Defs>

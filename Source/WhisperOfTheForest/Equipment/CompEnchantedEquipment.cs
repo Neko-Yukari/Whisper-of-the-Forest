@@ -30,6 +30,59 @@ namespace WhisperOfTheForest.Equipment
             compClass = typeof(CompEnchantedEquipment);
         }
 
+        public override IEnumerable<StatDrawEntry> SpecialDisplayStats(StatRequest req)
+        {
+            foreach (StatDrawEntry entry in base.SpecialDisplayStats(req))
+            {
+                yield return entry;
+            }
+
+            ThingDef def = req.Def as ThingDef;
+            StatCategoryDef category = def != null && def.IsWeapon
+                ? StatCategoryDefOf.Weapon
+                : StatCategoryDefOf.Apparel;
+            bool isMithril = mithrilStuff != null && req.StuffDef == mithrilStuff;
+            int activeSlots = isMithril ? mithrilSlots : slots;
+
+            yield return new StatDrawEntry(
+                category,
+                "WotF_Stat_EnchantSlots".Translate(),
+                activeSlots.ToString(),
+                string.Format("WotF_Stat_EnchantSlots_Desc".Translate(),
+                    slots,
+                    mithrilStuff != null ? mithrilStuff.LabelCap.ToString() : "",
+                    mithrilSlots),
+                2740);
+
+            yield return new StatDrawEntry(
+                category,
+                "WotF_Stat_EnchantTriggerChance".Translate(),
+                triggerChance.ToStringPercent(),
+                "WotF_Stat_EnchantTriggerChance_Desc".Translate(),
+                2739);
+
+            if (triggerCooldownTicks > 0)
+            {
+                float cooldownSec = triggerCooldownTicks / (float)GenTicks.TicksPerRealSecond;
+                yield return new StatDrawEntry(
+                    category,
+                    "WotF_Stat_EnchantTriggerCooldown".Translate(),
+                    string.Format("WotF_Stat_Unit_Seconds".Translate(), cooldownSec.ToString("0.#")),
+                    "WotF_Stat_EnchantTriggerCooldown_Desc".Translate(),
+                    2738);
+            }
+
+            if (isMithril)
+            {
+                yield return new StatDrawEntry(
+                    category,
+                    "WotF_Stat_EnchantMithrilCost".Translate(),
+                    mithrilCostFactor.ToStringPercent(),
+                    string.Format("WotF_Stat_EnchantMithrilCost_Desc".Translate(), mithrilStuff.LabelCap),
+                    2737);
+            }
+        }
+
         public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
         {
             foreach (string error in base.ConfigErrors(parentDef))

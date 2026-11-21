@@ -348,9 +348,15 @@ namespace WhisperOfTheForest.Spells
             {
                 if (!SpellService.CanUseGlyph(caster, firstGlyph, out failure))
                     return false;
-                if (caster.equipment?.Primary?.GetComp<CompSpellStaff>() == null)
+                CompSpellStaff superStaff = CompSpellStaff.FindForSuper(caster);
+                if (superStaff == null)
                 {
                     failure = SpellText.T("WotF_Spells.Reason.SuperNeedsStaff");
+                    return false;
+                }
+
+                if (!superStaff.CanCastThrough(caster, out failure))
+                {
                     return false;
                 }
             }

@@ -13,6 +13,23 @@ namespace WhisperOfTheForest.Mana
             compClass = typeof(CompManaProducer);
         }
 
+        public override System.Collections.Generic.IEnumerable<StatDrawEntry> SpecialDisplayStats(StatRequest req)
+        {
+            foreach (StatDrawEntry entry in base.SpecialDisplayStats(req)) yield return entry;
+            yield return new StatDrawEntry(
+                StatCategoryDefOf.Building,
+                "WotF_Stat_ManaOutput".Translate(),
+                string.Format("WotF_Stat_Unit_ManaPerSec".Translate(), manaPerSecond.ToString("0.##")),
+                "WotF_Stat_ManaOutput_Desc".Translate(),
+                2610);
+            yield return new StatDrawEntry(
+                StatCategoryDefOf.Building,
+                "WotF_Stat_ManaLinkRadius".Translate(),
+                string.Format("WotF_Stat_Unit_Cells".Translate(), linkRadius.ToString("0.#")),
+                "WotF_Stat_ManaLinkRadius_Desc".Translate(),
+                2600);
+        }
+
         // Ensures: the rates the producer reads and the fuel it burns exist before play.
         public override System.Collections.Generic.IEnumerable<string> ConfigErrors(ThingDef parentDef)
         {

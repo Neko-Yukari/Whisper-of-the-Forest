@@ -272,7 +272,7 @@
   <ResearchProjectDef>
     <defName>WotF_Research_Ritual_SpellbookUpgradeAdept</defName>
     <label>rite of the woven spellbook</label>
-    <description>Upgrade an apprentice spellbook with elven steel and jade into an adept spellbook with seven spell slots. Unlocks ritual: rite of the woven spellbook.</description>
+    <description>Upgrade an apprentice spellbook with elven steel and jade into an adept spellbook that raises the rune chain limit to 7 glyphs per spell. Unlocks ritual: rite of the woven spellbook.</description>
     <tab>WotF_GroveRites</tab>
     <baseCost>800</baseCost>
     <techLevel>Neolithic</techLevel>
@@ -352,6 +352,23 @@
     </customUnlockTexts>
     <researchViewX>3.00</researchViewX>
     <researchViewY>4.20</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef MayRequire="Ludeon.RimWorld.Anomaly">
+    <defName>WotF_Research_Ritual_CounterPsychic</defName>
+    <label>rite of psychic severance</label>
+    <description>Channel a 5×5 green chalk ring to cancel every active hostile psychic ritual on the map and stun its participants. Unlocks ritual: rite of psychic severance.</description>
+    <tab>WotF_GroveRites</tab>
+    <baseCost>800</baseCost>
+    <techLevel>Neolithic</techLevel>
+    <prerequisites>
+      <li>WotF_Research_AltarT2</li>
+    </prerequisites>
+    <customUnlockTexts>
+      <li>Ritual: rite of psychic severance</li>
+    </customUnlockTexts>
+    <researchViewX>4.00</researchViewX>
+    <researchViewY>2.10</researchViewY>
   </ResearchProjectDef>
 
   <ResearchProjectDef>
@@ -445,7 +462,7 @@
   <ResearchProjectDef>
     <defName>WotF_Research_Ritual_SpellbookUpgradeArchmage</defName>
     <label>rite of the starlight codex</label>
-    <description>Upgrade an adept spellbook with mithril and star chalk into a ten-slot starlight codex capable of holding super runes. Unlocks ritual: rite of the starlight codex.</description>
+    <description>Upgrade an adept spellbook with mithril and star chalk into a starlight codex with a 10-glyph rune chain limit and support for super runes. Unlocks ritual: rite of the starlight codex.</description>
     <tab>WotF_GroveRites</tab>
     <baseCost>2000</baseCost>
     <techLevel>Neolithic</techLevel>

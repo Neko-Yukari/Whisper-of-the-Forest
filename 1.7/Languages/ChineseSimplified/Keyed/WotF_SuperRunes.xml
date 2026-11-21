@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <WotF_Spells.Reason.SuperNeedsCodex>超位符文需要佩戴星辉法典。</WotF_Spells.Reason.SuperNeedsCodex>
-  <WotF_Spells.Reason.SuperNeedsStaff>施放超位法术需要主手装备法杖。</WotF_Spells.Reason.SuperNeedsStaff>
+  <WotF_Spells.Reason.SuperNeedsStaff>施放超位法术需要主手握持双手长法杖。</WotF_Spells.Reason.SuperNeedsStaff>
   <WotF_Spells.Reason.SuperNoTurret>自动施法炮塔不能装入超位法术。</WotF_Spells.Reason.SuperNoTurret>
   <WotF_Spells.Rubbing.AlreadyKnown>殖民地已掌握这枚超位符文。</WotF_Spells.Rubbing.AlreadyKnown>
   <WotF_Spells.Rubbing.Unlocked>研读完成：全殖民地已永久解锁{0}。</WotF_Spells.Rubbing.Unlocked>

@@ -6,6 +6,7 @@
   <WotF_Turret_SelectSpellDesc>选择殖民地已有的法术。需要施法者到炮塔旁完成写入后才能使用。</WotF_Turret_SelectSpellDesc>
   <WotF_Turret_Candidate>{0} · 法术槽 {1} · {2}</WotF_Turret_Candidate>
   <WotF_Turret_NewSpell>新写法术</WotF_Turret_NewSpell>
+  <WotF_Turret_HeaderBadge>炮塔法术铭刻 · 仅限射弹形态</WotF_Turret_HeaderBadge>
   <WotF_Turret_RequestWrite>请求写入</WotF_Turret_RequestWrite>
   <WotF_Turret_ComposeHint>此法术只交给炮塔，不保存到任何人的魔术书槽位。</WotF_Turret_ComposeHint>
   <WotF_Turret_ManaPreview>每发耗魔：{0}</WotF_Turret_ManaPreview>

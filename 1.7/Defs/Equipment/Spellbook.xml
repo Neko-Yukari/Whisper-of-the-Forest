@@ -6,7 +6,7 @@
     <drawOrder>310</drawOrder>
   </ApparelLayerDef>
 
-  <!-- Spells belong to the pawn. A smaller book seals surplus slots without deleting them. -->
+  <!-- Spells belong to the pawn. All ten bookmarks open with any worn book; book tier limits glyphs per spell chain. -->
   <ThingDef Name="WotF_SpellbookBase" ParentName="ApparelBase" Abstract="True">
     <thingClass>Apparel</thingClass>
     <techLevel>Medieval</techLevel>
@@ -38,14 +38,14 @@
   <ThingDef ParentName="WotF_SpellbookBase">
     <defName>WotF_Spellbook_Apprentice</defName>
     <label>apprentice spellbook</label>
-    <description>A forest spellbook worn at the hip. Opens four spell slots and strengthens the wearer's mana. It cannot hold super runes.</description>
+    <description>A forest spellbook worn at the hip. Opens all ten spell bookmarks with a chain limit of 4 glyphs per spell, and strengthens the wearer's mana. It cannot hold super runes.</description>
     <equippedStatOffsets>
       <WotF_ManaMax>20</WotF_ManaMax>
       <WotF_ManaRegen>0.5</WotF_ManaRegen>
     </equippedStatOffsets>
     <modExtensions>
       <li Class="WhisperOfTheForest.Spells.SpellbookExtension">
-        <slotCount>4</slotCount>
+        <maxGlyphs>4</maxGlyphs>
       </li>
     </modExtensions>
   </ThingDef>
@@ -53,7 +53,7 @@
   <ThingDef ParentName="WotF_SpellbookBase">
     <defName>WotF_Spellbook_Adept</defName>
     <label>adept spellbook</label>
-    <description>An advanced forest spellbook. Opens seven spell slots and strengthens the wearer's mana. It cannot hold super runes.</description>
+    <description>An advanced forest spellbook. Opens all ten spell bookmarks with a chain limit of 7 glyphs per spell, and strengthens the wearer's mana. It cannot hold super runes.</description>
     <graphicData><color>(0.45,0.85,0.65)</color></graphicData>
     <equippedStatOffsets>
       <WotF_ManaMax>45</WotF_ManaMax>
@@ -61,7 +61,7 @@
     </equippedStatOffsets>
     <modExtensions>
       <li Class="WhisperOfTheForest.Spells.SpellbookExtension">
-        <slotCount>7</slotCount>
+        <maxGlyphs>7</maxGlyphs>
       </li>
     </modExtensions>
   </ThingDef>
@@ -69,7 +69,7 @@
   <ThingDef ParentName="WotF_SpellbookBase">
     <defName>WotF_Spellbook_Archmage</defName>
     <label>starlight codex</label>
-    <description>A starlight codex. Opens all ten spell slots and can hold super runes. Casting a super spell also requires a staff in the main hand.</description>
+    <description>A starlight codex. Opens all ten spell bookmarks with a chain limit of 10 glyphs per spell, and can hold super runes. Casting a super spell also requires a staff in the main hand.</description>
     <graphicData><color>(0.7,0.6,1)</color></graphicData>
     <equippedStatOffsets>
       <WotF_ManaMax>80</WotF_ManaMax>
@@ -77,7 +77,7 @@
     </equippedStatOffsets>
     <modExtensions>
       <li Class="WhisperOfTheForest.Spells.SpellbookExtension">
-        <slotCount>10</slotCount>
+        <maxGlyphs>10</maxGlyphs>
         <allowsSuperGlyphs>true</allowsSuperGlyphs>
       </li>
     </modExtensions>

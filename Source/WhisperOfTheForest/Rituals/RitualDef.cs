@@ -63,6 +63,7 @@ namespace WhisperOfTheForest.Rituals
         public int shieldCharges;
         public int shieldDurationTicks;
         public string shieldVfxDef;
+        public int counterStunTicks;
         public float baseStrikesPerMinute;
         public float minStrikeRadius;
         public int strikeDamage;
@@ -171,7 +172,8 @@ namespace WhisperOfTheForest.Rituals
         public bool UsesEffectStrength => strengthRadiusFactor != null
             || strengthEffectFactor != null
             || tameChancePerStrength > 0f
-            || healingTable != null;
+            || healingTable != null
+            || counterStunTicks > 0;
 
         public bool UsesRitualStrength => UsesWork || UsesEffectStrength;
 
@@ -208,6 +210,11 @@ namespace WhisperOfTheForest.Rituals
         public int ShieldChargesFor(float ritualStrength)
         {
             return UnityEngine.Mathf.Max(1, UnityEngine.Mathf.RoundToInt(shieldCharges * EffectFactorFor(ritualStrength)));
+        }
+
+        public int CounterStunTicksFor(float ritualStrength)
+        {
+            return UnityEngine.Mathf.Max(60, UnityEngine.Mathf.RoundToInt(counterStunTicks * EffectFactorFor(ritualStrength)));
         }
 
         public override IEnumerable<string> ConfigErrors()
@@ -471,8 +478,8 @@ namespace WhisperOfTheForest.Rituals
                     var books = inputCosts?.FindAll(cost =>
                         cost?.thingDef?.GetModExtension<SpellbookExtension>() != null);
                     if (books == null || books.Count != 1 || books[0].count != 1
-                        || books[0].thingDef.GetModExtension<SpellbookExtension>().slotCount
-                            >= outputProducts[0].thingDef.GetModExtension<SpellbookExtension>().slotCount)
+                        || books[0].thingDef.GetModExtension<SpellbookExtension>().maxGlyphs
+                            >= outputProducts[0].thingDef.GetModExtension<SpellbookExtension>().maxGlyphs)
                         yield return defName + " spellbook upgrade must consume exactly one lower-capacity spellbook.";
                 }
             }
@@ -578,6 +585,24 @@ namespace WhisperOfTheForest.Rituals
             else if (shieldCharges != 0 || shieldDurationTicks != 0 || !shieldVfxDef.NullOrEmpty())
             {
                 yield return defName + " sets shield fields without using RitualEffect_ShieldDome.";
+            }
+
+            if (effectWorkerClass != null
+                && typeof(RitualEffect_CounterPsychic).IsAssignableFrom(effectWorkerClass))
+            {
+                if (counterStunTicks <= 0)
+                {
+                    yield return defName + " uses RitualEffect_CounterPsychic and needs a positive counterStunTicks.";
+                }
+
+                if (strengthEffectFactor == null || strengthEffectFactor.PointsCount == 0 || strengthEffectFactor.MinY <= 0f)
+                {
+                    yield return defName + " uses RitualEffect_CounterPsychic and must declare a positive strengthEffectFactor.";
+                }
+            }
+            else if (counterStunTicks != 0)
+            {
+                yield return defName + " sets counterStunTicks without using RitualEffect_CounterPsychic.";
             }
 
             if (effectWorkerClass == null)

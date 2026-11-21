@@ -17,6 +17,29 @@ namespace WhisperOfTheForest.Mana
             compClass = typeof(CompManaPlantProducer);
         }
 
+        public override IEnumerable<StatDrawEntry> SpecialDisplayStats(StatRequest req)
+        {
+            foreach (StatDrawEntry entry in base.SpecialDisplayStats(req)) yield return entry;
+            yield return new StatDrawEntry(
+                StatCategoryDefOf.Building,
+                "WotF_Stat_ManaOutputCap".Translate(),
+                string.Format("WotF_Stat_Unit_ManaPerSec".Translate(), maxManaPerSecond.ToString("0.##")),
+                string.Format("WotF_Stat_ManaOutputCap_Desc".Translate(), manaPerSecondPerGrowth.ToString("0.###")),
+                2610);
+            yield return new StatDrawEntry(
+                StatCategoryDefOf.Building,
+                "WotF_Stat_ManaPlantRadius".Translate(),
+                string.Format("WotF_Stat_Unit_Cells".Translate(), radius.ToString("0.#")),
+                "WotF_Stat_ManaPlantRadius_Desc".Translate(),
+                2600);
+            yield return new StatDrawEntry(
+                StatCategoryDefOf.Building,
+                "WotF_Stat_ManaPlantMinGrowth".Translate(),
+                minGrowth.ToStringPercent(),
+                "WotF_Stat_ManaPlantMinGrowth_Desc".Translate(),
+                2595);
+        }
+
         public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
         {
             foreach (string error in base.ConfigErrors(parentDef))

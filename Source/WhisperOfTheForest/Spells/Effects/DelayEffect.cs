@@ -22,6 +22,11 @@ namespace WhisperOfTheForest.Spells
         internal SpellPayload Payload => payload;
 
         public override string DiagnosticName => "delay";
+        public override void AppendSummary(List<string> lines, int indent)
+        {
+            lines.Add(SummaryIndent(indent) + SpellText.TF("WotF_SpellPlan.EffectDelay", FormatSeconds(delayTicks)));
+            AppendPayloadSummary(payload, lines, indent);
+        }
         public override int Execute(Thing caster, Thing primary, IntVec3 cell, Map map)
         {
             if (payload == null || payload.steps.Count == 0 || delayTicks <= 0) return 0;

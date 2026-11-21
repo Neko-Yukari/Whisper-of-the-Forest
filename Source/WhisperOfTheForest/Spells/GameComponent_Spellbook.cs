@@ -104,11 +104,16 @@ namespace WhisperOfTheForest.Spells
 
             if (!IsSlotOpen(pawn, slot))
             {
-                reason = SpellText.TF("WotF_Spells.Reason.SlotSealed", slot + 1);
+                reason = SpellText.T("WotF_Spells.Reason.NoBook");
                 return false;
             }
 
             if (!SpellService.Validate(recipe, out reason))
+            {
+                return false;
+            }
+
+            if (!SpellService.CanFitBook(pawn, recipe.glyphs.Count, out reason))
             {
                 return false;
             }

@@ -110,6 +110,90 @@ namespace WhisperOfTheForest.Spells
 
         public List<SpellEffect> steps = new List<SpellEffect>();
 
+        /// <summary>
+        /// Single-source-of-truth live summary of the compiled delivery form and every effect step
+        /// (including nested Delay/Linger/Rune payloads), directly formatted from compiled values.
+        /// </summary>
+        public List<string> BuildSummaryLines()
+        {
+            var lines = new List<string>();
+            AppendSummary(lines);
+            return lines;
+        }
+
+        public void AppendSummary(List<string> lines)
+        {
+            if (lines == null)
+            {
+                return;
+            }
+
+            switch (form)
+            {
+                case SpellFormKind.Self:
+                    lines.Add(SpellText.T("WotF_SpellPlan.DeliverySelf"));
+                    break;
+                case SpellFormKind.Touch:
+                    lines.Add(SpellText.TF("WotF_SpellPlan.DeliveryTouch", range.ToString("0.#")));
+                    break;
+                case SpellFormKind.Projectile:
+                    if (projectile != null)
+                    {
+                        string pierce = pierceStacks > 0
+                            ? SpellText.TF("WotF_SpellPlan.PierceSuffix", pierceStacks)
+                            : string.Empty;
+                        lines.Add(SpellText.TF("WotF_SpellPlan.DeliveryProjectile",
+                            projectile.missileCount,
+                            projectile.speedCellsPerSecond.ToString("0.#"),
+                            range.ToString("0.#"),
+                            pierce));
+                    }
+                    break;
+                case SpellFormKind.Orbit:
+                    if (orbit != null)
+                    {
+                        lines.Add(SpellText.TF("WotF_SpellPlan.DeliveryOrbit",
+                            orbit.count,
+                            ((float)orbit.lifetimeTicks / GenTicks.TicksPerRealSecond).ToString("0.#"),
+                            orbit.hitRadius.ToString("0.#"),
+                            orbit.angularSpeedDegrees.ToString("0")));
+                    }
+                    break;
+                case SpellFormKind.Special:
+                    if (railgun != null)
+                    {
+                        string rangeText = railgun.range <= 0f
+                            ? SpellText.T("WotF_SpellPlan.FullMap")
+                            : SpellText.TF("WotF_SpellPlan.RangeCells", railgun.range.ToString("0.#"));
+                        lines.Add(SpellText.TF("WotF_SpellPlan.SpecialRailgun",
+                            railgun.damage.ToString("0.#"),
+                            railgun.armorPenetration.ToStringPercent("0"),
+                            railgun.hitWidth.ToString("0.#"),
+                            rangeText));
+                    }
+                    else if (tornado != null)
+                    {
+                        string rangeText = tornado.range <= 0f
+                            ? SpellText.T("WotF_SpellPlan.FullMap")
+                            : SpellText.TF("WotF_SpellPlan.RangeCells", tornado.range.ToString("0.#"));
+                        lines.Add(SpellText.TF("WotF_SpellPlan.SpecialTornado",
+                            tornado.damagePerPulse.ToString("0.#"),
+                            ((float)tornado.pulseIntervalTicks / GenTicks.TicksPerRealSecond).ToString("0.#"),
+                            ((float)tornado.durationTicks / GenTicks.TicksPerRealSecond).ToString("0.#"),
+                            tornado.radius.ToString("0.#"),
+                            tornado.armorPenetration.ToStringPercent("0"),
+                            tornado.igniteChancePerPulse.ToStringPercent("0"),
+                            rangeText));
+                    }
+                    break;
+            }
+
+            for (int i = 0; i < steps.Count; i++)
+            {
+                steps[i].AppendSummary(lines, 0);
+            }
+        }
+
         /// <summary>Deep copy; the caller and the callee never share a list or a step object.</summary>
         public SpellCastPlan Copy()
         {

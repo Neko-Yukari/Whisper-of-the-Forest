@@ -454,24 +454,6 @@ namespace WhisperOfTheForest.Spells
         /// <summary>Hard cap on darts or orbs after Split.</summary>
         public int maxMissiles;
 
-        /// <summary>Base spell strength of a staff, before its material adds anything.</summary>
-        public float staffSpellPower;
-
-        /// <summary>Duration extension per point of the material's heat armour power.</summary>
-        public float staffHeatArmorDurationBonus;
-
-        /// <summary>Lowest mana multiplier a material may reach.</summary>
-        public float staffMinManaFactor;
-
-        /// <summary>Mana-cost reduction per point of the material's blunt armour power.</summary>
-        public float staffBluntArmorCostReduction;
-
-        /// <summary>Highest duration multiplier a material may reach.</summary>
-        public float staffMaxDurationFactor;
-
-        /// <summary>Highest damage multiplier a material may reach.</summary>
-        public float staffMaxDamageFactor;
-
         /// <summary>Fallback spell theme when a plan contains no themed glyph.</summary>
         public SpellThemeDef defaultTheme;
 
@@ -503,36 +485,6 @@ namespace WhisperOfTheForest.Spells
             if (maxMissiles < 1)
             {
                 yield return "maxMissiles must be at least 1";
-            }
-
-            if (staffSpellPower <= 0f)
-            {
-                yield return "staffSpellPower must be greater than 0";
-            }
-
-            if (staffHeatArmorDurationBonus < 0f)
-            {
-                yield return "staffHeatArmorDurationBonus must not be negative";
-            }
-
-            if (staffMinManaFactor <= 0f || staffMinManaFactor > 1f)
-            {
-                yield return "staffMinManaFactor must be greater than 0 and at most 1";
-            }
-
-            if (staffBluntArmorCostReduction < 0f || staffBluntArmorCostReduction > 1f)
-            {
-                yield return "staffBluntArmorCostReduction must be between 0 and 1";
-            }
-
-            if (staffMaxDurationFactor < 1f)
-            {
-                yield return "staffMaxDurationFactor must be at least 1";
-            }
-
-            if (staffMaxDamageFactor < 1f)
-            {
-                yield return "staffMaxDamageFactor must be at least 1";
             }
 
             if (defaultTheme == null)

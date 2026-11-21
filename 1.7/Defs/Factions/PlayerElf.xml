@@ -28,7 +28,7 @@
     <pawnSingular>elf</pawnSingular>
     <pawnsPlural>elves</pawnsPlural>
     <categoryTag>Tribal</categoryTag>
-    <techLevel>Neolithic</techLevel>
+    <techLevel>Ultra</techLevel>
     <startingResearchTags>
       <li>TribalStart</li>
     </startingResearchTags>

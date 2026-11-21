@@ -1,62 +1,81 @@
 using System;
+using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using WhisperOfTheForest.Equipment;
+using WhisperOfTheForest.Race;
 using WhisperOfTheForest.Spells;
+using WhisperOfTheForest.Turrets;
 
 namespace WhisperOfTheForest
 {
     /// <summary>
-    /// The two-page magic book: rune catalogue on the left page, the spell bar on the right page,
-    /// ten slot bookmarks along the spine.
+    /// Symmetric two-page spellbook built on <see cref="BookUi.DrawBookSpread"/>: rune codex and
+    /// fixed bottom inspector on the left page; 2×5 ten-slot grid, single-row 10-socket rune chain,
+    /// live compiled tactical plan ledger and action controls on the right page.
     ///
-    /// Like Ars Nouveau, the current slot <em>is</em> the editing slot: clicking a bookmark makes it
-    /// the pawn's active slot immediately, and the bar shown on the right page is that slot's spell.
-    /// Glyphs are appended and removed with single clicks, "create" writes the bar into the slot and
-    /// overwrites without asking, and switching or closing simply drops whatever was not created.
-    ///
-    /// The window owns no spell logic. It calls the shared services (<see cref="SpellService"/>,
-    /// <see cref="GameComponent_Spellbook"/>) to validate, save and start targeting, so the page and
-    /// the native cast gizmo always read the same slot.
+    /// All ten bookmarks stay open while wearing any spellbook, while book tier caps single-spell
+    /// rune chain length (4 / 7 / 10). The window owns no spell rules: it delegates validation,
+    /// compilation, saving, casting and carrier checks to the shared services.
     /// </summary>
     public partial class Window_Spellbook : Window
     {
         protected delegate bool SubmitRecipe(SpellRecipe recipe, out string reason);
+
+        private const float ToastDurationSeconds = 3.5f;
+
         private readonly SubmitRecipe submitRecipe;
         private readonly Func<SpellRecipe, float> previewMana;
         private readonly string composeTitle;
         private readonly string submitLabel;
-        private bool IsStandalone => submitRecipe != null;
+        protected bool IsStandalone => submitRecipe != null;
 
         private readonly Pawn caster;
         private readonly SpellbookChain chain = new SpellbookChain();
         private readonly SpellbookAnim anim = new SpellbookAnim();
-        private readonly string[] slotNames = new string[GameComponent_Spellbook.SlotCount];
-
-        /// <summary>Icon of each slot's first rune for its ribbon, refreshed with <see cref="slotNames"/>.</summary>
+        private readonly SpellRecipe[] slotRecipes = new SpellRecipe[GameComponent_Spellbook.SlotCount];
         private readonly Texture2D[] slotIcons = new Texture2D[GameComponent_Spellbook.SlotCount];
-
-        /// <summary>Remembers the player's animation choice for the next time the book opens.</summary>
-        private static bool animationsEnabled = true;
+        private readonly List<(ThingDef Def, int MaxGlyphs)> bookTiers = new List<(ThingDef, int)>();
 
         private int slot;
         private int activeSlot = -1;
         private SpellGlyphKind? category;
         private string search = "";
         private int hoverGlyph = -1;
+        private SpellGlyphDef lastInspectedGlyph;
         private Vector2 catalogScroll;
+        private Vector2 ledgerScroll;
+        private float ledgerViewHeight = 140f;
         private string statusText;
         private bool statusIsError;
+        private float statusSetAt = -1000f;
         private bool refuseAsDuplicate;
+        private int lastSlotRefreshTick = -9999;
 
-        private bool chainValid;
-        private string chainReason;
+        // Per-frame book/draft/cast snapshot
+        private Apparel wornBook;
+        private int bookMaxGlyphs;
+        private bool bookAllowsSuper;
+        private CompSpellStaff heldStaff;
+        private SpellStaffModifiers heldStaffMods;
+
+        private bool draftOk;
+        private string draftReason;
         private bool castable;
         private string castReason;
-
-        /// <summary>What "create" would freeze for the bar as it stands (the same derivation the slot uses).</summary>
         private SpellTiming barTiming;
         private SpellCost barCost;
+
+        // Cached live compiled tactical plan (rebuilt only when draft chain or held staff changes)
+        private string cachedPlanKey;
+        private SpellCastPlan previewPlan;
+        private readonly List<string> previewSummaryLines = new List<string>();
+        private bool previewStaffOk;
+        private bool previewTurretOk;
+        private string previewTurretReason;
+        private bool previewEnchantOk;
+        private string previewEnchantReason;
 
         public Window_Spellbook(Pawn caster) : this()
         {
@@ -74,53 +93,86 @@ namespace WhisperOfTheForest
 
         private Window_Spellbook()
         {
-            anim.enabled = animationsEnabled;
-
-            // The cover is the window: no vanilla title bar, background or close X, all of which
-            // would be painted over. The header draws the title and its own close button.
-            doWindowBackground = false;
-            doCloseX = false;
-            doCloseButton = false;
-            draggable = true;
-            forcePause = false;
-            preventCameraMotion = false;
-            absorbInputAroundWindow = false;
-            closeOnClickedOutside = false;
-            // Keep a second Add from replacing this window: WindowStack.Add would drop the open book.
-            onlyOneOfTypeAllowed = false;
-            closeOnAccept = false;
-            closeOnCancel = true;
-            drawShadow = true;
+            BuildBookTierIndex();
+            // Keep onlyOneOfTypeAllowed=false so PreOpen drops duplicate opens without replacing the live book.
+            BookUi.ConfigureBookWindow(this, onlyOneOfType: false);
         }
 
-        protected override float Margin
-        {
-            get { return 0f; }
-        }
+        protected override float Margin => 0f;
 
         public override Vector2 InitialSize
         {
             get
             {
-                float width = Mathf.Clamp(UI.screenWidth - 40f, 820f, 1080f);
-                float height = Mathf.Clamp(UI.screenHeight - 60f, 560f, 700f);
+                float width = Mathf.Clamp(UI.screenWidth - 40f, 820f, 1088f);
+                float height = Mathf.Clamp(UI.screenHeight - 60f, 560f, 728f);
                 return new Vector2(width, height);
             }
         }
 
         protected override void SetInitialSizeAndPosition()
         {
-            Vector2 size = InitialSize;
-            float x = Mathf.Clamp((UI.screenWidth - size.x) * 0.5f, 0f, Mathf.Max(0f, UI.screenWidth - size.x));
-            float y = Mathf.Clamp((UI.screenHeight - size.y) * 0.5f, 0f, Mathf.Max(0f, UI.screenHeight - size.y));
-            windowRect = GenUI.Rounded(new Rect(x, y, size.x, size.y));
+            windowRect = BookUi.CenteredWindowRect(InitialSize);
+        }
+
+        /// <summary>Optional cover-header badge text for standalone subclasses (e.g. turret inscription).</summary>
+        protected virtual string HeaderBadgeText => null;
+
+        /// <summary>
+        /// Single catalogue gate for whether <paramref name="glyph"/> can be appended right now.
+        /// Subclasses (such as <see cref="Window_TurretSpell"/>) override this to grey out
+        /// unsupported forms or super runes directly in the catalogue.
+        /// </summary>
+        protected virtual bool ValidateCatalogGlyph(SpellGlyphDef glyph, out string reason)
+        {
+            int? limit = IsStandalone ? (int?)null : bookMaxGlyphs;
+            if (!SpellCompiler.CanAppend(chain.glyphs, glyph, out reason, limit))
+            {
+                return false;
+            }
+
+            if (!IsStandalone && !SpellService.CanUseGlyph(caster, glyph, out reason))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>Full-chain validation for the active draft; subclasses may add carrier rules.</summary>
+        protected virtual bool ValidateChain(SpellRecipe recipe, out string reason)
+        {
+            if (!SpellService.Validate(recipe, out reason))
+            {
+                return false;
+            }
+
+            if (IsStandalone)
+            {
+                return true;
+            }
+
+            if (!SpellService.CanFitBook(caster, recipe.glyphs.Count, out reason))
+            {
+                return false;
+            }
+
+            for (int i = 0; i < recipe.glyphs.Count; i++)
+            {
+                SpellGlyphDef glyph = SpellDefs.Glyph(recipe.glyphs[i]);
+                if (!SpellService.CanUseGlyph(caster, glyph, out reason))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         public override void PreOpen()
         {
             base.PreOpen();
 
-            // Runs before this window is inserted, so any match is a book that is already open.
             int open = 0;
             WindowStack stack = Find.WindowStack;
             if (stack != null)
@@ -146,14 +198,11 @@ namespace WhisperOfTheForest
                 return;
             }
 
-            RefreshSlotNames();
+            RefreshSlots();
 
-            // The page opens on the pawn's active slot, so the bookmark strip and the cast gizmo
-            // describe the same spell from the first frame. A pawn without a slot gets the first
-            // used one (or slot 1 when the book is empty).
             GameComponent_Spellbook component = GameComponent_Spellbook.Current;
             activeSlot = component == null ? -1 : component.GetActiveSlot(caster);
-            if (!GameComponent_Spellbook.IsSlotOpen(caster, activeSlot))
+            if (activeSlot < 0 || activeSlot >= GameComponent_Spellbook.SlotCount)
             {
                 activeSlot = FirstUsedSlot();
                 component?.SetActiveSlot(caster, activeSlot);
@@ -163,29 +212,13 @@ namespace WhisperOfTheForest
             LoadChainFromSlot();
         }
 
-        /// <summary>
-        /// Nothing is pending any more: the bar is the slot, so there is no unsaved work to confirm.
-        /// </summary>
-        public override bool OnCloseRequest()
-        {
-            return true;
-        }
+        public override bool OnCloseRequest() => true;
 
-        /// <summary>
-        /// Makes <paramref name="index"/> the pawn's current slot and reloads the page for it.
-        /// Single click, empty slots included; the cast gizmo reads the new slot on the next frame.
-        /// </summary>
+        /// <summary>Switches to bookmark <paramref name="index"/> (all 10 slots stay selectable).</summary>
         public void SelectBookmark(int index)
         {
             if (IsStandalone || index < 0 || index >= GameComponent_Spellbook.SlotCount)
             {
-                return;
-            }
-
-            if (!GameComponent_Spellbook.IsSlotOpen(caster, index))
-            {
-                anim.Shake();
-                SetStatus(TF("WotF_Spells.Reason.SlotSealed", index + 1), true);
                 return;
             }
 
@@ -196,8 +229,8 @@ namespace WhisperOfTheForest
 
             activeSlot = index;
             slot = index;
-            statusText = null;
-            statusIsError = false;
+            ClearStatus();
+            ledgerScroll = Vector2.zero;
             LoadChainFromSlot();
         }
 
@@ -205,38 +238,66 @@ namespace WhisperOfTheForest
         {
             if (refuseAsDuplicate)
             {
-                // One frame of closed background; the already open book stays as it is.
                 Close(true);
                 return;
             }
 
             using (TechLabDrawScope.Begin())
             {
-                SpellbookStyle.DrawCover(inRect);
                 RefreshFrameState();
 
-                SpellbookLayout layout = SpellbookLayout.Compute(inRect);
+                BookUi.DrawBookSpread(inRect, SpellbookLayout.HeaderHeight,
+                    out Rect headerRect, out Rect leftPageRect, out Rect rightPageRect);
 
-                DrawHeader(layout.Header);
-                DrawCatalogPage(layout.LeftPage);
-                DrawEditorPage(layout.RightPage);
-                if (!IsStandalone)
-                    DrawBookmarks(layout.Bookmarks);
-                DrawFooter(layout.Footer);
-                DrawAnimations(layout);
+                DrawHeader(headerRect);
+                DrawCatalogPage(leftPageRect, out CatalogLayout catalogLayout);
+                DrawEditorPage(rightPageRect, out EditorLayout editorLayout);
+                // Draw inspector after editor so hovering right-page chain beads updates on the same frame.
+                DrawInspectorCard(catalogLayout.Inspector);
+                DrawAnimations(rightPageRect, editorLayout);
                 DrawBlockedTooltip(new Rect(0f, 0f, inRect.width, inRect.height));
             }
         }
 
-        // ---------------------------------------------------------------- frame state
+        // ---------------------------------------------------------------- frame state & plan cache
 
         private void RefreshFrameState()
         {
-            chainValid = SpellService.Validate(chain.ToRecipe(), out chainReason);
+            if (!IsStandalone)
+            {
+                wornBook = SpellService.WornSpellbook(caster);
+                SpellbookExtension ext = wornBook?.def.GetModExtension<SpellbookExtension>();
+                bookMaxGlyphs = ext?.maxGlyphs ?? 0;
+                bookAllowsSuper = ext?.allowsSuperGlyphs == true;
+                heldStaff = CompSpellStaff.FindEquipped(caster);
+                heldStaffMods = heldStaff?.Modifiers;
+
+                int nowTick = Find.TickManager?.TicksGame ?? 0;
+                if (nowTick - lastSlotRefreshTick >= 30 || nowTick < lastSlotRefreshTick)
+                {
+                    RefreshSlots();
+                }
+            }
+            else
+            {
+                wornBook = null;
+                bookMaxGlyphs = SpellbookStyle.MaxGlyphs;
+                bookAllowsSuper = false;
+                heldStaff = null;
+                heldStaffMods = null;
+            }
+
+            SpellRecipe draft = chain.ToRecipe();
+            draftOk = ValidateChain(draft, out draftReason);
             barTiming = SpellTiming.Derive(chain.glyphs);
             barCost = SpellCost.Derive(chain.glyphs);
+
+            RefreshPreviewPlan(draft);
+
             if (IsStandalone)
+            {
                 return;
+            }
 
             GameComponent_Spellbook component = GameComponent_Spellbook.Current;
             activeSlot = component == null ? -1 : component.GetActiveSlot(caster);
@@ -248,141 +309,104 @@ namespace WhisperOfTheForest
                 return;
             }
 
-            // The shared service decides; the window only surfaces its reason.
             castable = SpellService.CanCast(caster, saved, out string canReason);
             castReason = castable ? null : canReason;
         }
 
-        // ---------------------------------------------------------------- header/footer
+        private void RefreshPreviewPlan(SpellRecipe draft)
+        {
+            string staffKey = heldStaff != null
+                ? heldStaff.parent.def.defName + ":" + (heldStaff.parent.Stuff?.defName ?? "")
+                : "";
+            string key = string.Join("|", draft.glyphs) + "#" + staffKey;
+            if (key == cachedPlanKey)
+            {
+                return;
+            }
 
-        /// <summary>
-        /// Cover band: caster and current slot on the left, the book's title in the middle, the
-        /// animation toggle and the close button on the right.
-        /// </summary>
+            cachedPlanKey = key;
+            previewSummaryLines.Clear();
+            previewPlan = SpellCompiler.Compile(draft, out _, heldStaffMods);
+            if (previewPlan != null)
+            {
+                previewPlan.AppendSummary(previewSummaryLines);
+                previewStaffOk = Verb_CastSpellStaff.AutoAttackPlan(draft) != null;
+                previewTurretOk = CompSpellTurret.CanCompileProjectile(draft, out previewTurretReason);
+                previewEnchantOk = CompEnchantedEquipment.AcceptsRecipe(draft, out previewEnchantReason);
+            }
+            else
+            {
+                previewStaffOk = false;
+                previewTurretOk = false;
+                previewTurretReason = null;
+                previewEnchantOk = false;
+                previewEnchantReason = null;
+            }
+        }
+
+        // ---------------------------------------------------------------- cover header
+
         private void DrawHeader(Rect rect)
         {
-            Rect closeRect = new Rect(rect.xMax - 22f, rect.y + (rect.height - 20f) * 0.5f, 20f, 20f);
-            Rect animRect = new Rect(closeRect.x - 10f - 96f, rect.y + 2f, 96f, rect.height - 4f);
+            Rect closeRect = new Rect(rect.xMax - 24f, rect.y + (rect.height - 24f) * 0.5f, 24f, 24f);
+            float availWidth = closeRect.x - rect.x - 10f;
 
-            float sideWidth = Mathf.Max(0f, animRect.x - rect.x - 8f);
-            float titleWidth = Mathf.Min(rect.width * 0.34f, 300f);
-            Rect titleRect = new Rect(rect.center.x - titleWidth * 0.5f, rect.y, titleWidth, rect.height);
-            SpellbookStyle.DrawLabel(titleRect, IsStandalone ? composeTitle : T("WotF_Spellbook.WindowTitle"), GameFont.Medium,
-                SpellbookStyle.CoverGold, TextAnchor.MiddleCenter);
+            string title = IsStandalone ? composeTitle : T("WotF_Spellbook.WindowTitle");
+            float titleW = Mathf.Min(availWidth * 0.45f, Mathf.Ceil(BookUi.CalcTextWidth(title, GameFont.Medium)) + 6f);
+            Rect titleRect = new Rect(rect.x + 2f, rect.y, titleW, rect.height);
+            BookUi.DrawLabel(titleRect, title, GameFont.Medium, BookUi.CoverGold, TextAnchor.MiddleLeft, ellipsis: true);
 
-            if (!IsStandalone)
-                DrawCasterHeader(rect, Mathf.Min(sideWidth, titleRect.x - rect.x - 8f));
-
-            string animLabel = anim.enabled ? T("WotF_Spellbook.AnimOn") : T("WotF_Spellbook.AnimOff");
-            if (SpellbookStyle.Button(animRect, animLabel, SpellbookButtonRole.Secondary, true))
+            float badgeStartX = titleRect.xMax + 10f;
+            float badgeAvailW = closeRect.x - badgeStartX - 8f;
+            if (badgeAvailW > 60f)
             {
-                anim.enabled = !anim.enabled;
-                animationsEnabled = anim.enabled;
+                DrawHeaderBadge(new Rect(badgeStartX, rect.y + 3f, badgeAvailW, rect.height - 6f));
             }
 
-            TooltipHandler.TipRegion(animRect, T("WotF_Spellbook.AnimTip"));
+            BookUi.DrawCloseButton(closeRect, () => Close());
+        }
 
-            bool overClose = Mouse.IsOver(closeRect);
-            SpellbookStyle.DrawIcon(closeRect, SpellbookStyle.IconRemove,
-                overClose ? SpellbookStyle.CoverWarning : SpellbookStyle.CoverTextDim);
-            TooltipHandler.TipRegion(closeRect, T("CloseButton"));
-            if (Widgets.ButtonInvisible(closeRect, true))
+        private void DrawHeaderBadge(Rect area)
+        {
+            string badgeText;
+            string tip = null;
+            Color bg = new Color(0.11f, 0.21f, 0.16f, 0.88f);
+            Color border = BookUi.CoverBorder;
+            Color textColor = BookUi.CoverText;
+
+            if (IsStandalone)
             {
-                Close();
+                badgeText = HeaderBadgeText ?? T("WotF_Turret_ComposeHint");
             }
-        }
-
-        private void DrawCasterHeader(Rect rect, float leftWidth)
-        {
-            string casterLabel = caster != null ? caster.LabelShort : T("WotF_Spellbook.NoCaster");
-            string currentName = slotNames[slot];
-            string slotText = TF("WotF_Spellbook.CurrentSlot", slot + 1) + " · " +
-                              (currentName.NullOrEmpty() ? T("WotF_Spellbook.SlotEmpty") : currentName);
-            SpellbookStyle.DrawLabel(new Rect(rect.x, rect.y, leftWidth, rect.height * 0.5f + 2f),
-                TF("WotF_Spellbook.Caster", casterLabel), GameFont.Tiny, SpellbookStyle.CoverText,
-                TextAnchor.LowerLeft);
-            SpellbookStyle.DrawLabel(new Rect(rect.x, rect.y + rect.height * 0.5f, leftWidth, rect.height * 0.5f),
-                slotText, GameFont.Tiny, SpellbookStyle.CoverTextDim, TextAnchor.UpperLeft);
-
-        }
-
-        private void DrawFooter(Rect rect)
-        {
-            string text = statusText ?? T(IsStandalone ? "WotF_Turret_ComposeHint" : "WotF_Spellbook.StatusReady");
-            Color color = statusIsError ? SpellbookStyle.CoverWarning : SpellbookStyle.CoverTextDim;
-            const float iconSize = 14f;
-            Texture2D icon = statusIsError ? SpellbookStyle.IconWarn : SpellbookStyle.IconOk;
-            SpellbookStyle.DrawIcon(new Rect(rect.x, rect.y + (rect.height - iconSize) * 0.5f, iconSize, iconSize), icon,
-                color);
-            SpellbookStyle.DrawLabel(new Rect(rect.x + iconSize + 6f, rect.y, rect.width - iconSize - 6f, rect.height),
-                text, GameFont.Tiny, color, TextAnchor.MiddleLeft);
-        }
-
-        // ---------------------------------------------------------------- bookmarks
-
-        /// <summary>
-        /// Ten cloth ribbons tucked into the right page. The current slot's ribbon is pulled out to
-        /// full length and glows; a used slot shows its first rune, an empty one is plain undyed
-        /// cloth. The click rectangle is the whole tab, whatever the ribbon's drawn length.
-        /// </summary>
-        private void DrawBookmarks(Rect rect)
-        {
-            const float tuck = 6f;
-            for (int i = 0; i < GameComponent_Spellbook.SlotCount; i++)
+            else
             {
-                Rect tab = SpellbookLayout.BookmarkTab(rect, i, GameComponent_Spellbook.SlotCount);
-                bool selected = i == activeSlot;
-                bool used = !slotNames[i].NullOrEmpty();
-                bool open = GameComponent_Spellbook.IsSlotOpen(caster, i);
-                bool over = Mouse.IsOver(tab);
+                string casterLabel = caster != null ? caster.LabelShort : T("WotF_Spellbook.NoCaster");
+                Gene_ForestBloodline bloodline = Gene_ForestBloodline.Get(caster);
+                string manaText = bloodline != null
+                    ? bloodline.CurrentMana.ToString("0") + "/" + bloodline.MaxMana.ToString("0")
+                    : "-";
 
-                Rect ribbon = selected ? tab : new Rect(tab.x + tuck, tab.y, tab.width - tuck, tab.height);
-                Color cloth = selected ? SpellbookStyle.RibbonActive
-                    : used ? SpellbookStyle.RibbonUsed
-                    : SpellbookStyle.RibbonEmpty;
-                if (!open)
+                if (wornBook != null)
                 {
-                    cloth = SpellbookStyle.Fade(cloth, SpellbookStyle.BlockedAlpha);
+                    badgeText = TF("WotF_Spellbook.HeaderBadge",
+                        casterLabel, wornBook.def.LabelCap, bookMaxGlyphs, manaText);
+                    tip = TF("WotF_Spellbook.HeaderBadgeTip",
+                        wornBook.def.LabelCap,
+                        bookMaxGlyphs,
+                        bookAllowsSuper ? "Yes".Translate() : "No".Translate());
                 }
-                if (over && !selected)
+                else
                 {
-                    cloth = SpellbookStyle.Lighten(cloth, 0.15f);
-                }
-
-                if (selected)
-                {
-                    SpellbookStyle.DrawGlow(ribbon.center, ribbon.width * 1.6f, SpellbookStyle.JadeBright, 0.35f);
-                }
-
-                SpellbookStyle.DrawStretched(ribbon, SpellbookStyle.Ribbon, cloth);
-
-                // Content sits on the part of the ribbon outside the page, short of the swallowtail.
-                Rect face = new Rect(tab.x + SpellbookLayout.BookmarkOverlap, tab.y,
-                    tab.width - SpellbookLayout.BookmarkOverlap - 8f, tab.height);
-                bool showIcon = used && slotIcons[i] != null && face.height >= 40f;
-                Rect numberRect = showIcon ? new Rect(face.x, face.y + 2f, face.width, 16f) : face;
-                SpellbookStyle.DrawLabel(numberRect, (i + 1).ToString(), GameFont.Small,
-                    used || selected ? SpellbookStyle.CoverText : SpellbookStyle.Fade(SpellbookStyle.CoverText, 0.6f),
-                    TextAnchor.MiddleCenter);
-                if (showIcon)
-                {
-                    float iconSize = Mathf.Min(22f, face.height - 20f);
-                    SpellbookStyle.DrawIcon(new Rect(face.center.x - iconSize * 0.5f, numberRect.yMax, iconSize, iconSize),
-                        slotIcons[i], Color.white);
-                }
-
-                string tip = !open
-                    ? TF("WotF_Spellbook.SlotTitle", i + 1) + " · " + TF("WotF_Spells.Reason.SlotSealed", i + 1)
-                    : TF("WotF_Spellbook.SlotTitle", i + 1) + " · " +
-                      (used ? TF("WotF_Spellbook.SlotTooltipUsed", slotNames[i]) : T("WotF_Spellbook.SlotEmpty"))
-                      + "\n" + T("WotF_Spellbook.SwitchBookmark");
-                TooltipHandler.TipRegion(tab, tip);
-
-                if (Widgets.ButtonInvisible(tab, true))
-                {
-                    SelectBookmark(i);
+                    badgeText = TF("WotF_Spellbook.HeaderNoBook", casterLabel, manaText);
+                    bg = new Color(0.32f, 0.12f, 0.10f, 0.90f);
+                    border = BookUi.CoverWarning;
+                    textColor = BookUi.CoverWarning;
                 }
             }
+
+            float desiredW = Mathf.Ceil(BookUi.CalcTextWidth(badgeText, GameFont.Tiny)) + 16f;
+            Rect pill = new Rect(area.x, area.y, Mathf.Min(area.width, desiredW), area.height);
+            BookUi.DrawPillBadge(pill, badgeText, bg, border, textColor, GameFont.Tiny, tip);
         }
 
         // ---------------------------------------------------------------- slot actions
@@ -391,6 +415,7 @@ namespace WhisperOfTheForest
         {
             chain.LoadFrom(SavedRecipe(slot));
             hoverGlyph = -1;
+            cachedPlanKey = null;
         }
 
         private void RequestCreate()
@@ -399,10 +424,11 @@ namespace WhisperOfTheForest
             {
                 if (!submitRecipe(chain.ToRecipe(), out string refusal))
                 {
-                    anim.Shake();
+                    anim.Nudge();
                     SetStatus(refusal, true);
                     return;
                 }
+
                 Close();
                 return;
             }
@@ -410,77 +436,74 @@ namespace WhisperOfTheForest
             GameComponent_Spellbook component = GameComponent_Spellbook.Current;
             if (component == null)
             {
-                anim.Shake();
+                anim.Nudge();
                 SetStatus(T("WotF_Spellbook.NoGameComponent"), true);
                 return;
             }
 
             if (!chain.HasGlyphs)
             {
-                anim.Shake();
+                anim.Nudge();
                 SetStatus(T("WotF_Spellbook.BarEmpty"), true);
                 return;
             }
 
-            if (!chainValid)
+            if (!draftOk)
             {
-                anim.Shake();
-                SetStatus(TF("WotF_Spellbook.CreateRefused", ReasonOrUnknown(chainReason)), true);
+                anim.Nudge();
+                SetStatus(TF("WotF_Spellbook.CreateRefused", ReasonOrUnknown(draftReason)), true);
                 return;
             }
 
-            // No overwrite prompt: the bar is written straight into the current slot.
-            string reason;
-            if (!component.SaveSlot(caster, slot, chain.ToRecipe(), out reason))
+            if (!component.SaveSlot(caster, slot, chain.ToRecipe(), out string reason))
             {
-                anim.Shake();
+                anim.Nudge();
                 SetStatus(TF("WotF_Spellbook.CreateRefused", ReasonOrUnknown(reason)), true);
                 return;
             }
 
             component.SetActiveSlot(caster, slot);
             activeSlot = slot;
-            RefreshSlotNames();
+            RefreshSlots();
             LoadChainFromSlot();
-            anim.Sweep();
+            anim.OnCreate(chain.glyphs.Count);
             SetStatus(TF("WotF_Spellbook.Created", slot + 1), false);
         }
 
-        /// <summary>Empties the bar only; the saved spell in the slot is untouched.</summary>
         private void RequestClearBar()
         {
             if (!chain.HasGlyphs)
             {
-                anim.Shake();
+                anim.Nudge();
                 SetStatus(T("WotF_Spellbook.BarEmpty"), true);
                 return;
             }
 
             chain.ClearBar();
             hoverGlyph = -1;
+            cachedPlanKey = null;
             SetStatus(T("WotF_Spellbook.BarCleared"), false);
         }
 
-        /// <summary>One click deletes the current slot; there is no second confirmation.</summary>
         private void RequestDeleteSlot()
         {
             GameComponent_Spellbook component = GameComponent_Spellbook.Current;
             if (component == null)
             {
-                anim.Shake();
+                anim.Nudge();
                 SetStatus(T("WotF_Spellbook.NoGameComponent"), true);
                 return;
             }
 
-            if (slotNames[slot].NullOrEmpty())
+            if (slotRecipes[slot] == null)
             {
-                anim.Shake();
+                anim.Nudge();
                 SetStatus(TF("WotF_Spellbook.SlotAlreadyEmpty", slot + 1), false);
                 return;
             }
 
             component.ClearSlot(caster, slot);
-            RefreshSlotNames();
+            RefreshSlots();
             activeSlot = component.GetActiveSlot(caster);
             LoadChainFromSlot();
             SetStatus(TF("WotF_Spellbook.SlotDeleted", slot + 1), false);
@@ -491,25 +514,23 @@ namespace WhisperOfTheForest
             SpellRecipe saved = SavedRecipe(slot);
             if (saved == null)
             {
-                anim.Shake();
+                anim.Nudge();
                 SetStatus(TF("WotF_Spellbook.CastNoSaved", slot + 1), true);
                 return;
             }
 
             if (!castable)
             {
-                anim.Shake();
+                anim.Nudge();
                 SetStatus(TF("WotF_Spellbook.CastBlocked", ReasonOrUnknown(castReason)), true);
                 return;
             }
 
-            // Same entry point as the native gizmo, so distance, line of sight and cooldown are
-            // enforced by the shared service rather than by this window.
             Close(true);
             SpellService.BeginTargeting(caster, saved);
         }
 
-        // ---------------------------------------------------------------- small helpers
+        // ---------------------------------------------------------------- helpers
 
         private SpellRecipe SavedRecipe(int index)
         {
@@ -522,24 +543,85 @@ namespace WhisperOfTheForest
             return component.GetSlot(caster, index);
         }
 
-        private void RefreshSlotNames()
+        private void RefreshSlots()
         {
             GameComponent_Spellbook component = GameComponent_Spellbook.Current;
-            for (int i = 0; i < slotNames.Length; i++)
+            lastSlotRefreshTick = Find.TickManager?.TicksGame ?? 0;
+            for (int i = 0; i < slotRecipes.Length; i++)
             {
                 SpellRecipe recipe = component?.GetSlot(caster, i);
-                slotNames[i] = recipe?.name;
+                slotRecipes[i] = recipe;
                 slotIcons[i] = recipe != null && recipe.glyphs != null && recipe.glyphs.Count > 0
                     ? SpellbookStyle.GlyphIcon(SpellDefs.Glyph(recipe.glyphs[0]))
                     : null;
             }
         }
 
+        private bool SlotExceedsBook(SpellRecipe recipe, out string reason)
+        {
+            reason = null;
+            if (recipe == null || IsStandalone)
+            {
+                return false;
+            }
+
+            if (!SpellService.CanFitBook(caster, recipe.glyphs.Count, out reason))
+            {
+                return true;
+            }
+
+            for (int i = 0; i < recipe.glyphs.Count; i++)
+            {
+                SpellGlyphDef glyph = SpellDefs.Glyph(recipe.glyphs[i]);
+                if (glyph != null && !SpellService.CanUseGlyph(caster, glyph, out reason))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void BuildBookTierIndex()
+        {
+            bookTiers.Clear();
+            List<ThingDef> all = DefDatabase<ThingDef>.AllDefsListForReading;
+            if (all == null)
+            {
+                return;
+            }
+
+            for (int i = 0; i < all.Count; i++)
+            {
+                SpellbookExtension ext = all[i]?.GetModExtension<SpellbookExtension>();
+                if (ext != null && ext.maxGlyphs > 0)
+                {
+                    bookTiers.Add((all[i], ext.maxGlyphs));
+                }
+            }
+
+            bookTiers.Sort((a, b) => a.MaxGlyphs.CompareTo(b.MaxGlyphs));
+        }
+
+        private string SealedSocketTooltip(int socketIndex)
+        {
+            int needed = socketIndex + 1;
+            for (int i = 0; i < bookTiers.Count; i++)
+            {
+                if (bookTiers[i].MaxGlyphs >= needed)
+                {
+                    return TF("WotF_Spellbook.SocketSealedTip", needed, bookTiers[i].Def.LabelCap, bookTiers[i].MaxGlyphs);
+                }
+            }
+
+            return TF("WotF_Spellbook.SocketSealedFallback", needed);
+        }
+
         private int FirstUsedSlot()
         {
-            for (int i = 0; i < slotNames.Length; i++)
+            for (int i = 0; i < slotRecipes.Length; i++)
             {
-                if (!slotNames[i].NullOrEmpty())
+                if (slotRecipes[i] != null)
                 {
                     return i;
                 }
@@ -552,21 +634,25 @@ namespace WhisperOfTheForest
         {
             statusText = text;
             statusIsError = isError;
+            statusSetAt = Time.realtimeSinceStartup;
         }
+
+        private void ClearStatus()
+        {
+            statusText = null;
+            statusIsError = false;
+            statusSetAt = -1000f;
+        }
+
+        private bool HasActiveToast => !statusText.NullOrEmpty()
+            && Time.realtimeSinceStartup - statusSetAt <= ToastDurationSeconds;
 
         private string ReasonOrUnknown(string reason)
         {
             return reason.NullOrEmpty() ? T("WotF_Spellbook.ValidationUnknown") : reason;
         }
 
-        private static string T(string key)
-        {
-            return SpellbookStyle.T(key);
-        }
-
-        private static string TF(string key, params object[] args)
-        {
-            return SpellbookStyle.TF(key, args);
-        }
+        private static string T(string key) => SpellbookStyle.T(key);
+        private static string TF(string key, params object[] args) => SpellbookStyle.TF(key, args);
     }
 }

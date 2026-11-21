@@ -176,16 +176,22 @@
 
   <PawnKindDef ParentName="WotF_ElfBase">
     <defName>WotF_Elf_Leader</defName>
+    <!-- WotF_Backstory_Archon is shuffleable=false so no random pool can roll it; fixedAdultBackstories
+         assigns it here while GreenCourt_General supplies shuffleable adulthoods for the childhood
+         compatibility check in PawnBioAndNameGenerator.cs:86,111-112. -->
     <backstoryFiltersOverride Inherit="False">
       <li>
         <categoriesChildhood>
           <li>GreenCourt_Childhood</li>
         </categoriesChildhood>
         <categoriesAdulthood>
-          <li>GreenCourt_Leader</li>
+          <li>GreenCourt_General</li>
         </categoriesAdulthood>
       </li>
     </backstoryFiltersOverride>
+    <fixedAdultBackstories>
+      <li>WotF_Backstory_Archon</li>
+    </fixedAdultBackstories>
     <label>archon</label>
     <combatPower>60</combatPower>
     <isFighter>true</isFighter>
@@ -270,12 +276,9 @@
   </PawnKindDef>
 
   <!--
-    哨卫 (技术/01-种族与派系实现.md:84「基础近战或短法杖」, 设定/03:38「轻装哨卫」).
+    哨卫 (技术/01-种族与派系实现.md:84「基础近战」, 设定/03:38「轻装哨卫」).
 
-    Living-wood longsword rather than the short staff: the short staff only strikes participants of a
-    psychic ritual (Equipment/SpellStaff.xml:103-155, Verb_DisruptPsychicRitual) and has no melee
-    tools, so a sentinel armed with one could not fight at all. Living wood keeps the sword one tier
-    below the sword guard's elven steel.
+    Armed with a living-wood longsword to keep the sentinel one tier below the sword guard's elven steel.
   -->
   <PawnKindDef ParentName="WotF_ElfBase">
     <defName>WotF_Elf_Sentinel</defName>

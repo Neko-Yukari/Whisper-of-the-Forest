@@ -29,7 +29,8 @@ namespace WhisperOfTheForest.Spells
         /// complaining after the fact. A null/unknown glyph in the prefix is refused with the same
         /// text a save would show.
         /// </summary>
-        public static bool CanAppend(IReadOnlyList<string> glyphs, SpellGlyphDef glyph, out string reason)
+        public static bool CanAppend(IReadOnlyList<string> glyphs, SpellGlyphDef glyph, out string reason,
+            int? maxGlyphsOverride = null)
         {
             reason = null;
             if (glyph == null)
@@ -46,9 +47,15 @@ namespace WhisperOfTheForest.Spells
 
             int count = glyphs?.Count ?? 0;
             SpellTuningDef tuning = SpellDefs.Tuning;
-            if (count >= tuning.maxGlyphs)
+            int effectiveMax = maxGlyphsOverride.HasValue
+                ? System.Math.Min(tuning.maxGlyphs, maxGlyphsOverride.Value)
+                : tuning.maxGlyphs;
+            if (count >= effectiveMax)
             {
-                reason = SpellText.TF("WotF_Spells.Reason.TooLong", tuning.maxGlyphs);
+                bool limitedByBook = maxGlyphsOverride.HasValue && maxGlyphsOverride.Value < tuning.maxGlyphs;
+                reason = limitedByBook
+                    ? SpellText.TF("WotF_Spells.Reason.BookTooLong", effectiveMax)
+                    : SpellText.TF("WotF_Spells.Reason.TooLong", tuning.maxGlyphs);
                 return false;
             }
 
@@ -203,6 +210,12 @@ namespace WhisperOfTheForest.Spells
                 cost = (recipe.cost ?? SpellCost.Derive(recipe.glyphs)).Copy()
             };
 
+            if (staff != null)
+            {
+                plan.timing.windupTicks = UnityEngine.Mathf.Max(
+                    0, UnityEngine.Mathf.RoundToInt(plan.timing.windupTicks * staff.windupFactor));
+            }
+
             CompileBody(plan, defs, tuning, staff);
 
             // A saved spell carries the categories it was created with; only an in-memory recipe
@@ -245,6 +258,13 @@ namespace WhisperOfTheForest.Spells
             SpellGlyphDef form = defs[0];
             plan.form = FormOf(form);
             plan.range = form.range;
+            if (staff != null && plan.form != SpellFormKind.Self
+                && plan.form != SpellFormKind.Orbit && plan.form != SpellFormKind.Special)
+            {
+                float scaled = plan.range * staff.rangeFactor;
+                // Keep Touch spells able to reach adjacent cells even on short-range wands.
+                plan.range = plan.form == SpellFormKind.Touch ? UnityEngine.Mathf.Max(1f, scaled) : scaled;
+            }
             plan.projectile = form.projectile?.Copy();
             plan.orbit = form.orbit?.Copy();
 

@@ -28,6 +28,12 @@ namespace WhisperOfTheForest.Spells
             this.logSource = logSource;
         }
         public override string DiagnosticName => "explosion";
+        public override void AppendSummary(List<string> lines, int indent)
+        {
+            string spare = ignoreBuildings ? SpellText.T("WotF_SpellPlan.IgnoreBuildings") : string.Empty;
+            lines.Add(SummaryIndent(indent) + SpellText.TF("WotF_SpellPlan.EffectExplosion",
+                blastDamage.ToString("0.#"), blastRadius.ToString("0.#"), FormatApSuffix(armorPenetration), spare));
+        }
         public override int Execute(Thing caster, Thing primary, IntVec3 cell, Map map)
         {
             if (!cell.InBounds(map)) return 0;

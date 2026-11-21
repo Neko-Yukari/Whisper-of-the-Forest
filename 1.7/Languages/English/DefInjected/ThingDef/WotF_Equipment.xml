@@ -5,9 +5,9 @@
        supplies the def type. -->
 
   <WotF_SpellStaff.label>spell staff</WotF_SpellStaff.label>
-  <WotF_SpellStaff.description>A prototype staff that casts instead of shooting. Its attack casts the spellbook bookmark chosen on its gizmo; the staff remembers the slot, not a copy, so editing that page changes what it casts. Without a saved spell it cannot attack.</WotF_SpellStaff.description>
-  <WotF_SpellStaffShort.label>short spell staff</WotF_SpellStaffShort.label>
-  <WotF_SpellStaffShort.description>A short staff for close work against skip-abduction rituals. It cannot cast spells; its attack only disrupts a skip-abduction ritual the target is taking part in, stunning the participants.</WotF_SpellStaffShort.description>
+  <WotF_SpellStaff.description>A full-length, two-handed spell staff — properly a staff rather than a quick one-handed wand, even if colonists casually call both "staves". Steadied with both hands, it channels a spellbook bookmark at full reach, amplifies material resonance to higher ceilings, and anchors super runes; in return it cannot be fired while wearing a ranged-blocking shield belt. Without a saved spell in its chosen bookmark it cannot attack.</WotF_SpellStaff.description>
+  <WotF_SpellWand.label>spell wand</WotF_SpellWand.label>
+  <WotF_SpellWand.description>People keep calling it a "short spell staff", though by proper fantasy convention this nimble one-handed focus is strictly a wand, not a two-handed staff. Worn in the offhand without displacing a primary weapon, it can auto-cast when carried alone or fire on command alongside a blade and a shield belt — trading reach, material ceilings and super-rune support for rapid windup and compact handling.</WotF_SpellWand.description>
   <WotF_Spellbook_Apprentice.label>apprentice spellbook</WotF_Spellbook_Apprentice.label>
   <WotF_Spellbook_Adept.label>adept spellbook</WotF_Spellbook_Adept.label>
   <WotF_Spellbook_Archmage.label>starlight codex</WotF_Spellbook_Archmage.label>

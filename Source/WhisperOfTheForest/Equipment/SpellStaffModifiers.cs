@@ -6,31 +6,45 @@ using WhisperOfTheForest.Spells;
 namespace WhisperOfTheForest.Equipment
 {
     /// <summary>
-    /// What the staff's material adds to one cast. The staff is a stuffable weapon, so the material
-    /// is a real ThingDef the player can choose at the workbench; these three multipliers are the
-    /// whole bridge between that material and the spell, and they are computed from the material's
-    /// vanilla armour stats instead of a per-stuff table in C#:
+    /// What a spell staff or wand (and its material) applies to one cast. Both long staves and
+    /// one-handed wands are stuffable weapons driven by <see cref="CompProperties_SpellStaff"/>:
     ///
     ///   heat armour  -> effect duration (a material that carries heat holds the weave longer)
     ///   blunt armour -> mana cost       (a sturdier shaft needs less power to channel)
     ///   sharp/blunt damage multipliers -> damage (the average drives the effect deeper)
+    ///   rangeFactor / windupFactor     -> spell aim range and windup pacing
     ///
-    /// The coefficients and caps are Def values on <see cref="SpellTuningDef"/>, so this class only
-    /// applies the formula and never owns a tunable number.
+    /// All coefficients and caps live on <see cref="CompProperties_SpellStaff"/> in XML; this class
+    /// only applies the formula and owns no tunable numbers.
     /// </summary>
     public sealed class SpellStaffModifiers
     {
         public float manaFactor = 1f;
         public float durationFactor = 1f;
         public float damageFactor = 1f;
+        public float rangeFactor = 1f;
+        public float windupFactor = 1f;
 
-        /// <summary>Modifiers for one material; a null material means the neutral staff.</summary>
-        public static SpellStaffModifiers For(ThingDef stuff)
+        /// <summary>
+        /// Modifiers for one staff/wand Def and material. Null <paramref name="props"/> yields
+        /// neutral unit multipliers; null <paramref name="stuff"/> applies the staff's own baseline
+        /// power, range and windup without material scaling.
+        /// </summary>
+        public static SpellStaffModifiers For(CompProperties_SpellStaff props, ThingDef stuff)
         {
-            SpellTuningDef tuning = SpellDefs.Tuning;
+            if (props == null)
+            {
+                return new SpellStaffModifiers();
+            }
+
             if (stuff == null)
             {
-                return new SpellStaffModifiers { damageFactor = tuning.staffSpellPower };
+                return new SpellStaffModifiers
+                {
+                    damageFactor = Mathf.Min(props.spellPowerFactor, props.maxDamageFactor),
+                    rangeFactor = props.rangeFactor,
+                    windupFactor = props.windupFactor
+                };
             }
 
             float heat = stuff.GetStatValueAbstract(StatDefOf.StuffPower_Armor_Heat);
@@ -40,12 +54,14 @@ namespace WhisperOfTheForest.Equipment
 
             return new SpellStaffModifiers
             {
-                manaFactor = Mathf.Clamp(1f - blunt * tuning.staffBluntArmorCostReduction,
-                    tuning.staffMinManaFactor, 1f),
-                durationFactor = Mathf.Clamp(1f + heat * tuning.staffHeatArmorDurationBonus,
-                    1f, tuning.staffMaxDurationFactor),
-                damageFactor = Mathf.Min(tuning.staffSpellPower * averageDamage,
-                    tuning.staffMaxDamageFactor)
+                manaFactor = Mathf.Clamp(1f - blunt * props.bluntArmorCostReduction,
+                    props.minManaFactor, 1f),
+                durationFactor = Mathf.Clamp(1f + heat * props.heatArmorDurationBonus,
+                    1f, props.maxDurationFactor),
+                damageFactor = Mathf.Min(props.spellPowerFactor * averageDamage,
+                    props.maxDamageFactor),
+                rangeFactor = props.rangeFactor,
+                windupFactor = props.windupFactor
             };
         }
 
@@ -60,6 +76,5 @@ namespace WhisperOfTheForest.Equipment
                 cost.mana *= manaFactor;
             }
         }
-
     }
 }

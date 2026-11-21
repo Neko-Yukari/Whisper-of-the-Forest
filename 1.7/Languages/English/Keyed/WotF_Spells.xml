@@ -5,6 +5,8 @@
 
   <WotF_Spells.Reason.NoGlyphs>Nothing is arranged yet: add a form first, then at least one effect.</WotF_Spells.Reason.NoGlyphs>
   <WotF_Spells.Reason.TooLong>This spell has more than {0} glyphs.</WotF_Spells.Reason.TooLong>
+  <WotF_Spells.Reason.BookTooLong>The worn spellbook supports at most {0} glyphs per spell.</WotF_Spells.Reason.BookTooLong>
+  <WotF_Spells.Reason.ExceedsBookGlyphs>This spell uses {0} glyphs, exceeding the worn spellbook's limit of {1}.</WotF_Spells.Reason.ExceedsBookGlyphs>
   <WotF_Spells.Reason.UnknownGlyph>Unknown glyph: {0}</WotF_Spells.Reason.UnknownGlyph>
   <WotF_Spells.Reason.FormMustBeFirst>The first glyph must be a form (self, touch, projectile or orbit) or a supra rune.</WotF_Spells.Reason.FormMustBeFirst>
   <WotF_Spells.Reason.OnlyOneForm>A spell may hold exactly one form.</WotF_Spells.Reason.OnlyOneForm>
@@ -37,7 +39,7 @@
   <WotF_Spells.Reason.NotPlayerControlled>Only a pawn you control can use the spellbook.</WotF_Spells.Reason.NotPlayerControlled>
   <WotF_Spells.Reason.NoBloodline>Only a pawn of the forest bloodline can cast.</WotF_Spells.Reason.NoBloodline>
   <WotF_Spells.Reason.NoSpellbook>Casting needs a worn spellbook.</WotF_Spells.Reason.NoSpellbook>
-  <WotF_Spells.Reason.SlotSealed>The worn spellbook does not open bookmark {0}; its spell is kept and returns with a book that has more bookmarks.</WotF_Spells.Reason.SlotSealed>
+  <WotF_Spells.Reason.NoBook>A worn spellbook is required.</WotF_Spells.Reason.NoBook>
   <WotF_Spells.Reason.NotEnoughMana>Not enough mana: needs {0}, has {1}.</WotF_Spells.Reason.NotEnoughMana>
   <WotF_Spells.Reason.NoNeuralHeat>This pawn has no neural heat to bear this spell's cost.</WotF_Spells.Reason.NoNeuralHeat>
   <WotF_Spells.Reason.NeuralHeatOverflow>{0} more neural heat would go over the limit.</WotF_Spells.Reason.NeuralHeatOverflow>
@@ -70,5 +72,41 @@
   <WotF_Spells.Gizmo.CastDesc>Cast the spell saved on bookmark {0}.</WotF_Spells.Gizmo.CastDesc>
   <WotF_Spells.Gizmo.Unnamed>Unnamed spell</WotF_Spells.Gizmo.Unnamed>
   <WotF_Spells.CastDone>{0} is cast.</WotF_Spells.CastDone>
+
+  <!-- ============================================================ Compiled plan summaries -->
+
+  <WotF_SpellPlan.AreaSuffix> (R {0})</WotF_SpellPlan.AreaSuffix>
+  <WotF_SpellPlan.ApSuffix>, {0} AP</WotF_SpellPlan.ApSuffix>
+  <WotF_SpellPlan.IgnoreBuildings>, spares buildings</WotF_SpellPlan.IgnoreBuildings>
+  <WotF_SpellPlan.ChargeDurSuffix>, {0}s</WotF_SpellPlan.ChargeDurSuffix>
+  <WotF_SpellPlan.PierceSuffix>, pierce {0}</WotF_SpellPlan.PierceSuffix>
+  <WotF_SpellPlan.FullMap>Full map</WotF_SpellPlan.FullMap>
+  <WotF_SpellPlan.RangeCells>{0} cells</WotF_SpellPlan.RangeCells>
+
+  <WotF_SpellPlan.DeliverySelf>Self: resolves immediately on the caster.</WotF_SpellPlan.DeliverySelf>
+  <WotF_SpellPlan.DeliveryTouch>Touch: adjacent reach {0} cells.</WotF_SpellPlan.DeliveryTouch>
+  <WotF_SpellPlan.DeliveryProjectile>Projectile: {0} dart(s), speed {1} c/s, range {2}{3}.</WotF_SpellPlan.DeliveryProjectile>
+  <WotF_SpellPlan.DeliveryOrbit>Orbit: {0} orb(s), {1}s, hit R {2}, {3} deg/s.</WotF_SpellPlan.DeliveryOrbit>
+  <WotF_SpellPlan.SpecialRailgun>Railgun: {0} dmg ({1} AP), corridor width {2}, range {3}.</WotF_SpellPlan.SpecialRailgun>
+  <WotF_SpellPlan.SpecialTornado>Flame tornado: {0} dmg every {1}s for {2}s, R {3}, {4} AP, {5} ignite, range {6}.</WotF_SpellPlan.SpecialTornado>
+
+  <WotF_SpellPlan.EffectHarm>Harm: {0} damage{1}{2}</WotF_SpellPlan.EffectHarm>
+  <WotF_SpellPlan.EffectHeal>Clot: tend {0}, regen boost {1}s{2}</WotF_SpellPlan.EffectHeal>
+  <WotF_SpellPlan.EffectExplosion>Explosion: {0} dmg, R {1}{2}{3}</WotF_SpellPlan.EffectExplosion>
+  <WotF_SpellPlan.EffectLightning>Lightning: {0} burn{1} + {2} EMP (+{3}/charge{4}){5}</WotF_SpellPlan.EffectLightning>
+  <WotF_SpellPlan.EffectColdSnap>Cold snap: {0} dmg (x{1} vs frozen){2}{3}</WotF_SpellPlan.EffectColdSnap>
+  <WotF_SpellPlan.EffectFreeze>Freeze: slow {0}s{1}</WotF_SpellPlan.EffectFreeze>
+  <WotF_SpellPlan.EffectSnare>Snare: root {0}s{1}</WotF_SpellPlan.EffectSnare>
+  <WotF_SpellPlan.EffectHex>Hex: vulnerability &amp; slow heal {0}s{1}</WotF_SpellPlan.EffectHex>
+  <WotF_SpellPlan.EffectKnockback>Knockback: push {0} cells{1}</WotF_SpellPlan.EffectKnockback>
+  <WotF_SpellPlan.EffectPull>Pull: drag {0} cells{1}</WotF_SpellPlan.EffectPull>
+  <WotF_SpellPlan.EffectBlink>Blink: teleport to impact (self: forward {0} cells)</WotF_SpellPlan.EffectBlink>
+  <WotF_SpellPlan.EffectGrow>Grow: x{0} plant growth for {1}s{2}</WotF_SpellPlan.EffectGrow>
+  <WotF_SpellPlan.EffectHack>Hack: strength {0}, control {1}s{2}</WotF_SpellPlan.EffectHack>
+  <WotF_SpellPlan.EffectMagelight>Magelight: R {0} glow for {1}s</WotF_SpellPlan.EffectMagelight>
+  <WotF_SpellPlan.EffectPlanarShield>Planar shield: {0} cells wide, {1} blocks, {2}s</WotF_SpellPlan.EffectPlanarShield>
+  <WotF_SpellPlan.EffectDelay>Delay {0}s, then trigger:</WotF_SpellPlan.EffectDelay>
+  <WotF_SpellPlan.EffectLinger>Linger field: R {0}, {1}s (pulse every {2}s):</WotF_SpellPlan.EffectLinger>
+  <WotF_SpellPlan.EffectRune>Ground seal: triggers on step ({0}s):</WotF_SpellPlan.EffectRune>
 
 </LanguageData>

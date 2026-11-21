@@ -5,6 +5,8 @@
 
   <WotF_Spells.Reason.NoGlyphs>还没有编排符文：先放一个形式，再放至少一个效果。</WotF_Spells.Reason.NoGlyphs>
   <WotF_Spells.Reason.TooLong>这个法术的符文超过 {0} 个。</WotF_Spells.Reason.TooLong>
+  <WotF_Spells.Reason.BookTooLong>当前佩戴的魔术书单条法术上限为 {0} 枚符文。</WotF_Spells.Reason.BookTooLong>
+  <WotF_Spells.Reason.ExceedsBookGlyphs>此法术含 {0} 枚符文，超过当前魔术书的上限（{1} 枚）。</WotF_Spells.Reason.ExceedsBookGlyphs>
   <WotF_Spells.Reason.UnknownGlyph>未知符文：{0}</WotF_Spells.Reason.UnknownGlyph>
   <WotF_Spells.Reason.FormMustBeFirst>第一个符文必须是形式（自身、接触、弹射物或环绕）或超位。</WotF_Spells.Reason.FormMustBeFirst>
   <WotF_Spells.Reason.OnlyOneForm>一个法术只能有一个形式。</WotF_Spells.Reason.OnlyOneForm>
@@ -37,7 +39,7 @@
   <WotF_Spells.Reason.NotPlayerControlled>只有你控制的小人可以使用魔术书。</WotF_Spells.Reason.NotPlayerControlled>
   <WotF_Spells.Reason.NoBloodline>只有林庭血脉的小人才能施法。</WotF_Spells.Reason.NoBloodline>
   <WotF_Spells.Reason.NoSpellbook>需要佩戴魔术书才能施法。</WotF_Spells.Reason.NoSpellbook>
-  <WotF_Spells.Reason.SlotSealed>当前佩戴的魔术书打不开第 {0} 个书签；里面的法术仍然保留，换上书签更多的魔术书即可使用。</WotF_Spells.Reason.SlotSealed>
+  <WotF_Spells.Reason.NoBook>需要佩戴魔术书。</WotF_Spells.Reason.NoBook>
   <WotF_Spells.Reason.NotEnoughMana>魔力不足：需要 {0}，现有 {1}。</WotF_Spells.Reason.NotEnoughMana>
   <WotF_Spells.Reason.NoNeuralHeat>这个小人没有心灵熵，无法承担这个法术的消耗。</WotF_Spells.Reason.NoNeuralHeat>
   <WotF_Spells.Reason.NeuralHeatOverflow>再增加 {0} 点心灵熵就会超过上限。</WotF_Spells.Reason.NeuralHeatOverflow>
@@ -70,5 +72,41 @@
   <WotF_Spells.Gizmo.CastDesc>施放保存在第 {0} 个书签中的法术。</WotF_Spells.Gizmo.CastDesc>
   <WotF_Spells.Gizmo.Unnamed>未命名法术</WotF_Spells.Gizmo.Unnamed>
   <WotF_Spells.CastDone>已施放{0}。</WotF_Spells.CastDone>
+
+  <!-- ============================================================ 实时战法推演摘要 -->
+
+  <WotF_SpellPlan.AreaSuffix>（半径 {0} 格）</WotF_SpellPlan.AreaSuffix>
+  <WotF_SpellPlan.ApSuffix>，穿甲 {0}</WotF_SpellPlan.ApSuffix>
+  <WotF_SpellPlan.IgnoreBuildings>，不伤建筑</WotF_SpellPlan.IgnoreBuildings>
+  <WotF_SpellPlan.ChargeDurSuffix>，持续 {0}秒</WotF_SpellPlan.ChargeDurSuffix>
+  <WotF_SpellPlan.PierceSuffix>，穿透 {0} 次</WotF_SpellPlan.PierceSuffix>
+  <WotF_SpellPlan.FullMap>全图</WotF_SpellPlan.FullMap>
+  <WotF_SpellPlan.RangeCells>{0} 格</WotF_SpellPlan.RangeCells>
+
+  <WotF_SpellPlan.DeliverySelf>自身：立即在施法者所在格生效。</WotF_SpellPlan.DeliverySelf>
+  <WotF_SpellPlan.DeliveryTouch>接触：作用于相邻 {0} 格内目标。</WotF_SpellPlan.DeliveryTouch>
+  <WotF_SpellPlan.DeliveryProjectile>射弹：{0} 枚飞弹，速度 {1} 格/秒，射程 {2} 格{3}。</WotF_SpellPlan.DeliveryProjectile>
+  <WotF_SpellPlan.DeliveryOrbit>环绕：{0} 枚法球，持续 {1}秒，触碰半径 {2} 格，角速度 {3}°/秒。</WotF_SpellPlan.DeliveryOrbit>
+  <WotF_SpellPlan.SpecialRailgun>磁轨炮：{0} 点伤害（穿甲 {1}），光束宽 {2} 格，射程 {3}。</WotF_SpellPlan.SpecialRailgun>
+  <WotF_SpellPlan.SpecialTornado>烈焰龙卷：每 {1}秒 造成 {0} 点伤害，持续 {2}秒，半径 {3} 格，穿甲 {4}，点燃率 {5}，射程 {6}。</WotF_SpellPlan.SpecialTornado>
+
+  <WotF_SpellPlan.EffectHarm>伤害：{0} 点伤害{1}{2}</WotF_SpellPlan.EffectHarm>
+  <WotF_SpellPlan.EffectHeal>凝血：包扎质量 {0}，自愈加速 {1}秒{2}</WotF_SpellPlan.EffectHeal>
+  <WotF_SpellPlan.EffectExplosion>爆炸：{0} 点伤害，半径 {1} 格{2}{3}</WotF_SpellPlan.EffectExplosion>
+  <WotF_SpellPlan.EffectLightning>落雷：{0} 灼烧{1} + {2} EMP（每层电荷 +{3}{4}）{5}</WotF_SpellPlan.EffectLightning>
+  <WotF_SpellPlan.EffectColdSnap>霜裂：{0} 点伤害（冻结目标 ×{1}）{2}{3}</WotF_SpellPlan.EffectColdSnap>
+  <WotF_SpellPlan.EffectFreeze>冻结：减速 {0}秒{1}</WotF_SpellPlan.EffectFreeze>
+  <WotF_SpellPlan.EffectSnare>缠绕：定身 {0}秒{1}</WotF_SpellPlan.EffectSnare>
+  <WotF_SpellPlan.EffectHex>厄咒：易伤与减疗 {0}秒{1}</WotF_SpellPlan.EffectHex>
+  <WotF_SpellPlan.EffectKnockback>击退：推离 {0} 格{1}</WotF_SpellPlan.EffectKnockback>
+  <WotF_SpellPlan.EffectPull>拉扯：牵引 {0} 格{1}</WotF_SpellPlan.EffectPull>
+  <WotF_SpellPlan.EffectBlink>闪现：瞬移至落点（自身施放向前 {0} 格）</WotF_SpellPlan.EffectBlink>
+  <WotF_SpellPlan.EffectGrow>催生：植物生长 ×{0}，持续 {1}秒{2}</WotF_SpellPlan.EffectGrow>
+  <WotF_SpellPlan.EffectHack>骇入：强度 {0}，控制 {1}秒{2}</WotF_SpellPlan.EffectHack>
+  <WotF_SpellPlan.EffectMagelight>魔光：半径 {0} 格照明，持续 {1}秒</WotF_SpellPlan.EffectMagelight>
+  <WotF_SpellPlan.EffectPlanarShield>片盾：宽 {0} 格，可挡 {1} 次，持续 {2}秒</WotF_SpellPlan.EffectPlanarShield>
+  <WotF_SpellPlan.EffectDelay>延迟 {0}秒 后触发：</WotF_SpellPlan.EffectDelay>
+  <WotF_SpellPlan.EffectLinger>滞留法场：半径 {0} 格，持续 {1}秒（每 {2}秒 触发）：</WotF_SpellPlan.EffectLinger>
+  <WotF_SpellPlan.EffectRune>地印：踩踏触发（存续 {0}秒）：</WotF_SpellPlan.EffectRune>
 
 </LanguageData>

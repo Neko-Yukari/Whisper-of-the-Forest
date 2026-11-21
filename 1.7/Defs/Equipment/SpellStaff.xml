@@ -2,55 +2,39 @@
 <Defs>
 
   <!--
-    Prototype spell staff.
+    Unified spell staves: both the two-handed spell staff and the one-handed offhand spell wand
+    run through CompSpellStaff + Verb_CastSpellStaff. All tunable differences (handedness, super-rune
+    support, shield-belt compatibility, range/windup scaling, material resonance curves and caps)
+    live on CompProperties_SpellStaff below.
 
-    It is an ordinary ranged weapon (equipmentType Primary, a real verb, a standard attack
-    command), but the verb does not launch anything: Verb_CastSpellStaff hands the chosen
-    spellbook bookmark to the same SpellService.TryCast entry point the book gizmo uses. The
-    casting system therefore owns windup, channel, recovery, cooldown and the payload.
-
-    Numbers that belong to the casting system (range, cooldown, payload) are NOT copied here:
-      * range is the fallback before a bookmark is chosen; once EffectiveRange runs it clones this
-        VerbProperties and keeps range in step with the selected bookmark, because both the range
-        test and CastPositionFinder read verbProps.range as well as EffectiveRange;
-      * RangedWeapon_Cooldown is the attack cycle of the weapon. It is set to the same 2 s as the
-        book's WotF_SpellTuning.cooldownTicks so a drafted attack order retries at the same pace
-        the casting service allows another cast. The casting service stays the authority: if the
-        two ever differ, it refuses earlier or later, never the other way round.
-    warmupTime is 0 because the staff's windup is the spell's own.
+    warmupTime is 0 because windup belongs to the casting service (scaled by windupFactor).
+    range is the fallback before a bookmark is chosen; Verb_CastSpellStaff.EffectiveRange keeps
+    verbProps.range in step with the selected bookmark scaled by rangeFactor.
   -->
   <ThingDef ParentName="BaseGun">
     <defName>WotF_SpellStaff</defName>
     <label>spell staff</label>
-    <description>A prototype staff that casts instead of shooting. Its attack casts the spellbook bookmark chosen on its gizmo; the staff remembers the slot, not a copy, so editing that page changes what it casts. Without a saved spell it cannot attack.</description>
+    <description>A full-length, two-handed spell staff — properly a staff rather than a quick one-handed wand, even if colonists casually call both "staves". Steadied with both hands, it channels a spellbook bookmark at full reach, amplifies material resonance to higher ceilings, and anchors super runes; in return it cannot be fired while wearing a ranged-blocking shield belt. Without a saved spell in its chosen bookmark it cannot attack.</description>
     <thingClass>ThingWithComps</thingClass>
+    <equipmentType>Primary</equipmentType>
     <techLevel>Spacer</techLevel>
     <graphicData>
       <texPath>Equipment/SpellStaff</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <statBases>
+      <WorkToMake>2400</WorkToMake>
       <Mass>2.5</Mass>
-      <!-- 2 s: the weapon's own attack cycle, matching WotF_SpellTuning.cooldownTicks. -->
+      <!-- 2 s: weapon attack cycle matching WotF_SpellTuning.cooldownTicks. -->
       <RangedWeapon_Cooldown>2</RangedWeapon_Cooldown>
     </statBases>
-    <!--
-      Stuffable on purpose: the material is the third input of the staff, next to the rune chain
-      and the book. Every stuff category the game already uses works; the material's vanilla
-      armour stats are mapped to mana, duration and damage by WotF_SpellTuning.
-    -->
     <stuffCategories>
       <li>Metallic</li>
       <li>Woody</li>
       <li>Leathery</li>
     </stuffCategories>
-    <costStuffCount>20</costStuffCount>
+    <costStuffCount>25</costStuffCount>
     <smeltable>false</smeltable>
-    <!--
-      Court staff pool (2026-11-14): the pawn weapon pool only accepts weapons with a non-empty
-      weaponTags (PawnWeaponGenerator.IsWeapon), so without this tag no PawnKindDef could ever hand a
-      staff to a generated pawn. No vanilla PawnKindDef names either tag, so nothing else changes.
-    -->
     <weaponTags>
       <li>WotF_ElvenStaff</li>
     </weaponTags>
@@ -58,6 +42,21 @@
       <li>Ranged</li>
       <li>Ultratech</li>
     </weaponClasses>
+    <recipeMaker>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <effectWorking>Smith</effectWorking>
+      <soundWorking>Recipe_Smith</soundWorking>
+      <unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
+      <recipeUsers>
+        <li>WotF_ManaWorkbench</li>
+      </recipeUsers>
+      <skillRequirements>
+        <Crafting>6</Crafting>
+      </skillRequirements>
+      <researchPrerequisite>WotF_Research_AltarT2</researchPrerequisite>
+      <displayPriority>540</displayPriority>
+    </recipeMaker>
     <verbs>
       <li>
         <verbClass>WhisperOfTheForest.Equipment.Verb_CastSpellStaff</verbClass>
@@ -67,13 +66,7 @@
         <ai_IsWeapon>true</ai_IsWeapon>
         <warmupTime>0</warmupTime>
         <range>24.9</range>
-        <!-- The spell decides reach and line of sight per form; the verb checks them itself. -->
         <requireLineOfSight>false</requireLineOfSight>
-        <!--
-          Permissive on purpose: the per-spell filter (harm/heal/grow/explosion/railgun) is built
-          from the compiled plan and returned by Verb_CastSpellStaff.targetParams, exactly like the
-          book's cast gizmo. This list only matters in the moment before a bookmark is chosen.
-        -->
         <targetParams>
           <canTargetPawns>true</canTargetPawns>
           <canTargetAnimals>true</canTargetAnimals>
@@ -88,126 +81,113 @@
         </targetParams>
       </li>
     </verbs>
-    <!--
-      Comps are declared without inheritance because the equipment comp itself is replaced:
-      CompSpellStaff derives from CompEquippable, which is what lets an equipped weapon contribute
-      the slot-selection gizmo to the pawn. CompProperties_Equippable does not exist as a separate
-      type in 1.7; a plain CompProperties entry with a compClass is how vanilla declares it.
-
-      CompProperties_Styleable must stay: BaseWeapon declares it for every weapon, and the IdeoRelic
-      precept's available-things list validates that a listed weapon has it. Dropping it logged
-      "Config error in IdeoRelic: ThingDef WotF_SpellStaff ... missing CompStyleable" at load.
-    -->
     <comps Inherit="False">
       <li Class="CompProperties_Forbiddable"/>
       <li Class="CompProperties_Styleable"/>
-      <li>
-        <compClass>WhisperOfTheForest.Equipment.CompSpellStaff</compClass>
+      <li Class="WhisperOfTheForest.Equipment.CompProperties_SpellStaff">
+        <isOneHanded>false</isOneHanded>
+        <allowsSuperGlyphs>true</allowsSuperGlyphs>
+        <allowsShieldBelt>false</allowsShieldBelt>
+        <rangeFactor>1.0</rangeFactor>
+        <windupFactor>1.0</windupFactor>
+        <spellPowerFactor>1.05</spellPowerFactor>
+        <bluntArmorCostReduction>0.40</bluntArmorCostReduction>
+        <minManaFactor>0.60</minManaFactor>
+        <heatArmorDurationBonus>0.20</heatArmorDurationBonus>
+        <maxDurationFactor>1.75</maxDurationFactor>
+        <maxDamageFactor>1.50</maxDamageFactor>
       </li>
     </comps>
   </ThingDef>
 
   <!--
-    Short staff: a cheap, single-purpose short-range weapon for breaking a skip-abduction ritual.
-    Its verb accepts only pawns that are currently participants in a psychic ritual, and the
-    C# side narrows that to the two skip-abduction defs. A hit stuns every assigned participant
-    for stunTicks and then cancels the ritual. It is not a general-purpose weapon.
+    One-handed offhand spell wand (equipmentType = None): occupies its own offhand slot enforced
+    by Patch_OffhandWand so it never displaces a Primary weapon. Solo-wielded (Primary == null) it
+    auto-attacks like a normal ranged weapon; paired with a Primary weapon (e.g. elven longsword)
+    it fires manually through its gizmo, and it casts cleanly through shield belts.
   -->
   <ThingDef ParentName="BaseGun">
-    <defName>WotF_SpellStaffShort</defName>
-    <label>short spell staff</label>
-    <description>A short, plain staff carried for one job: breaking a ritual that reaches into the colony from outside. Its strike only lands on someone taking part in a psychic ritual, and a hit stuns the participants and cancels a skip abduction.</description>
+    <defName>WotF_SpellWand</defName>
+    <label>spell wand</label>
+    <description>People keep calling it a "short spell staff", though by proper fantasy convention this nimble one-handed focus is strictly a wand, not a two-handed staff. Worn in the offhand without displacing a primary weapon, it can auto-cast when carried alone or fire on command alongside a blade and a shield belt — trading reach, material ceilings and super-rune support for rapid windup and compact handling.</description>
     <thingClass>ThingWithComps</thingClass>
-    <techLevel>Industrial</techLevel>
+    <equipmentType>None</equipmentType>
+    <techLevel>Neolithic</techLevel>
     <graphicData>
       <texPath>Equipment/SpellStaffShort</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <statBases>
-      <Mass>1.5</Mass>
-      <RangedWeapon_Cooldown>1.2</RangedWeapon_Cooldown>
+      <WorkToMake>1200</WorkToMake>
+      <Mass>0.9</Mass>
+      <RangedWeapon_Cooldown>1.1</RangedWeapon_Cooldown>
     </statBases>
+    <stuffCategories>
+      <li>Woody</li>
+      <li>Metallic</li>
+    </stuffCategories>
+    <costStuffCount>12</costStuffCount>
     <smeltable>false</smeltable>
-    <!-- Same pool tag as the long staff, kept separate: the short staff is a ritual tool, not a court
-         combat weapon, and no PawnKindDef lists it. -->
     <weaponTags>
-      <li>WotF_ElvenStaffShort</li>
+      <li>WotF_ElvenWand</li>
     </weaponTags>
     <weaponClasses>
       <li>Ranged</li>
     </weaponClasses>
+    <recipeMaker>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <effectWorking>Smith</effectWorking>
+      <soundWorking>Recipe_Smith</soundWorking>
+      <recipeUsers>
+        <li>CraftingSpot</li>
+      </recipeUsers>
+      <skillRequirements>
+        <Crafting>4</Crafting>
+      </skillRequirements>
+      <displayPriority>535</displayPriority>
+    </recipeMaker>
     <verbs>
       <li>
-        <verbClass>WhisperOfTheForest.Equipment.Verb_DisruptPsychicRitual</verbClass>
-        <label>disrupt ritual</label>
+        <verbClass>WhisperOfTheForest.Equipment.Verb_CastSpellStaff</verbClass>
+        <label>cast</label>
         <isPrimary>true</isPrimary>
         <hasStandardCommand>true</hasStandardCommand>
-        <warmupTime>0.2</warmupTime>
-        <range>6.9</range>
-        <requireLineOfSight>true</requireLineOfSight>
+        <ai_IsWeapon>true</ai_IsWeapon>
+        <warmupTime>0</warmupTime>
+        <range>15.9</range>
+        <requireLineOfSight>false</requireLineOfSight>
         <targetParams>
           <canTargetPawns>true</canTargetPawns>
-          <canTargetAnimals>false</canTargetAnimals>
+          <canTargetAnimals>true</canTargetAnimals>
           <canTargetHumans>true</canTargetHumans>
-          <canTargetMechs>false</canTargetMechs>
+          <canTargetMechs>true</canTargetMechs>
           <canTargetSubhumans>true</canTargetSubhumans>
-          <canTargetBuildings>false</canTargetBuildings>
-          <canTargetPlants>false</canTargetPlants>
-          <canTargetLocations>false</canTargetLocations>
+          <canTargetBuildings>true</canTargetBuildings>
+          <canTargetPlants>true</canTargetPlants>
+          <canTargetLocations>true</canTargetLocations>
           <canTargetSelf>false</canTargetSelf>
           <neverTargetIncapacitated>false</neverTargetIncapacitated>
         </targetParams>
       </li>
     </verbs>
-    <comps>
-      <li Class="WhisperOfTheForest.Equipment.CompProperties_ShortStaff">
-        <stunTicks>600</stunTicks>
+    <comps Inherit="False">
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Styleable"/>
+      <li Class="WhisperOfTheForest.Equipment.CompProperties_SpellStaff">
+        <isOneHanded>true</isOneHanded>
+        <allowsSuperGlyphs>false</allowsSuperGlyphs>
+        <allowsShieldBelt>true</allowsShieldBelt>
+        <rangeFactor>0.64</rangeFactor>
+        <windupFactor>0.70</windupFactor>
+        <spellPowerFactor>0.80</spellPowerFactor>
+        <bluntArmorCostReduction>0.20</bluntArmorCostReduction>
+        <minManaFactor>0.85</minManaFactor>
+        <heatArmorDurationBonus>0.10</heatArmorDurationBonus>
+        <maxDurationFactor>1.20</maxDurationFactor>
+        <maxDamageFactor>1.15</maxDamageFactor>
       </li>
     </comps>
   </ThingDef>
-
-  <RecipeDef>
-    <defName>WotF_MakeShortSpellStaff</defName>
-    <label>make short spell staff</label>
-    <description>Craft a short staff for disrupting skip-abduction rituals.</description>
-    <jobString>making a short spell staff.</jobString>
-    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-    <workSkill>Crafting</workSkill>
-    <workAmount>1200</workAmount>
-    <ingredients>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>WoodLog</li>
-          </thingDefs>
-        </filter>
-        <count>20</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>Steel</li>
-          </thingDefs>
-        </filter>
-        <count>8</count>
-      </li>
-    </ingredients>
-    <products>
-      <WotF_SpellStaffShort>1</WotF_SpellStaffShort>
-    </products>
-    <skillRequirements>
-      <Crafting>4</Crafting>
-    </skillRequirements>
-    <!--
-      Hand bench, not the machining table: 技术/04-仪式实现.md (魔力工作台 entry) keeps T1 recipes on
-      the vanilla hand bench and says to move the short staff back there, and 设定/05-建筑与器物.md
-      (「一阶器物」) names the vanilla 手工打造点 for T1 gear. That is CraftingSpot, the same bench
-      vanilla uses for neolithic bows and clubs (Data/Core/Defs/ThingDefs_Misc/Weapons/
-      RangedNeolithic.xml:84, MeleeNeolithic.xml:33).
-    -->
-    <recipeUsers>
-      <li>CraftingSpot</li>
-    </recipeUsers>
-  </RecipeDef>
 
 </Defs>

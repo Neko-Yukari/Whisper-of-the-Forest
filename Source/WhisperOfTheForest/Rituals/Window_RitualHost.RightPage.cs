@@ -604,7 +604,7 @@ namespace WhisperOfTheForest.Rituals
                     : "WotF_RitualPanel_PickRune".Translate();
             bool enabled = !locked && unlockable.Count > 0;
 
-            if (RitualPanelStyle.DrawActionButton(rect, label, RitualButtonRole.Secondary, enabled))
+            if (RitualPanelStyle.DrawActionButton(rect, label, BookButtonRole.Secondary, enabled))
             {
                 ClosePopover();
                 var options = new List<FloatMenuOption>(unlockable.Count);
@@ -654,7 +654,7 @@ namespace WhisperOfTheForest.Rituals
                     : "WotF_RitualPanel_PickGate".Translate();
             bool enabled = !locked && gates.Count > 0;
 
-            if (RitualPanelStyle.DrawActionButton(rect, label, RitualButtonRole.Secondary, enabled))
+            if (RitualPanelStyle.DrawActionButton(rect, label, BookButtonRole.Secondary, enabled))
             {
                 ClosePopover();
                 var options = new List<FloatMenuOption>(gates.Count);
@@ -710,7 +710,7 @@ namespace WhisperOfTheForest.Rituals
                 : "WotF_RitualPanel_PickRuin".Translate();
             bool enabled = !locked && ruins != null && ruins.Count > 0;
 
-            if (RitualPanelStyle.DrawActionButton(rect, label, RitualButtonRole.Secondary, enabled))
+            if (RitualPanelStyle.DrawActionButton(rect, label, BookButtonRole.Secondary, enabled))
             {
                 ClosePopover();
                 var options = new List<FloatMenuOption>(ruins.Count);
@@ -740,7 +740,7 @@ namespace WhisperOfTheForest.Rituals
                     ? "WotF_Ritual_NoEnchantable".Translate()
                     : "WotF_Ritual_ChooseEquipment".Translate();
             Rect equipRect = new Rect(x, y, width, rowH);
-            if (RitualPanelStyle.DrawActionButton(equipRect, equipLabel, RitualButtonRole.Secondary,
+            if (RitualPanelStyle.DrawActionButton(equipRect, equipLabel, BookButtonRole.Secondary,
                     !locked && nearby.Count > 0))
             {
                 ClosePopover();
@@ -793,7 +793,7 @@ namespace WhisperOfTheForest.Rituals
             }
 
             Rect bookRect = new Rect(x, y + rowH + 6f, width, rowH);
-            if (RitualPanelStyle.DrawActionButton(bookRect, bookLabel, RitualButtonRole.Secondary, bookEnabled))
+            if (RitualPanelStyle.DrawActionButton(bookRect, bookLabel, BookButtonRole.Secondary, bookEnabled))
             {
                 ClosePopover();
                 var options = new List<FloatMenuOption>(slots);
@@ -1148,6 +1148,14 @@ namespace WhisperOfTheForest.Rituals
                 return;
             }
 
+            if (def.effectWorkerClass == typeof(RitualEffect_CounterPsychic))
+            {
+                label = "WotF_RitualPanel_MetricCounterStun".Translate();
+                float seconds = def.CounterStunTicksFor(strength) / (float)GenTicks.TicksPerRealSecond;
+                value = string.Format("WotF_RitualPanel_SecondsUnit".Translate(), seconds.ToString("0.#"));
+                return;
+            }
+
             isBlank = true;
         }
 
@@ -1191,7 +1199,7 @@ namespace WhisperOfTheForest.Rituals
             if (altar.IsActive)
             {
                 RitualPanelStyle.DrawActionButton(rect, "WotF_RitualPanel_RunningBtn".Translate(),
-                    RitualButtonRole.Primary, enabled: false);
+                    BookButtonRole.Primary, enabled: false);
                 TooltipHandler.TipRegion(rect,
                     string.Format("WotF_Ritual_AlreadyRunning".Translate(), altar.ActiveLabel));
                 return;
@@ -1219,7 +1227,7 @@ namespace WhisperOfTheForest.Rituals
                 }
 
                 if (RitualPanelStyle.DrawActionButton(rect, "WotF_RitualPanel_PrepareBtn".Translate(),
-                        RitualButtonRole.Primary, canPrepare))
+                        BookButtonRole.Primary, canPrepare))
                 {
                     ClosePopover();
                     altar.Prepare(selected, selectedRune);
@@ -1237,7 +1245,7 @@ namespace WhisperOfTheForest.Rituals
             }
 
             if (RitualPanelStyle.DrawActionButton(rect, "WotF_RitualPanel_StartBtn".Translate(),
-                    RitualButtonRole.Primary, canStart))
+                    BookButtonRole.Primary, canStart))
             {
                 ClosePopover();
                 if (altar.TryStart(BuildRequest(), silent: false))
@@ -1262,7 +1270,7 @@ namespace WhisperOfTheForest.Rituals
             TooltipHandler.TipRegion(rect, tip);
 
             if (RitualPanelStyle.DrawActionButton(rect, "WotF_RitualPanel_AbortBtn".Translate(),
-                    RitualButtonRole.Danger, canAbort))
+                    BookButtonRole.Danger, canAbort))
             {
                 ClosePopover();
                 altar.CancelByPlayer();

@@ -24,6 +24,12 @@ namespace WhisperOfTheForest.Spells
             this.pulseIntervalTicks = pulseIntervalTicks;
         }
         public override string DiagnosticName => "linger";
+        public override void AppendSummary(List<string> lines, int indent)
+        {
+            lines.Add(SummaryIndent(indent) + SpellText.TF("WotF_SpellPlan.EffectLinger",
+                fieldRadius.ToString("0.#"), FormatSeconds(lifetimeTicks), FormatSeconds(pulseIntervalTicks)));
+            AppendPayloadSummary(payload, lines, indent);
+        }
         public override int Execute(Thing caster, Thing primary, IntVec3 cell, Map map)
         {
             return SpellEffectRuntime.SpawnField(payload, lifetimeTicks, fieldRadius, pulseIntervalTicks,

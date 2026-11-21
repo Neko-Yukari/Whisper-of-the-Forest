@@ -9,7 +9,7 @@
     <tier>2</tier>
     <family>Crafting</family>
     <label>rite of the woven spellbook</label>
-    <description>Takes one apprentice spellbook, 12 elven steel and 15 jade from the ground around the altar when the chant completes. A 5×5 green crafting circle produces one adept spellbook on completion. Spells remain with their pawn; wearing the new book opens seven slots without erasing stored recipes.</description>
+    <description>Takes one apprentice spellbook, 12 elven steel and 15 jade from the ground around the altar when the chant completes. A 5×5 green crafting circle produces one adept spellbook on completion. Spells remain with their pawn; all ten bookmarks stay open while the new book raises the single-spell rune chain limit to 7 glyphs.</description>
     <ringSize>5</ringSize>
     <chalkColor>Green</chalkColor>
     <manaCost>150</manaCost>
@@ -33,7 +33,7 @@
     <tier>3</tier>
     <family>Crafting</family>
     <label>rite of the starlight codex</label>
-    <description>Takes one adept spellbook, 12 mithril and 10 star chalk from the ground around the altar when the chant completes. A 7×7 star crafting circle produces one starlight codex on completion. Spells remain with their pawn; the codex opens all ten slots and permits super runes.</description>
+    <description>Takes one adept spellbook, 12 mithril and 10 star chalk from the ground around the altar when the chant completes. A 7×7 star crafting circle produces one starlight codex on completion. Spells remain with their pawn; all ten bookmarks stay open while the codex raises the single-spell rune chain limit to 10 glyphs and permits super runes.</description>
     <ringSize>7</ringSize>
     <chalkColor>Star</chalkColor>
     <manaCost>300</manaCost>

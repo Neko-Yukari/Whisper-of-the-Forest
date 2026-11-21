@@ -27,6 +27,29 @@ namespace WhisperOfTheForest.Rituals
             compClass = typeof(CompRitualAltar);
         }
 
+        public override IEnumerable<StatDrawEntry> SpecialDisplayStats(StatRequest req)
+        {
+            foreach (StatDrawEntry entry in base.SpecialDisplayStats(req)) yield return entry;
+            yield return new StatDrawEntry(
+                StatCategoryDefOf.Building,
+                "WotF_Stat_AltarTier".Translate(),
+                "T" + tier,
+                "WotF_Stat_AltarTier_Desc".Translate(),
+                2620);
+            yield return new StatDrawEntry(
+                StatCategoryDefOf.Building,
+                "WotF_Stat_AltarHelperFactor".Translate(),
+                helperChantStrengthFactor.ToStringPercent(),
+                "WotF_Stat_AltarHelperFactor_Desc".Translate(),
+                2610);
+            yield return new StatDrawEntry(
+                StatCategoryDefOf.Building,
+                "WotF_Stat_ManaLinkRadius".Translate(),
+                string.Format("WotF_Stat_Unit_Cells".Translate(), linkRadius.ToString("0.#")),
+                "WotF_Stat_ManaLinkRadius_Desc".Translate(),
+                2600);
+        }
+
         public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
         {
             foreach (string error in base.ConfigErrors(parentDef)) yield return error;
@@ -1857,6 +1880,12 @@ namespace WhisperOfTheForest.Rituals
                 && !RitualEffect_LeylineMining.HasDeepResources(parent.Map, parent.Position, def.RadiusFor(result.RitualStrength)))
             {
                 result.Problems.Add("WotF_Ritual_LeylineMining_NoResource".Translate());
+            }
+
+            if (def.effectWorkerClass == typeof(RitualEffect_CounterPsychic)
+                && !PsychicRitualDisruption.HasHostileRitual(parent.Map))
+            {
+                result.Problems.Add("WotF_Ritual_CounterPsychic_NoTarget".Translate());
             }
 
             ManaNetwork network = Network();

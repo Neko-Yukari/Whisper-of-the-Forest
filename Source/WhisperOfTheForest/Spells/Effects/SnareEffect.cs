@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 using Verse;
 
 using WhisperOfTheForest.Equipment;
@@ -22,6 +23,11 @@ namespace WhisperOfTheForest.Spells
             this.targetRadius = targetRadius;
         }
         public override string DiagnosticName => "snare";
+        public override void AppendSummary(List<string> lines, int indent)
+        {
+            lines.Add(SummaryIndent(indent) + SpellText.TF("WotF_SpellPlan.EffectSnare",
+                FormatSeconds(rootDurationTicks), FormatAreaSuffix(useArea, targetRadius)));
+        }
         public override int Execute(Thing caster, Thing primary, IntVec3 cell, Map map)
         {
             List<Thing> targets = SpellExecutor.CollectTargets(useArea, targetRadius, primary, cell, map,
@@ -55,6 +61,8 @@ namespace WhisperOfTheForest.Spells
                 else if (augment.defName == SpellDefs.AugmentExtend || augment.defName == SpellDefs.AugmentShorten)
                     duration = Duration(duration, rootDurationTicks, augment);
             }
+            if (duration > 0 && staff != null)
+                duration = Mathf.Max(1, Mathf.RoundToInt(duration * staff.durationFactor));
             return new SnareEffect(duration, useArea, area);
         }
         public override IEnumerable<string> ConfigErrors()

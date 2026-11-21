@@ -3,153 +3,148 @@ using UnityEngine;
 namespace WhisperOfTheForest
 {
     /// <summary>
-    /// IMGUI-only page feedback: a glyph flying into the bar, a light band on a bookmark switch, a
-    /// shake/red flash for a refused action and a sweep after a successful create.
+    /// Subtle IMGUI feedback for the spellbook: an arced glyph fly-in with landing bloom, a soft
+    /// remove fade, a cascading mana ripple along the vine on save, spine crease shadow on slot
+    /// switch, and a brief 2px nudge on refused actions.
     ///
-    /// Everything is driven by <see cref="Time.realtimeSinceStartup"/>, so a paused game or a
-    /// slowed-down UI still animates in real time, and no animation library is involved. The
-    /// object only stores timestamps: drawing reads a normalised progress and paints an overlay, so
-    /// no layout rectangle ever depends on it. A disabled or finished animation simply returns
-    /// false, and nothing here writes to the log.
+    /// Driven by <see cref="Time.realtimeSinceStartup"/> so paused games still animate smoothly.
+    /// No layout rectangle depends on it; finished animations simply return false.
     /// </summary>
     internal sealed class SpellbookAnim
     {
-        /// <summary>Glyph flies from the catalogue row into the bar.</summary>
-        public const float AddSeconds = 0.15f;
+        public const float AddFlightSeconds = 0.16f;
+        public const float AddBloomSeconds = 0.22f;
+        public const float RemoveSeconds = 0.14f;
+        public const float PageSwitchSeconds = 0.18f;
+        public const float NudgeSeconds = 0.14f;
+        public const float RippleStepSeconds = 0.035f;
+        public const float RippleBeadSeconds = 0.24f;
 
-        /// <summary>Soft band crossing the pages when a bookmark becomes the current slot.</summary>
-        public const float FlipSeconds = 0.18f;
-
-        /// <summary>Shake plus red flash when an action is refused.</summary>
-        public const float ShakeSeconds = 0.12f;
-
-        /// <summary>Light sweep across the bar after a successful create.</summary>
-        public const float SweepSeconds = 0.35f;
-
-        /// <summary>Bead shrinking and fading after it is removed from the bar.</summary>
-        public const float RemoveSeconds = 0.12f;
-
-        /// <summary>Far enough in the past that <see cref="Progress"/> always reports "finished".</summary>
         private const float Idle = -1000f;
-
-        /// <summary>Player switch for all of the above; the page keeps working without it.</summary>
-        public bool enabled = true;
 
         private float addStart = Idle;
         private Vector2 addFrom;
         private int addIndex = -1;
 
         private float removeStart = Idle;
-        private Rect removeRect;
+        private Rect removeSocket;
         private string removeDefName;
 
-        private float flipStart = Idle;
-        private int flipDirection = 1;
+        private float switchStart = Idle;
+        private float nudgeStart = Idle;
 
-        private float shakeStart = Idle;
-        private float sweepStart = Idle;
+        private float rippleStart = Idle;
+        private int rippleCount;
 
-        private static float Now
-        {
-            get { return Time.realtimeSinceStartup; }
-        }
+        private static float Now => Time.realtimeSinceStartup;
 
         // ---------------------------------------------------------------- triggers
 
         public void OnAdd(Vector2 from, int index)
         {
-            if (!enabled)
-            {
-                return;
-            }
-
             addStart = Now;
             addFrom = from;
             addIndex = index;
         }
 
-        public void OnRemove(Rect bead, string defName)
+        public void OnRemove(Rect socketRect, string defName)
         {
-            if (!enabled)
-            {
-                return;
-            }
-
             removeStart = Now;
-            removeRect = bead;
+            removeSocket = socketRect;
             removeDefName = defName;
         }
 
-        /// <summary>Bookmarks are ordered top to bottom, so the band follows the slot direction.</summary>
         public void OnSlotSwitch(int fromSlot, int toSlot)
         {
-            if (!enabled)
-            {
-                return;
-            }
-
             addStart = Idle;
             addIndex = -1;
             removeStart = Idle;
-            flipDirection = toSlot >= fromSlot ? 1 : -1;
-            flipStart = Now;
-        }
+            rippleStart = Idle;
+            rippleCount = 0;
 
-        public void Shake()
-        {
-            if (!enabled)
+            if (fromSlot == toSlot)
             {
                 return;
             }
 
-            shakeStart = Now;
+            switchStart = Now;
         }
 
-        public void Sweep()
+        public void Nudge()
         {
-            if (!enabled)
+            nudgeStart = Now;
+        }
+
+        public void OnCreate(int glyphCount)
+        {
+            if (glyphCount <= 0)
             {
                 return;
             }
 
-            sweepStart = Now;
+            rippleCount = glyphCount;
+            rippleStart = Now;
         }
 
         // ---------------------------------------------------------------- frame queries
 
-        public bool TryAdd(out float progress, out Vector2 from, out int index)
+        public bool IsAddingIndex(int index)
         {
-            progress = Progress(addStart, AddSeconds);
+            return index == addIndex && addIndex >= 0 && Progress(addStart, AddFlightSeconds) >= 0f;
+        }
+
+        public bool TryAddFlight(out float progress, out Vector2 from, out int index)
+        {
+            progress = Progress(addStart, AddFlightSeconds);
             from = addFrom;
             index = addIndex;
-            return enabled && addIndex >= 0 && progress >= 0f;
+            return addIndex >= 0 && progress >= 0f;
         }
 
-        public bool TryRemove(out float progress, out Rect bead, out string defName)
+        public bool TryAddLanding(out float progress, out int index)
+        {
+            progress = Progress(addStart + AddFlightSeconds, AddBloomSeconds);
+            index = addIndex;
+            return addIndex >= 0 && progress >= 0f;
+        }
+
+        public bool TryRemove(out float progress, out Rect socketRect, out string defName)
         {
             progress = Progress(removeStart, RemoveSeconds);
-            bead = removeRect;
+            socketRect = removeSocket;
             defName = removeDefName;
-            return enabled && progress >= 0f;
+            return progress >= 0f;
         }
 
-        public bool TryFlip(out float progress, out int direction)
+        public bool TryPageCrease(out float progress)
         {
-            progress = Progress(flipStart, FlipSeconds);
-            direction = flipDirection;
-            return enabled && progress >= 0f;
+            progress = Progress(switchStart, PageSwitchSeconds);
+            return progress >= 0f;
         }
 
-        public bool TryShake(out float progress)
+        public bool TryNudge(out float offsetX)
         {
-            progress = Progress(shakeStart, ShakeSeconds);
-            return enabled && progress >= 0f;
+            float t = Progress(nudgeStart, NudgeSeconds);
+            if (t < 0f)
+            {
+                offsetX = 0f;
+                return false;
+            }
+
+            offsetX = Mathf.Sin(t * Mathf.PI * 3f) * 2.5f * (1f - t);
+            return true;
         }
 
-        public bool TrySweep(out float progress)
+        public bool TryBeadRipple(int index, out float progress)
         {
-            progress = Progress(sweepStart, SweepSeconds);
-            return enabled && progress >= 0f;
+            if (index < 0 || index >= rippleCount)
+            {
+                progress = -1f;
+                return false;
+            }
+
+            progress = Progress(rippleStart + index * RippleStepSeconds, RippleBeadSeconds);
+            return progress >= 0f;
         }
 
         // ---------------------------------------------------------------- easing
@@ -165,17 +160,15 @@ namespace WhisperOfTheForest
             return t >= 0f && t < 1f ? t : -1f;
         }
 
-        /// <summary>Fast start, gentle landing.</summary>
         public static float EaseOut(float t)
         {
             float inverse = 1f - t;
             return 1f - inverse * inverse * inverse;
         }
 
-        /// <summary>0 at both ends, 1 in the middle; keeps a band from popping in or out.</summary>
         public static float Pulse(float t)
         {
-            return 1f - Mathf.Abs(t * 2f - 1f);
+            return Mathf.Sin(Mathf.Clamp01(t) * Mathf.PI);
         }
     }
 }

@@ -87,9 +87,14 @@ namespace WhisperOfTheForest.Spells
             return true;
         }
 
-        public static bool CanCast(Pawn pawn, SpellRecipe recipe, out string reason)
+        public static bool CanCast(Pawn pawn, SpellRecipe recipe, out string reason, CompSpellStaff staff = null)
         {
             if (!IsEligibleCaster(pawn, out reason))
+            {
+                return false;
+            }
+
+            if (staff != null && !staff.CanCastThrough(pawn, out reason))
             {
                 return false;
             }
@@ -99,16 +104,31 @@ namespace WhisperOfTheForest.Spells
                 return false;
             }
 
+            if (!CanFitBook(pawn, recipe.glyphs.Count, out reason))
+            {
+                return false;
+            }
+
             foreach (string name in recipe.glyphs)
             {
                 SpellGlyphDef glyph = SpellDefs.Glyph(name);
                 if (!CanUseGlyph(pawn, glyph, out reason))
                     return false;
-                if (glyph.kind == SpellGlyphKind.Super
-                    && pawn.equipment?.Primary?.GetComp<CompSpellStaff>() == null)
+                if (glyph.kind == SpellGlyphKind.Super)
                 {
-                    reason = SpellText.T("WotF_Spells.Reason.SuperNeedsStaff");
-                    return false;
+                    CompSpellStaff superStaff = staff != null && staff.Props.allowsSuperGlyphs
+                        ? staff
+                        : CompSpellStaff.FindForSuper(pawn);
+                    if (superStaff == null)
+                    {
+                        reason = SpellText.T("WotF_Spells.Reason.SuperNeedsStaff");
+                        return false;
+                    }
+
+                    if (!superStaff.CanCastThrough(pawn, out reason))
+                    {
+                        return false;
+                    }
                 }
             }
 
@@ -163,11 +183,37 @@ namespace WhisperOfTheForest.Spells
             return true;
         }
 
-        /// <summary>How many of the pawn's spell slots its worn book opens; 0 without a book.</summary>
-        public static int OpenSlotCount(Pawn pawn)
+        /// <summary>Maximum rune chain length the pawn's worn book permits; 0 without a book.</summary>
+        public static int MaxGlyphsFor(Pawn pawn)
         {
             Apparel book = WornSpellbook(pawn);
-            return book == null ? 0 : book.def.GetModExtension<SpellbookExtension>().slotCount;
+            return book == null ? 0 : book.def.GetModExtension<SpellbookExtension>().maxGlyphs;
+        }
+
+        /// <summary>How many of the pawn's spell bookmarks are open: all ten while wearing any book, 0 without one.</summary>
+        public static int OpenSlotCount(Pawn pawn)
+        {
+            return WornSpellbook(pawn) == null ? 0 : GameComponent_Spellbook.SlotCount;
+        }
+
+        /// <summary>True when the pawn wears a spellbook whose chain limit fits <paramref name="glyphCount"/> runes.</summary>
+        public static bool CanFitBook(Pawn pawn, int glyphCount, out string reason)
+        {
+            reason = null;
+            int limit = MaxGlyphsFor(pawn);
+            if (limit <= 0)
+            {
+                reason = SpellText.T("WotF_Spells.Reason.NoBook");
+                return false;
+            }
+
+            if (glyphCount > limit)
+            {
+                reason = SpellText.TF("WotF_Spells.Reason.ExceedsBookGlyphs", glyphCount, limit);
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -250,7 +296,19 @@ namespace WhisperOfTheForest.Spells
         /// so editing the book afterwards cannot change a cast that is already running.
         /// </summary>
         public static bool TryCast(Pawn pawn, SpellRecipe recipe, LocalTargetInfo target, out string reason,
+            CompSpellStaff staffComp)
+        {
+            return TryCastInternal(pawn, recipe, target, out reason, staffComp?.Modifiers, staffComp);
+        }
+
+        public static bool TryCast(Pawn pawn, SpellRecipe recipe, LocalTargetInfo target, out string reason,
             SpellStaffModifiers staff = null)
+        {
+            return TryCastInternal(pawn, recipe, target, out reason, staff, null);
+        }
+
+        private static bool TryCastInternal(Pawn pawn, SpellRecipe recipe, LocalTargetInfo target, out string reason,
+            SpellStaffModifiers staff, CompSpellStaff staffComp)
         {
             SpellRecipe castRecipe = recipe;
             if (staff != null)
@@ -262,7 +320,7 @@ namespace WhisperOfTheForest.Spells
                 staff.ApplyCost(castRecipe.cost);
             }
 
-            if (!CanCast(pawn, castRecipe, out reason))
+            if (!CanCast(pawn, castRecipe, out reason, staffComp))
             {
                 return false;
             }

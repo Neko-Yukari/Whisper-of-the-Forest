@@ -976,24 +976,6 @@
     <channelMoveSpeedFactor>0.55</channelMoveSpeedFactor>
     <!-- Upper bound on darts or orbs after Split. -->
     <maxMissiles>5</maxMissiles>
-
-    <!--
-      Staff material bridge. The staff is stuffable; its material's vanilla armour stats are the
-      only input, so every stuffable material in the game (vanilla or modded) works without a table:
-
-        heat armour  -> effect duration (steel 0.60 -> x1.12, wood 0.40 -> x1.08)
-        blunt armour -> mana cost       (wood 0.54 -> x0.78, steel 0.45 -> x0.82)
-        sharp/blunt damage multiplier average -> damage (wood 0.65 -> x0.65, steel 1.00 -> x1.00)
-
-      staffSpellPower is the neutral base; caps keep a future 3.0-heat material from becoming a
-      free spell or an endless field. These are first-pass numbers, not a balance conclusion.
-    -->
-    <staffSpellPower>1</staffSpellPower>
-    <staffHeatArmorDurationBonus>0.2</staffHeatArmorDurationBonus>
-    <staffMinManaFactor>0.6</staffMinManaFactor>
-    <staffBluntArmorCostReduction>0.4</staffBluntArmorCostReduction>
-    <staffMaxDurationFactor>1.75</staffMaxDurationFactor>
-    <staffMaxDamageFactor>1.5</staffMaxDamageFactor>
     <defaultTheme>WotF_Theme_Starlight</defaultTheme>
     <castVfxDef>WotF_Vfx_SpellCast</castVfxDef>
   </WhisperOfTheForest.Spells.SpellTuningDef>

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using RimWorld;
 using Verse;
 using Verse.AI.Group;
@@ -5,66 +6,99 @@ using Verse.AI.Group;
 namespace WhisperOfTheForest.Rituals
 {
     /// <summary>
-    /// Finds the psychic ritual a pawn belongs to and cancels it. The short staff is the only
-    /// caller: it is aimed at a ritual participant, not at a free pawn.
+    /// Scans a map for active hostile psychic rituals (all Anomaly ritual types, not just
+    /// skip-abduction), cancels them and stuns every assigned participant.
     /// </summary>
     public static class PsychicRitualDisruption
     {
-        /// <summary>The live psychic ritual this pawn participates in, or null.</summary>
-        public static PsychicRitual RitualOf(Pawn pawn)
+        /// <summary>All live, uncanceled, unfinished hostile psychic rituals on <paramref name="map"/>.</summary>
+        public static List<PsychicRitual> FindHostileRituals(Map map)
         {
-            Lord lord = pawn?.GetLord();
-            if (lord?.CurLordToil is LordToil_PsychicRitual toil)
+            var results = new List<PsychicRitual>();
+            List<Lord> lords = map?.lordManager?.lords;
+            if (lords == null)
             {
-                PsychicRitual ritual = toil.RitualData.psychicRitual;
-                if (ritual != null && !ritual.canceled && !ritual.succeeded)
+                return results;
+            }
+
+            for (int i = 0; i < lords.Count; i++)
+            {
+                Lord lord = lords[i];
+                if (lord?.faction == null || !lord.faction.HostileTo(Faction.OfPlayer))
                 {
-                    return ritual;
+                    continue;
+                }
+
+                if (lord.CurLordToil is LordToil_PsychicRitual toil)
+                {
+                    PsychicRitual ritual = toil.RitualData?.psychicRitual;
+                    if (ritual != null && !ritual.canceled && !ritual.succeeded)
+                    {
+                        results.Add(ritual);
+                    }
                 }
             }
 
-            return null;
+            return results;
         }
 
-        /// <summary>True when the pawn is in a psychic ritual the short staff can break.</summary>
-        public static bool CanDisrupt(Pawn pawn)
+        /// <summary>True when at least one active hostile psychic ritual is running on <paramref name="map"/>.</summary>
+        public static bool HasHostileRitual(Map map)
         {
-            PsychicRitual ritual = RitualOf(pawn);
-            return ritual != null && IsAbduction(ritual);
-        }
-
-        private static bool IsAbduction(PsychicRitual ritual)
-        {
-            return ritual.def is PsychicRitualDef_SkipAbduction || ritual.def is PsychicRitualDef_SkipAbductionPlayer;
+            return FindHostileRituals(map).Count > 0;
         }
 
         /// <summary>
-        /// Cancels a skip-abduction ritual and stuns everyone assigned to it. The target is a
-        /// participant, so the ritual is already found by the time this runs.
+        /// Cancels every active hostile psychic ritual on <paramref name="map"/> and stuns each
+        /// assigned participant once for <paramref name="stunTicks"/>.
         /// </summary>
-        public static bool TryDisrupt(Pawn caster, Pawn target, int stunTicks, out string reason)
+        public static void DisruptHostileRituals(
+            Map map,
+            Pawn host,
+            int stunTicks,
+            out int canceledCount,
+            out int stunnedCount)
         {
-            PsychicRitual ritual = RitualOf(target);
-            if (ritual == null)
+            // Snapshot lords/rituals first: CancelPsychicRitual removes the lord from map.lordManager.lords.
+            List<PsychicRitual> rituals = FindHostileRituals(map);
+            canceledCount = 0;
+            var stunned = new HashSet<Pawn>();
+            string hostName = host != null ? host.LabelShort : string.Empty;
+            TaggedString cancelReason = string.Format("WotF_Ritual_CounterPsychic_CancelReason".Translate(), hostName);
+
+            for (int i = 0; i < rituals.Count; i++)
             {
-                reason = "WotF_ShortStaff.Reason.NoRitual".Translate();
-                return false;
+                PsychicRitual ritual = rituals[i];
+                if (ritual.canceled || ritual.succeeded)
+                {
+                    continue;
+                }
+
+                if (ritual.assignments != null)
+                {
+                    // Snapshot participants before stunning/canceling so collection mutation cannot skip entries.
+                    var participants = new List<Pawn>(ritual.assignments.AllAssignedPawns);
+                    for (int j = 0; j < participants.Count; j++)
+                    {
+                        Pawn participant = participants[j];
+                        if (participant == null || participant.Dead || !participant.Spawned
+                            || participant.stances?.stunner == null)
+                        {
+                            continue;
+                        }
+
+                        if (stunned.Add(participant))
+                        {
+                            participant.stances.stunner.StunFor(stunTicks, host, addBattleLog: true);
+                        }
+                    }
+                }
+
+                ritual.CancelPsychicRitual(cancelReason);
+                canceledCount++;
             }
 
-            if (!IsAbduction(ritual))
-            {
-                reason = "WotF_ShortStaff.Reason.NotAbduction".Translate();
-                return false;
-            }
-
-            foreach (Pawn participant in ritual.assignments.AllAssignedPawns)
-            {
-                participant.stances.stunner.StunFor(stunTicks, caster, addBattleLog: true);
-            }
-
-            ritual.CancelPsychicRitual("WotF_ShortStaff.CancelReason".Translate(caster.Named("CASTER")));
-            reason = null;
-            return true;
+            stunnedCount = stunned.Count;
         }
     }
 }

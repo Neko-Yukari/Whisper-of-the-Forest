@@ -26,6 +26,11 @@ namespace WhisperOfTheForest.Spells
         public string LightColor => lightColor;
         public int LifetimeTicks => lifetimeTicks;
         public override string DiagnosticName => "magelight";
+        public override void AppendSummary(List<string> lines, int indent)
+        {
+            lines.Add(SummaryIndent(indent) + SpellText.TF("WotF_SpellPlan.EffectMagelight",
+                lightRadius.ToString("0.#"), FormatSeconds(lifetimeTicks)));
+        }
         public override int Execute(Thing caster, Thing primary, IntVec3 cell, Map map)
         {
             return SpellEffectRuntime.SpawnTemporaryLight(map, cell, this) ? 1 : 0;

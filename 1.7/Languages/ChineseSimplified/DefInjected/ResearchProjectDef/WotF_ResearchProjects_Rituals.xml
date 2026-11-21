@@ -92,7 +92,7 @@
   </WotF_Research_Ritual_HealingMedium.customUnlockTexts>
 
   <WotF_Research_Ritual_SpellbookUpgradeAdept.label>魔术书升阶：织法魔术书</WotF_Research_Ritual_SpellbookUpgradeAdept.label>
-  <WotF_Research_Ritual_SpellbookUpgradeAdept.description>在 5×5 翠叶粉笔环中以精灵钢与翡翠将学徒魔术书升阶为拥有七个槽位的织法魔术书。解锁仪式：魔术书升阶：织法魔术书。</WotF_Research_Ritual_SpellbookUpgradeAdept.description>
+  <WotF_Research_Ritual_SpellbookUpgradeAdept.description>在 5×5 翠叶粉笔环中以精灵钢与翡翠将学徒魔术书升阶为单条法术上限 7 枚符文的织法魔术书。解锁仪式：魔术书升阶：织法魔术书。</WotF_Research_Ritual_SpellbookUpgradeAdept.description>
   <WotF_Research_Ritual_SpellbookUpgradeAdept.customUnlockTexts>
     <li>仪式：魔术书升阶：织法魔术书</li>
   </WotF_Research_Ritual_SpellbookUpgradeAdept.customUnlockTexts>
@@ -120,6 +120,12 @@
   <WotF_Research_Ritual_BeastCall.customUnlockTexts>
     <li>仪式：灵兽召契</li>
   </WotF_Research_Ritual_BeastCall.customUnlockTexts>
+
+  <WotF_Research_Ritual_CounterPsychic.label>灵能截断</WotF_Research_Ritual_CounterPsychic.label>
+  <WotF_Research_Ritual_CounterPsychic.description>在 5×5 翠叶粉笔环中引导灵能反制脉冲，打断地图上全部正在进行的敌对灵能仪式并震晕所有参与者。解锁仪式：灵能截断。</WotF_Research_Ritual_CounterPsychic.description>
+  <WotF_Research_Ritual_CounterPsychic.customUnlockTexts>
+    <li>仪式：灵能截断</li>
+  </WotF_Research_Ritual_CounterPsychic.customUnlockTexts>
 
   <WotF_Research_Ritual_ClearSky.label>祈晴</WotF_Research_Ritual_ClearSky.label>
   <WotF_Research_Ritual_ClearSky.description>在 5×5 翠叶粉笔环中驱散阴雨，令当地天气转为晴朗。解锁仪式：祈晴。</WotF_Research_Ritual_ClearSky.description>
@@ -153,7 +159,7 @@
   </WotF_Research_Ritual_HealingGrand.customUnlockTexts>
 
   <WotF_Research_Ritual_SpellbookUpgradeArchmage.label>魔术书升阶：星辉法典</WotF_Research_Ritual_SpellbookUpgradeArchmage.label>
-  <WotF_Research_Ritual_SpellbookUpgradeArchmage.description>在 7×7 星辉粉笔环中以秘银和星辉粉笔将织法魔术书升阶为可编入超位符文的十槽星辉法典。解锁仪式：魔术书升阶：星辉法典。</WotF_Research_Ritual_SpellbookUpgradeArchmage.description>
+  <WotF_Research_Ritual_SpellbookUpgradeArchmage.description>在 7×7 星辉粉笔环中以秘银和星辉粉笔将织法魔术书升阶为单条法术上限 10 枚符文、且可承载超位符文的星辉法典。解锁仪式：魔术书升阶：星辉法典。</WotF_Research_Ritual_SpellbookUpgradeArchmage.description>
   <WotF_Research_Ritual_SpellbookUpgradeArchmage.customUnlockTexts>
     <li>仪式：魔术书升阶：星辉法典</li>
   </WotF_Research_Ritual_SpellbookUpgradeArchmage.customUnlockTexts>

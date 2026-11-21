@@ -49,6 +49,54 @@ namespace WhisperOfTheForest.Teleport
             compClass = typeof(CompTeleportGate);
         }
 
+        public override IEnumerable<StatDrawEntry> SpecialDisplayStats(StatRequest req)
+        {
+            foreach (StatDrawEntry entry in base.SpecialDisplayStats(req)) yield return entry;
+            if (ruined)
+            {
+                yield return new StatDrawEntry(
+                    StatCategoryDefOf.Building,
+                    "WotF_Stat_GateRuinedMode".Translate(),
+                    "WotF_Stat_GateRuinedMode_Val".Translate(),
+                    "WotF_Stat_GateRuinedMode_Desc".Translate(),
+                    2620);
+            }
+            else
+            {
+                yield return new StatDrawEntry(
+                    StatCategoryDefOf.Building,
+                    "WotF_Stat_GateUpkeep".Translate(),
+                    string.Format("WotF_Stat_Unit_ManaPerSec".Translate(), upkeepPerSecond.ToString("0.##")),
+                    "WotF_Stat_GateUpkeep_Desc".Translate(),
+                    2620);
+                yield return new StatDrawEntry(
+                    StatCategoryDefOf.Building,
+                    "WotF_Stat_GateRemoteCost".Translate(),
+                    string.Format("WotF_Stat_GateRemoteCost_Val".Translate(),
+                        remoteStartCost.ToString("0.#"),
+                        remoteCostPerPawn.ToString("0.#"),
+                        remoteCostPerKg.ToString("0.##")),
+                    string.Format("WotF_Stat_GateRemoteCost_Desc".Translate(),
+                        remoteStartCost.ToString("0.#"),
+                        remoteCostPerPawn.ToString("0.#"),
+                        remoteCostPerKg.ToString("0.##")),
+                    2615);
+                yield return new StatDrawEntry(
+                    StatCategoryDefOf.Building,
+                    "WotF_Stat_ManaLinkRadius".Translate(),
+                    string.Format("WotF_Stat_Unit_Cells".Translate(), linkRadius.ToString("0.#")),
+                    "WotF_Stat_ManaLinkRadius_Desc".Translate(),
+                    2600);
+            }
+
+            yield return new StatDrawEntry(
+                StatCategoryDefOf.Building,
+                "WotF_Stat_GateArrivalRadius".Translate(),
+                string.Format("WotF_Stat_Unit_Cells".Translate(), arrivalRadius.ToString("0.#")),
+                "WotF_Stat_GateArrivalRadius_Desc".Translate(),
+                2595);
+        }
+
         public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
         {
             foreach (string error in base.ConfigErrors(parentDef))

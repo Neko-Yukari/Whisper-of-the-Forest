@@ -1,24 +1,24 @@
 using RimWorld;
 using Verse;
+using Verse.AI;
 using WhisperOfTheForest.Spells;
 
 namespace WhisperOfTheForest.Equipment
 {
     /// <summary>
-    /// The staff's attack: a real ranged verb so the drafted attack order, the native targeter and
-    /// the AI's static-attack job all reach it through the ordinary weapon path, but no dart is
-    /// fired here. <see cref="TryCastShot"/> hands the chosen spellbook bookmark to
-    /// <see cref="SpellService.TryCast"/>, which is the same entry point the book gizmo uses; windup,
-    /// channel, recovery, cooldown and the payload stay with the casting system.
+    /// The staff or wand's attack: a real ranged verb so the drafted attack order, the native
+    /// targeter and the AI's static-attack job all reach it through the ordinary weapon path, but
+    /// no dart is fired here. <see cref="TryCastShot"/> hands the chosen spellbook bookmark to
+    /// <see cref="SpellService.TryCast"/>, which is the same entry point the book gizmo uses;
+    /// windup, channel, recovery, cooldown and the payload stay with the casting system.
     ///
     /// Phase timing is not duplicated: <c>warmupTime</c> is 0 in the Def, so the vanilla verb has
     /// nothing to warm up and the staff's own windup is the casting service's.
     ///
-    /// Reach belongs to the spell, not to the weapon: <see cref="EffectiveRange"/> and
-    /// <see cref="CanHitTarget"/> read the compiled plan of the chosen bookmark, so switching the
-    /// slot really changes how far the attack reaches. The Def's <c>range</c> is only the fallback
-    /// used while no bookmark is chosen; <c>VerbProperties.DrawRadiusRing</c> and the targeter both
-    /// ask the verb for its effective range.
+    /// Reach belongs to the spell scaled by the staff's <see cref="SpellStaffModifiers.rangeFactor"/>:
+    /// <see cref="EffectiveRange"/>, <see cref="CanHitTarget"/> and <see cref="CanHitTargetFrom"/>
+    /// all compile through <see cref="SelectedPlan"/> with the staff's modifiers so the aim ring,
+    /// stationing and cast reach always agree.
     /// </summary>
     public class Verb_CastSpellStaff : Verb
     {
@@ -37,7 +37,7 @@ namespace WhisperOfTheForest.Equipment
                 float range;
                 if (plan.form != SpellFormKind.Special)
                 {
-                    // The form's own range; Self and Orbit have none and so give the staff no reach.
+                    // The form's own range (already scaled by staff.rangeFactor); Self and Orbit have none.
                     range = plan.range;
                 }
                 else
@@ -57,9 +57,7 @@ namespace WhisperOfTheForest.Equipment
                 }
 
                 // CastPositionFinder multiplies EffectiveRange by verbProps.range when it picks a
-                // shooting position, so a staff whose spell reaches farther than the weapon Def
-                // would still station at the Def's range. Give this verb its own VerbProperties and
-                // keep its range in step with the selected spell.
+                // shooting position, so keep verbProps.range in step with the selected spell and staff.
                 SyncVerbPropsRange(range);
                 return range;
             }
@@ -82,12 +80,23 @@ namespace WhisperOfTheForest.Equipment
         }
 
         /// <summary>
-        /// A staff with no saved spell in its chosen bookmark cannot attack at all: vanilla then
-        /// falls back to the pawn's melee verb, which is the intended "no book, no cast" behaviour.
+        /// A staff with no saved spell in its chosen bookmark, or a two-handed staff blocked by a
+        /// worn shield belt, cannot attack: vanilla then falls back to the pawn's melee verb.
         /// </summary>
         public override bool Available()
         {
-            return base.Available() && CasterIsPawn && SelectedPlan() != null;
+            if (!base.Available() || !CasterIsPawn)
+            {
+                return false;
+            }
+
+            CompSpellStaff staff = EquipmentSource?.GetComp<CompSpellStaff>();
+            if (staff == null || staff.IsBlockedByShieldBelt(CasterPawn))
+            {
+                return false;
+            }
+
+            return SelectedPlan() != null;
         }
 
         public override TargetingParameters targetParams
@@ -106,6 +115,12 @@ namespace WhisperOfTheForest.Equipment
         {
             Pawn pawn = CasterPawn;
             if (pawn == null || !pawn.Spawned || pawn.Map == null || !targ.IsValid)
+            {
+                return false;
+            }
+
+            CompSpellStaff staff = EquipmentSource?.GetComp<CompSpellStaff>();
+            if (staff == null || staff.IsBlockedByShieldBelt(pawn))
             {
                 return false;
             }
@@ -135,6 +150,12 @@ namespace WhisperOfTheForest.Equipment
                 return false;
             }
 
+            CompSpellStaff staff = EquipmentSource?.GetComp<CompSpellStaff>();
+            if (staff == null || staff.IsBlockedByShieldBelt(pawn))
+            {
+                return false;
+            }
+
             SpellCastPlan plan = SelectedPlan();
             if (plan == null)
             {
@@ -147,12 +168,48 @@ namespace WhisperOfTheForest.Equipment
             return SpellService.IsTargetableFrom(pawn, plan, root.IsValid ? root : pawn.Position, pick);
         }
 
+        public override void OrderForceTarget(LocalTargetInfo target)
+        {
+            Pawn pawn = CasterPawn;
+            CompSpellStaff staff = EquipmentSource?.GetComp<CompSpellStaff>();
+            if (pawn != null && staff != null && !staff.CanCastThrough(pawn, out string reason))
+            {
+                SpellService.Reject(reason);
+                return;
+            }
+
+            // While dual-wielding (Primary weapon + offhand wand), vanilla JobDefOf.AttackStatic
+            // calls Pawn.TryGetAttackVerb which always returns the Primary weapon and ignores
+            // job.verbToUse. Dispatch manual offhand clicks through JobDefOf.UseVerbOnThing so
+            // JobDriver_CastVerbOnce invokes this offhand verb directly.
+            if (pawn != null && EquipmentSource != null
+                && pawn.equipment?.Primary != null && pawn.equipment.Primary != EquipmentSource)
+            {
+                Job job = JobMaker.MakeJob(JobDefOf.UseVerbOnThing, target);
+                job.verbToUse = this;
+                pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+                return;
+            }
+
+            base.OrderForceTarget(target);
+        }
+
         protected override bool TryCastShot()
         {
             Pawn pawn = CasterPawn;
             CompSpellStaff staff = EquipmentSource?.GetComp<CompSpellStaff>();
             if (pawn == null || staff == null)
             {
+                return false;
+            }
+
+            if (!staff.CanCastThrough(pawn, out string shieldReason))
+            {
+                if (pawn.IsPlayerControlled)
+                {
+                    SpellService.Reject(shieldReason);
+                }
+
                 return false;
             }
 
@@ -163,7 +220,7 @@ namespace WhisperOfTheForest.Equipment
             }
 
             string reason;
-            if (!SpellService.TryCast(pawn, recipe, currentTarget, out reason, staff.Modifiers))
+            if (!SpellService.TryCast(pawn, recipe, currentTarget, out reason, staff))
             {
                 WotfLog.Debug(StaffDefs.LogModule, "staff attack refused for '" + recipe.name + "': " + reason);
                 if (pawn.IsPlayerControlled)
@@ -180,23 +237,24 @@ namespace WhisperOfTheForest.Equipment
         }
 
         /// <summary>
-        /// The bookmark's recipe compiled into the exact plan the cast will run. Compiled on demand
-        /// rather than cached: the slot stores an index, so an edit to that book page must be visible
-        /// to the very next attack.
+        /// The bookmark's recipe compiled with this staff's modifiers into the exact plan the cast
+        /// will run. Compiled on demand rather than cached: the slot stores an index, so an edit to
+        /// that book page must be visible to the very next attack.
         /// </summary>
         private SpellCastPlan SelectedPlan()
         {
-            SpellRecipe recipe = EquipmentSource?.GetComp<CompSpellStaff>()?.SelectedRecipe;
-            return recipe == null ? null : AutoAttackPlan(recipe);
+            CompSpellStaff staff = EquipmentSource?.GetComp<CompSpellStaff>();
+            SpellRecipe recipe = staff?.SelectedRecipe;
+            return recipe == null ? null : AutoAttackPlan(recipe, staff.Modifiers);
         }
 
         /// <summary>
         /// The plan a staff may fire as a weapon attack, or null. Self, Orbit and Super spells are
         /// player-triggered skills, never weapon auto-attacks.
         /// </summary>
-        public static SpellCastPlan AutoAttackPlan(SpellRecipe recipe)
+        public static SpellCastPlan AutoAttackPlan(SpellRecipe recipe, SpellStaffModifiers staff = null)
         {
-            SpellCastPlan plan = SpellCompiler.Compile(recipe, out _);
+            SpellCastPlan plan = SpellCompiler.Compile(recipe, out _, staff);
             return plan == null || plan.form == SpellFormKind.Self || plan.form == SpellFormKind.Orbit
                 || SpellDefs.Glyph(recipe.glyphs[0]).kind == SpellGlyphKind.Super ? null : plan;
         }

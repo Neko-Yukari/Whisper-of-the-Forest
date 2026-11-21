@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using RimLumen.Core.Api;
 using RimLumen.Core.Contracts;
+using RimLumen.Core.Rendering;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -64,6 +65,14 @@ namespace WhisperOfTheForest.Vfx
         private ILumenEffectHandle fireHandle;
         private Sustainer chargeSustainer;
 
+        private int lastChargeTick = int.MinValue;
+        private Vector3 lastChargePos;
+        private LumenColorBlendSpace lastChargeBlendSpace;
+        private int lastFireTick = int.MinValue;
+        private LumenColorBlendSpace lastFireBlendSpace;
+        private Vector3 lastFireCamForward;
+        private Vector3 lastFireCamRight;
+
         private float ShockSpeedCellsPerSecond
         {
             get
@@ -113,6 +122,8 @@ namespace WhisperOfTheForest.Vfx
 
             depthMesh = new LumenRibbonMesh("WotF_Railgun_ChargeDepth");
             overMesh = new LumenRibbonMesh("WotF_Railgun_FireOver");
+            lastChargeTick = int.MinValue;
+            lastFireTick = int.MinValue;
 
             RefreshChargeFocal();
             StartChargeLumen();
@@ -209,12 +220,16 @@ namespace WhisperOfTheForest.Vfx
             depthMesh = null;
             overMesh?.Dispose();
             overMesh = null;
+            lastChargeTick = int.MinValue;
+            lastFireTick = int.MinValue;
         }
 
         private void BeginFire()
         {
             fired = true;
             fireTick = Find.TickManager.TicksGame;
+            lastChargeTick = int.MinValue;
+            lastFireTick = int.MinValue;
             EndChargeAudio();
 
             if (chargeHandle != null)
@@ -274,6 +289,25 @@ namespace WhisperOfTheForest.Vfx
             {
                 return;
             }
+
+            int nowTick = Find.TickManager.TicksGame;
+            Vector3 casterPos = caster.DrawPos;
+            LumenColorBlendSpace blendSpace = RimLumenRenderHost.CurrentFrameColorBlendSpace;
+            if (nowTick == lastChargeTick
+                && (casterPos - lastChargePos).sqrMagnitude < 1e-6f
+                && blendSpace == lastChargeBlendSpace)
+            {
+                if (depthMesh.HasGeometry)
+                {
+                    LumenShaders.DrawLumen(depthMesh.Mesh, LumenShaders.RibbonDepth);
+                }
+
+                return;
+            }
+
+            lastChargeTick = nowTick;
+            lastChargePos = casterPos;
+            lastChargeBlendSpace = blendSpace;
 
             RefreshChargeFocal();
             depthMesh.Clear();
@@ -434,6 +468,28 @@ namespace WhisperOfTheForest.Vfx
             {
                 return;
             }
+
+            int nowTick = Find.TickManager.TicksGame;
+            LumenColorBlendSpace blendSpace = RimLumenRenderHost.CurrentFrameColorBlendSpace;
+            Vector3 camForward = camera.transform.forward;
+            Vector3 camRight = camera.transform.right;
+            if (nowTick == lastFireTick
+                && blendSpace == lastFireBlendSpace
+                && (camForward - lastFireCamForward).sqrMagnitude < 1e-6f
+                && (camRight - lastFireCamRight).sqrMagnitude < 1e-6f)
+            {
+                if (overMesh.HasGeometry)
+                {
+                    LumenShaders.DrawLumen(overMesh.Mesh, LumenShaders.RibbonOver);
+                }
+
+                return;
+            }
+
+            lastFireTick = nowTick;
+            lastFireBlendSpace = blendSpace;
+            lastFireCamForward = camForward;
+            lastFireCamRight = camRight;
 
             overMesh.Clear();
 

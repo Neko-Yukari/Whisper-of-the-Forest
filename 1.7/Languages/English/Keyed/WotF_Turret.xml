@@ -6,6 +6,7 @@
   <WotF_Turret_SelectSpellDesc>Choose a colony spell. A spellcaster must inscribe it before the turret can use it.</WotF_Turret_SelectSpellDesc>
   <WotF_Turret_Candidate>{0} · Slot {1} · {2}</WotF_Turret_Candidate>
   <WotF_Turret_NewSpell>Write a new spell</WotF_Turret_NewSpell>
+  <WotF_Turret_HeaderBadge>Turret spell inscription · Projectile form only</WotF_Turret_HeaderBadge>
   <WotF_Turret_RequestWrite>Request inscription</WotF_Turret_RequestWrite>
   <WotF_Turret_ComposeHint>This spell goes only to the turret, not to a spellbook slot.</WotF_Turret_ComposeHint>
   <WotF_Turret_ManaPreview>Mana per shot: {0}</WotF_Turret_ManaPreview>

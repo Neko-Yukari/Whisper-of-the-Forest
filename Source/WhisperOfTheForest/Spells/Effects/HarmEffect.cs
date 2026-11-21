@@ -27,6 +27,11 @@ namespace WhisperOfTheForest.Spells
             this.logSource = logSource;
         }
         public override string DiagnosticName => "harm";
+        public override void AppendSummary(List<string> lines, int indent)
+        {
+            lines.Add(SummaryIndent(indent) + SpellText.TF("WotF_SpellPlan.EffectHarm",
+                damage.ToString("0.#"), FormatApSuffix(armorPenetration), FormatAreaSuffix(useArea, targetRadius)));
+        }
         public override int Execute(Thing caster, Thing primary, IntVec3 cell, Map map)
         {
             List<Thing> targets = SpellExecutor.CollectTargets(useArea, targetRadius, primary, cell, map,

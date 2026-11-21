@@ -41,6 +41,11 @@ namespace WhisperOfTheForest.Spells
         public int LifetimeTicks => lifetimeTicks;
 
         public override string DiagnosticName => "planar-shield";
+        public override void AppendSummary(List<string> lines, int indent)
+        {
+            lines.Add(SummaryIndent(indent) + SpellText.TF("WotF_SpellPlan.EffectPlanarShield",
+                spanLength.ToString("0.#"), charges, FormatSeconds(lifetimeTicks)));
+        }
 
         public override int Execute(Thing caster, Thing primary, IntVec3 cell, Map map)
         {

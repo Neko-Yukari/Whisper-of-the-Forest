@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
-  <WotF_Spellbook.WindowTitle>林地低语 · 魔术书</WotF_Spellbook.WindowTitle>
-  <WotF_Spellbook.Caster>施法者：{0}</WotF_Spellbook.Caster>
+  <WotF_Spellbook.WindowTitle>魔术书</WotF_Spellbook.WindowTitle>
   <WotF_Spellbook.NoCaster>未选择角色</WotF_Spellbook.NoCaster>
-  <WotF_Spellbook.CurrentSlot>当前槽 {0}</WotF_Spellbook.CurrentSlot>
+  <WotF_Spellbook.HeaderBadge>{0} · {1} · 链长上限 {2} 符文 · 魔力 {3}</WotF_Spellbook.HeaderBadge>
+  <WotF_Spellbook.HeaderBadgeTip>{0}
+单条法术符文链上限：{1} 枚
+支持超位符文：{2}</WotF_Spellbook.HeaderBadgeTip>
+  <WotF_Spellbook.HeaderNoBook>{0} · 未佩戴魔术书 · 魔力 {1}</WotF_Spellbook.HeaderNoBook>
 
-  <WotF_Spellbook.PageCatalog>符文目录</WotF_Spellbook.PageCatalog>
-  <WotF_Spellbook.PageEditor>编排与创建</WotF_Spellbook.PageEditor>
-  <WotF_Spellbook.SearchPlaceholder>搜索符文名称</WotF_Spellbook.SearchPlaceholder>
+  <WotF_Spellbook.PageCatalog>符文典藏</WotF_Spellbook.PageCatalog>
+  <WotF_Spellbook.PageEditor>法典编排</WotF_Spellbook.PageEditor>
+  <WotF_Spellbook.SearchPlaceholder>搜索符文名称…</WotF_Spellbook.SearchPlaceholder>
   <WotF_Spellbook.CategoryAll>全部</WotF_Spellbook.CategoryAll>
   <WotF_Spellbook.CategoryForm>形式</WotF_Spellbook.CategoryForm>
   <WotF_Spellbook.CategoryEffect>效果</WotF_Spellbook.CategoryEffect>
@@ -20,40 +23,130 @@
   <WotF_Spellbook.KindEffect>效果</WotF_Spellbook.KindEffect>
   <WotF_Spellbook.KindAugment>增幅</WotF_Spellbook.KindAugment>
   <WotF_Spellbook.KindSuper>超位</WotF_Spellbook.KindSuper>
+  <WotF_Spellbook.BadgeLocked>未解锁</WotF_Spellbook.BadgeLocked>
 
-  <WotF_Spellbook.FieldName>法术名称</WotF_Spellbook.FieldName>
-  <WotF_Spellbook.ChainHeader>法术栏 {0}/{1}</WotF_Spellbook.ChainHeader>
-  <WotF_Spellbook.ChainEmpty>点左侧符文，把它加进法术栏。</WotF_Spellbook.ChainEmpty>
-  <WotF_Spellbook.ChainHint>点左侧符文加入法术栏，点法术栏里的符文移除。</WotF_Spellbook.ChainHint>
+  <WotF_Spellbook.FormSelf>自身</WotF_Spellbook.FormSelf>
+  <WotF_Spellbook.FormTouch>接触</WotF_Spellbook.FormTouch>
+  <WotF_Spellbook.FormProjectile>射弹</WotF_Spellbook.FormProjectile>
+  <WotF_Spellbook.FormOrbit>环绕</WotF_Spellbook.FormOrbit>
+  <WotF_Spellbook.FormSpecial>超位</WotF_Spellbook.FormSpecial>
+  <WotF_Spellbook.FormNone>未选形式</WotF_Spellbook.FormNone>
+
+  <WotF_Spellbook.InspectorTitle>符文检视</WotF_Spellbook.InspectorTitle>
+  <WotF_Spellbook.InspectorEmpty>将鼠标停在左页符文卡片或右页法术链珠子上，即可查看原始数值、可接增幅与简介。编排语法：形式 → 效果 → 增幅（增幅向左绑定最近的形式或效果）。</WotF_Spellbook.InspectorEmpty>
+  <WotF_Spellbook.MetaMana>魔耗 {0}</WotF_Spellbook.MetaMana>
+  <WotF_Spellbook.MetaEntropy>熵 +{0}</WotF_Spellbook.MetaEntropy>
+  <WotF_Spellbook.MetaTime>{0}秒</WotF_Spellbook.MetaTime>
+  <WotF_Spellbook.CompatAugments>可接增幅：{0}</WotF_Spellbook.CompatAugments>
+  <WotF_Spellbook.ExcludesAugments>互斥增幅：{0}</WotF_Spellbook.ExcludesAugments>
+  <WotF_Spellbook.NoCompatibleAugments>不接受任何增幅。</WotF_Spellbook.NoCompatibleAugments>
+
+  <!-- 符文卡片微摘要 -->
+  <WotF_Spellbook.MicroSelf>施法者自身</WotF_Spellbook.MicroSelf>
+  <WotF_Spellbook.MicroTouch>射程 {0}格</WotF_Spellbook.MicroTouch>
+  <WotF_Spellbook.MicroProjectile>{0}弹 · 射程 {1}</WotF_Spellbook.MicroProjectile>
+  <WotF_Spellbook.MicroOrbit>{0}球 · {1}秒</WotF_Spellbook.MicroOrbit>
+  <WotF_Spellbook.MicroRailgun>{0}伤 · 宽 {1}</WotF_Spellbook.MicroRailgun>
+  <WotF_Spellbook.MicroTornado>{0}/次 · {1}秒</WotF_Spellbook.MicroTornado>
+  <WotF_Spellbook.MicroBreakArmor>+{0} 穿甲</WotF_Spellbook.MicroBreakArmor>
+  <WotF_Spellbook.MicroAoe>+{0} 半径</WotF_Spellbook.MicroAoe>
+  <WotF_Spellbook.MicroSplit>+{0} 弹/球</WotF_Spellbook.MicroSplit>
+  <WotF_Spellbook.MicroPierce>+{0} 穿透</WotF_Spellbook.MicroPierce>
+  <WotF_Spellbook.MicroSensitive>不伤建筑</WotF_Spellbook.MicroSensitive>
+  <WotF_Spellbook.MicroFactor>×{0}</WotF_Spellbook.MicroFactor>
+  <WotF_Spellbook.MicroHarm>{0}伤 · 穿甲{1}</WotF_Spellbook.MicroHarm>
+  <WotF_Spellbook.MicroHeal>包扎{0} · {1}秒</WotF_Spellbook.MicroHeal>
+  <WotF_Spellbook.MicroExplosion>{0}伤 · 半径{1}</WotF_Spellbook.MicroExplosion>
+  <WotF_Spellbook.MicroLightning>{0}灼 + {1}EMP</WotF_Spellbook.MicroLightning>
+  <WotF_Spellbook.MicroColdSnap>{0}伤 · 冻×{1}</WotF_Spellbook.MicroColdSnap>
+  <WotF_Spellbook.MicroFreeze>减速 {0}秒</WotF_Spellbook.MicroFreeze>
+  <WotF_Spellbook.MicroSnare>定身 {0}秒</WotF_Spellbook.MicroSnare>
+  <WotF_Spellbook.MicroHex>厄咒 {0}秒</WotF_Spellbook.MicroHex>
+  <WotF_Spellbook.MicroKnockback>击退 {0}格</WotF_Spellbook.MicroKnockback>
+  <WotF_Spellbook.MicroPull>拉扯 {0}格</WotF_Spellbook.MicroPull>
+  <WotF_Spellbook.MicroBlink>闪现 {0}格</WotF_Spellbook.MicroBlink>
+  <WotF_Spellbook.MicroGrow>生长×{0} · {1}秒</WotF_Spellbook.MicroGrow>
+  <WotF_Spellbook.MicroHack>强度{0} · {1}秒</WotF_Spellbook.MicroHack>
+  <WotF_Spellbook.MicroMagelight>照明{0} · {1}秒</WotF_Spellbook.MicroMagelight>
+  <WotF_Spellbook.MicroPlanarShield>{0}次 · 宽{1}</WotF_Spellbook.MicroPlanarShield>
+  <WotF_Spellbook.MicroDelay>延迟 {0}秒</WotF_Spellbook.MicroDelay>
+  <WotF_Spellbook.MicroLinger>半径{0} · {1}秒</WotF_Spellbook.MicroLinger>
+  <WotF_Spellbook.MicroRune>地印 {0}秒</WotF_Spellbook.MicroRune>
+
+  <!-- 右页：编排、十槽与符文链 -->
+  <WotF_Spellbook.ChainCapBadge>上限 {0} 符文</WotF_Spellbook.ChainCapBadge>
+  <WotF_Spellbook.NamePlaceholder>输入法术名称…</WotF_Spellbook.NamePlaceholder>
+  <WotF_Spellbook.ChainHeader>符文链 {0}/{1}</WotF_Spellbook.ChainHeader>
+  <WotF_Spellbook.ChainHintShort>点左页加入 · 点珠子移除</WotF_Spellbook.ChainHintShort>
+  <WotF_Spellbook.ChainEmpty>点击左页的形式或超位符文开始编排。</WotF_Spellbook.ChainEmpty>
   <WotF_Spellbook.GlyphAdded>已加入符文：{0}</WotF_Spellbook.GlyphAdded>
   <WotF_Spellbook.GlyphRemoved>已移除符文：{0}</WotF_Spellbook.GlyphRemoved>
   <WotF_Spellbook.GlyphMissing>缺失的符文定义</WotF_Spellbook.GlyphMissing>
-  <WotF_Spellbook.GlyphDetail>符文说明</WotF_Spellbook.GlyphDetail>
-  <WotF_Spellbook.NoSelection>把鼠标停在目录或法术栏的符文上，这里会显示它的说明。点目录里的符文加入，点法术栏里的符文移除。</WotF_Spellbook.NoSelection>
-  <WotF_Spellbook.Timing>前摇 {0}s · 引导 {1}s · 后摇 {2}s</WotF_Spellbook.Timing>
-  <WotF_Spellbook.TimingTip>点“创建”时冻结进槽位的施法时间：前摇 {0} tick、引导 {1} tick、后摇 {2} tick（60 tick = 1 秒）。每个符文各加一份。前摇时可以移动，引导时减速，后摇时站定。</WotF_Spellbook.TimingTip>
-  <WotF_Spellbook.Cost>魔力 {0} · 心灵熵 {1}</WotF_Spellbook.Cost>
-  <WotF_Spellbook.Experience>经验 {0}</WotF_Spellbook.Experience>
-  <WotF_Spellbook.GlyphTiming>+{0}s / +{1}s / +{2}s（前摇/引导/后摇）</WotF_Spellbook.GlyphTiming>
+  <WotF_Spellbook.GlyphTiming>+{0}s / +{1}s / +{2}s（前摇 / 引导 / 后摇）</WotF_Spellbook.GlyphTiming>
   <WotF_Spellbook.ClickToRemove>点击移除：{0}</WotF_Spellbook.ClickToRemove>
+  <WotF_Spellbook.AugmentBindHint>向左作用于高亮显示的形式或效果符文。</WotF_Spellbook.AugmentBindHint>
+  <WotF_Spellbook.SocketSealedMark>封</WotF_Spellbook.SocketSealedMark>
+  <WotF_Spellbook.SocketSealedTip>第 {0} 符文位已封印：换戴{1}可解锁至 {2} 枚符文链。</WotF_Spellbook.SocketSealedTip>
+  <WotF_Spellbook.SocketSealedFallback>第 {0} 符文位受限于当前魔术书阶位。</WotF_Spellbook.SocketSealedFallback>
 
-  <WotF_Spellbook.ValidationOk>组合有效，可以创建。</WotF_Spellbook.ValidationOk>
-  <WotF_Spellbook.ValidationFailed>组合无效：{0}</WotF_Spellbook.ValidationFailed>
+  <!-- 实时战法推演与载体兼容账簿 -->
+  <WotF_Spellbook.ValidationOk>法术组合有效，可以保存。</WotF_Spellbook.ValidationOk>
+  <WotF_Spellbook.ValidationFailed>无效：{0}</WotF_Spellbook.ValidationFailed>
   <WotF_Spellbook.ValidationUnknown>原因未知</WotF_Spellbook.ValidationUnknown>
-  <WotF_Spellbook.CastReady>当前槽 {0} 可以施放。</WotF_Spellbook.CastReady>
-  <WotF_Spellbook.CastNoSaved>当前槽 {0} 是空的，先创建一条法术。</WotF_Spellbook.CastNoSaved>
+  <WotF_Spellbook.SectionPlan>实时战法推演</WotF_Spellbook.SectionPlan>
+  <WotF_Spellbook.PlanPending>补全形式与至少一枚效果符文后，显示编译后的精确数值。</WotF_Spellbook.PlanPending>
+
+  <WotF_Spellbook.ChipMana>魔力消耗</WotF_Spellbook.ChipMana>
+  <WotF_Spellbook.ChipTurretMana>每发耗魔</WotF_Spellbook.ChipTurretMana>
+  <WotF_Spellbook.ChipManaTip>基础魔力消耗：{0}
+施法获得血脉经验：{1}</WotF_Spellbook.ChipManaTip>
+  <WotF_Spellbook.ChipManaStaffTip>基础魔力消耗：{0}
+手持法杖倍率：{1} → 实际 {2}
+施法获得血脉经验：{3}</WotF_Spellbook.ChipManaStaffTip>
+  <WotF_Spellbook.ChipTime>总耗时</WotF_Spellbook.ChipTime>
+  <WotF_Spellbook.SecondsShort>{0}秒</WotF_Spellbook.SecondsShort>
+  <WotF_Spellbook.Timing>前摇 {0}s · 引导 {1}s · 后摇 {2}s</WotF_Spellbook.Timing>
+  <WotF_Spellbook.TimingTip>保存时冻结的施法时间：前摇 {0} tick、引导 {1} tick、后摇 {2} tick（60 tick = 1 秒）。前摇可自由移动，引导期间减速，后摇时站定。</WotF_Spellbook.TimingTip>
+  <WotF_Spellbook.ChipRange>射程</WotF_Spellbook.ChipRange>
+  <WotF_Spellbook.ChipEntropy>心灵熵</WotF_Spellbook.ChipEntropy>
+  <WotF_Spellbook.StaffModSummary>伤 {0} · 耗 {1} · 持 {2}</WotF_Spellbook.StaffModSummary>
+  <WotF_Spellbook.StaffModTip>上方魔耗、射程、耗时与下方推演数值已按当前握持的「{0}」修正预览：
+伤害 {1} · 魔耗 {2} · 持续 {3} · 射程 {4} · 前摇 {5}</WotF_Spellbook.StaffModTip>
+
+  <WotF_Spellbook.TargetsLine>目标：{0}</WotF_Spellbook.TargetsLine>
+  <WotF_Spellbook.TargetCasterOnly>仅施法者自身</WotF_Spellbook.TargetCasterOnly>
+  <WotF_Spellbook.TargetHumanlike>人形</WotF_Spellbook.TargetHumanlike>
+  <WotF_Spellbook.TargetAnimal>动物</WotF_Spellbook.TargetAnimal>
+  <WotF_Spellbook.TargetMechanoid>机械体</WotF_Spellbook.TargetMechanoid>
+  <WotF_Spellbook.TargetEntity>异象实体</WotF_Spellbook.TargetEntity>
+  <WotF_Spellbook.TargetBuilding>建筑</WotF_Spellbook.TargetBuilding>
+  <WotF_Spellbook.TargetRock>岩石</WotF_Spellbook.TargetRock>
+  <WotF_Spellbook.TargetPlant>植物</WotF_Spellbook.TargetPlant>
+  <WotF_Spellbook.TargetItem>物品</WotF_Spellbook.TargetItem>
+  <WotF_Spellbook.TargetCell>地面</WotF_Spellbook.TargetCell>
+
+  <WotF_Spellbook.CarrierStaff>法杖</WotF_Spellbook.CarrierStaff>
+  <WotF_Spellbook.CarrierStaffOk>可由法术法杖作为武器自动攻击施放。</WotF_Spellbook.CarrierStaffOk>
+  <WotF_Spellbook.CarrierStaffNo>自身、环绕与超位法术属于主动技能，无法通过法杖自动攻击。</WotF_Spellbook.CarrierStaffNo>
+  <WotF_Spellbook.CarrierTurret>炮塔</WotF_Spellbook.CarrierTurret>
+  <WotF_Spellbook.CarrierTurretOk>可铭刻进自动施法炮塔。</WotF_Spellbook.CarrierTurretOk>
+  <WotF_Spellbook.CarrierEnchant>注法</WotF_Spellbook.CarrierEnchant>
+  <WotF_Spellbook.CarrierEnchantOk>可在仪式祭坛注入武器或护甲。</WotF_Spellbook.CarrierEnchantOk>
+
+  <!-- 操作与十槽位 -->
+  <WotF_Spellbook.CastNoSaved>槽 {0} 为空，请先保存一条法术。</WotF_Spellbook.CastNoSaved>
   <WotF_Spellbook.CastBlocked>无法施放：{0}</WotF_Spellbook.CastBlocked>
-  <WotF_Spellbook.EmptySlotHint>当前槽是空的：编好符文后点“创建”，人物施法按钮才会出现这个法术。</WotF_Spellbook.EmptySlotHint>
+  <WotF_Spellbook.EmptySlotHint>当前槽为空：编好符文并保存后，小人施法按钮才能施放此法术。</WotF_Spellbook.EmptySlotHint>
 
-  <WotF_Spellbook.Create>创建到槽 {0}</WotF_Spellbook.Create>
-  <WotF_Spellbook.CreateTip>把法术栏写入当前槽 {0}，原有法术会被直接覆盖。</WotF_Spellbook.CreateTip>
-  <WotF_Spellbook.Created>已创建到槽 {0}，并设为当前施放。</WotF_Spellbook.Created>
-  <WotF_Spellbook.CreateRefused>无法创建：{0}</WotF_Spellbook.CreateRefused>
-  <WotF_Spellbook.BarEmpty>法术栏是空的，先点左侧符文加入。</WotF_Spellbook.BarEmpty>
+  <WotF_Spellbook.Create>保存至槽 {0}</WotF_Spellbook.Create>
+  <WotF_Spellbook.CreateTip>将当前符文链写入槽 {0}，已有法术会被直接覆盖。</WotF_Spellbook.CreateTip>
+  <WotF_Spellbook.Created>已保存至槽 {0} 并设为当前施放。</WotF_Spellbook.Created>
+  <WotF_Spellbook.CreateRefused>无法保存：{0}</WotF_Spellbook.CreateRefused>
+  <WotF_Spellbook.BarEmpty>符文链为空，请先从左页加入符文。</WotF_Spellbook.BarEmpty>
 
-  <WotF_Spellbook.ClearBar>清空法术栏</WotF_Spellbook.ClearBar>
-  <WotF_Spellbook.ClearBarTip>只清空法术栏，当前槽里已保存的法术不受影响。</WotF_Spellbook.ClearBarTip>
-  <WotF_Spellbook.BarCleared>已清空法术栏，槽里的法术没有变化。</WotF_Spellbook.BarCleared>
+  <WotF_Spellbook.ClearBar>清空</WotF_Spellbook.ClearBar>
+  <WotF_Spellbook.ClearBarTip>只清空编辑中的符文链，不影响槽位内已保存的法术。</WotF_Spellbook.ClearBarTip>
+  <WotF_Spellbook.BarCleared>已清空符文链，槽位内已存法术未变。</WotF_Spellbook.BarCleared>
   <WotF_Spellbook.DeleteSlot>删除此槽</WotF_Spellbook.DeleteSlot>
   <WotF_Spellbook.DeleteSlotTip>单击立即删除槽 {0} 里的法术，不再确认。</WotF_Spellbook.DeleteSlotTip>
   <WotF_Spellbook.SlotDeleted>已删除槽 {0} 的法术。</WotF_Spellbook.SlotDeleted>
@@ -61,18 +154,15 @@
 
   <WotF_Spellbook.Cast>施放</WotF_Spellbook.Cast>
   <WotF_Spellbook.CastNamed>施放《{0}》</WotF_Spellbook.CastNamed>
-  <WotF_Spellbook.CastTip>进入目标选择，用当前槽 {0} 已创建的法术施放。</WotF_Spellbook.CastTip>
+  <WotF_Spellbook.CastTip>进入目标选择，施放当前槽 {0} 中已保存的法术。</WotF_Spellbook.CastTip>
 
   <WotF_Spellbook.SlotTitle>法术槽 {0}</WotF_Spellbook.SlotTitle>
   <WotF_Spellbook.SlotEmpty>空槽</WotF_Spellbook.SlotEmpty>
-  <WotF_Spellbook.SlotTooltipUsed>已创建：{0}</WotF_Spellbook.SlotTooltipUsed>
-  <WotF_Spellbook.SwitchBookmark>点击切换书签：立即设为当前槽，并同步人物施法按钮</WotF_Spellbook.SwitchBookmark>
+  <WotF_Spellbook.SlotEmptyShort>空</WotF_Spellbook.SlotEmptyShort>
+  <WotF_Spellbook.SlotTooltipUsed>已存：{0}</WotF_Spellbook.SlotTooltipUsed>
+  <WotF_Spellbook.SlotGlyphCount>{0} 枚符文</WotF_Spellbook.SlotGlyphCount>
+  <WotF_Spellbook.SlotExceedsBookHint>法术保存在小人身上不会丢失，换戴高阶魔术书即可施放或修改。</WotF_Spellbook.SlotExceedsBookHint>
+  <WotF_Spellbook.SwitchBookmark>点击切换至该槽位，并同步小人施法按钮。</WotF_Spellbook.SwitchBookmark>
 
-  <WotF_Spellbook.StatusReady>点左侧符文加入法术栏；点“创建”才写入当前槽，未创建的改动在切槽或关书时丢弃。</WotF_Spellbook.StatusReady>
   <WotF_Spellbook.NoGameComponent>存档组件未就绪，暂时无法读写法术。</WotF_Spellbook.NoGameComponent>
-
-  <WotF_Spellbook.AnimOn>动效：开</WotF_Spellbook.AnimOn>
-  <WotF_Spellbook.AnimOff>动效：关</WotF_Spellbook.AnimOff>
-  <WotF_Spellbook.AnimTip>开关书页动效。关掉后交互不变，只是不再播放飞入、翻页、抖动和扫光。</WotF_Spellbook.AnimTip>
-
 </LanguageData>

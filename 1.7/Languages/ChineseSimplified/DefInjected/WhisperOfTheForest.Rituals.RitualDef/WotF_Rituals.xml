@@ -39,9 +39,11 @@
   <WotF_Ritual_BottleMana.label>装瓶仪式</WotF_Ritual_BottleMana.label>
   <WotF_Ritual_BottleMana.description>主持者在祭坛周围画下白色粉笔环，用 5 份原木和 3 份草药制瓶，把 60 点网络魔源引入其中。瓶中魔源少于仪式消耗，装瓶是为了储存而非凭空造出魔源。</WotF_Ritual_BottleMana.description>
   <WotF_Ritual_SpellbookUpgradeAdept.label>魔术书升阶：织法魔术书</WotF_Ritual_SpellbookUpgradeAdept.label>
-  <WotF_Ritual_SpellbookUpgradeAdept.description>吟唱圆满落定时，从祭坛周围地面取走 1 本学徒魔术书、12 份精灵钢和 15 份翡翠。在 5×5 翠叶塑形工造阵中完成仪式，产出 1 本织法魔术书。已编写的法术保存在小人身上，佩戴新书后开放七个槽位，不会丢失配方。旧书需先脱下放到地面。</WotF_Ritual_SpellbookUpgradeAdept.description>
+  <WotF_Ritual_SpellbookUpgradeAdept.description>吟唱圆满落定时，从祭坛周围地面取走 1 本学徒魔术书、12 份精灵钢和 15 份翡翠。在 5×5 翠叶塑形工造阵中完成仪式，产出 1 本织法魔术书。已编写的法术保存在小人身上，10 个法术书签全开，佩戴新书后单条法术符文链上限提升至 7 枚，不会丢失配方。旧书需先脱下放到地面。</WotF_Ritual_SpellbookUpgradeAdept.description>
   <WotF_Ritual_SpellbookUpgradeArchmage.label>魔术书升阶：星辉法典</WotF_Ritual_SpellbookUpgradeArchmage.label>
-  <WotF_Ritual_SpellbookUpgradeArchmage.description>吟唱圆满落定时，从祭坛周围地面取走 1 本织法魔术书、12 份秘银和 10 支星辉粉笔。在 7×7 星辉塑形工造阵中完成仪式，产出 1 本星辉法典。已编写的法术保存在小人身上，佩戴法典后开放全部十个槽位，并允许编入超位符文。旧书需先脱下放到地面。</WotF_Ritual_SpellbookUpgradeArchmage.description>
+  <WotF_Ritual_SpellbookUpgradeArchmage.description>吟唱圆满落定时，从祭坛周围地面取走 1 本织法魔术书、12 份秘银和 10 支星辉粉笔。在 7×7 星辉塑形工造阵中完成仪式，产出 1 本星辉法典。已编写的法术保存在小人身上，10 个法术书签全开，佩戴法典后单条法术符文链上限提升至 10 枚，并允许编入超位符文。旧书需先脱下放到地面。</WotF_Ritual_SpellbookUpgradeArchmage.description>
   <WotF_Ritual_InscribeEquipment.label>武具注法</WotF_Ritual_InscribeEquipment.label>
   <WotF_Ritual_InscribeEquipment.description>主持者在祭坛周围画下白色粉笔环，把一件武器或护甲放在环内，并将魔术书中的一页写入这件武具。武具保存自己的法术副本，命中敌人时触发，护甲则在穿戴者受击时触发。只能注入接触、自身与环绕三种形式。</WotF_Ritual_InscribeEquipment.description>
+  <WotF_Ritual_CounterPsychic.label>灵能截断</WotF_Ritual_CounterPsychic.label>
+  <WotF_Ritual_CounterPsychic.description>主持者在祭坛周围画下 5×5 翠叶粉笔环，向整张地图的灵能脉络打出一记反制脉冲，强行打断地图上全部正在进行的敌对灵能仪式（不限于跃迁绑架），并使所有参与者陷入眩晕。仪式强度越高，控制时长越长（10 秒至 70 秒）。</WotF_Ritual_CounterPsychic.description>
 </LanguageData>

@@ -19,6 +19,11 @@ namespace WhisperOfTheForest.Spells
             this.selfForwardDistance = selfForwardDistance;
         }
         public override string DiagnosticName => "blink";
+        public override void AppendSummary(List<string> lines, int indent)
+        {
+            lines.Add(SummaryIndent(indent) + SpellText.TF("WotF_SpellPlan.EffectBlink",
+                selfForwardDistance.ToString("0.#")));
+        }
         public override int Execute(Thing caster, Thing primary, IntVec3 cell, Map map)
         {
             if (!(caster is Pawn casterPawn) || !casterPawn.Spawned || casterPawn.Map != map) return 0;

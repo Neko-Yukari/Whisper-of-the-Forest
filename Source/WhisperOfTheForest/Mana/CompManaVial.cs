@@ -14,6 +14,21 @@ namespace WhisperOfTheForest.Mana
             compClass = typeof(CompUseEffect_ManaVial);
         }
 
+        public override IEnumerable<StatDrawEntry> SpecialDisplayStats(StatRequest req)
+        {
+            foreach (StatDrawEntry entry in base.SpecialDisplayStats(req))
+            {
+                yield return entry;
+            }
+
+            yield return new StatDrawEntry(
+                StatCategoryDefOf.BasicsNonPawn,
+                "WotF_Stat_ManaVialRestore".Translate(),
+                mana.ToString("0.#"),
+                "WotF_Stat_ManaVialRestore_Desc".Translate(),
+                2500);
+        }
+
         public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
         {
             foreach (string error in base.ConfigErrors(parentDef))

@@ -20,6 +20,11 @@ namespace WhisperOfTheForest.Spells
             this.lifetimeTicks = lifetimeTicks;
         }
         public override string DiagnosticName => "rune";
+        public override void AppendSummary(List<string> lines, int indent)
+        {
+            lines.Add(SummaryIndent(indent) + SpellText.TF("WotF_SpellPlan.EffectRune", FormatSeconds(lifetimeTicks)));
+            AppendPayloadSummary(payload, lines, indent);
+        }
         public override int Execute(Thing caster, Thing primary, IntVec3 cell, Map map)
         {
             return SpellEffectRuntime.SpawnField(payload, lifetimeTicks, 0f, 0, SpellFieldMode.Rune,

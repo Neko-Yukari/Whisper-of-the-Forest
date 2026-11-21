@@ -475,6 +475,7 @@
     <titleShort>archon</titleShort>
     <description>The leader responsible for a settlement, she handles everyday affairs and diplomacy. Only in a crisis does she bring out the sealed heavy armor and forbidden magical seals.</description>
     <workDisables>None</workDisables>
+    <shuffleable>false</shuffleable>
     <requiresSpawnCategory>true</requiresSpawnCategory>
     <spawnCategories>
       <li>GreenCourt_Leader</li>

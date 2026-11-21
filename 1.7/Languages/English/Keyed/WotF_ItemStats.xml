@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Units -->
+  <WotF_Stat_Unit_Seconds>{0} s</WotF_Stat_Unit_Seconds>
+  <WotF_Stat_Unit_Cells>{0} cells</WotF_Stat_Unit_Cells>
+  <WotF_Stat_Unit_ManaPerSec>{0} / s</WotF_Stat_Unit_ManaPerSec>
+
+  <!-- Spell Staff & Wand -->
+  <WotF_Stat_StaffWielding>Wielding role</WotF_Stat_StaffWielding>
+  <WotF_Stat_StaffWielding_Offhand>One-handed offhand</WotF_Stat_StaffWielding_Offhand>
+  <WotF_Stat_StaffWielding_TwoHanded>Two-handed main hand</WotF_Stat_StaffWielding_TwoHanded>
+  <WotF_Stat_StaffWielding_Desc>A one-handed offhand wand does not occupy the primary weapon slot: it auto-casts when carried alone or fires manually alongside a primary weapon. A two-handed main-hand staff occupies the primary slot for full reach and higher material resonance caps.</WotF_Stat_StaffWielding_Desc>
+  <WotF_Stat_StaffAllowsSuper>Supports super runes</WotF_Stat_StaffAllowsSuper>
+  <WotF_Stat_StaffAllowsSuper_Desc>Whether this focus can channel super runes. Only two-handed spell staves can anchor super runes.</WotF_Stat_StaffAllowsSuper_Desc>
+  <WotF_Stat_StaffAllowsShieldBelt>Shield belt compatible</WotF_Stat_StaffAllowsShieldBelt>
+  <WotF_Stat_StaffAllowsShieldBelt_Desc>Whether this focus can cast while wearing a shield belt that blocks ranged weapons. One-handed wands cast freely through shield belts; two-handed staves are blocked.</WotF_Stat_StaffAllowsShieldBelt_Desc>
+  <WotF_Stat_StaffRangeFactor>Spell range multiplier</WotF_Stat_StaffRangeFactor>
+  <WotF_Stat_StaffRangeFactor_Desc>Multiplier applied to the aim range of projectile and touch spells cast through this focus (Self, Orbit and Super spells are unaffected).</WotF_Stat_StaffRangeFactor_Desc>
+  <WotF_Stat_StaffWindupFactor>Spell windup multiplier</WotF_Stat_StaffWindupFactor>
+  <WotF_Stat_StaffWindupFactor_Desc>Multiplier applied to spell windup time when casting through this focus; lower values cast sooner.</WotF_Stat_StaffWindupFactor_Desc>
+  <WotF_Stat_StaffDamageFactor>Spell damage multiplier</WotF_Stat_StaffDamageFactor>
+  <WotF_Stat_StaffDamageFactor_Desc>Multiplier applied to the damage of spells cast through this focus. Derived from the material's sharp and blunt damage multipliers (base spell power {0}, cap {1}).</WotF_Stat_StaffDamageFactor_Desc>
+  <WotF_Stat_StaffDamageFactor_Material>Material ({0}): sharp {1}, blunt {2}, average {3}.</WotF_Stat_StaffDamageFactor_Material>
+  <WotF_Stat_StaffManaFactor>Spell mana cost multiplier</WotF_Stat_StaffManaFactor>
+  <WotF_Stat_StaffManaFactor_Desc>Multiplier applied to the mana cost of spells cast through this focus. Higher material blunt armor lowers the mana cost (minimum {0}).</WotF_Stat_StaffManaFactor_Desc>
+  <WotF_Stat_StaffManaFactor_Material>Material ({0}): blunt armor factor {1}.</WotF_Stat_StaffManaFactor_Material>
+  <WotF_Stat_StaffDurationFactor>Spell duration multiplier</WotF_Stat_StaffDurationFactor>
+  <WotF_Stat_StaffDurationFactor_Desc>Multiplier applied to the duration of status effects and fields cast through this focus. Higher material heat armor extends duration (cap {0}).</WotF_Stat_StaffDurationFactor_Desc>
+  <WotF_Stat_StaffDurationFactor_Material>Material ({0}): heat armor factor {1}.</WotF_Stat_StaffDurationFactor_Material>
+  <WotF_Stat_StaffNoMaterial>No material selected (showing baseline focus values).</WotF_Stat_StaffNoMaterial>
+
+  <!-- Spellbooks -->
+  <WotF_Stat_SpellbookMaxGlyphs>Max glyphs per spell</WotF_Stat_SpellbookMaxGlyphs>
+  <WotF_Stat_SpellbookMaxGlyphs_Desc>Maximum number of runes in a single spell chain while wearing this book. All ten bookmarks stay open; swapping to a lower-tier book keeps longer spells intact until a higher-tier book is worn.</WotF_Stat_SpellbookMaxGlyphs_Desc>
+  <WotF_Stat_SpellbookSuperGlyphs>Allows super runes</WotF_Stat_SpellbookSuperGlyphs>
+  <WotF_Stat_SpellbookSuperGlyphs_Desc>Whether this spellbook can hold super runes. Casting a super spell also requires holding a spell staff.</WotF_Stat_SpellbookSuperGlyphs_Desc>
+
+  <!-- Enchanted Equipment -->
+  <WotF_Stat_EnchantSlots>Inscription slots</WotF_Stat_EnchantSlots>
+  <WotF_Stat_EnchantSlots_Desc>Number of reactive spells that can be inscribed onto this item at a ritual altar. Standard materials hold {0}; {1} opens {2} slots.</WotF_Stat_EnchantSlots_Desc>
+  <WotF_Stat_EnchantTriggerChance>Reaction trigger chance</WotF_Stat_EnchantTriggerChance>
+  <WotF_Stat_EnchantTriggerChance_Desc>Chance for the active inscribed spell to fire when this weapon lands a hit or this apparel's wearer is struck by an attacker.</WotF_Stat_EnchantTriggerChance_Desc>
+  <WotF_Stat_EnchantTriggerCooldown>Reaction cooldown</WotF_Stat_EnchantTriggerCooldown>
+  <WotF_Stat_EnchantTriggerCooldown_Desc>Minimum time between consecutive reactive spell triggers from this item.</WotF_Stat_EnchantTriggerCooldown_Desc>
+  <WotF_Stat_EnchantMithrilCost>Reaction mana cost multiplier</WotF_Stat_EnchantMithrilCost>
+  <WotF_Stat_EnchantMithrilCost_Desc>Mana cost multiplier applied to reactive spells triggered by this {0} item.</WotF_Stat_EnchantMithrilCost_Desc>
+
+  <!-- Terrain Stride -->
+  <WotF_Stat_TerrainStride>Terrain movement penalty</WotF_Stat_TerrainStride>
+  <WotF_Stat_TerrainStride_Val>Ignored</WotF_Stat_TerrainStride_Val>
+  <WotF_Stat_TerrainStride_Desc>On passable cells that do not require opening a door, removes movement penalties from terrain, plants, rock chunks, furniture, crossable workbenches, snow and sand.</WotF_Stat_TerrainStride_Desc>
+
+  <!-- Mana Vial -->
+  <WotF_Stat_ManaVialRestore>Mana restored</WotF_Stat_ManaVialRestore>
+  <WotF_Stat_ManaVialRestore_Desc>Amount of personal bloodline mana restored immediately when consumed by a forest-blooded pawn.</WotF_Stat_ManaVialRestore_Desc>
+
+  <!-- Mana Network & Magic Buildings -->
+  <WotF_Stat_ManaLinkRadius>Mana network link radius</WotF_Stat_ManaLinkRadius>
+  <WotF_Stat_ManaLinkRadius_Desc>Maximum distance to connect to nearby mana nodes in a mana network.</WotF_Stat_ManaLinkRadius_Desc>
+  <WotF_Stat_ManaCapacity>Mana storage capacity</WotF_Stat_ManaCapacity>
+  <WotF_Stat_ManaCapacity_Desc>Maximum amount of network mana this vessel can store.</WotF_Stat_ManaCapacity_Desc>
+  <WotF_Stat_ManaOutput>Mana generation</WotF_Stat_ManaOutput>
+  <WotF_Stat_ManaOutput_Desc>Rate at which this building supplies mana to its connected mana network while operating.</WotF_Stat_ManaOutput_Desc>
+  <WotF_Stat_ManaOutputCap>Max mana generation</WotF_Stat_ManaOutputCap>
+  <WotF_Stat_ManaOutputCap_Desc>Maximum mana per second drawn from mature trees within range ({0} / s per unit of tree growth).</WotF_Stat_ManaOutputCap_Desc>
+  <WotF_Stat_ManaPlantRadius>Tree gather &amp; link radius</WotF_Stat_ManaPlantRadius>
+  <WotF_Stat_ManaPlantRadius_Desc>Radius for both drawing ambient mana from standing trees and connecting to a mana node.</WotF_Stat_ManaPlantRadius_Desc>
+  <WotF_Stat_ManaPlantMinGrowth>Minimum tree growth</WotF_Stat_ManaPlantMinGrowth>
+  <WotF_Stat_ManaPlantMinGrowth_Desc>Minimum growth required for a tree inside the radius to contribute mana.</WotF_Stat_ManaPlantMinGrowth_Desc>
+  <WotF_Stat_ManaDraw>Mana draw while working</WotF_Stat_ManaDraw>
+  <WotF_Stat_ManaDraw_Desc>Network mana drawn per second while a pawn is actively crafting at this bench.</WotF_Stat_ManaDraw_Desc>
+
+  <!-- Spell Turret -->
+  <WotF_Stat_TurretManaFactor>Turret spell mana multiplier</WotF_Stat_TurretManaFactor>
+  <WotF_Stat_TurretManaFactor_Desc>Multiplier applied to the inscribed spell's mana cost when fired from the mana network.</WotF_Stat_TurretManaFactor_Desc>
+  <WotF_Stat_TurretInscriptionTime>Spell inscription time</WotF_Stat_TurretInscriptionTime>
+  <WotF_Stat_TurretInscriptionTime_Desc>Work time needed to inscribe a new projectile spell into this turret.</WotF_Stat_TurretInscriptionTime_Desc>
+
+  <!-- Ritual Altar -->
+  <WotF_Stat_AltarTier>Altar tier</WotF_Stat_AltarTier>
+  <WotF_Stat_AltarTier_Desc>Highest ritual tier that can be hosted on this altar.</WotF_Stat_AltarTier_Desc>
+  <WotF_Stat_AltarHelperFactor>Helper chant contribution</WotF_Stat_AltarHelperFactor>
+  <WotF_Stat_AltarHelperFactor_Desc>Share of each helper's bloodline chant power added to the host's chant power during rituals.</WotF_Stat_AltarHelperFactor_Desc>
+
+  <!-- Teleport Gate -->
+  <WotF_Stat_GateUpkeep>Open upkeep mana draw</WotF_Stat_GateUpkeep>
+  <WotF_Stat_GateUpkeep_Desc>Network mana consumed per second while the gate is kept open.</WotF_Stat_GateUpkeep_Desc>
+  <WotF_Stat_GateRemoteCost>Remote teleport mana cost</WotF_Stat_GateRemoteCost>
+  <WotF_Stat_GateRemoteCost_Val>{0} + {1}/pawn + {2}/kg</WotF_Stat_GateRemoteCost_Val>
+  <WotF_Stat_GateRemoteCost_Desc>Mana drawn from the network for one remote transfer: {0} base fee, plus {1} per pawn and {2} per kilogram of cargo.</WotF_Stat_GateRemoteCost_Desc>
+  <WotF_Stat_GateArrivalRadius>Arrival scatter radius</WotF_Stat_GateArrivalRadius>
+  <WotF_Stat_GateArrivalRadius_Desc>Radius around this gate within which arriving pawns and items are placed.</WotF_Stat_GateArrivalRadius_Desc>
+  <WotF_Stat_GateRuinedMode>Gate mode</WotF_Stat_GateRuinedMode>
+  <WotF_Stat_GateRuinedMode_Val>Single-use return</WotF_Stat_GateRuinedMode_Val>
+  <WotF_Stat_GateRuinedMode_Desc>This ruined gate requires no local mana network and collapses immediately after sending a caravan home to an open colony gate.</WotF_Stat_GateRuinedMode_Desc>
+
+</LanguageData>

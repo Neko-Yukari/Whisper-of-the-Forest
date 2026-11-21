@@ -20,8 +20,8 @@
     GenStuff.RandomStuffByCommonalityFor), and all four forest stuffs are excluded, so a shelf sword
     would come out of vanilla steel and a steel entropy circlet contradicts its own recipe. The three
     stuffed goods therefore use WhisperOfTheForest.Court.StockGenerator_SingleDefStuff, which takes
-    the material from <stuff>: clothing in cloth, war crown, longsword and circlet in elven steel, long staff in living wood (the
-    staff's mana, duration and damage read its stuff, CompSpellStaff.cs:33). The short staff, the
+    the material from <stuff>: clothing in cloth, war crown, longsword and circlet in elven steel,
+    long staff and spell wand in living wood (both read their stuff through CompSpellStaff). The
     longbow and the terrain-stride mantle declare no stuffCategories, so vanilla makes them with no
     material and they stay plain StockGenerator_SingleDef.
 
@@ -73,8 +73,9 @@
         <thingDef>WotF_ElvenLongbow</thingDef>
         <countRange>1~2</countRange>
       </li>
-      <li Class="StockGenerator_SingleDef">
-        <thingDef>WotF_SpellStaffShort</thingDef>
+      <li Class="WhisperOfTheForest.Court.StockGenerator_SingleDefStuff">
+        <thingDef>WotF_SpellWand</thingDef>
+        <stuff>WotF_LivingWood</stuff>
         <countRange>1~2</countRange>
       </li>
       <li Class="WhisperOfTheForest.Court.StockGenerator_SingleDefStuff">
@@ -152,8 +153,9 @@
         <thingDef>WotF_ElvenLongbow</thingDef>
         <countRange>1~2</countRange>
       </li>
-      <li Class="StockGenerator_SingleDef">
-        <thingDef>WotF_SpellStaffShort</thingDef>
+      <li Class="WhisperOfTheForest.Court.StockGenerator_SingleDefStuff">
+        <thingDef>WotF_SpellWand</thingDef>
+        <stuff>WotF_LivingWood</stuff>
         <countRange>1~2</countRange>
       </li>
       <li Class="WhisperOfTheForest.Court.StockGenerator_SingleDefStuff">
@@ -231,8 +233,9 @@
         <thingDef>WotF_ElvenLongbow</thingDef>
         <countRange>1~2</countRange>
       </li>
-      <li Class="StockGenerator_SingleDef">
-        <thingDef>WotF_SpellStaffShort</thingDef>
+      <li Class="WhisperOfTheForest.Court.StockGenerator_SingleDefStuff">
+        <thingDef>WotF_SpellWand</thingDef>
+        <stuff>WotF_LivingWood</stuff>
         <countRange>1~2</countRange>
       </li>
       <li Class="WhisperOfTheForest.Court.StockGenerator_SingleDefStuff">

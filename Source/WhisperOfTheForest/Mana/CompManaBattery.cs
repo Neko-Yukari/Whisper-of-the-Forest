@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -17,6 +18,23 @@ namespace WhisperOfTheForest.Mana
         public CompProperties_ManaBattery()
         {
             compClass = typeof(CompManaBattery);
+        }
+
+        public override IEnumerable<StatDrawEntry> SpecialDisplayStats(StatRequest req)
+        {
+            foreach (StatDrawEntry entry in base.SpecialDisplayStats(req)) yield return entry;
+            yield return new StatDrawEntry(
+                StatCategoryDefOf.Building,
+                "WotF_Stat_ManaCapacity".Translate(),
+                capacity.ToString("0.#"),
+                "WotF_Stat_ManaCapacity_Desc".Translate(),
+                2610);
+            yield return new StatDrawEntry(
+                StatCategoryDefOf.Building,
+                "WotF_Stat_ManaLinkRadius".Translate(),
+                string.Format("WotF_Stat_Unit_Cells".Translate(), linkRadius.ToString("0.#")),
+                "WotF_Stat_ManaLinkRadius_Desc".Translate(),
+                2600);
         }
 
         // Ensures: storage and visible bar dimensions are valid before drawing; values live only in the Def.

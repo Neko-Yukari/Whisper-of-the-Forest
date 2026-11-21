@@ -18,6 +18,30 @@ namespace WhisperOfTheForest.Turrets
             compClass = typeof(CompSpellTurret);
         }
 
+        public override IEnumerable<StatDrawEntry> SpecialDisplayStats(StatRequest req)
+        {
+            foreach (StatDrawEntry entry in base.SpecialDisplayStats(req)) yield return entry;
+            float inscriptionSec = inscriptionTicks / (float)GenTicks.TicksPerRealSecond;
+            yield return new StatDrawEntry(
+                StatCategoryDefOf.Building,
+                "WotF_Stat_TurretManaFactor".Translate(),
+                manaCostFactor.ToStringPercent(),
+                "WotF_Stat_TurretManaFactor_Desc".Translate(),
+                2615);
+            yield return new StatDrawEntry(
+                StatCategoryDefOf.Building,
+                "WotF_Stat_TurretInscriptionTime".Translate(),
+                string.Format("WotF_Stat_Unit_Seconds".Translate(), inscriptionSec.ToString("0.#")),
+                "WotF_Stat_TurretInscriptionTime_Desc".Translate(),
+                2610);
+            yield return new StatDrawEntry(
+                StatCategoryDefOf.Building,
+                "WotF_Stat_ManaLinkRadius".Translate(),
+                string.Format("WotF_Stat_Unit_Cells".Translate(), linkRadius.ToString("0.#")),
+                "WotF_Stat_ManaLinkRadius_Desc".Translate(),
+                2600);
+        }
+
         public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
         {
             foreach (string error in base.ConfigErrors(parentDef))

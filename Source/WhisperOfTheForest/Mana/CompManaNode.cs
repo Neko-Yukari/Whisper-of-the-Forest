@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using RimWorld;
 using Verse;
 
 namespace WhisperOfTheForest.Mana
@@ -10,6 +11,17 @@ namespace WhisperOfTheForest.Mana
         public CompProperties_ManaNode()
         {
             compClass = typeof(CompManaNode);
+        }
+
+        public override IEnumerable<StatDrawEntry> SpecialDisplayStats(StatRequest req)
+        {
+            foreach (StatDrawEntry entry in base.SpecialDisplayStats(req)) yield return entry;
+            yield return new StatDrawEntry(
+                StatCategoryDefOf.Building,
+                "WotF_Stat_ManaLinkRadius".Translate(),
+                string.Format("WotF_Stat_Unit_Cells".Translate(), linkRadius.ToString("0.#")),
+                "WotF_Stat_ManaLinkRadius_Desc".Translate(),
+                2600);
         }
 
         public override IEnumerable<string> ConfigErrors(ThingDef parentDef)

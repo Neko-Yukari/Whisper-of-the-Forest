@@ -37,6 +37,11 @@ namespace WhisperOfTheForest.Spells
         public int MaxTicks => maxTicks;
         public int ControlTicks => controlTicks;
         public override string DiagnosticName => "hack";
+        public override void AppendSummary(List<string> lines, int indent)
+        {
+            lines.Add(SummaryIndent(indent) + SpellText.TF("WotF_SpellPlan.EffectHack",
+                hackStrength.ToString("0.#"), FormatSeconds(controlTicks), FormatAreaSuffix(useArea, targetRadius)));
+        }
         public override int Execute(Thing caster, Thing primary, IntVec3 cell, Map map)
         {
             return MechHackService.Apply(this, caster as Pawn, primary, cell, map);
