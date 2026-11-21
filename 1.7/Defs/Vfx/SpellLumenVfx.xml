@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- 1. Lightning (HoloStorm sky bolt + branch arcs + plasma sparks + shockwave) -->
+  <WhisperOfTheForest.Vfx.LightningLumenVfxDef>
+    <defName>WotF_Vfx_Lightning</defName>
+    <label>spell lightning strike (RimLumen HDR)</label>
+    <workerClass>WhisperOfTheForest.Vfx.LightningLumenVfxWorker</workerClass>
+    <lifetime>FixedDuration</lifetime>
+    <lumenEffectId>NekoYukari.WhisperOfTheForest:SpellLightning</lumenEffectId>
+    <strikeSound>Thunder_OnMap</strikeSound>
+    <strikeDelayTicks>8</strikeDelayTicks>
+    <strikeDurationTicks>12</strikeDurationTicks>
+    <totalDurationTicks>56</totalDurationTicks>
+    <baseStrikeRadius>1.35</baseStrikeRadius>
+    <boltSkyHeightCells>15.0</boltSkyHeightCells>
+    <boltCoreWidth>0.18</boltCoreWidth>
+    <boltSheathWidth>0.52</boltSheathWidth>
+    <boltSegments>20</boltSegments>
+    <boltJitterCells>0.46</boltJitterCells>
+    <hdrBoltMultiplier>1.95</hdrBoltMultiplier>
+    <hdrRingMultiplier>1.45</hdrRingMultiplier>
+    <ribbonEdgePower>1.55</ribbonEdgePower>
+  </WhisperOfTheForest.Vfx.LightningLumenVfxDef>
+
+  <!-- 2. Linger Field (Theme-colored ground perimeter + curl mist + interval pulse wave) -->
+  <WhisperOfTheForest.Vfx.LingerLumenVfxDef>
+    <defName>WotF_Vfx_Linger</defName>
+    <label>spell linger field (RimLumen HDR)</label>
+    <workerClass>WhisperOfTheForest.Vfx.LingerLumenVfxWorker</workerClass>
+    <lifetime>FollowThing</lifetime>
+    <defaultRadius>2.5</defaultRadius>
+    <fadeDurationSeconds>0.45</fadeDurationSeconds>
+    <pulseWaveDurationSeconds>0.46</pulseWaveDurationSeconds>
+    <boundaryThickness>0.075</boundaryThickness>
+    <innerArcRadiusFactor>0.86</innerArcRadiusFactor>
+    <innerArcCount>4</innerArcCount>
+    <spinRadPerSec>0.85</spinRadPerSec>
+    <mistRatePerArea>1.45</mistRatePerArea>
+    <mistLifetimeMin>0.85</mistLifetimeMin>
+    <mistLifetimeMax>1.45</mistLifetimeMax>
+    <mistSizeMin>0.065</mistSizeMin>
+    <mistSizeMax>0.135</mistSizeMax>
+    <lightRadiusFactor>1.35</lightRadiusFactor>
+    <lightHeightCells>1.25</lightHeightCells>
+    <lightIntensity>0.38</lightIntensity>
+    <hdrRingMultiplier>1.25</hdrRingMultiplier>
+    <hdrMistMultiplier>1.20</hdrMistMultiplier>
+    <ribbonEdgePower>1.65</ribbonEdgePower>
+  </WhisperOfTheForest.Vfx.LingerLumenVfxDef>
+
+  <!-- 3. Ground Rune Seal (Theme-colored spinning sigil + trigger upward flare column) -->
+  <WhisperOfTheForest.Vfx.RuneLumenVfxDef>
+    <defName>WotF_Vfx_Rune</defName>
+    <label>spell rune seal (RimLumen HDR)</label>
+    <workerClass>WhisperOfTheForest.Vfx.RuneLumenVfxWorker</workerClass>
+    <lifetime>FollowThing</lifetime>
+    <sealRadius>0.58</sealRadius>
+    <sealThickness>0.052</sealThickness>
+    <spinRadPerSec>0.65</spinRadPerSec>
+    <fadeDurationSeconds>0.35</fadeDurationSeconds>
+    <impactDurationSeconds>0.54</impactDurationSeconds>
+    <impactSpindleHeightCells>2.2</impactSpindleHeightCells>
+    <impactSpindleWidth>0.42</impactSpindleWidth>
+    <idleMoteRate>9.0</idleMoteRate>
+    <impactColumnBurstCount>34</impactColumnBurstCount>
+    <lightRadius>2.1</lightRadius>
+    <lightHeightCells>1.18</lightHeightCells>
+    <idleLightIntensity>0.28</idleLightIntensity>
+    <impactLightIntensity>0.85</impactLightIntensity>
+    <hdrSealMultiplier>1.28</hdrSealMultiplier>
+    <hdrImpactMultiplier>1.85</hdrImpactMultiplier>
+    <ribbonEdgePower>1.6</ribbonEdgePower>
+  </WhisperOfTheForest.Vfx.RuneLumenVfxDef>
+
+  <!-- 4. Orbiting Arcane Orbs (Theme-colored hovering star + short smooth Ribbon trail + burst) -->
+  <WhisperOfTheForest.Vfx.OrbitLumenVfxDef>
+    <defName>WotF_Vfx_Orbit</defName>
+    <label>spell orbiting orb (RimLumen HDR)</label>
+    <workerClass>WhisperOfTheForest.Vfx.OrbitLumenVfxWorker</workerClass>
+    <lifetime>FollowThing</lifetime>
+    <coreRadius>0.13</coreRadius>
+    <haloRadius>0.27</haloRadius>
+    <spinRadPerSec>4.2</spinRadPerSec>
+    <trailDurationSeconds>0.26</trailDurationSeconds>
+    <trailWidth>0.16</trailWidth>
+    <trailMinVertexDistance>0.07</trailMinVertexDistance>
+    <trailMaxPoints>36</trailMaxPoints>
+    <dustRatePerSecond>16.0</dustRatePerSecond>
+    <impactBurstCount>18</impactBurstCount>
+    <fadeDurationSeconds>0.36</fadeDurationSeconds>
+    <impactDurationSeconds>0.44</impactDurationSeconds>
+    <lightRadius>1.85</lightRadius>
+    <lightHeightCells>1.18</lightHeightCells>
+    <lightIntensity>0.22</lightIntensity>
+    <hdrCoreMultiplier>1.45</hdrCoreMultiplier>
+    <hdrTrailMultiplier>1.32</hdrTrailMultiplier>
+    <hdrImpactMultiplier>1.75</hdrImpactMultiplier>
+    <ribbonEdgePower>1.65</ribbonEdgePower>
+  </WhisperOfTheForest.Vfx.OrbitLumenVfxDef>
+
+  <!-- 5. Cordium Fire Tornado (Procedural FBM shader slender funnel + secondary shatter embers) -->
+  <WhisperOfTheForest.Vfx.TornadoLumenVfxDef>
+    <defName>WotF_Vfx_Tornado</defName>
+    <label>cordium flame tornado (RimLumen HDR)</label>
+    <workerClass>WhisperOfTheForest.Vfx.TornadoLumenVfxWorker</workerClass>
+    <lifetime>FollowThing</lifetime>
+    <lumenEffectId>NekoYukari.WhisperOfTheForest:CordiumTornado</lumenEffectId>
+    <referenceRadius>4.0</referenceRadius>
+    <collapseDurationSeconds>0.52</collapseDurationSeconds>
+    <heightSteps>30</heightSteps>
+    <crossSteps>32</crossSteps>
+    <baseRadiusFactor>0.085</baseRadiusFactor>
+    <waistRadiusFactor>0.12</waistRadiusFactor>
+    <topRadiusFactor>0.38</topRadiusFactor>
+    <funnelHeightFactor>1.52</funnelHeightFactor>
+    <swayAmplitudeFactor>0.058</swayAmplitudeFactor>
+    <flameTongueCount>14</flameTongueCount>
+    <groundBoundaryColorHex>#EB3818</groundBoundaryColorHex>
+    <hdrFunnelMultiplier>1.85</hdrFunnelMultiplier>
+    <ribbonEdgePower>1.6</ribbonEdgePower>
+  </WhisperOfTheForest.Vfx.TornadoLumenVfxDef>
+
+</Defs>

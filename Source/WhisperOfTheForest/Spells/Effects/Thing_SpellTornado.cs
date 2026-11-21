@@ -6,29 +6,53 @@ using WhisperOfTheForest.Vfx;
 
 namespace WhisperOfTheForest.Spells
 {
-    public sealed class Thing_SpellTornado : Thing
+    public sealed class Thing_SpellTornado : ThingWithComps
     {
         private Pawn caster;
         private SpellTornadoSpec spec;
+        private int spawnTick = -1;
         private int expiresTick;
         private int nextPulseTick;
+        private bool collapseTriggered;
+        private VfxHandle vfx;
+
+        public int SpawnTick => spawnTick;
+        public int ExpiresTick => expiresTick;
+        public int FadeTicks => spec != null ? spec.fadeTicks : 0;
+        public int PulseIntervalTicks => spec != null ? spec.pulseIntervalTicks : 60;
 
         public void Configure(Pawn caster, SpellTornadoSpec spec)
         {
             this.caster = caster;
             this.spec = spec.Copy();
-            expiresTick = Find.TickManager.TicksGame + spec.durationTicks;
-            nextPulseTick = Find.TickManager.TicksGame + spec.pulseIntervalTicks;
+            int now = Find.TickManager.TicksGame;
+            spawnTick = now;
+            expiresTick = now + spec.durationTicks;
+            nextPulseTick = now + spec.pulseIntervalTicks;
         }
 
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
             base.SpawnSetup(map, respawningAfterLoad);
-            VfxService.Play(new VfxRequest
+            if (spawnTick < 0 && spec != null)
             {
-                map = map, follow = this, origin = DrawPos, width = spec.radius * 2f,
+                spawnTick = expiresTick - spec.durationTicks;
+            }
+
+            vfx = VfxService.Play(new VfxRequest
+            {
+                map = map,
+                follow = this,
+                origin = DrawPos,
+                width = spec != null ? spec.radius * 2f : 0f,
                 vfxDefName = "WotF_Vfx_Tornado"
             });
+
+            if (Find.TickManager.TicksGame >= expiresTick)
+            {
+                collapseTriggered = true;
+                vfx?.Trigger(VfxStates.Expire);
+            }
         }
 
         protected override void Tick()
@@ -40,6 +64,13 @@ namespace WhisperOfTheForest.Spells
                 Pulse(now);
                 nextPulseTick += spec.pulseIntervalTicks;
             }
+
+            if (!collapseTriggered && now >= expiresTick)
+            {
+                collapseTriggered = true;
+                vfx?.Trigger(VfxStates.Expire);
+            }
+
             if (now >= expiresTick + spec.fadeTicks) Destroy();
         }
 
@@ -91,8 +122,15 @@ namespace WhisperOfTheForest.Spells
             base.ExposeData();
             Scribe_References.Look(ref caster, "caster");
             Scribe_Deep.Look(ref spec, "spec");
+            Scribe_Values.Look(ref spawnTick, "spawnTick", -1);
             Scribe_Values.Look(ref expiresTick, "expiresTick");
             Scribe_Values.Look(ref nextPulseTick, "nextPulseTick");
+            Scribe_Values.Look(ref collapseTriggered, "collapseTriggered");
+
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && spawnTick < 0 && spec != null)
+            {
+                spawnTick = expiresTick - spec.durationTicks;
+            }
         }
     }
 }

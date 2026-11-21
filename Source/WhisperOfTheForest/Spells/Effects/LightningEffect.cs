@@ -48,9 +48,13 @@ namespace WhisperOfTheForest.Spells
         }
         public override int Execute(Thing caster, Thing primary, IntVec3 cell, Map map)
         {
+            SpellThemeDef lightningTheme = SpellDefs.Glyph(SpellDefs.EffectLightning)?.theme ?? SpellDefs.Tuning?.defaultTheme;
             VfxService.Play(new VfxRequest
             {
-                map = map, origin = cell.ToVector3Shifted(),
+                map = map,
+                origin = cell.ToVector3Shifted(),
+                width = useArea ? targetRadius * 2f : 0f,
+                theme = lightningTheme,
                 vfxDefName = "WotF_Vfx_Lightning"
             });
             List<Thing> targets = SpellExecutor.CollectTargets(useArea, targetRadius, primary, cell, map,

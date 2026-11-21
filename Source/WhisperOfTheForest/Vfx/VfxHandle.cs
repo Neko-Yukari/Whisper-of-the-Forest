@@ -6,11 +6,11 @@ namespace WhisperOfTheForest.Vfx
     {
         public const string Windup = "Windup", Channel = "Channel", Release = "Release",
             Impact = "Impact", Sustain = "Sustain", Interrupt = "Interrupt", End = "End",
-            Break = "Break", Expire = "Expire";
+            Break = "Break", Expire = "Expire", Pulse = "Pulse";
 
         public static bool Contains(string name) => name == Windup || name == Channel || name == Release
             || name == Impact || name == Sustain || name == Interrupt || name == End
-            || name == Break || name == Expire;
+            || name == Break || name == Expire || name == Pulse;
     }
 
     public sealed class VfxHandle

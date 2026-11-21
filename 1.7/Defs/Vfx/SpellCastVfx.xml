@@ -47,4 +47,38 @@
     <coreDiscRadiusMin>0.10</coreDiscRadiusMin>
   </WhisperOfTheForest.Vfx.SpellCastVfxDef>
 
+  <WhisperOfTheForest.Vfx.SpellQuickCastVfxDef>
+    <defName>WotF_Vfx_SpellCastQuick</defName>
+    <label>quick spell casting surging cloud</label>
+    <workerClass>WhisperOfTheForest.Vfx.SpellQuickCastVfxWorker</workerClass>
+    <lifetime>FollowThing</lifetime>
+
+    <!-- Positioning and 2.5D Pawn Depth Silhouette Masking -->
+    <forwardOffsetCells>0.42</forwardOffsetCells>
+    <wallClearanceMargin>0.16</wallClearanceMargin>
+    <backAltitudeY>7.95</backAltitudeY>
+    <frontAltitudeY>9.45</frontAltitudeY>
+    <zTransitionHalf>0.06</zTransitionHalf>
+    <lumenOriginHeightCells>0</lumenOriginHeightCells>
+
+    <!-- Compact cloud core aura + crisp burnout flash vs lingering pushed cloud -->
+    <cloudAuraRadius>0.24</cloudAuraRadius>
+    <burnoutFlashDurationSeconds>0.18</burnoutFlashDurationSeconds>
+    <burnoutPeakRadius>0.52</burnoutPeakRadius>
+    <releaseHoldDurationSeconds>0.86</releaseHoldDurationSeconds>
+    <hdrChargeCoreMultiplier>1.15</hdrChargeCoreMultiplier>
+    <hdrBurnoutMultiplier>1.75</hdrBurnoutMultiplier>
+    <ribbonEdgePower>1.75</ribbonEdgePower>
+
+    <!-- Directional forward shove (from behind focal cloud) vs Self gentle 360 radial shove -->
+    <directionalPushBackOffsetCells>0.36</directionalPushBackOffsetCells>
+    <directionalPushRadius>1.85</directionalPushRadius>
+    <directionalPushStrength>34.0</directionalPushStrength>
+    <directionalPushDurationSeconds>0.09</directionalPushDurationSeconds>
+
+    <radialPushRadius>1.65</radialPushRadius>
+    <radialPushStrength>20.0</radialPushStrength>
+    <radialPushDurationSeconds>0.10</radialPushDurationSeconds>
+  </WhisperOfTheForest.Vfx.SpellQuickCastVfxDef>
+
 </Defs>

@@ -62,4 +62,22 @@
     </shaderProgram>
   </ShaderDef>
 
+  <ShaderDef>
+    <defName>WotF_Shader_LumenTornado</defName>
+    <shaderProgram>
+      <vertexShaderFileName>WotF_LumenTornado.vert.glsl</vertexShaderFileName>
+      <fragmentShaderFileName>WotF_LumenTornado.frag.glsl</fragmentShaderFileName>
+      <useTexture>false</useTexture>
+      <flipTextureST>false</flipTextureST>
+      <transparent>true</transparent>
+      <depthTest>false</depthTest>
+      <depthWrite>false</depthWrite>
+      <cullMode>None</cullMode>
+      <renderQueue>3018</renderQueue>
+      <blendMode>Custom</blendMode>
+      <blendSrcFactor>One</blendSrcFactor>
+      <blendDstFactor>OneMinusSrcAlpha</blendDstFactor>
+    </shaderProgram>
+  </ShaderDef>
+
 </Defs>

@@ -59,14 +59,6 @@
       <HintPath>$(WorkshopRoot)/2009463077/1.7/Assemblies/0Harmony.dll</HintPath>
       <Private>false</Private>
     </Reference>
-    <Reference Include="RimUnity.Core">
-      <HintPath>$(WorkshopRoot)/3819570122/1.7/Assemblies/RimUnity.Core.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="RimUnity">
-      <HintPath>$(WorkshopRoot)/3819570122/1.7/Assemblies/RimUnity.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
     <Reference Include="AlienRace">
       <HintPath>$(WorkshopRoot)/839005762/1.7/Assemblies/AlienRace.dll</HintPath>
       <Private>false</Private>

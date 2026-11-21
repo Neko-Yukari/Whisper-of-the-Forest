@@ -16,6 +16,9 @@ namespace WhisperOfTheForest.Tests
         {
             ("vfx theme: resolves first themed effect glyph in spell chain", FirstEffectThemeWins),
             ("vfx theme: falls back to tuning defaultTheme when glyphs carry no theme", FallsBackToDefaultTheme),
+            ("vfx quick cast: routes prep ticks below quickCastMaxTicks and sets radialRelease only for Self", QuickCastRoutingAndRadialSelf),
+            ("vfx payload theme: timing glyph resolves payload theme from inner effect glyphs before timing fallback", PayloadThemeResolvesInnerEffectFirst),
+            ("vfx tornado sky: surges to detonation peak, settles to sustain, and fades cleanly to zero", TornadoSkyTintEnvelope),
             ("vfx convergence: hits full collapse at prepSeconds - leadCollapseSeconds", ConvergenceHitsEarlyAtLead),
             ("vfx pawn mask: north lies below pawn depth and south sits above torso", PawnMaskSplitsNorthSouthAltitudes),
         };
@@ -102,6 +105,61 @@ namespace WhisperOfTheForest.Tests
             Check.Equal(backY, northY, "north vertex occluded behind pawn depth");
             Check.Equal(frontY, southY, "south vertex drawn over pawn torso");
             Check.True(centerY < frontY && centerY > backY, $"center vertex smoothly interpolates, got {centerY}");
+        }
+
+        private static void QuickCastRoutingAndRadialSelf()
+        {
+            Check.Equal(false, SpellCastVfxMath.ShouldUseQuickCast(0, 60), "zero prep ticks do not play cast VFX");
+            Check.Equal(true, SpellCastVfxMath.ShouldUseQuickCast(15, 60), "short prep (< threshold) uses quick-cast cloud");
+            Check.Equal(true, SpellCastVfxMath.ShouldUseQuickCast(59, 60), "59 ticks uses quick-cast cloud");
+            Check.Equal(false, SpellCastVfxMath.ShouldUseQuickCast(60, 60), "at threshold uses full 3D vortex");
+            Check.Equal(false, SpellCastVfxMath.ShouldUseQuickCast(95, 60), "above threshold uses full 3D vortex");
+
+            Check.Equal(true, SpellQuickCastVfxWorker.IsRadialCastRelease(SpellFormKind.Self), "Self form uses radial release");
+            Check.Equal(false, SpellQuickCastVfxWorker.IsRadialCastRelease(SpellFormKind.Projectile), "Projectile form uses directional push");
+            Check.Equal(false, SpellQuickCastVfxWorker.IsRadialCastRelease(SpellFormKind.Touch), "Touch form uses directional push");
+            Check.Equal(false, SpellQuickCastVfxWorker.IsRadialCastRelease(SpellFormKind.Orbit), "Orbit form uses directional push");
+        }
+
+        private static void PayloadThemeResolvesInnerEffectFirst()
+        {
+            var lingerFallback = new SpellThemeDef { defName = "T_Theme_LingerFallback" };
+            var healVitality = new SpellThemeDef { defName = "T_Theme_Vitality" };
+            var unthemedGlyph = new SpellGlyphDef { defName = "T_Effect_Unthemed", kind = SpellGlyphKind.Effect };
+            var themedGlyph = new SpellGlyphDef { defName = "T_Effect_Vitality", kind = SpellGlyphKind.Effect, theme = healVitality };
+
+            var defsWithInnerTheme = new List<SpellGlyphDef> { Glyphs.Get(Glyphs.Touch), unthemedGlyph, themedGlyph };
+            Check.Equal(healVitality, SpellDefs.ResolveTheme(defsWithInnerTheme, 1, defsWithInnerTheme.Count, lingerFallback),
+                "inner payload glyph theme wins over timing glyph fallback");
+
+            var defsWithoutInnerTheme = new List<SpellGlyphDef> { Glyphs.Get(Glyphs.Touch), unthemedGlyph };
+            Check.Equal(lingerFallback, SpellDefs.ResolveTheme(defsWithoutInnerTheme, 1, defsWithoutInnerTheme.Count, lingerFallback),
+                "timing glyph fallback used when payload glyphs carry no theme");
+        }
+
+        private static void TornadoSkyTintEnvelope()
+        {
+            const int spawn = 100;
+            const int expires = 700;
+            const int fade = 30;
+            const int pulse = 60;
+            const int rise = 8;
+            const int decay = 28;
+            const float peak = 0.76f;
+            const float sustain = 0.48f;
+            const float wave = 0.04f;
+
+            float before = CompTornadoSkyTint.EvaluateLerpFactor(99, spawn, expires, fade, pulse, rise, decay, peak, sustain, wave);
+            float atPeak = CompTornadoSkyTint.EvaluateLerpFactor(spawn + rise, spawn, expires, fade, pulse, rise, decay, peak, sustain, wave);
+            float atSustainNode = CompTornadoSkyTint.EvaluateLerpFactor(spawn + 120, spawn, expires, fade, pulse, rise, decay, peak, sustain, wave);
+            float midFade = CompTornadoSkyTint.EvaluateLerpFactor(expires + 15, spawn, expires, fade, pulse, rise, decay, peak, sustain, 0f);
+            float afterFade = CompTornadoSkyTint.EvaluateLerpFactor(expires + fade, spawn, expires, fade, pulse, rise, decay, peak, sustain, wave);
+
+            Check.Equal(0f, before, "zero before tornado spawns");
+            Check.True(Math.Abs(atPeak - peak) < 0.001f, $"expected detonation peak {peak}, got {atPeak}");
+            Check.True(Math.Abs(atSustainNode - sustain) < 0.001f, $"expected sustain {sustain} at full pulse period, got {atSustainNode}");
+            Check.True(Math.Abs(midFade - sustain * 0.5f) < 0.001f, $"expected half-faded {sustain * 0.5f}, got {midFade}");
+            Check.Equal(0f, afterFade, "zero once fadeTicks complete");
         }
     }
 }

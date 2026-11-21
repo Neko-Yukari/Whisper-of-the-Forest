@@ -460,6 +460,12 @@ namespace WhisperOfTheForest.Spells
         /// <summary>Shared VfxDef used during normal spell windup + channel convergence.</summary>
         public string castVfxDef;
 
+        /// <summary>Prep-tick threshold below which spells use <see cref="quickCastVfxDef"/> instead of <see cref="castVfxDef"/>.</summary>
+        public int quickCastMaxTicks;
+
+        /// <summary>Compact surging particle-cloud VfxDef for fast casts (<c>&lt; quickCastMaxTicks</c>).</summary>
+        public string quickCastVfxDef;
+
         public override IEnumerable<string> ConfigErrors()
         {
             foreach (string error in base.ConfigErrors())
@@ -495,6 +501,16 @@ namespace WhisperOfTheForest.Spells
             if (castVfxDef.NullOrEmpty())
             {
                 yield return "castVfxDef is required";
+            }
+
+            if (quickCastMaxTicks <= 0)
+            {
+                yield return "quickCastMaxTicks must be positive";
+            }
+
+            if (quickCastVfxDef.NullOrEmpty())
+            {
+                yield return "quickCastVfxDef is required";
             }
         }
     }
@@ -579,6 +595,22 @@ namespace WhisperOfTheForest.Spells
             }
 
             return Tuning?.defaultTheme;
+        }
+
+        public static SpellThemeDef ResolveTheme(IReadOnlyList<SpellGlyphDef> defs, int start, int end, SpellThemeDef fallback)
+        {
+            if (defs != null)
+            {
+                for (int i = start; i < end && i < defs.Count; i++)
+                {
+                    if (defs[i]?.theme != null)
+                    {
+                        return defs[i].theme;
+                    }
+                }
+            }
+
+            return fallback ?? Tuning?.defaultTheme;
         }
 
         public static string IconPathFor(SpellGlyphDef glyph)

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
-using UnityEngine;
 using Verse;
+using WhisperOfTheForest.Spells;
+using WhisperOfTheForest.Vfx;
 
 namespace WhisperOfTheForest.Missiles
 {
@@ -33,8 +34,11 @@ namespace WhisperOfTheForest.Missiles
         public ArcaneMissileVisualDef visualDef;
         public float missileSize;
         public float trailTime;
-        public string missileColorHex;
-        public string trailColorHex;
+
+        /// <summary>
+        /// Semantic spell theme frozen into the volley at launch; omitted in the Form Def's XML block.
+        /// </summary>
+        public SpellThemeDef theme;
 
         /// <summary>
         /// What a hit does. Set by whoever fires the volley (a spell freezes its plan here); the
@@ -75,11 +79,6 @@ namespace WhisperOfTheForest.Missiles
                 yield return "visualDef is null";
             }
 
-            if (!ColorUtility.TryParseHtmlString(missileColorHex, out _) || !ColorUtility.TryParseHtmlString(trailColorHex, out _))
-            {
-                yield return "missileColorHex and trailColorHex must be HTML colours such as #7FE3C7";
-            }
-
             if (payload != null)
             {
                 yield return "a payload is set by the caster at launch, never in XML";
@@ -116,11 +115,15 @@ namespace WhisperOfTheForest.Missiles
             Scribe_Defs.Look(ref visualDef, "visualDef");
             Scribe_Values.Look(ref missileSize, "missileSize");
             Scribe_Values.Look(ref trailTime, "trailTime");
-            Scribe_Values.Look(ref missileColorHex, "missileColorHex");
-            Scribe_Values.Look(ref trailColorHex, "trailColorHex");
+            Scribe_Defs.Look(ref theme, "theme");
 
             // Saved with the projectile, so a dart in flight across a load keeps its exact payload.
             Scribe_Deep.Look(ref payload, "payload");
+
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && theme == null)
+            {
+                theme = SpellDefs.Tuning?.defaultTheme;
+            }
         }
     }
 }

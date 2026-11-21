@@ -12,6 +12,15 @@ namespace WhisperOfTheForest.Vfx
         private const float MinCollapseWindowSeconds = 0.05f;
 
         /// <summary>
+        /// Spells with total windup + channel strictly below <paramref name="quickCastMaxTicks"/> use the
+        /// compact surging particle cloud instead of the full 3D convergence vortex.
+        /// </summary>
+        public static bool ShouldUseQuickCast(int totalPrepTicks, int quickCastMaxTicks)
+        {
+            return totalPrepTicks > 0 && totalPrepTicks < quickCastMaxTicks;
+        }
+
+        /// <summary>
         /// Normalized convergence progress in [0, 1]. Reaches 1.0f at (totalPrepSeconds - leadCollapseSeconds)
         /// so the swirling vortex collapses tightest right before release flash.
         /// </summary>

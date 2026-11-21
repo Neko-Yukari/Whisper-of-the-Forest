@@ -100,11 +100,9 @@
       <flightHeight>1.2</flightHeight>
       <hitRadius>0.45</hitRadius>
       <expireOnTargetLost>false</expireOnTargetLost>
-      <visualDef>WotF_Visual_RimUnity</visualDef>
+      <visualDef>WotF_Visual_RimLumen</visualDef>
       <missileSize>0.55</missileSize>
       <trailTime>0.35</trailTime>
-      <missileColorHex>#7FE3C7</missileColorHex>
-      <trailColorHex>#2FA98C</trailColorHex>
     </projectile>
     <iconPath>Spellbook/Glyphs/WotF_Form_Projectile</iconPath>
     <manaCost>12</manaCost>
@@ -978,6 +976,8 @@
     <maxMissiles>5</maxMissiles>
     <defaultTheme>WotF_Theme_Starlight</defaultTheme>
     <castVfxDef>WotF_Vfx_SpellCast</castVfxDef>
+    <quickCastMaxTicks>60</quickCastMaxTicks>
+    <quickCastVfxDef>WotF_Vfx_SpellCastQuick</quickCastVfxDef>
   </WhisperOfTheForest.Spells.SpellTuningDef>
 
   <!-- ============================================================ Carrier ability -->

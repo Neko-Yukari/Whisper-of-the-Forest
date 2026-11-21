@@ -457,7 +457,14 @@ namespace WhisperOfTheForest.Spells
 
             int totalPrepTicks = plan.timing.windupTicks + plan.timing.channelTicks;
             SpellTuningDef tuning = SpellDefs.Tuning;
-            if (totalPrepTicks <= 0 || tuning == null || tuning.castVfxDef.NullOrEmpty())
+            if (totalPrepTicks <= 0 || tuning == null)
+            {
+                return;
+            }
+
+            bool useQuickCast = SpellCastVfxMath.ShouldUseQuickCast(totalPrepTicks, tuning.quickCastMaxTicks);
+            string vfxDefName = useQuickCast ? tuning.quickCastVfxDef : tuning.castVfxDef;
+            if (vfxDefName.NullOrEmpty())
             {
                 return;
             }
@@ -472,7 +479,7 @@ namespace WhisperOfTheForest.Spells
                 ? cast.targetThing.DrawPos
                 : cast.cell.ToVector3Shifted();
 
-            cast.castVfx = VfxService.Play(new VfxRequest
+            cast.castVfx = VfxService.Play(new SpellCastVfxRequest
             {
                 map = cast.map,
                 follow = cast.caster,
@@ -480,8 +487,9 @@ namespace WhisperOfTheForest.Spells
                 origin = cast.caster.DrawPos,
                 target = targetPos,
                 chargeTicks = totalPrepTicks,
-                vfxDefName = tuning.castVfxDef,
-                theme = theme
+                vfxDefName = vfxDefName,
+                theme = theme,
+                radialRelease = SpellQuickCastVfxWorker.IsRadialCastRelease(plan.form)
             });
         }
 
@@ -554,6 +562,7 @@ namespace WhisperOfTheForest.Spells
         private static ArcaneMissileSettings BuildMissileSettings(SpellCastPlan plan)
         {
             ArcaneMissileSettings settings = plan.projectile.Copy();
+            settings.theme = SpellDefs.ResolveTheme(plan);
 
             // Frozen at launch: the missile deep-copies this and scribes it with itself.
             settings.payload = new SpellMissilePayload { plan = plan.Copy() };

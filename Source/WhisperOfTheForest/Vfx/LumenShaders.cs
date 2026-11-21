@@ -20,16 +20,20 @@ namespace WhisperOfTheForest.Vfx
         public const string RibbonDepthShaderName = "WotF_Shader_LumenRibbonDepth";
         public const string RibbonOverShaderName = "WotF_Shader_LumenRibbonOver";
         public const string DistortionShaderName = "WotF_Shader_LumenDistortion";
+        public const string TornadoShaderName = "WotF_Shader_LumenTornado";
 
         private static Material ribbonDepth;
         private static Material ribbonOver;
         private static Material distortion;
+        private static Material tornado;
 
         public static Material RibbonDepth => ribbonDepth ??= LoadMaterial(RibbonDepthShaderName);
 
         public static Material RibbonOver => ribbonOver ??= LoadMaterial(RibbonOverShaderName);
 
         public static Material Distortion => distortion ??= LoadMaterial(DistortionShaderName);
+
+        public static Material Tornado => tornado ??= LoadMaterial(TornadoShaderName);
 
         public static void DrawLumen(Mesh mesh, Material material)
         {

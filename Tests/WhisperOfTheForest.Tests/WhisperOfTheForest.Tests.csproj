@@ -22,8 +22,6 @@
     <Reference Include="Waylith"><HintPath>$(GameRoot)/Waylith.dll</HintPath></Reference>
     <Reference Include="0Harmony"><HintPath>$(WorkshopRoot)/2009463077/1.7/Assemblies/0Harmony.dll</HintPath></Reference>
     <Reference Include="AlienRace"><HintPath>$(WorkshopRoot)/839005762/1.7/Assemblies/AlienRace.dll</HintPath></Reference>
-    <Reference Include="RimUnity"><HintPath>$(WorkshopRoot)/3819570122/1.7/Assemblies/RimUnity.dll</HintPath></Reference>
-    <Reference Include="RimUnity.Core"><HintPath>$(WorkshopRoot)/3819570122/1.7/Assemblies/RimUnity.Core.dll</HintPath></Reference>
     <Reference Include="RimLumen.Core"><HintPath>$(RimLumenRoot)/1.7/Assemblies/RimLumen.Core.dll</HintPath></Reference>
   </ItemGroup>
 </Project>

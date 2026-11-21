@@ -1,0 +1,989 @@
+{
+  "effectId": "CastQuick_Starlight",
+  "defaultDuration": 1.0,
+  "nodes": [
+    {
+      "name": "cloud_swirl",
+      "parentIndex": -1,
+      "localPosition": [
+        0.0,
+        0.04,
+        0.0
+      ],
+      "spacePlane": "GroundXZ",
+      "depthMask": "NorthBehindReference",
+      "emitter": {
+        "name": "cloud_swirl",
+        "preferredTier": "L2_GpuCompute",
+        "maxParticles": 240,
+        "duration": 1.0,
+        "looping": true,
+        "worldSpaceSimulation": true,
+        "rateOverTime": 84.0,
+        "bursts": [
+          {
+            "time": 0.0,
+            "count": 18
+          }
+        ],
+        "shape": "Sphere",
+        "shapeExtents": [
+          0.24,
+          0.14,
+          0.24
+        ],
+        "radiusThickness": 0.85,
+        "startLifetimeMin": 0.48,
+        "startLifetimeMax": 0.76,
+        "startSpeedMin": 0.05,
+        "startSpeedMax": 0.2,
+        "startSizeMin": 0.065,
+        "startSizeMax": 0.13,
+        "startColor": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "blendMode": "Additive",
+        "billboardMode": "Camera",
+        "softParticleFadeDistance": 0.06,
+        "hdrIntensity": 1.452,
+        "sizeOverLifetime": [
+          [
+            0.0,
+            0.42
+          ],
+          [
+            0.22,
+            1.0
+          ],
+          [
+            0.72,
+            0.82
+          ],
+          [
+            1.0,
+            0.08
+          ]
+        ],
+        "colorOverLifetime": [
+          [
+            0.0,
+            [
+              0.957,
+              0.886,
+              0.522,
+              0.0
+            ]
+          ],
+          [
+            0.14,
+            [
+              0.282,
+              0.82,
+              0.8,
+              0.82
+            ]
+          ],
+          [
+            0.55,
+            [
+              1.0,
+              0.992,
+              0.957,
+              0.9
+            ]
+          ],
+          [
+            0.82,
+            [
+              0.282,
+              0.82,
+              0.8,
+              0.55
+            ]
+          ],
+          [
+            1.0,
+            [
+              0.957,
+              0.886,
+              0.522,
+              0.0
+            ]
+          ]
+        ],
+        "forceFields": [
+          {
+            "kind": "GravityDrag",
+            "centerOrAxis": [
+              0.0,
+              -1.0,
+              0.0
+            ],
+            "parameters": [
+              5.2,
+              0.0,
+              0.0
+            ],
+            "radius": 0.0,
+            "strength": 0.0,
+            "frequency": 1.0
+          },
+          {
+            "kind": "PointAttractor",
+            "centerOrAxis": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "parameters": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "radius": 0.4,
+            "strength": 2.2,
+            "frequency": 1.0
+          },
+          {
+            "kind": "CurlTurbulence",
+            "centerOrAxis": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "parameters": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "radius": 0.0,
+            "strength": 0.68,
+            "frequency": 2.4
+          }
+        ],
+        "environmentChannels": "Explosion",
+        "environmentForceScale": 1.0
+      }
+    },
+    {
+      "name": "cloud_sparks",
+      "parentIndex": -1,
+      "localPosition": [
+        0.0,
+        0.28,
+        0.0
+      ],
+      "spacePlane": "Vertical3D",
+      "emitter": {
+        "name": "cloud_sparks",
+        "preferredTier": "L2_GpuCompute",
+        "maxParticles": 110,
+        "duration": 1.0,
+        "looping": true,
+        "worldSpaceSimulation": true,
+        "rateOverTime": 42.0,
+        "bursts": [
+          {
+            "time": 0.0,
+            "count": 8
+          }
+        ],
+        "shape": "Sphere",
+        "shapeExtents": [
+          0.18,
+          0.18,
+          0.18
+        ],
+        "startLifetimeMin": 0.36,
+        "startLifetimeMax": 0.62,
+        "startSpeedMin": 0.08,
+        "startSpeedMax": 0.26,
+        "startSizeMin": 0.036,
+        "startSizeMax": 0.068,
+        "startColor": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "blendMode": "Additive",
+        "billboardMode": "Camera",
+        "softParticleFadeDistance": 0.06,
+        "hdrIntensity": 1.705,
+        "sizeOverLifetime": [
+          [
+            0.0,
+            0.35
+          ],
+          [
+            0.25,
+            1.0
+          ],
+          [
+            0.8,
+            0.65
+          ],
+          [
+            1.0,
+            0.0
+          ]
+        ],
+        "colorOverLifetime": [
+          [
+            0.0,
+            [
+              1.0,
+              0.992,
+              0.957,
+              0.0
+            ]
+          ],
+          [
+            0.18,
+            [
+              1.0,
+              0.992,
+              0.957,
+              0.92
+            ]
+          ],
+          [
+            0.65,
+            [
+              0.282,
+              0.82,
+              0.8,
+              0.72
+            ]
+          ],
+          [
+            1.0,
+            [
+              0.957,
+              0.886,
+              0.522,
+              0.0
+            ]
+          ]
+        ],
+        "forceFields": [
+          {
+            "kind": "GravityDrag",
+            "centerOrAxis": [
+              0.0,
+              -1.0,
+              0.0
+            ],
+            "parameters": [
+              5.0,
+              0.0,
+              0.0
+            ],
+            "radius": 0.0,
+            "strength": 0.0,
+            "frequency": 1.0
+          },
+          {
+            "kind": "PointAttractor",
+            "centerOrAxis": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "parameters": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "radius": 0.38,
+            "strength": 2.0,
+            "frequency": 1.0
+          },
+          {
+            "kind": "CurlTurbulence",
+            "centerOrAxis": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "parameters": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "radius": 0.0,
+            "strength": 0.82,
+            "frequency": 2.8
+          }
+        ],
+        "environmentChannels": "Explosion",
+        "environmentForceScale": 1.15
+      }
+    },
+    {
+      "name": "charge_light",
+      "parentIndex": -1,
+      "localPosition": [
+        0.0,
+        1.15,
+        0.0
+      ],
+      "pointLight": {
+        "glowRadius": 2.8,
+        "color": [
+          0.62,
+          0.918,
+          0.941
+        ],
+        "intensity": 0.42,
+        "intensityOverTime": [
+          [
+            0.0,
+            0.55
+          ],
+          [
+            0.45,
+            0.95
+          ],
+          [
+            1.0,
+            1.0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "burnout_flash",
+      "parentIndex": -1,
+      "localPosition": [
+        0.0,
+        0.04,
+        0.0
+      ],
+      "spacePlane": "GroundXZ",
+      "depthMask": "NorthBehindReference",
+      "emitter": {
+        "name": "burnout_flash",
+        "preferredTier": "L2_GpuCompute",
+        "maxParticles": 36,
+        "duration": 0.22,
+        "looping": false,
+        "worldSpaceSimulation": true,
+        "rateOverTime": 0.0,
+        "bursts": [
+          {
+            "time": 0.0,
+            "count": 16
+          }
+        ],
+        "shape": "Sphere",
+        "shapeExtents": [
+          0.08,
+          0.05,
+          0.08
+        ],
+        "startLifetimeMin": 0.14,
+        "startLifetimeMax": 0.19,
+        "startSpeedMin": 0.25,
+        "startSpeedMax": 0.85,
+        "startSizeMin": 0.14,
+        "startSizeMax": 0.24,
+        "startColor": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "blendMode": "Additive",
+        "billboardMode": "Camera",
+        "softParticleFadeDistance": 0.06,
+        "hdrIntensity": 2.585,
+        "sizeOverLifetime": [
+          [
+            0.0,
+            0.72
+          ],
+          [
+            0.28,
+            1.28
+          ],
+          [
+            1.0,
+            0.0
+          ]
+        ],
+        "colorOverLifetime": [
+          [
+            0.0,
+            [
+              1.0,
+              0.992,
+              0.957,
+              0.98
+            ]
+          ],
+          [
+            0.35,
+            [
+              0.282,
+              0.82,
+              0.8,
+              0.85
+            ]
+          ],
+          [
+            1.0,
+            [
+              0.957,
+              0.886,
+              0.522,
+              0.0
+            ]
+          ]
+        ],
+        "forceFields": [
+          {
+            "kind": "GravityDrag",
+            "centerOrAxis": [
+              0.0,
+              -1.0,
+              0.0
+            ],
+            "parameters": [
+              8.0,
+              0.0,
+              0.0
+            ],
+            "radius": 0.0,
+            "strength": 0.0,
+            "frequency": 1.0
+          }
+        ],
+        "environmentChannels": "None"
+      }
+    },
+    {
+      "name": "dir_push_cloud",
+      "parentIndex": -1,
+      "localPosition": [
+        0.0,
+        0.05,
+        0.0
+      ],
+      "spacePlane": "GroundXZ",
+      "depthMask": "NorthBehindReference",
+      "emitter": {
+        "name": "dir_push_cloud",
+        "preferredTier": "L2_GpuCompute",
+        "maxParticles": 64,
+        "duration": 0.86,
+        "looping": false,
+        "worldSpaceSimulation": true,
+        "rateOverTime": 0.0,
+        "bursts": [
+          {
+            "time": 0.0,
+            "count": 32
+          }
+        ],
+        "shape": "Cone",
+        "coneAngleDegrees": 16.0,
+        "shapeExtents": [
+          0.16,
+          0.0,
+          0.16
+        ],
+        "shapeRotation": [
+          0.70710677,
+          0.0,
+          0.0,
+          0.70710677
+        ],
+        "startLifetimeMin": 0.52,
+        "startLifetimeMax": 0.85,
+        "startSpeedMin": 2.8,
+        "startSpeedMax": 5.8,
+        "startSizeMin": 0.068,
+        "startSizeMax": 0.135,
+        "startColor": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "blendMode": "Additive",
+        "billboardMode": "Camera",
+        "softParticleFadeDistance": 0.06,
+        "hdrIntensity": 1.595,
+        "sizeOverLifetime": [
+          [
+            0.0,
+            0.88
+          ],
+          [
+            0.35,
+            1.08
+          ],
+          [
+            0.8,
+            0.68
+          ],
+          [
+            1.0,
+            0.06
+          ]
+        ],
+        "colorOverLifetime": [
+          [
+            0.0,
+            [
+              1.0,
+              0.992,
+              0.957,
+              0.92
+            ]
+          ],
+          [
+            0.25,
+            [
+              0.282,
+              0.82,
+              0.8,
+              0.8
+            ]
+          ],
+          [
+            0.72,
+            [
+              0.957,
+              0.886,
+              0.522,
+              0.42
+            ]
+          ],
+          [
+            1.0,
+            [
+              0.957,
+              0.886,
+              0.522,
+              0.0
+            ]
+          ]
+        ],
+        "forceFields": [
+          {
+            "kind": "GravityDrag",
+            "centerOrAxis": [
+              0.0,
+              -1.0,
+              0.0
+            ],
+            "parameters": [
+              5.6,
+              0.0,
+              0.0
+            ],
+            "radius": 0.0,
+            "strength": 0.0,
+            "frequency": 1.0
+          },
+          {
+            "kind": "CurlTurbulence",
+            "centerOrAxis": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "parameters": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "radius": 0.0,
+            "strength": 0.88,
+            "frequency": 2.1
+          }
+        ],
+        "environmentChannels": "None"
+      }
+    },
+    {
+      "name": "dir_push_sparks",
+      "parentIndex": -1,
+      "localPosition": [
+        0.0,
+        0.28,
+        0.0
+      ],
+      "spacePlane": "Vertical3D",
+      "emitter": {
+        "name": "dir_push_sparks",
+        "preferredTier": "L2_GpuCompute",
+        "maxParticles": 40,
+        "duration": 0.86,
+        "looping": false,
+        "worldSpaceSimulation": true,
+        "rateOverTime": 0.0,
+        "bursts": [
+          {
+            "time": 0.0,
+            "count": 18
+          }
+        ],
+        "shape": "Cone",
+        "coneAngleDegrees": 14.0,
+        "shapeExtents": [
+          0.12,
+          0.0,
+          0.12
+        ],
+        "shapeRotation": [
+          0.70710677,
+          0.0,
+          0.0,
+          0.70710677
+        ],
+        "startLifetimeMin": 0.42,
+        "startLifetimeMax": 0.74,
+        "startSpeedMin": 3.6,
+        "startSpeedMax": 7.4,
+        "startSizeMin": 0.034,
+        "startSizeMax": 0.062,
+        "startColor": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "blendMode": "Additive",
+        "billboardMode": "StretchedVelocity",
+        "velocityStretchFactor": 0.055,
+        "lengthScale": 1.15,
+        "softParticleFadeDistance": 0.06,
+        "hdrIntensity": 2.035,
+        "sizeOverLifetime": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.5,
+            0.75
+          ],
+          [
+            1.0,
+            0.0
+          ]
+        ],
+        "colorOverLifetime": [
+          [
+            0.0,
+            [
+              1.0,
+              0.992,
+              0.957,
+              0.96
+            ]
+          ],
+          [
+            0.45,
+            [
+              0.282,
+              0.82,
+              0.8,
+              0.78
+            ]
+          ],
+          [
+            1.0,
+            [
+              0.957,
+              0.886,
+              0.522,
+              0.0
+            ]
+          ]
+        ],
+        "forceFields": [
+          {
+            "kind": "GravityDrag",
+            "centerOrAxis": [
+              0.0,
+              -1.0,
+              0.0
+            ],
+            "parameters": [
+              6.2,
+              0.0,
+              0.0
+            ],
+            "radius": 0.0,
+            "strength": 0.0,
+            "frequency": 1.0
+          },
+          {
+            "kind": "CurlTurbulence",
+            "centerOrAxis": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "parameters": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "radius": 0.0,
+            "strength": 0.95,
+            "frequency": 2.4
+          }
+        ],
+        "environmentChannels": "None"
+      }
+    },
+    {
+      "name": "self_radial_cloud",
+      "parentIndex": -1,
+      "localPosition": [
+        0.0,
+        0.05,
+        0.0
+      ],
+      "spacePlane": "GroundXZ",
+      "depthMask": "NorthBehindReference",
+      "emitter": {
+        "name": "self_radial_cloud",
+        "preferredTier": "L2_GpuCompute",
+        "maxParticles": 72,
+        "duration": 0.86,
+        "looping": false,
+        "worldSpaceSimulation": true,
+        "rateOverTime": 0.0,
+        "bursts": [
+          {
+            "time": 0.0,
+            "count": 38
+          }
+        ],
+        "shape": "SphereShell",
+        "shapeExtents": [
+          0.22,
+          0.08,
+          0.22
+        ],
+        "sphericalDirectionAmount": 1.0,
+        "startLifetimeMin": 0.54,
+        "startLifetimeMax": 0.85,
+        "startSpeedMin": 1.6,
+        "startSpeedMax": 3.4,
+        "startSizeMin": 0.068,
+        "startSizeMax": 0.135,
+        "startColor": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "blendMode": "Additive",
+        "billboardMode": "Camera",
+        "softParticleFadeDistance": 0.06,
+        "hdrIntensity": 1.562,
+        "sizeOverLifetime": [
+          [
+            0.0,
+            0.85
+          ],
+          [
+            0.35,
+            1.08
+          ],
+          [
+            0.8,
+            0.65
+          ],
+          [
+            1.0,
+            0.06
+          ]
+        ],
+        "colorOverLifetime": [
+          [
+            0.0,
+            [
+              1.0,
+              0.992,
+              0.957,
+              0.92
+            ]
+          ],
+          [
+            0.28,
+            [
+              0.282,
+              0.82,
+              0.8,
+              0.78
+            ]
+          ],
+          [
+            0.75,
+            [
+              0.957,
+              0.886,
+              0.522,
+              0.4
+            ]
+          ],
+          [
+            1.0,
+            [
+              0.957,
+              0.886,
+              0.522,
+              0.0
+            ]
+          ]
+        ],
+        "forceFields": [
+          {
+            "kind": "GravityDrag",
+            "centerOrAxis": [
+              0.0,
+              -1.0,
+              0.0
+            ],
+            "parameters": [
+              5.0,
+              0.0,
+              0.0
+            ],
+            "radius": 0.0,
+            "strength": 0.0,
+            "frequency": 1.0
+          },
+          {
+            "kind": "CurlTurbulence",
+            "centerOrAxis": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "parameters": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "radius": 0.0,
+            "strength": 0.78,
+            "frequency": 2.0
+          }
+        ],
+        "environmentChannels": "None"
+      }
+    },
+    {
+      "name": "release_light",
+      "parentIndex": -1,
+      "localPosition": [
+        0.0,
+        1.15,
+        0.0
+      ],
+      "pointLight": {
+        "glowRadius": 3.4,
+        "color": [
+          0.62,
+          0.918,
+          0.941
+        ],
+        "intensity": 0.68,
+        "intensityOverTime": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.04,
+            1.35
+          ],
+          [
+            0.19,
+            0.0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "release_wave",
+      "parentIndex": -1,
+      "localPosition": [
+        0.0,
+        0.15,
+        0.0
+      ],
+      "spacePlane": "Vertical3D",
+      "distortion": {
+        "kind": "RingWave",
+        "radius": 1.85,
+        "strength": 0.042,
+        "thickness": 0.28,
+        "speed": 6.4,
+        "duration": 0.28,
+        "strengthOverTime": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.14,
+            0.55
+          ],
+          [
+            0.28,
+            0.0
+          ]
+        ]
+      }
+    }
+  ],
+  "initialState": "Charge",
+  "states": [
+    {
+      "name": "Charge",
+      "nodes": [
+        "cloud_swirl",
+        "cloud_sparks",
+        "charge_light"
+      ],
+      "duration": 1.0,
+      "loop": true
+    },
+    {
+      "name": "ReleaseDir",
+      "nodes": [
+        "burnout_flash",
+        "dir_push_cloud",
+        "dir_push_sparks",
+        "release_light",
+        "release_wave"
+      ],
+      "duration": 0.86,
+      "loop": false
+    },
+    {
+      "name": "ReleaseSelf",
+      "nodes": [
+        "burnout_flash",
+        "self_radial_cloud",
+        "release_light",
+        "release_wave"
+      ],
+      "duration": 0.86,
+      "loop": false
+    }
+  ]
+}
