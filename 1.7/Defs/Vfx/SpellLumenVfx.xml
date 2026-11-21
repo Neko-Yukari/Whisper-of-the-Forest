@@ -99,27 +99,25 @@
     <ribbonEdgePower>1.65</ribbonEdgePower>
   </WhisperOfTheForest.Vfx.OrbitLumenVfxDef>
 
-  <!-- 5. Cordium Fire Tornado (Project Wingman dark-crimson/molten-orange magma funnel) -->
+  <!-- 5. Cordium Fire Tornado (Procedural FBM shader slender funnel + secondary shatter embers) -->
   <WhisperOfTheForest.Vfx.TornadoLumenVfxDef>
     <defName>WotF_Vfx_Tornado</defName>
     <label>cordium flame tornado (RimLumen HDR)</label>
     <workerClass>WhisperOfTheForest.Vfx.TornadoLumenVfxWorker</workerClass>
     <lifetime>FollowThing</lifetime>
     <lumenEffectId>NekoYukari.WhisperOfTheForest:CordiumTornado</lumenEffectId>
-    <referenceRadius>2.0</referenceRadius>
+    <referenceRadius>4.0</referenceRadius>
     <collapseDurationSeconds>0.52</collapseDurationSeconds>
-    <spiralArmCount>4</spiralArmCount>
-    <spiralSegmentsPerArm>28</spiralSegmentsPerArm>
-    <spiralBaseRadiusFactor>0.22</spiralBaseRadiusFactor>
-    <spiralTopRadiusFactor>0.68</spiralTopRadiusFactor>
-    <funnelHeightFactor>0.92</funnelHeightFactor>
-    <spiralRibbonWidth>0.13</spiralRibbonWidth>
-    <spinRadPerSec>6.4</spinRadPerSec>
-    <twistTurns>1.65</twistTurns>
-    <coreColorHex>#FFB87A</coreColorHex>
-    <primaryColorHex>#EB3818</primaryColorHex>
-    <secondaryColorHex>#6E0B14</secondaryColorHex>
-    <hdrFunnelMultiplier>1.65</hdrFunnelMultiplier>
+    <heightSteps>30</heightSteps>
+    <crossSteps>32</crossSteps>
+    <baseRadiusFactor>0.085</baseRadiusFactor>
+    <waistRadiusFactor>0.12</waistRadiusFactor>
+    <topRadiusFactor>0.38</topRadiusFactor>
+    <funnelHeightFactor>1.52</funnelHeightFactor>
+    <swayAmplitudeFactor>0.058</swayAmplitudeFactor>
+    <flameTongueCount>14</flameTongueCount>
+    <groundBoundaryColorHex>#EB3818</groundBoundaryColorHex>
+    <hdrFunnelMultiplier>1.85</hdrFunnelMultiplier>
     <ribbonEdgePower>1.6</ribbonEdgePower>
   </WhisperOfTheForest.Vfx.TornadoLumenVfxDef>
 

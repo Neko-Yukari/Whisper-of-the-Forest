@@ -228,17 +228,15 @@ namespace WhisperOfTheForest.Vfx
         public string lumenEffectId;
         public float referenceRadius;
         public float collapseDurationSeconds;
-        public int spiralArmCount;
-        public int spiralSegmentsPerArm;
-        public float spiralBaseRadiusFactor;
-        public float spiralTopRadiusFactor;
+        public int heightSteps;
+        public int crossSteps;
+        public float baseRadiusFactor;
+        public float waistRadiusFactor;
+        public float topRadiusFactor;
         public float funnelHeightFactor;
-        public float spiralRibbonWidth;
-        public float spinRadPerSec;
-        public float twistTurns;
-        public string coreColorHex;
-        public string primaryColorHex;
-        public string secondaryColorHex;
+        public float swayAmplitudeFactor;
+        public int flameTongueCount;
+        public string groundBoundaryColorHex;
         public float hdrFunnelMultiplier;
         public float ribbonEdgePower;
 
@@ -261,15 +259,16 @@ namespace WhisperOfTheForest.Vfx
                 yield return "referenceRadius and collapseDurationSeconds must be positive";
             }
 
-            if (spiralArmCount < 2 || spiralSegmentsPerArm < 8 || spiralBaseRadiusFactor <= 0f
-                || spiralTopRadiusFactor <= 0f || funnelHeightFactor <= 0f || spiralRibbonWidth <= 0f)
+            if (heightSteps < 4 || crossSteps < 4 || flameTongueCount < 0
+                || baseRadiusFactor <= 0f || waistRadiusFactor <= 0f
+                || topRadiusFactor <= 0f || funnelHeightFactor <= 0f || swayAmplitudeFactor < 0f)
             {
-                yield return "spiral funnel geometry parameters must be positive (arms >= 2, segments >= 8)";
+                yield return "tornado funnel geometry parameters must be positive (steps >= 4, flameTongueCount >= 0)";
             }
 
-            if (!VfxColors.IsValid(coreColorHex) || !VfxColors.IsValid(primaryColorHex) || !VfxColors.IsValid(secondaryColorHex))
+            if (!VfxColors.IsValid(groundBoundaryColorHex))
             {
-                yield return "coreColorHex, primaryColorHex and secondaryColorHex must be " + VfxColors.Format;
+                yield return "groundBoundaryColorHex must be " + VfxColors.Format;
             }
 
             if (hdrFunnelMultiplier <= 0f || ribbonEdgePower <= 0f)
@@ -1819,11 +1818,10 @@ namespace WhisperOfTheForest.Vfx
         private int collapseStartTick;
         private Vector3 basePos;
 
-        private Color coreColor;
-        private Color primaryColor;
-        private Color secondaryColor;
+        private Color groundBoundaryColor;
 
-        private LumenRibbonMesh funnelMesh;
+        private LumenRibbonMesh funnelBodyMesh;
+        private LumenRibbonMesh boundaryMesh;
         private ILumenEffectHandle lumenHandle;
 
         protected override void OnStart()
@@ -1843,11 +1841,10 @@ namespace WhisperOfTheForest.Vfx
             Vector3 origin = Request.follow != null && Request.follow.Spawned ? Request.follow.DrawPos : Request.origin;
             basePos = new Vector3(origin.x, altY, origin.z);
 
-            coreColor = VfxColors.ParseUnity(def.coreColorHex);
-            primaryColor = VfxColors.ParseUnity(def.primaryColorHex);
-            secondaryColor = VfxColors.ParseUnity(def.secondaryColorHex);
+            groundBoundaryColor = VfxColors.ParseUnity(def.groundBoundaryColorHex);
 
-            funnelMesh = new LumenRibbonMesh("WotF_CordiumTornado");
+            funnelBodyMesh = new LumenRibbonMesh("WotF_CordiumTornadoBody");
+            boundaryMesh = new LumenRibbonMesh("WotF_CordiumTornadoBoundary");
             if (RimLumenApi.IsReady)
             {
                 lumenHandle = RimLumenApi.Play(new LumenPlayRequest
@@ -1885,7 +1882,7 @@ namespace WhisperOfTheForest.Vfx
             {
                 Finished = true;
             }
-            else if (elapsed >= def.collapseDurationSeconds + 0.85f)
+            else if (elapsed >= def.collapseDurationSeconds + 3.8f)
             {
                 Finished = true;
             }
@@ -1911,83 +1908,83 @@ namespace WhisperOfTheForest.Vfx
 
         public override void DrawWorld()
         {
-            if (Finished || funnelMesh == null)
+            if (Finished || funnelBodyMesh == null || boundaryMesh == null)
             {
                 return;
             }
 
             float elapsed = SecondsSince(startTick);
             float spawnRamp = Mathf.Clamp01(elapsed / 0.28f);
-            float collapseFactor = collapsing
-                ? 1f - Mathf.Clamp01(SecondsSince(collapseStartTick) / def.collapseDurationSeconds)
-                : 1f;
+            float collapseProgress = collapsing
+                ? Mathf.Clamp01(SecondsSince(collapseStartTick) / def.collapseDurationSeconds)
+                : 0f;
+            float collapseFactor = 1f - collapseProgress;
             float alpha = spawnRamp * collapseFactor;
             if (alpha <= 0.01f)
             {
                 return;
             }
 
-            funnelMesh.Clear();
+            funnelBodyMesh.Clear();
+            boundaryMesh.Clear();
 
-            float spin = elapsed * def.spinRadPerSec;
-            float baseR = radius * def.spiralBaseRadiusFactor * Mathf.Lerp(0.35f, 1f, collapseFactor);
-            float topR = radius * def.spiralTopRadiusFactor * Mathf.Lerp(0.25f, 1f, collapseFactor);
+            float baseR = radius * def.baseRadiusFactor * Mathf.Lerp(0.45f, 1f, collapseFactor);
+            float waistR = radius * def.waistRadiusFactor * Mathf.Lerp(0.35f, 1f, collapseFactor);
+            float topR = radius * def.topRadiusFactor * Mathf.Lerp(0.35f, 1f, collapseFactor);
             float heightY = radius * def.funnelHeightFactor * Mathf.Lerp(0.45f, 1f, spawnRamp);
-            float hdr = def.hdrFunnelMultiplier;
+            float swayAmp = radius * def.swayAmplitudeFactor;
 
-            // Scorched magma ground eye + outer danger boundary glow
-            funnelMesh.AddRadialGlowDisc(
+            // Ground swirling magma collar & procedural multi-octave FBM + ridged noise slender column
+            funnelBodyMesh.AddCordiumGroundEye(
                 basePos,
-                baseR * 1.45f,
-                28,
-                new Color(coreColor.r, coreColor.g, coreColor.b, 0.58f * alpha),
-                new Color(secondaryColor.r, secondaryColor.g, secondaryColor.b, 0f),
-                hdr * 1.15f,
-                def.ribbonEdgePower,
-                null);
-            funnelMesh.AddSegmentedEllipseArcs(
+                baseR * 2.8f,
+                5,
+                24,
+                elapsed,
+                collapseProgress,
+                alpha * 0.92f,
+                def.hdrFunnelMultiplier);
+            funnelBodyMesh.AddCordiumTornadoFunnel3D(
                 basePos,
-                radius * 0.94f * collapseFactor,
+                baseR,
+                waistR,
+                topR,
+                heightY,
+                swayAmp,
+                def.heightSteps,
+                def.crossSteps,
+                def.flameTongueCount,
+                elapsed,
+                collapseProgress,
+                alpha,
+                def.hdrFunnelMultiplier);
+
+            // Scorched ground perimeter warning arcs showing full gameplay radius
+            float spin = elapsed * 3.4f;
+            boundaryMesh.AddSegmentedEllipseArcs(
+                basePos,
+                radius * 0.96f * collapseFactor,
                 LumenRibbonMesh.Ortho60AspectZ,
                 5,
-                0.66f,
-                spin * 0.55f,
+                0.62f,
+                spin,
                 10,
-                0.085f * scaleFactor,
-                new Color(primaryColor.r, primaryColor.g, primaryColor.b, 0.54f * alpha),
-                hdr * 0.95f,
+                0.075f * scaleFactor,
+                new Color(groundBoundaryColor.r, groundBoundaryColor.g, groundBoundaryColor.b, 0.50f * alpha),
+                def.hdrFunnelMultiplier * 0.72f,
                 def.ribbonEdgePower,
                 null);
 
-            // 3D rising Cordium magma spiral arms
-            float sweep = def.twistTurns * Mathf.PI * 2f;
-            float ribbonW = def.spiralRibbonWidth * scaleFactor;
-            for (int arm = 0; arm < def.spiralArmCount; arm++)
+            funnelBodyMesh.Upload();
+            if (funnelBodyMesh.HasGeometry)
             {
-                float armAngle = spin + (arm / (float)def.spiralArmCount) * Mathf.PI * 2f;
-                funnelMesh.AddFunnelSpiralArc(
-                    basePos,
-                    baseR,
-                    topR,
-                    0.04f,
-                    heightY,
-                    LumenRibbonMesh.Ortho60AspectZ,
-                    armAngle,
-                    sweep,
-                    def.spiralSegmentsPerArm,
-                    ribbonW * 0.72f,
-                    ribbonW * 1.35f,
-                    new Color(coreColor.r, coreColor.g, coreColor.b, 0.85f * alpha),
-                    new Color(secondaryColor.r, secondaryColor.g, secondaryColor.b, 0.52f * alpha),
-                    hdr,
-                    def.ribbonEdgePower,
-                    null);
+                LumenShaders.DrawLumen(funnelBodyMesh.Mesh, LumenShaders.Tornado);
             }
 
-            funnelMesh.Upload();
-            if (funnelMesh.HasGeometry)
+            boundaryMesh.Upload();
+            if (boundaryMesh.HasGeometry)
             {
-                LumenShaders.DrawLumen(funnelMesh.Mesh, LumenShaders.RibbonOver);
+                LumenShaders.DrawLumen(boundaryMesh.Mesh, LumenShaders.RibbonOver);
             }
         }
 
@@ -1999,10 +1996,16 @@ namespace WhisperOfTheForest.Vfx
                 lumenHandle = null;
             }
 
-            if (funnelMesh != null)
+            if (funnelBodyMesh != null)
             {
-                funnelMesh.Dispose();
-                funnelMesh = null;
+                funnelBodyMesh.Dispose();
+                funnelBodyMesh = null;
+            }
+
+            if (boundaryMesh != null)
+            {
+                boundaryMesh.Dispose();
+                boundaryMesh = null;
             }
         }
 

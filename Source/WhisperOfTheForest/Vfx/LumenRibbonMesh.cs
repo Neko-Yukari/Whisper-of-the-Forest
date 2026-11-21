@@ -620,6 +620,428 @@ namespace WhisperOfTheForest.Vfx
             }
         }
 
+        /// <summary>
+        /// Evaluates the 3D funnel radius and clockwise corkscrew spine offset at normalized height <paramref name="v"/>.
+        /// </summary>
+        public static void EvaluateCordiumFunnelSlice(
+            float v,
+            float baseRadius,
+            float waistRadius,
+            float topRadius,
+            float heightCells,
+            float swayAmplitude,
+            float elapsedSeconds,
+            out float rAtV,
+            out float swayX,
+            out float swayZ,
+            out float heightY)
+        {
+            if (v < 0.22f)
+            {
+                float u = v / 0.22f;
+                float smooth = u * u * (3f - 2f * u);
+                rAtV = Mathf.Lerp(baseRadius, waistRadius, smooth);
+            }
+            else
+            {
+                float u = (v - 0.22f) / 0.78f;
+                rAtV = Mathf.Lerp(waistRadius, topRadius, Mathf.Pow(u, 1.28f));
+            }
+
+            float coilPhase = v * 4.2f - elapsedSeconds * 4.4f;
+            float swayEnv = swayAmplitude * Mathf.Pow(v, 1.15f) * (1f - 0.20f * v);
+            swayX = swayEnv * Mathf.Cos(coilPhase);
+            swayZ = swayEnv * Mathf.Sin(coilPhase);
+            heightY = heightCells * v;
+        }
+
+        /// <summary>
+        /// Builds the true 3D stacked-ring Cordium fire tornado funnel plus 3D tangential whipping flame tongues
+        /// projected via RimLumen's exact 60-degree orthographic Vertical3D basis (<c>Ortho60AspectZ</c> and
+        /// <c>Ortho60HeightZ</c>) in strict back-to-front painter's order for <c>WotF_Shader_LumenTornado</c>.
+        /// </summary>
+        public void AddCordiumTornadoFunnel3D(
+            Vector3 basePos,
+            float baseRadius,
+            float waistRadius,
+            float topRadius,
+            float heightCells,
+            float swayAmplitude,
+            int heightSteps,
+            int crossSteps,
+            int flameTongueCount,
+            float elapsedSeconds,
+            float collapseDissolve,
+            float masterAlpha,
+            float hdrIntensity)
+        {
+            if (heightSteps < 4 || crossSteps < 4 || masterAlpha <= 0.002f)
+            {
+                return;
+            }
+
+            float linearFlag = linearBlendSpace ? 1f : 0f;
+            int halfSteps = Mathf.Max(4, crossSteps / 2);
+
+            // 1. North / back inner wall (theta in [0, pi], sin(theta) >= 0) — reveals hollow 3D vortex throat
+            AddTornadoHalfShell(
+                basePos, baseRadius, waistRadius, topRadius, heightCells, swayAmplitude,
+                heightSteps, halfSteps, elapsedSeconds, collapseDissolve, masterAlpha * 0.94f,
+                hdrIntensity, linearFlag, isFrontHalf: false);
+
+            // 2. Back-half 3D whipping flame tongues occluded behind the core/front wall
+            if (flameTongueCount > 0)
+            {
+                AddCordiumFlameTongues3D(
+                    basePos, baseRadius, waistRadius, topRadius, heightCells, swayAmplitude,
+                    flameTongueCount, elapsedSeconds, collapseDissolve, masterAlpha,
+                    hdrIntensity, linearFlag, frontHalfPass: false);
+            }
+
+            // 3. Dense molten inner core spine below v=0.76 (hides particle spawn interior while keeping top mouth hollow)
+            AddTornadoInnerCore(
+                basePos, baseRadius, waistRadius, topRadius, heightCells, swayAmplitude,
+                Mathf.Max(6, (int)(heightSteps * 0.72f)), Mathf.Max(4, halfSteps / 2),
+                elapsedSeconds, collapseDissolve, masterAlpha * 0.88f, hdrIntensity * 0.78f, linearFlag);
+
+            // 4. South / front outer shell (theta in [pi, 2*pi], sin(theta) <= 0)
+            AddTornadoHalfShell(
+                basePos, baseRadius, waistRadius, topRadius, heightCells, swayAmplitude,
+                heightSteps, halfSteps, elapsedSeconds, collapseDissolve, masterAlpha,
+                hdrIntensity, linearFlag, isFrontHalf: true);
+
+            // 5. Front-half 3D whipping flame tongues peeling clockwise off the horizontal rings
+            if (flameTongueCount > 0)
+            {
+                AddCordiumFlameTongues3D(
+                    basePos, baseRadius, waistRadius, topRadius, heightCells, swayAmplitude,
+                    flameTongueCount, elapsedSeconds, collapseDissolve, masterAlpha,
+                    hdrIntensity, linearFlag, frontHalfPass: true);
+            }
+        }
+
+        private void AddTornadoHalfShell(
+            Vector3 basePos,
+            float baseRadius,
+            float waistRadius,
+            float topRadius,
+            float heightCells,
+            float swayAmplitude,
+            int heightSteps,
+            int halfSteps,
+            float elapsedSeconds,
+            float collapseDissolve,
+            float alpha,
+            float hdrIntensity,
+            float linearFlag,
+            bool isFrontHalf)
+        {
+            int baseIdx = vertices.Count;
+            int cols = halfSteps + 1;
+            float thetaStart = isFrontHalf ? Mathf.PI : 0f;
+            float signedHdr = isFrontHalf ? hdrIntensity : -hdrIntensity;
+
+            for (int iy = 0; iy <= heightSteps; iy++)
+            {
+                float v = iy / (float)heightSteps;
+                EvaluateCordiumFunnelSlice(
+                    v, baseRadius, waistRadius, topRadius, heightCells, swayAmplitude, elapsedSeconds,
+                    out float rAtV, out float swayX, out float swayZ, out float heightY);
+
+                for (int ix = 0; ix <= halfSteps; ix++)
+                {
+                    float frac = ix / (float)halfSteps;
+                    float theta = thetaStart + Mathf.PI * frac;
+                    float sinT = Mathf.Sin(theta);
+                    float cosT = Mathf.Cos(theta);
+
+                    // Soft limb feathering at theta = 0, pi so silhouette edges never look hard-cut
+                    float limb = Mathf.Pow(Mathf.Abs(sinT), 0.52f);
+                    float uAz = theta / (Mathf.PI * 2f);
+
+                    float lx = swayX + cosT * rAtV;
+                    float lz = swayZ + sinT * rAtV;
+
+                    float wx = basePos.x + lx;
+                    float wz = basePos.z + lz * Ortho60AspectZ + heightY * Ortho60HeightZ;
+
+                    vertices.Add(new Vector3(wx, basePos.y, wz));
+                    colors.Add(new Color(limb, linearFlag, collapseDissolve, alpha));
+                    uvs.Add(new Vector4(uAz, v, elapsedSeconds, signedHdr));
+                }
+            }
+
+            AppendGridIndices(baseIdx, heightSteps, halfSteps, cols);
+        }
+
+        private void AddTornadoInnerCore(
+            Vector3 basePos,
+            float baseRadius,
+            float waistRadius,
+            float topRadius,
+            float heightCells,
+            float swayAmplitude,
+            int coreHeightSteps,
+            int coreCrossSteps,
+            float elapsedSeconds,
+            float collapseDissolve,
+            float alpha,
+            float hdrIntensity,
+            float linearFlag)
+        {
+            int baseIdx = vertices.Count;
+            int cols = coreCrossSteps + 1;
+            const float maxCoreV = 0.74f;
+
+            for (int iy = 0; iy <= coreHeightSteps; iy++)
+            {
+                float uV = iy / (float)coreHeightSteps;
+                float v = uV * maxCoreV;
+                float topFade = uV > 0.78f ? 1f - (uV - 0.78f) / 0.22f : 1f;
+                EvaluateCordiumFunnelSlice(
+                    v, baseRadius, waistRadius, topRadius, heightCells, swayAmplitude, elapsedSeconds,
+                    out float rAtV, out float swayX, out float swayZ, out float heightY);
+
+                float coreR = rAtV * 0.56f;
+                for (int ix = 0; ix <= coreCrossSteps; ix++)
+                {
+                    float s = (ix / (float)coreCrossSteps) * 2f - 1f;
+                    float edge = Mathf.Sqrt(Mathf.Max(0f, 1f - s * s));
+                    float uCyl = 0.5f + Mathf.Asin(Mathf.Clamp(s, -0.985f, 0.985f)) / Mathf.PI * 0.5f;
+
+                    float lx = swayX + s * coreR;
+                    float lz = swayZ - edge * coreR * 0.15f;
+
+                    vertices.Add(new Vector3(basePos.x + lx, basePos.y, basePos.z + lz * Ortho60AspectZ + heightY * Ortho60HeightZ));
+                    colors.Add(new Color(edge, linearFlag, collapseDissolve, alpha * topFade));
+                    uvs.Add(new Vector4(uCyl, v, elapsedSeconds, -hdrIntensity));
+                }
+            }
+
+            AppendGridIndices(baseIdx, coreHeightSteps, coreCrossSteps, cols);
+        }
+
+        private void AddCordiumFlameTongues3D(
+            Vector3 basePos,
+            float baseRadius,
+            float waistRadius,
+            float topRadius,
+            float heightCells,
+            float swayAmplitude,
+            int tongueCount,
+            float elapsedSeconds,
+            float collapseDissolve,
+            float masterAlpha,
+            float hdrIntensity,
+            float linearFlag,
+            bool frontHalfPass)
+        {
+            const int tongueSteps = 7;
+            const float golden = 0.61803399f;
+
+            for (int k = 0; k < tongueCount; k++)
+            {
+                float cyclePhase = elapsedSeconds * 1.38f + k * golden;
+                float cycleIdx = Mathf.Floor(cyclePhase);
+                float uLife = cyclePhase - cycleIdx;
+                float lifeAlpha = Mathf.Sin(uLife * Mathf.PI);
+                if (lifeAlpha <= 0.03f)
+                {
+                    continue;
+                }
+
+                float hHash = Frac01(k * 0.3719f + cycleIdx * 0.2931f);
+                float aHash = Frac01(k * 0.7137f + cycleIdx * 0.5173f);
+                float v0 = Mathf.Lerp(0.16f, 0.90f, hHash);
+                float theta0 = aHash * (Mathf.PI * 2f) - elapsedSeconds * (11.2f - 3.6f * v0);
+                float sweepAngle = 1.08f + 0.32f * uLife;
+
+                for (int s = 0; s < tongueSteps; s++)
+                {
+                    float f0 = s / (float)tongueSteps;
+                    float f1 = (s + 1) / (float)tongueSteps;
+                    float fMid = (f0 + f1) * 0.5f;
+                    float thetaMid = theta0 - fMid * sweepAngle;
+                    bool isFrontSeg = Mathf.Sin(thetaMid) <= 0f;
+                    if (isFrontSeg != frontHalfPass)
+                    {
+                        continue;
+                    }
+
+                    EvaluateTonguePoint(
+                        basePos, baseRadius, waistRadius, topRadius, heightCells, swayAmplitude,
+                        elapsedSeconds, v0, theta0, sweepAngle, uLife, f0,
+                        out Vector3 p0, out float w0, out float uAz0);
+                    EvaluateTonguePoint(
+                        basePos, baseRadius, waistRadius, topRadius, heightCells, swayAmplitude,
+                        elapsedSeconds, v0, theta0, sweepAngle, uLife, f1,
+                        out Vector3 p1, out float w1, out float uAz1);
+
+                    float dx = p1.x - p0.x;
+                    float dz = p1.z - p0.z;
+                    float len = Mathf.Sqrt(dx * dx + dz * dz);
+                    if (len < 0.0001f)
+                    {
+                        continue;
+                    }
+
+                    float nx = -dz / len;
+                    float nz = dx / len;
+                    float a0 = masterAlpha * lifeAlpha * (1f - f0 * 0.55f);
+                    float a1 = masterAlpha * lifeAlpha * (1f - f1 * 0.78f);
+                    float hdr = (frontHalfPass ? hdrIntensity : -hdrIntensity * 0.85f) * 1.28f;
+                    // Keep shader vUv.y in bright mid-flame band so topCutoff never clips upper tongues
+                    float vTex0 = Mathf.Lerp(0.24f, 0.56f, f0);
+                    float vTex1 = Mathf.Lerp(0.24f, 0.56f, f1);
+
+                    int segIdx = vertices.Count;
+                    vertices.Add(new Vector3(p0.x - nx * w0, p0.y, p0.z - nz * w0));
+                    colors.Add(new Color(0.75f, linearFlag, collapseDissolve, a0));
+                    uvs.Add(new Vector4(uAz0, vTex0, elapsedSeconds, hdr));
+
+                    vertices.Add(new Vector3(p0.x + nx * w0, p0.y, p0.z + nz * w0));
+                    colors.Add(new Color(0.75f, linearFlag, collapseDissolve, a0));
+                    uvs.Add(new Vector4(uAz0, vTex0, elapsedSeconds, hdr));
+
+                    vertices.Add(new Vector3(p1.x - nx * w1, p1.y, p1.z - nz * w1));
+                    colors.Add(new Color(0.55f, linearFlag, collapseDissolve, a1));
+                    uvs.Add(new Vector4(uAz1, vTex1, elapsedSeconds, hdr));
+
+                    vertices.Add(new Vector3(p1.x + nx * w1, p1.y, p1.z + nz * w1));
+                    colors.Add(new Color(0.55f, linearFlag, collapseDissolve, a1));
+                    uvs.Add(new Vector4(uAz1, vTex1, elapsedSeconds, hdr));
+
+                    AppendQuadIndices(segIdx);
+                }
+            }
+        }
+
+        private static void EvaluateTonguePoint(
+            Vector3 basePos,
+            float baseRadius,
+            float waistRadius,
+            float topRadius,
+            float heightCells,
+            float swayAmplitude,
+            float elapsedSeconds,
+            float v0,
+            float theta0,
+            float sweepAngle,
+            float uLife,
+            float frac,
+            out Vector3 screenWorldPos,
+            out float halfWidth,
+            out float uAz)
+        {
+            float v = Mathf.Clamp01(v0 + frac * 0.035f);
+            EvaluateCordiumFunnelSlice(
+                v, baseRadius, waistRadius, topRadius, heightCells, swayAmplitude, elapsedSeconds,
+                out float rAtV, out float swayX, out float swayZ, out float heightY);
+
+            float peelMult = Mathf.Lerp(0.95f, 1.38f + 0.20f * uLife, frac * frac);
+            float r = rAtV * peelMult;
+            float theta = theta0 - frac * sweepAngle;
+
+            float lx = swayX + Mathf.Cos(theta) * r;
+            float lz = swayZ + Mathf.Sin(theta) * r;
+            float ly = heightY + frac * heightCells * 0.04f;
+
+            screenWorldPos = new Vector3(
+                basePos.x + lx,
+                basePos.y + (theta < Mathf.PI ? -0.001f : 0.001f),
+                basePos.z + lz * Ortho60AspectZ + ly * Ortho60HeightZ);
+
+            float baseWidth = Mathf.Lerp(0.08f, 0.16f, v0);
+            halfWidth = baseWidth * (1f - 0.85f * frac);
+            uAz = Frac01(theta / (Mathf.PI * 2f));
+        }
+
+        private static float Frac01(float x) => x - Mathf.Floor(x);
+
+        private void AppendGridIndices(int baseIdx, int ySteps, int xSteps, int cols)
+        {
+            for (int iy = 0; iy < ySteps; iy++)
+            {
+                for (int ix = 0; ix < xSteps; ix++)
+                {
+                    int i00 = baseIdx + iy * cols + ix;
+                    int i10 = i00 + 1;
+                    int i01 = i00 + cols;
+                    int i11 = i01 + 1;
+
+                    indices.Add(i00);
+                    indices.Add(i10);
+                    indices.Add(i11);
+                    indices.Add(i00);
+                    indices.Add(i11);
+                    indices.Add(i01);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Builds the swirling ground magma collar disc at the foot of the Cordium tornado for
+        /// <c>WotF_Shader_LumenTornado</c>, wrapping periodic azimuthal UV continuously around 360°.
+        /// </summary>
+        public void AddCordiumGroundEye(
+            Vector3 basePos,
+            float outerRadius,
+            int radialSteps,
+            int angularSegments,
+            float elapsedSeconds,
+            float collapseDissolve,
+            float masterAlpha,
+            float hdrIntensity)
+        {
+            if (outerRadius <= 0.05f || radialSteps < 2 || angularSegments < 8 || masterAlpha <= 0.002f)
+            {
+                return;
+            }
+
+            int baseIdx = vertices.Count;
+            float linearFlag = linearBlendSpace ? 1f : 0f;
+            int cols = angularSegments + 1;
+            float innerRadius = outerRadius * 0.04f;
+
+            for (int ir = 0; ir <= radialSteps; ir++)
+            {
+                float rNorm = ir / (float)radialSteps;
+                float r = Mathf.Lerp(innerRadius, outerRadius, rNorm);
+                float edge = Mathf.Pow(Mathf.Max(0f, 1f - rNorm), 0.72f);
+                float vCoord = Mathf.Lerp(0.08f, 0.45f, rNorm);
+
+                for (int ia = 0; ia <= angularSegments; ia++)
+                {
+                    float uAz = ia / (float)angularSegments;
+                    float angle = uAz * Mathf.PI * 2f;
+                    float wx = basePos.x + Mathf.Cos(angle) * r;
+                    float wz = basePos.z + Mathf.Sin(angle) * r * Ortho60AspectZ;
+
+                    vertices.Add(new Vector3(wx, basePos.y - 0.01f, wz));
+                    colors.Add(new Color(edge, linearFlag, collapseDissolve, masterAlpha));
+                    uvs.Add(new Vector4(uAz, vCoord, elapsedSeconds, hdrIntensity));
+                }
+            }
+
+            for (int ir = 0; ir < radialSteps; ir++)
+            {
+                for (int ia = 0; ia < angularSegments; ia++)
+                {
+                    int i00 = baseIdx + ir * cols + ia;
+                    int i10 = i00 + 1;
+                    int i01 = i00 + cols;
+                    int i11 = i01 + 1;
+
+                    indices.Add(i00);
+                    indices.Add(i10);
+                    indices.Add(i11);
+                    indices.Add(i00);
+                    indices.Add(i11);
+                    indices.Add(i01);
+                }
+            }
+        }
+
         private void AddRibbonPair(
             float cx,
             float cz,
