@@ -75,7 +75,7 @@ namespace WhisperOfTheForest.Mana
         public override void CompTick()
         {
             base.CompTick();
-            if (!power.PowerOn)
+            if (!ManaSwitchUtility.IsSwitchedOn(parent) || !power.PowerOn)
             {
                 ticks = 0;
                 return;
@@ -95,6 +95,11 @@ namespace WhisperOfTheForest.Mana
 
         public override string CompInspectStringExtra()
         {
+            if (!ManaSwitchUtility.IsSwitchedOn(parent))
+            {
+                return "WotF_ManaSwitch_Off".Translate();
+            }
+
             string state = power.PowerOn
                 ? (string)"WotF_ManaConverter_On".Translate(Props.manaPerSecond.ToString("0.##"))
                 : (string)"WotF_ManaConverter_Off".Translate();

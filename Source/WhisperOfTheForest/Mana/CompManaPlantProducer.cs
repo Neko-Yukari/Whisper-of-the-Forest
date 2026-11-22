@@ -91,6 +91,12 @@ namespace WhisperOfTheForest.Mana
         public override void CompTick()
         {
             base.CompTick();
+            if (!ManaSwitchUtility.IsSwitchedOn(parent))
+            {
+                ticks = 0;
+                return;
+            }
+
             ticks++;
             if (ticks < 60)
             {
@@ -126,6 +132,11 @@ namespace WhisperOfTheForest.Mana
 
         public override string CompInspectStringExtra()
         {
+            if (!ManaSwitchUtility.IsSwitchedOn(parent))
+            {
+                return "WotF_ManaSwitch_Off".Translate();
+            }
+
             ManaNetwork network = MapComponent_ManaNetwork.For(parent.Map)
                 ?.NetworkNear(parent.Position, Props.radius);
             string output = "WotF_ManaGrove_Inspect".Translate(trees, manaPerSecond.ToString("0.##"));

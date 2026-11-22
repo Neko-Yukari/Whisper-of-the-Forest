@@ -74,6 +74,7 @@
     </statBases>
     <tickerType>Normal</tickerType>
     <comps>
+      <li Class="WhisperOfTheForest.Mana.CompProperties_ManaSwitch" />
       <li Class="CompProperties_Forbiddable"/>
       <li Class="CompProperties_Breakdownable"/>
       <li Class="WhisperOfTheForest.Turrets.CompProperties_SpellTurret">

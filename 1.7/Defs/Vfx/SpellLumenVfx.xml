@@ -121,4 +121,54 @@
     <ribbonEdgePower>1.6</ribbonEdgePower>
   </WhisperOfTheForest.Vfx.TornadoLumenVfxDef>
 
+  <!-- 6. Elven Streetlamp (14-cell day-warm / night-cyan light + clipped dual interior globe halos + crystal night butterfly) -->
+  <WhisperOfTheForest.Vfx.StreetLampLumenVfxDef>
+    <defName>WotF_Vfx_ElvenStreetLamp</defName>
+    <label>elven streetlamp lighting and night butterfly</label>
+    <workerClass>WhisperOfTheForest.Vfx.StreetLampLumenVfxWorker</workerClass>
+    <lifetime>FollowThing</lifetime>
+    <lightRadius>14</lightRadius>
+    <lightHeightCells>2.0</lightHeightCells>
+    <lightIntensity>0.78</lightIntensity>
+    <dayLightColorHex>#FFCE62</dayLightColorHex>
+    <nightLightColorHex>#5EEED2</nightLightColorHex>
+    <dayCoreColorHex>#FFE886</dayCoreColorHex>
+    <nightCoreColorHex>#B6FFE6</nightCoreColorHex>
+    <nightSkyGlowHigh>0.72</nightSkyGlowHigh>
+    <nightSkyGlowLow>0.32</nightSkyGlowLow>
+    <lightFadeSeconds>0.35</lightFadeSeconds>
+    <globe1Offset>(-0.259, 0, 1.359)</globe1Offset>
+    <globe1Radius>(0.086, 0.059)</globe1Radius>
+    <globe2Offset>(0.247, 0, 1.007)</globe2Offset>
+    <globe2Radius>(0.091, 0.056)</globe2Radius>
+    <globeCapDipFactor>0.06</globeCapDipFactor>
+    <globeCapSideLiftFactor>0.18</globeCapSideLiftFactor>
+    <globeBottomScale>1.15</globeBottomScale>
+    <globeHdrMultiplier>1.35</globeHdrMultiplier>
+    <globeBreathSpeed>2.1</globeBreathSpeed>
+    <globeBreathAmp>0.12</globeBreathAmp>
+    <butterflyNightThreshold>0.45</butterflyNightThreshold>
+    <butterflyInitialDelaySeconds>1.5</butterflyInitialDelaySeconds>
+    <butterflyRespawnSeconds>30.0</butterflyRespawnSeconds>
+    <butterflyFleeRadius>2.0</butterflyFleeRadius>
+    <butterflyFleeDurationSeconds>1.65</butterflyFleeDurationSeconds>
+    <butterflyFleeSpeed>1.95</butterflyFleeSpeed>
+    <butterflyHeightMin>0.58</butterflyHeightMin>
+    <butterflyHeightMax>1.16</butterflyHeightMax>
+    <butterflyOrbitRadiusMin>0.22</butterflyOrbitRadiusMin>
+    <butterflyOrbitRadiusMax>0.56</butterflyOrbitRadiusMax>
+    <butterflyVisualScale>0.0115</butterflyVisualScale>
+    <butterflySteerGain>1.45</butterflySteerGain>
+    <butterflyHoverSteerGain>0.55</butterflyHoverSteerGain>
+    <butterflyDamping>3.8</butterflyDamping>
+    <butterflyDustRate>5.5</butterflyDustRate>
+    <butterflyDustLifetimeMin>0.45</butterflyDustLifetimeMin>
+    <butterflyDustLifetimeMax>0.85</butterflyDustLifetimeMax>
+    <butterflyBrightColorHex>#E4FFFA</butterflyBrightColorHex>
+    <butterflyMainColorHex>#5CF8E0</butterflyMainColorHex>
+    <butterflyDeepColorHex>#24B2A6</butterflyDeepColorHex>
+    <butterflyEdgeColorHex>#186C62</butterflyEdgeColorHex>
+    <butterflyHdrMultiplier>1.45</butterflyHdrMultiplier>
+  </WhisperOfTheForest.Vfx.StreetLampLumenVfxDef>
+
 </Defs>

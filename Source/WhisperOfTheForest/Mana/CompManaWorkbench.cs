@@ -51,15 +51,19 @@ namespace WhisperOfTheForest.Mana
         public CompProperties_ManaWorkbench Props => (CompProperties_ManaWorkbench)props;
         private ManaNetwork Network => MapComponent_ManaNetwork.For(parent.Map)
             .NetworkNear(parent.Position, Props.linkRadius);
-        public bool CanWork => parent.Spawned && Network != null && Network.Stored >= Props.manaPerSecond / 60f;
+        public bool CanWork => parent.Spawned && ManaSwitchUtility.IsSwitchedOn(parent)
+            && Network != null && Network.Stored >= Props.manaPerSecond / 60f;
 
         public bool TryPayForWork(int ticks)
         {
-            return Network?.TryDraw(Props.manaPerSecond * ticks / 60f) == true;
+            return ManaSwitchUtility.IsSwitchedOn(parent) && Network?.TryDraw(Props.manaPerSecond * ticks / 60f) == true;
         }
 
         public override string CompInspectStringExtra()
         {
+            if (!ManaSwitchUtility.IsSwitchedOn(parent))
+                return "WotF_ManaSwitch_Off".Translate().ToString();
+
             return CanWork ? string.Format("WotF_ManaWorkbench_Rate".Translate(), Props.manaPerSecond.ToString("0.##"))
                 : "WotF_ManaWorkbench_NoMana".Translate().ToString();
         }

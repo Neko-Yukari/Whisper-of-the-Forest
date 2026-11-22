@@ -80,4 +80,22 @@
     </shaderProgram>
   </ShaderDef>
 
+  <ShaderDef>
+    <defName>WotF_Shader_LumenFacetOver</defName>
+    <shaderProgram>
+      <vertexShaderFileName>WotF_LumenRibbon.vert.glsl</vertexShaderFileName>
+      <fragmentShaderFileName>WotF_LumenFacet.frag.glsl</fragmentShaderFileName>
+      <useTexture>false</useTexture>
+      <flipTextureST>false</flipTextureST>
+      <transparent>true</transparent>
+      <depthTest>false</depthTest>
+      <depthWrite>false</depthWrite>
+      <cullMode>None</cullMode>
+      <renderQueue>3022</renderQueue>
+      <blendMode>Custom</blendMode>
+      <blendSrcFactor>SrcAlpha</blendSrcFactor>
+      <blendDstFactor>OneMinusSrcAlpha</blendDstFactor>
+    </shaderProgram>
+  </ShaderDef>
+
 </Defs>
