@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
+using WhisperOfTheForest.Mana;
 using WhisperOfTheForest.Spells;
 using Verse;
 using Verse.AI;
@@ -40,6 +41,8 @@ namespace WhisperOfTheForest.Turrets
 
         public override LocalTargetInfo TryFindNewTarget()
         {
+            if (!ManaSwitchUtility.IsSwitchedOn(this))
+                return LocalTargetInfo.Invalid;
             CompSpellTurret comp = GetComp<CompSpellTurret>();
             if (!comp.HasSpell)
                 return LocalTargetInfo.Invalid;
@@ -88,7 +91,7 @@ namespace WhisperOfTheForest.Turrets
 
         protected override void BeginBurst()
         {
-            if (CurrentTarget.HasThing && !IsAllowedTarget(CurrentTarget.Thing))
+            if (!ManaSwitchUtility.IsSwitchedOn(this) || (CurrentTarget.HasThing && !IsAllowedTarget(CurrentTarget.Thing)))
             {
                 currentTargetInt = LocalTargetInfo.Invalid;
                 return;

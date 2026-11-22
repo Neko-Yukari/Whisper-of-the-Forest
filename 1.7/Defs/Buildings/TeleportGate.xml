@@ -68,7 +68,7 @@
         <glowRadius>5</glowRadius>
         <glowColor>(140,120,255,0)</glowColor>
       </li>
-      <li Class="CompProperties_Flickable" />
+      <li Class="WhisperOfTheForest.Mana.CompProperties_ManaSwitch" />
       <li Class="CompProperties_Transporter">
         <massCapacity>400</massCapacity>
         <restEffectiveness>0.8</restEffectiveness>

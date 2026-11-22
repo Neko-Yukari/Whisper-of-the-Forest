@@ -215,6 +215,138 @@ namespace WhisperOfTheForest.Vfx
         }
 
         /// <summary>
+        /// Builds the flower-petal-clipped additive glow fan inside one hanging glass globe.
+        /// The upper perimeter arches strictly underneath the white petal cap (<c>+capSideLiftFactor*ry</c> at
+        /// sides dipping to <c>-capDipFactor*ry</c> at center), while the lower rim follows the glass ellipse.
+        /// </summary>
+        public void AddLampGlobeCavityGlow(
+            Vector3 center,
+            float rx,
+            float ry,
+            float capDipFactor,
+            float capSideLiftFactor,
+            float bottomScale,
+            int arcSegments,
+            Color coreColor,
+            Color edgeColor,
+            float hdrIntensity,
+            float edgePower)
+        {
+            if (rx <= 0.001f || ry <= 0.001f || arcSegments < 6 || coreColor.a <= 0.0005f)
+            {
+                return;
+            }
+
+            Color coreAdapted = AdaptColor(coreColor);
+            Color edgeAdapted = AdaptColor(edgeColor);
+
+            int centerIdx = vertices.Count;
+            vertices.Add(new Vector3(center.x, center.y, center.z - 0.10f * ry));
+            colors.Add(coreAdapted);
+            uvs.Add(new Vector4(0.5f, 0.5f, hdrIntensity, edgePower));
+
+            int ringStartIdx = vertices.Count;
+            int topSegments = Math.Max(4, arcSegments / 2);
+            float ySide = capSideLiftFactor * ry;
+            float yMid = -capDipFactor * ry;
+            float yCtrl = 2f * yMid - ySide;
+
+            // 1. Top scalloped cap boundary left (-0.96*rx) -> right (+0.96*rx)
+            for (int i = 0; i <= topSegments; i++)
+            {
+                float t = i / (float)topSegments;
+                float u = 1f - t;
+                float px = Mathf.Lerp(-0.96f * rx, 0.96f * rx, t);
+                float pz = u * u * ySide + 2f * u * t * yCtrl + t * t * ySide;
+                vertices.Add(new Vector3(center.x + px, center.y, center.z + pz));
+                colors.Add(edgeAdapted);
+                uvs.Add(new Vector4(0f, t * 0.5f, hdrIntensity, edgePower));
+            }
+
+            // 2. Lower glass globe rim right (0.05*pi) -> left (0.95*pi)
+            for (int i = 0; i <= arcSegments; i++)
+            {
+                float t = i / (float)arcSegments;
+                float ang = Mathf.Lerp(0.05f * Mathf.PI, 0.95f * Mathf.PI, t);
+                float px = Mathf.Cos(ang) * (rx * 0.98f);
+                float pz = -0.04f * ry - Mathf.Sin(ang) * (ry * bottomScale);
+                vertices.Add(new Vector3(center.x + px, center.y, center.z + pz));
+                colors.Add(edgeAdapted);
+                uvs.Add(new Vector4(0f, 0.5f + t * 0.5f, hdrIntensity, edgePower));
+            }
+
+            int ringCount = vertices.Count - ringStartIdx;
+            for (int i = 0; i < ringCount; i++)
+            {
+                int next = (i + 1) % ringCount;
+                indices.Add(centerIdx);
+                indices.Add(ringStartIdx + i);
+                indices.Add(ringStartIdx + next);
+            }
+        }
+
+        public void AddSolidPolygonFan(IReadOnlyList<Vector3> polygon, Color color, float hdrIntensity)
+        {
+            if (polygon == null || polygon.Count < 3 || color.a <= 0.0005f)
+            {
+                return;
+            }
+
+            int baseIdx = vertices.Count;
+            Color col = AdaptColor(color);
+            var uv = new Vector4(0.5f, 0.5f, hdrIntensity, 1f);
+            for (int i = 0; i < polygon.Count; i++)
+            {
+                vertices.Add(polygon[i]);
+                colors.Add(col);
+                uvs.Add(uv);
+            }
+
+            for (int i = 1; i < polygon.Count - 1; i++)
+            {
+                indices.Add(baseIdx);
+                indices.Add(baseIdx + i);
+                indices.Add(baseIdx + i + 1);
+            }
+        }
+
+        public void AddSolidLine(Vector3 a, Vector3 b, float width, Color color, float hdrIntensity)
+        {
+            if (width <= 0f || color.a <= 0.0005f)
+            {
+                return;
+            }
+
+            float dx = b.x - a.x;
+            float dz = b.z - a.z;
+            float len = Mathf.Sqrt(dx * dx + dz * dz);
+            if (len < 1e-5f)
+            {
+                return;
+            }
+
+            float nx = -dz / len;
+            float nz = dx / len;
+            float hw = width * 0.5f;
+
+            int baseIdx = vertices.Count;
+            Color col = AdaptColor(color);
+            var uv = new Vector4(0.5f, 0.5f, hdrIntensity, 1f);
+
+            vertices.Add(new Vector3(a.x - nx * hw, a.y, a.z - nz * hw)); colors.Add(col); uvs.Add(uv);
+            vertices.Add(new Vector3(a.x + nx * hw, a.y, a.z + nz * hw)); colors.Add(col); uvs.Add(uv);
+            vertices.Add(new Vector3(b.x + nx * hw, b.y, b.z + nz * hw)); colors.Add(col); uvs.Add(uv);
+            vertices.Add(new Vector3(b.x - nx * hw, b.y, b.z - nz * hw)); colors.Add(col); uvs.Add(uv);
+
+            indices.Add(baseIdx);
+            indices.Add(baseIdx + 1);
+            indices.Add(baseIdx + 2);
+            indices.Add(baseIdx);
+            indices.Add(baseIdx + 2);
+            indices.Add(baseIdx + 3);
+        }
+
+        /// <summary>
         /// Appends a surface-clamped refraction wave quad for Layer 14 (<c>WotF_Shader_LumenDistortion</c>).
         /// <c>UV0 = (uCross, weight, sampleOffsetWorldX, sampleOffsetWorldZ)</c>.
         /// </summary>

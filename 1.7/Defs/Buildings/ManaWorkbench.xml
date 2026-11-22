@@ -35,6 +35,7 @@
       <WotF_LivingWood>20</WotF_LivingWood>
     </costList>
     <comps>
+      <li Class="WhisperOfTheForest.Mana.CompProperties_ManaSwitch" />
       <li Class="WhisperOfTheForest.Mana.CompProperties_ManaWorkbench">
         <!-- 占位：设定未定工作耗魔速率，当前每工作秒消耗 1 魔源。 -->
         <manaPerSecond>1</manaPerSecond>

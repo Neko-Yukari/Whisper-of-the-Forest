@@ -30,4 +30,6 @@
     <WotF_Gun_SpellTurret.description>装在炮塔上的符文聚焦器。它像施法者一样发射奥术飞镖，却没有自己的意志。</WotF_Gun_SpellTurret.description>
   <WotF_ManaBattery.label>魔源电池</WotF_ManaBattery.label>
   <WotF_ManaBattery.description>储存魔源的电池，会接入连接半径内最近节点所在的网络。断开连接时保留存量，拆毁后存量消失。</WotF_ManaBattery.description>
+  <WotF_ElvenStreetLamp.label>精灵路灯</WotF_ElvenStreetLamp.label>
+  <WotF_ElvenStreetLamp.description>缠绕着开花青藤的银白双盏精灵路灯。接入魔源网络后只消耗微量魔源即可提供比肩日光灯半径的 50% 常态照明，光色随昼夜从暖黄渐变为青绿，夜里常会引来晶翼蝴蝶在藤蔓花间栖飞。</WotF_ElvenStreetLamp.description>
 </LanguageData>

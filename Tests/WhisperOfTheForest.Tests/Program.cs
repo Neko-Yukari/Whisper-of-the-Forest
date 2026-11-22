@@ -21,6 +21,7 @@ namespace WhisperOfTheForest.Tests
             tests.AddRange(HealingPoolTests.All);
             tests.AddRange(RitualResearchTests.All);
             tests.AddRange(ForestDietTests.All);
+            tests.AddRange(StreetLampAndSwitchTests.All);
 
             var clock = Stopwatch.StartNew();
             int run = 0;

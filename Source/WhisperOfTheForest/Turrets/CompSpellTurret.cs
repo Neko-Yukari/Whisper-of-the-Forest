@@ -69,7 +69,8 @@ namespace WhisperOfTheForest.Turrets
         public bool TargetNeutral { get => targetNeutral; set => targetNeutral = value; }
         public bool TargetFriendly { get => targetFriendly; set => targetFriendly = value; }
 
-        public bool CanAfford => plan != null && Network is ManaNetwork network && network.Stored >= ManaPerShot;
+        public bool CanAfford => ManaSwitchUtility.IsSwitchedOn(parent)
+            && plan != null && Network is ManaNetwork network && network.Stored >= ManaPerShot;
 
         private ManaNetwork Network =>
             MapComponent_ManaNetwork.For(parent.Map)?.NetworkNear(parent.Position, Props.linkRadius);
@@ -193,6 +194,11 @@ namespace WhisperOfTheForest.Turrets
 
         public bool TryCast(LocalTargetInfo target, out string reason)
         {
+            if (!ManaSwitchUtility.IsSwitchedOn(parent))
+            {
+                reason = "switched off";
+                return false;
+            }
             if (plan == null)
             {
                 reason = "its spell plan is not ready";
@@ -240,6 +246,8 @@ namespace WhisperOfTheForest.Turrets
                 string stored = network == null ? "-" : network.Stored.ToString("0");
                 text += "\n" + SpellText.TF("WotF_SpellTurret_Inspect", stored, ManaPerShot.ToString("0.#"));
             }
+            if (!ManaSwitchUtility.IsSwitchedOn(parent))
+                text += "\n" + "WotF_ManaSwitch_Off".Translate();
             return text;
         }
     }

@@ -35,6 +35,7 @@ namespace WhisperOfTheForest.Mana
                 if (properties is CompProperties_RitualAltar altar) return altar.linkRadius;
                 if (properties is CompProperties_SpellTurret turret) return turret.linkRadius;
                 if (properties is CompProperties_TeleportGate teleportGate) return teleportGate.linkRadius;
+                if (properties is CompProperties_ElvenStreetLamp streetLamp) return streetLamp.linkRadius;
             }
             return 0f;
         }

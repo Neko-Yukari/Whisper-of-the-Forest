@@ -13,4 +13,9 @@
   <WotF_ManaWorkbench_NoMana>魔源不足 · 停止工作</WotF_ManaWorkbench_NoMana>
   <WotF_ManaNetwork_Toggle>显示魔源网络连线与储量</WotF_ManaNetwork_Toggle>
   <WotF_ManaNetwork_Stored>魔源 {0} / {1}</WotF_ManaNetwork_Stored>
+  <WotF_ManaSwitch_Label>开关运行</WotF_ManaSwitch_Label>
+  <WotF_ManaSwitch_Desc>开启或关闭这台魔源设施的运行。</WotF_ManaSwitch_Desc>
+  <WotF_ManaSwitch_Off>已关闭</WotF_ManaSwitch_Off>
+  <WotF_ElvenStreetLamp_Lit>照明中 · {0} 魔源/秒</WotF_ElvenStreetLamp_Lit>
+  <WotF_ElvenStreetLamp_NoMana>未照明：魔源不足（需要 {0}/秒）</WotF_ElvenStreetLamp_NoMana>
 </LanguageData>

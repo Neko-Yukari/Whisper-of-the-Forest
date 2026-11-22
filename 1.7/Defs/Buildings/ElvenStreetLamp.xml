@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>WotF_ElvenStreetLamp</defName>
+    <label>elven streetlamp</label>
+    <description>A tall silver-wrought elven streetlamp entwined with flowering cyan vines. Linked to a nearby mana network, it gently drains a trickle of mana to cast broad 50% illumination that shifts from warm amber by day to misty cyan-green by night, occasionally attracting crystal night butterflies around its blossoms.</description>
+    <thingClass>Building</thingClass>
+    <category>Building</category>
+    <designationCategory>Furniture</designationCategory>
+    <uiOrder>2810</uiOrder>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>BuildingsFurniture</li>
+    </thingCategories>
+    <size>(1,1)</size>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.2</fillPercent>
+    <pathCost>14</pathCost>
+    <tickerType>Normal</tickerType>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <selectable>true</selectable>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <graphicData>
+      <texPath>Buildings/ElvenStreetLamp</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2.3,2.3)</drawSize>
+      <drawOffset>(0,0,0.95)</drawOffset>
+      <shadowData>
+        <volume>(0.32,0.6,0.22)</volume>
+        <offset>(0,0,-0.08)</offset>
+      </shadowData>
+    </graphicData>
+    <uiIconPath>Buildings/ElvenStreetLamp</uiIconPath>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <WorkToBuild>600</WorkToBuild>
+      <Mass>6</Mass>
+      <Flammability>0.2</Flammability>
+      <Beauty>14</Beauty>
+    </statBases>
+    <costList>
+      <Steel>25</Steel>
+      <WotF_LivingWood>12</WotF_LivingWood>
+      <Jade>4</Jade>
+    </costList>
+    <placeWorkers>
+      <li>WhisperOfTheForest.Mana.PlaceWorker_ManaNetwork</li>
+      <li>WhisperOfTheForest.Vfx.PlaceWorker_LumenGlowRadius</li>
+    </placeWorkers>
+    <comps>
+      <li Class="WhisperOfTheForest.Mana.CompProperties_ManaSwitch" />
+      <li Class="RimLumen.Core.Lighting.CompProperties_RimLumenLogicalLight">
+        <glowRadius>14</glowRadius>
+      </li>
+      <li Class="WhisperOfTheForest.Mana.CompProperties_ElvenStreetLamp">
+        <linkRadius>12.9</linkRadius>
+        <manaPerSecond>0.02</manaPerSecond>
+        <vfxDef>WotF_Vfx_ElvenStreetLamp</vfxDef>
+      </li>
+    </comps>
+  </ThingDef>
+
+</Defs>

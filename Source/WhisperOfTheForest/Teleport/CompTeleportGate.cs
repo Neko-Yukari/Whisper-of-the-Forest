@@ -107,7 +107,7 @@ namespace WhisperOfTheForest.Teleport
 
         public bool Ruined => Props.ruined;
 
-        public bool SwitchedOn => !Ruined && (parent.GetComp<CompFlickable>()?.SwitchIsOn ?? true);
+        public bool SwitchedOn => !Ruined && ManaSwitchUtility.IsSwitchedOn(parent);
 
         public ManaNetwork Network => Ruined || !parent.Spawned
             ? null

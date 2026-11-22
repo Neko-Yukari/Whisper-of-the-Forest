@@ -43,6 +43,7 @@ namespace WhisperOfTheForest.Mana
         public override void CompTick()
         {
             base.CompTick();
+            if (!ManaSwitchUtility.IsSwitchedOn(parent)) return;
             if (!fuel.HasFuel) return;
             ManaNetwork network = Network;
             if (network == null || network.Stored >= network.Capacity) return;
@@ -55,6 +56,7 @@ namespace WhisperOfTheForest.Mana
 
         public override string CompInspectStringExtra()
         {
+            if (!ManaSwitchUtility.IsSwitchedOn(parent)) return "WotF_ManaSwitch_Off".Translate();
             ManaNetwork network = Network;
             if (network == null) return "WotF_ManaProducer_Unlinked".Translate();
             string text = string.Format("WotF_ManaProducer_Linked".Translate(), network.nodes.Count);
