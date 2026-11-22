@@ -76,6 +76,7 @@
 - **原版有些代码写死了 verb 类型，认不出本模组的 verb。** 本模组的 verb 直接继承 `Verb`，不是 `Verb_LaunchProjectile` 或 `Verb_Shoot`。原版按类型判断的地方，多数只是跳过（如护盾腰带的 `CompAllowVerbCast` 只拦 `Verb_LaunchProjectile`），少数拿到 null 直接用：`PlaceWorker_ShowTurretRadius` 只认 `Verb_Shoot`（类型严格相等）和 `Verb_Spray` 系，建造预览每帧报 `Exception in UIRootUpdate`。用自定义 verb 的炮塔改用模组自己读炮管 verb 射程的 PlaceWorker。新发现这类会空引用的原版类，加进 `check-defs.ps1` 的 `$hardVerbConsumers` 表，写明源码行。（`check-defs` 会查）
 - **原版右键“吃”（`FloatMenuOptionProvider_Ingest`）不能用在活植物上。** 点击后它先对目标 `SetForbidden(false)`，植物没有 `CompForbiddable`，报 `Tried to SetForbidden on non-Forbiddable Thing`；接着下发 `JobDefOf.Ingest` 把植物拿进物品栏，被携带的植物在 `Plant.TickLong` 空引用。种族 `foodType` 含 `Plant` 或 `Tree` 时，要把这个菜单项的点击动作换成原地啃食的 Job。
 - **不要用把 `Moving` 能力上限设成 0 的 Hediff 来定身。** 原版 `Pawn_HealthTracker.ShouldBeDowned`（`:614-616`）在小人不能移动时直接判定倒地，目标会表现为被击倒而不是定身。定身走 `SpellCastingService.IsRooted`（拦 `Pawn_PathFollower.PatherTick`），命中时结束纯移动 Job；战斗 AI 还会立刻重派找掩体的 Goto，见 `Patch_EnsnareCombat.cs`。
+- **`PostDeSpawn` 里不要调 `map.overlayDrawer.Disable`。** `Thing.DeSpawn`（`Verse/Thing.cs:958`）进入 `PostDeSpawn` 前已调 `DisposeHandle` 并置 `Spawned=false`，`OverlayDrawer.Disable`（`RimWorld/OverlayDrawer.cs:68-99`）的 `GetOverlaysHandle` 对未 spawn 物件返回 null 直接空引用；在 `PostDeSpawn` 只需把本地 `OverlayHandle?` 置空，仅在 `parent.Spawned` 为真时调用 `Disable`/`Enable`。
 
 ### 工具与日志
 

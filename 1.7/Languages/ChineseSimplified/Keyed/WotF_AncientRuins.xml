@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <WotF_Ritual_RuinSeek_Choose>请选择要寻找的遗迹类型。</WotF_Ritual_RuinSeek_Choose>
   <WotF_Ritual_RuinSeek_AlreadyOutstanding>已有一处尚未清理的遗迹。同一时间只允许存在一处寻踪出来的遗迹。</WotF_Ritual_RuinSeek_AlreadyOutstanding>
   <WotF_Ritual_RuinSeek_NoSite>世界地图上找不到可以放置遗迹的地点，这次寻踪无法开始。</WotF_Ritual_RuinSeek_NoSite>
   <WotF_RuinSeek_Failed>寻踪未能在世界地图上放下{0}，仪式没有产生遗迹。</WotF_RuinSeek_Failed>
   <WotF_RuinSeek_LetterLabel>寻踪：遗迹已现</WotF_RuinSeek_LetterLabel>
-  <WotF_RuinSeek_LetterText>仪式指向了{0}。这处遗迹会在世界地图上停留一段时间；进入后清掉守卫，并在期限内带队撤离。</WotF_RuinSeek_LetterText>
+  <WotF_RuinSeek_LetterText>寻踪仪式在灵能网络中锁定了{0}的位置。这处遗迹只会在世界地图上显现一段时间，进入后需要清理守卫，并在期限结束前带队撤离。</WotF_RuinSeek_LetterText>
   <WotF_Ruin_ExitCountdown>撤离期限：{0}</WotF_Ruin_ExitCountdown>
 </LanguageData>

@@ -4,14 +4,16 @@
   <WotF_TeleportGate_Gizmo_Send>Connect…</WotF_TeleportGate_Gizmo_Send>
   <WotF_TeleportGate_Gizmo_SendDesc>Send whatever is loaded in this gate to a ruin's broken gate, or step it across to another open gate on this map.</WotF_TeleportGate_Gizmo_SendDesc>
   <WotF_TeleportGate_Gizmo_Connect>Connect home…</WotF_TeleportGate_Gizmo_Connect>
-  <WotF_TeleportGate_Gizmo_ConnectDesc>Send whatever is loaded in this broken gate back through a colony gate that is open. The crossing costs what a crossing out costs, paid from that gate's network, and this gate will not survive it.</WotF_TeleportGate_Gizmo_ConnectDesc>
+  <WotF_TeleportGate_Gizmo_ConnectDesc>Send whatever is loaded in this broken gate back through a colony gate that is open. All ruin guardians must be cleared before it can open. The crossing costs what a crossing out costs, paid from that gate's network, and this gate will not survive it.</WotF_TeleportGate_Gizmo_ConnectDesc>
   <WotF_TeleportGate_Connecting>Connecting the gates…</WotF_TeleportGate_Connecting>
   <WotF_TeleportGate_Inspect_Running>Open, upkeep {0} mana/s</WotF_TeleportGate_Inspect_Running>
   <WotF_TeleportGate_Inspect_Starved>Open, but the network cannot pay its {0} mana/s upkeep</WotF_TeleportGate_Inspect_Starved>
   <WotF_TeleportGate_Inspect_Unlinked>Open, but no mana node within {0} cells</WotF_TeleportGate_Inspect_Unlinked>
   <WotF_TeleportGate_Inspect_Closed>Closed</WotF_TeleportGate_Inspect_Closed>
   <WotF_TeleportGate_Inspect_Ruined>Broken: one crossing left</WotF_TeleportGate_Inspect_Ruined>
+  <WotF_TeleportGate_Inspect_RuinedLocked>Broken: locked while ruin guardians remain</WotF_TeleportGate_Inspect_RuinedLocked>
   <WotF_TeleportGate_Inspect_Contents>Loaded: {0} pawns, {1} kg of cargo</WotF_TeleportGate_Inspect_Contents>
+  <WotF_TeleportGate_RuinHostiles>Clear the ruin's guardians before opening this gate home.</WotF_TeleportGate_RuinHostiles>
   <WotF_TeleportGate_NoTransporter>This gate has no transport compartment.</WotF_TeleportGate_NoTransporter>
   <WotF_TeleportGate_Empty>Nothing is loaded in the gate. Load people and cargo first.</WotF_TeleportGate_Empty>
   <WotF_TeleportGate_NoHomeGate>No colony gate is open. Bring one online, or form a caravan and walk back.</WotF_TeleportGate_NoHomeGate>

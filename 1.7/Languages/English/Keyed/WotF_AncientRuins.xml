@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <WotF_Ritual_RuinSeek_Choose>Choose which kind of ruin to seek.</WotF_Ritual_RuinSeek_Choose>
   <WotF_Ritual_RuinSeek_AlreadyOutstanding>A ruin the colony has already sought is still unclaimed. Only one such ruin may exist at a time.</WotF_Ritual_RuinSeek_AlreadyOutstanding>
   <WotF_Ritual_RuinSeek_NoSite>No place on the world map can hold a ruin right now, so the seeking cannot begin.</WotF_Ritual_RuinSeek_NoSite>
   <WotF_RuinSeek_Failed>The seeking could not place {0} on the world map, so no ruin appeared.</WotF_RuinSeek_Failed>

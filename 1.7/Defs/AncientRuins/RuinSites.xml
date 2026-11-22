@@ -1,105 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
-  <!-- 世界地图上的遗迹站点。底座全部来自 Core：地图本体走 Encounter（MapCommonGenerator），
+  <!-- 世界地图上的古老工程遗迹站点。底座全部来自 Core：地图本体走 Encounter（MapCommonGenerator），
        遗迹内容由下面挂在本 Def 上的 GenStepDef 组成，不含任何 Ideology 的 ComplexLayoutDef。
-       两类遗迹只在数据上区分：废墙数量、神殿尺寸、守卫点数（由仪式 Def 的 threatPointsFactor 决定）、
-       地面战利品表与遗物匣。两类都生成一座同尺寸的残破传送门（GenStep_RuinBrokenGate），
-       它放在遗迹外围：离神殿与守卫区各留一段距离，门周围要有足够多相连可达的落点，
-       让传进来的人先落在安全处再推进。它是 T3 传送门在这些图上的唯一落点，也是回基地的出口。
+       守卫点数由仪式 Def 的 ruinTarget.threatPointsFactor 决定，核心战利品装在遗物匣内。
+       遗迹外围会生成一座残破传送门（GenStep_RuinBrokenGate）：离神殿与守卫区各留一段距离，
+       门周围要有足够多相连可达的落点，让传进来的人先落在安全处再推进。它是 T3 传送门在该图上的唯一落点，
+       也是清完守卫后回基地的一次性出口。
        世界地图图标借用原版：路径必须在 Data/Core/Defs 里有 Def 引用（check-defs 会查），
        模组自己还没有世界地图贴图。 -->
-
-  <SitePartDef>
-    <defName>WotF_Site_Ruin_Common</defName>
-    <label>forest ruin</label>
-    <description>An old ruin under the trees. Something in it still runs, and the local powers have noticed the noise.</description>
-    <siteTexture>World/WorldObjects/Sites/GenericSite</siteTexture>
-    <expandingIconTexture>World/WorldObjects/Expanding/Sites/ItemStash</expandingIconTexture>
-    <approachOrderString>Investigate {0}</approachOrderString>
-    <approachingReportString>Investigating {0}.</approachingReportString>
-    <arrivedLetter>You reach the ruin. Old machines stir in the dark, and the stores the forest swallowed are still there for the taking.\n\nGuardians must be cleared before the ruin counts as taken.</arrivedLetter>
-    <arrivedLetterDef>ThreatBig</arrivedLetterDef>
-    <wantsThreatPoints>true</wantsThreatPoints>
-    <minMapSize>(250, 1, 250)</minMapSize>
-    <gravShipsCanLandOn>true</gravShipsCanLandOn>
-    <considerEnteringAsAttack>false</considerEnteringAsAttack>
-    <copyQuestName>true</copyQuestName>
-    <!-- 传送门只能通到挂了这个扩展的站点（WhisperOfTheForest.Teleport.RuinSiteExtension）；
-         以后新增第三类遗迹只要同样挂上。 -->
-    <modExtensions>
-      <li Class="WhisperOfTheForest.Teleport.RuinSiteExtension" />
-    </modExtensions>
-  </SitePartDef>
-
-  <GenStepDef>
-    <defName>WotF_Site_Ruin_Common_Ruins</defName>
-    <linkWithSite>WotF_Site_Ruin_Common</linkWithSite>
-    <order>400</order>
-    <genStep Class="GenStep_ScatterRuinsSimple">
-      <count>3</count>
-      <minSpacing>20</minSpacing>
-      <allowInWaterBiome>false</allowInWaterBiome>
-    </genStep>
-    <!-- 原版基础地图在 750 还会撒一遍空废墟，它会无视 UsedRects；这里去掉它，避免废墙压进神殿。 -->
-    <preventsGenSteps>
-      <li>ScatterRuinsSimple</li>
-    </preventsGenSteps>
-  </GenStepDef>
-
-  <GenStepDef>
-    <defName>WotF_Site_Ruin_Common_Temple</defName>
-    <linkWithSite>WotF_Site_Ruin_Common</linkWithSite>
-    <order>420</order>
-    <genStep Class="WhisperOfTheForest.AncientRuins.GenStep_RuinTemple">
-      <count>1</count>
-      <templeSize>15~18</templeSize>
-    </genStep>
-  </GenStepDef>
-
-  <GenStepDef>
-    <defName>WotF_Site_Ruin_Common_Guards</defName>
-    <linkWithSite>WotF_Site_Ruin_Common</linkWithSite>
-    <order>430</order>
-    <genStep Class="WhisperOfTheForest.AncientRuins.GenStep_RuinMechanoids">
-      <sendWokenUpMessage>true</sendWokenUpMessage>
-    </genStep>
-  </GenStepDef>
-
-  <GenStepDef>
-    <defName>WotF_Site_Ruin_Common_Loot</defName>
-    <linkWithSite>WotF_Site_Ruin_Common</linkWithSite>
-    <order>440</order>
-    <genStep Class="WhisperOfTheForest.AncientRuins.GenStep_RuinLoot">
-      <loot>WotF_RuinLoot_Common</loot>
-    </genStep>
-  </GenStepDef>
-
-  <GenStepDef>
-    <defName>WotF_Site_Ruin_Common_BrokenGate</defName>
-    <linkWithSite>WotF_Site_Ruin_Common</linkWithSite>
-    <order>441</order>
-    <genStep Class="WhisperOfTheForest.AncientRuins.GenStep_RuinBrokenGate">
-      <gate>WotF_TeleportGate_Broken</gate>
-      <!-- 残破门放在遗迹外围的空地上：离神殿（GenStep_RuinTemple）与守卫区（GenStep_RuinMechanoids）
-           各留一段距离，门周围 arrivalRadius 内还要有足够多可站立且相连的落点。数值是占位值。 -->
-      <minDistanceFromTemple>22</minDistanceFromTemple>
-      <minDistanceFromGuardArea>14</minDistanceFromGuardArea>
-      <minLandingCells>24</minLandingCells>
-    </genStep>
-  </GenStepDef>
-
-  <GenStepDef>
-    <defName>WotF_Site_Ruin_Common_Debris</defName>
-    <linkWithSite>WotF_Site_Ruin_Common</linkWithSite>
-    <order>450</order>
-    <genStep Class="GenStep_ScatterThings">
-      <thingDef>ChunkMechanoidSlag</thingDef>
-      <filthDef>Filth_MachineBits</filthDef>
-      <count>2</count>
-      <minSpacing>6</minSpacing>
-      <allowInWaterBiome>false</allowInWaterBiome>
-    </genStep>
-  </GenStepDef>
 
   <SitePartDef>
     <defName>WotF_Site_Ruin_Core</defName>
@@ -109,13 +17,14 @@
     <expandingIconTexture>World/WorldObjects/Expanding/Sites/Outpost</expandingIconTexture>
     <approachOrderString>Investigate {0}</approachOrderString>
     <approachingReportString>Investigating {0}.</approachingReportString>
-    <arrivedLetter>You reach the engineering ruin. The station core is somewhere under the concrete, and its guardians are denser than the forest ruins.\n\nGuardians must be cleared before the ruin counts as taken.</arrivedLetter>
+    <arrivedLetter>You reach the ancient engineering ruin. The station core lies sealed somewhere under the concrete, and its guardians are still awake.\n\nAll guardians must be cleared before the ruin counts as taken and before the broken teleport gate can open a way home.</arrivedLetter>
     <arrivedLetterDef>ThreatBig</arrivedLetterDef>
     <wantsThreatPoints>true</wantsThreatPoints>
     <minMapSize>(250, 1, 250)</minMapSize>
     <gravShipsCanLandOn>true</gravShipsCanLandOn>
     <considerEnteringAsAttack>false</considerEnteringAsAttack>
     <copyQuestName>true</copyQuestName>
+    <!-- 传送门只能通到挂了这个扩展的站点（WhisperOfTheForest.Teleport.RuinSiteExtension）。 -->
     <modExtensions>
       <li Class="WhisperOfTheForest.Teleport.RuinSiteExtension" />
     </modExtensions>
@@ -130,7 +39,8 @@
       <minSpacing>20</minSpacing>
       <allowInWaterBiome>false</allowInWaterBiome>
     </genStep>
-  <preventsGenSteps>
+    <!-- 原版基础地图在 750 还会撒一遍空废墟，它会无视 UsedRects；这里去掉它，避免废墙压进神殿。 -->
+    <preventsGenSteps>
       <li>ScatterRuinsSimple</li>
     </preventsGenSteps>
   </GenStepDef>
@@ -169,6 +79,8 @@
     <order>441</order>
     <genStep Class="WhisperOfTheForest.AncientRuins.GenStep_RuinBrokenGate">
       <gate>WotF_TeleportGate_Broken</gate>
+      <!-- 残破门放在遗迹外围的空地上：离神殿（GenStep_RuinTemple）与守卫区（GenStep_RuinMechanoids）
+           各留一段距离，门周围 arrivalRadius 内还要有足够多可站立且相连的落点。数值是占位值。 -->
       <minDistanceFromTemple>22</minDistanceFromTemple>
       <minDistanceFromGuardArea>14</minDistanceFromGuardArea>
       <minLandingCells>24</minLandingCells>

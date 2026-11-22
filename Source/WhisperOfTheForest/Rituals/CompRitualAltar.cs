@@ -100,7 +100,6 @@ namespace WhisperOfTheForest.Rituals
         private Building activeTeleportTarget;
         private Thing activeEquipment;
         private int activeBookSlot = -1;
-        private QuestScriptDef activeRuinQuest;
         private RitualDef autoRitual;
         private RitualPhase phase;
         private float activeRitualStrength;
@@ -119,7 +118,6 @@ namespace WhisperOfTheForest.Rituals
         private Building selectedTeleportTarget;
         private Thing selectedEquipment;
         private int selectedBookSlot = -1;
-        private QuestScriptDef selectedRuinQuest;
         private RitualDef collectDef;
         private SpellGlyphDef collectRune;
         private ThingOwner<Thing> offerings;
@@ -163,21 +161,18 @@ namespace WhisperOfTheForest.Rituals
         public Building SelectedTeleportTarget => selectedTeleportTarget;
         public Thing SelectedEquipment => selectedEquipment;
         public int SelectedBookSlot => selectedBookSlot;
-        public RuinSeekOption SelectedRuinOption => selectedDef == null ? null : selectedDef.RuinOptionFor(selectedRuinQuest);
 
         public string SelectedLabel => selectedDef == null ? null
             : (selectedDef.chooseRune && selectedRune != null
                 ? selectedDef.LabelCap + ": " + selectedRune.LabelCap
                 : selectedDef.chooseEquipment && selectedEquipment != null
                     ? selectedDef.LabelCap + ": " + selectedEquipment.LabelShort
-                    : selectedDef.chooseRuinType && SelectedRuinOption != null
-                        ? selectedDef.LabelCap + ": " + SelectedRuinOption.sitePart.LabelCap
-                        : selectedDef.chooseTeleportTarget && selectedTeleportTarget != null
-                            ? selectedDef.LabelCap + ": " + selectedTeleportTarget.LabelShort
-                            : (string)selectedDef.LabelCap);
+                    : selectedDef.chooseTeleportTarget && selectedTeleportTarget != null
+                        ? selectedDef.LabelCap + ": " + selectedTeleportTarget.LabelShort
+                        : (string)selectedDef.LabelCap);
 
         public void SetSelectedRitual(RitualDef def, SpellGlyphDef rune = null, Building teleportTarget = null,
-            Thing equipment = null, int bookSlot = -1, QuestScriptDef ruinQuest = null)
+            Thing equipment = null, int bookSlot = -1)
         {
             if (def == null || !def.IsResearchFinished)
             {
@@ -190,7 +185,6 @@ namespace WhisperOfTheForest.Rituals
             selectedTeleportTarget = def.chooseTeleportTarget ? teleportTarget : null;
             selectedEquipment = def.chooseEquipment ? equipment : null;
             selectedBookSlot = def.chooseEquipment ? bookSlot : -1;
-            selectedRuinQuest = def.chooseRuinType ? ruinQuest : null;
         }
 
         public void ClearSelection()
@@ -200,7 +194,6 @@ namespace WhisperOfTheForest.Rituals
             selectedTeleportTarget = null;
             selectedEquipment = null;
             selectedBookSlot = -1;
-            selectedRuinQuest = null;
         }
 
         internal bool SupportsRitual(RitualDef def)
@@ -280,12 +273,7 @@ namespace WhisperOfTheForest.Rituals
                 ? activeDef.LabelCap + ": " + activeRune.LabelCap
                 : activeDef.chooseEquipment && activeEquipment != null
                     ? activeDef.LabelCap + ": " + activeEquipment.LabelShort
-                    : activeDef.chooseRuinType && ActiveRuinOption != null
-                        ? activeDef.LabelCap + ": " + ActiveRuinOption.sitePart.LabelCap
-                        : (string)activeDef.LabelCap);
-
-        /// <summary>The ruin this altar's seeking rite is looking for; null for every other rite.</summary>
-        private RuinSeekOption ActiveRuinOption => activeDef == null ? null : activeDef.RuinOptionFor(activeRuinQuest);
+                    : (string)activeDef.LabelCap);
 
         /// <summary>True while this pawn is the host of the rite this altar is running.</summary>
         public bool IsHost(Pawn pawn)
@@ -505,7 +493,6 @@ namespace WhisperOfTheForest.Rituals
             Scribe_References.Look(ref activeTeleportTarget, "ritualTeleportTarget", true);
             Scribe_References.Look(ref activeEquipment, "ritualEquipment", true);
             Scribe_Values.Look(ref activeBookSlot, "ritualBookSlot", -1);
-            Scribe_Defs.Look(ref activeRuinQuest, "ritualRuinQuest");
             Scribe_Defs.Look(ref autoRitual, "ritualAuto");
             Scribe_Values.Look(ref phase, "ritualPhase", RitualPhase.Gathering);
             Scribe_Values.Look(ref activeRitualStrength, "ritualStrength", 0f);
@@ -529,7 +516,6 @@ namespace WhisperOfTheForest.Rituals
             Scribe_References.Look(ref selectedTeleportTarget, "ritualSelectedTeleportTarget", true);
             Scribe_References.Look(ref selectedEquipment, "ritualSelectedEquipment", true);
             Scribe_Values.Look(ref selectedBookSlot, "ritualSelectedBookSlot", -1);
-            Scribe_Defs.Look(ref selectedRuinQuest, "ritualSelectedRuinQuest");
 
             if (Scribe.mode != LoadSaveMode.PostLoadInit)
             {
@@ -561,11 +547,6 @@ namespace WhisperOfTheForest.Rituals
                 {
                     selectedBookSlot = -1;
                 }
-
-                if (!selectedDef.chooseRuinType || SelectedRuinOption == null)
-                {
-                    selectedRuinQuest = null;
-                }
             }
 
             if (autoRitual != null && !autoRitual.autoRepeatable)
@@ -587,7 +568,6 @@ namespace WhisperOfTheForest.Rituals
                 || (activeDef.chooseRune && activeRune == null)
                 || (activeDef.chooseTeleportTarget && activeTeleportTarget == null)
                 || (activeDef.chooseEquipment && (activeEquipment == null || activeBookSlot < 0))
-                || (activeDef.chooseRuinType && ActiveRuinOption == null)
                 || ActiveProgressTotal <= 0f
                 || stations.Count != activeHelpers.Count + 1)
             {
@@ -1039,7 +1019,6 @@ namespace WhisperOfTheForest.Rituals
                 TeleportTarget = selectedDef.chooseTeleportTarget ? selectedTeleportTarget : null,
                 Equipment = selectedDef.chooseEquipment ? selectedEquipment : null,
                 BookSlot = selectedDef.chooseEquipment ? selectedBookSlot : -1,
-                RuinOption = selectedDef.chooseRuinType ? SelectedRuinOption : null,
                 Host = host
             };
         }
@@ -1047,12 +1026,12 @@ namespace WhisperOfTheForest.Rituals
         /// <summary>
         /// A rite hosted without the panel (auto-repeat work scan): this pawn alone, no helpers. The only
         /// choice it can reuse is the rune the preparation was made for; a rite that needs a gate, an item
-        /// and page, or a ruin, or a rune nobody prepared, has none and returns null.
+        /// and page, or a rune nobody prepared, has none and returns null.
         /// </summary>
         public RitualRequest DirectRequest(RitualDef def, Pawn host)
         {
             if (def == null || !def.IsResearchFinished || def.chooseTeleportTarget || def.chooseEquipment
-                || def.chooseRuinType || (def.chooseRune && collectDef != def))
+                || (def.chooseRune && collectDef != def))
             {
                 return null;
             }
@@ -1107,7 +1086,6 @@ namespace WhisperOfTheForest.Rituals
             activeTeleportTarget = request.TeleportTarget;
             activeEquipment = request.Equipment;
             activeBookSlot = request.BookSlot;
-            activeRuinQuest = request.RuinOption?.quest;
             activeHost = request.Host;
             activeHelpers = new List<Pawn>(request.Helpers);
             stations = new List<RitualStation>(assessment.Stations);
@@ -1233,7 +1211,7 @@ namespace WhisperOfTheForest.Rituals
             // Two altars can chant the same rite at once, and the first one to finish may have placed
             // its ruin while this one was still chanting. The single-ruin rule is re-checked here,
             // together with the offerings and the mana, before anything is taken.
-            if (activeDef.chooseRuinType && RuinSeeking.HasOutstandingRuin())
+            if (activeDef.SeeksRuin && RuinSeeking.HasOutstandingRuin())
             {
                 FailRitual("WotF_Ritual_RuinSeek_AlreadyOutstanding".Translate());
                 return;
@@ -1252,7 +1230,6 @@ namespace WhisperOfTheForest.Rituals
             Building teleportTarget = activeTeleportTarget;
             Thing equipment = activeEquipment;
             int bookSlot = activeBookSlot;
-            RuinSeekOption ruinOption = ActiveRuinOption;
             int participants = activeHelpers.Count;
             float ritualStrength = RitualStrengthOf(activeHost, activeHelpers);
 
@@ -1290,7 +1267,7 @@ namespace WhisperOfTheForest.Rituals
 
             ClearRitualState();
             def.EffectWorker.Apply(new RitualContext(parent.Map, (Building)parent, host, def, rune,
-                teleportTarget, participants, ritualStrength, equipment, bookSlot, ruinOption, teleportLanding));
+                teleportTarget, participants, ritualStrength, equipment, bookSlot, teleportLanding));
             WotfLog.Info(WotfLog.ModuleRitual,
                 "completed " + def.defName + (rune == null ? "" : " for " + rune.defName)
                 + " by " + host.LabelShort + " participants=" + participants + " ritualStrength=" + ritualStrength);
@@ -1520,7 +1497,6 @@ namespace WhisperOfTheForest.Rituals
             activeTeleportTarget = null;
             activeEquipment = null;
             activeBookSlot = -1;
-            activeRuinQuest = null;
             phase = RitualPhase.Gathering;
             activeRitualStrength = 0f;
             activeManaCost = 0f;
@@ -1691,25 +1667,16 @@ namespace WhisperOfTheForest.Rituals
         private void AssessRuinSeek(RitualRequest request, RitualAssessment result)
         {
             RitualDef def = request.Def;
-            if (!def.chooseRuinType)
+            if (!def.SeeksRuin)
             {
-                if (request.RuinOption != null)
-                {
-                    result.Problems.Add("WotF_Ritual_RuinSeek_Choose".Translate());
-                }
-
                 return;
             }
 
-            if (request.RuinOption == null)
-            {
-                result.Problems.Add("WotF_Ritual_RuinSeek_Choose".Translate());
-            }
-            else if (RuinSeeking.HasOutstandingRuin())
+            if (RuinSeeking.HasOutstandingRuin())
             {
                 result.Problems.Add("WotF_Ritual_RuinSeek_AlreadyOutstanding".Translate());
             }
-            else if (!RuinSeeking.CanSeek(request.RuinOption, parent.Map))
+            else if (!RuinSeeking.CanSeek(def.ruinTarget, parent.Map))
             {
                 result.Problems.Add("WotF_Ritual_RuinSeek_NoSite".Translate());
             }

@@ -3,181 +3,181 @@
 
   <!-- 主线 -->
   <WotF_Research_AltarT1.label>木石祭坛</WotF_Research_AltarT1.label>
-  <WotF_Research_AltarT1.description>建造一阶木石祭坛，用以布置 3×3 白垩粉笔环并开启一阶林庭仪式。解锁建造：木石祭坛。</WotF_Research_AltarT1.description>
+  <WotF_Research_AltarT1.description>以寻常木石搭起一阶祭坛，用以布置 3×3 白色粉笔环并举行基础仪式。解锁建造：木石祭坛。</WotF_Research_AltarT1.description>
 
   <WotF_Research_LivingWood.label>活木</WotF_Research_LivingWood.label>
-  <WotF_Research_LivingWood.description>在 3×3 白色粉笔环中以草药唤醒普通原木，炼成活木。解锁仪式：点化：活木。</WotF_Research_LivingWood.description>
+  <WotF_Research_LivingWood.description>借 3×3 白色粉笔环与草药唤醒原木里的生机，将其点化为可供造物的活木。解锁仪式：点化：活木。</WotF_Research_LivingWood.description>
   <WotF_Research_LivingWood.customUnlockTexts>
     <li>仪式：点化：活木</li>
   </WotF_Research_LivingWood.customUnlockTexts>
 
   <WotF_Research_AltarT2.label>活木祭坛</WotF_Research_AltarT2.label>
-  <WotF_Research_AltarT2.description>以活木建造二阶活木祭坛，支持 5×5 翠叶粉笔环与二阶仪式。解锁建造：活木祭坛。</WotF_Research_AltarT2.description>
+  <WotF_Research_AltarT2.description>将活木融入二阶祭坛的构筑，凭其更稳固的导魔脉络承载 5×5 翠叶粉笔环与二阶仪式。解锁建造：活木祭坛，解锁制作：法杖。</WotF_Research_AltarT2.description>
 
   <WotF_Research_GreenChalk.label>翠叶粉笔</WotF_Research_GreenChalk.label>
-  <WotF_Research_GreenChalk.description>将白色粉笔与草药炼成翠叶粉笔，用于绘制 5×5 二阶法阵环。解锁仪式：点化：翠叶粉笔。</WotF_Research_GreenChalk.description>
+  <WotF_Research_GreenChalk.description>在二阶祭坛的 3×3 白色粉笔环中以草药浸染普通粉笔，炼出绘制 5×5 二阶粉笔环所需的翠叶粉笔。解锁仪式：点化：翠叶粉笔。</WotF_Research_GreenChalk.description>
   <WotF_Research_GreenChalk.customUnlockTexts>
     <li>仪式：点化：翠叶粉笔</li>
   </WotF_Research_GreenChalk.customUnlockTexts>
 
   <WotF_Research_ElvenSteel.label>精灵钢</WotF_Research_ElvenSteel.label>
-  <WotF_Research_ElvenSteel.description>在 5×5 翠叶粉笔环中以活木调和钢铁，炼成精灵钢。解锁仪式：点化：精灵钢。</WotF_Research_ElvenSteel.description>
+  <WotF_Research_ElvenSteel.description>以活木调和钢铁的刚硬质地，在 5×5 翠叶粉笔环内炼出轻巧锋利的精灵钢。解锁仪式：点化：精灵钢。</WotF_Research_ElvenSteel.description>
   <WotF_Research_ElvenSteel.customUnlockTexts>
     <li>仪式：点化：精灵钢</li>
   </WotF_Research_ElvenSteel.customUnlockTexts>
 
   <WotF_Research_StarChalk.label>星辉粉笔</WotF_Research_StarChalk.label>
-  <WotF_Research_StarChalk.description>在 5×5 翠叶粉笔环中以白银和翡翠炼成星辉粉笔，用于绘制 7×7 三阶法阵环。解锁仪式：点化：星辉粉笔。</WotF_Research_StarChalk.description>
+  <WotF_Research_StarChalk.description>用 5×5 翠叶粉笔环将白色粉笔与白银、翡翠相融，炼出可绘制 7×7 三阶粉笔环的星辉粉笔。解锁仪式：点化：星辉粉笔。</WotF_Research_StarChalk.description>
   <WotF_Research_StarChalk.customUnlockTexts>
     <li>仪式：点化：星辉粉笔</li>
   </WotF_Research_StarChalk.customUnlockTexts>
 
   <WotF_Research_AltarT3.label>星辉祭坛</WotF_Research_AltarT3.label>
-  <WotF_Research_AltarT3.description>以工程站谐振核为核心建造三阶星辉祭坛，支持 7×7 星辉粉笔环与三阶仪式。解锁建造：星辉祭坛。</WotF_Research_AltarT3.description>
+  <WotF_Research_AltarT3.description>以遗迹深处取回的工程站谐振核为基石构筑三阶祭坛，用来承载 7×7 星辉粉笔环与三阶仪式。解锁建造：星辉祭坛。</WotF_Research_AltarT3.description>
 
   <WotF_Research_Adamantine.label>精金</WotF_Research_Adamantine.label>
-  <WotF_Research_Adamantine.description>在 7×7 星辉粉笔环中以精灵钢与玻璃钢炼成坚不可摧的精金。解锁仪式：点化：精金。</WotF_Research_Adamantine.description>
+  <WotF_Research_Adamantine.description>借 7×7 星辉粉笔环将精灵钢与玻璃钢熔合重铸，制出极难撼动的厚重精金。解锁仪式：点化：精金。</WotF_Research_Adamantine.description>
   <WotF_Research_Adamantine.customUnlockTexts>
     <li>仪式：点化：精金</li>
   </WotF_Research_Adamantine.customUnlockTexts>
 
   <WotF_Research_Mithril.label>秘银</WotF_Research_Mithril.label>
-  <WotF_Research_Mithril.description>在 7×7 星辉粉笔环中以精灵钢与白银炼成轻盈亲法的秘银。解锁仪式：点化：秘银。</WotF_Research_Mithril.description>
+  <WotF_Research_Mithril.description>将精灵钢与白银置于 7×7 星辉粉笔环中炼合，制成轻盈而亲和法术的秘银。解锁仪式：点化：秘银。</WotF_Research_Mithril.description>
   <WotF_Research_Mithril.customUnlockTexts>
     <li>仪式：点化：秘银</li>
   </WotF_Research_Mithril.customUnlockTexts>
 
   <!-- 一阶仪式叶子 -->
   <WotF_Research_Ritual_HealingMinor.label>生命再生</WotF_Research_Ritual_HealingMinor.label>
-  <WotF_Research_Ritual_HealingMinor.description>在 3×3 白色粉笔环中汇聚生命池，治疗附近殖民者的新鲜伤口与失血。解锁仪式：生命再生。</WotF_Research_Ritual_HealingMinor.description>
+  <WotF_Research_Ritual_HealingMinor.description>在 3×3 白色粉笔环中汇聚基础生命池，替祭坛周边的殖民者止血并愈合新鲜外伤。解锁仪式：生命再生。</WotF_Research_Ritual_HealingMinor.description>
   <WotF_Research_Ritual_HealingMinor.customUnlockTexts>
     <li>仪式：生命再生</li>
   </WotF_Research_Ritual_HealingMinor.customUnlockTexts>
 
   <WotF_Research_Ritual_SpellbookAwakening.label>魔术书唤醒</WotF_Research_Ritual_SpellbookAwakening.label>
-  <WotF_Research_Ritual_SpellbookAwakening.description>在 3×3 白色粉笔环中唤醒一本可供林庭血脉成员佩戴的学徒魔术书。解锁仪式：魔术书唤醒。</WotF_Research_Ritual_SpellbookAwakening.description>
+  <WotF_Research_Ritual_SpellbookAwakening.description>借 3×3 白色粉笔环唤醒一本沉睡的学徒魔术书，让身怀精灵血脉的成员得以佩戴施法。解锁仪式：魔术书唤醒。</WotF_Research_Ritual_SpellbookAwakening.description>
   <WotF_Research_Ritual_SpellbookAwakening.customUnlockTexts>
     <li>仪式：魔术书唤醒</li>
   </WotF_Research_Ritual_SpellbookAwakening.customUnlockTexts>
 
   <WotF_Research_Ritual_ManaSpring.label>灵泉仪式</WotF_Research_Ritual_ManaSpring.label>
-  <WotF_Research_Ritual_ManaSpring.description>在 3×3 白色粉笔环中引导网络魔源，为祭坛附近的林庭血脉成员恢复魔力。解锁仪式：灵泉仪式。</WotF_Research_Ritual_ManaSpring.description>
+  <WotF_Research_Ritual_ManaSpring.description>引动 3×3 白色粉笔环汇聚网络魔源，为祭坛附近的精灵血脉成员补充魔力。解锁仪式：灵泉仪式。</WotF_Research_Ritual_ManaSpring.description>
   <WotF_Research_Ritual_ManaSpring.customUnlockTexts>
     <li>仪式：灵泉仪式</li>
   </WotF_Research_Ritual_ManaSpring.customUnlockTexts>
 
   <WotF_Research_Ritual_BottleMana.label>装瓶仪式</WotF_Research_Ritual_BottleMana.label>
-  <WotF_Research_Ritual_BottleMana.description>在 3×3 白色粉笔环中用原木和草药制成蓝瓶，封存网络魔源以备随身取用。解锁仪式：装瓶仪式。</WotF_Research_Ritual_BottleMana.description>
+  <WotF_Research_Ritual_BottleMana.description>用原木与草药在 3×3 白色粉笔环里封存网络魔源，制成便于随身携带的魔源蓝瓶。解锁仪式：装瓶仪式。</WotF_Research_Ritual_BottleMana.description>
   <WotF_Research_Ritual_BottleMana.customUnlockTexts>
     <li>仪式：装瓶仪式</li>
   </WotF_Research_Ritual_BottleMana.customUnlockTexts>
 
   <WotF_Research_Ritual_RuneAwakening.label>符文启封</WotF_Research_Ritual_RuneAwakening.label>
-  <WotF_Research_Ritual_RuneAwakening.description>按符文阶位在祭坛环阵中为殖民地启封新的法术符文。解锁仪式：符文启封。</WotF_Research_Ritual_RuneAwakening.description>
+  <WotF_Research_Ritual_RuneAwakening.description>按符文阶位在对应粉笔环中举行启封仪式，为殖民地陆续解锁新的法术符文。解锁仪式：符文启封。</WotF_Research_Ritual_RuneAwakening.description>
   <WotF_Research_Ritual_RuneAwakening.customUnlockTexts>
     <li>仪式：符文启封</li>
   </WotF_Research_Ritual_RuneAwakening.customUnlockTexts>
 
   <WotF_Research_Ritual_InscribeEquipment.label>武具注法</WotF_Research_Ritual_InscribeEquipment.label>
-  <WotF_Research_Ritual_InscribeEquipment.description>在 3×3 白色粉笔环中将魔术书内的接触、自身或环绕法术写入祭坛旁的武器或护甲。解锁仪式：武具注法。</WotF_Research_Ritual_InscribeEquipment.description>
+  <WotF_Research_Ritual_InscribeEquipment.description>将魔术书里的接触、自身或环绕法术经 3×3 白色粉笔环写入祭坛旁的武器或护甲，让武器在命中或护甲在受击时触发。解锁仪式：武具注法。</WotF_Research_Ritual_InscribeEquipment.description>
   <WotF_Research_Ritual_InscribeEquipment.customUnlockTexts>
     <li>仪式：武具注法</li>
   </WotF_Research_Ritual_InscribeEquipment.customUnlockTexts>
 
   <!-- 二阶仪式叶子 -->
   <WotF_Research_Ritual_HealingMedium.label>生命再生（翠环）</WotF_Research_Ritual_HealingMedium.label>
-  <WotF_Research_Ritual_HealingMedium.description>进阶掌握 5×5 翠叶粉笔环的生命再生，可治愈新旧伤疤并再生缺失肢体。解锁仪式：生命再生（翠环）。</WotF_Research_Ritual_HealingMedium.description>
+  <WotF_Research_Ritual_HealingMedium.description>用 5×5 翠叶粉笔环汇聚更充沛的生命池，既能抚平陈年旧疤，也能令缺失的肢体重新长出。解锁仪式：生命再生（翠环）。</WotF_Research_Ritual_HealingMedium.description>
   <WotF_Research_Ritual_HealingMedium.customUnlockTexts>
     <li>仪式：生命再生（翠环）</li>
   </WotF_Research_Ritual_HealingMedium.customUnlockTexts>
 
   <WotF_Research_Ritual_SpellbookUpgradeAdept.label>魔术书升阶：织法魔术书</WotF_Research_Ritual_SpellbookUpgradeAdept.label>
-  <WotF_Research_Ritual_SpellbookUpgradeAdept.description>在 5×5 翠叶粉笔环中以精灵钢与翡翠将学徒魔术书升阶为单条法术上限 7 枚符文的织法魔术书。解锁仪式：魔术书升阶：织法魔术书。</WotF_Research_Ritual_SpellbookUpgradeAdept.description>
+  <WotF_Research_Ritual_SpellbookUpgradeAdept.description>集齐精灵钢与翡翠，在 5×5 翠叶粉笔环内把学徒魔术书升阶为织法魔术书，将单条法术的符文链上限拓宽至 7 枚。解锁仪式：魔术书升阶：织法魔术书。</WotF_Research_Ritual_SpellbookUpgradeAdept.description>
   <WotF_Research_Ritual_SpellbookUpgradeAdept.customUnlockTexts>
     <li>仪式：魔术书升阶：织法魔术书</li>
   </WotF_Research_Ritual_SpellbookUpgradeAdept.customUnlockTexts>
 
   <WotF_Research_Ritual_FertileSoil.label>沃土活化</WotF_Research_Ritual_FertileSoil.label>
-  <WotF_Research_Ritual_FertileSoil.description>在 5×5 翠叶粉笔环中唤醒周边天然土壤，使其化为肥沃土壤。解锁仪式：沃土活化。</WotF_Research_Ritual_FertileSoil.description>
+  <WotF_Research_Ritual_FertileSoil.description>催动 5×5 翠叶粉笔环里的生机渗入大地，将祭坛周遭的普通天然土壤转化为肥沃土壤。解锁仪式：沃土活化。</WotF_Research_Ritual_FertileSoil.description>
   <WotF_Research_Ritual_FertileSoil.customUnlockTexts>
     <li>仪式：沃土活化</li>
   </WotF_Research_Ritual_FertileSoil.customUnlockTexts>
 
   <WotF_Research_Ritual_TransmuteComponent.label>点化：零部件</WotF_Research_Ritual_TransmuteComponent.label>
-  <WotF_Research_Ritual_TransmuteComponent.description>在 5×5 翠叶粉笔环中将钢铁与草药点化为工业零部件。解锁仪式：点化：零部件。</WotF_Research_Ritual_TransmuteComponent.description>
+  <WotF_Research_Ritual_TransmuteComponent.description>一套奇异的 5×5 翠叶粉笔环点化配方，能将钢铁与草药直接重构为工业零部件。解锁仪式：点化：零部件。</WotF_Research_Ritual_TransmuteComponent.description>
   <WotF_Research_Ritual_TransmuteComponent.customUnlockTexts>
     <li>仪式：点化：零部件</li>
   </WotF_Research_Ritual_TransmuteComponent.customUnlockTexts>
 
   <WotF_Research_Ritual_ShieldDome.label>古树护盾</WotF_Research_Ritual_ShieldDome.label>
-  <WotF_Research_Ritual_ShieldDome.description>在 5×5 翠叶粉笔环中唤醒祭坛守护，张开拦敌放友的单向护盾穹顶。解锁仪式：古树护盾。</WotF_Research_Ritual_ShieldDome.description>
+  <WotF_Research_Ritual_ShieldDome.description>以 5×5 翠叶粉笔环唤醒祭坛守护，在聚落上方撑起一道拦敌放友的单向护盾穹顶。解锁仪式：古树护盾。</WotF_Research_Ritual_ShieldDome.description>
   <WotF_Research_Ritual_ShieldDome.customUnlockTexts>
     <li>仪式：古树护盾</li>
   </WotF_Research_Ritual_ShieldDome.customUnlockTexts>
 
   <WotF_Research_Ritual_BeastCall.label>灵兽召契</WotF_Research_Ritual_BeastCall.label>
-  <WotF_Research_Ritual_BeastCall.description>在 5×5 翠叶粉笔环中献上干草，唤来一头野马并尝试与它缔结驯服契约。解锁仪式：灵兽召契。</WotF_Research_Ritual_BeastCall.description>
+  <WotF_Research_Ritual_BeastCall.description>向 5×5 翠叶粉笔环献上干草，唤来一头野马并尝试将其当场驯服。解锁仪式：灵兽召契。</WotF_Research_Ritual_BeastCall.description>
   <WotF_Research_Ritual_BeastCall.customUnlockTexts>
     <li>仪式：灵兽召契</li>
   </WotF_Research_Ritual_BeastCall.customUnlockTexts>
 
   <WotF_Research_Ritual_CounterPsychic.label>灵能截断</WotF_Research_Ritual_CounterPsychic.label>
-  <WotF_Research_Ritual_CounterPsychic.description>在 5×5 翠叶粉笔环中引导灵能反制脉冲，打断地图上全部正在进行的敌对灵能仪式并震晕所有参与者。解锁仪式：灵能截断。</WotF_Research_Ritual_CounterPsychic.description>
+  <WotF_Research_Ritual_CounterPsychic.description>从 5×5 翠叶粉笔环释放反制脉冲，横扫全图以掐断敌对灵能仪式并震晕全部参与者。解锁仪式：灵能截断。</WotF_Research_Ritual_CounterPsychic.description>
   <WotF_Research_Ritual_CounterPsychic.customUnlockTexts>
     <li>仪式：灵能截断</li>
   </WotF_Research_Ritual_CounterPsychic.customUnlockTexts>
 
   <WotF_Research_Ritual_ClearSky.label>祈晴</WotF_Research_Ritual_ClearSky.label>
-  <WotF_Research_Ritual_ClearSky.description>在 5×5 翠叶粉笔环中驱散阴雨，令当地天气转为晴朗。解锁仪式：祈晴。</WotF_Research_Ritual_ClearSky.description>
+  <WotF_Research_Ritual_ClearSky.description>念诵祝辞并借助 5×5 翠叶粉笔环驱散阴沉云雨，让天空重新放晴。解锁仪式：祈晴。</WotF_Research_Ritual_ClearSky.description>
   <WotF_Research_Ritual_ClearSky.customUnlockTexts>
     <li>仪式：祈晴</li>
   </WotF_Research_Ritual_ClearSky.customUnlockTexts>
 
   <WotF_Research_Ritual_RainCall.label>祈雨</WotF_Research_Ritual_RainCall.label>
-  <WotF_Research_Ritual_RainCall.description>在 5×5 翠叶粉笔环中向天祈求细雨，润泽林地或扑灭火灾。解锁仪式：祈雨。</WotF_Research_Ritual_RainCall.description>
+  <WotF_Research_Ritual_RainCall.description>借 5×5 翠叶粉笔环引来一场温和细雨，既可润泽田地，也能在火势蔓延时救急。解锁仪式：祈雨。</WotF_Research_Ritual_RainCall.description>
   <WotF_Research_Ritual_RainCall.customUnlockTexts>
     <li>仪式：祈雨</li>
   </WotF_Research_Ritual_RainCall.customUnlockTexts>
 
   <WotF_Research_Ritual_Teleport.label>本地传送</WotF_Research_Ritual_Teleport.label>
-  <WotF_Research_Ritual_Teleport.description>在 5×5 翠叶粉笔环中将祭坛附近的殖民者传送至同一地图上运转中的传送门。解锁仪式：本地传送。</WotF_Research_Ritual_Teleport.description>
+  <WotF_Research_Ritual_Teleport.description>利用 5×5 翠叶粉笔环对接空间坐标，把祭坛周边的殖民者直接送至同一地图上运转中的传送门。解锁仪式：本地传送。</WotF_Research_Ritual_Teleport.description>
   <WotF_Research_Ritual_Teleport.customUnlockTexts>
     <li>仪式：本地传送</li>
   </WotF_Research_Ritual_Teleport.customUnlockTexts>
 
   <WotF_Research_Ritual_SeekRuin.label>寻踪</WotF_Research_Ritual_SeekRuin.label>
-  <WotF_Research_Ritual_SeekRuin.description>在 5×5 翠叶粉笔环中探寻世界地图上的森林遗迹或古代工程站方位，以获取遗物与谐振核。解锁仪式：寻踪。</WotF_Research_Ritual_SeekRuin.description>
+  <WotF_Research_Ritual_SeekRuin.description>通过 5×5 翠叶粉笔环接入残存的灵能网络，在世界地图上定位沉睡的古老工程遗迹，从中寻回遗物与谐振核。解锁仪式：寻踪。</WotF_Research_Ritual_SeekRuin.description>
   <WotF_Research_Ritual_SeekRuin.customUnlockTexts>
     <li>仪式：寻踪</li>
   </WotF_Research_Ritual_SeekRuin.customUnlockTexts>
 
   <!-- 三阶仪式叶子 -->
   <WotF_Research_Ritual_HealingGrand.label>生命再生（星环）</WotF_Research_Ritual_HealingGrand.label>
-  <WotF_Research_Ritual_HealingGrand.description>在 7×7 星辉粉笔环中施展至高生命再生，修复内脏、成瘾与可治长期病症。解锁仪式：生命再生（星环）。</WotF_Research_Ritual_HealingGrand.description>
+  <WotF_Research_Ritual_HealingGrand.description>将治愈仪式推进至 7×7 星辉粉笔环的阶位，得以再生缺失的内脏，并根除成瘾与各类可治长期病症。解锁仪式：生命再生（星环）。</WotF_Research_Ritual_HealingGrand.description>
   <WotF_Research_Ritual_HealingGrand.customUnlockTexts>
     <li>仪式：生命再生（星环）</li>
   </WotF_Research_Ritual_HealingGrand.customUnlockTexts>
 
   <WotF_Research_Ritual_SpellbookUpgradeArchmage.label>魔术书升阶：星辉法典</WotF_Research_Ritual_SpellbookUpgradeArchmage.label>
-  <WotF_Research_Ritual_SpellbookUpgradeArchmage.description>在 7×7 星辉粉笔环中以秘银和星辉粉笔将织法魔术书升阶为单条法术上限 10 枚符文、且可承载超位符文的星辉法典。解锁仪式：魔术书升阶：星辉法典。</WotF_Research_Ritual_SpellbookUpgradeArchmage.description>
+  <WotF_Research_Ritual_SpellbookUpgradeArchmage.description>以秘银与星辉粉笔在 7×7 星辉粉笔环中重塑织法魔术书，将其升阶为星辉法典，使单条法术的符文链上限增至 10 枚并可编入超位符文。解锁仪式：魔术书升阶：星辉法典。</WotF_Research_Ritual_SpellbookUpgradeArchmage.description>
   <WotF_Research_Ritual_SpellbookUpgradeArchmage.customUnlockTexts>
     <li>仪式：魔术书升阶：星辉法典</li>
   </WotF_Research_Ritual_SpellbookUpgradeArchmage.customUnlockTexts>
 
   <WotF_Research_Ritual_Thunderstorm.label>召雷暴</WotF_Research_Ritual_Thunderstorm.label>
-  <WotF_Research_Ritual_Thunderstorm.description>在 7×7 星辉粉笔环中召来狂雷暴雨笼罩整张地图。解锁仪式：召雷暴。</WotF_Research_Ritual_Thunderstorm.description>
+  <WotF_Research_Ritual_Thunderstorm.description>通过 7×7 星辉粉笔环唤来风暴，令雷电与暴雨席卷整张地图。解锁仪式：召雷暴。</WotF_Research_Ritual_Thunderstorm.description>
   <WotF_Research_Ritual_Thunderstorm.customUnlockTexts>
     <li>仪式：召雷暴</li>
   </WotF_Research_Ritual_Thunderstorm.customUnlockTexts>
 
   <WotF_Research_Ritual_SkyWrath.label>天怒</WotF_Research_Ritual_SkyWrath.label>
-  <WotF_Research_Ritual_SkyWrath.description>在 7×7 星辉粉笔环中持续引动落雷劈向附近露天敌人的持续引导仪式。解锁仪式：天怒。</WotF_Research_Ritual_SkyWrath.description>
+  <WotF_Research_Ritual_SkyWrath.description>在 7×7 星辉粉笔环中维持持续引导，将接连不断的落雷引向附近露天的敌人。解锁仪式：天怒。</WotF_Research_Ritual_SkyWrath.description>
   <WotF_Research_Ritual_SkyWrath.customUnlockTexts>
     <li>仪式：天怒</li>
   </WotF_Research_Ritual_SkyWrath.customUnlockTexts>
 
   <WotF_Research_Ritual_LeylineMining.label>地脉汲矿</WotF_Research_Ritual_LeylineMining.label>
-  <WotF_Research_Ritual_LeylineMining.description>在 7×7 星辉粉笔环中探入深层矿脉，从祭坛下方直接汲取深层矿物。解锁仪式：地脉汲矿。</WotF_Research_Ritual_LeylineMining.description>
+  <WotF_Research_Ritual_LeylineMining.description>借 7×7 星辉粉笔环探入深层岩脉，无需钻井便能从祭坛下方直接汲取矿藏。解锁仪式：地脉汲矿。</WotF_Research_Ritual_LeylineMining.description>
   <WotF_Research_Ritual_LeylineMining.customUnlockTexts>
     <li>仪式：地脉汲矿</li>
   </WotF_Research_Ritual_LeylineMining.customUnlockTexts>

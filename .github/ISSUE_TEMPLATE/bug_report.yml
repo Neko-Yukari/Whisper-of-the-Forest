@@ -1,0 +1,75 @@
+name: "🐛 Bug Report / Bug 报错"
+description: "Report a bug, red error, or crash in Whisper of the Forest / 汇报模组 Bug、红字报错或崩溃"
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting an issue in **Whisper of the Forest**! Please include the mod version, reproduction steps, and `Player.log` if possible.
+        感谢反馈 **Whisper of the Forest** 的问题！请尽量填写模组版本、复现步骤，并在可能时附上 `Player.log` 日志与截图。
+
+  - type: dropdown
+    id: mod_version
+    attributes:
+      label: "Mod Version / 模组版本"
+      options:
+        - "v0.1.1 (latest)"
+        - "Older / Custom Dev Build"
+    validations:
+      required: true
+
+  - type: input
+    id: rimworld_version
+    attributes:
+      label: "RimWorld Version / 游戏版本"
+      placeholder: "1.7.xxxx"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: environment
+    attributes:
+      label: "Active Dependencies & DLCs / 已启用的前置与 DLC"
+      description: "Check the dependencies and DLCs enabled in your mod list. / 请勾选当前存档启用的前置模组与 DLC。"
+      options:
+        - label: "Harmony"
+        - label: "Humanoid Alien Races"
+        - label: "RimLumen"
+        - label: "Royalty"
+        - label: "Biotech"
+        - label: "Anomaly"
+        - label: "Ideology"
+        - label: "Other third-party mods / 启用了其他第三方模组"
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "What Happened / 问题描述"
+      description: "Describe the issue, unexpected behavior, or error message you encountered. / 请描述遇到了什么异常现象或报错信息。"
+      placeholder: "e.g., Casting ... caused ... / 例如：施放……时出现……"
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: "Steps to Reproduce / 复现步骤"
+      description: "What actions happened right before the issue? Which spells, rituals, or items were involved? / 触发前进行了哪些操作？涉及哪些法术、仪式或物品？"
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: "Player.log & Screenshots / 日志与截图"
+      description: |
+        You can drag and drop your `Player.log` file and screenshots directly into this text box.
+        你可以直接把 `Player.log` 文件和截图拖进下方输入框上传。
+        - Windows: `%USERPROFILE%\AppData\LocalLow\Ludeon Studios\RimWorld by Ludeon Studios\Logs\Player.log`
+        - macOS: `~/Library/Logs/Ludeon Studios/RimWorld by Ludeon Studios/Player.log`
+        - Linux: `~/.config/unity3d/Ludeon Studios/RimWorld by Ludeon Studios/Player.log`
+      placeholder: "Drag and drop Player.log or screenshots here / 请将 Player.log 或截图拖入此处"

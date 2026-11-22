@@ -276,7 +276,7 @@ namespace WhisperOfTheForest.Rituals
             // Cost <-> Preparation progress ledger
             y = DrawCostBlock(viewWidth, y);
 
-            // Dynamic parameter section (rune / gate / ruin / equipment & spellbook)
+            // Dynamic parameter section (rune / gate / equipment & spellbook)
             if (NeedsParamSection(selected))
             {
                 y += 10f;
@@ -543,7 +543,7 @@ namespace WhisperOfTheForest.Rituals
 
         private static bool NeedsParamSection(RitualDef def)
         {
-            return def != null && (def.chooseRune || def.chooseTeleportTarget || def.chooseRuinType || def.chooseEquipment);
+            return def != null && (def.chooseRune || def.chooseTeleportTarget || def.chooseEquipment);
         }
 
         private float DrawParamSection(float width, float startY)
@@ -554,7 +554,6 @@ namespace WhisperOfTheForest.Rituals
 
             int controlRows = (selected.chooseRune ? 1 : 0)
                 + (selected.chooseTeleportTarget ? 1 : 0)
-                + (selected.chooseRuinType ? 1 : 0)
                 + (selected.chooseEquipment ? 2 : 0);
 
             float headerH = 20f;
@@ -577,12 +576,6 @@ namespace WhisperOfTheForest.Rituals
             if (selected.chooseTeleportTarget)
             {
                 DrawGateSelector(new Rect(2f, y, btnWidth, rowH), locked);
-                y += rowH + 6f;
-            }
-
-            if (selected.chooseRuinType)
-            {
-                DrawRuinSelector(new Rect(2f, y, btnWidth, rowH), locked);
                 y += rowH + 6f;
             }
 
@@ -700,35 +693,6 @@ namespace WhisperOfTheForest.Rituals
             }
 
             return gates;
-        }
-
-        private void DrawRuinSelector(Rect rect, bool locked)
-        {
-            List<RuinSeekOption> ruins = selected.ruinOptions;
-            string label = selectedRuin != null
-                ? selectedRuin.sitePart.LabelCap
-                : "WotF_RitualPanel_PickRuin".Translate();
-            bool enabled = !locked && ruins != null && ruins.Count > 0;
-
-            if (RitualPanelStyle.DrawActionButton(rect, label, BookButtonRole.Secondary, enabled))
-            {
-                ClosePopover();
-                var options = new List<FloatMenuOption>(ruins.Count);
-                for (int i = 0; i < ruins.Count; i++)
-                {
-                    RuinSeekOption option = ruins[i];
-                    options.Add(new FloatMenuOption(
-                        option.sitePart.LabelCap,
-                        () =>
-                        {
-                            selectedRuin = option;
-                            SyncSelection();
-                            dirty = true;
-                        }));
-                }
-
-                Find.WindowStack.Add(new FloatMenu(options));
-            }
         }
 
         private void DrawEquipmentSelectors(float x, float y, float width, float rowH, bool locked)

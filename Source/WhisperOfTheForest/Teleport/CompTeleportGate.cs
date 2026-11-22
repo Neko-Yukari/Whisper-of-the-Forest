@@ -188,6 +188,12 @@ namespace WhisperOfTheForest.Teleport
         {
             if (Ruined)
             {
+                if (parent.Spawned && !TeleportGateTransfer.CanReturnFromRuin(true,
+                        TeleportGateTransfer.HasActiveHostiles(parent.Map)))
+                {
+                    return (string)"WotF_TeleportGate_Inspect_RuinedLocked".Translate();
+                }
+
                 return (string)"WotF_TeleportGate_Inspect_Ruined".Translate();
             }
 

@@ -137,10 +137,10 @@
     <nightSkyGlowHigh>0.72</nightSkyGlowHigh>
     <nightSkyGlowLow>0.32</nightSkyGlowLow>
     <lightFadeSeconds>0.35</lightFadeSeconds>
-    <globe1Offset>(-0.259, 0, 1.359)</globe1Offset>
-    <globe1Radius>(0.086, 0.059)</globe1Radius>
-    <globe2Offset>(0.247, 0, 1.007)</globe2Offset>
-    <globe2Radius>(0.091, 0.056)</globe2Radius>
+    <globe1Offset>(-0.315, 0, 1.338)</globe1Offset>
+    <globe1Radius>(0.105, 0.072)</globe1Radius>
+    <globe2Offset>(0.301, 0, 0.909)</globe2Offset>
+    <globe2Radius>(0.111, 0.068)</globe2Radius>
     <globeCapDipFactor>0.06</globeCapDipFactor>
     <globeCapSideLiftFactor>0.18</globeCapSideLiftFactor>
     <globeBottomScale>1.15</globeBottomScale>
@@ -151,24 +151,44 @@
     <butterflyInitialDelaySeconds>1.5</butterflyInitialDelaySeconds>
     <butterflyRespawnSeconds>30.0</butterflyRespawnSeconds>
     <butterflyFleeRadius>2.0</butterflyFleeRadius>
-    <butterflyFleeDurationSeconds>1.65</butterflyFleeDurationSeconds>
-    <butterflyFleeSpeed>1.95</butterflyFleeSpeed>
-    <butterflyHeightMin>0.58</butterflyHeightMin>
-    <butterflyHeightMax>1.16</butterflyHeightMax>
-    <butterflyOrbitRadiusMin>0.22</butterflyOrbitRadiusMin>
-    <butterflyOrbitRadiusMax>0.56</butterflyOrbitRadiusMax>
-    <butterflyVisualScale>0.0115</butterflyVisualScale>
+    <butterflyFleeDurationSeconds>1.85</butterflyFleeDurationSeconds>
+    <butterflyFleeSpeed>2.35</butterflyFleeSpeed>
+    <butterflyAnchorOffsetZ>-0.32</butterflyAnchorOffsetZ>
+    <butterflyHeightMin>0.65</butterflyHeightMin>
+    <butterflyHeightMax>1.45</butterflyHeightMax>
+    <butterflyOrbitRadiusMin>0.25</butterflyOrbitRadiusMin>
+    <butterflyOrbitRadiusMax>0.62</butterflyOrbitRadiusMax>
+    <butterflyVisualScale>0.0155</butterflyVisualScale>
     <butterflySteerGain>1.45</butterflySteerGain>
     <butterflyHoverSteerGain>0.55</butterflyHoverSteerGain>
     <butterflyDamping>3.8</butterflyDamping>
-    <butterflyDustRate>5.5</butterflyDustRate>
-    <butterflyDustLifetimeMin>0.45</butterflyDustLifetimeMin>
-    <butterflyDustLifetimeMax>0.85</butterflyDustLifetimeMax>
+    <butterflyDustRate>7.0</butterflyDustRate>
+    <butterflyDustLifetimeMin>0.85</butterflyDustLifetimeMin>
+    <butterflyDustLifetimeMax>1.45</butterflyDustLifetimeMax>
+    <butterflyDustSizeMin>0.036</butterflyDustSizeMin>
+    <butterflyDustSizeMax>0.068</butterflyDustSizeMax>
+    <butterflyDustGravity>0.55</butterflyDustGravity>
+    <butterflyDustDrag>2.6</butterflyDustDrag>
+    <butterflyFleeFlashSeconds>0.16</butterflyFleeFlashSeconds>
+    <butterflyFleeFlashHdr>3.2</butterflyFleeFlashHdr>
+    <butterflyFleeFlashRingRadius>0.38</butterflyFleeFlashRingRadius>
+    <butterflyFleeDustRateFactor>2.6</butterflyFleeDustRateFactor>
+    <butterflyFleeDustDecayPower>1.65</butterflyFleeDustDecayPower>
+    <butterflyFleeBurstCount>22</butterflyFleeBurstCount>
+    <butterflyFleeBurstSpeedMin>0.45</butterflyFleeBurstSpeedMin>
+    <butterflyFleeBurstSpeedMax>1.15</butterflyFleeBurstSpeedMax>
+    <butterflyFleeBurstSizeMin>0.044</butterflyFleeBurstSizeMin>
+    <butterflyFleeBurstSizeMax>0.082</butterflyFleeBurstSizeMax>
+    <butterflyFleeBurstLifetimeMin>2.6</butterflyFleeBurstLifetimeMin>
+    <butterflyFleeBurstLifetimeMax>3.9</butterflyFleeBurstLifetimeMax>
+    <butterflyFleeBurstGravity>0.72</butterflyFleeBurstGravity>
+    <butterflyFleeBurstDrag>2.4</butterflyFleeBurstDrag>
+    <butterflyFleeSound>WotF_Sound_Butterfly_Startle</butterflyFleeSound>
     <butterflyBrightColorHex>#E4FFFA</butterflyBrightColorHex>
     <butterflyMainColorHex>#5CF8E0</butterflyMainColorHex>
     <butterflyDeepColorHex>#24B2A6</butterflyDeepColorHex>
     <butterflyEdgeColorHex>#186C62</butterflyEdgeColorHex>
-    <butterflyHdrMultiplier>1.45</butterflyHdrMultiplier>
+    <butterflyHdrMultiplier>2.55</butterflyHdrMultiplier>
   </WhisperOfTheForest.Vfx.StreetLampLumenVfxDef>
 
 </Defs>

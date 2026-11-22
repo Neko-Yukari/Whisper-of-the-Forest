@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
-  <WotF_SpellStaff.label>长法术手杖</WotF_SpellStaff.label>
-  <WotF_SpellStaff.description>需要双手稳端的长法术手杖——按奇幻行规，这根才是正经的 staff（长法杖），而不是单手轻快的 wand（魔杖）。它占用主武器位，能以完整射程施放所选魔术书槽位，将杖身材质的共鸣上限推至更高，也是唯一能稳定引导超位符文的载体；代价是穿戴阻拦远程武器的护盾腰带时无法施法。未选定法术槽位时无法攻击。</WotF_SpellStaff.description>
-  <WotF_SpellWand.label>短法术魔杖</WotF_SpellWand.label>
-  <WotF_SpellWand.description>虽然顺口常被叫作「短法术手杖」，但按奇幻行规，这根单手握持、起手灵巧的短杖严格算 wand（魔杖），跟需要双手稳端、放大材质共鸣与超位烈度的 staff（长法杖）不是一回事。它作为真副手不占用主武器位：空手独持时可自动平 A 施法，也能与主手武器和护盾腰带并存并随时手动点射；换取更短前摇的代价是射程较近、材质倍率上限较低且无法引导超位符文。</WotF_SpellWand.description>
+  <WotF_SpellStaff.label>法杖</WotF_SpellStaff.label>
+  <WotF_SpellStaff.description>需要双手稳稳持握的长柄法杖（staff）。比起轻巧灵活的单手魔杖，法杖往往显得有些笨重，也难以在贴身格斗时兼顾其他护具；但作为回报，它能够承受更猛烈的魔力奔流，将法术投送到更远的距离，也是极少数足以稳定引导超位法术的媒介。</WotF_SpellStaff.description>
+  <WotF_SpellWand.label>魔杖</WotF_SpellWand.label>
+  <WotF_SpellWand.description>这是一根单手就能握持的魔杖(wand)，它和需要双手才能稳稳抓住的法杖(staff)可不是一个东西！\n魔杖一般被那些更注重剑术的精灵们所青睐，它比起双手法杖更轻便的优点让它可以以更快的速度射出施术者所需的法术，将法术融入到剑法中。但代价就是射程相对较短，而且对法术的适应力也没有法杖那么好。</WotF_SpellWand.description>
   <WotF_Spellbook_Apprentice.label>学徒魔术书</WotF_Spellbook_Apprentice.label>
-  <WotF_Spellbook_Apprentice.description>佩在腰间的初阶魔术书。开放全部 10 个法术书签，单条法术符文链上限为 4 枚，魔力上限增加20，每秒回魔增加0.5。不能承载超位符文。</WotF_Spellbook_Apprentice.description>
+  <WotF_Spellbook_Apprentice.description>挂在腰间的入门魔术书，供初涉法术编织的精灵使用。翻开后可启用全部 10 个法术书签，每条法术最多串接 4 枚符文，佩戴时也能小幅拓宽魔力上限并加快恢复，只是无法容纳超位符文。</WotF_Spellbook_Apprentice.description>
   <WotF_Spellbook_Adept.label>织法魔术书</WotF_Spellbook_Adept.label>
-  <WotF_Spellbook_Adept.description>进阶魔术书。开放全部 10 个法术书签，单条法术符文链上限为 7 枚，魔力上限增加45，每秒回魔增加1.2。不能承载超位符文。</WotF_Spellbook_Adept.description>
+  <WotF_Spellbook_Adept.description>经由二阶仪式重铸的魔术书，装帧与纸页都更能承受繁复的魔力回路。书内备有全部 10 个书签，每条法术的符文上限增至 7 枚，同时进一步提高佩戴者的魔力上限与恢复速度，但仍无法承载超位符文。</WotF_Spellbook_Adept.description>
   <WotF_Spellbook_Archmage.label>星辉法典</WotF_Spellbook_Archmage.label>
-  <WotF_Spellbook_Archmage.description>高阶星辉法典。开放全部 10 个法术书签，单条法术符文链上限为 10 枚，魔力上限增加80，每秒回魔增加2.5。唯一能够承载超位符文的魔术书；施放超位法术还需主手握持法杖。</WotF_Spellbook_Archmage.description>
+  <WotF_Spellbook_Archmage.description>经星辉仪式升华而成的高阶典籍，书页间隐约流转着冷冽的银光。它开放全部 10 个法术书签，单条法术的符文链可延展至 10 枚，并能大幅提高佩戴者的魔力上限与恢复速度。这是唯一足以承载超位符文的魔术书，但施放其中的超位法术时，主手仍须握持一根法杖。</WotF_Spellbook_Archmage.description>
   <WotF_ElvenLongsword.label>精灵长剑</WotF_ElvenLongsword.label>
-  <WotF_ElvenLongsword.description>林庭宫廷的长剑，挥砍与突刺都顺手。注入剑柄的法术会随刃锋咬中的目标一同释放。</WotF_ElvenLongsword.description>
+  <WotF_ElvenLongsword.description>剑身修长匀称的精灵传统兵刃，无论是顺势劈砍还是直刺都极为趁手。铭刻在剑柄内的法术会在刃锋击中敌人时同步释放。</WotF_ElvenLongsword.description>
   <WotF_ElvenLongbow.label>活木长弓</WotF_ElvenLongbow.label>
-  <WotF_ElvenLongbow.description>以整段活木弯成的长弓，弓弦取自兽筋。拉弓快而无声；注入握把的法术会附在每一支射出的箭上。</WotF_ElvenLongbow.description>
+  <WotF_ElvenLongbow.description>顺着整段活木原本的纹理弯成的长弓，配上柔韧的兽筋弓弦，拉开时轻快而无声。经由仪式铭刻在弓把上的法术，会随每一支离弦的箭矢一并落向目标。</WotF_ElvenLongbow.description>
   <WotF_Projectile_ElvenArrow.label>精灵箭</WotF_Projectile_ElvenArrow.label>
 </LanguageData>

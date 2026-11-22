@@ -116,7 +116,22 @@ namespace WhisperOfTheForest.Teleport
             return null;
         }
 
-        /// <summary>Sites whose parts carry <see cref="RuinSiteExtension"/>; both ruins do.</summary>
+        /// <summary>
+        /// Whether any hostile active threat remains on the map, counting dormant pawns as hostile —
+        /// the exact same clear check vanilla uses for sites (Site.cs:324-327).
+        /// </summary>
+        public static bool HasActiveHostiles(Map map)
+        {
+            return map != null && GenHostility.AnyHostileActiveThreatToPlayer(map, countDormantPawnsAsHostile: true);
+        }
+
+        /// <summary>
+        /// A ruin's broken gate stays locked until every active or dormant hostile on its map is
+        /// cleared; non-ruined gates are unaffected.
+        /// </summary>
+        public static bool CanReturnFromRuin(bool ruined, bool hasActiveHostiles) => !ruined || !hasActiveHostiles;
+
+        /// <summary>Sites whose parts carry <see cref="RuinSiteExtension"/>.</summary>
         public static IEnumerable<Site> RuinSites()
         {
             foreach (WorldObject worldObject in Find.WorldObjects.AllWorldObjects)
@@ -154,6 +169,12 @@ namespace WhisperOfTheForest.Teleport
             var options = new List<FloatMenuOption>();
             if (!gate.parent.Spawned)
             {
+                return options;
+            }
+
+            if (gate.Ruined && !CanReturnFromRuin(true, HasActiveHostiles(gate.parent.Map)))
+            {
+                options.Add(Disabled((string)"WotF_TeleportGate_RuinHostiles".Translate()));
                 return options;
             }
 
@@ -447,8 +468,22 @@ namespace WhisperOfTheForest.Teleport
             cost = 0f;
             CompTransporter transporter = ruinGate.Transporter;
 
+            if (!ruinGate.parent.Spawned)
+            {
+                refusal = (string)"WotF_TeleportGate_NoHomeGate".Translate();
+                Message(refusal);
+                return;
+            }
+
+            if (!CanReturnFromRuin(ruinGate.Ruined, HasActiveHostiles(ruinGate.parent.Map)))
+            {
+                refusal = (string)"WotF_TeleportGate_RuinHostiles".Translate();
+                Message(refusal);
+                return;
+            }
+
             // CanAcceptRemote is the run-time check: spawned, switched on and paid this tick.
-            if (!ruinGate.parent.Spawned || home == null || !home.CanAcceptRemote)
+            if (home == null || !home.CanAcceptRemote)
             {
                 refusal = (string)"WotF_TeleportGate_NoHomeGate".Translate();
                 Message(refusal);
@@ -826,7 +861,7 @@ namespace WhisperOfTheForest.Teleport
         /// The letter a caravan's first entry sends (CaravanArrivalAction_VisitSite.cs:68-70): the
         /// arrival sentence, then each site part's own arrival text and letter def, the same walk as the
         /// vanilla AppendThreatInfo (:118-156). The "entering counts as an attack" block (:72-75) is not
-        /// carried over: neither ruin sets considerEnteringAsAttack.
+        /// carried over: the ruin does not set considerEnteringAsAttack.
         /// </summary>
         private static void SendArrivalLetter(Site site, Map map, Thing fallbackTarget)
         {

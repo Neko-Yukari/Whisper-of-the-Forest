@@ -12,6 +12,8 @@ namespace WhisperOfTheForest.Tests
         {
             ("streetlamp: night factor maps day=0 midpoint=0.5 night=1", NightFactorMapping),
             ("streetlamp: cursor within 2 cells startles butterfly, outside does not", ButterflyFleeRadius),
+            ("streetlamp: flee dust rate tapers monotonically from start factor to zero", FleeDustRateTapering),
+            ("streetlamp: flee flash peaks briefly on startle then fades to zero", FleeFlashEnvelope),
             ("mana-switch: switched off halts machine regardless of supply", SwitchGating),
         };
 
@@ -35,6 +37,30 @@ namespace WhisperOfTheForest.Tests
             Check.True(
                 !StreetLampVfxMath.ShouldStartleButterfly(new Vector2(12.0f, 10.0f), butterfly, 2.0f),
                 "distance 2.0 >= 2.0 should not startle butterfly");
+        }
+
+        private static void FleeDustRateTapering()
+        {
+            float r0 = StreetLampVfxMath.EvaluateFleeDustRateMultiplier(0f, 2.6f, 1.65f);
+            float rMid = StreetLampVfxMath.EvaluateFleeDustRateMultiplier(0.5f, 2.6f, 1.65f);
+            float rEnd = StreetLampVfxMath.EvaluateFleeDustRateMultiplier(1f, 2.6f, 1.65f);
+
+            Check.True(Mathf.Approximately(r0, 2.6f), $"expected start rate 2.6, got {r0}");
+            Check.True(r0 > rMid && rMid > 0f, $"expected 0 < mid < start, got mid={rMid}");
+            Check.True(Mathf.Approximately(rEnd, 0f), $"expected end rate 0, got {rEnd}");
+        }
+
+        private static void FleeFlashEnvelope()
+        {
+            float fStart = StreetLampVfxMath.EvaluateFleeFlashIntensity(0f, 0.16f);
+            float fPeak = StreetLampVfxMath.EvaluateFleeFlashIntensity(0.045f, 0.16f);
+            float fTail = StreetLampVfxMath.EvaluateFleeFlashIntensity(0.11f, 0.16f);
+            float fEnd = StreetLampVfxMath.EvaluateFleeFlashIntensity(0.16f, 0.16f);
+
+            Check.True(Mathf.Approximately(fStart, 0f), $"expected t=0 flash=0, got {fStart}");
+            Check.True(fPeak > 0.9f, $"expected flash peak > 0.9, got {fPeak}");
+            Check.True(fTail > 0f && fTail < fPeak, $"expected tail between 0 and peak, got {fTail}");
+            Check.True(Mathf.Approximately(fEnd, 0f), $"expected end flash=0, got {fEnd}");
         }
 
         private static void SwitchGating()

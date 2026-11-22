@@ -2,7 +2,7 @@
 <LanguageData>
 
   <WotF_ArcaneMissileDamage.label>钝击</WotF_ArcaneMissileDamage.label>
-  <WotF_ArcaneMissileDamage.description>以碾压而非切割的方式造成冲击伤害，不会像切割伤那样造成流血。</WotF_ArcaneMissileDamage.description>
-  <WotF_ArcaneMissileDamage.deathMessage>{0}被钝击击碎。</WotF_ArcaneMissileDamage.deathMessage>
+  <WotF_ArcaneMissileDamage.description>沉重的钝力冲击，以撞击与挤压重创目标，留下的多是淤伤与裂痕，极少造成流血。</WotF_ArcaneMissileDamage.description>
+  <WotF_ArcaneMissileDamage.deathMessage>{0}死于沉重的钝击。</WotF_ArcaneMissileDamage.deathMessage>
 
 </LanguageData>

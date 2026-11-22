@@ -3,81 +3,81 @@
 
   <!-- 形式 -->
   <WotF_Form_Self.label>自身</WotF_Form_Self.label>
-  <WotF_Form_Self.description>作用在施法者本人及其所在格，不再选择其他目标。</WotF_Form_Self.description>
+  <WotF_Form_Self.description>直接将法术收束于施法者自身及脚下的位置，无需另行瞄准。</WotF_Form_Self.description>
   <WotF_Form_Touch.label>接触</WotF_Form_Touch.label>
-  <WotF_Form_Touch.description>只作用于相邻且可触及的一个目标。墙体可以挡住它，作用距离不会超过相邻格。</WotF_Form_Touch.description>
+  <WotF_Form_Touch.description>以近身触碰的方式施放法术，只能作用于相邻一格的目标，且会被墙体阻隔。</WotF_Form_Touch.description>
   <WotF_Form_Projectile.label>弹射物</WotF_Form_Projectile.label>
-  <WotF_Form_Projectile.description>以现有追踪奥术弹的形式飞行，并在真正命中的位置结算。只有这个形式可以使用穿透、加速、减速和分裂。</WotF_Form_Projectile.description>
+  <WotF_Form_Projectile.description>几乎是法术中最为常用的形式，可以将法术效果投射到远方。</WotF_Form_Projectile.description>
   <WotF_Form_Orbit.label>环绕</WotF_Form_Orbit.label>
-  <WotF_Form_Orbit.description>在施法者周围放出法球，法球随施法者移动，碰到第一个目标时结算编排好的效果。不需要选择目标。</WotF_Form_Orbit.description>
+  <WotF_Form_Orbit.description>在施法者周身唤出数枚随行旋转的魔力法球，无需指定目标。每枚法球触碰到第一个目标时，便会触发其后编排的全部效果。</WotF_Form_Orbit.description>
 
   <!-- 效果：杀伤 -->
   <WotF_Effect_Harm.label>穿刺</WotF_Effect_Harm.label>
-  <WotF_Effect_Harm.description>对法术触及的目标造成钝击伤害，伤害类型与奥术飞弹相同。</WotF_Effect_Harm.description>
+  <WotF_Effect_Harm.description>将凝实的魔力猛然砸向目标，造成具有穿甲力的钝击伤害，能同时震伤血肉与建筑。</WotF_Effect_Harm.description>
   <WotF_Effect_Explosion.label>爆裂</WotF_Effect_Explosion.label>
-  <WotF_Effect_Explosion.description>在法术落点产生一次原生爆炸。范围只扩大这一次爆炸；精细让爆裂不伤害建筑。</WotF_Effect_Explosion.description>
+  <WotF_Effect_Explosion.description>于落点处引发一阵剧烈爆炸，波及周围的一切。搭配范围符文可进一步扩大爆炸半径，附带精细符文则能在造成杀伤的同时保全建筑。</WotF_Effect_Explosion.description>
 
   <WotF_Effect_Lightning.label>落雷</WotF_Effect_Lightning.label>
-  <WotF_Effect_Lightning.description>雷击造成 EMP 与灼烧伤害，并留下「受电」层数；目标身上层数越多，后续雷伤越高。对付机械族的主要手段。</WotF_Effect_Lightning.description>
+  <WotF_Effect_Lightning.description>唤来一道剧烈的雷击，在灼伤目标的同时扰乱周遭的电子与灵能回路。被雷光反复击中的目标往往会在体表残留下难以散去的电荷，使下一次雷鸣变得更加致命，对机械族尤为有效。</WotF_Effect_Lightning.description>
   <WotF_Effect_ColdSnap.label>冰裂</WotF_Effect_ColdSnap.label>
-  <WotF_Effect_ColdSnap.description>对已经处于霜冻减速中的目标爆发伤害，基础伤害之外再乘上易伤倍率。</WotF_Effect_ColdSnap.description>
+  <WotF_Effect_ColdSnap.description>在目标周身引爆刺骨寒气造成伤害。如果目标正处于霜冻状态，这道寒气还会造成成倍的伤害。</WotF_Effect_ColdSnap.description>
 
   <!-- 效果：控制 -->
   <WotF_Effect_Freeze.label>霜冻</WotF_Effect_Freeze.label>
-  <WotF_Effect_Freeze.description>在一段时间内压低目标的移动能力，其余状态不受影响。</WotF_Effect_Freeze.description>
+  <WotF_Effect_Freeze.description>唤来一阵凛冽寒气覆上目标，在一段时间内压低移动能力，其余机能不受影响。</WotF_Effect_Freeze.description>
   <WotF_Effect_Knockback.label>击退</WotF_Effect_Knockback.label>
-  <WotF_Effect_Knockback.description>把目标从落点推开，使用原版跳跃同款飞行器。数值为推开距离；范围决定一次推开哪些目标。</WotF_Effect_Knockback.description>
+  <WotF_Effect_Knockback.description>从落点迸发一股猛烈的推力，将目标径直掀飞。搭配范围符文还能一次震开周围的多个目标。</WotF_Effect_Knockback.description>
   <WotF_Effect_Pull.label>牵引</WotF_Effect_Pull.label>
-  <WotF_Effect_Pull.description>把目标拉向落点，使用原版跳跃同款飞行器。数值为拉近距离。</WotF_Effect_Pull.description>
+  <WotF_Effect_Pull.description>在落点唤出一股无形的引力，将目标径直拽向中心位置，拉扯的距离随法术强度而定。</WotF_Effect_Pull.description>
   <WotF_Effect_Snare.label>缚足</WotF_Effect_Snare.label>
-  <WotF_Effect_Snare.description>把目标的移动压到零，但攻击不受影响；这不是眩晕。</WotF_Effect_Snare.description>
+  <WotF_Effect_Snare.description>唤出无形的魔力将目标牢牢定在原地。被困者在一段时间内无法挪动，但仍可照常攻击。</WotF_Effect_Snare.description>
   <WotF_Effect_Hex.label>咒印</WotF_Effect_Hex.label>
-  <WotF_Effect_Hex.description>给目标打上咒印：一段时间内承受更多伤害、愈合更慢。</WotF_Effect_Hex.description>
+  <WotF_Effect_Hex.description>在目标身上刻下一道阴冷的厄运印记，令目标在一段时间内承受更多伤害，伤口愈合与魔力恢复也会一同减缓。</WotF_Effect_Hex.description>
 
   <!-- 效果：辅助 -->
   <WotF_Effect_Heal.label>凝血</WotF_Effect_Heal.label>
-  <WotF_Effect_Heal.description>不直接回血：立即无药材包扎目标身上的伤口，并在一段时间内提高自然愈合速度。</WotF_Effect_Heal.description>
+  <WotF_Effect_Heal.description>温和的辅助符文，能在没有药材的情况下迅速封住伤口并促使其更快愈合。</WotF_Effect_Heal.description>
   <WotF_Effect_Grow.label>催生</WotF_Effect_Grow.label>
-  <WotF_Effect_Grow.description>不让作物直接成熟：命中格（配合范围为一圆域地块）在一段时间内获得额外的生长速度倍率。</WotF_Effect_Grow.description>
+  <WotF_Effect_Grow.description>向土壤中注入温和的生机，让落点处的植物加快生长一段时间。搭配范围符文可让周围整片地块一同受益。</WotF_Effect_Grow.description>
   <WotF_Effect_Magelight.label>光耀</WotF_Effect_Magelight.label>
-  <WotF_Effect_Magelight.description>在法术落点放置一个临时光源，半径、颜色和持续时间都由符文与增幅冻结。</WotF_Effect_Magelight.description>
+  <WotF_Effect_Magelight.description>在落点凝出一团柔和的魔力微光，暂时照亮周围。它的照明范围与留存时长都可借由增幅符文调整。</WotF_Effect_Magelight.description>
   <WotF_Effect_PlanarShield.label>片盾</WotF_Effect_PlanarShield.label>
-  <WotF_Effect_PlanarShield.description>在落点展开一面垂直于「落点→施法者」连线的单向护盾，持续 15 秒。拦下敌方的平射投射物与奥术飞弹，每挡一次扣 1 次，友方弹射物从任意方向自由穿过；强化提高次数，范围加长盾面。</WotF_Effect_PlanarShield.description>
+  <WotF_Effect_PlanarShield.description>在落点展开一面横亘在施法者面前的单向魔力盾墙，能拦下敌方的平射投射物与奥术飞弹，同时放行来自任意方向的友方射击。护盾会在次数耗尽或到期后消散，搭配强化能增加拦截次数，搭配范围则会加宽盾面。</WotF_Effect_PlanarShield.description>
   <WotF_Effect_Blink.label>闪现</WotF_Effect_Blink.label>
-  <WotF_Effect_Blink.description>自身形式时向面朝方向闪出；由弹射物或接触送出时，施法者闪到法术落点。</WotF_Effect_Blink.description>
+  <WotF_Effect_Blink.description>瞬间扭曲空间，将施法者送往另一处落脚点。作用于自身时会向面朝方向跃出一段距离，借由远程或接触等形式施放时，施法者则会直接现身于法术的落点。</WotF_Effect_Blink.description>
 
   <!-- 效果：改变时机与位置 -->
   <WotF_Effect_Linger.label>滞留</WotF_Effect_Linger.label>
-  <WotF_Effect_Linger.description>在落点留下一片力场，持续期间按间隔对场内单位结算右侧的全部效果。加速缩短施放间隔，减速拉长间隔。</WotF_Effect_Linger.description>
+  <WotF_Effect_Linger.description>在法术落点留下一片持续涌动的魔力场，消散前按固定间隔对场内单位重复触发其后编排的全部效果。搭配加速或减速符文还能改变力场的触发频率。</WotF_Effect_Linger.description>
   <WotF_Effect_Rune.label>地印</WotF_Effect_Rune.label>
-  <WotF_Effect_Rune.description>在落点放一枚不占建筑格的临时地印，第一个踩上去的单位承受右侧的全部效果，随后地印消失。</WotF_Effect_Rune.description>
+  <WotF_Effect_Rune.description>在地面烙下一枚不占建筑空间的隐秘印记。第一个踏入此处的单位会触发其后编排的全部效果，印记也会随之消散。</WotF_Effect_Rune.description>
   <WotF_Effect_Delay.label>延迟</WotF_Effect_Delay.label>
-  <WotF_Effect_Delay.description>右侧的全部效果等几秒后，在原来的目标处结算。</WotF_Effect_Delay.description>
+  <WotF_Effect_Delay.description>暂缓魔力的释放，让排在后面的全部效果等待数秒后，再于原先的落点处一齐触发。</WotF_Effect_Delay.description>
 
   <!-- 增幅 -->
   <WotF_Augment_Amplify.label>强化</WotF_Augment_Amplify.label>
-  <WotF_Augment_Amplify.description>提高左侧效果的强度：伤害、愈合速度、亮度、推拉距离与爆炸半径都会随之变大。</WotF_Augment_Amplify.description>
+  <WotF_Augment_Amplify.description>注入更多魔力来放大前一个效果的威力，使伤害、愈合与推拉距离等各项效力随之增长。</WotF_Augment_Amplify.description>
   <WotF_Augment_Dampen.label>削弱</WotF_Augment_Dampen.label>
-  <WotF_Augment_Dampen.description>降低左侧效果的强度：伤害更低、推得更近、光更暗。</WotF_Augment_Dampen.description>
+  <WotF_Augment_Dampen.description>收束注入的魔力以压低前一个效果的强度，让伤害更轻、光照更柔和，推拉距离也会相应缩短。</WotF_Augment_Dampen.description>
   <WotF_Augment_AOE.label>范围</WotF_Augment_AOE.label>
-  <WotF_Augment_AOE.description>把左侧效果扩大到附近的目标。每个目标只被作用一次，爆炸依然只发生一次。</WotF_Augment_AOE.description>
+  <WotF_Augment_AOE.description>将前一个效果的波及面拓宽至周围区域，令附近多个目标同时受影响，且每个目标只会生效一次。搭配爆裂或片盾时，则会直接扩大爆炸半径或盾面宽度。</WotF_Augment_AOE.description>
   <WotF_Augment_Extend.label>延时</WotF_Augment_Extend.label>
-  <WotF_Augment_Extend.description>延长左侧效果的持续时间。</WotF_Augment_Extend.description>
+  <WotF_Augment_Extend.description>延展法术的存续，使前一个效果或形式在场上维持得更久，或拉长等待时间。</WotF_Augment_Extend.description>
   <WotF_Augment_Shorten.label>缩时</WotF_Augment_Shorten.label>
-  <WotF_Augment_Shorten.description>缩短左侧效果的持续时间。</WotF_Augment_Shorten.description>
+  <WotF_Augment_Shorten.description>催促法术提前收束，缩短前一个效果或形式的持续时间或等待时间。</WotF_Augment_Shorten.description>
   <WotF_Augment_Sensitive.label>精细</WotF_Augment_Sensitive.label>
-  <WotF_Augment_Sensitive.description>只保留可控的部分：爆裂不再伤害建筑。</WotF_Augment_Sensitive.description>
+  <WotF_Augment_Sensitive.description>仔细收束外泄的余波，使爆裂这类猛烈法术避开周围建筑，只伤及身处其中的目标。</WotF_Augment_Sensitive.description>
   <WotF_Augment_BreakArmor.label>破甲</WotF_Augment_BreakArmor.label>
-  <WotF_Augment_BreakArmor.description>提高左侧伤害类效果的穿甲。</WotF_Augment_BreakArmor.description>
+  <WotF_Augment_BreakArmor.description>令前一个伤害效果更具穿透力，更容易击穿厚重的护甲。</WotF_Augment_BreakArmor.description>
   <WotF_Augment_Pierce.label>穿透</WotF_Augment_Pierce.label>
-  <WotF_Augment_Pierce.description>让左侧的弹射物命中后继续飞行，可以再命中后方的目标；每次额外命中消耗一层穿透。不能与分裂同用。</WotF_Augment_Pierce.description>
+  <WotF_Augment_Pierce.description>让弹射物命中后继续向前飞行，再次击中后方的目标。每多贯穿一个目标便耗去一层效用，且无法与分裂并用。</WotF_Augment_Pierce.description>
   <WotF_Augment_Accelerate.label>加速</WotF_Augment_Accelerate.label>
-  <WotF_Augment_Accelerate.description>让左侧的弹射物飞得更快、环绕法球转得更快，或缩短滞留的施放间隔。</WotF_Augment_Accelerate.description>
+  <WotF_Augment_Accelerate.description>加快魔力流转，让弹射物飞得更快、环绕法球转得更急，也能缩短滞留力场的触发间隔。</WotF_Augment_Accelerate.description>
   <WotF_Augment_Decelerate.label>减速</WotF_Augment_Decelerate.label>
-  <WotF_Augment_Decelerate.description>让左侧的弹射物飞得更慢、环绕法球转得更慢，或拉长滞留的施放间隔。</WotF_Augment_Decelerate.description>
+  <WotF_Augment_Decelerate.description>放缓魔力的推进节奏，既可减慢弹射物的飞行速度与环绕法球的转速，也能拉长滞留力场每次生效的间隔。</WotF_Augment_Decelerate.description>
   <WotF_Augment_Split.label>分裂</WotF_Augment_Split.label>
-  <WotF_Augment_Split.description>为左侧的弹射物增加弹数，或为环绕形式多放一枚法球。用在弹射物上时不能与穿透同用。</WotF_Augment_Split.description>
+  <WotF_Augment_Split.description>将汇聚的魔力一分为多，让弹射物一次射出更多枚，或为环绕形式增添额外法球。用在弹射物上时无法与穿透并用。</WotF_Augment_Split.description>
 
   <WotF_Effect_Hack.label>骇入</WotF_Effect_Hack.label>
-  <WotF_Effect_Hack.description>命中后持续引导，同化敌对机械体。同化时目标眩晕，引导中断则失败；成功后暂时控制，不占机械师带宽，到期恢复原阵营。</WotF_Effect_Hack.description>
+  <WotF_Effect_Hack.description>一种奇特的引导法术，能够强行切入敌对机械体的指令回路。只要施法者在引导期间不被打断，被眩晕的机械体就会暂时倒戈并听命于施法者。</WotF_Effect_Hack.description>
 </LanguageData>

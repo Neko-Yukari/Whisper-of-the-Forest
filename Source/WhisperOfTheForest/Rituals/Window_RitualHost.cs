@@ -31,7 +31,6 @@ namespace WhisperOfTheForest.Rituals
         private RitualDef selected;
         private SpellGlyphDef selectedRune;
         private Building selectedNode;
-        private RuinSeekOption selectedRuin;
         private Thing selectedEquipment;
         private int selectedBookSlot = -1;
         private Pawn selectedHost;
@@ -123,7 +122,6 @@ namespace WhisperOfTheForest.Rituals
                 selected = altar.SelectedDef;
                 selectedRune = altar.SelectedRune;
                 selectedNode = altar.SelectedTeleportTarget;
-                selectedRuin = altar.SelectedRuinOption;
                 selectedEquipment = altar.SelectedEquipment;
                 selectedBookSlot = altar.SelectedBookSlot;
             }
@@ -156,7 +154,6 @@ namespace WhisperOfTheForest.Rituals
             selected = def;
             selectedRune = def != null && def == altar.CollectDef ? altar.CollectRune : null;
             selectedNode = null;
-            selectedRuin = null;
             selectedEquipment = null;
             selectedBookSlot = -1;
             lastCostRitual = null;
@@ -171,8 +168,7 @@ namespace WhisperOfTheForest.Rituals
         {
             if (selected == null || altar.SupportsRitual(selected))
             {
-                altar.SetSelectedRitual(selected, selectedRune, selectedNode, selectedEquipment,
-                    selectedBookSlot, selectedRuin?.quest);
+                altar.SetSelectedRitual(selected, selectedRune, selectedNode, selectedEquipment, selectedBookSlot);
             }
         }
 
@@ -401,7 +397,6 @@ namespace WhisperOfTheForest.Rituals
                 Def = selected,
                 Rune = selectedRune,
                 TeleportTarget = selectedNode,
-                RuinOption = selected != null && selected.chooseRuinType ? selectedRuin : null,
                 Equipment = selected != null && selected.chooseEquipment ? selectedEquipment : null,
                 BookSlot = selected != null && selected.chooseEquipment ? selectedBookSlot : -1,
                 Host = selectedHost

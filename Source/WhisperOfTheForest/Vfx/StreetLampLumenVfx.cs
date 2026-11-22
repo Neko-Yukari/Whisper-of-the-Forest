@@ -7,6 +7,7 @@ using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
+using Verse.Sound;
 using WhisperOfTheForest.Mana;
 using CurveKey = RimLumen.Core.Contracts.CurveKey;
 using NumVector3 = System.Numerics.Vector3;
@@ -51,6 +52,34 @@ namespace WhisperOfTheForest.Vfx
         {
             return fleeRadius > 0f && (cursorXZ - butterflyXZ).sqrMagnitude < fleeRadius * fleeRadius;
         }
+
+        public static float EvaluateFleeDustRateMultiplier(float fleeProgress01, float startMultiplier, float decayPower)
+        {
+            if (startMultiplier <= 0f)
+            {
+                return 0f;
+            }
+
+            float u = Mathf.Clamp01(fleeProgress01);
+            return startMultiplier * Mathf.Pow(1f - u, Mathf.Max(0.01f, decayPower));
+        }
+
+        public static float EvaluateFleeFlashIntensity(float fleeAgeSeconds, float flashDurationSeconds)
+        {
+            if (flashDurationSeconds <= 0f || fleeAgeSeconds < 0f || fleeAgeSeconds >= flashDurationSeconds)
+            {
+                return 0f;
+            }
+
+            float t = fleeAgeSeconds / flashDurationSeconds;
+            if (t < 0.28f)
+            {
+                return Mathf.Sin((t / 0.28f) * (Mathf.PI * 0.5f));
+            }
+
+            float d = (t - 0.28f) / 0.72f;
+            return (1f - d) * (1f - d);
+        }
     }
 
     public sealed class StreetLampLumenVfxDef : VfxDef
@@ -86,6 +115,7 @@ namespace WhisperOfTheForest.Vfx
         public float butterflyFleeRadius;
         public float butterflyFleeDurationSeconds;
         public float butterflyFleeSpeed;
+        public float butterflyAnchorOffsetZ;
         public float butterflyHeightMin;
         public float butterflyHeightMax;
         public float butterflyOrbitRadiusMin;
@@ -97,6 +127,25 @@ namespace WhisperOfTheForest.Vfx
         public float butterflyDustRate;
         public float butterflyDustLifetimeMin;
         public float butterflyDustLifetimeMax;
+        public float butterflyDustSizeMin;
+        public float butterflyDustSizeMax;
+        public float butterflyDustGravity;
+        public float butterflyDustDrag;
+        public float butterflyFleeFlashSeconds;
+        public float butterflyFleeFlashHdr;
+        public float butterflyFleeFlashRingRadius;
+        public float butterflyFleeDustRateFactor;
+        public float butterflyFleeDustDecayPower;
+        public int butterflyFleeBurstCount;
+        public float butterflyFleeBurstSpeedMin;
+        public float butterflyFleeBurstSpeedMax;
+        public float butterflyFleeBurstSizeMin;
+        public float butterflyFleeBurstSizeMax;
+        public float butterflyFleeBurstLifetimeMin;
+        public float butterflyFleeBurstLifetimeMax;
+        public float butterflyFleeBurstGravity;
+        public float butterflyFleeBurstDrag;
+        public SoundDef butterflyFleeSound;
         public string butterflyBrightColorHex;
         public string butterflyMainColorHex;
         public string butterflyDeepColorHex;
@@ -140,6 +189,7 @@ namespace WhisperOfTheForest.Vfx
             }
 
             if (butterflyHeightMin <= 0f || butterflyHeightMax <= butterflyHeightMin
+                || float.IsNaN(butterflyAnchorOffsetZ) || float.IsInfinity(butterflyAnchorOffsetZ)
                 || butterflyOrbitRadiusMin <= 0f || butterflyOrbitRadiusMax <= butterflyOrbitRadiusMin
                 || butterflyVisualScale <= 0f || butterflySteerGain <= 0f || butterflyHoverSteerGain <= 0f
                 || butterflyDamping <= 0f || butterflyHdrMultiplier <= 0f)
@@ -147,9 +197,30 @@ namespace WhisperOfTheForest.Vfx
                 yield return "streetlamp butterfly orbit/flight scale and steering parameters must be positive";
             }
 
-            if (butterflyDustRate < 0f || butterflyDustLifetimeMin <= 0f || butterflyDustLifetimeMax < butterflyDustLifetimeMin)
+            if (butterflyDustRate < 0f || butterflyDustLifetimeMin <= 0f || butterflyDustLifetimeMax < butterflyDustLifetimeMin
+                || butterflyDustSizeMin <= 0f || butterflyDustSizeMax < butterflyDustSizeMin
+                || butterflyDustGravity < 0f || butterflyDustDrag < 0f)
             {
-                yield return "streetlamp butterfly dust parameters must be positive";
+                yield return "streetlamp butterfly dust size, lifetime and physics parameters must be valid non-negative values";
+            }
+
+            if (butterflyFleeFlashSeconds <= 0f || butterflyFleeFlashHdr < 1f || butterflyFleeFlashRingRadius <= 0f
+                || butterflyFleeDustRateFactor < 0f || butterflyFleeDustDecayPower <= 0f)
+            {
+                yield return "streetlamp butterfly flee flash and dust taper parameters must be positive";
+            }
+
+            if (butterflyFleeBurstCount <= 0 || butterflyFleeBurstSpeedMin < 0f || butterflyFleeBurstSpeedMax < butterflyFleeBurstSpeedMin
+                || butterflyFleeBurstSizeMin <= 0f || butterflyFleeBurstSizeMax < butterflyFleeBurstSizeMin
+                || butterflyFleeBurstLifetimeMin <= 0f || butterflyFleeBurstLifetimeMax < butterflyFleeBurstLifetimeMin
+                || butterflyFleeBurstGravity < 0f || butterflyFleeBurstDrag < 0f)
+            {
+                yield return "streetlamp butterfly flee burst parameters must be valid positive values";
+            }
+
+            if (butterflyFleeSound == null)
+            {
+                yield return "streetlamp butterflyFleeSound is required";
             }
 
             if (!VfxColors.IsValid(butterflyBrightColorHex) || !VfxColors.IsValid(butterflyMainColorHex)
@@ -219,45 +290,124 @@ namespace WhisperOfTheForest.Vfx
                     new EffectNodeSpec
                     {
                         Name = "butterfly_dust",
-                        SpacePlane = LumenSpacePlane.GroundXZ,
-                        LocalPosition = new NumVector3(0f, 0.04f, 0f),
+                        SpacePlane = LumenSpacePlane.Vertical3D,
+                        LocalPosition = NumVector3.Zero,
                         Emitter = new EmitterSpec
                         {
                             Name = "butterfly_dust",
                             PreferredTier = LumenParticleTier.L2_GpuCompute,
-                            MaxParticles = 40,
+                            MaxParticles = 128,
                             Duration = 2f,
                             Looping = true,
                             WorldSpaceSimulation = true,
                             RateOverTime = def.butterflyDustRate,
                             Shape = LumenShapeKind.Sphere,
-                            ShapeExtents = new NumVector3(0.03f, 0.03f, 0.03f),
+                            ShapeExtents = new NumVector3(0.05f, 0.05f, 0.05f),
                             StartLifetimeMin = def.butterflyDustLifetimeMin,
                             StartLifetimeMax = def.butterflyDustLifetimeMax,
-                            StartSpeedMin = 0.03f,
-                            StartSpeedMax = 0.11f,
-                            StartSizeMin = 0.020f,
-                            StartSizeMax = 0.038f,
+                            StartSpeedMin = 0.06f,
+                            StartSpeedMax = 0.22f,
+                            StartSizeMin = def.butterflyDustSizeMin,
+                            StartSizeMax = def.butterflyDustSizeMax,
                             BlendMode = LumenBlendMode.Additive,
                             BillboardMode = LumenBillboardMode.Camera,
                             SoftParticleFadeDistance = 0.05f,
                             HdrIntensity = def.butterflyHdrMultiplier,
+                            KillBelowFloor = true,
                             SizeOverLifetime = new ScalarCurve(new[]
                             {
-                                new CurveKey(0f, 0.65f),
-                                new CurveKey(0.35f, 1f),
+                                new CurveKey(0f, 0.75f),
+                                new CurveKey(0.25f, 1f),
+                                new CurveKey(0.75f, 0.65f),
                                 new CurveKey(1f, 0f)
                             }),
                             ColorOverLifetime = new ColorGradient(new[]
                             {
-                                new ColorStop(0f, ToVec4(bright, 0.90f)),
-                                new ColorStop(0.42f, ToVec4(main, 0.68f)),
+                                new ColorStop(0f, ToVec4(bright, 0.95f)),
+                                new ColorStop(0.45f, ToVec4(main, 0.78f)),
+                                new ColorStop(0.82f, ToVec4(deep, 0.35f)),
                                 new ColorStop(1f, ToVec4(deep, 0f))
                             }),
                             ForceFields = new[]
                             {
-                                new ForceFieldSpec(ForceFieldKind.GravityDrag, new NumVector3(0f, 1f, 0f), new NumVector3(3.8f, 0.08f, 0f), 0f, 0f),
-                                new ForceFieldSpec(ForceFieldKind.CurlTurbulence, NumVector3.Zero, NumVector3.Zero, 0f, 0.25f, 1.5f)
+                                new ForceFieldSpec(ForceFieldKind.GravityDrag, new NumVector3(0f, -1f, 0f), new NumVector3(def.butterflyDustDrag, 0f, 0f), 0f, def.butterflyDustGravity),
+                                new ForceFieldSpec(ForceFieldKind.CurlTurbulence, NumVector3.Zero, NumVector3.Zero, 0f, 0.22f, 1.7f)
+                            },
+                            EnvironmentChannels = LumenEnvironmentChannel.None
+                        }
+                    }
+                }
+            });
+            return effectId;
+        }
+
+        public static string EnsureButterflyFleeBurstEffect(StreetLampLumenVfxDef def)
+        {
+            string effectId = $"NekoYukari.WhisperOfTheForest:StreetLampButterflyFleeBurst_{def.defName}";
+            if (!registeredIds.Add(effectId))
+            {
+                return effectId;
+            }
+
+            Color bright = VfxColors.ParseUnity(def.butterflyBrightColorHex);
+            Color main = VfxColors.ParseUnity(def.butterflyMainColorHex);
+            Color deep = VfxColors.ParseUnity(def.butterflyDeepColorHex);
+
+            RimLumenApi.RegisterEffect(new EffectAsset
+            {
+                EffectId = effectId,
+                DefaultDuration = def.butterflyFleeBurstLifetimeMax + 0.5f,
+                Nodes = new[]
+                {
+                    new EffectNodeSpec
+                    {
+                        Name = "butterfly_flee_burst",
+                        SpacePlane = LumenSpacePlane.Vertical3D,
+                        LocalPosition = NumVector3.Zero,
+                        Emitter = new EmitterSpec
+                        {
+                            Name = "butterfly_flee_burst",
+                            PreferredTier = LumenParticleTier.L2_GpuCompute,
+                            MaxParticles = Math.Max(32, def.butterflyFleeBurstCount + 8),
+                            Duration = 0.2f,
+                            Looping = false,
+                            WorldSpaceSimulation = true,
+                            RateOverTime = 0f,
+                            Bursts = new[] { new ParticleBurstSpec(0f, def.butterflyFleeBurstCount) },
+                            Shape = LumenShapeKind.Sphere,
+                            ShapeExtents = new NumVector3(0.08f, 0.08f, 0.08f),
+                            RandomDirectionAmount = 0.25f,
+                            StartLifetimeMin = def.butterflyFleeBurstLifetimeMin,
+                            StartLifetimeMax = def.butterflyFleeBurstLifetimeMax,
+                            StartSpeedMin = def.butterflyFleeBurstSpeedMin,
+                            StartSpeedMax = def.butterflyFleeBurstSpeedMax,
+                            StartSizeMin = def.butterflyFleeBurstSizeMin,
+                            StartSizeMax = def.butterflyFleeBurstSizeMax,
+                            BlendMode = LumenBlendMode.Additive,
+                            BillboardMode = LumenBillboardMode.Camera,
+                            SoftParticleFadeDistance = 0.05f,
+                            HdrIntensity = def.butterflyHdrMultiplier * 1.25f,
+                            KillBelowFloor = true,
+                            SizeOverLifetime = new ScalarCurve(new[]
+                            {
+                                new CurveKey(0f, 1.15f),
+                                new CurveKey(0.15f, 1f),
+                                new CurveKey(0.70f, 0.80f),
+                                new CurveKey(0.90f, 0.45f),
+                                new CurveKey(1f, 0.08f)
+                            }),
+                            ColorOverLifetime = new ColorGradient(new[]
+                            {
+                                new ColorStop(0f, ToVec4(Color.white, 1f)),
+                                new ColorStop(0.16f, ToVec4(bright, 0.96f)),
+                                new ColorStop(0.58f, ToVec4(main, 0.78f)),
+                                new ColorStop(0.85f, ToVec4(deep, 0.32f)),
+                                new ColorStop(1f, ToVec4(deep, 0f))
+                            }),
+                            ForceFields = new[]
+                            {
+                                new ForceFieldSpec(ForceFieldKind.GravityDrag, new NumVector3(0f, -1f, 0f), new NumVector3(def.butterflyFleeBurstDrag, 0f, 0f), 0f, def.butterflyFleeBurstGravity),
+                                new ForceFieldSpec(ForceFieldKind.CurlTurbulence, NumVector3.Zero, NumVector3.Zero, 0f, 0.24f, 1.55f)
                             },
                             EnvironmentChannels = LumenEnvironmentChannel.None
                         }
@@ -363,6 +513,11 @@ namespace WhisperOfTheForest.Vfx
         private float fleeAge;
         private float butterflyAlpha;
         private float butterflyDim;
+        private bool fleeBurstFired;
+        private float fleeDirX;
+        private float fleeDirZ;
+        private float fleeFlashOriginX;
+        private float fleeFlashOriginZ;
 
         private LumenRibbonMesh additiveMesh;
         private LumenRibbonMesh facetMesh;
@@ -372,9 +527,11 @@ namespace WhisperOfTheForest.Vfx
 
         private float ButterflyDisplayX => bx;
 
-        private float ButterflyDisplayZ => anchorPos.z
-            + (bz - anchorPos.z) * LumenRibbonMesh.Ortho60AspectZ
-            + by * LumenRibbonMesh.Ortho60HeightZ;
+        private float ButterflyOriginZ => anchorPos.z + def.butterflyAnchorOffsetZ;
+
+        private float ButterflyGroundZ => ButterflyOriginZ + (bz - ButterflyOriginZ) * LumenRibbonMesh.Ortho60AspectZ;
+
+        private float ButterflyDisplayZ => ButterflyGroundZ + by * LumenRibbonMesh.Ortho60HeightZ;
 
         protected override void OnStart()
         {
@@ -386,6 +543,9 @@ namespace WhisperOfTheForest.Vfx
 
             map = Request.map;
             anchorPos = Request.follow != null && Request.follow.Spawned ? Request.follow.DrawPos : Request.origin;
+            bx = anchorPos.x;
+            by = def.butterflyHeightMin;
+            bz = ButterflyOriginZ;
             lampComp = Request.follow?.TryGetComp<CompElvenStreetLamp>();
 
             dayLightColor = VfxColors.ParseUnity(def.dayLightColorHex);
@@ -419,7 +579,7 @@ namespace WhisperOfTheForest.Vfx
                 {
                     EffectId = StreetLampLumenCatalog.EnsureButterflyDustEffect(def),
                     MapIndex = map != null ? map.uniqueID : -1,
-                    OriginWorld = new NumVector3(anchorPos.x, 0f, anchorPos.z),
+                    OriginWorld = new NumVector3(bx, by, ButterflyGroundZ),
                     Follow = FollowButterfly,
                     RealTime = false
                 });
@@ -453,7 +613,23 @@ namespace WhisperOfTheForest.Vfx
             PushLightHandleState(isLit);
             if (dustHandle != null && dustHandle.IsAlive)
             {
-                dustHandle.SetParam("rate", butterflyPhase == ButterflyPhase.Orbit ? def.butterflyDustRate * butterflyAlpha : 0f);
+                if (butterflyPhase == ButterflyPhase.Orbit)
+                {
+                    dustHandle.SetParam("rate", butterflyAlpha);
+                    dustHandle.SetParam("intensity", 1f);
+                }
+                else if (butterflyPhase == ButterflyPhase.Flee)
+                {
+                    float u = Mathf.Clamp01(fleeAge / def.butterflyFleeDurationSeconds);
+                    dustHandle.SetParam("rate", StreetLampVfxMath.EvaluateFleeDustRateMultiplier(
+                        u, def.butterflyFleeDustRateFactor, def.butterflyFleeDustDecayPower));
+                    dustHandle.SetParam("intensity", Mathf.Lerp(1.30f, 0.55f, u));
+                }
+                else
+                {
+                    dustHandle.SetParam("rate", 0f);
+                    dustHandle.SetParam("intensity", 1f);
+                }
             }
         }
 
@@ -575,7 +751,7 @@ namespace WhisperOfTheForest.Vfx
                         float r = Rand.Range(def.butterflyOrbitRadiusMin, def.butterflyOrbitRadiusMax);
                         float h = Rand.Range(def.butterflyHeightMin, def.butterflyHeightMax);
                         tx = anchorPos.x + Mathf.Cos(orbitAngle) * r;
-                        tz = anchorPos.z + Mathf.Sin(orbitAngle) * r;
+                        tz = ButterflyOriginZ + Mathf.Sin(orbitAngle) * r;
                         ty = h;
                         waypointTimer = Rand.Range(1.8f, 4.0f);
                     }
@@ -603,7 +779,7 @@ namespace WhisperOfTheForest.Vfx
 
                 // Soft pole repulsion so flight glides around the iron shaft cleanly
                 float rx = bx - anchorPos.x;
-                float rz = bz - anchorPos.z;
+                float rz = bz - ButterflyOriginZ;
                 float rDist = Mathf.Sqrt(rx * rx + rz * rz);
                 if (rDist < 0.001f)
                 {
@@ -656,26 +832,61 @@ namespace WhisperOfTheForest.Vfx
             else if (butterflyPhase == ButterflyPhase.Flee)
             {
                 fleeAge += dt;
-                float u = Mathf.Clamp01(fleeAge / def.butterflyFleeDurationSeconds);
-                float flutter = Mathf.Sin(fleeAge * 10.5f) * 0.55f;
-                float perpX = -bvz * 0.28f * flutter;
-                float perpZ = bvx * 0.28f * flutter;
-                bx += (bvx + perpX) * dt;
-                by += bvy * dt;
-                bz += (bvz + perpZ) * dt;
-                bvy += 0.85f * dt;
-                float fleeDamp = Mathf.Exp(-0.55f * dt);
-                bvx *= fleeDamp;
-                bvz *= fleeDamp;
-
-                if (Mathf.Abs(bvx) > 0.045f)
+                float flashPeakTime = def.butterflyFleeFlashSeconds * 0.35f;
+                if (!fleeBurstFired && fleeAge >= flashPeakTime)
                 {
-                    facingX = bvx >= 0f ? 1 : -1;
+                    fleeBurstFired = true;
+                    bvx = fleeDirX * def.butterflyFleeSpeed;
+                    bvz = fleeDirZ * def.butterflyFleeSpeed;
+                    bvy = 1.15f;
+                    if (Mathf.Abs(bvx) > 0.045f)
+                    {
+                        facingX = bvx >= 0f ? 1 : -1;
+                    }
+
+                    if (RimLumenApi.IsReady)
+                    {
+                        RimLumenApi.Play(new LumenPlayRequest
+                        {
+                            EffectId = StreetLampLumenCatalog.EnsureButterflyFleeBurstEffect(def),
+                            MapIndex = map != null ? map.uniqueID : -1,
+                            OriginWorld = new NumVector3(bx, by, ButterflyGroundZ),
+                            RealTime = false
+                        });
+                    }
                 }
 
-                wingPhase += dt * 18.5f;
-                butterflyDim = Mathf.Pow(1f - u, 1.45f);
-                butterflyAlpha = Mathf.Pow(1f - u, 1.15f);
+                if (fleeBurstFired)
+                {
+                    float flutter = Mathf.Sin(fleeAge * 10.5f) * 0.55f;
+                    float perpX = -bvz * 0.28f * flutter;
+                    float perpZ = bvx * 0.28f * flutter;
+                    bx += (bvx + perpX) * dt;
+                    by += bvy * dt;
+                    bz += (bvz + perpZ) * dt;
+                    bvy += 0.90f * dt;
+                    float fleeDamp = Mathf.Exp(-0.65f * dt);
+                    bvx *= fleeDamp;
+                    bvz *= fleeDamp;
+
+                    if (Mathf.Abs(bvx) > 0.045f)
+                    {
+                        facingX = bvx >= 0f ? 1 : -1;
+                    }
+                }
+                else
+                {
+                    bx += bvx * dt;
+                    by += bvy * dt;
+                    bz += bvz * dt;
+                }
+
+                wingPhase += dt * 21f;
+                float fadeU = fleeAge <= flashPeakTime
+                    ? 0f
+                    : Mathf.Clamp01((fleeAge - flashPeakTime) / Mathf.Max(0.1f, def.butterflyFleeDurationSeconds - flashPeakTime));
+                butterflyDim = Mathf.Pow(1f - fadeU, 1.45f);
+                butterflyAlpha = Mathf.Pow(1f - fadeU, 1.15f);
 
                 if (fleeAge >= def.butterflyFleeDurationSeconds)
                 {
@@ -694,7 +905,7 @@ namespace WhisperOfTheForest.Vfx
             float r = Mathf.Lerp(def.butterflyOrbitRadiusMin, def.butterflyOrbitRadiusMax, 0.35f);
             float h = Mathf.Lerp(def.butterflyHeightMin, def.butterflyHeightMax, 0.5f);
             bx = anchorPos.x + Mathf.Cos(orbitAngle) * r;
-            bz = anchorPos.z + Mathf.Sin(orbitAngle) * r;
+            bz = ButterflyOriginZ + Mathf.Sin(orbitAngle) * r;
             by = h;
             tx = bx;
             ty = by;
@@ -710,6 +921,7 @@ namespace WhisperOfTheForest.Vfx
             wingPhase = Rand.Range(0f, Mathf.PI * 2f);
             spawnAge = 0f;
             fleeAge = 0f;
+            fleeBurstFired = false;
             butterflyAlpha = 0f;
             butterflyDim = 1f;
         }
@@ -718,6 +930,10 @@ namespace WhisperOfTheForest.Vfx
         {
             butterflyPhase = ButterflyPhase.Flee;
             fleeAge = 0f;
+            fleeBurstFired = false;
+            fleeFlashOriginX = ButterflyDisplayX;
+            fleeFlashOriginZ = ButterflyDisplayZ;
+
             float fx = startledByCursor ? ButterflyDisplayX - cursorXZ.x : Mathf.Cos(orbitAngle);
             float fz = startledByCursor ? ButterflyDisplayZ - cursorXZ.y : Mathf.Sin(orbitAngle);
             float flen = Mathf.Sqrt(fx * fx + fz * fz);
@@ -728,12 +944,21 @@ namespace WhisperOfTheForest.Vfx
                 flen = 1f;
             }
 
-            bvx = (fx / flen) * def.butterflyFleeSpeed;
-            bvz = (fz / flen) * def.butterflyFleeSpeed;
-            bvy = 0.95f;
-            if (Mathf.Abs(bvx) > 0.045f)
+            fleeDirX = fx / flen;
+            fleeDirZ = fz / flen;
+            // Brief anticipation recoil during the opening startle flash before snapping outward
+            bvx = -fleeDirX * 0.25f;
+            bvz = -fleeDirZ * 0.25f;
+            bvy = 0.55f;
+            facingX = fleeDirX >= 0f ? 1 : -1;
+
+            if (startledByCursor && map != null && def.butterflyFleeSound != null)
             {
-                facingX = bvx >= 0f ? 1 : -1;
+                var soundCell = new IntVec3(
+                    Mathf.Clamp(Mathf.RoundToInt(ButterflyDisplayX), 0, map.Size.x - 1),
+                    0,
+                    Mathf.Clamp(Mathf.RoundToInt(ButterflyDisplayZ), 0, map.Size.z - 1));
+                def.butterflyFleeSound.PlayOneShot(new TargetInfo(soundCell, map));
             }
         }
 
@@ -812,7 +1037,10 @@ namespace WhisperOfTheForest.Vfx
         {
             float cx = ButterflyDisplayX;
             float cz = ButterflyDisplayZ;
-            float s = def.butterflyVisualScale;
+            float flash = butterflyPhase == ButterflyPhase.Flee
+                ? StreetLampVfxMath.EvaluateFleeFlashIntensity(fleeAge, def.butterflyFleeFlashSeconds)
+                : 0f;
+            float s = def.butterflyVisualScale * (1f + 0.24f * flash);
             float dim = butterflyDim;
             float pitchRad = butterflyPhase == ButterflyPhase.Flee ? -0.34f : -0.14f;
             float cosP = Mathf.Cos(pitchRad);
@@ -822,29 +1050,37 @@ namespace WhisperOfTheForest.Vfx
             float swingBack = Mathf.Lerp(-0.32f, 1.02f, 0.5f + 0.5f * Mathf.Sin(wingPhase - 0.38f));
 
             Color dimTint = new Color(0.11f, 0.30f, 0.29f);
-            Color crystalBright = Color.Lerp(dimTint, butterflyBrightColor, dim);
-            Color crystalMain = Color.Lerp(dimTint * 0.72f, butterflyMainColor, dim);
-            Color crystalDeep = Color.Lerp(dimTint * 0.52f, butterflyDeepColor, dim);
-            Color crystalFar = Color.Lerp(dimTint * 0.45f, Color.Lerp(butterflyDeepColor, butterflyMainColor, 0.22f), dim);
-            Color ridgeCol = Color.Lerp(dimTint * 1.1f, butterflyBrightColor, dim);
-            Color edgeCol = Color.Lerp(new Color(0.05f, 0.09f, 0.09f), butterflyEdgeColor, dim);
-            Color bodyCol = Color.Lerp(new Color(0.09f, 0.13f, 0.13f), new Color(0.23f, 0.65f, 0.60f), dim);
+            Color crystalBright = Color.Lerp(Color.Lerp(dimTint, butterflyBrightColor, dim), Color.white, flash * 0.72f);
+            Color crystalMain = Color.Lerp(Color.Lerp(dimTint * 0.72f, butterflyMainColor, dim), Color.white, flash * 0.52f);
+            Color crystalDeep = Color.Lerp(Color.Lerp(dimTint * 0.52f, butterflyDeepColor, dim), butterflyBrightColor, flash * 0.45f);
+            Color crystalFar = Color.Lerp(dimTint * 0.45f, Color.Lerp(butterflyDeepColor, butterflyMainColor, 0.22f), Mathf.Max(dim, flash));
+            Color ridgeCol = Color.Lerp(Color.Lerp(dimTint * 1.1f, butterflyBrightColor, dim), Color.white, flash * 0.85f);
+            Color edgeCol = Color.Lerp(new Color(0.05f, 0.09f, 0.09f), butterflyEdgeColor, Mathf.Max(dim, flash * 0.6f));
+            Color bodyCol = Color.Lerp(new Color(0.09f, 0.13f, 0.13f), new Color(0.23f, 0.65f, 0.60f), Mathf.Max(dim, flash));
 
-            // Tight cyan jewel aura behind butterfly (dims & vanishes smoothly on flee)
-            if (dim > 0.04f)
+            // Pre-flee crystal startle flash + 4-point star flare + expanding shock-ring
+            if (butterflyPhase == ButterflyPhase.Flee && fleeAge < def.butterflyFleeFlashSeconds * 1.9f)
             {
+                DrawButterflyStartleFlash(drawAlt + 0.05f, flash, crystalBright, crystalMain);
+            }
+
+            // Cyan jewel aura behind butterfly (popped higher for vanilla max zoom & flee startle flash)
+            if (dim > 0.04f || flash > 0.02f)
+            {
+                float auraStrength = Mathf.Max(dim, flash);
                 additiveMesh.AddRadialGlowDisc(
                     new Vector3(cx, drawAlt + 0.02f, cz),
-                    14f * s * (0.55f + 0.45f * dim),
+                    (15.5f * s) * (0.58f + 0.42f * dim + 0.65f * flash),
                     14,
-                    new Color(crystalBright.r, crystalBright.g, crystalBright.b, 0.58f * butterflyAlpha * dim),
+                    new Color(crystalBright.r, crystalBright.g, crystalBright.b, (0.64f + 0.32f * flash) * butterflyAlpha * auraStrength),
                     new Color(crystalMain.r, crystalMain.g, crystalMain.b, 0f),
-                    def.butterflyHdrMultiplier * (0.7f + 0.6f * dim),
-                    1.45f,
+                    def.butterflyHdrMultiplier * (0.78f + 0.62f * dim) + (def.butterflyFleeFlashHdr - 1f) * flash,
+                    1.38f,
                     null);
             }
 
-            float hdr = 1f + 0.42f * dim;
+            float wingGlint = 0.08f * (0.5f + 0.5f * Mathf.Sin(wingPhase));
+            float hdr = 1f + 0.48f * dim + wingGlint + (def.butterflyFleeFlashHdr - 1f) * flash;
             float facetAlt = drawAlt + 0.04f;
 
             // 1. Far side crystal wing
@@ -972,6 +1208,72 @@ namespace WhisperOfTheForest.Vfx
             return new Vector3(cx + rx * facingX * s, altY, cz - ry * s);
         }
 
+        private void DrawButterflyStartleFlash(float altY, float flash, Color coreCol, Color ringBaseCol)
+        {
+            var flashOrigin = new Vector3(fleeFlashOriginX, altY, fleeFlashOriginZ);
+            if (flash > 0.01f)
+            {
+                float bloomRadius = def.butterflyFleeFlashRingRadius * (0.35f + 0.48f * flash);
+                additiveMesh.AddRadialGlowDisc(
+                    flashOrigin,
+                    bloomRadius,
+                    16,
+                    new Color(1f, 1f, 1f, 0.88f * flash),
+                    new Color(coreCol.r, coreCol.g, coreCol.b, 0f),
+                    def.butterflyFleeFlashHdr * (0.85f + 0.45f * flash),
+                    1.25f,
+                    null);
+
+                // Sharp 4-point crystal star flare (slightly tilted for jewel refraction)
+                float majorRay = def.butterflyFleeFlashRingRadius * (0.48f + 0.62f * flash);
+                float minorRay = majorRay * 0.66f;
+                float spikeWidth = def.butterflyVisualScale * 1.45f * flash;
+                Color starCore = new Color(1f, 1f, 1f, 0.95f * flash);
+                Color starTip = new Color(coreCol.r, coreCol.g, coreCol.b, 0f);
+                float flareHdr = def.butterflyFleeFlashHdr * 1.15f;
+
+                AddStarRayPair(flashOrigin, 0.24f, majorRay, spikeWidth, starCore, starTip, flareHdr);
+                AddStarRayPair(flashOrigin, 0.24f + Mathf.PI * 0.5f, minorRay, spikeWidth * 0.85f, starCore, starTip, flareHdr);
+            }
+
+            float ringU = Mathf.Clamp01(fleeAge / Mathf.Max(0.02f, def.butterflyFleeFlashSeconds * 1.85f));
+            float ringFade = Mathf.Pow(1f - ringU, 1.55f);
+            if (ringFade > 0.01f)
+            {
+                float ringRadius = Mathf.Lerp(0.05f, def.butterflyFleeFlashRingRadius, 1f - (1f - ringU) * (1f - ringU));
+                float ringThickness = Mathf.Lerp(0.055f, 0.014f, ringU);
+                additiveMesh.AddTiltedEllipseRing(
+                    flashOrigin,
+                    Vector3.right,
+                    Vector3.forward,
+                    ringRadius,
+                    1f,
+                    24,
+                    ringThickness,
+                    new Color(ringBaseCol.r, ringBaseCol.g, ringBaseCol.b, 0.82f * ringFade),
+                    def.butterflyFleeFlashHdr * (0.7f + 0.4f * ringFade),
+                    1.45f);
+            }
+        }
+
+        private void AddStarRayPair(
+            Vector3 center,
+            float angleRad,
+            float length,
+            float halfWidth,
+            Color coreColor,
+            Color tipColor,
+            float hdr)
+        {
+            float cos = Mathf.Cos(angleRad);
+            float sin = Mathf.Sin(angleRad);
+            var dir = new Vector3(cos, 0f, sin);
+            var side = new Vector3(-sin * halfWidth, 0f, cos * halfWidth);
+
+            additiveMesh.AddShadedTriangle(center + side, center - side, center + dir * length, coreColor, coreColor, tipColor, hdr);
+            additiveMesh.AddShadedTriangle(center - side, center + side, center - dir * length, coreColor, coreColor, tipColor, hdr);
+        }
+
         private bool FollowAnchor(out NumVector3 worldPosition, out float rotationDegrees)
         {
             rotationDegrees = 0f;
@@ -991,11 +1293,11 @@ namespace WhisperOfTheForest.Vfx
             rotationDegrees = 0f;
             if (!Finished && Request.follow != null && Request.follow.Spawned && Request.follow.Map == map)
             {
-                worldPosition = new NumVector3(ButterflyDisplayX, 0f, ButterflyDisplayZ);
+                worldPosition = new NumVector3(bx, by, ButterflyGroundZ);
                 return true;
             }
 
-            worldPosition = new NumVector3(ButterflyDisplayX, 0f, ButterflyDisplayZ);
+            worldPosition = new NumVector3(bx, by, ButterflyGroundZ);
             return false;
         }
     }

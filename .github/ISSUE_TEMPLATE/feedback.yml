@@ -1,0 +1,42 @@
+name: "💡 Feedback & Suggestion / 玩法建议与体验反馈"
+description: "Share gameplay, balance, UI, or localization feedback / 提出数值、手感、UI 或本地化建议"
+title: "[Feedback]: "
+labels:
+  - enhancement
+body:
+  - type: dropdown
+    id: category
+    attributes:
+      label: "Category / 反馈分类"
+      options:
+        - "Gameplay & Balance / 玩法与数值"
+        - "UI & UX / 界面与交互"
+        - "VFX & Audio / 视效与音效"
+        - "Localization / 文本与翻译"
+        - "New Feature Idea / 新功能建议"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: mod_version
+    attributes:
+      label: "Mod Version / 模组版本"
+      options:
+        - "v0.1.1 (latest)"
+        - "Older / Custom Dev Build"
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: "Details / 详细说明"
+      description: "Describe your experience, pain point, or idea in detail. / 请详细描述你的体验、遇到的不便或具体想法。"
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: "Suggested Change (Optional) / 期望的调整方式（选填）"
+      description: "If you have a specific balance tweak, UI layout idea, or wording fix in mind, share it here. / 如有具体的调整思路、数值参考或文案修改建议，欢迎一并写下。"

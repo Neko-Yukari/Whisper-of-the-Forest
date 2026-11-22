@@ -5,9 +5,9 @@
        already supplies the def type; a leading "ThingDef." segment is read as a defName
        and fails with "Found no ThingDef named ThingDef". -->
   <WotF_TerrainStride.label>踏地披风</WotF_TerrainStride.label>
-  <WotF_TerrainStride.description>轻便的林地披风。在可通行且无需推门的格子上，忽略地皮、树木、草丛、石块、桌椅、可跨越工作台、积雪与沙尘造成的全部移动减速。不能穿过墙壁或不可通行的水域，开门仍需正常等待。</WotF_TerrainStride.description>
+  <WotF_TerrainStride.description>独特的魔力被注入到这件轻薄的披风上，它的魔力可以帮助穿戴者轻松越过障碍，而不用放缓脚步。\n传说这是精灵们为了更方便在植被密布的环境里穿行所发明的。</WotF_TerrainStride.description>
 
   <WotF_EntropyCirclet.label>静心头环</WotF_EntropyCirclet.label>
-  <WotF_EntropyCirclet.description>以精灵钢、秘银或精金打造的导流头环，加快心灵熵消散并提高佩戴者的安全阈值。</WotF_EntropyCirclet.description>
+  <WotF_EntropyCirclet.description>细窄的金属额环，由精灵钢、秘银或精金打造并镶嵌翡翠。它能顺着额际疏导杂乱的灵能波动，加快心灵熵消散，同时提高佩戴者所能承受的心灵熵上限。</WotF_EntropyCirclet.description>
 
 </LanguageData>

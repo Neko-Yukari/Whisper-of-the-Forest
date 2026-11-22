@@ -33,7 +33,7 @@
   <WotF_Ritual_Healing_NoneNeeded>生命再生完成：范围内没有本阶仪式可治疗的伤病。</WotF_Ritual_Healing_NoneNeeded>
   <WotF_Ritual_FertileSoil_Done>沃土活化完成：{0} 格土壤化为沃土。</WotF_Ritual_FertileSoil_Done>
   <WotF_Ritual_AllRunesUnlocked>这座祭坛没有尚未启封的可用符文。</WotF_Ritual_AllRunesUnlocked>
-  <WotF_Ritual_SuperRuneNeedsRubbing>超位符文只能通过研读拓片解锁，不能由祭坛启封。</WotF_Ritual_SuperRuneNeedsRubbing>
+  <WotF_Ritual_SuperRuneNeedsRubbing>超位符文只能通过研读遗迹中的孤本符文解锁，不能由祭坛启封。</WotF_Ritual_SuperRuneNeedsRubbing>
   <WotF_Ritual_ChooseRune>选择要唤醒的符文。</WotF_Ritual_ChooseRune>
   <WotF_Ritual_NoMaterials>祭坛里还缺祭品：{0}</WotF_Ritual_NoMaterials>
   <WotF_Ritual_NotPrepared>先点「准备施展」，让搬运工把祭品送进祭坛。</WotF_Ritual_NotPrepared>
@@ -106,7 +106,6 @@
   <WotF_RitualPanel_PickRune>选择符文…</WotF_RitualPanel_PickRune>
   <WotF_RitualPanel_PickGate>选择传送门…</WotF_RitualPanel_PickGate>
   <WotF_RitualPanel_GateReady>已连通</WotF_RitualPanel_GateReady>
-  <WotF_RitualPanel_PickRuin>选择遗迹类型…</WotF_RitualPanel_PickRuin>
   <WotF_RitualPanel_BookSlotPrefix>第 {0} 页</WotF_RitualPanel_BookSlotPrefix>
   <WotF_RitualPanel_BookSlotSelected>第 {0} 页：{1}</WotF_RitualPanel_BookSlotSelected>
   <WotF_RitualPanel_BookSlotEmpty>空</WotF_RitualPanel_BookSlotEmpty>

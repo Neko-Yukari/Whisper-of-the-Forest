@@ -4,12 +4,12 @@
   <!-- DefInjected path = <defName>.<field>. The parent folder (DefInjected/ThingDef) already
        supplies the def type. -->
   <WotF_LivingWood.label>活木</WotF_LivingWood.label>
-  <WotF_LivingWood.description>取自森林最古老树木的活木。它仍在生长：柔韧、触手微温，燃烧迟缓。</WotF_LivingWood.description>
+  <WotF_LivingWood.description>这是一节神奇的木头，表面柔韧且富有活性，当你尝试让其接触魔力时，它几乎是瞬间由内到外地散发出温柔的绿光。</WotF_LivingWood.description>
   <WotF_ElvenSteel.label>精灵钢</WotF_ElvenSteel.label>
-  <WotF_ElvenSteel.description>由活木点化而来的淡青银色金属。轻盈锋利，既善切削，也善承纳术式。</WotF_ElvenSteel.description>
+  <WotF_ElvenSteel.description>淡青银色的金属，由钢铁与活木经仪式点化而成。它质地轻巧坚韧，磨出的刃口格外锋利，挥舞起来比寻常钢铁轻快不少，也很适合打造法杖与兵刃。</WotF_ElvenSteel.description>
   <WotF_Adamantine.label>精金</WotF_Adamantine.label>
-  <WotF_Adamantine.description>冷冽厚重的暗金金属。殖民地里没有比它更难摧毁的东西，而且不燃。</WotF_Adamantine.description>
+  <WotF_Adamantine.description>触手冷冽沉重的暗金色金属，完全不会燃烧。它极为坚硬致密，无论筑成工事还是锻作重甲与重兵，都极难被外力摧毁。</WotF_Adamantine.description>
   <WotF_Mithril.label>秘银</WotF_Mithril.label>
-  <WotF_Mithril.description>轻若无物的月白金属。术式自然依附其上，用它打造的甲胄与刀剑能承纳法术。</WotF_Mithril.description>
+  <WotF_Mithril.description>质地轻得几乎没有分量的月白金属，且完全不燃。魔力极易依附其上，用它锻造的武器与护甲能多出一个注法槽位，触发铭刻法术时的魔力消耗也会更低。</WotF_Mithril.description>
 
 </LanguageData>

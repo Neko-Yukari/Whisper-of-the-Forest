@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
 
-  <!-- 法术手杖 / 短魔杖的 Gizmo 与信息栏文本。Gizmo 标题写出载体名称与所选法术，双持时一目了然。 -->
+  <!-- 法杖 / 魔杖的 Gizmo 与信息栏文本。Gizmo 标题写出载体名称与所选法术，双持时一目了然。 -->
 
   <WotF_Equipment.Gizmo.NoSpell>{0}：未选择法术</WotF_Equipment.Gizmo.NoSpell>
   <WotF_Equipment.Gizmo.Current>{0}：{1}</WotF_Equipment.Gizmo.Current>
-  <WotF_Equipment.Gizmo.Desc>选择这根手杖或魔杖攻击时施放哪个魔术书槽位。载体记住的是槽位而非法术副本，修改该页会同步改变它施放的法术；槽位为空时无法攻击。</WotF_Equipment.Gizmo.Desc>
+  <WotF_Equipment.Gizmo.Desc>选择这根法杖或魔杖攻击时施放哪个魔术书槽位。载体记住的是槽位而非法术副本，修改该页会同步改变它施放的法术；槽位为空时无法攻击。</WotF_Equipment.Gizmo.Desc>
   <WotF_Equipment.Gizmo.NoBook>魔术书在当前游戏中尚未就绪。</WotF_Equipment.Gizmo.NoBook>
   <WotF_Equipment.Gizmo.NoSavedSpell>魔术书里还没有保存的法术。</WotF_Equipment.Gizmo.NoSavedSpell>
   <WotF_Equipment.Menu.Slot>{0}. {1}</WotF_Equipment.Menu.Slot>

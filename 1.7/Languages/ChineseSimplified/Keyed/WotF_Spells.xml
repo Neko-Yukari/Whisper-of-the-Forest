@@ -21,7 +21,7 @@
 
   <!-- ============================================================ 复合形式 -->
 
-  <WotF_Spells.Reason.RailgunOutOfRange>轨道炮的 {0} 格射程内没有可以瞄准的东西。</WotF_Spells.Reason.RailgunOutOfRange>
+  <WotF_Spells.Reason.RailgunOutOfRange>磁轨炮的 {0} 格射程内没有可以瞄准的东西。</WotF_Spells.Reason.RailgunOutOfRange>
   <WotF_Spells.Reason.CompleteFormNoEffect>超位符文本身就是一整个法术，不能再接效果符文。</WotF_Spells.Reason.CompleteFormNoEffect>
   <WotF_Spells.Reason.OneForm>一个法术只能以一个形式或超位符文开头。</WotF_Spells.Reason.OneForm>
 

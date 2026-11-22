@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Crisp crystal chime one-shots played when the streetlamp's night crystal butterfly startles -->
+  <SoundDef>
+    <defName>WotF_Sound_Butterfly_Startle</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>WotF/WotF_Butterfly_Startle_01</clipPath>
+          </li>
+          <li Class="AudioGrain_Clip">
+            <clipPath>WotF/WotF_Butterfly_Startle_02</clipPath>
+          </li>
+          <li Class="AudioGrain_Clip">
+            <clipPath>WotF/WotF_Butterfly_Startle_03</clipPath>
+          </li>
+        </grains>
+        <volumeRange>22~28</volumeRange>
+        <pitchRange>0.97~1.08</pitchRange>
+        <distRange>8~38</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+</Defs>

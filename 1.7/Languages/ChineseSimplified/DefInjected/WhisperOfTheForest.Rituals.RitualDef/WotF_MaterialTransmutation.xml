@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <WotF_Ritual_TransmuteLivingWood.label>点化：活木</WotF_Ritual_TransmuteLivingWood.label>
-  <WotF_Ritual_TransmuteLivingWood.description>在一阶或更高祭坛上，以草药唤醒普通原木，产出活木。产出固定，仪式强度可加快点化速度。</WotF_Ritual_TransmuteLivingWood.description>
+  <WotF_Ritual_TransmuteLivingWood.description>在一阶及以上祭坛旁画下 3×3 白色粉笔环，以草药为引唤醒原木里的生机，将其点化为柔韧温润的活木。产出固定，仪式强度越高，点化越快。</WotF_Ritual_TransmuteLivingWood.description>
   <WotF_Ritual_TransmuteElvenSteel.label>点化：精灵钢</WotF_Ritual_TransmuteElvenSteel.label>
-  <WotF_Ritual_TransmuteElvenSteel.description>在二阶或更高祭坛上，以活木调和钢铁，产出精灵钢。产出固定，仪式强度可加快点化速度。</WotF_Ritual_TransmuteElvenSteel.description>
+  <WotF_Ritual_TransmuteElvenSteel.description>借助二阶及以上祭坛与 5×5 翠叶粉笔环，将活木的韧性渗入钢铁之中，点化出淡青银色的精灵钢。产出固定，仪式强度越高，点化越快。</WotF_Ritual_TransmuteElvenSteel.description>
   <WotF_Ritual_TransmuteAdamantine.label>点化：精金</WotF_Ritual_TransmuteAdamantine.label>
-  <WotF_Ritual_TransmuteAdamantine.description>在三阶祭坛上，以精灵钢与玻璃钢炼成精金。产出固定，仪式强度可加快点化速度。</WotF_Ritual_TransmuteAdamantine.description>
+  <WotF_Ritual_TransmuteAdamantine.description>在三阶祭坛上布置 7×7 星辉粉笔环，将精灵钢与玻璃钢在魔力重压下重新锻合，化作冷冽厚重的精金。产出固定，仪式强度越高，点化越快。</WotF_Ritual_TransmuteAdamantine.description>
   <WotF_Ritual_TransmuteMithril.label>点化：秘银</WotF_Ritual_TransmuteMithril.label>
-  <WotF_Ritual_TransmuteMithril.description>在三阶祭坛上，以精灵钢与白银炼成秘银。产出固定，仪式强度可加快点化速度。</WotF_Ritual_TransmuteMithril.description>
+  <WotF_Ritual_TransmuteMithril.description>在三阶祭坛的 7×7 星辉粉笔环中，将精灵钢与白银融炼为轻盈亲法的月白秘银。产出固定，仪式强度越高，炼成越快。</WotF_Ritual_TransmuteMithril.description>
 </LanguageData>

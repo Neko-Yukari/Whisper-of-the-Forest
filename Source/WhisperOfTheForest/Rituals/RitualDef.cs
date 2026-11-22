@@ -124,19 +124,10 @@ namespace WhisperOfTheForest.Rituals
         /// <summary>True when the rite asks the altar to pick a teleport node before it starts.</summary>
         public bool chooseTeleportTarget;
 
-        /// <summary>
-        /// True when the rite asks the altar which ruin the colony is looking for. The altar shows the
-        /// options and passes the chosen one to the effect worker; the Def carries no single ruin.
-        /// </summary>
-        public bool chooseRuinType;
+        /// <summary>The ruin this seeking rite points at; null for every other rite.</summary>
+        public RuinSeekOption ruinTarget;
 
-        /// <summary>The ruins a seeking rite can point at, in the order the altar lists them.</summary>
-        public List<RuinSeekOption> ruinOptions;
-
-        public RuinSeekOption RuinOptionFor(QuestScriptDef quest)
-        {
-            return ruinOptions?.Find(option => option.quest == quest);
-        }
+        public bool SeeksRuin => ruinTarget != null;
 
         /// <summary>
         /// True when the rite writes one of the host's spells into a weapon or armour lying beside the
@@ -257,9 +248,9 @@ namespace WhisperOfTheForest.Rituals
                 }
 
                 if (autoRepeatable || outputProducts != null || chooseRune || chooseTeleportTarget
-                    || chooseRuinType || chooseEquipment || requiresDeepResources)
+                    || SeeksRuin || chooseEquipment || requiresDeepResources)
                 {
-                    yield return defName + " is sustained and cannot combine with production or target-picking flags.";
+                    yield return defName + " is sustained and cannot combine with production, target-picking or ruin-seeking flags.";
                 }
             }
 
@@ -356,31 +347,21 @@ namespace WhisperOfTheForest.Rituals
                 yield return defName + " chooseTeleportTarget but does not use RitualEffect_Teleport.";
             }
 
-            if (chooseRuinType)
+            if (effectWorkerClass != null
+                && typeof(RitualEffect_SeekRuin).IsAssignableFrom(effectWorkerClass))
             {
-                if (effectWorkerClass == null || !typeof(RitualEffect_SeekRuin).IsAssignableFrom(effectWorkerClass))
+                if (ruinTarget == null)
                 {
-                    yield return defName + " chooseRuinType but does not use RitualEffect_SeekRuin.";
+                    yield return defName + " uses RitualEffect_SeekRuin and must declare ruinTarget.";
                 }
-
-                if (ruinOptions == null || ruinOptions.Count == 0)
+                else if (ruinTarget.quest == null || ruinTarget.sitePart == null || ruinTarget.threatPointsFactor <= 0f)
                 {
-                    yield return defName + " chooseRuinType but has no ruinOptions.";
-                }
-                else
-                {
-                    foreach (RuinSeekOption option in ruinOptions)
-                    {
-                        if (option == null || option.quest == null || option.sitePart == null || option.threatPointsFactor <= 0f)
-                        {
-                            yield return defName + " has a ruinOptions entry without quest, sitePart or a positive threatPointsFactor.";
-                        }
-                    }
+                    yield return defName + " ruinTarget requires quest, sitePart and a positive threatPointsFactor.";
                 }
             }
-            else if (ruinOptions != null)
+            else if (ruinTarget != null)
             {
-                yield return defName + " has ruinOptions but does not set chooseRuinType.";
+                yield return defName + " sets ruinTarget without using RitualEffect_SeekRuin.";
             }
 
             if (chooseEquipment

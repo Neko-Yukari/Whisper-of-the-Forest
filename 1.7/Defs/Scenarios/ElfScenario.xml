@@ -129,6 +129,12 @@
           <count>2</count>
         </li>
 
+        <li Class="ScenPart_GameStartDialog">
+          <def>GameStartDialog</def>
+          <textKey>WotF_Scenario_Elf_GameStartDialog</textKey>
+          <closeSound>GameStartSting</closeSound>
+        </li>
+
       </parts>
     </scenario>
   </ScenarioDef>

@@ -6,7 +6,7 @@
   <WotF_Stat_Unit_Cells>{0} 格</WotF_Stat_Unit_Cells>
   <WotF_Stat_Unit_ManaPerSec>{0} / 秒</WotF_Stat_Unit_ManaPerSec>
 
-  <!-- 法术手杖与短魔杖 -->
+  <!-- 法杖与魔杖 -->
   <WotF_Stat_StaffWielding>握持定位</WotF_Stat_StaffWielding>
   <WotF_Stat_StaffWielding_Offhand>单手副手</WotF_Stat_StaffWielding_Offhand>
   <WotF_Stat_StaffWielding_TwoHanded>双手主手</WotF_Stat_StaffWielding_TwoHanded>

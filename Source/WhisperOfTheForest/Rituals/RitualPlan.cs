@@ -51,9 +51,6 @@ namespace WhisperOfTheForest.Rituals
         /// <summary>The host's spellbook slot that is written; -1 when nobody has chosen one.</summary>
         public int BookSlot = -1;
 
-        /// <summary>The ruin a seeking rite points at; only ruin-seeking rituals use it.</summary>
-        public RuinSeekOption RuinOption;
-
         public Pawn Host;
         public readonly List<Pawn> Helpers = new List<Pawn>();
     }

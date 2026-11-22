@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: "🇨🇳 中文玩家免登录反馈表 / Feishu Feedback Form (No Login)"
+    url: "https://my.feishu.cn/share/base/shrcnTrg8sdUc7q8C9CMeuN4YHf"
+    about: "无需登录即可提交 Bug、截图与 Player.log（国内玩家推荐） / Login-free form for CN players."
+  - name: "📋 已知问题与修复进度 / Known Issues & Status"
+    url: "https://my.feishu.cn/base/EQKAbFug5aAPwjskt5Nc8zR8nWh"
+    about: "公开只读表：提交前可先查看已知问题与当前修复状态 / Public read-only known issues tracker."

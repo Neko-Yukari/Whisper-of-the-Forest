@@ -55,9 +55,6 @@ namespace WhisperOfTheForest.Rituals
         /// <summary>The host's spellbook slot that was written; -1 for every other ritual.</summary>
         public readonly int BookSlot;
 
-        /// <summary>The ruin a seeking rite points at; null for every other ritual.</summary>
-        public readonly RuinSeekOption RuinOption;
-
         /// <summary>
         /// Where each colonist of a teleport rite lands, one cell per pawn. The altar settles it before it
         /// charges anything, so the effect only carries out a plan that already exists; null for every
@@ -83,7 +80,6 @@ namespace WhisperOfTheForest.Rituals
             float ritualStrength = 0f,
             Thing equipment = null,
             int bookSlot = -1,
-            RuinSeekOption ruinOption = null,
             Dictionary<Pawn, IntVec3> teleportLanding = null)
         {
             Map = map;
@@ -96,7 +92,6 @@ namespace WhisperOfTheForest.Rituals
             RitualStrength = ritualStrength;
             Equipment = equipment;
             BookSlot = bookSlot;
-            RuinOption = ruinOption;
             TeleportLanding = teleportLanding;
         }
     }

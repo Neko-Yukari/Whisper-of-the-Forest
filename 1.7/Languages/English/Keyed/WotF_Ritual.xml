@@ -106,7 +106,6 @@
   <WotF_RitualPanel_PickRune>Choose rune…</WotF_RitualPanel_PickRune>
   <WotF_RitualPanel_PickGate>Choose teleport gate…</WotF_RitualPanel_PickGate>
   <WotF_RitualPanel_GateReady>Online</WotF_RitualPanel_GateReady>
-  <WotF_RitualPanel_PickRuin>Choose ruin type…</WotF_RitualPanel_PickRuin>
   <WotF_RitualPanel_BookSlotPrefix>Page {0}</WotF_RitualPanel_BookSlotPrefix>
   <WotF_RitualPanel_BookSlotSelected>Page {0}: {1}</WotF_RitualPanel_BookSlotSelected>
   <WotF_RitualPanel_BookSlotEmpty>Empty</WotF_RitualPanel_BookSlotEmpty>

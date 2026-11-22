@@ -2,7 +2,7 @@
 <LanguageData>
   <WotF_GreenCourt.label>翠绿林庭</WotF_GreenCourt.label>
   <WotF_GreenCourt.fixedName>翠绿林庭</WotF_GreenCourt.fixedName>
-  <WotF_GreenCourt.description>由林地精灵聚落组成的松散同盟。边哨愿意用草药、织物与旧抄本交换外界物资，却严禁外人靠近林中遗迹的核心。对外领袖称执政官，只是长老会的首席代表。</WotF_GreenCourt.description>
+  <WotF_GreenCourt.description>这是大大小小的精灵聚落组成的松散同盟对外的统称，其表面上听命于执政官，但实际的行政权力仍然归属于各个聚落的长老。\n\n在很久以前，精灵们曾为了争夺遗迹中的古老遗物而爆发过一场大战，幸存者在废墟上重新建立起如今的秩序，严格管控着杀伤性法术的流通与对遗迹的进一步探索。\n\n但近年来，边缘世界上的动荡使精灵们重新意识到知识的重要性。一部分人主张主动探明遗迹中的真相，一部分人认为绝不能让外人染指领地，而更多的人仍无法忘怀过去的灾难，选择单方面拒绝与外界接触。</WotF_GreenCourt.description>
   <WotF_GreenCourt.pawnSingular>林庭精灵</WotF_GreenCourt.pawnSingular>
   <WotF_GreenCourt.pawnsPlural>林庭精灵</WotF_GreenCourt.pawnsPlural>
   <WotF_GreenCourt.leaderTitle>执政官</WotF_GreenCourt.leaderTitle>

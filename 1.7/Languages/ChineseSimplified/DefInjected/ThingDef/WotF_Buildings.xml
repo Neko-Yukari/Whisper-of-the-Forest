@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
     <WotF_ManaNode.label>魔源节点</WotF_ManaNode.label>
-    <WotF_ManaNode.description>刻着符文的石柱。相邻节点连成网络，连接产魔、用魔设备和魔源电池。节点本身不储存魔源。</WotF_ManaNode.description>
+    <WotF_ManaNode.description>一个精致的导魔器具，可以将其范围内的所有魔源汇聚到同一个网络中进行分配，不同的节点之间可以接力从而实现更远距离的传输。</WotF_ManaNode.description>
     <WotF_ManaFurnace.label>魔源熔炉</WotF_ManaFurnace.label>
-    <WotF_ManaFurnace.description>燃烧木材，为最近的魔源网络持续供能的石炉。</WotF_ManaFurnace.description>
+    <WotF_ManaFurnace.description>以石料砌成的矮炉，借燃烧原木持续向邻近的魔源网络输送魔源。一旦网络蓄满，炉火便会自行转入休眠以节省木料。</WotF_ManaFurnace.description>
     <WotF_ManaGrove.label>灵木苗圃</WotF_ManaGrove.label>
-    <WotF_ManaGrove.description>立着符文石的林地苗圃。半径内成活的树木会把生长之力汇入最近的魔源网络，树木本身不会被消耗。</WotF_ManaGrove.description>
+    <WotF_ManaGrove.description>以活木与符文石立起的魔网设施。只要附近有长成的树木，它便能将草木生机汇入邻近的魔源网络，且不伤及树木本身。</WotF_ManaGrove.description>
     <WotF_ManaConverter.label>魔源转化器</WotF_ManaConverter.label>
-    <WotF_ManaConverter.description>消耗殖民地电力的玻璃钢装置，把电流凝成魔源送入最近的网络。</WotF_ManaConverter.description>
+    <WotF_ManaConverter.description>一台以玻璃钢铸造的奇异装置，能够将殖民地电网中的电流缓缓转化为纯粹的魔源，并送入邻近的魔源网络。没有人说得清为什么冰冷的电流能与魔法彼此流通，但它的确一直运转良好。</WotF_ManaConverter.description>
     <WotF_RitualAltar.label>木石祭坛</WotF_RitualAltar.label>
-    <WotF_RitualAltar.description>以普通木石建造的一阶祭坛，占地始终为单格。可点化活木、唤醒学徒魔术书；从附近魔源网络取能，需要完整的粉笔环。高阶祭坛向下兼容这些仪式。</WotF_RitualAltar.description>
+    <WotF_RitualAltar.description>以寻常原木与石料垒成的一阶祭坛，占地一格。接入邻近的魔源网络并在周围画好粉笔环后，便能点化活木、唤醒学徒魔术书或举行其他基础仪式。高阶祭坛同样兼容这些仪式。</WotF_RitualAltar.description>
     <WotF_TeleportGate.label>传送门</WotF_TeleportGate.label>
-    <WotF_TeleportGate.description>以活木、秘银与精金构成的符文拱门，压在砌石底座上。开启时它持续从魔网汲取维持，并把装在门里的东西投送到它记得的遗迹——也能在同一张地图上传到另一扇门。</WotF_TeleportGate.description>
+    <WotF_TeleportGate.description>矗立在砌石底座上的符文拱门，由活木、秘银与精金构筑而成。开启期间它会持续消耗邻近魔网的魔源，既能把装入其中的人员与物资送往同图另一扇开启的门，也能直通寻踪定位到的古老工程遗迹。</WotF_TeleportGate.description>
     <WotF_ChalkMark_White.label>白色粉笔痕</WotF_ChalkMark_White.label>
-    <WotF_ChalkMark_White.description>一道浅色仪式粉笔。围绕祭坛画成一圈，就能承载仪式。</WotF_ChalkMark_White.description>
+    <WotF_ChalkMark_White.description>用仪式粉笔在地上画出的浅白纹线，绕祭坛连成完整一圈后便能承载仪式。</WotF_ChalkMark_White.description>
     <WotF_ChalkMark_Green.label>绿色粉笔痕</WotF_ChalkMark_Green.label>
-    <WotF_ChalkMark_Green.description>一道绿色仪式粉笔。围绕祭坛画成一圈，就能承载仪式。</WotF_ChalkMark_Green.description>
+    <WotF_ChalkMark_Green.description>以翠叶粉笔描在地面的青绿纹线，绕祭坛首尾相连后，便能承载二阶仪式。</WotF_ChalkMark_Green.description>
     <WotF_ChalkMark_Star.label>星辉粉笔痕</WotF_ChalkMark_Star.label>
-    <WotF_ChalkMark_Star.description>一道银色仪式粉笔。围绕祭坛画成一圈，就能承载仪式。</WotF_ChalkMark_Star.description>
+    <WotF_ChalkMark_Star.description>涂绘在地面的银白纹线，绕祭坛围成完整的环后，即可承载三阶仪式。</WotF_ChalkMark_Star.description>
     <WotF_Chalk.label>仪式粉笔</WotF_Chalk.label>
-    <WotF_Chalk.description>浅色的仪式粉笔棒。由任一石种的石块、原木与草药制成，可围绕祭坛画成粉笔环。</WotF_Chalk.description>
+    <WotF_Chalk.description>用石粉、木灰与草药揉压而成的浅白粉笔棒，握在手里略带粗糙颗粒感，用于在祭坛周围勾勒白色粉笔环。</WotF_Chalk.description>
     <WotF_ChalkGreen.label>翠叶粉笔</WotF_ChalkGreen.label>
-    <WotF_ChalkGreen.description>由白色粉笔与草药点化而成的翠绿粉笔棒，用来画林木与守护的环。</WotF_ChalkGreen.description>
+    <WotF_ChalkGreen.description>翠绿色的粉笔棒，由白色粉笔与草药点化而成，凑近时能闻到一丝草叶气息。精灵常用它勾勒与生机、守护相关的翠叶环。</WotF_ChalkGreen.description>
     <WotF_ChalkStar.label>星辉粉笔</WotF_ChalkStar.label>
-    <WotF_ChalkStar.description>由白埋粉笔、白银与翡翠点化而成的银白粉笔棒，用来画空间与天象的环。</WotF_ChalkStar.description>
+    <WotF_ChalkStar.description>银白色的粉笔棒，以白色粉笔掺入白银与翡翠点化而成。断面泛着冷冽微光，画出的星辉环足以承接天象、地脉与高阶炼成等三阶仪式。</WotF_ChalkStar.description>
     <WotF_SpellTurret.label>符咒炮塔</WotF_SpellTurret.label>
-    <WotF_SpellTurret.description>围绕符文聚焦器建成的炮塔。它从最近的魔源网络汲取魔源，发射追踪的奥术飞镖；附近没有网络时保持沉默。</WotF_SpellTurret.description>
+    <WotF_SpellTurret.description>围绕符文聚焦器建成的自动防卫炮塔。由施法者铭刻一条弹射物形式的常规法术后，它就会从邻近魔网汲取魔源自动开火，断魔或尚未写入法术时则保持沉寂。</WotF_SpellTurret.description>
     <WotF_Gun_SpellTurret.label>符咒炮塔聚焦器</WotF_Gun_SpellTurret.label>
-    <WotF_Gun_SpellTurret.description>装在炮塔上的符文聚焦器。它像施法者一样发射奥术飞镖，却没有自己的意志。</WotF_Gun_SpellTurret.description>
+    <WotF_Gun_SpellTurret.description>架设在炮塔顶端的符文聚焦器，顺着铭刻好的纹路代为激发弹射物法术。</WotF_Gun_SpellTurret.description>
   <WotF_ManaBattery.label>魔源电池</WotF_ManaBattery.label>
-  <WotF_ManaBattery.description>储存魔源的电池，会接入连接半径内最近节点所在的网络。断开连接时保留存量，拆毁后存量消失。</WotF_ManaBattery.description>
+  <WotF_ManaBattery.description>用于蓄存多余魔源的木石容器，会自动并入连接半径内最近节点所在的魔源网络。即便暂时脱离网络，里面积攒的魔源仍会留存，但在建筑被拆毁后会随之消散。</WotF_ManaBattery.description>
   <WotF_ElvenStreetLamp.label>精灵路灯</WotF_ElvenStreetLamp.label>
   <WotF_ElvenStreetLamp.description>缠绕着开花青藤的银白双盏精灵路灯。接入魔源网络后只消耗微量魔源即可提供比肩日光灯半径的 50% 常态照明，光色随昼夜从暖黄渐变为青绿，夜里常会引来晶翼蝴蝶在藤蔓花间栖飞。</WotF_ElvenStreetLamp.description>
 </LanguageData>

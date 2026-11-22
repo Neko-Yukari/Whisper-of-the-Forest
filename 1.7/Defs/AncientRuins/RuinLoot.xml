@@ -1,68 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
-  <!-- 遗迹独有的战利品表。通用遗迹：材料与高阶物资必出，超位拓片 35%（由 ThingSetMaker_Sum 掷一次）。
-       数量全部是占位数值。 -->
-  <ThingSetMakerDef>
-    <defName>WotF_RuinLoot_Common</defName>
-    <root Class="ThingSetMaker_Sum">
-      <options>
-        <li>
-          <thingSetMaker Class="ThingSetMaker_StackCount">
-            <fixedParams>
-              <filter>
-                <thingDefs>
-                  <li>WotF_Mithril</li>
-                </thingDefs>
-              </filter>
-              <countRange>12~25</countRange>
-            </fixedParams>
-          </thingSetMaker>
-        </li>
-        <li>
-          <thingSetMaker Class="ThingSetMaker_StackCount">
-            <fixedParams>
-              <filter>
-                <thingDefs>
-                  <li>WotF_Adamantine</li>
-                </thingDefs>
-              </filter>
-              <countRange>6~14</countRange>
-            </fixedParams>
-          </thingSetMaker>
-        </li>
-        <li>
-          <chance>0.6</chance>
-          <thingSetMaker Class="ThingSetMaker_StackCount">
-            <fixedParams>
-              <filter>
-                <thingDefs>
-                  <li>ComponentSpacer</li>
-                </thingDefs>
-              </filter>
-              <countRange>1~3</countRange>
-            </fixedParams>
-          </thingSetMaker>
-        </li>
-        <!-- 超位拓片：整座遗迹只掷一次，35%。 -->
-        <li>
-          <chance>0.35</chance>
-          <thingSetMaker Class="ThingSetMaker_StackCount">
-            <fixedParams>
-              <filter>
-                <thingDefs>
-                  <li>WotF_SuperRuneRubbing_Railgun</li>
-                  <li>WotF_SuperRuneRubbing_Tornado</li>
-                </thingDefs>
-              </filter>
-              <countRange>1~1</countRange>
-            </fixedParams>
-          </thingSetMaker>
-        </li>
-      </options>
-    </root>
-  </ThingSetMakerDef>
-
-  <!-- 核心遗迹的遗物匣内容：谐振核与 1 张超位拓片必出，另加材料与高阶物资。 -->
+  <!-- 古老工程遗迹的遗物匣战利品表：谐振核、秘银、精金与先进零部件必出，超位拓片 35% 概率出 1 枚（由 ThingSetMaker_Sum 掷一次）。 -->
   <ThingSetMakerDef>
     <defName>WotF_RuinLoot_CoreCasket</defName>
     <root Class="ThingSetMaker_Sum">
@@ -79,7 +17,9 @@
             </fixedParams>
           </thingSetMaker>
         </li>
+        <!-- 超位拓片：整座遗迹只掷一次，35% 概率出 1 枚。 -->
         <li>
+          <chance>0.35</chance>
           <thingSetMaker Class="ThingSetMaker_StackCount">
             <fixedParams>
               <filter>

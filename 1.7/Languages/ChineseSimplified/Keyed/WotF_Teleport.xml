@@ -4,14 +4,16 @@
   <WotF_TeleportGate_Gizmo_Send>连接…</WotF_TeleportGate_Gizmo_Send>
   <WotF_TeleportGate_Gizmo_SendDesc>把装在这扇门里的东西送到遗迹的残破传送门，或送到本图另一扇开启中的传送门。</WotF_TeleportGate_Gizmo_SendDesc>
   <WotF_TeleportGate_Gizmo_Connect>连接回家…</WotF_TeleportGate_Gizmo_Connect>
-  <WotF_TeleportGate_Gizmo_ConnectDesc>把装在这扇残破传送门里的东西，从一处正在运行的殖民传送门送回去。回程费率和去程一样，从那扇门的魔网扣；这扇门经不起穿越。</WotF_TeleportGate_Gizmo_ConnectDesc>
+  <WotF_TeleportGate_Gizmo_ConnectDesc>把装在这扇残破传送门里的东西，从一处正在运行的殖民传送门送回去。必须先清完遗迹内所有守卫才能开启。回程费率和去程一样，从那扇门的魔网扣；这扇门经不起穿越。</WotF_TeleportGate_Gizmo_ConnectDesc>
   <WotF_TeleportGate_Connecting>正在接通传送门…</WotF_TeleportGate_Connecting>
   <WotF_TeleportGate_Inspect_Running>开启中，维持消耗 {0} 魔源/秒</WotF_TeleportGate_Inspect_Running>
   <WotF_TeleportGate_Inspect_Starved>开启中，但魔网付不起 {0} 魔源/秒的维持</WotF_TeleportGate_Inspect_Starved>
   <WotF_TeleportGate_Inspect_Unlinked>开启中，但 {0} 格内没有魔源节点</WotF_TeleportGate_Inspect_Unlinked>
   <WotF_TeleportGate_Inspect_Closed>已关闭</WotF_TeleportGate_Inspect_Closed>
   <WotF_TeleportGate_Inspect_Ruined>残破：只剩最后一次穿越</WotF_TeleportGate_Inspect_Ruined>
+  <WotF_TeleportGate_Inspect_RuinedLocked>残破：遗迹守卫尚未清完，无法开启</WotF_TeleportGate_Inspect_RuinedLocked>
   <WotF_TeleportGate_Inspect_Contents>已装载：{0} 人，{1} 千克货物</WotF_TeleportGate_Inspect_Contents>
+  <WotF_TeleportGate_RuinHostiles>遗迹内仍有守卫未清理，这扇残破传送门还无法再次打开。</WotF_TeleportGate_RuinHostiles>
   <WotF_TeleportGate_NoTransporter>这扇门没有装载舱。</WotF_TeleportGate_NoTransporter>
   <WotF_TeleportGate_Empty>门里没有装东西，先装人或货物。</WotF_TeleportGate_Empty>
   <WotF_TeleportGate_NoHomeGate>家里没有开启中的传送门。先让一扇门运行起来，或者组远行队徒步回去。</WotF_TeleportGate_NoHomeGate>

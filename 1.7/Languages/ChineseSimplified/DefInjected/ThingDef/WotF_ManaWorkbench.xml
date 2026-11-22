@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <WotF_ManaWorkbench.label>魔力工作台</WotF_ManaWorkbench.label>
-  <WotF_ManaWorkbench.description>以活木制成的无电工坊，直接接入魔源网络。仅在制作期间持续消耗魔源，断魔即停工；精灵在这里仍能发挥手工亲和。</WotF_ManaWorkbench.description>
+  <WotF_ManaWorkbench.description>以石座、原木与活木搭成的无电工坊。台面接入邻近的魔源网络，只在工匠动手制作时持续消耗魔源，断魔即停。因为完全不通电流，精灵在这里照常能发挥手工亲和。</WotF_ManaWorkbench.description>
 </LanguageData>

@@ -30,11 +30,7 @@ namespace WhisperOfTheForest.Mana
 
         public override void PostDeSpawn(Map map, DestroyMode mode = DestroyMode.Vanish)
         {
-            if (map != null)
-            {
-                map.overlayDrawer.Disable(parent, ref overlayOff);
-            }
-
+            overlayOff = null;
             base.PostDeSpawn(map, mode);
         }
 
@@ -54,22 +50,10 @@ namespace WhisperOfTheForest.Mana
                 return;
             }
 
-            if (parent.GetComp<CompPowerTrader>() != null)
+            parent.Map.overlayDrawer.Disable(parent, ref overlayOff);
+            if (parent.GetComp<CompPowerTrader>() == null && !SwitchIsOn)
             {
-                parent.Map.overlayDrawer.Disable(parent, ref overlayOff);
-                return;
-            }
-
-            if (!SwitchIsOn)
-            {
-                if (!overlayOff.HasValue)
-                {
-                    overlayOff = parent.Map.overlayDrawer.Enable(parent, OverlayTypes.PowerOff);
-                }
-            }
-            else
-            {
-                parent.Map.overlayDrawer.Disable(parent, ref overlayOff);
+                overlayOff = parent.Map.overlayDrawer.Enable(parent, OverlayTypes.PowerOff);
             }
         }
     }

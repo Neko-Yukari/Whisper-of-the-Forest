@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <WotF_RuinSeek_Common.questNameRules.rulesStrings>
-    <li>questName->古老森林遗迹</li>
-  </WotF_RuinSeek_Common.questNameRules.rulesStrings>
-  <WotF_RuinSeek_Common.questDescriptionRules.rulesStrings>
-    <li>questDescription->寻踪仪式在树下找到了一处旧遗迹。清掉守卫，把森林吞掉的东西取回来。</li>
-  </WotF_RuinSeek_Common.questDescriptionRules.rulesStrings>
-
   <WotF_RuinSeek_Core.questNameRules.rulesStrings>
     <li>questName->古老工程遗迹</li>
   </WotF_RuinSeek_Core.questNameRules.rulesStrings>
   <WotF_RuinSeek_Core.questDescriptionRules.rulesStrings>
-    <li>questDescription->寻踪仪式找到了一座埋在地下的工程站。深处有一个封死的遗物匣，里面装着谐振核；清掉守卫，打开它。</li>
+    <li>questDescription->寻踪仪式定位到了一处埋在地下的古老工程遗迹。深处封存着装有谐振核的遗物匣，清理掉里面的守卫后再去开启它。</li>
   </WotF_RuinSeek_Core.questDescriptionRules.rulesStrings>
 </LanguageData>

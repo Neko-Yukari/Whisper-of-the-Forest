@@ -26,12 +26,13 @@
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <graphicData>
       <texPath>Buildings/ElvenStreetLamp</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(2.3,2.3)</drawSize>
-      <drawOffset>(0,0,0.95)</drawOffset>
+      <graphicClass>WhisperOfTheForest.Vfx.Graphic_TallProp</graphicClass>
+      <drawSize>(2.8,2.8)</drawSize>
+      <drawOffset>(0,0,0.84)</drawOffset>
+      <addTopAltitudeBias>true</addTopAltitudeBias>
       <shadowData>
-        <volume>(0.32,0.6,0.22)</volume>
-        <offset>(0,0,-0.08)</offset>
+        <volume>(0.40,0.6,0.26)</volume>
+        <offset>(0,0,-0.38)</offset>
       </shadowData>
     </graphicData>
     <uiIconPath>Buildings/ElvenStreetLamp</uiIconPath>
