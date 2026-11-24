@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_ArcaneMissileDamage.deathMessage>{0}は強烈な打撃によって死亡した。</WotF_ArcaneMissileDamage.deathMessage>
+  <WotF_ArcaneMissileDamage.description>衝突と圧潰によって標的を痛めつける重い打撃。残るのは主に打撲や亀裂であり、出血を伴うことはほとんどない。</WotF_ArcaneMissileDamage.description>
+  <WotF_ArcaneMissileDamage.label>打撃</WotF_ArcaneMissileDamage.label>
+</LanguageData>

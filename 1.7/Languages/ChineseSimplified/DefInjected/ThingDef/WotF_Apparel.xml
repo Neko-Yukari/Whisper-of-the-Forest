@@ -1,46 +1,29 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-
-  <!-- DefInjected path = <defName>.<field>. The parent folder (DefInjected/ThingDef) already supplies
-       the def type; a leading "ThingDef." segment is read as a defName and fails to load. -->
-
-  <WotF_ElvenDressTraditional_I.label>精灵传统长裙 I</WotF_ElvenDressTraditional_I.label>
-  <WotF_ElvenDressTraditional_I.description>以布料或软皮裁制的连身长裙，能护住躯干与双腿以抵御寒暑，是精灵聚落里最常见的日常装束。</WotF_ElvenDressTraditional_I.description>
-
-  <WotF_ElvenDressTraditional_II.label>精灵传统长裙 II</WotF_ElvenDressTraditional_II.label>
-  <WotF_ElvenDressTraditional_II.description>另一种剪裁的连身长裙。覆盖范围与抵御寒暑的效用都与常见款式无异，只是裙身纹理和轮廓略有不同。</WotF_ElvenDressTraditional_II.description>
-
-  <WotF_ElvenApronDress.label>精灵围裙装</WotF_ElvenApronDress.label>
   <WotF_ElvenApronDress.description>家常穿着的宽大围裙，腰间缝有放工具与草叶的口袋。穿在身上利落不碍手脚，打理作物和采收时也更顺手。</WotF_ElvenApronDress.description>
-
-  <WotF_ElvenHunterUndershirt.label>精灵猎装内衬</WotF_ElvenHunterUndershirt.label>
-  <WotF_ElvenHunterUndershirt.description>穿在披风或轻甲之内的贴身内衬，布料紧实服帖，活动时少有累赘褶皱。穿着者在近身缠斗中更容易闪避攻击。</WotF_ElvenHunterUndershirt.description>
-
-  <WotF_ElvenFormalGown.label>精灵礼服长裙</WotF_ElvenFormalGown.label>
-  <WotF_ElvenFormalGown.description>织有细密金线的叠层礼裙，多在庆典或外事会面时穿着。穿上它显得端庄悦目，与人交涉时也更有分量。</WotF_ElvenFormalGown.description>
-
-  <WotF_ElvenTravelCloak.label>精灵远行斗篷</WotF_ElvenTravelCloak.label>
-  <WotF_ElvenTravelCloak.description>配有行囊背带的长身斗篷，能护住除头部以外的全身以抵御风霜与烈日。背带还能分担负重，方便多带些随身物资。</WotF_ElvenTravelCloak.description>
-
-  <WotF_ElvenLightArmor.label>精灵轻甲</WotF_ElvenLightArmor.label>
-  <WotF_ElvenLightArmor.description>游侠常穿的贴身护具。护胸与护臂套在内衬之外，下摆留有舒展步幅的余地，既不拖累脚步，也能稳住远程瞄准。甲身同样可在祭坛上铭刻受击触发的法术。</WotF_ElvenLightArmor.description>
-
-  <WotF_ElvenMageRobe.label>精灵法袍</WotF_ElvenMageRobe.label>
-  <WotF_ElvenMageRobe.description>沿着衣缝织入了微细金属丝的外袍，通常穿在内衬之外。能让体内的魔力流转得更为顺畅，从而在漫长的战斗中维持更充沛的储备。</WotF_ElvenMageRobe.description>
-
-  <WotF_ElvenWarArmor.label>精灵战甲</WotF_ElvenWarArmor.label>
-  <WotF_ElvenWarArmor.description>配有护肩的全套金属板甲，是精灵剑卫与执政官的制式装束。它能护住头部以下的全身，穿着时仅略微拖慢脚步，也可在祭坛上铭刻受击触发的法术。</WotF_ElvenWarArmor.description>
-
-  <WotF_ElvenFlowerWreath.label>精灵花环</WotF_ElvenFlowerWreath.label>
+  <WotF_ElvenApronDress.label>精灵围裙装</WotF_ElvenApronDress.label>
+  <WotF_ElvenDressTraditional_I.description>以布料或软皮裁制的连身长裙，能护住躯干与双腿以抵御寒暑，是精灵聚落里最常见的日常装束。</WotF_ElvenDressTraditional_I.description>
+  <WotF_ElvenDressTraditional_I.label>精灵传统长裙 I</WotF_ElvenDressTraditional_I.label>
+  <WotF_ElvenDressTraditional_II.description>另一种剪裁的连身长裙。覆盖范围与抵御寒暑的效用都与常见款式无异，只是裙身纹理和轮廓略有不同。</WotF_ElvenDressTraditional_II.description>
+  <WotF_ElvenDressTraditional_II.label>精灵传统长裙 II</WotF_ElvenDressTraditional_II.label>
   <WotF_ElvenFlowerWreath.description>用鲜嫩枝叶与野花编成的额环，戴在发间散发出淡淡草香，与人交谈时更容易赢得好感。</WotF_ElvenFlowerWreath.description>
-
-  <WotF_ElvenSunHat.label>精灵阳帽</WotF_ElvenSunHat.label>
+  <WotF_ElvenFlowerWreath.label>精灵花环</WotF_ElvenFlowerWreath.label>
+  <WotF_ElvenFormalGown.description>织有细密金线的叠层礼裙，多在庆典或外事会面时穿着。穿上它显得端庄悦目，与人交涉时也更有分量。</WotF_ElvenFormalGown.description>
+  <WotF_ElvenFormalGown.label>精灵礼服长裙</WotF_ElvenFormalGown.label>
+  <WotF_ElvenHunterUndershirt.description>穿在披风或轻甲之内的贴身内衬，布料紧实服帖，活动时少有累赘褶皱。穿着者在近身缠斗中更容易闪避攻击。</WotF_ElvenHunterUndershirt.description>
+  <WotF_ElvenHunterUndershirt.label>精灵猎装内衬</WotF_ElvenHunterUndershirt.label>
+  <WotF_ElvenLightArmor.description>游侠常穿的贴身护具。护胸与护臂套在内衬之外，下摆留有舒展步幅的余地，既不拖累脚步，也能稳住远程瞄准。甲身同样可在祭坛上铭刻受击触发的法术。</WotF_ElvenLightArmor.description>
+  <WotF_ElvenLightArmor.label>精灵轻甲</WotF_ElvenLightArmor.label>
+  <WotF_ElvenMageRobe.description>沿着衣缝织入了微细金属丝的外袍，通常穿在内衬之外。能让体内的魔力流转得更为顺畅，从而在漫长的战斗中维持更充沛的储备。</WotF_ElvenMageRobe.description>
+  <WotF_ElvenMageRobe.label>精灵法袍</WotF_ElvenMageRobe.label>
   <WotF_ElvenSunHat.description>帽檐宽大的手工编织帽，出门时既能替脸颊遮阳，与人攀谈时也更容易留下好印象。</WotF_ElvenSunHat.description>
-
-  <WotF_ElvenTravelHood.label>精灵远行风帽</WotF_ElvenTravelHood.label>
+  <WotF_ElvenSunHat.label>精灵阳帽</WotF_ElvenSunHat.label>
+  <WotF_ElvenTravelCloak.description>配有行囊背带的长身斗篷，能护住除头部以外的全身以抵御风霜与烈日。背带还能分担负重，方便多带些随身物资。</WotF_ElvenTravelCloak.description>
+  <WotF_ElvenTravelCloak.label>精灵远行斗篷</WotF_ElvenTravelCloak.label>
   <WotF_ElvenTravelHood.description>与远行斗篷配套的深檐兜帽。戴上后能护住整个头部以防寒风与日晒。</WotF_ElvenTravelHood.description>
-
-  <WotF_ElvenWarCrown.label>精灵战冠</WotF_ElvenWarCrown.label>
+  <WotF_ElvenTravelHood.label>精灵远行风帽</WotF_ElvenTravelHood.label>
+  <WotF_ElvenWarArmor.description>配有护肩的全套金属板甲，是精灵剑卫与执政官的制式装束。它能护住头部以下的全身，穿着时仅略微拖慢脚步，也可在祭坛上铭刻受击触发的法术。</WotF_ElvenWarArmor.description>
+  <WotF_ElvenWarArmor.label>精灵战甲</WotF_ElvenWarArmor.label>
   <WotF_ElvenWarCrown.description>由整块金属锻成的翼形战冠。虽为敞面设计，防护力却足以比肩重盔，能护住佩戴者的整个头部。</WotF_ElvenWarCrown.description>
-
+  <WotF_ElvenWarCrown.label>精灵战冠</WotF_ElvenWarCrown.label>
 </LanguageData>

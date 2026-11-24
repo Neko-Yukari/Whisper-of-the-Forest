@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <WotF_GroveRites.label>精灵仪式</WotF_GroveRites.label>
-  <WotF_GroveRites.generalTitle>精灵仪式</WotF_GroveRites.generalTitle>
   <WotF_GroveRites.generalDescription>循序研习精灵仪式、祭坛构筑与材料点化。沿着主线建起更高阶的祭坛后，便可继续展开对应阶位的各类分支仪式。</WotF_GroveRites.generalDescription>
+  <WotF_GroveRites.generalTitle>精灵仪式</WotF_GroveRites.generalTitle>
+  <WotF_GroveRites.label>精灵仪式</WotF_GroveRites.label>
 </LanguageData>

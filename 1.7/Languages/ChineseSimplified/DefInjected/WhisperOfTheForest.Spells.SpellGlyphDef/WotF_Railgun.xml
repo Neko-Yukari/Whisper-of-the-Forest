@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-
-  <!-- 磁轨炮符文本身的名称与说明；语法原因文本放在 Keyed/WotF_Spells.xml 里。 -->
-  <WotF_Form_Railgun.label>磁轨炮</WotF_Form_Railgun.label>
   <WotF_Form_Railgun.description>传说中的超位符文之一。\n可以发射出速度极快的高密度弹丸，贯穿所过之处的一切物体。\n那划破天空的闪光，本是为先民们向太空发射样本而存在。</WotF_Form_Railgun.description>
-
+  <WotF_Form_Railgun.label>磁轨炮</WotF_Form_Railgun.label>
 </LanguageData>

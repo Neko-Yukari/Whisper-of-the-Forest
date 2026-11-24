@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <WotF_Turret_ProjectileOnly>Spell turrets only accept projectile-form spells.</WotF_Turret_ProjectileOnly>
+  <WotF_Turret_Animals>Animals</WotF_Turret_Animals>
+  <WotF_Turret_Candidate>{0} · Slot {1} · {2}</WotF_Turret_Candidate>
+  <WotF_Turret_CategoryGroup>Target categories</WotF_Turret_CategoryGroup>
+  <WotF_Turret_ComposeHint>This spell goes only to the turret, not to a spellbook slot.</WotF_Turret_ComposeHint>
+  <WotF_Turret_CurrentSpell>Current spell: {0}</WotF_Turret_CurrentSpell>
+  <WotF_Turret_Entities>Anomaly entities</WotF_Turret_Entities>
+  <WotF_Turret_Friendly>Friendly</WotF_Turret_Friendly>
+  <WotF_Turret_HeaderBadge>Turret spell inscription · Projectile form only</WotF_Turret_HeaderBadge>
+  <WotF_Turret_Hostile>Hostile</WotF_Turret_Hostile>
+  <WotF_Turret_Humanlikes>Humanlikes</WotF_Turret_Humanlikes>
+  <WotF_Turret_ManaPreview>Mana per shot: {0}</WotF_Turret_ManaPreview>
+  <WotF_Turret_Mechanoids>Mechanoids</WotF_Turret_Mechanoids>
+  <WotF_Turret_Neutral>Neutral</WotF_Turret_Neutral>
+  <WotF_Turret_NewSpell>Write a new spell</WotF_Turret_NewSpell>
+  <WotF_Turret_NoCandidates>No colony spells are available to list. Use Write a new spell to compose one.</WotF_Turret_NoCandidates>
   <WotF_Turret_NoSpell>No spell inscribed</WotF_Turret_NoSpell>
+  <WotF_Turret_PendingSpell>Pending inscription: {0}</WotF_Turret_PendingSpell>
+  <WotF_Turret_ProjectileOnly>Spell turrets only accept projectile-form spells.</WotF_Turret_ProjectileOnly>
+  <WotF_Turret_RelationGroup>Faction relations</WotF_Turret_RelationGroup>
+  <WotF_Turret_RequestWrite>Request inscription</WotF_Turret_RequestWrite>
   <WotF_Turret_SelectSpell>Select spell</WotF_Turret_SelectSpell>
   <WotF_Turret_SelectSpellDesc>Choose a colony spell. A spellcaster must inscribe it before the turret can use it.</WotF_Turret_SelectSpellDesc>
-  <WotF_Turret_Candidate>{0} · Slot {1} · {2}</WotF_Turret_Candidate>
-  <WotF_Turret_NewSpell>Write a new spell</WotF_Turret_NewSpell>
-  <WotF_Turret_HeaderBadge>Turret spell inscription · Projectile form only</WotF_Turret_HeaderBadge>
-  <WotF_Turret_RequestWrite>Request inscription</WotF_Turret_RequestWrite>
-  <WotF_Turret_ComposeHint>This spell goes only to the turret, not to a spellbook slot.</WotF_Turret_ComposeHint>
-  <WotF_Turret_ManaPreview>Mana per shot: {0}</WotF_Turret_ManaPreview>
-  <WotF_Turret_CurrentSpell>Current spell: {0}</WotF_Turret_CurrentSpell>
-  <WotF_Turret_PendingSpell>Pending inscription: {0}</WotF_Turret_PendingSpell>
   <WotF_Turret_Targets>Targets</WotF_Turret_Targets>
-  <WotF_Turret_Humanlikes>Humanlikes</WotF_Turret_Humanlikes>
-  <WotF_Turret_Animals>Animals</WotF_Turret_Animals>
-  <WotF_Turret_Mechanoids>Mechanoids</WotF_Turret_Mechanoids>
-  <WotF_Turret_Entities>Anomaly entities</WotF_Turret_Entities>
-  <WotF_Turret_NoCandidates>No colony spells are available to list. Use Write a new spell to compose one.</WotF_Turret_NoCandidates>
-  <WotF_Turret_CategoryGroup>Target categories</WotF_Turret_CategoryGroup>
-  <WotF_Turret_RelationGroup>Faction relations</WotF_Turret_RelationGroup>
-  <WotF_Turret_Hostile>Hostile</WotF_Turret_Hostile>
-  <WotF_Turret_Neutral>Neutral</WotF_Turret_Neutral>
-  <WotF_Turret_Friendly>Friendly</WotF_Turret_Friendly>
 </LanguageData>

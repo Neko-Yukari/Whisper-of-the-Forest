@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_HaulRitualOfferings.gerund>hauling offerings to</WotF_HaulRitualOfferings.gerund>
+  <WotF_HaulRitualOfferings.label>haul offerings to ritual altars</WotF_HaulRitualOfferings.label>
+  <WotF_HaulRitualOfferings.verb>haul offerings to</WotF_HaulRitualOfferings.verb>
+  <WotF_HostRitual.gerund>hosting a ritual at</WotF_HostRitual.gerund>
+  <WotF_HostRitual.label>host rituals at altars</WotF_HostRitual.label>
+  <WotF_HostRitual.verb>host a ritual at</WotF_HostRitual.verb>
+</LanguageData>

@@ -110,6 +110,7 @@ namespace WhisperOfTheForest.Rituals
                 }
             };
             toil.WithProgressBar(AltarInd, () => altar.ActiveProgressFraction);
+            toil.PlaySustainerOrSound(() => altar.Props.chantLoopSound);
             toil.FailOnDespawnedOrNull(AltarInd);
             return toil;
         }

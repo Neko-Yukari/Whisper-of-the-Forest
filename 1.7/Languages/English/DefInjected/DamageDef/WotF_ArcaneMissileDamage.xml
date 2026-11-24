@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-
-  <WotF_ArcaneMissileDamage.label>blunt</WotF_ArcaneMissileDamage.label>
-  <WotF_ArcaneMissileDamage.description>Heavy concussive force that crushes rather than cuts.</WotF_ArcaneMissileDamage.description>
   <WotF_ArcaneMissileDamage.deathMessage>{0} was crushed to death by blunt force.</WotF_ArcaneMissileDamage.deathMessage>
-
+  <WotF_ArcaneMissileDamage.description>Heavy blunt impact that injures through shock and crushing force, leaving mostly bruises and fractures with little bleeding.</WotF_ArcaneMissileDamage.description>
+  <WotF_ArcaneMissileDamage.label>blunt</WotF_ArcaneMissileDamage.label>
 </LanguageData>

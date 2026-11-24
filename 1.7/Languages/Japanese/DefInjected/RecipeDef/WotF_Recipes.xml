@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_MakeChalk.description>任意の石材ブロック5個、木材5個、薬草1個から白亜のチョークを10本作成する。</WotF_MakeChalk.description>
+  <WotF_MakeChalk.jobString>儀式用チョークを作っている。</WotF_MakeChalk.jobString>
+  <WotF_MakeChalk.label>儀式用チョークを作る</WotF_MakeChalk.label>
+</LanguageData>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_ElvenLongbow.description>一本の活木が持つ本来の木目に沿って曲げられた長弓。しなやかな獣筋の弦を備え、軽く音もなく引き絞れる。儀式によって握りへ刻まれた呪文は、放たれる矢の一本ごとに乗って標的へ届く。</WotF_ElvenLongbow.description>
+  <WotF_ElvenLongbow.label>活木の長弓</WotF_ElvenLongbow.label>
+  <WotF_ElvenLongsword.description>細身で均整の取れたエルフの伝統的な長剣。斬撃にも刺突にもよく馴染む。柄に刻み込まれた呪文は、刃が敵を捉えた瞬間に同時に解き放たれる。</WotF_ElvenLongsword.description>
+  <WotF_ElvenLongsword.label>エルフの長剣</WotF_ElvenLongsword.label>
+  <WotF_Projectile_ElvenArrow.label>エルフの矢</WotF_Projectile_ElvenArrow.label>
+  <WotF_SpellStaff.description>両手でしっかりと構える長柄のスタッフ。軽快で取り回しの良い片手用のワンドに比べると取り回しは重く、接近戦では他の防具と両立しづらい。その代わり、より激しい魔力の奔流に耐えて遠くまで呪文を届かせることができ、超位呪文を安定して導ける数少ない媒介でもある。</WotF_SpellStaff.description>
+  <WotF_SpellStaff.label>スタッフ</WotF_SpellStaff.label>
+  <WotF_SpellWand.description>片手で握れるワンド。両手で構えるスタッフとはまったくの別物だ！\nワンドは剣術を重んじるエルフたちに好まれている。両手持ちのスタッフより軽快なぶん素早く呪文を放つことができ、剣技の合間に魔法を織り込めるのが強みである。その代わり射程は短めで、扱える呪文の幅もスタッフには及ばない。</WotF_SpellWand.description>
+  <WotF_SpellWand.label>ワンド</WotF_SpellWand.label>
+  <WotF_Spellbook_Adept.description>第2階位の儀式によって再鋳造された魔導書。装丁も紙葉もより複雑な魔力回路に耐えうる造りになっている。全10個のブックマークが使え、1呪文あたりのルーン上限は7個まで拡張され、装備者の魔力上限と魔力回復をさらに高めるが、超位ルーンはなお収められない。</WotF_Spellbook_Adept.description>
+  <WotF_Spellbook_Adept.label>織法の魔導書</WotF_Spellbook_Adept.label>
+  <WotF_Spellbook_Apprentice.description>腰に提げて携行する入門用の魔導書で、呪文の編纂を始めたばかりのエルフが用いる。全10個の呪文ブックマークを使用でき、1呪文あたり最大4個のルーンを連ねられるほか、装備中は魔力上限と魔力回復をわずかに高める。ただし超位ルーンは収められない。</WotF_Spellbook_Apprentice.description>
+  <WotF_Spellbook_Apprentice.label>見習いの魔導書</WotF_Spellbook_Apprentice.label>
+  <WotF_Spellbook_Archmage.description>星輝の儀式によって昇華された高位典籍で、紙葉のあいだに冷ややかな銀光がほのかに揺らめく。全10個の呪文ブックマークを開放し、単一呪文のルーン連鎖を最大10個まで伸ばせるうえ、装備者の魔力上限と魔力回復を大きく引き上げる。超位ルーンを収められる唯一の魔導書だが、超位呪文を詠唱する際には主手にスタッフを構える必要がある。</WotF_Spellbook_Archmage.description>
+  <WotF_Spellbook_Archmage.label>星輝の法典</WotF_Spellbook_Archmage.label>
+</LanguageData>

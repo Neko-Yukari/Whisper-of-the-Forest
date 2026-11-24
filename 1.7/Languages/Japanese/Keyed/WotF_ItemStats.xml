@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_Stat_AltarHelperFactor>協力者詠唱係数</WotF_Stat_AltarHelperFactor>
+  <WotF_Stat_AltarHelperFactor_Desc>儀式を主宰する際、各協力者の森の血脈による詠唱強度が総詠唱強度に加算される割合である。</WotF_Stat_AltarHelperFactor_Desc>
+  <WotF_Stat_AltarTier>祭壇階位</WotF_Stat_AltarTier>
+  <WotF_Stat_AltarTier_Desc>この祭壇で主宰できる儀式の最大階位である。</WotF_Stat_AltarTier_Desc>
+  <WotF_Stat_EnchantMithrilCost>刻印魔力消費倍率</WotF_Stat_EnchantMithrilCost>
+  <WotF_Stat_EnchantMithrilCost_Desc>{0}製のこの武具が刻印反応を発動する際の魔力消費倍率である。</WotF_Stat_EnchantMithrilCost_Desc>
+  <WotF_Stat_EnchantSlots>刻印スロット</WotF_Stat_EnchantSlots>
+  <WotF_Stat_EnchantSlots_Desc>儀式の祭壇でこの武具に刻印できる反応呪文のスロット数である。通常素材では{0}槽、{1}製では{2}槽まで開放される。</WotF_Stat_EnchantSlots_Desc>
+  <WotF_Stat_EnchantTriggerChance>刻印発動率</WotF_Stat_EnchantTriggerChance>
+  <WotF_Stat_EnchantTriggerChance_Desc>武器が対象に命中した際、または防具の着用者が攻撃者からダメージを受けた際、現在の刻印スロットの呪文が発動する確率である。</WotF_Stat_EnchantTriggerChance_Desc>
+  <WotF_Stat_EnchantTriggerCooldown>刻印発動クールダウン</WotF_Stat_EnchantTriggerCooldown>
+  <WotF_Stat_EnchantTriggerCooldown_Desc>この武具で刻印反応が連続発動する際の最短待機時間である。</WotF_Stat_EnchantTriggerCooldown_Desc>
+  <WotF_Stat_GateArrivalRadius>到着散布半径</WotF_Stat_GateArrivalRadius>
+  <WotF_Stat_GateArrivalRadius_Desc>人員や物資がこの転送門を経由して到着する際、周囲に配置される最大散布半径である。</WotF_Stat_GateArrivalRadius_Desc>
+  <WotF_Stat_GateRemoteCost>遠隔転送マナ消費</WotF_Stat_GateRemoteCost>
+  <WotF_Stat_GateRemoteCost_Desc>マップ間の遠隔転送1回につきマナネットワークから消費されるマナ量である。基本{0}に加え、1人あたり{1}、貨物1kgあたり{2}を追加消費する。</WotF_Stat_GateRemoteCost_Desc>
+  <WotF_Stat_GateRemoteCost_Val>{0} + {1}/人 + {2}/kg</WotF_Stat_GateRemoteCost_Val>
+  <WotF_Stat_GateRuinedMode>転送門モード</WotF_Stat_GateRuinedMode>
+  <WotF_Stat_GateRuinedMode_Desc>崩れた転送門は現地のマナネットワークによる維持を必要とせず、キャラバンを稼働中のコロニー転送門へ送還した直後に崩壊する。</WotF_Stat_GateRuinedMode_Desc>
+  <WotF_Stat_GateRuinedMode_Val>単回帰還</WotF_Stat_GateRuinedMode_Val>
+  <WotF_Stat_GateUpkeep>開放維持マナ消費</WotF_Stat_GateUpkeep>
+  <WotF_Stat_GateUpkeep_Desc>転送門を開放状態に保つ間、マナネットワークから毎秒消費される維持マナ量である。</WotF_Stat_GateUpkeep_Desc>
+  <WotF_Stat_ManaCapacity>マナ貯蔵容量</WotF_Stat_ManaCapacity>
+  <WotF_Stat_ManaCapacity_Desc>この容器に貯蔵できるマナネットワークのマナ総量の上限である。</WotF_Stat_ManaCapacity_Desc>
+  <WotF_Stat_ManaDraw>作業時マナ消費</WotF_Stat_ManaDraw>
+  <WotF_Stat_ManaDraw_Desc>ポーンがこの作業台で加工作業を行っている間、マナネットワークから毎秒引き出されるマナ量である。</WotF_Stat_ManaDraw_Desc>
+  <WotF_Stat_ManaLinkRadius>マナ接続半径</WotF_Stat_ManaLinkRadius>
+  <WotF_Stat_ManaLinkRadius_Desc>周囲のマナノードと接続できる最大距離である。</WotF_Stat_ManaLinkRadius_Desc>
+  <WotF_Stat_ManaOutput>マナ産出速度</WotF_Stat_ManaOutput>
+  <WotF_Stat_ManaOutputCap>最大マナ産出速度</WotF_Stat_ManaOutputCap>
+  <WotF_Stat_ManaOutputCap_Desc>範囲内の成熟した樹木から汲み上げられる毎秒のマナ上限である（成長度1あたり{0} / 秒を産出）。</WotF_Stat_ManaOutputCap_Desc>
+  <WotF_Stat_ManaOutput_Desc>稼働中、接続されたマナネットワークへ毎秒供給するマナ量である。</WotF_Stat_ManaOutput_Desc>
+  <WotF_Stat_ManaPlantMinGrowth>樹木最低成長度</WotF_Stat_ManaPlantMinGrowth>
+  <WotF_Stat_ManaPlantMinGrowth_Desc>範囲内の樹木がこの成長度に達して初めてマナの供給が始まる。</WotF_Stat_ManaPlantMinGrowth_Desc>
+  <WotF_Stat_ManaPlantRadius>集マナ・接続半径</WotF_Stat_ManaPlantRadius>
+  <WotF_Stat_ManaPlantRadius_Desc>周囲の樹木から自然マナを汲み上げ、かつマナノードと接続できる有効半径である。</WotF_Stat_ManaPlantRadius_Desc>
+  <WotF_Stat_ManaVialRestore>魔力回復量</WotF_Stat_ManaVialRestore>
+  <WotF_Stat_ManaVialRestore_Desc>森の血脈を持つポーンが飲用した際、即座に回復する個人魔力の量である。</WotF_Stat_ManaVialRestore_Desc>
+  <WotF_Stat_SpellbookMaxGlyphs>呪文ルーン上限</WotF_Stat_SpellbookMaxGlyphs>
+  <WotF_Stat_SpellbookMaxGlyphs_Desc>この魔導書を装備中、1つの呪文ルーン列に組み込めるルーンの最大数である。いずれの魔導書を装備しても10個すべての呪文しおりが開放される。下位の魔導書へ付け替えても長大な呪文は消えず、上位の魔導書へ戻せば再び詠唱・編集できる。</WotF_Stat_SpellbookMaxGlyphs_Desc>
+  <WotF_Stat_SpellbookSuperGlyphs>超位ルーン対応</WotF_Stat_SpellbookSuperGlyphs>
+  <WotF_Stat_SpellbookSuperGlyphs_Desc>この魔導書に超位ルーンを組み込めるかどうかを示す。超位呪文の詠唱には、さらに主手にスタッフを装備する必要がある。</WotF_Stat_SpellbookSuperGlyphs_Desc>
+  <WotF_Stat_StaffAllowsShieldBelt>シールドベルト両立</WotF_Stat_StaffAllowsShieldBelt>
+  <WotF_Stat_StaffAllowsShieldBelt_Desc>遠距離武器を遮るシールドベルトを着用したまま、この触媒で詠唱を続けられるかどうかを示す。片手ワンドはシールド越しに詠唱できるが、両手スタッフは遮られる。</WotF_Stat_StaffAllowsShieldBelt_Desc>
+  <WotF_Stat_StaffAllowsSuper>超位ルーン対応</WotF_Stat_StaffAllowsSuper>
+  <WotF_Stat_StaffAllowsSuper_Desc>この触媒で超位呪文を導けるかどうかを示す。超位ルーンを安定して支えられるのは両手スタッフのみである。</WotF_Stat_StaffAllowsSuper_Desc>
+  <WotF_Stat_StaffDamageFactor>呪文ダメージ倍率</WotF_Stat_StaffDamageFactor>
+  <WotF_Stat_StaffDamageFactor_Desc>この触媒を通して呪文を詠唱する際のダメージ倍率である。杖身素材の斬撃・打撃ダメージ倍率の平均値から算出される（基本呪文威力倍率 {0}、上限 {1}）。</WotF_Stat_StaffDamageFactor_Desc>
+  <WotF_Stat_StaffDamageFactor_Material>現在の素材（{0}）：斬撃 {1}、打撃 {2}、平均 {3}。</WotF_Stat_StaffDamageFactor_Material>
+  <WotF_Stat_StaffDurationFactor>呪文持続時間倍率</WotF_Stat_StaffDurationFactor>
+  <WotF_Stat_StaffDurationFactor_Desc>この触媒を通して状態効果や呪文フィールドを詠唱する際の持続時間倍率である。素材の耐熱防御係数が高いほど持続時間が延びる（上限 {0}）。</WotF_Stat_StaffDurationFactor_Desc>
+  <WotF_Stat_StaffDurationFactor_Material>現在の素材（{0}）：耐熱防御係数 {1}。</WotF_Stat_StaffDurationFactor_Material>
+  <WotF_Stat_StaffManaFactor>呪文魔力消費倍率</WotF_Stat_StaffManaFactor>
+  <WotF_Stat_StaffManaFactor_Desc>この触媒を通して呪文を詠唱する際の魔力消費倍率である。素材の対打撃防御係数が高いほど魔力消費が抑えられる（下限 {0}）。</WotF_Stat_StaffManaFactor_Desc>
+  <WotF_Stat_StaffManaFactor_Material>現在の素材（{0}）：対打撃防御係数 {1}。</WotF_Stat_StaffManaFactor_Material>
+  <WotF_Stat_StaffNoMaterial>素材未指定（標準の基準値を表示中）。</WotF_Stat_StaffNoMaterial>
+  <WotF_Stat_StaffRangeFactor>呪文射程倍率</WotF_Stat_StaffRangeFactor>
+  <WotF_Stat_StaffRangeFactor_Desc>この触媒を通して投射または接触呪文を詠唱する際の射程倍率である（自身・周回・超位呪文には影響しない）。</WotF_Stat_StaffRangeFactor_Desc>
+  <WotF_Stat_StaffWielding>装備区分</WotF_Stat_StaffWielding>
+  <WotF_Stat_StaffWielding_Desc>片手副手ワンドは主武器枠を占有せず、単体で持てば通常攻撃として自動詠唱し、主武器と併用すれば手動で撃ち分けられる。両手主手スタッフは主武器枠を占有する代わりに、完全な射程とより高い素材共鳴上限を備える。</WotF_Stat_StaffWielding_Desc>
+  <WotF_Stat_StaffWielding_Offhand>片手（副手）</WotF_Stat_StaffWielding_Offhand>
+  <WotF_Stat_StaffWielding_TwoHanded>両手（主手）</WotF_Stat_StaffWielding_TwoHanded>
+  <WotF_Stat_StaffWindupFactor>呪文詠唱準備倍率</WotF_Stat_StaffWindupFactor>
+  <WotF_Stat_StaffWindupFactor_Desc>この触媒で詠唱する際の発動前モーション時間の倍率である。数値が低いほど素早く放てる。</WotF_Stat_StaffWindupFactor_Desc>
+  <WotF_Stat_TerrainStride>地形移動ペナルティ</WotF_Stat_TerrainStride>
+  <WotF_Stat_TerrainStride_Desc>扉の開閉を伴わない通行可能マスにおいて、地形・植物・岩塊・家具・乗り越え可能な作業台・雪砂による移動速度低下を無効化する。</WotF_Stat_TerrainStride_Desc>
+  <WotF_Stat_TerrainStride_Val>無視</WotF_Stat_TerrainStride_Val>
+  <WotF_Stat_TurretInscriptionTime>呪文刻印時間</WotF_Stat_TurretInscriptionTime>
+  <WotF_Stat_TurretInscriptionTime_Desc>このタレットに新たな投射呪文を刻印するのに要する作業時間である。</WotF_Stat_TurretInscriptionTime_Desc>
+  <WotF_Stat_TurretManaFactor>タレット呪文マナ倍率</WotF_Stat_TurretManaFactor>
+  <WotF_Stat_TurretManaFactor_Desc>タレットがマナネットワークからマナを引き出して刻印済み呪文を発射する際の消費倍率である。</WotF_Stat_TurretManaFactor_Desc>
+  <WotF_Stat_Unit_Cells>{0}マス</WotF_Stat_Unit_Cells>
+  <WotF_Stat_Unit_ManaPerSec>{0} / 秒</WotF_Stat_Unit_ManaPerSec>
+  <WotF_Stat_Unit_Seconds>{0}秒</WotF_Stat_Unit_Seconds>
+</LanguageData>

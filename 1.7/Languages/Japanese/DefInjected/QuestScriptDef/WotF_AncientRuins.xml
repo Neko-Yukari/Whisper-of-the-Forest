@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_RuinSeek_Core.questDescriptionRules.rulesStrings>
+    <li>questDescription-&gt;探索の儀式により、地中に埋もれた古代工学遺跡の位置が特定されました。奥底には共鳴核を収めた遺物匣が封じられています。内部の番人たちを掃討してから開けてください。</li>
+  </WotF_RuinSeek_Core.questDescriptionRules.rulesStrings>
+  <WotF_RuinSeek_Core.questNameRules.rulesStrings>
+    <li>questName-&gt;古代工学遺跡</li>
+  </WotF_RuinSeek_Core.questNameRules.rulesStrings>
+</LanguageData>

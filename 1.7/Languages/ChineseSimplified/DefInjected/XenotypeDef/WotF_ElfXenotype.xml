@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-
-  <WotF_ElfXenotype.label>精灵</WotF_ElfXenotype.label>
   <WotF_ElfXenotype.description>身形修长、寿命漫长的精灵族。她们天生拥有与常人迥异的体质，似乎无需借助任何外物，就能直接唤起某种被称为“魔法”的力量。至于她们究竟从何而来、又为何对森林抱有近乎本能的亲近，就连精灵自己也大多说不清楚。</WotF_ElfXenotype.description>
   <WotF_ElfXenotype.descriptionShort>天生亲和魔法的长寿种族，通常栖居在人迹罕至的密林深处。</WotF_ElfXenotype.descriptionShort>
-
+  <WotF_ElfXenotype.label>精灵</WotF_ElfXenotype.label>
 </LanguageData>

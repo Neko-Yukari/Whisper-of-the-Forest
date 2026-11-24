@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_Chalk.description>Pale chalk sticks pressed from stone dust, wood ash, and herbal medicine, slightly gritty in the hand. Used to draw white chalk rings around an altar.</WotF_Chalk.description>
+  <WotF_Chalk.label>ritual chalk</WotF_Chalk.label>
+  <WotF_ChalkGreen.description>Emerald-green chalk sticks transmuted from white chalk and herbal medicine, carrying a faint scent of crushed leaves. Elves use them to draw emerald rings for rites of vitality and warding.</WotF_ChalkGreen.description>
+  <WotF_ChalkGreen.label>emerald chalk</WotF_ChalkGreen.label>
+  <WotF_ChalkMark_Green.description>A green line drawn across the ground with emerald chalk. Closed into a ring around an altar, it carries tier-2 rituals.</WotF_ChalkMark_Green.description>
+  <WotF_ChalkMark_Green.label>emerald chalk mark</WotF_ChalkMark_Green.label>
+  <WotF_ChalkMark_Star.description>A silver-white line drawn across the ground with starlight chalk. Closed into a full ring around an altar, it carries tier-3 rituals.</WotF_ChalkMark_Star.description>
+  <WotF_ChalkMark_Star.label>starlight chalk mark</WotF_ChalkMark_Star.label>
+  <WotF_ChalkMark_White.description>A pale line drawn across the ground with ritual chalk. Closed into a full ring around an altar, it carries rituals.</WotF_ChalkMark_White.description>
+  <WotF_ChalkMark_White.label>white chalk mark</WotF_ChalkMark_White.label>
+  <WotF_ChalkStar.description>Silver-white chalk sticks transmuted from white chalk, silver, and jade. Their fractured ends hold a cool shimmer, and the starlight rings they draw can carry tier-3 rituals of weather, leylines, and high transmutation.</WotF_ChalkStar.description>
+  <WotF_ChalkStar.label>starlight chalk</WotF_ChalkStar.label>
+  <WotF_ElvenStreetLamp.description>A silver-white twin-lantern elven streetlamp entwined with flowering cyan vines. Linked to a mana network, it draws only a trickle of mana to cast 50% illumination across a sun-lamp-sized radius, shifting from warm amber by day to cyan-green by night and often attracting crystal-winged butterflies among its blossoms after dark.</WotF_ElvenStreetLamp.description>
+  <WotF_ElvenStreetLamp.label>elven streetlamp</WotF_ElvenStreetLamp.label>
+  <WotF_Gun_SpellTurret.description>A rune focus mounted atop a spell turret, firing projectile spells along its inscribed patterns.</WotF_Gun_SpellTurret.description>
+  <WotF_Gun_SpellTurret.label>spell turret focus</WotF_Gun_SpellTurret.label>
+  <WotF_ManaBattery.description>A wood-and-stone vessel for storing surplus mana, automatically joining the mana network of the nearest node within reach. Stored mana persists while disconnected, but dissipates if the battery is destroyed.</WotF_ManaBattery.description>
+  <WotF_ManaBattery.label>mana battery</WotF_ManaBattery.label>
+  <WotF_ManaConverter.description>A curious plasteel device that steadily converts current from the colony's power grid into pure mana for the nearest mana network. No one can quite explain how cold electricity and magic flow into one another, yet it runs reliably all the same.</WotF_ManaConverter.description>
+  <WotF_ManaConverter.label>mana converter</WotF_ManaConverter.label>
+  <WotF_ManaFurnace.description>A low stone furnace that burns wood to continuously feed mana into the nearest mana network. Once the network is full, the fire banks itself to save fuel.</WotF_ManaFurnace.description>
+  <WotF_ManaFurnace.label>mana furnace</WotF_ManaFurnace.label>
+  <WotF_ManaGrove.description>A mana-network array raised from livingwood and rune stones. Whenever mature trees stand nearby, it channels their vitality into the nearest mana network without harming the trees themselves.</WotF_ManaGrove.description>
+  <WotF_ManaGrove.label>mana grove</WotF_ManaGrove.label>
+  <WotF_ManaNode.description>A finely crafted mana-conducting pillar that gathers and distributes mana across all facilities within its reach. Nodes can relay to one another to extend the network over greater distances.</WotF_ManaNode.description>
+  <WotF_ManaNode.label>mana node</WotF_ManaNode.label>
+  <WotF_RitualAltar.description>A single-tile, tier-1 altar built from ordinary wood and stone. Once linked to a nearby mana network and ringed with chalk, it can transmute livingwood, awaken apprentice spellbooks, and host other basic rituals. Higher-tier altars can also perform these rites.</WotF_RitualAltar.description>
+  <WotF_RitualAltar.label>wood-and-stone altar</WotF_RitualAltar.label>
+  <WotF_SpellTurret.description>An automated defensive turret built around a rune focus. Once a caster inscribes a regular projectile spell into it, the turret draws mana from the nearest network to fire on its own; without mana or an inscribed spell, it remains silent.</WotF_SpellTurret.description>
+  <WotF_SpellTurret.label>spell turret</WotF_SpellTurret.label>
+  <WotF_TeleportGate.description>A rune-carved arch of livingwood, mithril, and adamantine set upon a masonry plinth. While open, it continuously draws mana from the nearest network, sending loaded people and supplies either to another open gate on the same map or directly to an ancient engineering ruin located by seeking.</WotF_TeleportGate.description>
+  <WotF_TeleportGate.label>teleport gate</WotF_TeleportGate.label>
+</LanguageData>

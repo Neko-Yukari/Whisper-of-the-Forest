@@ -1,0 +1,4321 @@
+[
+  {
+    "file": "Keyed/WotF_AncientRuins.xml",
+    "key": "WotF_Ritual_RuinSeek_AlreadyOutstanding",
+    "zh": "已有一处尚未清理的遗迹。同一时间只允许存在一处寻踪出来的遗迹。",
+    "en": "A ruin the colony has already sought is still uncleared. Only one such ruin may exist at a time.",
+    "ja": "未攻略の遺跡がすでに1か所存在します。探索で見つけた遺跡は同時に1か所までしか存在できません。"
+  },
+  {
+    "file": "Keyed/WotF_AncientRuins.xml",
+    "key": "WotF_Ritual_RuinSeek_NoSite",
+    "zh": "世界地图上找不到可以放置遗迹的地点，这次寻踪无法开始。",
+    "en": "No place on the world map can hold a ruin right now, so the seeking cannot begin.",
+    "ja": "ワールドマップ上に遺跡を配置できる場所が見つからないため、今回の探索を開始できません。"
+  },
+  {
+    "file": "Keyed/WotF_AncientRuins.xml",
+    "key": "WotF_RuinSeek_Failed",
+    "zh": "寻踪未能在世界地图上放下{0}，仪式没有产生遗迹。",
+    "en": "The seeking could not place {0} on the world map, so no ruin appeared.",
+    "ja": "探索でワールドマップ上に{0}を配置できなかったため、遺跡は出現しませんでした。"
+  },
+  {
+    "file": "Keyed/WotF_AncientRuins.xml",
+    "key": "WotF_RuinSeek_LetterLabel",
+    "zh": "寻踪：遗迹已现",
+    "en": "Seeking: a ruin surfaced",
+    "ja": "探索：遺跡を発見"
+  },
+  {
+    "file": "Keyed/WotF_AncientRuins.xml",
+    "key": "WotF_RuinSeek_LetterText",
+    "zh": "寻踪仪式在灵能网络中锁定了{0}的位置。这处遗迹只会在世界地图上显现一段时间，进入后需要清理守卫，并在期限结束前带队撤离。",
+    "en": "The seeking ritual has locked onto {0} across the psychic network. The ruin will stay on the world map for a while; once inside, clear its guardians and lead the caravan out before the deadline.",
+    "ja": "探索の儀式がサイキックネットワーク上で{0}の位置を特定しました。この遺跡はワールドマップ上に一定期間のみ出現します。進入後は守衛を排除し、期限が切れる前に隊を率いて撤収してください。"
+  },
+  {
+    "file": "Keyed/WotF_AncientRuins.xml",
+    "key": "WotF_Ruin_ExitCountdown",
+    "zh": "撤离期限：{0}",
+    "en": "Exit deadline: {0}",
+    "ja": "撤収期限：{0}"
+  },
+  {
+    "file": "Keyed/WotF_Equipment.xml",
+    "key": "WotF_Enchant.Gizmo.Current",
+    "zh": "秘银槽位：第 {0} 槽 · {1}",
+    "en": "Mithril slot: {0} · {1}",
+    "ja": "ミスリルスロット：第{0}槽・{1}"
+  },
+  {
+    "file": "Keyed/WotF_Equipment.xml",
+    "key": "WotF_Enchant.Gizmo.Desc",
+    "zh": "秘银件有两个注法槽，切换后按当前槽位的法术触发反应。",
+    "en": "Mithril holds two inscribed spells. Switch which one fires its reaction.",
+    "ja": "ミスリル製武具は2つの刻印スロットを備える。切り替えると、選択中スロットの呪文が反応発動する。"
+  },
+  {
+    "file": "Keyed/WotF_Equipment.xml",
+    "key": "WotF_Enchant.Gizmo.None",
+    "zh": "秘银槽位：第 {0} 槽（空）",
+    "en": "Mithril slot: {0} (empty)",
+    "ja": "ミスリルスロット：第{0}槽（空）"
+  },
+  {
+    "file": "Keyed/WotF_Equipment.xml",
+    "key": "WotF_Enchant.Inspect.Empty",
+    "zh": "空",
+    "en": "empty",
+    "ja": "空"
+  },
+  {
+    "file": "Keyed/WotF_Equipment.xml",
+    "key": "WotF_Enchant.Inspect.None",
+    "zh": "注法：无",
+    "en": "Inscription: none",
+    "ja": "刻印：なし"
+  },
+  {
+    "file": "Keyed/WotF_Equipment.xml",
+    "key": "WotF_Enchant.Inspect.One",
+    "zh": "注法：{0}",
+    "en": "Inscription: {0}",
+    "ja": "刻印：{0}"
+  },
+  {
+    "file": "Keyed/WotF_Equipment.xml",
+    "key": "WotF_Enchant.Inspect.Slots",
+    "zh": "注法：{0}",
+    "en": "Inscriptions: {0}",
+    "ja": "刻印：{0}"
+  },
+  {
+    "file": "Keyed/WotF_Equipment.xml",
+    "key": "WotF_Enchant.Menu.Slot",
+    "zh": "{0}. {1}",
+    "en": "{0}. {1}",
+    "ja": "{0}. {1}"
+  },
+  {
+    "file": "Keyed/WotF_Equipment.xml",
+    "key": "WotF_Equipment.Gizmo.Current",
+    "zh": "{0}：{1}",
+    "en": "{0}: {1}",
+    "ja": "{0}：{1}"
+  },
+  {
+    "file": "Keyed/WotF_Equipment.xml",
+    "key": "WotF_Equipment.Gizmo.Desc",
+    "zh": "选择这根法杖或魔杖攻击时施放哪个魔术书槽位。载体记住的是槽位而非法术副本，修改该页会同步改变它施放的法术；槽位为空时无法攻击。",
+    "en": "Choose which spellbook bookmark this staff or wand casts with its attack. It remembers the bookmark, not a copy, so editing that page changes what it casts. It cannot attack while the bookmark is empty.",
+    "ja": "このスタッフまたはワンドで攻撃する際に詠唱する魔導書スロットを選択する。触媒が記憶するのは呪文の複製ではなくスロット自体であり、該当ページを書き換えると詠唱される呪文も連動して変わる。スロットが空の場合は攻撃できない。"
+  },
+  {
+    "file": "Keyed/WotF_Equipment.xml",
+    "key": "WotF_Equipment.Gizmo.NoBook",
+    "zh": "魔术书在当前游戏中尚未就绪。",
+    "en": "The spellbook is not ready in this game.",
+    "ja": "現在のゲームでは魔導書がまだ利用可能になっていません。"
+  },
+  {
+    "file": "Keyed/WotF_Equipment.xml",
+    "key": "WotF_Equipment.Gizmo.NoSavedSpell",
+    "zh": "魔术书里还没有保存的法术。",
+    "en": "The spellbook has no saved spell yet.",
+    "ja": "魔導書に保存されている呪文がまだありません。"
+  },
+  {
+    "file": "Keyed/WotF_Equipment.xml",
+    "key": "WotF_Equipment.Gizmo.NoSpell",
+    "zh": "{0}：未选择法术",
+    "en": "{0}: no spell",
+    "ja": "{0}：呪文未選択"
+  },
+  {
+    "file": "Keyed/WotF_Equipment.xml",
+    "key": "WotF_Equipment.Inspect.Current",
+    "zh": "法术：{0}",
+    "en": "Spell: {0}",
+    "ja": "呪文：{0}"
+  },
+  {
+    "file": "Keyed/WotF_Equipment.xml",
+    "key": "WotF_Equipment.Inspect.NoSpell",
+    "zh": "法术：无",
+    "en": "Spell: none",
+    "ja": "呪文：なし"
+  },
+  {
+    "file": "Keyed/WotF_Equipment.xml",
+    "key": "WotF_Equipment.Menu.Slot",
+    "zh": "{0}. {1}",
+    "en": "{0}. {1}",
+    "ja": "{0}. {1}"
+  },
+  {
+    "file": "Keyed/WotF_Equipment.xml",
+    "key": "WotF_Equipment.Reason.TwoHandedShieldBlock",
+    "zh": "护盾腰带阻挡了双手长法杖的施法。",
+    "en": "A worn shield belt blocks casting with a two-handed spell staff.",
+    "ja": "装備中のシールドベルトが両手スタッフの詠唱を遮っています。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_AltarHelperFactor",
+    "zh": "协力者咏唱系数",
+    "en": "Helper chant contribution",
+    "ja": "協力者詠唱係数"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_AltarHelperFactor_Desc",
+    "zh": "主持仪式时，每位协力者的血脉咏唱强度计入总咏唱强度的比例。",
+    "en": "Share of each helper's bloodline chant power added to total chant power during rituals.",
+    "ja": "儀式を主宰する際、各協力者の森の血脈による詠唱強度が総詠唱強度に加算される割合である。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_AltarTier",
+    "zh": "祭坛阶位",
+    "en": "Altar tier",
+    "ja": "祭壇階位"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_AltarTier_Desc",
+    "zh": "该祭坛最高可主持的仪式等阶。",
+    "en": "Highest ritual tier that can be hosted on this altar.",
+    "ja": "この祭壇で主宰できる儀式の最大階位である。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_EnchantMithrilCost",
+    "zh": "注法魔力消耗倍率",
+    "en": "Reaction mana cost multiplier",
+    "ja": "刻印魔力消費倍率"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_EnchantMithrilCost_Desc",
+    "zh": "由 {0} 打造的该武具触发注法反应时的魔力消耗倍率。",
+    "en": "Mana cost multiplier applied to reactive spells triggered by this {0} item.",
+    "ja": "{0}製のこの武具が刻印反応を発動する際の魔力消費倍率である。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_EnchantSlots",
+    "zh": "注法槽位",
+    "en": "Inscription slots",
+    "ja": "刻印スロット"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_EnchantSlots_Desc",
+    "zh": "可在仪式祭坛为该武具铭刻的反应法术槽位数。常规材料提供 {0} 槽，{1} 打造开启 {2} 槽。",
+    "en": "Number of reactive spells that can be inscribed onto this item at a ritual altar. Standard materials hold {0}; {1} opens {2} slots.",
+    "ja": "儀式の祭壇でこの武具に刻印できる反応呪文のスロット数である。通常素材では{0}槽、{1}製では{2}槽まで開放される。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_EnchantTriggerChance",
+    "zh": "注法触发几率",
+    "en": "Reaction trigger chance",
+    "ja": "刻印発動率"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_EnchantTriggerChance_Desc",
+    "zh": "武器命中目标或护甲穿戴者受到攻击者伤害时，触发当前注法槽位法术的几率。",
+    "en": "Chance for the active inscribed spell to fire when this weapon lands a hit or this apparel's wearer is struck by an attacker.",
+    "ja": "武器が対象に命中した際、または防具の着用者が攻撃者からダメージを受けた際、現在の刻印スロットの呪文が発動する確率である。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_EnchantTriggerCooldown",
+    "zh": "注法触发冷却",
+    "en": "Reaction cooldown",
+    "ja": "刻印発動クールダウン"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_EnchantTriggerCooldown_Desc",
+    "zh": "该武具连续两次触发注法反应之间的最短冷却间隔。",
+    "en": "Minimum time between consecutive reactive spell triggers from this item.",
+    "ja": "この武具で刻印反応が連続発動する際の最短待機時間である。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_GateArrivalRadius",
+    "zh": "落点散布半径",
+    "en": "Arrival scatter radius",
+    "ja": "到着散布半径"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_GateArrivalRadius_Desc",
+    "zh": "人员与物资经由该传送门抵达时，在周围落脚的最大散布半径。",
+    "en": "Maximum radius around this gate within which arriving pawns and items are placed.",
+    "ja": "人員や物資がこの転送門を経由して到着する際、周囲に配置される最大散布半径である。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_GateRemoteCost",
+    "zh": "远程传送魔耗",
+    "en": "Remote teleport mana cost",
+    "ja": "遠隔転送マナ消費"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_GateRemoteCost_Desc",
+    "zh": "单次跨图远程传送从魔网扣除的费用：基础 {0}，每人额外 {1}，每千克货物额外 {2}。",
+    "en": "Mana drawn from the network for one remote transfer: {0} base fee, plus {1} per pawn and {2} per kilogram of cargo.",
+    "ja": "マップ間の遠隔転送1回につきマナネットワークから消費されるマナ量である。基本{0}に加え、1人あたり{1}、貨物1kgあたり{2}を追加消費する。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_GateRemoteCost_Val",
+    "zh": "{0} + {1}/人 + {2}/kg",
+    "en": "{0} + {1}/pawn + {2}/kg",
+    "ja": "{0} + {1}/人 + {2}/kg"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_GateRuinedMode",
+    "zh": "传送门模式",
+    "en": "Gate mode",
+    "ja": "転送門モード"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_GateRuinedMode_Desc",
+    "zh": "残破传送门无需本地魔网维持，将远行队送回已开启的殖民地传送门后会立即崩塌。",
+    "en": "This broken teleport gate requires no local mana network and collapses immediately after sending a caravan home to an open colony gate.",
+    "ja": "崩れた転送門は現地のマナネットワークによる維持を必要とせず、キャラバンを稼働中のコロニー転送門へ送還した直後に崩壊する。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_GateRuinedMode_Val",
+    "zh": "单次返程",
+    "en": "Single-use return",
+    "ja": "単回帰還"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_GateUpkeep",
+    "zh": "开启维持魔耗",
+    "en": "Open upkeep mana draw",
+    "ja": "開放維持マナ消費"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_GateUpkeep_Desc",
+    "zh": "传送门保持开启状态时，每秒从魔网消耗的维持魔源。",
+    "en": "Network mana consumed per second while the gate is kept open.",
+    "ja": "転送門を開放状態に保つ間、マナネットワークから毎秒消費される維持マナ量である。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_ManaCapacity",
+    "zh": "魔源容量",
+    "en": "Mana storage capacity",
+    "ja": "マナ貯蔵容量"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_ManaCapacity_Desc",
+    "zh": "该容器最多可储存的魔网魔源总量。",
+    "en": "Maximum amount of network mana this vessel can store.",
+    "ja": "この容器に貯蔵できるマナネットワークのマナ総量の上限である。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_ManaDraw",
+    "zh": "工作魔力消耗",
+    "en": "Mana draw while working",
+    "ja": "作業時マナ消費"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_ManaDraw_Desc",
+    "zh": "小人在该工作台持续加工时，每秒从魔网抽取的魔源量。",
+    "en": "Network mana drawn per second while a pawn is actively crafting at this bench.",
+    "ja": "ポーンがこの作業台で加工作業を行っている間、マナネットワークから毎秒引き出されるマナ量である。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_ManaLinkRadius",
+    "zh": "魔网连接半径",
+    "en": "Mana network link radius",
+    "ja": "マナ接続半径"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_ManaLinkRadius_Desc",
+    "zh": "与附近魔源节点相连的最大距离。",
+    "en": "Maximum distance to connect to nearby mana nodes in a mana network.",
+    "ja": "周囲のマナノードと接続できる最大距離である。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_ManaOutput",
+    "zh": "产魔速率",
+    "en": "Mana generation",
+    "ja": "マナ産出速度"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_ManaOutputCap",
+    "zh": "产魔速率上限",
+    "en": "Max mana generation",
+    "ja": "最大マナ産出速度"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_ManaOutputCap_Desc",
+    "zh": "从范围内成熟树木汲取魔源的每秒上限（每单位生长度产出 {0} / 秒）。",
+    "en": "Maximum mana per second drawn from mature trees within range ({0} / s per unit of tree growth).",
+    "ja": "範囲内の成熟した樹木から汲み上げられる毎秒のマナ上限である（成長度1あたり{0} / 秒を産出）。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_ManaOutput_Desc",
+    "zh": "建筑运行时每秒向所连魔网输出的魔源量。",
+    "en": "Rate at which this building supplies mana to its connected mana network while operating.",
+    "ja": "稼働中、接続されたマナネットワークへ毎秒供給するマナ量である。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_ManaPlantMinGrowth",
+    "zh": "树木最低生长度",
+    "en": "Minimum tree growth",
+    "ja": "樹木最低成長度"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_ManaPlantMinGrowth_Desc",
+    "zh": "范围内树木达到该生长度后才开始提供魔源。",
+    "en": "Minimum growth required for a tree inside the radius to contribute mana.",
+    "ja": "範囲内の樹木がこの成長度に達して初めてマナの供給が始まる。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_ManaPlantRadius",
+    "zh": "集魔与连接半径",
+    "en": "Tree gather & link radius",
+    "ja": "集マナ・接続半径"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_ManaPlantRadius_Desc",
+    "zh": "汲取周围树木自然魔源以及连接魔源节点的有效半径。",
+    "en": "Radius for both drawing ambient mana from standing trees and connecting to a mana node.",
+    "ja": "周囲の樹木から自然マナを汲み上げ、かつマナノードと接続できる有効半径である。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_ManaVialRestore",
+    "zh": "恢复魔力",
+    "en": "Mana restored",
+    "ja": "魔力回復量"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_ManaVialRestore_Desc",
+    "zh": "拥有森林血脉的小人饮用后立即恢复的个人魔力量。",
+    "en": "Amount of personal bloodline mana restored immediately when consumed by a forest-blooded pawn.",
+    "ja": "森の血脈を持つポーンが飲用した際、即座に回復する個人魔力の量である。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_SpellbookMaxGlyphs",
+    "zh": "单法术符文上限",
+    "en": "Max runes per spell",
+    "ja": "呪文ルーン上限"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_SpellbookMaxGlyphs_Desc",
+    "zh": "佩戴该魔术书时，单条法术符文链最多可容纳的符文数量。佩戴任意魔术书均开放全部十个法术书签；换戴更低阶的书不会删除超长法术，待换回高阶魔术书后即可重新施放或修改。",
+    "en": "Maximum number of runes in a single spell chain while wearing this spellbook. Wearing any spellbook keeps all ten bookmarks open; swapping to a lower-tier book keeps longer spells intact until a higher-tier spellbook is worn again.",
+    "ja": "この魔導書を装備中、1つの呪文ルーン列に組み込めるルーンの最大数である。いずれの魔導書を装備しても10個すべての呪文しおりが開放される。下位の魔導書へ付け替えても長大な呪文は消えず、上位の魔導書へ戻せば再び詠唱・編集できる。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_SpellbookSuperGlyphs",
+    "zh": "支持超符文",
+    "en": "Allows supra runes",
+    "ja": "超位ルーン対応"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_SpellbookSuperGlyphs_Desc",
+    "zh": "该魔术书能否装入超位符文。施放超位法术时还需要主手持握法杖。",
+    "en": "Whether this spellbook can hold supra runes. Casting a supra spell also requires holding a staff in the main hand.",
+    "ja": "この魔導書に超位ルーンを組み込めるかどうかを示す。超位呪文の詠唱には、さらに主手にスタッフを装備する必要がある。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_StaffAllowsShieldBelt",
+    "zh": "兼容护盾腰带",
+    "en": "Shield belt compatible",
+    "ja": "シールドベルト両立"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_StaffAllowsShieldBelt_Desc",
+    "zh": "穿戴阻拦远程武器的护盾腰带时，能否继续使用该载体施法。单手短魔杖可穿透护盾施法，双手长法杖会被护盾阻拦。",
+    "en": "Whether this focus can cast while wearing a shield belt that blocks ranged weapons. One-handed wands cast freely through shield belts; two-handed staves are blocked.",
+    "ja": "遠距離武器を遮るシールドベルトを着用したまま、この触媒で詠唱を続けられるかどうかを示す。片手ワンドはシールド越しに詠唱できるが、両手スタッフは遮られる。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_StaffAllowsSuper",
+    "zh": "支持超位符文",
+    "en": "Supports supra runes",
+    "ja": "超位ルーン対応"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_StaffAllowsSuper_Desc",
+    "zh": "该载体能否引导超位法术。只有双手长法杖能够稳定承载超位符文。",
+    "en": "Whether this focus can channel supra spells. Only two-handed staves can stably hold supra runes.",
+    "ja": "この触媒で超位呪文を導けるかどうかを示す。超位ルーンを安定して支えられるのは両手スタッフのみである。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_StaffDamageFactor",
+    "zh": "法术伤害倍率",
+    "en": "Spell damage multiplier",
+    "ja": "呪文ダメージ倍率"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_StaffDamageFactor_Desc",
+    "zh": "通过该载体施放法术时的伤害倍率。由杖身材料的利器/钝器伤害倍率平均值换算得出（基础法强倍率 {0}，上限 {1}）。",
+    "en": "Multiplier applied to the damage of spells cast through this focus. Derived from the material's sharp and blunt damage multipliers (base spell power {0}, cap {1}).",
+    "ja": "この触媒を通して呪文を詠唱する際のダメージ倍率である。杖身素材の斬撃・打撃ダメージ倍率の平均値から算出される（基本呪文威力倍率 {0}、上限 {1}）。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_StaffDamageFactor_Material",
+    "zh": "当前材料（{0}）：利器 {1}、钝器 {2}，均值 {3}。",
+    "en": "Material ({0}): sharp {1}, blunt {2}, average {3}.",
+    "ja": "現在の素材（{0}）：斬撃 {1}、打撃 {2}、平均 {3}。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_StaffDurationFactor",
+    "zh": "法术持续时间倍率",
+    "en": "Spell duration multiplier",
+    "ja": "呪文持続時間倍率"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_StaffDurationFactor_Desc",
+    "zh": "通过该载体施放状态与法场类法术时的持续时间倍率。材料耐热护甲越高，持续时间越长（上限 {0}）。",
+    "en": "Multiplier applied to the duration of status effects and fields cast through this focus. Higher material heat armor extends duration (cap {0}).",
+    "ja": "この触媒を通して状態効果や呪文フィールドを詠唱する際の持続時間倍率である。素材の耐熱防御係数が高いほど持続時間が延びる（上限 {0}）。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_StaffDurationFactor_Material",
+    "zh": "当前材料（{0}）：耐热护甲系数 {1}。",
+    "en": "Material ({0}): heat armor factor {1}.",
+    "ja": "現在の素材（{0}）：耐熱防御係数 {1}。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_StaffManaFactor",
+    "zh": "法术魔力消耗倍率",
+    "en": "Spell mana cost multiplier",
+    "ja": "呪文魔力消費倍率"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_StaffManaFactor_Desc",
+    "zh": "通过该载体施放法术时的魔力消耗倍率。材料钝器护甲越高，魔力消耗越低（下限 {0}）。",
+    "en": "Multiplier applied to the mana cost of spells cast through this focus. Higher material blunt armor lowers the mana cost (minimum {0}).",
+    "ja": "この触媒を通して呪文を詠唱する際の魔力消費倍率である。素材の対打撃防御係数が高いほど魔力消費が抑えられる（下限 {0}）。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_StaffManaFactor_Material",
+    "zh": "当前材料（{0}）：钝器护甲系数 {1}。",
+    "en": "Material ({0}): blunt armor factor {1}.",
+    "ja": "現在の素材（{0}）：対打撃防御係数 {1}。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_StaffNoMaterial",
+    "zh": "未指定材料（当前显示中性基准值）。",
+    "en": "No material selected (showing baseline focus values).",
+    "ja": "素材未指定（標準の基準値を表示中）。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_StaffRangeFactor",
+    "zh": "法术射程倍率",
+    "en": "Spell range multiplier",
+    "ja": "呪文射程倍率"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_StaffRangeFactor_Desc",
+    "zh": "通过该载体施放射弹或接触法术时的射程倍率（自身、环绕与超位法术不受影响）。",
+    "en": "Multiplier applied to the aim range of projectile and touch spells cast through this focus (Self, Orbit, and Supra spells are unaffected).",
+    "ja": "この触媒を通して投射または接触呪文を詠唱する際の射程倍率である（自身・周回・超位呪文には影響しない）。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_StaffWielding",
+    "zh": "握持定位",
+    "en": "Wielding role",
+    "ja": "装備区分"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_StaffWielding_Desc",
+    "zh": "单手副手魔杖不占用主武器位，可空手独持自动平 A，也可与主武器双持并手动点射；双手主手长法杖占用主武器位，提供完整射程与更高的材质共鸣上限。",
+    "en": "A one-handed offhand wand does not occupy the primary weapon slot: it auto-casts when carried alone or fires manually alongside a primary weapon. A two-handed main-hand staff occupies the primary slot for full reach and higher material resonance caps.",
+    "ja": "片手副手ワンドは主武器枠を占有せず、単体で持てば通常攻撃として自動詠唱し、主武器と併用すれば手動で撃ち分けられる。両手主手スタッフは主武器枠を占有する代わりに、完全な射程とより高い素材共鳴上限を備える。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_StaffWielding_Offhand",
+    "zh": "单手副手",
+    "en": "One-handed offhand",
+    "ja": "片手（副手）"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_StaffWielding_TwoHanded",
+    "zh": "双手主手",
+    "en": "Two-handed main hand",
+    "ja": "両手（主手）"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_StaffWindupFactor",
+    "zh": "法术前摇倍率",
+    "en": "Spell windup multiplier",
+    "ja": "呪文詠唱準備倍率"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_StaffWindupFactor_Desc",
+    "zh": "通过该载体施法时的前摇时长倍率；数值越低，起手越快。",
+    "en": "Multiplier applied to spell windup time when casting through this focus; lower values cast sooner.",
+    "ja": "この触媒で詠唱する際の発動前モーション時間の倍率である。数値が低いほど素早く放てる。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_TerrainStride",
+    "zh": "地形移动惩罚",
+    "en": "Terrain movement penalty",
+    "ja": "地形移動ペナルティ"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_TerrainStride_Desc",
+    "zh": "在无需开门的可通行格上，无视地形、植物、碎石块、家具、可跨越工作台及雪沙造成的移动减速。",
+    "en": "On passable cells that do not require opening a door, removes movement penalties from terrain, plants, rock chunks, furniture, crossable workbenches, snow and sand.",
+    "ja": "扉の開閉を伴わない通行可能マスにおいて、地形・植物・岩塊・家具・乗り越え可能な作業台・雪砂による移動速度低下を無効化する。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_TerrainStride_Val",
+    "zh": "无视",
+    "en": "Ignored",
+    "ja": "無視"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_TurretInscriptionTime",
+    "zh": "法术铭刻耗时",
+    "en": "Spell inscription time",
+    "ja": "呪文刻印時間"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_TurretInscriptionTime_Desc",
+    "zh": "向该炮塔铭刻一条新的弹道法术所需的工作时间。",
+    "en": "Work time needed to inscribe a new projectile spell into this turret.",
+    "ja": "このタレットに新たな投射呪文を刻印するのに要する作業時間である。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_TurretManaFactor",
+    "zh": "炮塔法术魔耗倍率",
+    "en": "Turret spell mana multiplier",
+    "ja": "タレット呪文マナ倍率"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_TurretManaFactor_Desc",
+    "zh": "炮塔从魔网抽取魔源发射已铭刻法术时的消耗倍率。",
+    "en": "Multiplier applied to the inscribed spell's mana cost when fired from the mana network.",
+    "ja": "タレットがマナネットワークからマナを引き出して刻印済み呪文を発射する際の消費倍率である。"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_Unit_Cells",
+    "zh": "{0} 格",
+    "en": "{0} cells",
+    "ja": "{0}マス"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_Unit_ManaPerSec",
+    "zh": "{0} / 秒",
+    "en": "{0} / s",
+    "ja": "{0} / 秒"
+  },
+  {
+    "file": "Keyed/WotF_ItemStats.xml",
+    "key": "WotF_Stat_Unit_Seconds",
+    "zh": "{0} 秒",
+    "en": "{0} s",
+    "ja": "{0}秒"
+  },
+  {
+    "file": "Keyed/WotF_Mana.xml",
+    "key": "WotF_ElvenStreetLamp_Lit",
+    "zh": "照明中 · {0} 魔源/秒",
+    "en": "Lit · {0} mana/s",
+    "ja": "点灯中・{0} マナ/秒"
+  },
+  {
+    "file": "Keyed/WotF_Mana.xml",
+    "key": "WotF_ElvenStreetLamp_NoMana",
+    "zh": "未照明：魔源不足（需要 {0}/秒）",
+    "en": "Unlit: network cannot pay {0} mana/s",
+    "ja": "消灯中：マナ不足（必要 {0}/秒）"
+  },
+  {
+    "file": "Keyed/WotF_Mana.xml",
+    "key": "WotF_ManaBattery_Inspect",
+    "zh": "储存魔源 {0} / {1}",
+    "en": "Stored mana {0} / {1}",
+    "ja": "貯蔵マナ {0} / {1}"
+  },
+  {
+    "file": "Keyed/WotF_Mana.xml",
+    "key": "WotF_ManaConverter_Off",
+    "zh": "未通电 · 停止转化",
+    "en": "No power · not converting",
+    "ja": "無通電・変換停止"
+  },
+  {
+    "file": "Keyed/WotF_Mana.xml",
+    "key": "WotF_ManaConverter_On",
+    "zh": "已通电 · 魔源 {0}/秒",
+    "en": "Powered · {0} mana/s",
+    "ja": "通電中・マナ {0}/秒"
+  },
+  {
+    "file": "Keyed/WotF_Mana.xml",
+    "key": "WotF_ManaFurnace_Full",
+    "zh": "网络储量已满 · 停止燃烧",
+    "en": "Network full · not burning",
+    "ja": "ネットワーク満杯・燃焼停止"
+  },
+  {
+    "file": "Keyed/WotF_Mana.xml",
+    "key": "WotF_ManaGrove_Inspect",
+    "zh": "树木 {0} 棵 · 魔源 {1}/秒",
+    "en": "Trees {0} · mana {1}/s",
+    "ja": "樹木 {0}本・マナ {1}/秒"
+  },
+  {
+    "file": "Keyed/WotF_Mana.xml",
+    "key": "WotF_ManaNetwork_Stored",
+    "zh": "魔源 {0} / {1}",
+    "en": "Mana {0} / {1}",
+    "ja": "マナ {0} / {1}"
+  },
+  {
+    "file": "Keyed/WotF_Mana.xml",
+    "key": "WotF_ManaNetwork_Toggle",
+    "zh": "显示魔源网络连线与储量",
+    "en": "Show mana network links and storage",
+    "ja": "マナネットワークの接続と貯蔵量を表示"
+  },
+  {
+    "file": "Keyed/WotF_Mana.xml",
+    "key": "WotF_ManaNode_Inspect",
+    "zh": "已连接节点 {0}",
+    "en": "Linked nodes {0}",
+    "ja": "接続ノード数 {0}"
+  },
+  {
+    "file": "Keyed/WotF_Mana.xml",
+    "key": "WotF_ManaProducer_Linked",
+    "zh": "已接入 {0} 个节点组成的魔源网络",
+    "en": "Linked to a network of {0} nodes",
+    "ja": "{0}個のノードから成るマナネットワークに接続済み"
+  },
+  {
+    "file": "Keyed/WotF_Mana.xml",
+    "key": "WotF_ManaProducer_Unlinked",
+    "zh": "未接入任何魔源节点",
+    "en": "Not linked to any mana node",
+    "ja": "マナノード未接続"
+  },
+  {
+    "file": "Keyed/WotF_Mana.xml",
+    "key": "WotF_ManaSwitch_Desc",
+    "zh": "开启或关闭这台魔源设施的运行。",
+    "en": "Switch this mana device on or off.",
+    "ja": "このマナ設備の稼働を切り替える。"
+  },
+  {
+    "file": "Keyed/WotF_Mana.xml",
+    "key": "WotF_ManaSwitch_Label",
+    "zh": "开关运行",
+    "en": "Toggle mana operation",
+    "ja": "稼働切替"
+  },
+  {
+    "file": "Keyed/WotF_Mana.xml",
+    "key": "WotF_ManaSwitch_Off",
+    "zh": "已关闭",
+    "en": "Switched off",
+    "ja": "停止中"
+  },
+  {
+    "file": "Keyed/WotF_Mana.xml",
+    "key": "WotF_ManaWorkbench_NoMana",
+    "zh": "魔源不足 · 停止工作",
+    "en": "No mana · work stopped",
+    "ja": "マナ不足・作業停止"
+  },
+  {
+    "file": "Keyed/WotF_Mana.xml",
+    "key": "WotF_ManaWorkbench_Rate",
+    "zh": "工作耗魔 {0}/秒",
+    "en": "Working consumption: {0} mana/s",
+    "ja": "作業時マナ消費 {0}/秒"
+  },
+  {
+    "file": "Keyed/WotF_Mana.xml",
+    "key": "WotF_SpellTurret_Inspect",
+    "zh": "网络魔源 {0} · 每发 {1}",
+    "en": "Network mana {0} · {1} per shot",
+    "ja": "ネットワークマナ {0}・1発あたり {1}"
+  },
+  {
+    "file": "Keyed/WotF_MechHack.xml",
+    "key": "WotF_Hack_AlreadyAffected",
+    "zh": "目标已经在同化或受控中。",
+    "en": "Already assimilating or controlled.",
+    "ja": "対象はすでに同化中または支配下にあります。"
+  },
+  {
+    "file": "Keyed/WotF_MechHack.xml",
+    "key": "WotF_Hack_HostileMechOnly",
+    "zh": "只能同化敌对机械体。",
+    "en": "Requires a living hostile mechanoid.",
+    "ja": "敵対するメカノイドのみ同化できます。"
+  },
+  {
+    "file": "Keyed/WotF_MechHack.xml",
+    "key": "WotF_Hack_Remaining",
+    "zh": "剩余时间：{0}",
+    "en": "Remaining: {0}",
+    "ja": "残り時間：{0}"
+  },
+  {
+    "file": "Keyed/WotF_Movement.xml",
+    "key": "WotF_Movement_Equipped",
+    "zh": "已装备{0}。{1}",
+    "en": "Equipped {0}. {1}",
+    "ja": "{0}を装備しました。{1}"
+  },
+  {
+    "file": "Keyed/WotF_Movement.xml",
+    "key": "WotF_Movement_StatusLine",
+    "zh": "{0}：已走 {1} 格，瞬移 {2} 格，瞬移受阻 {3} 次（最近原因：{4}）",
+    "en": "{0}: walked {1} cells, blinked {2} cells, {3} hops blocked (last reason: {4})",
+    "ja": "{0}：歩行 {1}マス、瞬間移動 {2}マス、瞬間移動阻害 {3}回（直近の理由：{4}）"
+  },
+  {
+    "file": "Keyed/WotF_Movement.xml",
+    "key": "WotF_Movement_Unequipped",
+    "zh": "已卸下{0}，移动效果立即恢复原版。{1}",
+    "en": "Removed {0}; movement is back to vanilla. {1}",
+    "ja": "{0}を外したため、移動効果は即座に通常状態へ戻りました。{1}"
+  },
+  {
+    "file": "Keyed/WotF_Race.xml",
+    "key": "WotF_Race.EntropyFromLevel",
+    "zh": "林庭血脉等级 {0} 提供",
+    "en": "Forest bloodline level {0}",
+    "ja": "森の血脈 Lv.{0} による補正"
+  },
+  {
+    "file": "Keyed/WotF_Race.xml",
+    "key": "WotF_Race.EntropyRecoveryFromLevel",
+    "zh": "林庭血脉等级 {0} 提供",
+    "en": "Forest bloodline level {0}",
+    "ja": "森の血脈 Lv.{0} による補正"
+  },
+  {
+    "file": "Keyed/WotF_Race.xml",
+    "key": "WotF_Race.GizmoExperience",
+    "zh": "经验 {0} / {1}",
+    "en": "Experience {0} / {1}",
+    "ja": "経験値 {0} / {1}"
+  },
+  {
+    "file": "Keyed/WotF_Race.xml",
+    "key": "WotF_Race.GizmoLevel",
+    "zh": "林庭血脉 Lv.{0}",
+    "en": "Forest bloodline Lv.{0}",
+    "ja": "森の血脈 Lv.{0}"
+  },
+  {
+    "file": "Keyed/WotF_Race.xml",
+    "key": "WotF_Race.GizmoMaxLevel",
+    "zh": "经验已达最高级",
+    "en": "Experience is at the highest level",
+    "ja": "経験値が最大レベルに達しています"
+  },
+  {
+    "file": "Keyed/WotF_Race.xml",
+    "key": "WotF_Race.ManaFromLevel",
+    "zh": "林庭血脉等级 {0} 提供",
+    "en": "Forest bloodline level {0}",
+    "ja": "森の血脈 Lv.{0} による補正"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_ManaVial_Full",
+    "zh": "该成员的魔力已满。",
+    "en": "That pawn's mana is already full.",
+    "ja": "そのメンバーの魔力はすでに満タンです。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_ManaVial_NoBloodline",
+    "zh": "只有林庭血脉成员才能饮下魔源蓝瓶。",
+    "en": "Only a forest-blooded pawn can drink a mana vial.",
+    "ja": "マナの青瓶を飲めるのは森の血脈を持つメンバーだけです。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_AbortActiveTip",
+    "zh": "中止当前仪式：{0}",
+    "en": "Abort active ritual: {0}",
+    "ja": "実行中の儀式を中止する：{0}"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_AbortBtn",
+    "zh": "中止",
+    "en": "Abort",
+    "ja": "中止"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_AbortIdleTip",
+    "zh": "当前没有进行中或准备中的仪式。",
+    "en": "No active ritual or preparation to abort.",
+    "ja": "実行中または準備中の儀式はない。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_AbortPrepTip",
+    "zh": "取消「{0}」的祭品准备，已搬入的祭品将落回地面。",
+    "en": "Cancel preparation and drop collected offerings for {0}.",
+    "ja": "「{0}」の供物準備を取り消す。すでに運び込まれた供物は地面に落ちる。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_AddHelperShort",
+    "zh": "添加",
+    "en": "Add",
+    "ja": "追加"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_AltarCellMark",
+    "zh": "坛",
+    "en": "A",
+    "ja": "壇"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_AltarTierLabel",
+    "zh": "祭坛等级",
+    "en": "Altar tier",
+    "ja": "祭壇階位"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_AltarTierValue",
+    "zh": "{0}（T{1}）",
+    "en": "{0} (T{1})",
+    "ja": "{0}（T{1}）"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_AutoExecute",
+    "zh": "自动执行",
+    "en": "Auto-repeat",
+    "ja": "自動実行"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_BadgeAuto",
+    "zh": "自动",
+    "en": "Auto",
+    "ja": "自動"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_BadgeCollecting",
+    "zh": "收集中",
+    "en": "Hauling",
+    "ja": "収集中"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_BadgeMissingMat",
+    "zh": "缺材料",
+    "en": "No mat.",
+    "ja": "素材不足"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_BadgeRunning",
+    "zh": "进行中",
+    "en": "Active",
+    "ja": "進行中"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_BookSlotEmpty",
+    "zh": "空",
+    "en": "Empty",
+    "ja": "空"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_BookSlotPrefix",
+    "zh": "第 {0} 页",
+    "en": "Page {0}",
+    "ja": "第{0}ページ"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_BookSlotSelected",
+    "zh": "第 {0} 页：{1}",
+    "en": "Page {0}: {1}",
+    "ja": "第{0}ページ：{1}"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_CellsUnit",
+    "zh": "{0} 格",
+    "en": "{0} cells",
+    "ja": "{0}マス"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_ChalkGreen",
+    "zh": "翠叶",
+    "en": "Emerald",
+    "ja": "翠葉"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_ChalkStar",
+    "zh": "星辉",
+    "en": "Starlight",
+    "ja": "星輝"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_ChalkWhite",
+    "zh": "白垩",
+    "en": "White",
+    "ja": "白亜"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_ChantLevelShort",
+    "zh": "咏唱 {0}",
+    "en": "Chant {0}",
+    "ja": "詠唱 {0}"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_ChooseShort",
+    "zh": "选择",
+    "en": "Choose",
+    "ja": "選択"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_CostHeader",
+    "zh": "消耗：",
+    "en": "Cost:",
+    "ja": "消費："
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_CostMissingTip",
+    "zh": "地图与祭坛可用：{0} / 需要 {1}",
+    "en": "Available on map & altar: {0} / needs {1}",
+    "ja": "マップ・祭壇で利用可能：{0} / 必要 {1}"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_FamilyCrafting",
+    "zh": "制作",
+    "en": "Crafting",
+    "ja": "製作"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_FamilyDomain",
+    "zh": "领域",
+    "en": "Domain",
+    "ja": "界域"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_FamilyLife",
+    "zh": "生命",
+    "en": "Life",
+    "ja": "生命"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_GateReady",
+    "zh": "已连通",
+    "en": "Online",
+    "ja": "接続済み"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_HelperHeaderMin",
+    "zh": "协力者（至少 {0} 人）",
+    "en": "Helpers (min {0})",
+    "ja": "協力者（最低{0}人）"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_HelperLabel",
+    "zh": "协力者",
+    "en": "Helpers",
+    "ja": "協力者"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_HostLabel",
+    "zh": "主持人",
+    "en": "Host",
+    "ja": "主宰者"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_LockedWhileRunning",
+    "zh": "仪式进行期间不可更改参与成员。",
+    "en": "Participants are locked while this ritual is active.",
+    "ja": "儀式の進行中は参加メンバーを変更できません。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_ManaLabel",
+    "zh": "魔源",
+    "en": "Mana",
+    "ja": "マナ"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_ManaPerStrikeLabel",
+    "zh": "维持",
+    "en": "Sustain",
+    "ja": "維持"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_ManaTip",
+    "zh": "网络魔源：{0} / 需要 {1}",
+    "en": "Network mana: {0} / needs {1}",
+    "ja": "ネットワークマナ：{0} / 必要 {1}"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_MetricCounterStun",
+    "zh": "控制时长",
+    "en": "Control duration",
+    "ja": "拘束時間"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_MetricHealingPool",
+    "zh": "生命池量",
+    "en": "Life pool",
+    "ja": "生命プール量"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_MetricManaRestore",
+    "zh": "回魔量",
+    "en": "Mana restored",
+    "ja": "魔力回復量"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_MetricRadius",
+    "zh": "作用半径",
+    "en": "Effect radius",
+    "ja": "効果半径"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_MetricShieldCharges",
+    "zh": "拦截次数",
+    "en": "Shield charges",
+    "ja": "迎撃回数"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_MetricStrikeRate",
+    "zh": "落雷频率",
+    "en": "Strike rate",
+    "ja": "落雷頻度"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_MetricTameChance",
+    "zh": "驯服率",
+    "en": "Tame chance",
+    "ja": "手懐け率"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_MetricWork",
+    "zh": "工作量",
+    "en": "Work",
+    "ja": "作業量"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_MetricYieldFactor",
+    "zh": "产量倍率",
+    "en": "Yield multiplier",
+    "ja": "産出倍率"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_MinStrengthCallout",
+    "zh": "需求 R ≥ {0}",
+    "en": "Need R ≥ {0}",
+    "ja": "必要 R ≥ {0}"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_MissingMatTip",
+    "zh": "当前地图上的可用祭品不足。",
+    "en": "Required offerings are currently short on this map.",
+    "ja": "現在このマップ上で利用できる供物が不足している。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_NoResearched",
+    "zh": "尚未研究任何仪式。",
+    "en": "No rituals researched yet.",
+    "ja": "研究済みの儀式がまだありません。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_ParamHeader",
+    "zh": "仪式参数",
+    "en": "Parameters",
+    "ja": "儀式パラメータ"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_PerMinuteUnit",
+    "zh": "{0} 次/分钟",
+    "en": "{0}/min",
+    "ja": "{0}回/分"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_PerStrike",
+    "zh": "{0}/次",
+    "en": "{0}/strike",
+    "ja": "{0}/回"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_PhaseChanting",
+    "zh": "吟唱中",
+    "en": "Chanting",
+    "ja": "詠唱中"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_PhaseGathering",
+    "zh": "集结中",
+    "en": "Gathering",
+    "ja": "集合中"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_PhaseSustaining",
+    "zh": "持续引导",
+    "en": "Sustaining",
+    "ja": "継続維持"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_PickGate",
+    "zh": "选择传送门…",
+    "en": "Choose teleport gate…",
+    "ja": "転送門を選択…"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_PickHelperTitle",
+    "zh": "选择协力者",
+    "en": "Choose Helpers",
+    "ja": "協力者を選択"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_PickHostTitle",
+    "zh": "选择主持人",
+    "en": "Choose Host",
+    "ja": "主宰者を選択"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_PickRune",
+    "zh": "选择符文…",
+    "en": "Choose rune…",
+    "ja": "ルーンを選択…"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_PrepHeader",
+    "zh": "准备进度：",
+    "en": "Prep progress:",
+    "ja": "準備進捗："
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_PrepareBtn",
+    "zh": "准备施展",
+    "en": "Prepare",
+    "ja": "準備を開始"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_ResonanceLabel",
+    "zh": "共鸣强度 F",
+    "en": "Resonance F",
+    "ja": "共鳴強度 F"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_ResonanceValue",
+    "zh": "{0}（×{1}）",
+    "en": "{0} (×{1})",
+    "ja": "{0}（×{1}）"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_RingTip",
+    "zh": "{0}×{1} {2}粉笔阵法",
+    "en": "{0}×{1} {2} chalk circle",
+    "ja": "{0}×{1} {2}のチョーク儀式陣"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_RunningBtn",
+    "zh": "仪式进行中…",
+    "en": "Ritual in progress…",
+    "ja": "儀式進行中…"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_SecondsUnit",
+    "zh": "{0} 秒",
+    "en": "{0} s",
+    "ja": "{0}秒"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_StartBtn",
+    "zh": "开始主持",
+    "en": "Start ritual",
+    "ja": "儀式を開始"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_StrengthLabel",
+    "zh": "仪式强度 R",
+    "en": "Ritual Strength R",
+    "ja": "儀式強度 R"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_SustainingActive",
+    "zh": "持续生效",
+    "en": "Active",
+    "ja": "継続発動中"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_TagIsHelper",
+    "zh": "已选为协力者",
+    "en": "Helper",
+    "ja": "協力者に選択済み"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_TagIsHost",
+    "zh": "已选为主持人",
+    "en": "Host",
+    "ja": "主宰者に選択済み"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_TierCallout",
+    "zh": "T{0}",
+    "en": "T{0}",
+    "ja": "T{0}"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_TierHeader",
+    "zh": "{0} 阶仪式",
+    "en": "Tier {0}",
+    "ja": "第{0}階位儀式"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_TierLockedTip",
+    "zh": "需要{0}（{1} 阶祭坛）。",
+    "en": "Requires {0} (Tier {1} altar).",
+    "ja": "{0}（第{1}階位の祭壇）が必要である。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_RitualPanel_Title",
+    "zh": "主持仪式",
+    "en": "Host Ritual",
+    "ja": "儀式を執り行う"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_AllRunesUnlocked",
+    "zh": "这座祭坛没有尚未启封的可用符文。",
+    "en": "No unawakened rune is available at this altar.",
+    "ja": "この祭壇で覚醒できる未解放ルーンはもうありません。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_AlreadyRunning",
+    "zh": "{0} 已在举行中。",
+    "en": "{0} is already in progress.",
+    "ja": "{0}はすでに進行中です。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_AltarBusy",
+    "zh": "祭坛或所选物品正被其他工作占用。",
+    "en": "The altar or the chosen item is reserved by another job.",
+    "ja": "祭壇または選択したアイテムが他の作業で使用中です。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_AutoRepeat_Current",
+    "zh": "自动重复：{0}",
+    "en": "Auto-repeat: {0}",
+    "ja": "自動反復：{0}"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_AutoRepeat_Desc",
+    "zh": "祭坛空闲时自动重复所选生产仪式，搬运工会把祭品送进祭坛，祭品齐了由林庭血脉成员按「基本工作」接活主持；主持者、魔源或祭品不足时暂停等待。",
+    "en": "Keep performing this production ritual whenever the altar is idle. Haulers bring the offerings into the altar; once they are all inside, a forest-blooded colonist takes up the hosting as basic work. The ritual waits while a host, mana, or offerings are missing.",
+    "ja": "祭壇が空いている間、選択した生産儀式を自動で繰り返す。運搬担当が供物を祭壇へ運び入れ、供物が揃うと森の血脈を持つ入植者が「基本」作業として主宰を引き受ける。主宰者・マナ・供物のいずれかが不足している間は待機する。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_AutoRepeat_None",
+    "zh": "没有可自动重复的生产仪式。",
+    "en": "No production rite can be auto-repeated.",
+    "ja": "自動反復できる生産儀式がありません。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_AutoRepeat_Off",
+    "zh": "停止自动重复",
+    "en": "Stop auto-repeat",
+    "ja": "自動反復を停止"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_BeastCall_Left",
+    "zh": "{0} 没有回应召契，转身离开了。",
+    "en": "{0} refuses the call and leaves.",
+    "ja": "{0}は召喚の契りに応じず、立ち去りました。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_BeastCall_NoRoom",
+    "zh": "祭坛旁没有空间容纳召来的灵兽。",
+    "en": "There is no room beside the altar for the summoned beast.",
+    "ja": "祭壇の脇に召喚された霊獣を収容できる空きがありません。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_BeastCall_Tamed",
+    "zh": "{0} 接受了召契，加入殖民地。",
+    "en": "{0} accepts the call and joins the colony.",
+    "ja": "{0}が召喚の契りを受け入れ、コロニーに加わりました。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_Cancelled",
+    "zh": "{0}被打断，什么都没有消耗。",
+    "en": "{0} was interrupted. Nothing was spent.",
+    "ja": "{0}が中断されました。消費されたものはありません。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_CannotAct",
+    "zh": "{0} 现在无法主持仪式。",
+    "en": "{0} cannot perform a ritual right now.",
+    "ja": "{0}は現在、儀式を主宰できません。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_Casting",
+    "zh": "{0} 正在施法，无法主持仪式。",
+    "en": "{0} is casting a spell and cannot host a ritual.",
+    "ja": "{0}は呪文を詠唱中のため、儀式を主宰できません。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_ChooseBookSlot",
+    "zh": "选择要写入的魔术书页。",
+    "en": "Choose the spellbook page to write.",
+    "ja": "書き込む魔導書のページを選択してください。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_ChooseEquipment",
+    "zh": "请在祭坛周围选择要注法的武器或护甲。",
+    "en": "Choose a weapon or a piece of armor beside the altar to inscribe.",
+    "ja": "祭壇の周囲から刻印する武器または防具を選択してください。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_ChooseHost",
+    "zh": "请选择主持人。",
+    "en": "Choose a host.",
+    "ja": "主宰者を選択してください。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_ChooseRune",
+    "zh": "选择要唤醒的符文。",
+    "en": "Choose a rune to awaken.",
+    "ja": "覚醒させるルーンを選択してください。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_Complete_GateLost",
+    "zh": "选定的传送门在仪式完成前失效了，没有任何东西被扣除。",
+    "en": "The chosen gate stopped working before the chant ended, so nothing was spent.",
+    "ja": "選択した転送門が儀式完了前に無効になったため、何も消費されませんでした。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_Complete_NoMana",
+    "zh": "吟唱完成时网络魔源不足（{1} / 需要 {0}）。本次仪式没有消耗任何魔源与祭品。",
+    "en": "The network was short of mana when the chant completed ({1} / needs {0}). This rite spent no mana and no offerings.",
+    "ja": "詠唱完了時にネットワークマナが不足していました（{1} / 必要 {0}）。今回の儀式ではマナも供物も消費されませんでした。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_Complete_OfferingsGone",
+    "zh": "吟唱完成时祭坛里的祭品不足：{0}。本次仪式没有消耗任何魔源与祭品。",
+    "en": "The altar was short of offerings when the chant completed: {0}. This rite spent no mana and no offerings.",
+    "ja": "詠唱完了時に祭壇の供物が不足していました：{0}。今回の儀式ではマナも供物も消費されませんでした。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_CounterPsychic_CancelReason",
+    "zh": "被 {0} 主持的林庭灵能反制仪式强行截断。",
+    "en": "severed by {0}'s grove counter-psychic ritual",
+    "ja": "{0}が主宰する林庭のサイキック遮断儀式によって強制中断された。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_CounterPsychic_Done",
+    "zh": "灵能截断完成：反制了 {0} 场敌对灵能仪式，使 {1} 名参与者陷入眩晕，持续 {2} 秒。",
+    "en": "Psychic severance complete: canceled {0} hostile psychic ritual(s) and stunned {1} participant(s) for {2} s.",
+    "ja": "サイキック遮断が完了しました。敵対するサイキック儀式{0}件を打ち消し、参加者{1}名を{2}秒間スタンさせました。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_CounterPsychic_NoTarget",
+    "zh": "当前地图上没有正在进行的敌对灵能仪式。",
+    "en": "No hostile psychic ritual is currently active on this map.",
+    "ja": "現在このマップ上で進行中の敵対サイキック儀式はありません。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_CounterPsychic_NoneActive",
+    "zh": "灵能截断落定，但地图上已没有进行中的敌对灵能仪式。",
+    "en": "Psychic severance completed, but no hostile psychic rituals remained active on the map.",
+    "ja": "サイキック遮断は完了しましたが、マップ上に進行中の敵対サイキック儀式はすでにありませんでした。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_EquipmentForm",
+    "zh": "这个法术的攻击形式无法注入武具：只能注入接触、自身与环绕。",
+    "en": "That spell's form cannot go into equipment: only touch, self and orbit can.",
+    "ja": "この呪文の形式は武具に刻印できません。刻印できるのは接触・自身・周回のみです。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_FertileSoil_Done",
+    "zh": "沃土活化完成：{0} 格土壤化为沃土。",
+    "en": "The fertile awakening raises {0} cells to rich soil.",
+    "ja": "沃土活化が完了しました。{0}マスの土壌が肥沃な土壌に変わりました。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_Gizmo_Auto",
+    "zh": "自动点化",
+    "en": "Auto-transmute",
+    "ja": "自動変成"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_Gizmo_Host",
+    "zh": "主持仪式…",
+    "en": "Host a rite…",
+    "ja": "儀式を執り行う…"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_Gizmo_HostDesc",
+    "zh": "选择仪式、法阵、主持人与协力者。点「准备施展」后搬运工把祭品送进祭坛，祭品齐了才能开始；吟唱圆满落定才扣费。",
+    "en": "Choose the rite, the circle, the host and the helpers. Prepare has haulers bring the offerings into the altar; the rite can begin once all are inside, and the fee is taken when the chant completes.",
+    "ja": "儀式・儀式陣・主宰者・協力者を選択する。「準備を開始」を押すと運搬担当が供物を祭壇へ運び、すべて揃った時点で開始できる。消費は詠唱完了時にのみ発生する。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_Healing_AllDone",
+    "zh": "生命再生完成：{0} 人共治愈 {1} 处伤病，范围内伤患已全部复原（生命池 {2} / {3}）。",
+    "en": "Rite of mending complete: healed {1} conditions across {0} colonists; everyone in range is whole (life pool {2} / {3}).",
+    "ja": "生命再生が完了しました。{0}名の傷病計{1}か所を治癒し、範囲内の傷病者は全員完治しました（生命プール {2} / {3}）。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_Healing_NoneNeeded",
+    "zh": "生命再生完成：范围内没有本阶仪式可治疗的伤病。",
+    "en": "Rite of mending complete: nobody in range had a condition this ring can heal.",
+    "ja": "生命再生が完了しました。範囲内にこの階位で治療できる傷病はありませんでした。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_Healing_PartialDone",
+    "zh": "生命再生完成：{0} 人共治愈 {1} 处、部分缓解 {2} 处伤病（消耗生命池 {3} / {4}）。",
+    "en": "Rite of mending complete: cured {1} and partially eased {2} conditions across {0} colonists (life pool {3} / {4} spent).",
+    "ja": "生命再生が完了しました。{0}名の傷病計{1}か所を治癒し、{2}か所を部分的に緩和しました（生命プール消費 {3} / {4}）。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_Healing_PoolSpent",
+    "zh": "生命再生完成：{0} 人共治愈 {1} 处伤病（消耗生命池 {2} / {3}，仍有伤病待下次治疗）。",
+    "en": "Rite of mending complete: cured {1} conditions across {0} colonists (life pool {2} / {3} spent; further conditions remain).",
+    "ja": "生命再生が完了しました。{0}名の傷病計{1}か所を治癒しました（生命プール消費 {2} / {3}、未治療の傷病あり）。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_Healing_PoolTooLow",
+    "zh": "生命再生未能生效：生命池（{0}）不足以恢复 {1} 的「{2}」（需要 {3}）。请提升仪式强度后再试。",
+    "en": "Rite of mending had no effect: the life pool ({0}) cannot cover {1}'s {2} (requires {3}). Raise ritual strength and try again.",
+    "ja": "生命再生は効果を発揮できませんでした。生命プール（{0}）が{1}の「{2}」の回復に足りません（必要 {3}）。儀式強度を高めてから再度お試しください。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_HelperBusy",
+    "zh": "{0} 现在无法加入这场仪式。",
+    "en": "{0} cannot join this rite right now.",
+    "ja": "{0}は現在、この儀式に参加できません。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_HelperDuplicate",
+    "zh": "{0} 已被重复选为协力者。",
+    "en": "{0} is chosen twice.",
+    "ja": "{0}は協力者として重複選択されています。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_HostFirst",
+    "zh": "先选择主持人，才能看到他魔术书里的法术。",
+    "en": "Choose the host first to see the spells in their spellbook.",
+    "ja": "魔導書の呪文を見るには、先に主宰者を選択してください。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_HostNoBook",
+    "zh": "主持人身上没有唤醒的魔术书，无法取用法术页。",
+    "en": "The host wears no awakened spellbook, so no page can be taken.",
+    "ja": "主宰者が覚醒済みの魔導書を装備していないため、呪文ページを参照できません。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_InProgress",
+    "zh": "{0}（进行中）",
+    "en": "{0} (in progress)",
+    "ja": "{0}（進行中）"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_Inscribe_Done",
+    "zh": "已把「{1}」注入 {0} 的第 {2} 槽。",
+    "en": "Inscribed '{1}' into slot {2} of {0}.",
+    "ja": "「{1}」を{0}の第{2}スロットに刻印しました。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_Inscribe_Lost",
+    "zh": "注法失败：物品已离开祭坛范围，或所选法术页已被清空。本次仪式没有消耗任何魔源与祭品。",
+    "en": "Inscription failed: the item left the altar's radius, or the chosen page was cleared. This rite spent no mana and no offerings.",
+    "ja": "刻印に失敗しました。対象アイテムが祭壇の範囲外へ移動したか、選択した呪文ページが空になっています。今回の儀式ではマナも供物も消費されませんでした。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_InspectActive",
+    "zh": "仪式进行中：{0}",
+    "en": "Ritual in progress: {0}",
+    "ja": "儀式進行中：{0}"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_InspectChanting",
+    "zh": "正在吟唱：魔源与祭品在圆满落定时才扣除。",
+    "en": "Chanting: the mana and offerings are taken only when the chant completes.",
+    "ja": "詠唱中：マナと供物は詠唱完了時にのみ消費されます。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_InspectCollecting",
+    "zh": "收集祭品：{0}（{1}）",
+    "en": "Collecting offerings for {0}: {1}",
+    "ja": "供物を収集中：{0}（{1}）"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_InspectGathering",
+    "zh": "正在集合法阵：全员站上粉笔格后才开始吟唱。",
+    "en": "Gathering on the circle: the chant begins once every participant is on a chalk cell.",
+    "ja": "儀式陣に集合中：全員がチョークマスに立つと詠唱が始まります。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_InspectIdle",
+    "zh": "尚未举行仪式",
+    "en": "No ritual in progress",
+    "ja": "実行中の儀式なし"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_InspectShield",
+    "zh": "古树护盾：剩余 {0} / {1} 次（{2}）",
+    "en": "Grove shield: {0} / {1} charges ({2})",
+    "ja": "古樹の守護：残り {0} / {1}回（{2}）"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_InspectSustaining",
+    "zh": "正在持续引导：每次落雷消耗 {0} 网络魔源。",
+    "en": "Channeling: {0} network mana per strike.",
+    "ja": "継続維持中：落雷1回ごとにネットワークマナ {0} を消費。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_LeylineMining_Done",
+    "zh": "地脉献出 {0} 单位矿物。",
+    "en": "The leyline yields {0} units of ore.",
+    "ja": "地脈から鉱物{0}単位がもたらされました。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_LeylineMining_NoResource",
+    "zh": "祭坛下方没有可汲取的深层矿脉。",
+    "en": "No deep resource lies beneath the altar.",
+    "ja": "祭壇の地下に汲み上げられる深層鉱脈がありません。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_LeylineMining_NoRoom",
+    "zh": "祭坛旁没有空间放置汲取的矿物。",
+    "en": "There is no room beside the altar for the ore.",
+    "ja": "祭壇の脇に汲み上げた鉱物を置く空きがありません。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_ManaSpring_Done",
+    "zh": "灵泉回充完成：{0} 名成员恢复了魔力。",
+    "en": "Mana spring recharge complete: {0} members recovered mana.",
+    "ja": "霊泉充填が完了しました。{0}名のメンバーが魔力を回復しました。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_MinStrengthRequired",
+    "zh": "仪式强度（{1}）低于所需的最低强度（{0}）。",
+    "en": "Ritual strength {1} is below the required {0}.",
+    "ja": "儀式強度（{1}）が必要な最低強度（{0}）を下回っています。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_NeedsParticipants",
+    "zh": "这场仪式需要 {0} 名林庭血脉协力者，目前只有 {1} 名。",
+    "en": "This ritual needs {0} forest-blooded helpers; {1} are chosen.",
+    "ja": "この儀式には森の血脈を持つ協力者が{0}名必要ですが、現在{1}名しか選ばれていません。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_NoBloodline",
+    "zh": "{0} 没有林庭血脉，无法主持仪式。",
+    "en": "{0} has no forest bloodline and cannot perform the ritual.",
+    "ja": "{0}は森の血脈を持たないため、儀式を主宰できません。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_NoCaster",
+    "zh": "没有可主持仪式的林庭血脉成员。",
+    "en": "No forest-blooded member is available to host the ritual.",
+    "ja": "儀式を主宰できる森の血脈のメンバーがいません。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_NoEnchantable",
+    "zh": "祭坛范围内没有可注法的武器或护甲。",
+    "en": "No weapon or armor that can take an inscription lies within the altar's radius.",
+    "ja": "祭壇の範囲内に刻印可能な武器や防具がありません。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_NoMana",
+    "zh": "祭坛未接入魔源网络，或网络中的魔源不足。",
+    "en": "The altar is not connected to a mana network, or the network has too little mana.",
+    "ja": "祭壇がマナネットワークに接続されていないか、ネットワーク内のマナが不足しています。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_NoMaterials",
+    "zh": "祭坛里还缺祭品：{0}",
+    "en": "The altar still lacks offerings: {0}",
+    "ja": "祭壇に供物が不足しています：{0}"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_NoStandingCell",
+    "zh": "{0} 无法走到法阵上的空位。",
+    "en": "{0} cannot walk to a free place on the circle.",
+    "ja": "{0}は儀式陣の空き位置まで移動できません。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_NotPrepared",
+    "zh": "先点「准备施展」，让搬运工把祭品送进祭坛。",
+    "en": "Press Prepare so haulers bring the offerings into the altar.",
+    "ja": "先に「準備を開始」を押して、運搬担当に供物を祭壇へ運ばせてください。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_NotSelected",
+    "zh": "先在「主持仪式」窗口选择仪式",
+    "en": "choose a ritual in the Host Ritual panel first",
+    "ja": "先に「儀式を執り行う」画面で儀式を選択してください"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_Participants",
+    "zh": "协力者：{0} 人",
+    "en": "Helpers: {0}",
+    "ja": "協力者：{0}名"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_PrioritizeHost",
+    "zh": "优先主持「{0}」",
+    "en": "Prioritize hosting {0}",
+    "ja": "「{0}」の主宰を優先"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_PrioritizeHostNone",
+    "zh": "优先主持仪式",
+    "en": "Prioritize hosting ritual",
+    "ja": "儀式の主宰を優先"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_RingComplete",
+    "zh": "粉笔环完整。",
+    "en": "The chalk ring is complete.",
+    "ja": "チョーク環は完全です。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_RingIncomplete",
+    "zh": "粉笔环不完整：缺少 {0} 道粉笔记号。",
+    "en": "The chalk ring is incomplete: {0} marks are missing.",
+    "ja": "チョーク環が不完全です。チョークの印が{0}か所不足しています。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_RuneAlreadyUnlocked",
+    "zh": "{0} 已经唤醒。",
+    "en": "{0} is already awakened.",
+    "ja": "{0}はすでに覚醒しています。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_RuneAwakening_Done",
+    "zh": "{0} 已对整个殖民地唤醒。",
+    "en": "{0} is awakened for the whole colony.",
+    "ja": "{0}がコロニー全体に対して覚醒しました。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_ShieldDome_Done",
+    "zh": "古树护盾在祭坛上方展开（可抵挡 {0} 次）。",
+    "en": "The grove shield closes over the altar ({0} charges).",
+    "ja": "祭壇の上空に古樹の守護ドームが展開されました（迎撃回数 {0}回）。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_SpellbookAwakening_Done",
+    "zh": "祭坛旁唤醒了一本魔术书。",
+    "en": "A spellbook is awakened beside the altar.",
+    "ja": "祭壇の脇で魔導書が1冊覚醒しました。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_SpellbookAwakening_NoRoom",
+    "zh": "祭坛旁没有空间容纳唤醒的魔术书。",
+    "en": "There is no room beside the altar for the awakened spellbook.",
+    "ja": "祭壇の脇に覚醒した魔導書を置く空きがありません。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_SpellbookUpgrade_Done",
+    "zh": "魔术书升阶完成：{0} 已放在祭坛旁。",
+    "en": "Spellbook upgrade complete: {0} lies beside the altar.",
+    "ja": "魔導書の昇階が完了しました。{0}が祭壇の脇に置かれました。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_SpellbookUpgrade_NoRoom",
+    "zh": "祭坛旁没有空间放置升阶后的魔术书。",
+    "en": "There is no room beside the altar for the upgraded spellbook.",
+    "ja": "祭壇の脇に昇階後の魔導書を置く空きがありません。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_StrikeRate",
+    "zh": "落雷频率：每分钟 {0} 次",
+    "en": "Lightning rate: {0}/min",
+    "ja": "落雷頻度：毎分 {0}回"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_SuperRuneNeedsRubbing",
+    "zh": "超位符文只能通过研读遗迹中的孤本符文解锁，不能由祭坛启封。",
+    "en": "Supra runes can only be unlocked by studying supra rune rubbings from ruins, not awakened at an altar.",
+    "ja": "超位ルーンは遺跡で見つかる超位ルーンの拓本を解読して解放するしかなく、祭壇では覚醒できません。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_Sustained_HelpersLost",
+    "zh": "法阵上的协力者不足，{0}已终止。",
+    "en": "{0} ended because too few helpers remain on the circle.",
+    "ja": "儀式陣の協力者が不足したため、{0}は終了しました。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_Sustained_HostLost",
+    "zh": "{0}因主持人无法继续而终止。",
+    "en": "{0} ended because the host can no longer channel it.",
+    "ja": "主宰者が続行できなくなったため、{0}は終了しました。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_Sustained_ManaDepleted",
+    "zh": "网络魔源耗尽，{0}已平息。",
+    "en": "{0} ended because the mana network ran dry.",
+    "ja": "ネットワークマナが枯渇したため、{0}は収束しました。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_Sustained_RingBroken",
+    "zh": "粉笔环受损，{0}已终止。",
+    "en": "{0} ended because the chalk circle was broken.",
+    "ja": "チョーク環が破損したため、{0}は終了しました。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_Sustained_Started",
+    "zh": "{0}已开始持续生效。",
+    "en": "{0} is now channeling.",
+    "ja": "{0}が継続発動しました。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_Sustained_Stopped",
+    "zh": "已停止{0}。",
+    "en": "{0} has ended.",
+    "ja": "{0}を停止しました。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_Teleport_Done",
+    "zh": "{0} 名殖民者被送到{1}。",
+    "en": "{0} colonists arrive at {1}.",
+    "ja": "入植者{0}名が{1}へ転送されました。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_Teleport_NoGate",
+    "zh": "请在法阵范围内选一座开启中的传送门。",
+    "en": "Choose an open teleport gate inside the rite's radius.",
+    "ja": "儀式陣の範囲内で稼働中の転送門を1つ選択してください。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_Teleport_NoPassengers",
+    "zh": "祭坛附近没有可传送的殖民者。",
+    "en": "No colonists stand near the altar to carry.",
+    "ja": "祭壇の周囲に転送可能な入植者がいません。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_Teleport_NoRoom",
+    "zh": "{1} 名殖民者里有 {0} 名在传送门旁找不到空地。没有扣除任何东西。",
+    "en": "{0} of {1} colonists have no free cell by the gate. Nothing was spent.",
+    "ja": "入植者{1}名のうち{0}名について、転送門の脇に着地できる空きマスが見つかりませんでした。何も消費されていません。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_Transmute_Done",
+    "zh": "点化完成，产物落在祭坛旁。",
+    "en": "The transmutation is complete; its products lie beside the altar.",
+    "ja": "変成が完了し、生成物が祭壇の脇に現れました。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_Transmute_NoRoom",
+    "zh": "祭坛旁没有空间放置点化产物。",
+    "en": "There is no room beside the altar for the products.",
+    "ja": "祭壇の脇に変成物を置く空きがありません。"
+  },
+  {
+    "file": "Keyed/WotF_Ritual.xml",
+    "key": "WotF_Ritual_Weather_Done",
+    "zh": "{0} 完成：天色转为{1}。",
+    "en": "{0} settles in: {1}.",
+    "ja": "{0}が完了しました。天候が{1}へと移り変わります。"
+  },
+  {
+    "file": "Keyed/WotF_RitualProgression.xml",
+    "key": "WotF_Ritual_ResearchRequired",
+    "zh": "需要先完成研究：{0}。",
+    "en": "Requires research: {0}.",
+    "ja": "先に研究「{0}」を完了する必要があります。"
+  },
+  {
+    "file": "Keyed/WotF_RitualProgression.xml",
+    "key": "WotF_Ritual_ResonanceStrength",
+    "zh": "共鸣强度：{0}（×{1}）",
+    "en": "Resonance strength: {0} (×{1})",
+    "ja": "共鳴強度：{0}（×{1}）"
+  },
+  {
+    "file": "Keyed/WotF_RitualProgression.xml",
+    "key": "WotF_Ritual_RitualStrength",
+    "zh": "仪式强度：{0}",
+    "en": "Ritual strength: {0}",
+    "ja": "儀式強度：{0}"
+  },
+  {
+    "file": "Keyed/WotF_RitualProgression.xml",
+    "key": "WotF_Ritual_TierRequired",
+    "zh": "这场仪式需要 {0} 阶或更高阶祭坛。",
+    "en": "This rite requires an altar of tier {0} or higher.",
+    "ja": "この儀式には第{0}階位以上の祭壇が必要です。"
+  },
+  {
+    "file": "Keyed/WotF_Scenario.xml",
+    "key": "WotF_Scenario_Elf_GameStartDialog",
+    "zh": "或是怀着对外面世界的憧憬，或是与聚落里的其他人产生了分歧，你们三人收拾好随身行囊，离开了生活多年的家园。\\n\\n经过一段漫长的跋涉，你们在一片旧书里从未记载过的蛮荒之地停下脚步。这里远离旧日的规矩与纷争，前路的一切都只能靠你们自己去面对。\\n\\n新的故事，就要从这里开始了。",
+    "en": "Whether drawn by a longing for the outside world or parted from the others by quiet disagreement, the three of you packed what you could carry and left the settlement you had called home for years.\\n\\nAfter a long trek, you have come to a halt in an untamed land unrecorded in any old book. Far from the old rules and disputes, whatever lies ahead is yours alone to face.\\n\\nA new story begins here.",
+    "ja": "外の世界への憧れを抱いたのか、それとも集落の仲間と意見が合わなくなったのか――あなたたち3人は身の回りの荷物をまとめ、長年暮らした故郷を後にしました。\\n\\n長い旅路の末、あなたたちは古書にも記されていない未開の地に足を止めました。古い掟や争いから遠く離れたこの土地では、行く先に待つすべてを自分たちの手で切り拓くほかありません。\\n\\n新しい物語が、いまここから始まります。"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.AugmentBindHint",
+    "zh": "向左作用于高亮显示的形式或效果符文。",
+    "en": "Modifies the highlighted Form or Effect on its left.",
+    "ja": "左隣で強調表示されている形式ルーンまたは効果ルーンに作用する。"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.BadgeLocked",
+    "zh": "未解锁",
+    "en": "Locked",
+    "ja": "未解放"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.BarCleared",
+    "zh": "已清空符文链，槽位内已存法术未变。",
+    "en": "Editing chain cleared; the saved slot was not changed.",
+    "ja": "編集中のルーン列を消去しました。スロットに保存済みの呪文は変更されていません。"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.BarEmpty",
+    "zh": "符文链为空，请先从左页加入符文。",
+    "en": "The rune chain is empty. Add runes from the left page first.",
+    "ja": "ルーン列が空です。先に左ページからルーンを追加してください。"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.CarrierEnchant",
+    "zh": "注法",
+    "en": "Inscribe",
+    "ja": "刻印"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.CarrierEnchantOk",
+    "zh": "可在仪式祭坛注入武器或护甲。",
+    "en": "Can be inscribed onto weapons or armor at a ritual altar.",
+    "ja": "儀式の祭壇で武器や防具に刻印できる。"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.CarrierStaff",
+    "zh": "法杖",
+    "en": "Staff",
+    "ja": "スタッフ"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.CarrierStaffNo",
+    "zh": "自身、环绕与超位法术属于主动技能，无法通过法杖自动攻击。",
+    "en": "Self, Orbit and Supra spells are active skills and cannot auto-attack via a staff.",
+    "ja": "自身・周回・超位呪文はアクティブスキルであり、スタッフによる自動攻撃では詠唱できない。"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.CarrierStaffOk",
+    "zh": "可由法术法杖作为武器自动攻击施放。",
+    "en": "Can be auto-cast as a spell staff weapon attack.",
+    "ja": "呪文スタッフの武器攻撃として自動詠唱できる。"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.CarrierTurret",
+    "zh": "炮塔",
+    "en": "Turret",
+    "ja": "タレット"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.CarrierTurretOk",
+    "zh": "可铭刻进自动施法炮塔。",
+    "en": "Can be inscribed into a spell turret.",
+    "ja": "詠唱タレットに刻印できる。"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.Cast",
+    "zh": "施放",
+    "en": "Cast",
+    "ja": "詠唱"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.CastBlocked",
+    "zh": "无法施放：{0}",
+    "en": "Cannot cast: {0}",
+    "ja": "詠唱不可：{0}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.CastNamed",
+    "zh": "施放《{0}》",
+    "en": "Cast \"{0}\"",
+    "ja": "「{0}」を詠唱"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.CastNoSaved",
+    "zh": "槽 {0} 为空，请先保存一条法术。",
+    "en": "Slot {0} is empty. Save a spell first.",
+    "ja": "スロット{0}は空です。先に呪文を保存してください。"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.CastTip",
+    "zh": "进入目标选择，施放当前槽 {0} 中已保存的法术。",
+    "en": "Start targeting with the spell saved in slot {0}.",
+    "ja": "対象指定に入り、スロット{0}に保存された呪文を詠唱します。"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.CatalogEmpty",
+    "zh": "没有匹配的符文。",
+    "en": "No rune matches this filter.",
+    "ja": "条件に一致するルーンはありません。"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.CatalogMissingDefs",
+    "zh": "未找到任何符文定义，请检查魔术书 XML 是否加载。",
+    "en": "No rune defs were loaded. Check that the spellbook XML is active.",
+    "ja": "ルーン定義が見つかりません。魔導書XMLが読み込まれているか確認してください。"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.CategoryAll",
+    "zh": "全部",
+    "en": "All",
+    "ja": "すべて"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.CategoryAugment",
+    "zh": "增幅",
+    "en": "Augment",
+    "ja": "強化"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.CategoryEffect",
+    "zh": "效果",
+    "en": "Effect",
+    "ja": "効果"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.CategoryForm",
+    "zh": "形式",
+    "en": "Form",
+    "ja": "形式"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.CategorySuper",
+    "zh": "超位",
+    "en": "Supra",
+    "ja": "超位"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.ChainCapBadge",
+    "zh": "上限 {0} 符文",
+    "en": "Max {0}",
+    "ja": "上限 {0}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.ChainEmpty",
+    "zh": "点击左页的形式或超位符文开始编排。",
+    "en": "Click a form or supra rune on the left page to begin weaving.",
+    "ja": "左ページの形式または超位ルーンをクリックして編成を始めます。"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.ChainHeader",
+    "zh": "符文链 {0}/{1}",
+    "en": "Rune chain {0}/{1}",
+    "ja": "ルーン列 {0}/{1}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.ChainHintShort",
+    "zh": "点左页加入 · 点珠子移除",
+    "en": "Click left to add · click bead to remove",
+    "ja": "左ページで追加 · 珠をクリックで解除"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.ChipEntropy",
+    "zh": "心灵熵",
+    "en": "Neural heat",
+    "ja": "ニューラルヒート"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.ChipMana",
+    "zh": "魔力消耗",
+    "en": "Mana",
+    "ja": "消費魔力"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.ChipManaStaffTip",
+    "zh": "基础魔力消耗：{0}\n手持法杖倍率：{1} → 实际 {2}\n施法获得血脉经验：{3}",
+    "en": "Base mana cost: {0}\nHeld staff multiplier: {1} -> {2}\nBloodline XP gained: {3}",
+    "ja": "基本消費魔力：{0}\n装備中の杖倍率：{1} → 実消費 {2}\n詠唱による血脈経験値：{3}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.ChipManaTip",
+    "zh": "基础魔力消耗：{0}\n施法获得血脉经验：{1}",
+    "en": "Base mana cost: {0}\nBloodline XP gained: {1}",
+    "ja": "基本消費魔力：{0}\n詠唱による血脈経験値：{1}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.ChipRange",
+    "zh": "射程",
+    "en": "Range",
+    "ja": "射程"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.ChipTime",
+    "zh": "总耗时",
+    "en": "Cast time",
+    "ja": "詠唱時間"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.ChipTurretMana",
+    "zh": "每发耗魔",
+    "en": "Per shot",
+    "ja": "消費/発"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.ClearBar",
+    "zh": "清空",
+    "en": "Clear",
+    "ja": "クリア"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.ClearBarTip",
+    "zh": "只清空编辑中的符文链，不影响槽位内已保存的法术。",
+    "en": "Clears the editing chain only; the saved spell in this slot stays untouched.",
+    "ja": "編集中のルーン列のみをクリアします。このスロットに保存済みの呪文には影響しません。"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.ClickToRemove",
+    "zh": "点击移除：{0}",
+    "en": "Click to remove: {0}",
+    "ja": "クリックで解除：{0}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.CompatAugments",
+    "zh": "可接增幅：{0}",
+    "en": "Augments: {0}",
+    "ja": "対応強化：{0}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.Create",
+    "zh": "保存至槽 {0}",
+    "en": "Save to slot {0}",
+    "ja": "スロット{0}に保存"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.CreateRefused",
+    "zh": "无法保存：{0}",
+    "en": "Cannot save: {0}",
+    "ja": "保存不可：{0}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.CreateTip",
+    "zh": "将当前符文链写入槽 {0}，已有法术会被直接覆盖。",
+    "en": "Write the rune chain into slot {0}; any existing spell in this slot is overwritten.",
+    "ja": "現在のルーン列をスロット{0}に書き込みます。既存の呪文は上書きされます。"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.Created",
+    "zh": "已保存至槽 {0} 并设为当前施放。",
+    "en": "Saved to slot {0} and set as active.",
+    "ja": "スロット{0}に保存し、使用中の呪文に設定しました。"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.DeleteSlot",
+    "zh": "删除此槽",
+    "en": "Delete slot",
+    "ja": "スロット削除"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.DeleteSlotTip",
+    "zh": "单击立即删除槽 {0} 里的法术，不再确认。",
+    "en": "Immediately deletes the saved spell in slot {0} without confirmation.",
+    "ja": "クリックすると確認なしでスロット{0}の呪文を即座に削除します。"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.EmptySlotHint",
+    "zh": "当前槽为空：编好符文并保存后，小人施法按钮才能施放此法术。",
+    "en": "This slot is empty: weave runes and save so the pawn's cast gizmo can fire it.",
+    "ja": "このスロットは空です。ルーンを編成して保存すると、ポーンの詠唱コマンドから発動できるようになります。"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.ExcludesAugments",
+    "zh": "互斥增幅：{0}",
+    "en": "Excludes: {0}",
+    "ja": "併用不可：{0}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.FormNone",
+    "zh": "未选形式",
+    "en": "No form",
+    "ja": "形式未選択"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.FormOrbit",
+    "zh": "环绕",
+    "en": "Orbit",
+    "ja": "周回"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.FormProjectile",
+    "zh": "射弹",
+    "en": "Projectile",
+    "ja": "投射"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.FormSelf",
+    "zh": "自身",
+    "en": "Self",
+    "ja": "自身"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.FormSpecial",
+    "zh": "超位",
+    "en": "Supra",
+    "ja": "超位"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.FormTouch",
+    "zh": "接触",
+    "en": "Touch",
+    "ja": "接触"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.GlyphAdded",
+    "zh": "已加入符文：{0}",
+    "en": "Added rune: {0}",
+    "ja": "ルーンを追加：{0}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.GlyphMissing",
+    "zh": "缺失的符文定义",
+    "en": "missing rune def",
+    "ja": "ルーン定義が欠落"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.GlyphRemoved",
+    "zh": "已移除符文：{0}",
+    "en": "Removed rune: {0}",
+    "ja": "ルーンを解除：{0}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.GlyphTiming",
+    "zh": "+{0}s / +{1}s / +{2}s（前摇 / 引导 / 后摇）",
+    "en": "+{0}s / +{1}s / +{2}s (windup / channel / recovery)",
+    "ja": "+{0}秒 / +{1}秒 / +{2}秒（準備 / 集中 / 硬直）"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.HeaderBadge",
+    "zh": "{0} · {1} · 链长上限 {2} 符文 · 魔力 {3}",
+    "en": "{0} · {1} · Max {2} runes · Mana {3}",
+    "ja": "{0} · {1} · 上限 {2} ルーン · 魔力 {3}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.HeaderBadgeTip",
+    "zh": "{0}\n单条法术符文链上限：{1} 枚\n支持超位符文：{2}",
+    "en": "{0}\nSingle-spell rune chain limit: {1}\nSupports supra runes: {2}",
+    "ja": "{0}\n1呪文あたりのルーン上限：{1}個\n超位ルーン対応：{2}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.HeaderNoBook",
+    "zh": "{0} · 未佩戴魔术书 · 魔力 {1}",
+    "en": "{0} · No spellbook worn · Mana {1}",
+    "ja": "{0} · 魔導書未装備 · 魔力 {1}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.InspectorEmpty",
+    "zh": "将鼠标停在左页符文卡片或右页法术链珠子上，即可查看原始数值、可接增幅与简介。编排语法：形式 → 效果 → 增幅（增幅向左绑定最近的形式或效果）。",
+    "en": "Hover any rune on the left codex or right spell chain to inspect its numbers, compatible augments and effect. Grammar: Form → Effects → Augments (each augment binds to the nearest Form or Effect on its left).",
+    "ja": "左ページのルーンカードや右ページのルーン珠にカーソルを合わせると、基礎数値・対応する強化・解説が表示されます。編成文法：形式 → 効果 → 強化（強化は左隣にある直近の形式または効果に結び付きます）。"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.InspectorTitle",
+    "zh": "符文检视",
+    "en": "Rune inspector",
+    "ja": "ルーン詳細"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.KindAugment",
+    "zh": "增幅",
+    "en": "Augment",
+    "ja": "強化"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.KindEffect",
+    "zh": "效果",
+    "en": "Effect",
+    "ja": "効果"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.KindForm",
+    "zh": "形式",
+    "en": "Form",
+    "ja": "形式"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.KindSuper",
+    "zh": "超位",
+    "en": "Supra",
+    "ja": "超位"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MetaEntropy",
+    "zh": "熵 +{0}",
+    "en": "Heat +{0}",
+    "ja": "ヒート +{0}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MetaMana",
+    "zh": "魔耗 {0}",
+    "en": "Mana {0}",
+    "ja": "魔力 {0}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MetaTime",
+    "zh": "{0}秒",
+    "en": "{0}s",
+    "ja": "{0}秒"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MicroAoe",
+    "zh": "+{0} 半径",
+    "en": "+{0} radius",
+    "ja": "半径 +{0}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MicroBlink",
+    "zh": "闪现 {0}格",
+    "en": "Blink {0} cells",
+    "ja": "瞬移 {0}マス"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MicroBreakArmor",
+    "zh": "+{0} 穿甲",
+    "en": "+{0} AP",
+    "ja": "装甲貫通 +{0}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MicroColdSnap",
+    "zh": "{0}伤 · 冻×{1}",
+    "en": "{0} dmg · frozen x{1}",
+    "ja": "{0}ダメ · 凍結×{1}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MicroDelay",
+    "zh": "延迟 {0}秒",
+    "en": "Delay {0}s",
+    "ja": "遅延 {0}秒"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MicroExplosion",
+    "zh": "{0}伤 · 半径{1}",
+    "en": "{0} dmg · R {1}",
+    "ja": "{0}ダメ · 半径{1}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MicroFactor",
+    "zh": "×{0}",
+    "en": "x{0}",
+    "ja": "×{0}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MicroFreeze",
+    "zh": "减速 {0}秒",
+    "en": "Slow {0}s",
+    "ja": "鈍足 {0}秒"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MicroGrow",
+    "zh": "生长×{0} · {1}秒",
+    "en": "x{0} grow · {1}s",
+    "ja": "成長×{0} · {1}秒"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MicroHack",
+    "zh": "强度{0} · {1}秒",
+    "en": "Str {0} · {1}s",
+    "ja": "強度{0} · {1}秒"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MicroHarm",
+    "zh": "{0}伤 · 穿甲{1}",
+    "en": "{0} dmg · {1} AP",
+    "ja": "{0}ダメ · 装甲貫通{1}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MicroHeal",
+    "zh": "包扎{0} · {1}秒",
+    "en": "Tend {0} · {1}s",
+    "ja": "治療{0} · {1}秒"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MicroHex",
+    "zh": "厄咒 {0}秒",
+    "en": "Hex {0}s",
+    "ja": "呪印 {0}秒"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MicroKnockback",
+    "zh": "击退 {0}格",
+    "en": "Push {0} cells",
+    "ja": "吹飛 {0}マス"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MicroLightning",
+    "zh": "{0}灼 + {1}EMP",
+    "en": "{0} burn + {1} EMP",
+    "ja": "{0}火傷 + {1}EMP"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MicroLinger",
+    "zh": "半径{0} · {1}秒",
+    "en": "R {0} · {1}s",
+    "ja": "半径{0} · {1}秒"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MicroMagelight",
+    "zh": "照明{0} · {1}秒",
+    "en": "R {0} · {1}s",
+    "ja": "照明{0} · {1}秒"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MicroOrbit",
+    "zh": "{0}球 · {1}秒",
+    "en": "{0} orbs · {1}s",
+    "ja": "{0}球 · {1}秒"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MicroPierce",
+    "zh": "+{0} 穿透",
+    "en": "+{0} pierce",
+    "ja": "貫通 +{0}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MicroPlanarShield",
+    "zh": "{0}次 · 宽{1}",
+    "en": "{0} blk · W {1}",
+    "ja": "{0}回 · 幅{1}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MicroProjectile",
+    "zh": "{0}弹 · 射程 {1}",
+    "en": "{0} dart · R {1}",
+    "ja": "{0}発 · 射程 {1}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MicroPull",
+    "zh": "拉扯 {0}格",
+    "en": "Drag {0} cells",
+    "ja": "引寄 {0}マス"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MicroRailgun",
+    "zh": "{0}伤 · 宽 {1}",
+    "en": "{0} dmg · W {1}",
+    "ja": "{0}ダメ · 幅 {1}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MicroRune",
+    "zh": "地印 {0}秒",
+    "en": "Seal {0}s",
+    "ja": "地印 {0}秒"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MicroSelf",
+    "zh": "施法者自身",
+    "en": "Caster cell",
+    "ja": "詠唱者自身"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MicroSensitive",
+    "zh": "不伤建筑",
+    "en": "Spares buildings",
+    "ja": "建造物保護"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MicroSnare",
+    "zh": "定身 {0}秒",
+    "en": "Root {0}s",
+    "ja": "拘束 {0}秒"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MicroSplit",
+    "zh": "+{0} 弹/球",
+    "en": "+{0} dart/orb",
+    "ja": "+{0} 弾/球"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MicroTornado",
+    "zh": "{0}/次 · {1}秒",
+    "en": "{0}/pulse · {1}s",
+    "ja": "{0}/回 · {1}秒"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.MicroTouch",
+    "zh": "射程 {0}格",
+    "en": "Reach {0}",
+    "ja": "射程 {0}マス"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.NamePlaceholder",
+    "zh": "输入法术名称…",
+    "en": "Enter spell name...",
+    "ja": "呪文名を入力…"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.NoCaster",
+    "zh": "未选择角色",
+    "en": "no pawn",
+    "ja": "ポーン未選択"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.NoCompatibleAugments",
+    "zh": "不接受任何增幅。",
+    "en": "Accepts no augments.",
+    "ja": "対応する強化はありません。"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.NoGameComponent",
+    "zh": "存档组件未就绪，暂时无法读写法术。",
+    "en": "The spellbook save component is not ready yet.",
+    "ja": "魔導書のセーブコンポーネントが未準備のため、呪文を読み書きできません。"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.PageCatalog",
+    "zh": "符文典藏",
+    "en": "Rune codex",
+    "ja": "ルーン図録"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.PageEditor",
+    "zh": "法典编排",
+    "en": "Spell weaving",
+    "ja": "呪文編成"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.PlanPending",
+    "zh": "补全形式与至少一枚效果符文后，显示编译后的精确数值。",
+    "en": "Add a form and at least one effect to calculate exact compiled numbers.",
+    "ja": "形式ルーンと効果ルーンを1つ以上並べると、確定した詳細数値が表示されます。"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.SearchPlaceholder",
+    "zh": "搜索符文名称…",
+    "en": "Search runes...",
+    "ja": "ルーン名を検索…"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.SecondsShort",
+    "zh": "{0}秒",
+    "en": "{0}s",
+    "ja": "{0}秒"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.SectionPlan",
+    "zh": "实时战法推演",
+    "en": "Compiled spell preview",
+    "ja": "呪文プレビュー"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.SlotAlreadyEmpty",
+    "zh": "槽 {0} 本来就是空的。",
+    "en": "Slot {0} was already empty.",
+    "ja": "スロット{0}はすでに空です。"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.SlotDeleted",
+    "zh": "已删除槽 {0} 的法术。",
+    "en": "Deleted the spell in slot {0}.",
+    "ja": "スロット{0}の呪文を削除しました。"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.SlotEmpty",
+    "zh": "空槽",
+    "en": "empty",
+    "ja": "空き"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.SlotEmptyShort",
+    "zh": "空",
+    "en": "Empty",
+    "ja": "空"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.SlotExceedsBookHint",
+    "zh": "法术保存在小人身上不会丢失，换戴高阶魔术书即可施放或修改。",
+    "en": "The spell is safely kept on the pawn; wear a higher-tier spellbook to cast or edit it.",
+    "ja": "呪文はポーンに保持されたまま失われません。上位の魔導書を装備すれば詠唱や編集が可能になります。"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.SlotGlyphCount",
+    "zh": "{0} 枚符文",
+    "en": "{0} runes",
+    "ja": "ルーン {0}個"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.SlotTitle",
+    "zh": "法术槽 {0}",
+    "en": "Slot {0}",
+    "ja": "呪文スロット {0}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.SlotTooltipUsed",
+    "zh": "已存：{0}",
+    "en": "saved: {0}",
+    "ja": "保存済：{0}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.SocketSealedFallback",
+    "zh": "第 {0} 符文位受限于当前魔术书阶位。",
+    "en": "Rune socket {0} is sealed by the worn spellbook's tier.",
+    "ja": "第{0}ルーン枠は現在の魔導書の階位により封印されています。"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.SocketSealedMark",
+    "zh": "封",
+    "en": "Lock",
+    "ja": "封"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.SocketSealedTip",
+    "zh": "第 {0} 符文位已封印：换戴{1}可解锁至 {2} 枚符文链。",
+    "en": "Rune socket {0} is sealed. Wear a {1} to unlock chains up to {2} runes.",
+    "ja": "第{0}ルーン枠は封印されています。{1}を装備すると最大{2}個のルーン列が解放されます。"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.StaffModSummary",
+    "zh": "伤 {0} · 耗 {1} · 持 {2}",
+    "en": "Dmg {0} · Mana {1} · Dur {2}",
+    "ja": "威力 {0} · 魔力 {1} · 持続 {2}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.StaffModTip",
+    "zh": "上方魔耗、射程、耗时与下方推演数值已按当前握持的「{0}」修正预览：\n伤害 {1} · 魔耗 {2} · 持续 {3} · 射程 {4} · 前摇 {5}",
+    "en": "Live preview includes the equipped {0}'s modifiers:\nDamage {1} · Mana cost {2} · Duration {3} · Range {4} · Windup {5}",
+    "ja": "上部の消費魔力・射程・時間および下部のプレビュー数値には、装備中の「{0}」による補正が反映されています：\nダメージ {1} · 消費魔力 {2} · 持続 {3} · 射程 {4} · 準備 {5}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.SwitchBookmark",
+    "zh": "点击切换至该槽位，并同步小人施法按钮。",
+    "en": "Click to select this slot as active.",
+    "ja": "クリックでこのスロットに切り替え、ポーンの詠唱コマンドを同期します。"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.TargetAnimal",
+    "zh": "动物",
+    "en": "Animal",
+    "ja": "動物"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.TargetBuilding",
+    "zh": "建筑",
+    "en": "Building",
+    "ja": "建造物"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.TargetCasterOnly",
+    "zh": "仅施法者自身",
+    "en": "Caster only",
+    "ja": "詠唱者のみ"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.TargetCell",
+    "zh": "地面",
+    "en": "Ground",
+    "ja": "地面"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.TargetEntity",
+    "zh": "异象实体",
+    "en": "Entity",
+    "ja": "エンティティ"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.TargetHumanlike",
+    "zh": "人形",
+    "en": "Humanlike",
+    "ja": "人間型"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.TargetItem",
+    "zh": "物品",
+    "en": "Item",
+    "ja": "アイテム"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.TargetMechanoid",
+    "zh": "机械体",
+    "en": "Mechanoid",
+    "ja": "メカノイド"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.TargetPlant",
+    "zh": "植物",
+    "en": "Plant",
+    "ja": "植物"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.TargetRock",
+    "zh": "岩石",
+    "en": "Rock",
+    "ja": "岩石"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.TargetsLine",
+    "zh": "目标：{0}",
+    "en": "Targets: {0}",
+    "ja": "対象：{0}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.Timing",
+    "zh": "前摇 {0}s · 引导 {1}s · 后摇 {2}s",
+    "en": "Windup {0}s · Channel {1}s · Recovery {2}s",
+    "ja": "準備 {0}秒 · 集中 {1}秒 · 硬直 {2}秒"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.TimingTip",
+    "zh": "保存时冻结的施法时间：前摇 {0} tick、引导 {1} tick、后摇 {2} tick（60 tick = 1 秒）。前摇可自由移动，引导期间减速，后摇时站定。",
+    "en": "Frozen phase ticks: windup {0}, channel {1}, recovery {2} (60 ticks = 1s). The caster may walk during windup, moves slowly while channeling, and stands still during recovery.",
+    "ja": "保存時に固定される詠唱時間：準備 {0} tick、集中 {1} tick、硬直 {2} tick（60 tick = 1秒）。準備中は自由に移動でき、集中中は移動速度が低下し、硬直中はその場に立ち止まります。"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.ValidationFailed",
+    "zh": "无效：{0}",
+    "en": "Invalid: {0}",
+    "ja": "無効：{0}"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.ValidationOk",
+    "zh": "法术组合有效，可以保存。",
+    "en": "Valid combination — ready to save.",
+    "ja": "有効な組み合わせです。保存できます。"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.ValidationUnknown",
+    "zh": "原因未知",
+    "en": "unknown reason",
+    "ja": "原因不明"
+  },
+  {
+    "file": "Keyed/WotF_Spellbook.xml",
+    "key": "WotF_Spellbook.WindowTitle",
+    "zh": "魔术书",
+    "en": "Spellbook",
+    "ja": "魔導書"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.ApSuffix",
+    "zh": "，穿甲 {0}",
+    "en": ", {0} AP",
+    "ja": "、装甲貫通 {0}"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.AreaSuffix",
+    "zh": "（半径 {0} 格）",
+    "en": " (R {0})",
+    "ja": "（半径 {0}マス）"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.ChargeDurSuffix",
+    "zh": "，持续 {0}秒",
+    "en": ", {0}s",
+    "ja": "、持続 {0}秒"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.DeliveryOrbit",
+    "zh": "环绕：{0} 枚法球，持续 {1}秒，触碰半径 {2} 格，角速度 {3}°/秒。",
+    "en": "Orbit: {0} orb(s), {1}s, hit R {2}, {3} deg/s.",
+    "ja": "周回：法球 {0}個、持続 {1}秒、接触半径 {2}マス、角速度 {3}°/秒。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.DeliveryProjectile",
+    "zh": "射弹：{0} 枚飞弹，速度 {1} 格/秒，射程 {2} 格{3}。",
+    "en": "Projectile: {0} dart(s), speed {1} c/s, range {2}{3}.",
+    "ja": "投射：{0}発、弾速 {1}マス/秒、射程 {2}マス{3}。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.DeliverySelf",
+    "zh": "自身：立即在施法者所在格生效。",
+    "en": "Self: resolves immediately on the caster.",
+    "ja": "自身：詠唱者の現在位置で即座に発動。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.DeliveryTouch",
+    "zh": "接触：作用于相邻 {0} 格内目标。",
+    "en": "Touch: adjacent reach {0} cells.",
+    "ja": "接触：隣接 {0}マス以内の対象に作用。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.EffectBlink",
+    "zh": "闪现：瞬移至落点（自身施放向前 {0} 格）",
+    "en": "Blink: teleport to impact (self: forward {0} cells)",
+    "ja": "瞬移：着弾点へ瞬間移動（自身詠唱時は前方 {0}マス）"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.EffectColdSnap",
+    "zh": "霜裂：{0} 点伤害（冻结目标 ×{1}）{2}{3}",
+    "en": "Cold snap: {0} dmg (x{1} vs frozen){2}{3}",
+    "ja": "氷裂：{0}ダメージ（凍結対象 ×{1}）{2}{3}"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.EffectDelay",
+    "zh": "延迟 {0}秒 后触发：",
+    "en": "Delay {0}s, then trigger:",
+    "ja": "{0}秒の遅延後に発動："
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.EffectExplosion",
+    "zh": "爆炸：{0} 点伤害，半径 {1} 格{2}{3}",
+    "en": "Explosion: {0} dmg, R {1}{2}{3}",
+    "ja": "爆裂：{0}ダメージ、半径 {1}マス{2}{3}"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.EffectFreeze",
+    "zh": "冻结：减速 {0}秒{1}",
+    "en": "Freeze: slow {0}s{1}",
+    "ja": "霜凍：鈍足 {0}秒{1}"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.EffectGrow",
+    "zh": "催生：植物生长 ×{0}，持续 {1}秒{2}",
+    "en": "Grow: x{0} plant growth for {1}s{2}",
+    "ja": "育成：植物の成長 ×{0}、持続 {1}秒{2}"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.EffectHack",
+    "zh": "骇入：强度 {0}，控制 {1}秒{2}",
+    "en": "Hack: strength {0}, control {1}s{2}",
+    "ja": "ハッキング：強度 {0}、支配 {1}秒{2}"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.EffectHarm",
+    "zh": "伤害：{0} 点伤害{1}{2}",
+    "en": "Harm: {0} damage{1}{2}",
+    "ja": "打撃：{0}ダメージ{1}{2}"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.EffectHeal",
+    "zh": "凝血：包扎质量 {0}，自愈加速 {1}秒{2}",
+    "en": "Clot: tend {0}, regen boost {1}s{2}",
+    "ja": "止血：治療品質 {0}、自然治癒加速 {1}秒{2}"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.EffectHex",
+    "zh": "厄咒：易伤与减疗 {0}秒{1}",
+    "en": "Hex: vulnerability & slow heal {0}s{1}",
+    "ja": "呪印：被ダメージ増加・治癒低下 {0}秒{1}"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.EffectKnockback",
+    "zh": "击退：推离 {0} 格{1}",
+    "en": "Knockback: push {0} cells{1}",
+    "ja": "吹き飛ばし：{0}マス押し出す{1}"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.EffectLightning",
+    "zh": "落雷：{0} 灼烧{1} + {2} EMP（每层电荷 +{3}{4}）{5}",
+    "en": "Lightning: {0} burn{1} + {2} EMP (+{3}/charge{4}){5}",
+    "ja": "落雷：{0}火傷{1} + {2} EMP（帯電1層ごと +{3}{4}）{5}"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.EffectLinger",
+    "zh": "滞留法场：半径 {0} 格，持续 {1}秒（每 {2}秒 触发）：",
+    "en": "Linger field: R {0}, {1}s (pulse every {2}s):",
+    "ja": "滞留魔力場：半径 {0}マス、持続 {1}秒（{2}秒ごとに発動）："
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.EffectMagelight",
+    "zh": "魔光：半径 {0} 格照明，持续 {1}秒",
+    "en": "Magelight: R {0} glow for {1}s",
+    "ja": "魔光：半径 {0}マスを照明、持続 {1}秒"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.EffectPlanarShield",
+    "zh": "片盾：宽 {0} 格，可挡 {1} 次，持续 {2}秒",
+    "en": "Planar shield: {0} cells wide, {1} blocks, {2}s",
+    "ja": "平面魔力盾：幅 {0}マス、防御 {1}回、持続 {2}秒"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.EffectPull",
+    "zh": "拉扯：牵引 {0} 格{1}",
+    "en": "Pull: drag {0} cells{1}",
+    "ja": "引き寄せ：{0}マス引き寄せる{1}"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.EffectRune",
+    "zh": "地印：踩踏触发（存续 {0}秒）：",
+    "en": "Ground seal: triggers on step ({0}s):",
+    "ja": "地印：踏むと発動（持続 {0}秒）："
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.EffectSnare",
+    "zh": "缠绕：定身 {0}秒{1}",
+    "en": "Snare: root {0}s{1}",
+    "ja": "拘束：移動封じ {0}秒{1}"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.FullMap",
+    "zh": "全图",
+    "en": "Full map",
+    "ja": "マップ全域"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.IgnoreBuildings",
+    "zh": "，不伤建筑",
+    "en": ", spares buildings",
+    "ja": "、建造物を傷つけない"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.PierceSuffix",
+    "zh": "，穿透 {0} 次",
+    "en": ", pierce {0}",
+    "ja": "、貫通 {0}回"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.RangeCells",
+    "zh": "{0} 格",
+    "en": "{0} cells",
+    "ja": "{0}マス"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.SpecialRailgun",
+    "zh": "磁轨炮：{0} 点伤害（穿甲 {1}），光束宽 {2} 格，射程 {3}。",
+    "en": "Railgun: {0} dmg ({1} AP), beam width {2} cells, range {3}.",
+    "ja": "レールガン：{0}ダメージ（装甲貫通 {1}）、光線幅 {2}マス、射程 {3}。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_SpellPlan.SpecialTornado",
+    "zh": "烈焰龙卷：每 {1}秒 造成 {0} 点伤害，持续 {2}秒，半径 {3} 格，穿甲 {4}，点燃率 {5}，射程 {6}。",
+    "en": "Flame tornado: {0} dmg every {1}s for {2}s, R {3}, {4} AP, {5} ignite, range {6}.",
+    "ja": "烈火の竜巻：{1}秒ごとに{0}ダメージ、持続 {2}秒、半径 {3}マス、装甲貫通 {4}、着火率 {5}、射程 {6}。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.CastDone",
+    "zh": "已施放{0}。",
+    "en": "{0} is cast.",
+    "ja": "「{0}」を詠唱しました。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Gizmo.CastDesc",
+    "zh": "施放保存在第 {0} 个书签中的法术。",
+    "en": "Cast the spell saved on bookmark {0}.",
+    "ja": "しおり{0}に保存されている呪文を詠唱します。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Gizmo.NoSpell",
+    "zh": "尚未选择法术",
+    "en": "No spell chosen",
+    "ja": "呪文未選択"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Gizmo.NoSpellDesc",
+    "zh": "打开魔术书，为这个小人在书签里选择一个法术。",
+    "en": "Open the spellbook and pick a bookmark for this pawn.",
+    "ja": "魔導書を開き、このポーンが使う呪文をしおりから選びます。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Gizmo.NoSpellReason",
+    "zh": "第 {0} 个书签是空的。",
+    "en": "Bookmark {0} is empty.",
+    "ja": "しおり{0}は空です。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Gizmo.OpenBook",
+    "zh": "魔术书",
+    "en": "Spellbook",
+    "ja": "魔導書"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Gizmo.OpenBookDesc",
+    "zh": "编排符文、命名法术，并保存到十个书签之一。",
+    "en": "Arrange runes, name the spell and save it to one of the ten bookmarks.",
+    "ja": "ルーンを編成して呪文に名を付け、10個のしおりのいずれかに保存します。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Gizmo.Unnamed",
+    "zh": "未命名法术",
+    "en": "Unnamed spell",
+    "ja": "無名の呪文"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.AlreadyCasting",
+    "zh": "这个小人正在施法。",
+    "en": "This pawn is already casting.",
+    "ja": "このポーンはすでに詠唱中です。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.AmplifyCannotGrow",
+    "zh": "催熟是瞬间完成的，强化无法让它更强。",
+    "en": "Grow finishes the plant instantly, so Amplify cannot strengthen it.",
+    "ja": "「育成」は即座に完了するため、「増幅」で強めることはできません。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.AmplifyNeedsEffect",
+    "zh": "强化左侧需要一个效果才能生效。",
+    "en": "Amplify needs an effect on its left to strengthen.",
+    "ja": "「増幅」を使うには、左隣に効果ルーンが必要です。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.AoeNeedsEffect",
+    "zh": "范围左侧需要一个效果才能扩大。",
+    "en": "Area needs an effect on its left to widen.",
+    "ja": "「範囲」を使うには、左隣に効果ルーンが必要です。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.AugmentExcluded",
+    "zh": "{0}和{1}不能接在同一个符文上。",
+    "en": "{0} cannot be used together with {1} on the same rune.",
+    "ja": "{0}と{1}は同じルーンに併用できません。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.AugmentNotAccepted",
+    "zh": "该增幅不能接在左侧这个符文上。",
+    "en": "That augment cannot attach to the rune on its left.",
+    "ja": "この強化ルーンは左隣のルーンには付与できません。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.BookTooLong",
+    "zh": "当前佩戴的魔术书单条法术上限为 {0} 枚符文。",
+    "en": "The worn spellbook supports at most {0} runes per spell.",
+    "ja": "装備中の魔導書は、1つの呪文につき最大{0}個のルーンまで対応しています。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.CompleteFormNoEffect",
+    "zh": "超位符文本身就是一整个法术，不能再接效果符文。",
+    "en": "A supra rune is already a whole spell; it takes no effect rune.",
+    "ja": "超位ルーンは単体で完結した呪文のため、効果ルーンを続けることはできません。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.Cooldown",
+    "zh": "仍在凝聚灵能：距离下次施法还有 {0} 秒。",
+    "en": "Still gathering focus: {0} s until the next cast.",
+    "ja": "魔力を再収束中です：次の詠唱まであと{0}秒。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.ExceedsBookGlyphs",
+    "zh": "此法术含 {0} 枚符文，超过当前魔术书的上限（{1} 枚）。",
+    "en": "This spell uses {0} runes, exceeding the worn spellbook's limit of {1}.",
+    "ja": "この呪文にはルーンが{0}個含まれており、現在の魔導書の上限（{1}個）を超えています。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.FormMustBeFirst",
+    "zh": "第一个符文必须是形式（自身、接触、弹射物或环绕）或超位。",
+    "en": "The first rune must be a form (self, touch, projectile or orbit) or a supra rune.",
+    "ja": "最初のルーンは形式（自身・接触・投射・周回）または超位でなければなりません。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.GlyphLocked",
+    "zh": "殖民地尚未解锁符文：{0}",
+    "en": "The colony has not unlocked this rune yet: {0}",
+    "ja": "コロニーはまだこのルーンを解放していません：{0}"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.LaunchFailed",
+    "zh": "法术弹无法发射。",
+    "en": "The dart could not be launched.",
+    "ja": "魔法弾を発射できませんでした。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.MissingImpactDef",
+    "zh": "缺少法术射弹定义 {0}，因此无法发射。",
+    "en": "The spell projectile def {0} is missing, so nothing could be launched.",
+    "ja": "呪文投射物の定義 {0} が見つからないため、発射できません。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.NeedName",
+    "zh": "保存前请先给法术命名。",
+    "en": "Give the spell a name before saving.",
+    "ja": "保存する前に呪文の名前を入力してください。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.NeuralHeatOverflow",
+    "zh": "再增加 {0} 点心灵熵就会超过上限。",
+    "en": "{0} more neural heat would go over the limit.",
+    "ja": "ニューラルヒートがさらに{0}増えると上限を超えます。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.NoBloodline",
+    "zh": "只有林庭血脉的小人才能施法。",
+    "en": "Only a pawn of the forest bloodline can cast.",
+    "ja": "森の血脈を持つポーンのみが詠唱できます。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.NoBook",
+    "zh": "需要佩戴魔术书。",
+    "en": "A worn spellbook is required.",
+    "ja": "魔導書の装備が必要です。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.NoEffect",
+    "zh": "法术至少需要一个效果，否则什么也不会发生。",
+    "en": "A spell needs at least one effect, otherwise nothing would happen.",
+    "ja": "呪文には効果ルーンが1つ以上必要です。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.NoGameComponent",
+    "zh": "魔术书在当前游戏中尚未就绪。",
+    "en": "The spellbook is not ready in this game.",
+    "ja": "現在のゲームで魔導書がまだ初期化されていません。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.NoGlyphs",
+    "zh": "还没有编排符文：先放一个形式，再放至少一个效果。",
+    "en": "Nothing is arranged yet: add a form first, then at least one effect.",
+    "ja": "ルーンが編成されていません。最初に形式を1つ、続けて効果を1つ以上配置してください。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.NoLineOfSight",
+    "zh": "有实心物体挡住了法术。",
+    "en": "Something solid is in the way.",
+    "ja": "障害物が射線を遮っています。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.NoNeuralHeat",
+    "zh": "这个小人没有心灵熵，无法承担这个法术的消耗。",
+    "en": "This pawn has no neural heat to bear this spell's cost.",
+    "ja": "このポーンはニューラルヒート容量を持たないため、この呪文の負荷に耐えられません。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.NoPawn",
+    "zh": "没有指定施法者。",
+    "en": "No caster is selected.",
+    "ja": "詠唱者が指定されていません。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.NoSpellSelected",
+    "zh": "这个小人的当前法术是空的，请在魔术书中选择。",
+    "en": "No spell is selected for this pawn. Choose one in the spellbook.",
+    "ja": "このポーンに呪文が選択されていません。魔導書から選んでください。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.NoSpellbook",
+    "zh": "需要佩戴魔术书才能施法。",
+    "en": "Casting needs a worn spellbook.",
+    "ja": "詠唱するには魔導書を装備している必要があります。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.NoTarget",
+    "zh": "请先选择目标。",
+    "en": "Choose a target first.",
+    "ja": "先に対象を選んでください。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.NoTargeter",
+    "zh": "游戏尚未准备好目标选择。",
+    "en": "The game is not ready for target selection.",
+    "ja": "対象選択の準備が整っていません。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.NotEnoughMana",
+    "zh": "魔力不足：需要 {0}，现有 {1}。",
+    "en": "Not enough mana: needs {0}, has {1}.",
+    "ja": "魔力が不足しています：必要 {0}、現在 {1}。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.NotPlayerControlled",
+    "zh": "只有你控制的小人可以使用魔术书。",
+    "en": "Only a pawn you control can use the spellbook.",
+    "ja": "魔導書を使えるのは操作可能なポーンのみです。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.OneForm",
+    "zh": "一个法术只能以一个形式或超位符文开头。",
+    "en": "A spell starts with exactly one form or supra rune.",
+    "ja": "呪文の先頭に置ける形式または超位ルーンは1つだけです。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.OnlyOneForm",
+    "zh": "一个法术只能有一个形式。",
+    "en": "A spell may hold exactly one form.",
+    "ja": "1つの呪文に含められる形式ルーンは1つだけです。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.PawnDead",
+    "zh": "死亡的小人无法施法。",
+    "en": "A dead pawn cannot cast.",
+    "ja": "死亡したポーンは詠唱できません。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.PawnDowned",
+    "zh": "倒地的小人无法施法。",
+    "en": "A downed pawn cannot cast.",
+    "ja": "ダウン中のポーンは詠唱できません。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.PawnNotSpawned",
+    "zh": "施法者必须已生成在地图上。",
+    "en": "The caster must be on a map.",
+    "ja": "詠唱者がマップ上に存在する必要があります。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.ProjectileAugmentNeedsProjectile",
+    "zh": "加速、减速和分裂只能修改射弹形式。",
+    "en": "Accelerate, decelerate and split only modify a projectile form.",
+    "ja": "加速・減速・分裂は投射形式にのみ適用できます。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.RailgunOutOfRange",
+    "zh": "磁轨炮的 {0} 格射程内没有可以瞄准的东西。",
+    "en": "Nothing to aim at inside the railgun's {0} cells.",
+    "ja": "レールガンの射程{0}マス以内に狙える対象がありません。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.SlotOutOfRange",
+    "zh": "没有第 {0} 个书签。",
+    "en": "There is no bookmark {0}.",
+    "ja": "しおり{0}は存在しません。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.TargetOtherMap",
+    "zh": "该目标不在这张地图上。",
+    "en": "That target is not on this map.",
+    "ja": "その対象はこのマップ上にいません。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.TargetOutOfBounds",
+    "zh": "该目标在地图之外。",
+    "en": "That target is outside the map.",
+    "ja": "その対象はマップ外にあります。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.TimingNeedsEffect",
+    "zh": "滞留、地印和延迟需要右侧至少有一个效果，否则什么也不会发生。",
+    "en": "Linger, rune and delay need at least one effect to their right; otherwise nothing would happen.",
+    "ja": "滞留・地印・遅延は右側に1つ以上の効果ルーンが必要です。さもないと何も起こりません。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.TooLong",
+    "zh": "这个法术的符文超过 {0} 个。",
+    "en": "This spell has more than {0} runes.",
+    "ja": "この呪文のルーン数が上限（{0}個）を超えています。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.TouchNotAdjacent",
+    "zh": "接触法术只能作用于相邻格。",
+    "en": "A touch spell only reaches the adjacent cells.",
+    "ja": "接触呪文は隣接するマスにしか届きません。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.TuningMissing",
+    "zh": "法术已停用：法术参数数据加载失败（详见日志）。",
+    "en": "Spells are disabled: the spell tuning data failed to load (see the log).",
+    "ja": "呪文機能は無効化されています：呪文パラメータデータの読み込みに失敗しました（ログを参照してください）。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.Unknown",
+    "zh": "这个法术现在无法施放。",
+    "en": "That spell cannot be cast right now.",
+    "ja": "この呪文は現在詠唱できません。"
+  },
+  {
+    "file": "Keyed/WotF_Spells.xml",
+    "key": "WotF_Spells.Reason.UnknownGlyph",
+    "zh": "未知符文：{0}",
+    "en": "Unknown rune: {0}",
+    "ja": "不明なルーン：{0}"
+  },
+  {
+    "file": "Keyed/WotF_SuperRunes.xml",
+    "key": "WotF_Spells.Reason.SuperNeedsCodex",
+    "zh": "超位符文需要佩戴星辉法典。",
+    "en": "Supra runes require a worn starlight codex.",
+    "ja": "超位ルーンには星輝の法典の装備が必要です。"
+  },
+  {
+    "file": "Keyed/WotF_SuperRunes.xml",
+    "key": "WotF_Spells.Reason.SuperNeedsStaff",
+    "zh": "施放超位法术需要主手握持双手长法杖。",
+    "en": "Casting a supra spell requires holding a two-handed staff in the primary hand.",
+    "ja": "超位呪文を詠唱するには、メイン武器として両手持ちのスタッフを装備している必要があります。"
+  },
+  {
+    "file": "Keyed/WotF_SuperRunes.xml",
+    "key": "WotF_Spells.Reason.SuperNoTurret",
+    "zh": "自动施法炮塔不能装入超位法术。",
+    "en": "Spell turrets cannot hold supra spells.",
+    "ja": "詠唱タレットに超位呪文は組み込めません。"
+  },
+  {
+    "file": "Keyed/WotF_SuperRunes.xml",
+    "key": "WotF_Spells.Rubbing.AlreadyKnown",
+    "zh": "殖民地已掌握这枚超位符文。",
+    "en": "The colony already knows this supra rune.",
+    "ja": "コロニーはこの超位ルーンをすでに習得しています。"
+  },
+  {
+    "file": "Keyed/WotF_SuperRunes.xml",
+    "key": "WotF_Spells.Rubbing.Unlocked",
+    "zh": "研读完成：全殖民地已永久解锁{0}。",
+    "en": "Study complete: {0} is permanently unlocked for the whole colony.",
+    "ja": "解読完了：コロニー全体で「{0}」が恒久的に解放されました。"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_CannotConnect",
+    "zh": "{0}现在无法接通（{1}）。没有传送任何东西，也没有扣费。",
+    "en": "{0} cannot take a connection now ({1}). Nothing was moved or spent.",
+    "ja": "{0}は現在接続できません（{1}）。何も転送されず、マナも消費されていません。"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_Connecting",
+    "zh": "正在接通传送门…",
+    "en": "Connecting the gates…",
+    "ja": "転送門を接続中…"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_Empty",
+    "zh": "门里没有装东西，先装人或货物。",
+    "en": "Nothing is loaded in the gate. Load people and cargo first.",
+    "ja": "転送門が空です。先に人員や物資を積み込んでください。"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_Failed",
+    "zh": "与{0}的连接失败。",
+    "en": "The connection to {0} failed.",
+    "ja": "{0}への接続に失敗しました。"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_Gizmo_Connect",
+    "zh": "连接回家…",
+    "en": "Connect home…",
+    "ja": "帰還接続…"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_Gizmo_ConnectDesc",
+    "zh": "把装在这扇残破传送门里的东西，从一处正在运行的殖民传送门送回去。必须先清完遗迹内所有守卫才能开启。回程费率和去程一样，从那扇门的魔网扣；这扇门经不起穿越。",
+    "en": "Send whatever is loaded in this broken gate back through a colony gate that is open. All ruin guardians must be cleared before it can open. The crossing costs what a crossing out costs, paid from that gate's network, and this gate will not survive it.",
+    "ja": "この崩れた転送門に積み込んだ人員や物資を、稼働中のコロニーの転送門へ送り返します。起動するには遺跡内のすべての番人を倒す必要があります。帰還時の消費マナは往路と同じで受け入れ側のマナネットワークから差し引かれ、この門は転送後に崩壊します。"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_Gizmo_Send",
+    "zh": "连接…",
+    "en": "Connect…",
+    "ja": "接続…"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_Gizmo_SendDesc",
+    "zh": "把装在这扇门里的东西送到遗迹的残破传送门，或送到本图另一扇开启中的传送门。",
+    "en": "Send whatever is loaded in this gate to a ruin's broken gate, or step it across to another open gate on this map.",
+    "ja": "この転送門に積み込んだ人員や物資を、遺跡の崩れた転送門、または同マップ内の別の稼働中転送門へ送ります。"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_Gone",
+    "zh": "传送门或它的另一端已经不在了。",
+    "en": "The gate or its far end is gone.",
+    "ja": "転送門、または接続先の門が失われました。"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_Inspect_Closed",
+    "zh": "已关闭",
+    "en": "Closed",
+    "ja": "閉鎖中"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_Inspect_Contents",
+    "zh": "已装载：{0} 人，{1} 千克货物",
+    "en": "Loaded: {0} pawns, {1} kg of cargo",
+    "ja": "積載中：{0}人、物資 {1} kg"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_Inspect_Ruined",
+    "zh": "残破：只剩最后一次穿越",
+    "en": "Broken: one crossing left",
+    "ja": "破損：残り1回の転送のみ可能"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_Inspect_RuinedLocked",
+    "zh": "残破：遗迹守卫尚未清完，无法开启",
+    "en": "Broken: locked while ruin guardians remain",
+    "ja": "破損：遺跡の番人が残っているため起動不可"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_Inspect_Running",
+    "zh": "开启中，维持消耗 {0} 魔源/秒",
+    "en": "Open, upkeep {0} mana/s",
+    "ja": "起動中（維持費 {0} マナ/秒）"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_Inspect_Starved",
+    "zh": "开启中，但魔网付不起 {0} 魔源/秒的维持",
+    "en": "Open, but the network cannot pay its {0} mana/s upkeep",
+    "ja": "起動中（マナネットワークが維持費 {0} マナ/秒を賄えません）"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_Inspect_Unlinked",
+    "zh": "开启中，但 {0} 格内没有魔源节点",
+    "en": "Open, but no mana node within {0} cells",
+    "ja": "起動中（{0}マス以内にマナノードがありません）"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_ManaShort",
+    "zh": "需要 {0} 魔源，当前只有 {1}",
+    "en": "needs {0} mana, {1} stored",
+    "ja": "必要 {0} マナ、現在 {1}"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_NeedsParty",
+    "zh": "至少装入一名站立的殖民者。首次穿越会生成遗迹地图，没人留在地图上的话它会被丢弃。",
+    "en": "Load at least one standing colonist. The first crossing generates the ruin's map, and a map left with nobody on it is abandoned.",
+    "ja": "行動可能な入植者を1名以上乗せてください。初回転送時に遺跡マップが生成され、マップ上に誰もいなくなると破棄されます。"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_NoAnchor",
+    "zh": "{0}里没有可以落脚的传送门，这次连接被拒绝。",
+    "en": "{0} has no gate to arrive at; the connection was refused.",
+    "ja": "{0}に着地先となる転送門がないため、接続は拒否されました。"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_NoHomeGate",
+    "zh": "家里没有开启中的传送门。先让一扇门运行起来，或者组远行队徒步回去。",
+    "en": "No colony gate is open. Bring one online, or form a caravan and walk back.",
+    "ja": "拠点に稼働中の転送門がありません。門を起動するか、キャラバンを組んで徒歩で帰還してください。"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_NoLanding",
+    "zh": "与{0}的连接被拒绝：队伍中有 {1} 件在整张地图上都找不到空地。",
+    "en": "The connection to {0} was refused: {1} of the party found no free ground anywhere on the map.",
+    "ja": "{0}への接続が拒否されました：一行のうち{1}件はマップ上のどこにも着地できる空き地がありません。"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_NoRoom",
+    "zh": "{0}周围放不下全部东西：{2} 件里有 {1} 件在 {3} 格内找不到空格。没有传送任何东西，也没有扣费。",
+    "en": "No room to land everything at {0}: {1} of {2} things found no free cell within {3} cells. Nothing was moved or spent.",
+    "ja": "{0}の周囲にすべて収まりきりません：{2}件中{1}件は{3}マス以内に空きマスがありません。何も転送されず、マナも消費されていません。"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_NoRuin",
+    "zh": "没有可以连通的遗迹。先在 2 阶祭坛上发起寻踪。",
+    "en": "No ruin can be reached. Seek one at a second-tier altar first.",
+    "ja": "接続可能な遺跡がありません。先に第2階位の祭壇で探索を行ってください。"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_NoTransporter",
+    "zh": "这扇门没有装载舱。",
+    "en": "This gate has no transport compartment.",
+    "ja": "この転送門には積載区画がありません。"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_PartyLabel",
+    "zh": "穿过传送门的队伍",
+    "en": "The gate party",
+    "ja": "転送門の一行"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_ReturnCost",
+    "zh": "回程需要从{1}的魔网扣 {0} 魔源，当前只有 {2}。没有传送任何东西，也没有扣费；组远行队徒步回去。",
+    "en": "The crossing home needs {0} mana from {1}'s network, and {2} is stored. Nothing was moved or spent; form a caravan and walk back.",
+    "ja": "帰還には{1}のマナネットワークから{0}マナが必要ですが、現在の備蓄は{2}です。何も転送されずマナも消費されていません。キャラバンを組んで徒歩で帰還してください。"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_ReturnNeeds",
+    "zh": "— {1} 当前只有 {2} 魔源，需要 {0}；组远行队徒步回去",
+    "en": "— {1} has {2} mana stored and needs {0}; form a caravan and walk back",
+    "ja": "— {1}の備蓄は{2}マナ（必要量 {0}）。キャラバンを組んで徒歩で帰還してください"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_ReturnTo",
+    "zh": "返回 {0} · {1} 魔源",
+    "en": "Return to {0} · {1} mana",
+    "ja": "{0}へ帰還 · {1} マナ"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_Returned",
+    "zh": "{0} 件东西消耗 {2} 魔源回到了{1}，残破传送门在身后崩塌。",
+    "en": "{0} things come home to {1} for {2} mana, and the broken gate falls apart behind them.",
+    "ja": "{0}件が{2}マナを消費して{1}へ帰還し、背後の崩れた転送門は崩れ落ちました。"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_RuinHostiles",
+    "zh": "遗迹内仍有守卫未清理，这扇残破传送门还无法再次打开。",
+    "en": "Clear the ruin's guardians before opening this gate home.",
+    "ja": "遺跡内にまだ番人が残っているため、この崩れた転送門はまだ開けません。"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_SendLocal",
+    "zh": "跨到 {0}",
+    "en": "Step across to {0}",
+    "ja": "{0}へ移動"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_SendTo",
+    "zh": "送到 {0} · {1} 魔源",
+    "en": "Send to {0} · {1} mana",
+    "ja": "{0}へ転送 · {1} マナ"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_Sent",
+    "zh": "{0} 人与 {1} 千克货物抵达{3}，消耗 {2} 魔源。",
+    "en": "{0} pawns and {1} kg of cargo arrive at {3} for {2} mana.",
+    "ja": "{0}人と物資{1} kgが{2}マナを消費して{3}に到着しました。"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_SentLocalDone",
+    "zh": "{0} 件东西跨到了 {1}。",
+    "en": "{0} things cross to {1}.",
+    "ja": "{0}件が{1}へ移動しました。"
+  },
+  {
+    "file": "Keyed/WotF_Teleport.xml",
+    "key": "WotF_TeleportGate_Widened",
+    "zh": "传送门旁放不下，队伍落在了最近的空地上，最远离门 {1} 格。",
+    "en": "Nothing fit beside {0}, so the party landed on the nearest free ground, up to {1} cells away.",
+    "ja": "{0}の周囲に収まりきらなかったため、一行は最寄りの空き地に着地しました（門から最大{1}マス）。"
+  },
+  {
+    "file": "Keyed/WotF_Turret.xml",
+    "key": "WotF_Turret_Animals",
+    "zh": "动物",
+    "en": "Animals",
+    "ja": "動物"
+  },
+  {
+    "file": "Keyed/WotF_Turret.xml",
+    "key": "WotF_Turret_Candidate",
+    "zh": "{0} · 法术槽 {1} · {2}",
+    "en": "{0} · Slot {1} · {2}",
+    "ja": "{0} · 呪文スロット {1} · {2}"
+  },
+  {
+    "file": "Keyed/WotF_Turret.xml",
+    "key": "WotF_Turret_CategoryGroup",
+    "zh": "目标类别",
+    "en": "Target categories",
+    "ja": "対象カテゴリ"
+  },
+  {
+    "file": "Keyed/WotF_Turret.xml",
+    "key": "WotF_Turret_ComposeHint",
+    "zh": "此法术只交给炮塔，不保存到任何人的魔术书槽位。",
+    "en": "This spell goes only to the turret, not to a spellbook slot.",
+    "ja": "この呪文はこのタレット専用で、誰の魔導書スロットにも保存されません。"
+  },
+  {
+    "file": "Keyed/WotF_Turret.xml",
+    "key": "WotF_Turret_CurrentSpell",
+    "zh": "当前法术：{0}",
+    "en": "Current spell: {0}",
+    "ja": "現在の呪文：{0}"
+  },
+  {
+    "file": "Keyed/WotF_Turret.xml",
+    "key": "WotF_Turret_Entities",
+    "zh": "异象实体",
+    "en": "Anomaly entities",
+    "ja": "エンティティ"
+  },
+  {
+    "file": "Keyed/WotF_Turret.xml",
+    "key": "WotF_Turret_Friendly",
+    "zh": "友方",
+    "en": "Friendly",
+    "ja": "味方"
+  },
+  {
+    "file": "Keyed/WotF_Turret.xml",
+    "key": "WotF_Turret_HeaderBadge",
+    "zh": "炮塔法术铭刻 · 仅限射弹形态",
+    "en": "Turret spell inscription · Projectile form only",
+    "ja": "タレット呪文刻印 · 投射形式のみ"
+  },
+  {
+    "file": "Keyed/WotF_Turret.xml",
+    "key": "WotF_Turret_Hostile",
+    "zh": "敌方",
+    "en": "Hostile",
+    "ja": "敵対"
+  },
+  {
+    "file": "Keyed/WotF_Turret.xml",
+    "key": "WotF_Turret_Humanlikes",
+    "zh": "人形",
+    "en": "Humanlikes",
+    "ja": "人間型"
+  },
+  {
+    "file": "Keyed/WotF_Turret.xml",
+    "key": "WotF_Turret_ManaPreview",
+    "zh": "每发耗魔：{0}",
+    "en": "Mana per shot: {0}",
+    "ja": "1発あたりの消費マナ：{0}"
+  },
+  {
+    "file": "Keyed/WotF_Turret.xml",
+    "key": "WotF_Turret_Mechanoids",
+    "zh": "机械",
+    "en": "Mechanoids",
+    "ja": "メカノイド"
+  },
+  {
+    "file": "Keyed/WotF_Turret.xml",
+    "key": "WotF_Turret_Neutral",
+    "zh": "中立",
+    "en": "Neutral",
+    "ja": "中立"
+  },
+  {
+    "file": "Keyed/WotF_Turret.xml",
+    "key": "WotF_Turret_NewSpell",
+    "zh": "新写法术",
+    "en": "Write a new spell",
+    "ja": "新規呪文を作成"
+  },
+  {
+    "file": "Keyed/WotF_Turret.xml",
+    "key": "WotF_Turret_NoCandidates",
+    "zh": "殖民地尚无可列出的法术。可点击「新写法术」编写法术。",
+    "en": "No colony spells are available to list. Use Write a new spell to compose one.",
+    "ja": "一覧に表示できるコロニーの呪文がありません。「新規呪文を作成」から呪文を編成できます。"
+  },
+  {
+    "file": "Keyed/WotF_Turret.xml",
+    "key": "WotF_Turret_NoSpell",
+    "zh": "未写入法术",
+    "en": "No spell inscribed",
+    "ja": "呪文未刻印"
+  },
+  {
+    "file": "Keyed/WotF_Turret.xml",
+    "key": "WotF_Turret_PendingSpell",
+    "zh": "待写入法术：{0}",
+    "en": "Pending inscription: {0}",
+    "ja": "刻印待ちの呪文：{0}"
+  },
+  {
+    "file": "Keyed/WotF_Turret.xml",
+    "key": "WotF_Turret_ProjectileOnly",
+    "zh": "自动施法炮塔只能写入射弹形态的法术。",
+    "en": "Spell turrets only accept projectile-form spells.",
+    "ja": "詠唱タレットに刻印できるのは投射形式の呪文のみです。"
+  },
+  {
+    "file": "Keyed/WotF_Turret.xml",
+    "key": "WotF_Turret_RelationGroup",
+    "zh": "阵营关系",
+    "en": "Faction relations",
+    "ja": "派閥関係"
+  },
+  {
+    "file": "Keyed/WotF_Turret.xml",
+    "key": "WotF_Turret_RequestWrite",
+    "zh": "请求写入",
+    "en": "Request inscription",
+    "ja": "刻印を依頼"
+  },
+  {
+    "file": "Keyed/WotF_Turret.xml",
+    "key": "WotF_Turret_SelectSpell",
+    "zh": "选择法术",
+    "en": "Select spell",
+    "ja": "呪文を選択"
+  },
+  {
+    "file": "Keyed/WotF_Turret.xml",
+    "key": "WotF_Turret_SelectSpellDesc",
+    "zh": "选择殖民地已有的法术。需要施法者到炮塔旁完成写入后才能使用。",
+    "en": "Choose a colony spell. A spellcaster must inscribe it before the turret can use it.",
+    "ja": "コロニーの既存の呪文を選びます。使用するには詠唱者がタレットのそばで刻印作業を完了させる必要があります。"
+  },
+  {
+    "file": "Keyed/WotF_Turret.xml",
+    "key": "WotF_Turret_Targets",
+    "zh": "目标过滤",
+    "en": "Targets",
+    "ja": "標的フィルター"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.ActionDone",
+    "zh": "已执行：{0}（{1}）",
+    "en": "Done: {0} ({1})",
+    "ja": "実行完了：{0}（{1}）"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.ActionFailed",
+    "zh": "执行失败：{0}（{1}）",
+    "en": "Failed: {0} ({1})",
+    "ja": "実行失敗：{0}（{1}）"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.DebugLog",
+    "zh": "记录逐对象调试日志（排查时开启）",
+    "en": "Log per-object debug lines (turn on while diagnosing)",
+    "ja": "オブジェクトごとのデバッグログを記録（調査時のみ有効化）"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.EntryGlyph",
+    "zh": "灵",
+    "en": "W",
+    "ja": "霊"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.EntryHidden",
+    "zh": "悬浮入口已隐藏。打开底部实验台按钮，可在窗口内重新显示。",
+    "en": "The floating entry is hidden. Open the bottom tech lab button to show it again.",
+    "ja": "フローティング入口を非表示にしました。画面下部の実験台ボタンからウィンドウを開き、再表示できます。"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.EntryHideTooltip",
+    "zh": "隐藏悬浮入口（底部实验台按钮仍可打开窗口）",
+    "en": "Hide the floating entry (the bottom tech lab button still opens the window)",
+    "ja": "フローティング入口を隠す（下部の実験台ボタンから引き続き開けます）"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.EntryHint",
+    "zh": "拖动入口移动位置，点击打开本窗口；关闭窗口后入口保留。隐藏入口后可从底部实验台按钮重新打开本窗口。",
+    "en": "Drag the entry to move it, click it to open this window. The entry stays after the window is closed. If the entry is hidden, reopen this window from the bottom tech lab button.",
+    "ja": "ドラッグで移動、クリックでこのウィンドウを開きます。ウィンドウを閉じても入口は残ります。非表示にした場合は、画面下部の実験台ボタンから再度開けます。"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.EntryTooltip",
+    "zh": "实验台：拖动可移动，点击打开窗口",
+    "en": "Tech lab: drag to move, click to open the window",
+    "ja": "実験台：ドラッグで移動、クリックでウィンドウを開く"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.EquipTerrainStride",
+    "zh": "穿上踏地披风",
+    "en": "Equip strider cloak",
+    "ja": "踏地のマントを装備"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.EquipTerrainStrideTip",
+    "zh": "为选中角色穿上踏地披风，忽略可通行地形、植物、家具、积雪与沙尘的移动减速。",
+    "en": "Equips the strider cloak on the selected pawn: passable terrain, plants, furniture, snow and sand no longer slow the wearer.",
+    "ja": "選択中のポーンに踏地のマントを装備させ、通行可能な地形・植物・家具・雪・砂による移動速度低下を無視します。"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.FreeCasting",
+    "zh": "施法不消耗魔力与心灵熵（开发用）",
+    "en": "Cast without spending mana or neural heat (development)",
+    "ja": "魔力・ニューラルヒート消費なしで詠唱（開発用）"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.GrantPsycast",
+    "zh": "授予灵能飞弹",
+    "en": "Grant missile psycast",
+    "ja": "霊能ミサイルを付与"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.GrantPsycastTip",
+    "zh": "向选中角色授予实验灵能飞弹。授予后用角色技能栏里的飞弹技能选择目标施放。",
+    "en": "Grants the experimental arcane missile to the selected pawn. Cast it from the pawn's gizmo bar and pick a target.",
+    "ja": "選択中のポーンに実験用の霊能ミサイルを付与します。付与後はコマンドバーのスキルから対象を選んで発動できます。"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.MovementHint",
+    "zh": "披风不能穿过不可通行的格子，也不能跳过开门等待；脱下后恢复正常移动成本。",
+    "en": "The cloak cannot cross impassable cells or bypass door opening. Removing it restores normal movement costs.",
+    "ja": "マントを装備しても通行不可マスは通れず、ドアの開閉待ちも省略されません。外すと通常の移動コストに戻ります。"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.NeedPawnTip",
+    "zh": "请先在地图上选择一名角色。",
+    "en": "Select a pawn on the map first.",
+    "ja": "先にマップ上でポーンを1名選択してください。"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.NoPawn",
+    "zh": "未选择角色",
+    "en": "No pawn selected",
+    "ja": "ポーン未選択"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.NoPawnHint",
+    "zh": "在地图上选中一名角色，下面的操作才会启用。",
+    "en": "Select a pawn on the map to enable the actions below.",
+    "ja": "マップ上でポーンを選択すると、以下の操作が有効になります。"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.PawnInfo",
+    "zh": "{0} · {1}",
+    "en": "{0} - {1}",
+    "ja": "{0} · {1}"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.PsycastHint",
+    "zh": "规则：飞弹只对已授予的角色可用；可以连续发射多枚，命中只结算一次。目标在飞行中移动时飞弹会追踪。",
+    "en": "Rule: the missile only works for pawns that were granted it. Several missiles may fly at once, but each hit resolves once. Missiles track moving targets.",
+    "ja": "仕様：ミサイルは付与済みのポーンのみ使用可能です。複数発を連続で発射でき、各弾の命中処理は1回のみ行われます。飛行中に対象が移動しても追尾します。"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.RemoveApparel",
+    "zh": "卸下踏地披风",
+    "en": "Remove strider cloak",
+    "ja": "踏地のマントを外す"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.RemoveApparelTip",
+    "zh": "卸下踏地披风，停止其移动效果。",
+    "en": "Removes the strider cloak and ends its movement effect.",
+    "ja": "踏地のマントを外し、移動効果を終了します。"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.ResetEntryPosition",
+    "zh": "重置位置",
+    "en": "Reset position",
+    "ja": "位置をリセット"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.ResetEntryPositionTip",
+    "zh": "把悬浮入口放回右下角显示开关那排控件的左上方。",
+    "en": "Puts the floating entry back above the vanilla play settings row in the bottom right corner.",
+    "ja": "フローティング入口を画面右下の表示設定バー左上の初期位置に戻します。"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.RowEntryTooltip",
+    "zh": "实验台：打开窗口（右下角悬浮入口可拖动或隐藏）",
+    "en": "Tech lab: open the window (the floating entry can be dragged or hidden)",
+    "ja": "実験台：ウィンドウを開く（右下のフローティング入口は移動・非表示が可能）"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.RowEntryTooltipRestore",
+    "zh": "实验台：打开窗口并恢复右下角悬浮入口",
+    "en": "Tech lab: open the window and restore the floating entry",
+    "ja": "実験台：ウィンドウを開き、右下のフローティング入口を再表示する"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.SectionEntry",
+    "zh": "悬浮入口",
+    "en": "Floating entry",
+    "ja": "フローティング入口"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.SectionMovement",
+    "zh": "移动装备",
+    "en": "Movement apparel",
+    "ja": "移動用装備"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.SectionPsycast",
+    "zh": "灵能飞弹",
+    "en": "Arcane missile",
+    "ja": "霊能ミサイル"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.SettingsCategory",
+    "zh": "林地低语",
+    "en": "Whisper of the Forest",
+    "ja": "森の囁き"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.SettingsHint",
+    "zh": "调试日志默认关闭，只在排查时开启；开启后游戏日志会记录逐对象明细。",
+    "en": "Debug logging is off by default; turn it on only while diagnosing, and the game log will then carry per-object detail.",
+    "ja": "デバッグログは既定でオフになっています。問題調査時のみオンにしてください。有効化するとオブジェクトごとの詳細がゲームログに記録されます。"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.ShowFloatingEntry",
+    "zh": "显示右下角悬浮入口",
+    "en": "Show the bottom-right floating entry",
+    "ja": "右下のフローティング入口を表示"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.StatusReady",
+    "zh": "选择角色后执行操作，失败原因会显示在这里。",
+    "en": "Run an action after selecting a pawn; failures are reported here.",
+    "ja": "ポーンを選択して操作を実行してください。失敗した理由がここに表示されます。"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.UnlockAllGlyphs",
+    "zh": "解锁全部符文（开发用）",
+    "en": "Unlock every rune (development)",
+    "ja": "すべてのルーンを解放（開発用）"
+  },
+  {
+    "file": "Keyed/WotF_UI.xml",
+    "key": "WotF_UI.WindowTitle",
+    "zh": "林地低语 · 实验台",
+    "en": "Whisper of the Forest - Tech Lab",
+    "ja": "森の囁き · 実験台"
+  }
+]

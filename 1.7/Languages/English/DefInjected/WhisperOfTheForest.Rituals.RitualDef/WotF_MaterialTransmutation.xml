@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_Ritual_TransmuteAdamantine.description>Within a 7×7 starlight chalk ring around a third-tier altar, fuse elven steel and plasteel under heavy mana pressure into cold, dense adamantine. Output is fixed; higher ritual strength speeds up the transmutation.</WotF_Ritual_TransmuteAdamantine.description>
+  <WotF_Ritual_TransmuteAdamantine.label>rite of adamantine</WotF_Ritual_TransmuteAdamantine.label>
+  <WotF_Ritual_TransmuteElvenSteel.description>Using a second-tier or higher altar and a 5×5 emerald chalk ring, infuse steel with the resilience of livingwood to transmute pale blue-silver elven steel. Output is fixed; higher ritual strength speeds up the transmutation.</WotF_Ritual_TransmuteElvenSteel.description>
+  <WotF_Ritual_TransmuteElvenSteel.label>rite of elven steel</WotF_Ritual_TransmuteElvenSteel.label>
+  <WotF_Ritual_TransmuteLivingWood.description>Within a 3×3 chalk ring around a first-tier or higher altar, use herbal medicine as a catalyst to awaken the vitality inside timber, transmuting it into supple, warm-to-the-touch livingwood. Output is fixed; higher ritual strength speeds up the transmutation.</WotF_Ritual_TransmuteLivingWood.description>
+  <WotF_Ritual_TransmuteLivingWood.label>rite of livingwood</WotF_Ritual_TransmuteLivingWood.label>
+  <WotF_Ritual_TransmuteMithril.description>Within a 7×7 starlight chalk ring around a third-tier altar, smelt elven steel and silver into light, mana-attuned moon-white mithril. Output is fixed; higher ritual strength speeds up the refinement.</WotF_Ritual_TransmuteMithril.description>
+  <WotF_Ritual_TransmuteMithril.label>rite of mithril</WotF_Ritual_TransmuteMithril.label>
+</LanguageData>

@@ -2,7 +2,7 @@ Adrie
 Althaea
 Caelynn
 Enna
-Ielenia
+Ilenia
 Lia
 Meriele
 Mialee
@@ -11,11 +11,11 @@ Sariel
 Thia
 Valanthe
 Elmyria
-Tiselle
-Ryselith
-Neveria
+Giselle
+Lyselith
+Niveria
 Fiorette
-Aerielle
+Arielle
 Linde
 Mistel
 Birke
@@ -24,7 +24,7 @@ Laurea
 Folia
 Sylphine
 Sylphirel
-Ondinette
+Undinette
 Undelia
 Salamyra
 Salandra

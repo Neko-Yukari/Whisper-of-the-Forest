@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_SuperRuneRubbing_Railgun.comps.CompUsable.useLabel>Study {0_label}</WotF_SuperRuneRubbing_Railgun.comps.CompUsable.useLabel>
+  <WotF_SuperRuneRubbing_Railgun.description>A one-of-a-kind supra rune rubbing recovered from the depths of an ancient ruin, etched with intricate patterns beyond ordinary comprehension. Studying it reduces the fragile medium to ash, but permanently records the railgun rune for every caster in the colony.</WotF_SuperRuneRubbing_Railgun.description>
+  <WotF_SuperRuneRubbing_Railgun.label>railgun rune rubbing</WotF_SuperRuneRubbing_Railgun.label>
+  <WotF_SuperRuneRubbing_Tornado.comps.CompUsable.useLabel>Study {0_label}</WotF_SuperRuneRubbing_Tornado.comps.CompUsable.useLabel>
+  <WotF_SuperRuneRubbing_Tornado.description>A one-of-a-kind supra rune rubbing recovered from the depths of an ancient ruin, etched with intricate patterns beyond ordinary comprehension. Studying it reduces the fragile medium to ash, but permanently records the flame tornado rune for every caster in the colony.</WotF_SuperRuneRubbing_Tornado.description>
+  <WotF_SuperRuneRubbing_Tornado.label>flame tornado rune rubbing</WotF_SuperRuneRubbing_Tornado.label>
+</LanguageData>

@@ -1,177 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <WotF_Ritual_InProgress>{0}（进行中）</WotF_Ritual_InProgress>
-  <WotF_Ritual_InspectActive>仪式进行中：{0}</WotF_Ritual_InspectActive>
-  <WotF_Ritual_InspectIdle>尚未举行仪式</WotF_Ritual_InspectIdle>
-  <WotF_Ritual_InspectGathering>正在集合法阵：全员站上粉笔格后才开始吟唱。</WotF_Ritual_InspectGathering>
-  <WotF_Ritual_InspectChanting>正在吟唱：魔源与祭品在圆满落定时才扣除。</WotF_Ritual_InspectChanting>
-  <WotF_Ritual_InspectSustaining>正在持续引导：每次落雷消耗 {0} 网络魔源。</WotF_Ritual_InspectSustaining>
-  <WotF_Ritual_StrikeRate>落雷频率：每分钟 {0} 次</WotF_Ritual_StrikeRate>
-  <WotF_Ritual_AutoRepeat_Current>自动重复：{0}</WotF_Ritual_AutoRepeat_Current>
-  <WotF_Ritual_PrioritizeHost>优先主持「{0}」</WotF_Ritual_PrioritizeHost>
-  <WotF_Ritual_PrioritizeHostNone>优先主持仪式</WotF_Ritual_PrioritizeHostNone>
-  <WotF_Ritual_NotSelected>先在「主持仪式」窗口选择仪式</WotF_Ritual_NotSelected>
-  <WotF_Ritual_AutoRepeat_Desc>祭坛空闲时自动重复所选生产仪式，搬运工会把祭品送进祭坛，祭品齐了由林庭血脉成员按「基本工作」接活主持；主持者、魔源或祭品不足时暂停等待。</WotF_Ritual_AutoRepeat_Desc>
-  <WotF_Ritual_InspectCollecting>收集祭品：{0}（{1}）</WotF_Ritual_InspectCollecting>
-  <WotF_Ritual_AutoRepeat_Off>停止自动重复</WotF_Ritual_AutoRepeat_Off>
-  <WotF_Ritual_AutoRepeat_None>没有可自动重复的生产仪式。</WotF_Ritual_AutoRepeat_None>
-  <WotF_Ritual_AlreadyRunning>{0} 已在举行中。</WotF_Ritual_AlreadyRunning>
-  <WotF_Ritual_NoCaster>没有可主持仪式的林庭血脉成员。</WotF_Ritual_NoCaster>
-  <WotF_Ritual_ChooseHost>请选择主持人。</WotF_Ritual_ChooseHost>
-  <WotF_Ritual_CannotAct>{0} 现在无法主持仪式。</WotF_Ritual_CannotAct>
-  <WotF_Ritual_Casting>{0} 正在施法，无法主持仪式。</WotF_Ritual_Casting>
-  <WotF_Ritual_NoBloodline>{0} 没有林庭血脉，无法主持仪式。</WotF_Ritual_NoBloodline>
-  <WotF_Ritual_MinStrengthRequired>仪式强度（{1}）低于所需的最低强度（{0}）。</WotF_Ritual_MinStrengthRequired>
-  <WotF_Ritual_RingComplete>粉笔环完整。</WotF_Ritual_RingComplete>
-  <WotF_Ritual_RingIncomplete>粉笔环不完整：缺少 {0} 道粉笔记号。</WotF_Ritual_RingIncomplete>
-  <WotF_Ritual_NoMana>祭坛未接入魔源网络，或网络中的魔源不足。</WotF_Ritual_NoMana>
-  <WotF_Ritual_ManaSpring_Done>灵泉回充完成：{0} 名成员恢复了魔力。</WotF_Ritual_ManaSpring_Done>
-  <WotF_Ritual_Healing_AllDone>生命再生完成：{0} 人共治愈 {1} 处伤病，范围内伤患已全部复原（生命池 {2} / {3}）。</WotF_Ritual_Healing_AllDone>
-  <WotF_Ritual_Healing_PoolSpent>生命再生完成：{0} 人共治愈 {1} 处伤病（消耗生命池 {2} / {3}，仍有伤病待下次治疗）。</WotF_Ritual_Healing_PoolSpent>
-  <WotF_Ritual_Healing_PartialDone>生命再生完成：{0} 人共治愈 {1} 处、部分缓解 {2} 处伤病（消耗生命池 {3} / {4}）。</WotF_Ritual_Healing_PartialDone>
-  <WotF_Ritual_Healing_PoolTooLow>生命再生未能生效：生命池（{0}）不足以恢复 {1} 的「{2}」（需要 {3}）。请提升仪式强度后再试。</WotF_Ritual_Healing_PoolTooLow>
-  <WotF_Ritual_Healing_NoneNeeded>生命再生完成：范围内没有本阶仪式可治疗的伤病。</WotF_Ritual_Healing_NoneNeeded>
-  <WotF_Ritual_FertileSoil_Done>沃土活化完成：{0} 格土壤化为沃土。</WotF_Ritual_FertileSoil_Done>
-  <WotF_Ritual_AllRunesUnlocked>这座祭坛没有尚未启封的可用符文。</WotF_Ritual_AllRunesUnlocked>
-  <WotF_Ritual_SuperRuneNeedsRubbing>超位符文只能通过研读遗迹中的孤本符文解锁，不能由祭坛启封。</WotF_Ritual_SuperRuneNeedsRubbing>
-  <WotF_Ritual_ChooseRune>选择要唤醒的符文。</WotF_Ritual_ChooseRune>
-  <WotF_Ritual_NoMaterials>祭坛里还缺祭品：{0}</WotF_Ritual_NoMaterials>
-  <WotF_Ritual_NotPrepared>先点「准备施展」，让搬运工把祭品送进祭坛。</WotF_Ritual_NotPrepared>
-  <WotF_Ritual_AltarBusy>祭坛或所选物品正被其他工作占用。</WotF_Ritual_AltarBusy>
-  <WotF_Ritual_RuneAlreadyUnlocked>{0} 已经唤醒。</WotF_Ritual_RuneAlreadyUnlocked>
-  <WotF_Ritual_RuneAwakening_Done>{0} 已对整个殖民地唤醒。</WotF_Ritual_RuneAwakening_Done>
-  <WotF_Ritual_SpellbookAwakening_Done>祭坛旁唤醒了一本魔术书。</WotF_Ritual_SpellbookAwakening_Done>
-  <WotF_Ritual_SpellbookAwakening_NoRoom>祭坛旁没有空间容纳唤醒的魔术书。</WotF_Ritual_SpellbookAwakening_NoRoom>
-  <WotF_Ritual_Transmute_Done>点化完成，产物落在祭坛旁。</WotF_Ritual_Transmute_Done>
-  <WotF_Ritual_Transmute_NoRoom>祭坛旁没有空间放置点化产物。</WotF_Ritual_Transmute_NoRoom>
-  <WotF_Ritual_Weather_Done>{0} 完成：天色转为{1}。</WotF_Ritual_Weather_Done>
-  <WotF_Ritual_ShieldDome_Done>古树护盾在祭坛上方展开（可抵挡 {0} 次）。</WotF_Ritual_ShieldDome_Done>
-  <WotF_Ritual_InspectShield>古树护盾：剩余 {0} / {1} 次（{2}）</WotF_Ritual_InspectShield>
-  <WotF_Ritual_LeylineMining_Done>地脉献出 {0} 单位矿物。</WotF_Ritual_LeylineMining_Done>
-  <WotF_Ritual_LeylineMining_NoResource>祭坛下方没有可汲取的深层矿脉。</WotF_Ritual_LeylineMining_NoResource>
-  <WotF_Ritual_LeylineMining_NoRoom>祭坛旁没有空间放置汲取的矿物。</WotF_Ritual_LeylineMining_NoRoom>
-  <WotF_Ritual_BeastCall_Tamed>{0} 接受了召契，加入殖民地。</WotF_Ritual_BeastCall_Tamed>
-  <WotF_Ritual_BeastCall_Left>{0} 没有回应召契，转身离开了。</WotF_Ritual_BeastCall_Left>
-  <WotF_Ritual_Cancelled>{0}被打断，什么都没有消耗。</WotF_Ritual_Cancelled>
-  <WotF_Ritual_BeastCall_NoRoom>祭坛旁没有空间容纳召来的灵兽。</WotF_Ritual_BeastCall_NoRoom>
-  <WotF_Ritual_Teleport_NoGate>请在法阵范围内选一座开启中的传送门。</WotF_Ritual_Teleport_NoGate>
-  <WotF_Ritual_Teleport_NoPassengers>祭坛附近没有可传送的殖民者。</WotF_Ritual_Teleport_NoPassengers>
-  <WotF_Ritual_Teleport_Done>{0} 名殖民者被送到{1}。</WotF_Ritual_Teleport_Done>
-  <WotF_Ritual_Complete_GateLost>选定的传送门在仪式完成前失效了，没有任何东西被扣除。</WotF_Ritual_Complete_GateLost>
-  <WotF_Ritual_Teleport_NoRoom>{1} 名殖民者里有 {0} 名在传送门旁找不到空地。没有扣除任何东西。</WotF_Ritual_Teleport_NoRoom>
-  <WotF_ManaVial_NoBloodline>只有林庭血脉成员才能饮下魔源蓝瓶。</WotF_ManaVial_NoBloodline>
   <WotF_ManaVial_Full>该成员的魔力已满。</WotF_ManaVial_Full>
-  <WotF_Ritual_Participants>协力者：{0} 人</WotF_Ritual_Participants>
-  <WotF_Ritual_NeedsParticipants>这场仪式需要 {0} 名林庭血脉协力者，目前只有 {1} 名。</WotF_Ritual_NeedsParticipants>
-  <WotF_Ritual_SpellbookUpgrade_Done>魔术书升阶完成：{0} 已放在祭坛旁。</WotF_Ritual_SpellbookUpgrade_Done>
-  <WotF_Ritual_SpellbookUpgrade_NoRoom>祭坛旁没有空间放置升阶后的魔术书。</WotF_Ritual_SpellbookUpgrade_NoRoom>
-
-  <!-- 祭坛按钮 -->
-  <WotF_Ritual_Gizmo_Host>主持仪式…</WotF_Ritual_Gizmo_Host>
-  <WotF_Ritual_Gizmo_HostDesc>选择仪式、法阵、主持人与协力者。点「准备施展」后搬运工把祭品送进祭坛，祭品齐了才能开始；吟唱圆满落定才扣费。</WotF_Ritual_Gizmo_HostDesc>
-  <WotF_Ritual_Gizmo_Auto>自动点化</WotF_Ritual_Gizmo_Auto>
-
-  <!-- 主持仪式面板 -->
-  <WotF_RitualPanel_Title>主持仪式</WotF_RitualPanel_Title>
-  <WotF_RitualPanel_FamilyCrafting>制作</WotF_RitualPanel_FamilyCrafting>
-  <WotF_RitualPanel_FamilyLife>生命</WotF_RitualPanel_FamilyLife>
-  <WotF_RitualPanel_FamilyDomain>领域</WotF_RitualPanel_FamilyDomain>
-  <WotF_RitualPanel_NoResearched>尚未研究任何仪式。</WotF_RitualPanel_NoResearched>
-  <WotF_RitualPanel_TierHeader>{0} 阶仪式</WotF_RitualPanel_TierHeader>
-  <WotF_RitualPanel_BadgeRunning>进行中</WotF_RitualPanel_BadgeRunning>
-  <WotF_RitualPanel_BadgeMissingMat>缺材料</WotF_RitualPanel_BadgeMissingMat>
-  <WotF_RitualPanel_BadgeCollecting>收集中</WotF_RitualPanel_BadgeCollecting>
-  <WotF_RitualPanel_BadgeAuto>自动</WotF_RitualPanel_BadgeAuto>
-  <WotF_RitualPanel_TierLockedTip>需要{0}（{1} 阶祭坛）。</WotF_RitualPanel_TierLockedTip>
-  <WotF_RitualPanel_MissingMatTip>当前地图上的可用祭品不足。</WotF_RitualPanel_MissingMatTip>
+  <WotF_ManaVial_NoBloodline>只有林庭血脉成员才能饮下魔源蓝瓶。</WotF_ManaVial_NoBloodline>
+  <WotF_RitualPanel_AbortActiveTip>中止当前仪式：{0}</WotF_RitualPanel_AbortActiveTip>
+  <WotF_RitualPanel_AbortBtn>中止</WotF_RitualPanel_AbortBtn>
+  <WotF_RitualPanel_AbortIdleTip>当前没有进行中或准备中的仪式。</WotF_RitualPanel_AbortIdleTip>
+  <WotF_RitualPanel_AbortPrepTip>取消「{0}」的祭品准备，已搬入的祭品将落回地面。</WotF_RitualPanel_AbortPrepTip>
+  <WotF_RitualPanel_AddHelperShort>添加</WotF_RitualPanel_AddHelperShort>
+  <WotF_RitualPanel_AltarCellMark>坛</WotF_RitualPanel_AltarCellMark>
   <WotF_RitualPanel_AltarTierLabel>祭坛等级</WotF_RitualPanel_AltarTierLabel>
   <WotF_RitualPanel_AltarTierValue>{0}（T{1}）</WotF_RitualPanel_AltarTierValue>
-  <WotF_RitualPanel_ResonanceLabel>共鸣强度 F</WotF_RitualPanel_ResonanceLabel>
-  <WotF_RitualPanel_ResonanceValue>{0}（×{1}）</WotF_RitualPanel_ResonanceValue>
-  <WotF_RitualPanel_TierCallout>T{0}</WotF_RitualPanel_TierCallout>
-  <WotF_RitualPanel_MinStrengthCallout>需求 R ≥ {0}</WotF_RitualPanel_MinStrengthCallout>
-  <WotF_RitualPanel_AltarCellMark>坛</WotF_RitualPanel_AltarCellMark>
-  <WotF_RitualPanel_RingTip>{0}×{1} {2}粉笔阵法</WotF_RitualPanel_RingTip>
-  <WotF_RitualPanel_ChalkWhite>白垩</WotF_RitualPanel_ChalkWhite>
-  <WotF_RitualPanel_ChalkGreen>翠叶</WotF_RitualPanel_ChalkGreen>
-  <WotF_RitualPanel_ChalkStar>星辉</WotF_RitualPanel_ChalkStar>
-  <WotF_RitualPanel_ManaLabel>魔源</WotF_RitualPanel_ManaLabel>
-  <WotF_RitualPanel_ManaPerStrikeLabel>维持</WotF_RitualPanel_ManaPerStrikeLabel>
-  <WotF_RitualPanel_PerStrike>{0}/次</WotF_RitualPanel_PerStrike>
-  <WotF_RitualPanel_CostHeader>消耗：</WotF_RitualPanel_CostHeader>
-  <WotF_RitualPanel_PrepHeader>准备进度：</WotF_RitualPanel_PrepHeader>
-  <WotF_RitualPanel_ManaTip>网络魔源：{0} / 需要 {1}</WotF_RitualPanel_ManaTip>
-  <WotF_RitualPanel_CostMissingTip>地图与祭坛可用：{0} / 需要 {1}</WotF_RitualPanel_CostMissingTip>
-  <WotF_RitualPanel_ParamHeader>仪式参数</WotF_RitualPanel_ParamHeader>
-  <WotF_RitualPanel_PickRune>选择符文…</WotF_RitualPanel_PickRune>
-  <WotF_RitualPanel_PickGate>选择传送门…</WotF_RitualPanel_PickGate>
-  <WotF_RitualPanel_GateReady>已连通</WotF_RitualPanel_GateReady>
+  <WotF_RitualPanel_AutoExecute>自动执行</WotF_RitualPanel_AutoExecute>
+  <WotF_RitualPanel_BadgeAuto>自动</WotF_RitualPanel_BadgeAuto>
+  <WotF_RitualPanel_BadgeCollecting>收集中</WotF_RitualPanel_BadgeCollecting>
+  <WotF_RitualPanel_BadgeMissingMat>缺材料</WotF_RitualPanel_BadgeMissingMat>
+  <WotF_RitualPanel_BadgeRunning>进行中</WotF_RitualPanel_BadgeRunning>
+  <WotF_RitualPanel_BookSlotEmpty>空</WotF_RitualPanel_BookSlotEmpty>
   <WotF_RitualPanel_BookSlotPrefix>第 {0} 页</WotF_RitualPanel_BookSlotPrefix>
   <WotF_RitualPanel_BookSlotSelected>第 {0} 页：{1}</WotF_RitualPanel_BookSlotSelected>
-  <WotF_RitualPanel_BookSlotEmpty>空</WotF_RitualPanel_BookSlotEmpty>
-  <WotF_RitualPanel_HostLabel>主持人</WotF_RitualPanel_HostLabel>
-  <WotF_RitualPanel_HelperLabel>协力者</WotF_RitualPanel_HelperLabel>
-  <WotF_RitualPanel_HelperHeaderMin>协力者（至少 {0} 人）</WotF_RitualPanel_HelperHeaderMin>
+  <WotF_RitualPanel_CellsUnit>{0} 格</WotF_RitualPanel_CellsUnit>
+  <WotF_RitualPanel_ChalkGreen>翠叶</WotF_RitualPanel_ChalkGreen>
+  <WotF_RitualPanel_ChalkStar>星辉</WotF_RitualPanel_ChalkStar>
+  <WotF_RitualPanel_ChalkWhite>白垩</WotF_RitualPanel_ChalkWhite>
+  <WotF_RitualPanel_ChantLevelShort>咏唱 {0}</WotF_RitualPanel_ChantLevelShort>
   <WotF_RitualPanel_ChooseShort>选择</WotF_RitualPanel_ChooseShort>
-  <WotF_RitualPanel_AddHelperShort>添加</WotF_RitualPanel_AddHelperShort>
+  <WotF_RitualPanel_CostHeader>消耗：</WotF_RitualPanel_CostHeader>
+  <WotF_RitualPanel_CostMissingTip>地图与祭坛可用：{0} / 需要 {1}</WotF_RitualPanel_CostMissingTip>
+  <WotF_RitualPanel_FamilyCrafting>制作</WotF_RitualPanel_FamilyCrafting>
+  <WotF_RitualPanel_FamilyDomain>领域</WotF_RitualPanel_FamilyDomain>
+  <WotF_RitualPanel_FamilyLife>生命</WotF_RitualPanel_FamilyLife>
+  <WotF_RitualPanel_GateReady>已连通</WotF_RitualPanel_GateReady>
+  <WotF_RitualPanel_HelperHeaderMin>协力者（至少 {0} 人）</WotF_RitualPanel_HelperHeaderMin>
+  <WotF_RitualPanel_HelperLabel>协力者</WotF_RitualPanel_HelperLabel>
+  <WotF_RitualPanel_HostLabel>主持人</WotF_RitualPanel_HostLabel>
   <WotF_RitualPanel_LockedWhileRunning>仪式进行期间不可更改参与成员。</WotF_RitualPanel_LockedWhileRunning>
-  <WotF_RitualPanel_StrengthLabel>仪式强度 R</WotF_RitualPanel_StrengthLabel>
-  <WotF_RitualPanel_SustainingActive>持续生效</WotF_RitualPanel_SustainingActive>
-  <WotF_RitualPanel_MetricWork>工作量</WotF_RitualPanel_MetricWork>
+  <WotF_RitualPanel_ManaLabel>魔源</WotF_RitualPanel_ManaLabel>
+  <WotF_RitualPanel_ManaPerStrikeLabel>维持</WotF_RitualPanel_ManaPerStrikeLabel>
+  <WotF_RitualPanel_ManaTip>网络魔源：{0} / 需要 {1}</WotF_RitualPanel_ManaTip>
+  <WotF_RitualPanel_MetricCounterStun>控制时长</WotF_RitualPanel_MetricCounterStun>
   <WotF_RitualPanel_MetricHealingPool>生命池量</WotF_RitualPanel_MetricHealingPool>
   <WotF_RitualPanel_MetricManaRestore>回魔量</WotF_RitualPanel_MetricManaRestore>
   <WotF_RitualPanel_MetricRadius>作用半径</WotF_RitualPanel_MetricRadius>
-  <WotF_RitualPanel_CellsUnit>{0} 格</WotF_RitualPanel_CellsUnit>
-  <WotF_RitualPanel_MetricYieldFactor>产量倍率</WotF_RitualPanel_MetricYieldFactor>
-  <WotF_RitualPanel_MetricTameChance>驯服率</WotF_RitualPanel_MetricTameChance>
-  <WotF_RitualPanel_MetricStrikeRate>落雷频率</WotF_RitualPanel_MetricStrikeRate>
-  <WotF_RitualPanel_PerMinuteUnit>{0} 次/分钟</WotF_RitualPanel_PerMinuteUnit>
   <WotF_RitualPanel_MetricShieldCharges>拦截次数</WotF_RitualPanel_MetricShieldCharges>
-  <WotF_RitualPanel_MetricCounterStun>控制时长</WotF_RitualPanel_MetricCounterStun>
-  <WotF_RitualPanel_SecondsUnit>{0} 秒</WotF_RitualPanel_SecondsUnit>
-  <WotF_RitualPanel_PhaseGathering>集结中</WotF_RitualPanel_PhaseGathering>
+  <WotF_RitualPanel_MetricStrikeRate>落雷频率</WotF_RitualPanel_MetricStrikeRate>
+  <WotF_RitualPanel_MetricTameChance>驯服率</WotF_RitualPanel_MetricTameChance>
+  <WotF_RitualPanel_MetricWork>工作量</WotF_RitualPanel_MetricWork>
+  <WotF_RitualPanel_MetricYieldFactor>产量倍率</WotF_RitualPanel_MetricYieldFactor>
+  <WotF_RitualPanel_MinStrengthCallout>需求 R ≥ {0}</WotF_RitualPanel_MinStrengthCallout>
+  <WotF_RitualPanel_MissingMatTip>当前地图上的可用祭品不足。</WotF_RitualPanel_MissingMatTip>
+  <WotF_RitualPanel_NoResearched>尚未研究任何仪式。</WotF_RitualPanel_NoResearched>
+  <WotF_RitualPanel_ParamHeader>仪式参数</WotF_RitualPanel_ParamHeader>
+  <WotF_RitualPanel_PerMinuteUnit>{0} 次/分钟</WotF_RitualPanel_PerMinuteUnit>
+  <WotF_RitualPanel_PerStrike>{0}/次</WotF_RitualPanel_PerStrike>
   <WotF_RitualPanel_PhaseChanting>吟唱中</WotF_RitualPanel_PhaseChanting>
+  <WotF_RitualPanel_PhaseGathering>集结中</WotF_RitualPanel_PhaseGathering>
   <WotF_RitualPanel_PhaseSustaining>持续引导</WotF_RitualPanel_PhaseSustaining>
-  <WotF_RitualPanel_RunningBtn>仪式进行中…</WotF_RitualPanel_RunningBtn>
-  <WotF_RitualPanel_PrepareBtn>准备施展</WotF_RitualPanel_PrepareBtn>
-  <WotF_RitualPanel_StartBtn>开始主持</WotF_RitualPanel_StartBtn>
-  <WotF_RitualPanel_AbortBtn>中止</WotF_RitualPanel_AbortBtn>
-  <WotF_RitualPanel_AbortActiveTip>中止当前仪式：{0}</WotF_RitualPanel_AbortActiveTip>
-  <WotF_RitualPanel_AbortPrepTip>取消「{0}」的祭品准备，已搬入的祭品将落回地面。</WotF_RitualPanel_AbortPrepTip>
-  <WotF_RitualPanel_AbortIdleTip>当前没有进行中或准备中的仪式。</WotF_RitualPanel_AbortIdleTip>
-  <WotF_RitualPanel_AutoExecute>自动执行</WotF_RitualPanel_AutoExecute>
-  <WotF_RitualPanel_PickHostTitle>选择主持人</WotF_RitualPanel_PickHostTitle>
+  <WotF_RitualPanel_PickGate>选择传送门…</WotF_RitualPanel_PickGate>
   <WotF_RitualPanel_PickHelperTitle>选择协力者</WotF_RitualPanel_PickHelperTitle>
+  <WotF_RitualPanel_PickHostTitle>选择主持人</WotF_RitualPanel_PickHostTitle>
+  <WotF_RitualPanel_PickRune>选择符文…</WotF_RitualPanel_PickRune>
+  <WotF_RitualPanel_PrepHeader>准备进度：</WotF_RitualPanel_PrepHeader>
+  <WotF_RitualPanel_PrepareBtn>准备施展</WotF_RitualPanel_PrepareBtn>
+  <WotF_RitualPanel_ResonanceLabel>共鸣强度 F</WotF_RitualPanel_ResonanceLabel>
+  <WotF_RitualPanel_ResonanceValue>{0}（×{1}）</WotF_RitualPanel_ResonanceValue>
+  <WotF_RitualPanel_RingTip>{0}×{1} {2}粉笔阵法</WotF_RitualPanel_RingTip>
+  <WotF_RitualPanel_RunningBtn>仪式进行中…</WotF_RitualPanel_RunningBtn>
+  <WotF_RitualPanel_SecondsUnit>{0} 秒</WotF_RitualPanel_SecondsUnit>
+  <WotF_RitualPanel_StartBtn>开始主持</WotF_RitualPanel_StartBtn>
+  <WotF_RitualPanel_StrengthLabel>仪式强度 R</WotF_RitualPanel_StrengthLabel>
+  <WotF_RitualPanel_SustainingActive>持续生效</WotF_RitualPanel_SustainingActive>
   <WotF_RitualPanel_TagIsHelper>已选为协力者</WotF_RitualPanel_TagIsHelper>
   <WotF_RitualPanel_TagIsHost>已选为主持人</WotF_RitualPanel_TagIsHost>
-  <WotF_RitualPanel_ChantLevelShort>咏唱 {0}</WotF_RitualPanel_ChantLevelShort>
-
-  <!-- 持续终止、名单与完成提示 -->
-  <WotF_Ritual_Sustained_Started>{0}已开始持续生效。</WotF_Ritual_Sustained_Started>
-  <WotF_Ritual_Sustained_Stopped>已停止{0}。</WotF_Ritual_Sustained_Stopped>
-  <WotF_Ritual_Sustained_HostLost>{0}因主持人无法继续而终止。</WotF_Ritual_Sustained_HostLost>
-  <WotF_Ritual_Sustained_ManaDepleted>网络魔源耗尽，{0}已平息。</WotF_Ritual_Sustained_ManaDepleted>
-  <WotF_Ritual_Sustained_HelpersLost>法阵上的协力者不足，{0}已终止。</WotF_Ritual_Sustained_HelpersLost>
-  <WotF_Ritual_Sustained_RingBroken>粉笔环受损，{0}已终止。</WotF_Ritual_Sustained_RingBroken>
-  <WotF_Ritual_NoStandingCell>{0} 无法走到法阵上的空位。</WotF_Ritual_NoStandingCell>
-  <WotF_Ritual_HelperBusy>{0} 现在无法加入这场仪式。</WotF_Ritual_HelperBusy>
-  <WotF_Ritual_HelperDuplicate>{0} 已被重复选为协力者。</WotF_Ritual_HelperDuplicate>
-  <WotF_Ritual_Complete_OfferingsGone>吟唱完成时祭坛里的祭品不足：{0}。本次仪式没有消耗任何魔源与祭品。</WotF_Ritual_Complete_OfferingsGone>
-  <WotF_Ritual_Complete_NoMana>吟唱完成时网络魔源不足（{1} / 需要 {0}）。本次仪式没有消耗任何魔源与祭品。</WotF_Ritual_Complete_NoMana>
-
-  <!-- 武具注法 -->
-  <WotF_Ritual_ChooseEquipment>请在祭坛周围选择要注法的武器或护甲。</WotF_Ritual_ChooseEquipment>
+  <WotF_RitualPanel_TierCallout>T{0}</WotF_RitualPanel_TierCallout>
+  <WotF_RitualPanel_TierHeader>{0} 阶仪式</WotF_RitualPanel_TierHeader>
+  <WotF_RitualPanel_TierLockedTip>需要{0}（{1} 阶祭坛）。</WotF_RitualPanel_TierLockedTip>
+  <WotF_RitualPanel_Title>主持仪式</WotF_RitualPanel_Title>
+  <WotF_Ritual_AllRunesUnlocked>这座祭坛没有尚未启封的可用符文。</WotF_Ritual_AllRunesUnlocked>
+  <WotF_Ritual_AlreadyRunning>{0} 已在举行中。</WotF_Ritual_AlreadyRunning>
+  <WotF_Ritual_AltarBusy>祭坛或所选物品正被其他工作占用。</WotF_Ritual_AltarBusy>
+  <WotF_Ritual_AutoRepeat_Current>自动重复：{0}</WotF_Ritual_AutoRepeat_Current>
+  <WotF_Ritual_AutoRepeat_Desc>祭坛空闲时自动重复所选生产仪式，搬运工会把祭品送进祭坛，祭品齐了由林庭血脉成员按「基本工作」接活主持；主持者、魔源或祭品不足时暂停等待。</WotF_Ritual_AutoRepeat_Desc>
+  <WotF_Ritual_AutoRepeat_None>没有可自动重复的生产仪式。</WotF_Ritual_AutoRepeat_None>
+  <WotF_Ritual_AutoRepeat_Off>停止自动重复</WotF_Ritual_AutoRepeat_Off>
+  <WotF_Ritual_BeastCall_Left>{0} 没有回应召契，转身离开了。</WotF_Ritual_BeastCall_Left>
+  <WotF_Ritual_BeastCall_NoRoom>祭坛旁没有空间容纳召来的灵兽。</WotF_Ritual_BeastCall_NoRoom>
+  <WotF_Ritual_BeastCall_Tamed>{0} 接受了召契，加入殖民地。</WotF_Ritual_BeastCall_Tamed>
+  <WotF_Ritual_Cancelled>{0}被打断，什么都没有消耗。</WotF_Ritual_Cancelled>
+  <WotF_Ritual_CannotAct>{0} 现在无法主持仪式。</WotF_Ritual_CannotAct>
+  <WotF_Ritual_Casting>{0} 正在施法，无法主持仪式。</WotF_Ritual_Casting>
   <WotF_Ritual_ChooseBookSlot>选择要写入的魔术书页。</WotF_Ritual_ChooseBookSlot>
-  <WotF_Ritual_NoEnchantable>祭坛范围内没有可注法的武器或护甲。</WotF_Ritual_NoEnchantable>
-  <WotF_Ritual_HostFirst>先选择主持人，才能看到他魔术书里的法术。</WotF_Ritual_HostFirst>
-  <WotF_Ritual_HostNoBook>主持人身上没有唤醒的魔术书，无法取用法术页。</WotF_Ritual_HostNoBook>
-  <WotF_Ritual_EquipmentForm>这个法术的攻击形式无法注入武具：只能注入接触、自身与环绕。</WotF_Ritual_EquipmentForm>
-  <WotF_Ritual_Inscribe_Done>已把「{1}」注入 {0} 的第 {2} 槽。</WotF_Ritual_Inscribe_Done>
-  <WotF_Ritual_Inscribe_Lost>注法失败：物品已离开祭坛范围，或所选法术页已被清空。本次仪式没有消耗任何魔源与祭品。</WotF_Ritual_Inscribe_Lost>
-
-  <!-- 全反制灵能仪式 -->
-  <WotF_Ritual_CounterPsychic_NoTarget>当前地图上没有正在进行的敌对灵能仪式。</WotF_Ritual_CounterPsychic_NoTarget>
+  <WotF_Ritual_ChooseEquipment>请在祭坛周围选择要注法的武器或护甲。</WotF_Ritual_ChooseEquipment>
+  <WotF_Ritual_ChooseHost>请选择主持人。</WotF_Ritual_ChooseHost>
+  <WotF_Ritual_ChooseRune>选择要唤醒的符文。</WotF_Ritual_ChooseRune>
+  <WotF_Ritual_Complete_GateLost>选定的传送门在仪式完成前失效了，没有任何东西被扣除。</WotF_Ritual_Complete_GateLost>
+  <WotF_Ritual_Complete_NoMana>吟唱完成时网络魔源不足（{1} / 需要 {0}）。本次仪式没有消耗任何魔源与祭品。</WotF_Ritual_Complete_NoMana>
+  <WotF_Ritual_Complete_OfferingsGone>吟唱完成时祭坛里的祭品不足：{0}。本次仪式没有消耗任何魔源与祭品。</WotF_Ritual_Complete_OfferingsGone>
   <WotF_Ritual_CounterPsychic_CancelReason>被 {0} 主持的林庭灵能反制仪式强行截断。</WotF_Ritual_CounterPsychic_CancelReason>
   <WotF_Ritual_CounterPsychic_Done>灵能截断完成：反制了 {0} 场敌对灵能仪式，使 {1} 名参与者陷入眩晕，持续 {2} 秒。</WotF_Ritual_CounterPsychic_Done>
+  <WotF_Ritual_CounterPsychic_NoTarget>当前地图上没有正在进行的敌对灵能仪式。</WotF_Ritual_CounterPsychic_NoTarget>
   <WotF_Ritual_CounterPsychic_NoneActive>灵能截断落定，但地图上已没有进行中的敌对灵能仪式。</WotF_Ritual_CounterPsychic_NoneActive>
+  <WotF_Ritual_EquipmentForm>这个法术的攻击形式无法注入武具：只能注入接触、自身与环绕。</WotF_Ritual_EquipmentForm>
+  <WotF_Ritual_FertileSoil_Done>沃土活化完成：{0} 格土壤化为沃土。</WotF_Ritual_FertileSoil_Done>
+  <WotF_Ritual_Gizmo_Auto>自动点化</WotF_Ritual_Gizmo_Auto>
+  <WotF_Ritual_Gizmo_Host>主持仪式…</WotF_Ritual_Gizmo_Host>
+  <WotF_Ritual_Gizmo_HostDesc>选择仪式、法阵、主持人与协力者。点「准备施展」后搬运工把祭品送进祭坛，祭品齐了才能开始；吟唱圆满落定才扣费。</WotF_Ritual_Gizmo_HostDesc>
+  <WotF_Ritual_Healing_AllDone>生命再生完成：{0} 人共治愈 {1} 处伤病，范围内伤患已全部复原（生命池 {2} / {3}）。</WotF_Ritual_Healing_AllDone>
+  <WotF_Ritual_Healing_NoneNeeded>生命再生完成：范围内没有本阶仪式可治疗的伤病。</WotF_Ritual_Healing_NoneNeeded>
+  <WotF_Ritual_Healing_PartialDone>生命再生完成：{0} 人共治愈 {1} 处、部分缓解 {2} 处伤病（消耗生命池 {3} / {4}）。</WotF_Ritual_Healing_PartialDone>
+  <WotF_Ritual_Healing_PoolSpent>生命再生完成：{0} 人共治愈 {1} 处伤病（消耗生命池 {2} / {3}，仍有伤病待下次治疗）。</WotF_Ritual_Healing_PoolSpent>
+  <WotF_Ritual_Healing_PoolTooLow>生命再生未能生效：生命池（{0}）不足以恢复 {1} 的「{2}」（需要 {3}）。请提升仪式强度后再试。</WotF_Ritual_Healing_PoolTooLow>
+  <WotF_Ritual_HelperBusy>{0} 现在无法加入这场仪式。</WotF_Ritual_HelperBusy>
+  <WotF_Ritual_HelperDuplicate>{0} 已被重复选为协力者。</WotF_Ritual_HelperDuplicate>
+  <WotF_Ritual_HostFirst>先选择主持人，才能看到他魔术书里的法术。</WotF_Ritual_HostFirst>
+  <WotF_Ritual_HostNoBook>主持人身上没有唤醒的魔术书，无法取用法术页。</WotF_Ritual_HostNoBook>
+  <WotF_Ritual_InProgress>{0}（进行中）</WotF_Ritual_InProgress>
+  <WotF_Ritual_Inscribe_Done>已把「{1}」注入 {0} 的第 {2} 槽。</WotF_Ritual_Inscribe_Done>
+  <WotF_Ritual_Inscribe_Lost>注法失败：物品已离开祭坛范围，或所选法术页已被清空。本次仪式没有消耗任何魔源与祭品。</WotF_Ritual_Inscribe_Lost>
+  <WotF_Ritual_InspectActive>仪式进行中：{0}</WotF_Ritual_InspectActive>
+  <WotF_Ritual_InspectChanting>正在吟唱：魔源与祭品在圆满落定时才扣除。</WotF_Ritual_InspectChanting>
+  <WotF_Ritual_InspectCollecting>收集祭品：{0}（{1}）</WotF_Ritual_InspectCollecting>
+  <WotF_Ritual_InspectGathering>正在集合法阵：全员站上粉笔格后才开始吟唱。</WotF_Ritual_InspectGathering>
+  <WotF_Ritual_InspectIdle>尚未举行仪式</WotF_Ritual_InspectIdle>
+  <WotF_Ritual_InspectShield>古树护盾：剩余 {0} / {1} 次（{2}）</WotF_Ritual_InspectShield>
+  <WotF_Ritual_InspectSustaining>正在持续引导：每次落雷消耗 {0} 网络魔源。</WotF_Ritual_InspectSustaining>
+  <WotF_Ritual_LeylineMining_Done>地脉献出 {0} 单位矿物。</WotF_Ritual_LeylineMining_Done>
+  <WotF_Ritual_LeylineMining_NoResource>祭坛下方没有可汲取的深层矿脉。</WotF_Ritual_LeylineMining_NoResource>
+  <WotF_Ritual_LeylineMining_NoRoom>祭坛旁没有空间放置汲取的矿物。</WotF_Ritual_LeylineMining_NoRoom>
+  <WotF_Ritual_ManaSpring_Done>灵泉回充完成：{0} 名成员恢复了魔力。</WotF_Ritual_ManaSpring_Done>
+  <WotF_Ritual_MinStrengthRequired>仪式强度（{1}）低于所需的最低强度（{0}）。</WotF_Ritual_MinStrengthRequired>
+  <WotF_Ritual_NeedsParticipants>这场仪式需要 {0} 名林庭血脉协力者，目前只有 {1} 名。</WotF_Ritual_NeedsParticipants>
+  <WotF_Ritual_NoBloodline>{0} 没有林庭血脉，无法主持仪式。</WotF_Ritual_NoBloodline>
+  <WotF_Ritual_NoCaster>没有可主持仪式的林庭血脉成员。</WotF_Ritual_NoCaster>
+  <WotF_Ritual_NoEnchantable>祭坛范围内没有可注法的武器或护甲。</WotF_Ritual_NoEnchantable>
+  <WotF_Ritual_NoMana>祭坛未接入魔源网络，或网络中的魔源不足。</WotF_Ritual_NoMana>
+  <WotF_Ritual_NoMaterials>祭坛里还缺祭品：{0}</WotF_Ritual_NoMaterials>
+  <WotF_Ritual_NoStandingCell>{0} 无法走到法阵上的空位。</WotF_Ritual_NoStandingCell>
+  <WotF_Ritual_NotPrepared>先点「准备施展」，让搬运工把祭品送进祭坛。</WotF_Ritual_NotPrepared>
+  <WotF_Ritual_NotSelected>先在「主持仪式」窗口选择仪式</WotF_Ritual_NotSelected>
+  <WotF_Ritual_Participants>协力者：{0} 人</WotF_Ritual_Participants>
+  <WotF_Ritual_PrioritizeHost>优先主持「{0}」</WotF_Ritual_PrioritizeHost>
+  <WotF_Ritual_PrioritizeHostNone>优先主持仪式</WotF_Ritual_PrioritizeHostNone>
+  <WotF_Ritual_RingComplete>粉笔环完整。</WotF_Ritual_RingComplete>
+  <WotF_Ritual_RingIncomplete>粉笔环不完整：缺少 {0} 道粉笔记号。</WotF_Ritual_RingIncomplete>
+  <WotF_Ritual_RuneAlreadyUnlocked>{0} 已经唤醒。</WotF_Ritual_RuneAlreadyUnlocked>
+  <WotF_Ritual_RuneAwakening_Done>{0} 已对整个殖民地唤醒。</WotF_Ritual_RuneAwakening_Done>
+  <WotF_Ritual_ShieldDome_Done>古树护盾在祭坛上方展开（可抵挡 {0} 次）。</WotF_Ritual_ShieldDome_Done>
+  <WotF_Ritual_SpellbookAwakening_Done>祭坛旁唤醒了一本魔术书。</WotF_Ritual_SpellbookAwakening_Done>
+  <WotF_Ritual_SpellbookAwakening_NoRoom>祭坛旁没有空间容纳唤醒的魔术书。</WotF_Ritual_SpellbookAwakening_NoRoom>
+  <WotF_Ritual_SpellbookUpgrade_Done>魔术书升阶完成：{0} 已放在祭坛旁。</WotF_Ritual_SpellbookUpgrade_Done>
+  <WotF_Ritual_SpellbookUpgrade_NoRoom>祭坛旁没有空间放置升阶后的魔术书。</WotF_Ritual_SpellbookUpgrade_NoRoom>
+  <WotF_Ritual_StrikeRate>落雷频率：每分钟 {0} 次</WotF_Ritual_StrikeRate>
+  <WotF_Ritual_SuperRuneNeedsRubbing>超位符文只能通过研读遗迹中的孤本符文解锁，不能由祭坛启封。</WotF_Ritual_SuperRuneNeedsRubbing>
+  <WotF_Ritual_Sustained_HelpersLost>法阵上的协力者不足，{0}已终止。</WotF_Ritual_Sustained_HelpersLost>
+  <WotF_Ritual_Sustained_HostLost>{0}因主持人无法继续而终止。</WotF_Ritual_Sustained_HostLost>
+  <WotF_Ritual_Sustained_ManaDepleted>网络魔源耗尽，{0}已平息。</WotF_Ritual_Sustained_ManaDepleted>
+  <WotF_Ritual_Sustained_RingBroken>粉笔环受损，{0}已终止。</WotF_Ritual_Sustained_RingBroken>
+  <WotF_Ritual_Sustained_Started>{0}已开始持续生效。</WotF_Ritual_Sustained_Started>
+  <WotF_Ritual_Sustained_Stopped>已停止{0}。</WotF_Ritual_Sustained_Stopped>
+  <WotF_Ritual_Teleport_Done>{0} 名殖民者被送到{1}。</WotF_Ritual_Teleport_Done>
+  <WotF_Ritual_Teleport_NoGate>请在法阵范围内选一座开启中的传送门。</WotF_Ritual_Teleport_NoGate>
+  <WotF_Ritual_Teleport_NoPassengers>祭坛附近没有可传送的殖民者。</WotF_Ritual_Teleport_NoPassengers>
+  <WotF_Ritual_Teleport_NoRoom>{1} 名殖民者里有 {0} 名在传送门旁找不到空地。没有扣除任何东西。</WotF_Ritual_Teleport_NoRoom>
+  <WotF_Ritual_Transmute_Done>点化完成，产物落在祭坛旁。</WotF_Ritual_Transmute_Done>
+  <WotF_Ritual_Transmute_NoRoom>祭坛旁没有空间放置点化产物。</WotF_Ritual_Transmute_NoRoom>
+  <WotF_Ritual_Weather_Done>{0} 完成：天色转为{1}。</WotF_Ritual_Weather_Done>
 </LanguageData>

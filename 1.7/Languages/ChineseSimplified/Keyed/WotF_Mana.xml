@@ -1,21 +1,21 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <WotF_ManaNode_Inspect>已连接节点 {0}</WotF_ManaNode_Inspect>
-  <WotF_ManaBattery_Inspect>储存魔源 {0} / {1}</WotF_ManaBattery_Inspect>
-  <WotF_ManaProducer_Linked>已接入 {0} 个节点组成的魔源网络</WotF_ManaProducer_Linked>
-  <WotF_ManaProducer_Unlinked>未接入任何魔源节点</WotF_ManaProducer_Unlinked>
-  <WotF_ManaGrove_Inspect>树木 {0} 棵 · 魔源 {1}/秒</WotF_ManaGrove_Inspect>
-  <WotF_ManaConverter_On>已通电 · 魔源 {0}/秒</WotF_ManaConverter_On>
-  <WotF_ManaConverter_Off>未通电 · 停止转化</WotF_ManaConverter_Off>
-  <WotF_SpellTurret_Inspect>网络魔源 {0} · 每发 {1}</WotF_SpellTurret_Inspect>
-  <WotF_ManaFurnace_Full>网络储量已满 · 停止燃烧</WotF_ManaFurnace_Full>
-  <WotF_ManaWorkbench_Rate>工作耗魔 {0}/秒</WotF_ManaWorkbench_Rate>
-  <WotF_ManaWorkbench_NoMana>魔源不足 · 停止工作</WotF_ManaWorkbench_NoMana>
-  <WotF_ManaNetwork_Toggle>显示魔源网络连线与储量</WotF_ManaNetwork_Toggle>
-  <WotF_ManaNetwork_Stored>魔源 {0} / {1}</WotF_ManaNetwork_Stored>
-  <WotF_ManaSwitch_Label>开关运行</WotF_ManaSwitch_Label>
-  <WotF_ManaSwitch_Desc>开启或关闭这台魔源设施的运行。</WotF_ManaSwitch_Desc>
-  <WotF_ManaSwitch_Off>已关闭</WotF_ManaSwitch_Off>
   <WotF_ElvenStreetLamp_Lit>照明中 · {0} 魔源/秒</WotF_ElvenStreetLamp_Lit>
   <WotF_ElvenStreetLamp_NoMana>未照明：魔源不足（需要 {0}/秒）</WotF_ElvenStreetLamp_NoMana>
+  <WotF_ManaBattery_Inspect>储存魔源 {0} / {1}</WotF_ManaBattery_Inspect>
+  <WotF_ManaConverter_Off>未通电 · 停止转化</WotF_ManaConverter_Off>
+  <WotF_ManaConverter_On>已通电 · 魔源 {0}/秒</WotF_ManaConverter_On>
+  <WotF_ManaFurnace_Full>网络储量已满 · 停止燃烧</WotF_ManaFurnace_Full>
+  <WotF_ManaGrove_Inspect>树木 {0} 棵 · 魔源 {1}/秒</WotF_ManaGrove_Inspect>
+  <WotF_ManaNetwork_Stored>魔源 {0} / {1}</WotF_ManaNetwork_Stored>
+  <WotF_ManaNetwork_Toggle>显示魔源网络连线与储量</WotF_ManaNetwork_Toggle>
+  <WotF_ManaNode_Inspect>已连接节点 {0}</WotF_ManaNode_Inspect>
+  <WotF_ManaProducer_Linked>已接入 {0} 个节点组成的魔源网络</WotF_ManaProducer_Linked>
+  <WotF_ManaProducer_Unlinked>未接入任何魔源节点</WotF_ManaProducer_Unlinked>
+  <WotF_ManaSwitch_Desc>开启或关闭这台魔源设施的运行。</WotF_ManaSwitch_Desc>
+  <WotF_ManaSwitch_Label>开关运行</WotF_ManaSwitch_Label>
+  <WotF_ManaSwitch_Off>已关闭</WotF_ManaSwitch_Off>
+  <WotF_ManaWorkbench_NoMana>魔源不足 · 停止工作</WotF_ManaWorkbench_NoMana>
+  <WotF_ManaWorkbench_Rate>工作耗魔 {0}/秒</WotF_ManaWorkbench_Rate>
+  <WotF_SpellTurret_Inspect>网络魔源 {0} · 每发 {1}</WotF_SpellTurret_Inspect>
 </LanguageData>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_Ritual_ResearchRequired>先に研究「{0}」を完了する必要があります。</WotF_Ritual_ResearchRequired>
+  <WotF_Ritual_ResonanceStrength>共鳴強度：{0}（×{1}）</WotF_Ritual_ResonanceStrength>
+  <WotF_Ritual_RitualStrength>儀式強度：{0}</WotF_Ritual_RitualStrength>
+  <WotF_Ritual_TierRequired>この儀式には第{0}階位以上の祭壇が必要です。</WotF_Ritual_TierRequired>
+</LanguageData>

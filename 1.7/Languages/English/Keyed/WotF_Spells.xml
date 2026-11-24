@@ -1,112 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-
-  <!-- ============================================================ Grammar reasons -->
-
-  <WotF_Spells.Reason.NoGlyphs>Nothing is arranged yet: add a form first, then at least one effect.</WotF_Spells.Reason.NoGlyphs>
-  <WotF_Spells.Reason.TooLong>This spell has more than {0} glyphs.</WotF_Spells.Reason.TooLong>
-  <WotF_Spells.Reason.BookTooLong>The worn spellbook supports at most {0} glyphs per spell.</WotF_Spells.Reason.BookTooLong>
-  <WotF_Spells.Reason.ExceedsBookGlyphs>This spell uses {0} glyphs, exceeding the worn spellbook's limit of {1}.</WotF_Spells.Reason.ExceedsBookGlyphs>
-  <WotF_Spells.Reason.UnknownGlyph>Unknown glyph: {0}</WotF_Spells.Reason.UnknownGlyph>
-  <WotF_Spells.Reason.FormMustBeFirst>The first glyph must be a form (self, touch, projectile or orbit) or a supra rune.</WotF_Spells.Reason.FormMustBeFirst>
-  <WotF_Spells.Reason.OnlyOneForm>A spell may hold exactly one form.</WotF_Spells.Reason.OnlyOneForm>
-  <WotF_Spells.Reason.NoEffect>A spell needs at least one effect, otherwise nothing would happen.</WotF_Spells.Reason.NoEffect>
-  <WotF_Spells.Reason.AmplifyNeedsEffect>Amplify needs an effect on its left to strengthen.</WotF_Spells.Reason.AmplifyNeedsEffect>
-  <WotF_Spells.Reason.AmplifyCannotGrow>Grow finishes the plant instantly, so Amplify cannot strengthen it.</WotF_Spells.Reason.AmplifyCannotGrow>
-  <WotF_Spells.Reason.AoeNeedsEffect>Area needs an effect on its left to widen.</WotF_Spells.Reason.AoeNeedsEffect>
-  <WotF_Spells.Reason.ProjectileAugmentNeedsProjectile>Accelerate, decelerate and split only modify a projectile form.</WotF_Spells.Reason.ProjectileAugmentNeedsProjectile>
-  <WotF_Spells.Reason.AugmentNotAccepted>That augment cannot attach to the rune on its left.</WotF_Spells.Reason.AugmentNotAccepted>
-  <WotF_Spells.Reason.AugmentExcluded>{0} cannot be used together with {1} on the same rune.</WotF_Spells.Reason.AugmentExcluded>
-  <WotF_Spells.Reason.TimingNeedsEffect>Linger, rune and delay need at least one effect to their right; otherwise nothing would happen.</WotF_Spells.Reason.TimingNeedsEffect>
-
-  <!-- ============================================================ Composite form -->
-
-  <WotF_Spells.Reason.RailgunOutOfRange>Nothing to aim at inside the railgun's {0} cells.</WotF_Spells.Reason.RailgunOutOfRange>
-  <WotF_Spells.Reason.CompleteFormNoEffect>A supra rune is already a whole spell; it takes no effect rune.</WotF_Spells.Reason.CompleteFormNoEffect>
-  <WotF_Spells.Reason.OneForm>A spell starts with exactly one form or supra rune.</WotF_Spells.Reason.OneForm>
-
-  <!-- ============================================================ Saving reasons -->
-
-  <WotF_Spells.Reason.SlotOutOfRange>There is no bookmark {0}.</WotF_Spells.Reason.SlotOutOfRange>
-  <WotF_Spells.Reason.NeedName>Give the spell a name before saving.</WotF_Spells.Reason.NeedName>
-
-  <!-- ============================================================ Caster reasons -->
-
-  <WotF_Spells.Reason.NoPawn>No caster is selected.</WotF_Spells.Reason.NoPawn>
-  <WotF_Spells.Reason.PawnDead>A dead pawn cannot cast.</WotF_Spells.Reason.PawnDead>
-  <WotF_Spells.Reason.PawnNotSpawned>The caster must be on a map.</WotF_Spells.Reason.PawnNotSpawned>
-  <WotF_Spells.Reason.PawnDowned>A downed pawn cannot cast.</WotF_Spells.Reason.PawnDowned>
-  <WotF_Spells.Reason.NotPlayerControlled>Only a pawn you control can use the spellbook.</WotF_Spells.Reason.NotPlayerControlled>
-  <WotF_Spells.Reason.NoBloodline>Only a pawn of the forest bloodline can cast.</WotF_Spells.Reason.NoBloodline>
-  <WotF_Spells.Reason.NoSpellbook>Casting needs a worn spellbook.</WotF_Spells.Reason.NoSpellbook>
-  <WotF_Spells.Reason.NoBook>A worn spellbook is required.</WotF_Spells.Reason.NoBook>
-  <WotF_Spells.Reason.NotEnoughMana>Not enough mana: needs {0}, has {1}.</WotF_Spells.Reason.NotEnoughMana>
-  <WotF_Spells.Reason.NoNeuralHeat>This pawn has no neural heat to bear this spell's cost.</WotF_Spells.Reason.NoNeuralHeat>
-  <WotF_Spells.Reason.NeuralHeatOverflow>{0} more neural heat would go over the limit.</WotF_Spells.Reason.NeuralHeatOverflow>
-  <WotF_Spells.Reason.GlyphLocked>The colony has not unlocked this rune yet: {0}</WotF_Spells.Reason.GlyphLocked>
-  <WotF_Spells.Reason.AlreadyCasting>This pawn is already casting.</WotF_Spells.Reason.AlreadyCasting>
-  <WotF_Spells.Reason.NoGameComponent>The spellbook is not ready in this game.</WotF_Spells.Reason.NoGameComponent>
-  <WotF_Spells.Reason.TuningMissing>Spells are disabled: the spell tuning data failed to load (see the log).</WotF_Spells.Reason.TuningMissing>
-  <WotF_Spells.Reason.Cooldown>Still gathering focus: {0} s until the next cast.</WotF_Spells.Reason.Cooldown>
-  <WotF_Spells.Reason.NoSpellSelected>No spell is selected for this pawn. Choose one in the spellbook.</WotF_Spells.Reason.NoSpellSelected>
-  <WotF_Spells.Reason.NoTargeter>The game is not ready for target selection.</WotF_Spells.Reason.NoTargeter>
-  <WotF_Spells.Reason.Unknown>That spell cannot be cast right now.</WotF_Spells.Reason.Unknown>
-  <WotF_Spells.Reason.LaunchFailed>The dart could not be launched.</WotF_Spells.Reason.LaunchFailed>
-  <WotF_Spells.Reason.MissingImpactDef>The spell projectile def {0} is missing, so nothing could be launched.</WotF_Spells.Reason.MissingImpactDef>
-
-  <!-- ============================================================ Target reasons -->
-
-  <WotF_Spells.Reason.NoTarget>Choose a target first.</WotF_Spells.Reason.NoTarget>
-  <WotF_Spells.Reason.TargetOtherMap>That target is not on this map.</WotF_Spells.Reason.TargetOtherMap>
-  <WotF_Spells.Reason.TargetOutOfBounds>That target is outside the map.</WotF_Spells.Reason.TargetOutOfBounds>
-  <WotF_Spells.Reason.TouchNotAdjacent>A touch spell only reaches the adjacent cells.</WotF_Spells.Reason.TouchNotAdjacent>
-  <WotF_Spells.Reason.NoLineOfSight>Something solid is in the way.</WotF_Spells.Reason.NoLineOfSight>
-
-  <!-- ============================================================ Gizmos and cast feedback -->
-
-  <WotF_Spells.Gizmo.OpenBook>Spellbook</WotF_Spells.Gizmo.OpenBook>
-  <WotF_Spells.Gizmo.OpenBookDesc>Arrange glyphs, name the spell and save it to one of the ten bookmarks.</WotF_Spells.Gizmo.OpenBookDesc>
+  <WotF_SpellPlan.ApSuffix>, {0} AP</WotF_SpellPlan.ApSuffix>
+  <WotF_SpellPlan.AreaSuffix> (R {0})</WotF_SpellPlan.AreaSuffix>
+  <WotF_SpellPlan.ChargeDurSuffix>, {0}s</WotF_SpellPlan.ChargeDurSuffix>
+  <WotF_SpellPlan.DeliveryOrbit>Orbit: {0} orb(s), {1}s, hit R {2}, {3} deg/s.</WotF_SpellPlan.DeliveryOrbit>
+  <WotF_SpellPlan.DeliveryProjectile>Projectile: {0} dart(s), speed {1} c/s, range {2}{3}.</WotF_SpellPlan.DeliveryProjectile>
+  <WotF_SpellPlan.DeliverySelf>Self: resolves immediately on the caster.</WotF_SpellPlan.DeliverySelf>
+  <WotF_SpellPlan.DeliveryTouch>Touch: adjacent reach {0} cells.</WotF_SpellPlan.DeliveryTouch>
+  <WotF_SpellPlan.EffectBlink>Blink: teleport to impact (self: forward {0} cells)</WotF_SpellPlan.EffectBlink>
+  <WotF_SpellPlan.EffectColdSnap>Cold snap: {0} dmg (x{1} vs frozen){2}{3}</WotF_SpellPlan.EffectColdSnap>
+  <WotF_SpellPlan.EffectDelay>Delay {0}s, then trigger:</WotF_SpellPlan.EffectDelay>
+  <WotF_SpellPlan.EffectExplosion>Explosion: {0} dmg, R {1}{2}{3}</WotF_SpellPlan.EffectExplosion>
+  <WotF_SpellPlan.EffectFreeze>Freeze: slow {0}s{1}</WotF_SpellPlan.EffectFreeze>
+  <WotF_SpellPlan.EffectGrow>Grow: x{0} plant growth for {1}s{2}</WotF_SpellPlan.EffectGrow>
+  <WotF_SpellPlan.EffectHack>Hack: strength {0}, control {1}s{2}</WotF_SpellPlan.EffectHack>
+  <WotF_SpellPlan.EffectHarm>Harm: {0} damage{1}{2}</WotF_SpellPlan.EffectHarm>
+  <WotF_SpellPlan.EffectHeal>Clot: tend {0}, regen boost {1}s{2}</WotF_SpellPlan.EffectHeal>
+  <WotF_SpellPlan.EffectHex>Hex: vulnerability &amp; slow heal {0}s{1}</WotF_SpellPlan.EffectHex>
+  <WotF_SpellPlan.EffectKnockback>Knockback: push {0} cells{1}</WotF_SpellPlan.EffectKnockback>
+  <WotF_SpellPlan.EffectLightning>Lightning: {0} burn{1} + {2} EMP (+{3}/charge{4}){5}</WotF_SpellPlan.EffectLightning>
+  <WotF_SpellPlan.EffectLinger>Linger field: R {0}, {1}s (pulse every {2}s):</WotF_SpellPlan.EffectLinger>
+  <WotF_SpellPlan.EffectMagelight>Magelight: R {0} glow for {1}s</WotF_SpellPlan.EffectMagelight>
+  <WotF_SpellPlan.EffectPlanarShield>Planar shield: {0} cells wide, {1} blocks, {2}s</WotF_SpellPlan.EffectPlanarShield>
+  <WotF_SpellPlan.EffectPull>Pull: drag {0} cells{1}</WotF_SpellPlan.EffectPull>
+  <WotF_SpellPlan.EffectRune>Ground seal: triggers on step ({0}s):</WotF_SpellPlan.EffectRune>
+  <WotF_SpellPlan.EffectSnare>Snare: root {0}s{1}</WotF_SpellPlan.EffectSnare>
+  <WotF_SpellPlan.FullMap>Full map</WotF_SpellPlan.FullMap>
+  <WotF_SpellPlan.IgnoreBuildings>, spares buildings</WotF_SpellPlan.IgnoreBuildings>
+  <WotF_SpellPlan.PierceSuffix>, pierce {0}</WotF_SpellPlan.PierceSuffix>
+  <WotF_SpellPlan.RangeCells>{0} cells</WotF_SpellPlan.RangeCells>
+  <WotF_SpellPlan.SpecialRailgun>Railgun: {0} dmg ({1} AP), beam width {2} cells, range {3}.</WotF_SpellPlan.SpecialRailgun>
+  <WotF_SpellPlan.SpecialTornado>Flame tornado: {0} dmg every {1}s for {2}s, R {3}, {4} AP, {5} ignite, range {6}.</WotF_SpellPlan.SpecialTornado>
+  <WotF_Spells.CastDone>{0} is cast.</WotF_Spells.CastDone>
+  <WotF_Spells.Gizmo.CastDesc>Cast the spell saved on bookmark {0}.</WotF_Spells.Gizmo.CastDesc>
   <WotF_Spells.Gizmo.NoSpell>No spell chosen</WotF_Spells.Gizmo.NoSpell>
   <WotF_Spells.Gizmo.NoSpellDesc>Open the spellbook and pick a bookmark for this pawn.</WotF_Spells.Gizmo.NoSpellDesc>
   <WotF_Spells.Gizmo.NoSpellReason>Bookmark {0} is empty.</WotF_Spells.Gizmo.NoSpellReason>
-  <WotF_Spells.Gizmo.CastDesc>Cast the spell saved on bookmark {0}.</WotF_Spells.Gizmo.CastDesc>
+  <WotF_Spells.Gizmo.OpenBook>Spellbook</WotF_Spells.Gizmo.OpenBook>
+  <WotF_Spells.Gizmo.OpenBookDesc>Arrange runes, name the spell and save it to one of the ten bookmarks.</WotF_Spells.Gizmo.OpenBookDesc>
   <WotF_Spells.Gizmo.Unnamed>Unnamed spell</WotF_Spells.Gizmo.Unnamed>
-  <WotF_Spells.CastDone>{0} is cast.</WotF_Spells.CastDone>
-
-  <!-- ============================================================ Compiled plan summaries -->
-
-  <WotF_SpellPlan.AreaSuffix> (R {0})</WotF_SpellPlan.AreaSuffix>
-  <WotF_SpellPlan.ApSuffix>, {0} AP</WotF_SpellPlan.ApSuffix>
-  <WotF_SpellPlan.IgnoreBuildings>, spares buildings</WotF_SpellPlan.IgnoreBuildings>
-  <WotF_SpellPlan.ChargeDurSuffix>, {0}s</WotF_SpellPlan.ChargeDurSuffix>
-  <WotF_SpellPlan.PierceSuffix>, pierce {0}</WotF_SpellPlan.PierceSuffix>
-  <WotF_SpellPlan.FullMap>Full map</WotF_SpellPlan.FullMap>
-  <WotF_SpellPlan.RangeCells>{0} cells</WotF_SpellPlan.RangeCells>
-
-  <WotF_SpellPlan.DeliverySelf>Self: resolves immediately on the caster.</WotF_SpellPlan.DeliverySelf>
-  <WotF_SpellPlan.DeliveryTouch>Touch: adjacent reach {0} cells.</WotF_SpellPlan.DeliveryTouch>
-  <WotF_SpellPlan.DeliveryProjectile>Projectile: {0} dart(s), speed {1} c/s, range {2}{3}.</WotF_SpellPlan.DeliveryProjectile>
-  <WotF_SpellPlan.DeliveryOrbit>Orbit: {0} orb(s), {1}s, hit R {2}, {3} deg/s.</WotF_SpellPlan.DeliveryOrbit>
-  <WotF_SpellPlan.SpecialRailgun>Railgun: {0} dmg ({1} AP), corridor width {2}, range {3}.</WotF_SpellPlan.SpecialRailgun>
-  <WotF_SpellPlan.SpecialTornado>Flame tornado: {0} dmg every {1}s for {2}s, R {3}, {4} AP, {5} ignite, range {6}.</WotF_SpellPlan.SpecialTornado>
-
-  <WotF_SpellPlan.EffectHarm>Harm: {0} damage{1}{2}</WotF_SpellPlan.EffectHarm>
-  <WotF_SpellPlan.EffectHeal>Clot: tend {0}, regen boost {1}s{2}</WotF_SpellPlan.EffectHeal>
-  <WotF_SpellPlan.EffectExplosion>Explosion: {0} dmg, R {1}{2}{3}</WotF_SpellPlan.EffectExplosion>
-  <WotF_SpellPlan.EffectLightning>Lightning: {0} burn{1} + {2} EMP (+{3}/charge{4}){5}</WotF_SpellPlan.EffectLightning>
-  <WotF_SpellPlan.EffectColdSnap>Cold snap: {0} dmg (x{1} vs frozen){2}{3}</WotF_SpellPlan.EffectColdSnap>
-  <WotF_SpellPlan.EffectFreeze>Freeze: slow {0}s{1}</WotF_SpellPlan.EffectFreeze>
-  <WotF_SpellPlan.EffectSnare>Snare: root {0}s{1}</WotF_SpellPlan.EffectSnare>
-  <WotF_SpellPlan.EffectHex>Hex: vulnerability &amp; slow heal {0}s{1}</WotF_SpellPlan.EffectHex>
-  <WotF_SpellPlan.EffectKnockback>Knockback: push {0} cells{1}</WotF_SpellPlan.EffectKnockback>
-  <WotF_SpellPlan.EffectPull>Pull: drag {0} cells{1}</WotF_SpellPlan.EffectPull>
-  <WotF_SpellPlan.EffectBlink>Blink: teleport to impact (self: forward {0} cells)</WotF_SpellPlan.EffectBlink>
-  <WotF_SpellPlan.EffectGrow>Grow: x{0} plant growth for {1}s{2}</WotF_SpellPlan.EffectGrow>
-  <WotF_SpellPlan.EffectHack>Hack: strength {0}, control {1}s{2}</WotF_SpellPlan.EffectHack>
-  <WotF_SpellPlan.EffectMagelight>Magelight: R {0} glow for {1}s</WotF_SpellPlan.EffectMagelight>
-  <WotF_SpellPlan.EffectPlanarShield>Planar shield: {0} cells wide, {1} blocks, {2}s</WotF_SpellPlan.EffectPlanarShield>
-  <WotF_SpellPlan.EffectDelay>Delay {0}s, then trigger:</WotF_SpellPlan.EffectDelay>
-  <WotF_SpellPlan.EffectLinger>Linger field: R {0}, {1}s (pulse every {2}s):</WotF_SpellPlan.EffectLinger>
-  <WotF_SpellPlan.EffectRune>Ground seal: triggers on step ({0}s):</WotF_SpellPlan.EffectRune>
-
+  <WotF_Spells.Reason.AlreadyCasting>This pawn is already casting.</WotF_Spells.Reason.AlreadyCasting>
+  <WotF_Spells.Reason.AmplifyCannotGrow>Grow finishes the plant instantly, so Amplify cannot strengthen it.</WotF_Spells.Reason.AmplifyCannotGrow>
+  <WotF_Spells.Reason.AmplifyNeedsEffect>Amplify needs an effect on its left to strengthen.</WotF_Spells.Reason.AmplifyNeedsEffect>
+  <WotF_Spells.Reason.AoeNeedsEffect>Area needs an effect on its left to widen.</WotF_Spells.Reason.AoeNeedsEffect>
+  <WotF_Spells.Reason.AugmentExcluded>{0} cannot be used together with {1} on the same rune.</WotF_Spells.Reason.AugmentExcluded>
+  <WotF_Spells.Reason.AugmentNotAccepted>That augment cannot attach to the rune on its left.</WotF_Spells.Reason.AugmentNotAccepted>
+  <WotF_Spells.Reason.BookTooLong>The worn spellbook supports at most {0} runes per spell.</WotF_Spells.Reason.BookTooLong>
+  <WotF_Spells.Reason.CompleteFormNoEffect>A supra rune is already a whole spell; it takes no effect rune.</WotF_Spells.Reason.CompleteFormNoEffect>
+  <WotF_Spells.Reason.Cooldown>Still gathering focus: {0} s until the next cast.</WotF_Spells.Reason.Cooldown>
+  <WotF_Spells.Reason.ExceedsBookGlyphs>This spell uses {0} runes, exceeding the worn spellbook's limit of {1}.</WotF_Spells.Reason.ExceedsBookGlyphs>
+  <WotF_Spells.Reason.FormMustBeFirst>The first rune must be a form (self, touch, projectile or orbit) or a supra rune.</WotF_Spells.Reason.FormMustBeFirst>
+  <WotF_Spells.Reason.GlyphLocked>The colony has not unlocked this rune yet: {0}</WotF_Spells.Reason.GlyphLocked>
+  <WotF_Spells.Reason.LaunchFailed>The dart could not be launched.</WotF_Spells.Reason.LaunchFailed>
+  <WotF_Spells.Reason.MissingImpactDef>The spell projectile def {0} is missing, so nothing could be launched.</WotF_Spells.Reason.MissingImpactDef>
+  <WotF_Spells.Reason.NeedName>Give the spell a name before saving.</WotF_Spells.Reason.NeedName>
+  <WotF_Spells.Reason.NeuralHeatOverflow>{0} more neural heat would go over the limit.</WotF_Spells.Reason.NeuralHeatOverflow>
+  <WotF_Spells.Reason.NoBloodline>Only a pawn of the forest bloodline can cast.</WotF_Spells.Reason.NoBloodline>
+  <WotF_Spells.Reason.NoBook>A worn spellbook is required.</WotF_Spells.Reason.NoBook>
+  <WotF_Spells.Reason.NoEffect>A spell needs at least one effect, otherwise nothing would happen.</WotF_Spells.Reason.NoEffect>
+  <WotF_Spells.Reason.NoGameComponent>The spellbook is not ready in this game.</WotF_Spells.Reason.NoGameComponent>
+  <WotF_Spells.Reason.NoGlyphs>Nothing is arranged yet: add a form first, then at least one effect.</WotF_Spells.Reason.NoGlyphs>
+  <WotF_Spells.Reason.NoLineOfSight>Something solid is in the way.</WotF_Spells.Reason.NoLineOfSight>
+  <WotF_Spells.Reason.NoNeuralHeat>This pawn has no neural heat to bear this spell's cost.</WotF_Spells.Reason.NoNeuralHeat>
+  <WotF_Spells.Reason.NoPawn>No caster is selected.</WotF_Spells.Reason.NoPawn>
+  <WotF_Spells.Reason.NoSpellSelected>No spell is selected for this pawn. Choose one in the spellbook.</WotF_Spells.Reason.NoSpellSelected>
+  <WotF_Spells.Reason.NoSpellbook>Casting needs a worn spellbook.</WotF_Spells.Reason.NoSpellbook>
+  <WotF_Spells.Reason.NoTarget>Choose a target first.</WotF_Spells.Reason.NoTarget>
+  <WotF_Spells.Reason.NoTargeter>The game is not ready for target selection.</WotF_Spells.Reason.NoTargeter>
+  <WotF_Spells.Reason.NotEnoughMana>Not enough mana: needs {0}, has {1}.</WotF_Spells.Reason.NotEnoughMana>
+  <WotF_Spells.Reason.NotPlayerControlled>Only a pawn you control can use the spellbook.</WotF_Spells.Reason.NotPlayerControlled>
+  <WotF_Spells.Reason.OneForm>A spell starts with exactly one form or supra rune.</WotF_Spells.Reason.OneForm>
+  <WotF_Spells.Reason.OnlyOneForm>A spell may hold exactly one form.</WotF_Spells.Reason.OnlyOneForm>
+  <WotF_Spells.Reason.PawnDead>A dead pawn cannot cast.</WotF_Spells.Reason.PawnDead>
+  <WotF_Spells.Reason.PawnDowned>A downed pawn cannot cast.</WotF_Spells.Reason.PawnDowned>
+  <WotF_Spells.Reason.PawnNotSpawned>The caster must be on a map.</WotF_Spells.Reason.PawnNotSpawned>
+  <WotF_Spells.Reason.ProjectileAugmentNeedsProjectile>Accelerate, decelerate and split only modify a projectile form.</WotF_Spells.Reason.ProjectileAugmentNeedsProjectile>
+  <WotF_Spells.Reason.RailgunOutOfRange>Nothing to aim at inside the railgun's {0} cells.</WotF_Spells.Reason.RailgunOutOfRange>
+  <WotF_Spells.Reason.SlotOutOfRange>There is no bookmark {0}.</WotF_Spells.Reason.SlotOutOfRange>
+  <WotF_Spells.Reason.TargetOtherMap>That target is not on this map.</WotF_Spells.Reason.TargetOtherMap>
+  <WotF_Spells.Reason.TargetOutOfBounds>That target is outside the map.</WotF_Spells.Reason.TargetOutOfBounds>
+  <WotF_Spells.Reason.TimingNeedsEffect>Linger, rune and delay need at least one effect to their right; otherwise nothing would happen.</WotF_Spells.Reason.TimingNeedsEffect>
+  <WotF_Spells.Reason.TooLong>This spell has more than {0} runes.</WotF_Spells.Reason.TooLong>
+  <WotF_Spells.Reason.TouchNotAdjacent>A touch spell only reaches the adjacent cells.</WotF_Spells.Reason.TouchNotAdjacent>
+  <WotF_Spells.Reason.TuningMissing>Spells are disabled: the spell tuning data failed to load (see the log).</WotF_Spells.Reason.TuningMissing>
+  <WotF_Spells.Reason.Unknown>That spell cannot be cast right now.</WotF_Spells.Reason.Unknown>
+  <WotF_Spells.Reason.UnknownGlyph>Unknown rune: {0}</WotF_Spells.Reason.UnknownGlyph>
 </LanguageData>

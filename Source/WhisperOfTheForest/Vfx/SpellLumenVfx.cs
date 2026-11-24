@@ -60,6 +60,8 @@ namespace WhisperOfTheForest.Vfx
 
     public sealed class LingerLumenVfxDef : VfxDef
     {
+        public SoundDef deploySound;
+        public SoundDef pulseSound;
         public float defaultRadius;
         public float fadeDurationSeconds;
         public float pulseWaveDurationSeconds;
@@ -118,6 +120,7 @@ namespace WhisperOfTheForest.Vfx
 
     public sealed class RuneLumenVfxDef : VfxDef
     {
+        public SoundDef placeSound;
         public float sealRadius;
         public float sealThickness;
         public float spinRadPerSec;
@@ -168,6 +171,7 @@ namespace WhisperOfTheForest.Vfx
 
     public sealed class OrbitLumenVfxDef : VfxDef
     {
+        public SoundDef spawnSound;
         public float coreRadius;
         public float haloRadius;
         public float spinRadPerSec;
@@ -226,6 +230,9 @@ namespace WhisperOfTheForest.Vfx
     public sealed class TornadoLumenVfxDef : VfxDef
     {
         public string lumenEffectId;
+        public SoundDef spawnSound;
+        public SoundDef loopSound;
+        public SoundDef endSound;
         public float referenceRadius;
         public float collapseDurationSeconds;
         public int heightSteps;
@@ -286,12 +293,13 @@ namespace WhisperOfTheForest.Vfx
         {
             int radiusDecis = Mathf.Max(5, Mathf.RoundToInt(radius * 10f));
             string effectId = $"NekoYukari.WhisperOfTheForest:DynamicLinger_{def.defName}_{theme.defName}_{radiusDecis}";
-            if (!registeredIds.Add(effectId))
+            if (registeredIds.Contains(effectId))
             {
                 return effectId;
             }
 
             RimLumenApi.RegisterEffect(BuildLingerAsset(effectId, def, theme, radiusDecis * 0.1f));
+            registeredIds.Add(effectId);
             return effectId;
         }
 
@@ -426,12 +434,13 @@ namespace WhisperOfTheForest.Vfx
         public static string EnsureRuneEffect(RuneLumenVfxDef def, SpellThemeDef theme)
         {
             string effectId = $"NekoYukari.WhisperOfTheForest:DynamicRune_{def.defName}_{theme.defName}";
-            if (!registeredIds.Add(effectId))
+            if (registeredIds.Contains(effectId))
             {
                 return effectId;
             }
 
             RimLumenApi.RegisterEffect(BuildRuneAsset(effectId, def, theme));
+            registeredIds.Add(effectId);
             return effectId;
         }
 
@@ -603,12 +612,13 @@ namespace WhisperOfTheForest.Vfx
         public static string EnsureOrbitEffect(OrbitLumenVfxDef def, SpellThemeDef theme)
         {
             string effectId = $"NekoYukari.WhisperOfTheForest:DynamicOrbit_{def.defName}_{theme.defName}";
-            if (!registeredIds.Add(effectId))
+            if (registeredIds.Contains(effectId))
             {
                 return effectId;
             }
 
             RimLumenApi.RegisterEffect(BuildOrbitAsset(effectId, def, theme));
+            registeredIds.Add(effectId);
             return effectId;
         }
 
@@ -1083,6 +1093,11 @@ namespace WhisperOfTheForest.Vfx
             secondaryColor = theme.SecondaryColorUnity;
 
             fieldMesh = new LumenRibbonMesh("WotF_LingerField_" + theme.defName);
+            if (map == Find.CurrentMap && def.deploySound != null)
+            {
+                def.deploySound.PlayOneShot(new TargetInfo(lastPos.ToIntVec3(), map));
+            }
+
             if (RimLumenApi.IsReady)
             {
                 string effectId = SpellFieldOrbitLumenCatalog.EnsureLingerEffect(def, theme, radius);
@@ -1134,6 +1149,11 @@ namespace WhisperOfTheForest.Vfx
             }
 
             lastPulseTick = Find.TickManager.TicksGame;
+            if (map == Find.CurrentMap && def.pulseSound != null)
+            {
+                def.pulseSound.PlayOneShot(new TargetInfo(lastPos.ToIntVec3(), map));
+            }
+
             lumenHandle?.Trigger("pulse_burst");
         }
 
@@ -1326,6 +1346,11 @@ namespace WhisperOfTheForest.Vfx
             secondaryColor = theme.SecondaryColorUnity;
 
             sealMesh = new LumenRibbonMesh("WotF_RuneSeal_" + theme.defName);
+            if (map == Find.CurrentMap && def.placeSound != null)
+            {
+                def.placeSound.PlayOneShot(new TargetInfo(sealPos.ToIntVec3(), map));
+            }
+
             if (RimLumenApi.IsReady)
             {
                 string effectId = SpellFieldOrbitLumenCatalog.EnsureRuneEffect(def, theme);
@@ -1596,6 +1621,11 @@ namespace WhisperOfTheForest.Vfx
             secondaryColor = theme.SecondaryColorUnity;
 
             orbMesh = new LumenRibbonMesh("WotF_OrbitOrb_" + theme.defName);
+            if (map == Find.CurrentMap && def.spawnSound != null)
+            {
+                def.spawnSound.PlayOneShot(new TargetInfo(lastOrbPos.ToIntVec3(), map));
+            }
+
             if (RimLumenApi.IsReady)
             {
                 string effectId = SpellFieldOrbitLumenCatalog.EnsureOrbitEffect(def, theme);
@@ -1823,6 +1853,7 @@ namespace WhisperOfTheForest.Vfx
         private LumenRibbonMesh funnelBodyMesh;
         private LumenRibbonMesh boundaryMesh;
         private ILumenEffectHandle lumenHandle;
+        private Sustainer loopSustainer;
 
         protected override void OnStart()
         {
@@ -1845,6 +1876,22 @@ namespace WhisperOfTheForest.Vfx
 
             funnelBodyMesh = new LumenRibbonMesh("WotF_CordiumTornadoBody");
             boundaryMesh = new LumenRibbonMesh("WotF_CordiumTornadoBoundary");
+            if (map == Find.CurrentMap)
+            {
+                var targetInfo = Request.follow != null && Request.follow.Spawned
+                    ? new TargetInfo(Request.follow)
+                    : new TargetInfo(basePos.ToIntVec3(), map);
+                if (def.spawnSound != null)
+                {
+                    def.spawnSound.PlayOneShot(targetInfo);
+                }
+
+                if (def.loopSound != null)
+                {
+                    loopSustainer = def.loopSound.TrySpawnSustainer(SoundInfo.InMap(targetInfo, MaintenanceType.PerFrame));
+                }
+            }
+
             if (RimLumenApi.IsReady)
             {
                 lumenHandle = RimLumenApi.Play(new LumenPlayRequest
@@ -1872,6 +1919,11 @@ namespace WhisperOfTheForest.Vfx
                 {
                     Vector3 p = Request.follow.DrawPos;
                     basePos = new Vector3(p.x, basePos.y, p.z);
+                }
+
+                if (loopSustainer != null && !loopSustainer.Ended)
+                {
+                    loopSustainer.Maintain();
                 }
 
                 return;
@@ -1990,6 +2042,7 @@ namespace WhisperOfTheForest.Vfx
 
         protected override void Release()
         {
+            StopLoopSustainer();
             if (lumenHandle != null)
             {
                 lumenHandle.Stop(allowFadeOut: false);
@@ -2013,7 +2066,26 @@ namespace WhisperOfTheForest.Vfx
         {
             collapsing = true;
             collapseStartTick = Find.TickManager.TicksGame;
+            StopLoopSustainer();
+            if (map == Find.CurrentMap && def.endSound != null)
+            {
+                def.endSound.PlayOneShot(new TargetInfo(basePos.ToIntVec3(), map));
+            }
+
             lumenHandle?.Stop(allowFadeOut: true);
+        }
+
+        private void StopLoopSustainer()
+        {
+            if (loopSustainer != null)
+            {
+                if (!loopSustainer.Ended)
+                {
+                    loopSustainer.End();
+                }
+
+                loopSustainer = null;
+            }
         }
 
         private bool FollowTornado(out NumVector3 worldPosition, out float rotationDegrees)

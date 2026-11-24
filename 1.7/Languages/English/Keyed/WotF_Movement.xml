@@ -1,8 +1,6 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-
-  <WotF_Movement_StatusLine>{0}: walked {1} cells, blinked {2} cells, {3} hops blocked (last reason: {4})</WotF_Movement_StatusLine>
   <WotF_Movement_Equipped>Equipped {0}. {1}</WotF_Movement_Equipped>
+  <WotF_Movement_StatusLine>{0}: walked {1} cells, blinked {2} cells, {3} hops blocked (last reason: {4})</WotF_Movement_StatusLine>
   <WotF_Movement_Unequipped>Removed {0}; movement is back to vanilla. {1}</WotF_Movement_Unequipped>
-
 </LanguageData>

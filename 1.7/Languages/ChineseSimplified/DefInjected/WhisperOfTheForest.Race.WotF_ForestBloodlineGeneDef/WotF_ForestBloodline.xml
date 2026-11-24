@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-
+  <WotF_ForestBloodline.description>流淌在精灵体内的古老血脉，使携带者天生拥有魔力，并能唤醒在常人手中毫无反应的魔术书。随着不断施展法术，血脉对魔力的亲和会逐渐加深，同时让身体能够承受更高的心灵熵负荷。</WotF_ForestBloodline.description>
   <WotF_ForestBloodline.label>林庭血脉</WotF_ForestBloodline.label>
   <WotF_ForestBloodline.labelShortAdj>林庭</WotF_ForestBloodline.labelShortAdj>
-  <WotF_ForestBloodline.description>流淌在精灵体内的古老血脉，使携带者天生拥有魔力，并能唤醒在常人手中毫无反应的魔术书。随着不断施展法术，血脉对魔力的亲和会逐渐加深，同时让身体能够承受更高的心灵熵负荷。</WotF_ForestBloodline.description>
-  <WotF_ForestBloodline.resourceLabel>魔力</WotF_ForestBloodline.resourceLabel>
   <WotF_ForestBloodline.resourceDescription>施法者体内积蓄的魔力储备，施展法术时会按需消耗。魔力上限主要取决于血脉成长的程度，佩戴高阶魔术书或合适的装备也能进一步拓宽。</WotF_ForestBloodline.resourceDescription>
-
+  <WotF_ForestBloodline.resourceLabel>魔力</WotF_ForestBloodline.resourceLabel>
 </LanguageData>

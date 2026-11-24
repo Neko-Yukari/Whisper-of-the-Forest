@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_Ritual_RuinSeek_AlreadyOutstanding>未攻略の遺跡がすでに1か所存在します。探索で見つけた遺跡は同時に1か所までしか存在できません。</WotF_Ritual_RuinSeek_AlreadyOutstanding>
+  <WotF_Ritual_RuinSeek_NoSite>ワールドマップ上に遺跡を配置できる場所が見つからないため、今回の探索を開始できません。</WotF_Ritual_RuinSeek_NoSite>
+  <WotF_RuinSeek_Failed>探索でワールドマップ上に{0}を配置できなかったため、遺跡は出現しませんでした。</WotF_RuinSeek_Failed>
+  <WotF_RuinSeek_LetterLabel>探索：遺跡を発見</WotF_RuinSeek_LetterLabel>
+  <WotF_RuinSeek_LetterText>探索の儀式がサイキックネットワーク上で{0}の位置を特定しました。この遺跡はワールドマップ上に一定期間のみ出現します。進入後は守衛を排除し、期限が切れる前に隊を率いて撤収してください。</WotF_RuinSeek_LetterText>
+  <WotF_Ruin_ExitCountdown>撤収期限：{0}</WotF_Ruin_ExitCountdown>
+</LanguageData>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using RimWorld;
 using Verse;
 using Verse.AI;
+using Verse.Sound;
 using WhisperOfTheForest.AncientRuins;
 using WhisperOfTheForest.Equipment;
 using WhisperOfTheForest.Mana;
@@ -20,6 +21,10 @@ namespace WhisperOfTheForest.Rituals
         public float linkRadius = 12.9f;
         public float helperChantStrengthFactor;
         public float resonanceStrengthScale;
+        public SoundDef chantLoopSound;
+        public SoundDef completeSoundLife;
+        public SoundDef completeSoundCraft;
+        public SoundDef completeSoundDomain;
         public List<string> ritualDefNames = new List<string>();
 
         public CompProperties_RitualAltar()
@@ -1268,9 +1273,34 @@ namespace WhisperOfTheForest.Rituals
             ClearRitualState();
             def.EffectWorker.Apply(new RitualContext(parent.Map, (Building)parent, host, def, rune,
                 teleportTarget, participants, ritualStrength, equipment, bookSlot, teleportLanding));
+            PlayCompleteSound(def);
             WotfLog.Info(WotfLog.ModuleRitual,
                 "completed " + def.defName + (rune == null ? "" : " for " + rune.defName)
                 + " by " + host.LabelShort + " participants=" + participants + " ritualStrength=" + ritualStrength);
+        }
+
+        private void PlayCompleteSound(RitualDef def)
+        {
+            if (def == null || !parent.Spawned || parent.Map != Find.CurrentMap || !def.shieldVfxDef.NullOrEmpty())
+            {
+                return;
+            }
+
+            SoundDef sound;
+            switch (def.family)
+            {
+                case RitualFamily.Life:
+                    sound = Props.completeSoundLife;
+                    break;
+                case RitualFamily.Crafting:
+                    sound = Props.completeSoundCraft;
+                    break;
+                default:
+                    sound = Props.completeSoundDomain;
+                    break;
+            }
+
+            sound?.PlayOneShot(new TargetInfo(parent.Position, parent.Map));
         }
 
         /// <summary>

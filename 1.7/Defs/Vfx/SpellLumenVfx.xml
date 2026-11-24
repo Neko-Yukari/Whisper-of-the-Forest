@@ -8,7 +8,7 @@
     <workerClass>WhisperOfTheForest.Vfx.LightningLumenVfxWorker</workerClass>
     <lifetime>FixedDuration</lifetime>
     <lumenEffectId>NekoYukari.WhisperOfTheForest:SpellLightning</lumenEffectId>
-    <strikeSound>Thunder_OnMap</strikeSound>
+    <strikeSound>WotF_Sound_Effect_Lightning</strikeSound>
     <strikeDelayTicks>8</strikeDelayTicks>
     <strikeDurationTicks>12</strikeDurationTicks>
     <totalDurationTicks>56</totalDurationTicks>
@@ -29,6 +29,8 @@
     <label>spell linger field (RimLumen HDR)</label>
     <workerClass>WhisperOfTheForest.Vfx.LingerLumenVfxWorker</workerClass>
     <lifetime>FollowThing</lifetime>
+    <deploySound>WotF_Sound_Linger_Deploy</deploySound>
+    <pulseSound>WotF_Sound_Linger_Pulse</pulseSound>
     <defaultRadius>2.5</defaultRadius>
     <fadeDurationSeconds>0.45</fadeDurationSeconds>
     <pulseWaveDurationSeconds>0.46</pulseWaveDurationSeconds>
@@ -55,6 +57,7 @@
     <label>spell rune seal (RimLumen HDR)</label>
     <workerClass>WhisperOfTheForest.Vfx.RuneLumenVfxWorker</workerClass>
     <lifetime>FollowThing</lifetime>
+    <placeSound>WotF_Sound_Rune_Place</placeSound>
     <sealRadius>0.58</sealRadius>
     <sealThickness>0.052</sealThickness>
     <spinRadPerSec>0.65</spinRadPerSec>
@@ -79,6 +82,7 @@
     <label>spell orbiting orb (RimLumen HDR)</label>
     <workerClass>WhisperOfTheForest.Vfx.OrbitLumenVfxWorker</workerClass>
     <lifetime>FollowThing</lifetime>
+    <spawnSound>WotF_Sound_Orbit_Spawn</spawnSound>
     <coreRadius>0.13</coreRadius>
     <haloRadius>0.27</haloRadius>
     <spinRadPerSec>4.2</spinRadPerSec>
@@ -106,6 +110,9 @@
     <workerClass>WhisperOfTheForest.Vfx.TornadoLumenVfxWorker</workerClass>
     <lifetime>FollowThing</lifetime>
     <lumenEffectId>NekoYukari.WhisperOfTheForest:CordiumTornado</lumenEffectId>
+    <spawnSound>WotF_Sound_Tornado_Spawn</spawnSound>
+    <loopSound>WotF_Sound_Tornado_Loop</loopSound>
+    <endSound>WotF_Sound_Tornado_End</endSound>
     <referenceRadius>4.0</referenceRadius>
     <collapseDurationSeconds>0.52</collapseDurationSeconds>
     <heightSteps>30</heightSteps>

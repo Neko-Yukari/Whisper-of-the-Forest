@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_CombatLog_ColdSnap.rulePack.rulesStrings>
+    <li>spell_noun(p=2)-&gt;[SPELL_label]</li>
+    <li>spell_noun-&gt;frost burst</li>
+    <li>spell_noun-&gt;rime shock</li>
+    <li>damaged_past-&gt;cracked</li>
+    <li>damaged_past-&gt;chilled</li>
+    <li>damaged_past-&gt;splintered</li>
+    <li>damaged_past-&gt;battered</li>
+    <li>damaged_present-&gt;cracking</li>
+    <li>damaged_present-&gt;chilling</li>
+    <li>damaged_present-&gt;splintering</li>
+    <li>damaged_present-&gt;battering</li>
+    <li>destroyed_past-&gt;shattered</li>
+    <li>destroyed_past-&gt;fractured</li>
+    <li>destroyed_past-&gt;crushed</li>
+    <li>destroyed_present-&gt;shattering</li>
+    <li>destroyed_present-&gt;fracturing</li>
+    <li>destroyed_present-&gt;crushing</li>
+  </WotF_CombatLog_ColdSnap.rulePack.rulesStrings>
+  <WotF_CombatLog_Explosion.rulePack.rulesStrings>
+    <li>spell_noun(p=2)-&gt;[SPELL_label] blast</li>
+    <li>spell_noun-&gt;arcane shockwave</li>
+    <li>spell_noun-&gt;arcane detonation</li>
+    <li>damaged_past-&gt;blasted</li>
+    <li>damaged_past-&gt;battered</li>
+    <li>damaged_past-&gt;wounded</li>
+    <li>damaged_past-&gt;concussed</li>
+    <li>damaged_present-&gt;blasting</li>
+    <li>damaged_present-&gt;battering</li>
+    <li>damaged_present-&gt;wounding</li>
+    <li>damaged_present-&gt;concussing</li>
+    <li>destroyed_past-&gt;shattered</li>
+    <li>destroyed_past-&gt;crushed</li>
+    <li>destroyed_past-&gt;obliterated</li>
+    <li>destroyed_past-&gt;annihilated</li>
+    <li>destroyed_present-&gt;shattering</li>
+    <li>destroyed_present-&gt;crushing</li>
+    <li>destroyed_present-&gt;obliterating</li>
+    <li>destroyed_present-&gt;annihilating</li>
+  </WotF_CombatLog_Explosion.rulePack.rulesStrings>
+  <WotF_CombatLog_Harm.rulePack.rulesStrings>
+    <li>spell_noun(p=2)-&gt;[SPELL_label] impact</li>
+    <li>spell_noun-&gt;arcane impact</li>
+    <li>spell_noun-&gt;concussive pulse</li>
+    <li>damaged_past-&gt;battered</li>
+    <li>damaged_past-&gt;bruised</li>
+    <li>damaged_past-&gt;struck</li>
+    <li>damaged_past-&gt;slammed</li>
+    <li>damaged_present-&gt;battering</li>
+    <li>damaged_present-&gt;bruising</li>
+    <li>damaged_present-&gt;striking</li>
+    <li>damaged_present-&gt;slamming</li>
+    <li>destroyed_past-&gt;crushed</li>
+    <li>destroyed_past-&gt;shattered</li>
+    <li>destroyed_past-&gt;pulverized</li>
+    <li>destroyed_past-&gt;obliterated</li>
+    <li>destroyed_present-&gt;crushing</li>
+    <li>destroyed_present-&gt;shattering</li>
+    <li>destroyed_present-&gt;pulverizing</li>
+    <li>destroyed_present-&gt;obliterating</li>
+  </WotF_CombatLog_Harm.rulePack.rulesStrings>
+  <WotF_CombatLog_Lightning.rulePack.rulesStrings>
+    <li>spell_noun(p=2)-&gt;[SPELL_label] bolt</li>
+    <li>spell_noun-&gt;lightning arc</li>
+    <li>spell_noun-&gt;thunderbolt</li>
+    <li>damaged_past-&gt;scorched</li>
+    <li>damaged_past-&gt;seared</li>
+    <li>damaged_past-&gt;electrocuted</li>
+    <li>damaged_past-&gt;blistered</li>
+    <li>damaged_present-&gt;scorching</li>
+    <li>damaged_present-&gt;searing</li>
+    <li>damaged_present-&gt;electrocuting</li>
+    <li>damaged_present-&gt;blistering</li>
+    <li>destroyed_past-&gt;charred</li>
+    <li>destroyed_past-&gt;incinerated</li>
+    <li>destroyed_past-&gt;obliterated</li>
+    <li>destroyed_present-&gt;charring</li>
+    <li>destroyed_present-&gt;incinerating</li>
+    <li>destroyed_present-&gt;obliterating</li>
+  </WotF_CombatLog_Lightning.rulePack.rulesStrings>
+  <WotF_CombatLog_Railgun.rulePack.rulesStrings>
+    <li>spell_noun(p=2)-&gt;[SPELL_label]</li>
+    <li>spell_noun-&gt;railgun slug</li>
+    <li>spell_noun-&gt;hypervelocity slug</li>
+    <li>damaged_past-&gt;pierced</li>
+    <li>damaged_past-&gt;punctured</li>
+    <li>damaged_past-&gt;shredded</li>
+    <li>damaged_past-&gt;blasted</li>
+    <li>damaged_present-&gt;piercing</li>
+    <li>damaged_present-&gt;puncturing</li>
+    <li>damaged_present-&gt;shredding</li>
+    <li>damaged_present-&gt;blasting</li>
+    <li>destroyed_past-&gt;cored</li>
+    <li>destroyed_past-&gt;shattered</li>
+    <li>destroyed_past-&gt;pulverized</li>
+    <li>destroyed_past-&gt;blasted apart</li>
+    <li>destroyed_present-&gt;coring</li>
+    <li>destroyed_present-&gt;shattering</li>
+    <li>destroyed_present-&gt;pulverizing</li>
+    <li>destroyed_present-&gt;blasting apart</li>
+    <li>r_logentry(INITIATOR_missing!=True,deflected!=True,p=2)-&gt;[RECIPIENT_definite]'s [destroyed_targets] vanished in the blinding flash of [INITIATOR_definite]'s [spell_noun].</li>
+    <li>r_logentry(INITIATOR_missing!=True,deflected!=True,p=2)-&gt;In a blinding flash, [INITIATOR_definite]'s [spell_noun] punched clean through [RECIPIENT_definite]'s [destroyed_targets].</li>
+    <li>r_logentry(INITIATOR_missing==True,deflected!=True,p=2)-&gt;[RECIPIENT_definite]'s [destroyed_targets] vanished in a blinding flash.</li>
+    <li>r_logentry(INITIATOR_missing==True,deflected!=True,p=2)-&gt;[RECIPIENT_definite]'s [destroyed_targets] was punched clean through by a [spell_noun].</li>
+  </WotF_CombatLog_Railgun.rulePack.rulesStrings>
+  <WotF_CombatLog_Scorch.rulePack.rulesStrings>
+    <li>spell_noun(p=2)-&gt;lingering [SPELL_label]</li>
+    <li>spell_noun-&gt;searing embers</li>
+    <li>spell_noun-&gt;clinging flame</li>
+    <li>damaged_past-&gt;seared</li>
+    <li>damaged_past-&gt;scorched</li>
+    <li>damaged_past-&gt;burned</li>
+    <li>damaged_past-&gt;blistered</li>
+    <li>damaged_present-&gt;searing</li>
+    <li>damaged_present-&gt;scorching</li>
+    <li>damaged_present-&gt;burning</li>
+    <li>damaged_present-&gt;blistering</li>
+    <li>destroyed_past-&gt;charred</li>
+    <li>destroyed_past-&gt;incinerated</li>
+    <li>destroyed_past-&gt;cremated</li>
+    <li>destroyed_present-&gt;charring</li>
+    <li>destroyed_present-&gt;incinerating</li>
+    <li>destroyed_present-&gt;cremating</li>
+  </WotF_CombatLog_Scorch.rulePack.rulesStrings>
+  <WotF_CombatLog_SpellDamageBase.rulePack.rulesStrings>
+    <li>r_logentry(INITIATOR_missing!=True,deflected!=True)-&gt;[INITIATOR_definite]'s [spell_noun] [destroyed_past] [RECIPIENT_definite]'s [destroyed_targets].</li>
+    <li>r_logentry(INITIATOR_missing!=True,deflected!=True)-&gt;[RECIPIENT_definite]'s [destroyed_targets] was [destroyed_past] by [INITIATOR_definite]'s [spell_noun].</li>
+    <li>r_logentry(INITIATOR_missing!=True,deflected!=True,p=3)-&gt;[INITIATOR_definite]'s [spell_noun] [destroyed_past] [RECIPIENT_definite]'s [destroyed_targets] and [damaged_past] [RECIPIENT_possessive] [damaged_targets].</li>
+    <li>r_logentry(INITIATOR_missing!=True,deflected!=True,recipient_part_destroyed_count==0)-&gt;[INITIATOR_definite]'s [spell_noun] [damaged_past] [RECIPIENT_definite]'s [damaged_targets].</li>
+    <li>r_logentry(INITIATOR_missing!=True,deflected!=True,recipient_part_destroyed_count==0)-&gt;[INITIATOR_definite] struck [RECIPIENT_definite] with [spell_noun], [damaged_present] [RECIPIENT_possessive] [damaged_targets].</li>
+    <li>r_logentry(INITIATOR_missing!=True,deflected!=True,recipient_part_destroyed_count==0)-&gt;[RECIPIENT_definite]'s [damaged_targets] was [damaged_past] by [INITIATOR_definite]'s [spell_noun].</li>
+    <li>r_logentry(INITIATOR_missing!=True,deflected!=True,recipient_part_count==0)-&gt;[INITIATOR_definite]'s [spell_noun] [damaged_past] [RECIPIENT_definite].</li>
+    <li>r_logentry(INITIATOR_missing!=True,deflected==True)-&gt;[INITIATOR_definite]'s [spell_noun] hit [RECIPIENT_definite][deflected_part_opt], [scraped_present] harmlessly off [RECIPIENT_possessive] armor.</li>
+    <li>r_logentry(INITIATOR_missing==True,deflected!=True)-&gt;A [spell_noun] [destroyed_past] [RECIPIENT_definite]'s [destroyed_targets].</li>
+    <li>r_logentry(INITIATOR_missing==True,deflected!=True,p=3)-&gt;A [spell_noun] [destroyed_past] [RECIPIENT_definite]'s [destroyed_targets] and [damaged_past] [RECIPIENT_possessive] [damaged_targets].</li>
+    <li>r_logentry(INITIATOR_missing==True,deflected!=True,recipient_part_destroyed_count==0)-&gt;A [spell_noun] [damaged_past] [RECIPIENT_definite]'s [damaged_targets].</li>
+    <li>r_logentry(INITIATOR_missing==True,deflected!=True,recipient_part_count==0)-&gt;A [spell_noun] [damaged_past] [RECIPIENT_definite].</li>
+    <li>r_logentry(INITIATOR_missing==True,deflected==True)-&gt;A [spell_noun] hit [RECIPIENT_definite][deflected_part_opt], [scraped_present] harmlessly off [RECIPIENT_possessive] armor.</li>
+    <li>deflected_part_opt-&gt;</li>
+    <li>deflected_part_opt(recipient_part_damaged0_outside==True)-&gt;'s [recipient_part_damaged0_label]</li>
+  </WotF_CombatLog_SpellDamageBase.rulePack.rulesStrings>
+  <WotF_CombatLog_Tornado.rulePack.rulesStrings>
+    <li>spell_noun(p=2)-&gt;[SPELL_label]</li>
+    <li>spell_noun-&gt;flame vortex</li>
+    <li>spell_noun-&gt;searing cyclone</li>
+    <li>damaged_past-&gt;lashed</li>
+    <li>damaged_past-&gt;battered</li>
+    <li>damaged_past-&gt;scorched</li>
+    <li>damaged_past-&gt;buffeted</li>
+    <li>damaged_present-&gt;lashing</li>
+    <li>damaged_present-&gt;battering</li>
+    <li>damaged_present-&gt;scorching</li>
+    <li>damaged_present-&gt;buffeting</li>
+    <li>destroyed_past-&gt;ripped apart</li>
+    <li>destroyed_past-&gt;crushed</li>
+    <li>destroyed_past-&gt;incinerated</li>
+    <li>destroyed_present-&gt;ripping apart</li>
+    <li>destroyed_present-&gt;crushing</li>
+    <li>destroyed_present-&gt;incinerating</li>
+  </WotF_CombatLog_Tornado.rulePack.rulesStrings>
+</LanguageData>

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-
-  <WotF_Race.ManaFromLevel>Forest bloodline level {0}</WotF_Race.ManaFromLevel>
   <WotF_Race.EntropyFromLevel>Forest bloodline level {0}</WotF_Race.EntropyFromLevel>
   <WotF_Race.EntropyRecoveryFromLevel>Forest bloodline level {0}</WotF_Race.EntropyRecoveryFromLevel>
-  <WotF_Race.GizmoLevel>Forest bloodline Lv.{0}</WotF_Race.GizmoLevel>
   <WotF_Race.GizmoExperience>Experience {0} / {1}</WotF_Race.GizmoExperience>
+  <WotF_Race.GizmoLevel>Forest bloodline Lv.{0}</WotF_Race.GizmoLevel>
   <WotF_Race.GizmoMaxLevel>Experience is at the highest level</WotF_Race.GizmoMaxLevel>
-
+  <WotF_Race.ManaFromLevel>Forest bloodline level {0}</WotF_Race.ManaFromLevel>
 </LanguageData>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_Spells.Reason.SuperNeedsCodex>超位ルーンには星輝の法典の装備が必要です。</WotF_Spells.Reason.SuperNeedsCodex>
+  <WotF_Spells.Reason.SuperNeedsStaff>超位呪文を詠唱するには、メイン武器として両手持ちのスタッフを装備している必要があります。</WotF_Spells.Reason.SuperNeedsStaff>
+  <WotF_Spells.Reason.SuperNoTurret>詠唱タレットに超位呪文は組み込めません。</WotF_Spells.Reason.SuperNoTurret>
+  <WotF_Spells.Rubbing.AlreadyKnown>コロニーはこの超位ルーンをすでに習得しています。</WotF_Spells.Rubbing.AlreadyKnown>
+  <WotF_Spells.Rubbing.Unlocked>解読完了：コロニー全体で「{0}」が恒久的に解放されました。</WotF_Spells.Rubbing.Unlocked>
+</LanguageData>

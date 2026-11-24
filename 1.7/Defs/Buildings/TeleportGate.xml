@@ -82,6 +82,7 @@
         <remoteCostPerKg>0.5</remoteCostPerKg>
         <arrivalRadius>12</arrivalRadius>
         <riteArrivalRadius>3</riteArrivalRadius>
+        <transferSound>WotF_Sound_TeleportGate_Transfer</transferSound>
       </li>
     </comps>
     <inspectorTabs>
@@ -127,6 +128,7 @@
       <li Class="WhisperOfTheForest.Teleport.CompProperties_TeleportGate">
         <ruined>true</ruined>
         <arrivalRadius>12</arrivalRadius>
+        <transferSound>WotF_Sound_TeleportGate_Transfer</transferSound>
       </li>
     </comps>
     <inspectorTabs>

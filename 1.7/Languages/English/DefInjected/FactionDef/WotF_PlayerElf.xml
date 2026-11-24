@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-
+  <WotF_PlayerElf.description>A small band of elves who left their old settlement to make a life on their own. Though no longer bound by the elders' authority, they still carry the habits and customs of their people in their bones.</WotF_PlayerElf.description>
   <WotF_PlayerElf.label>forest elves</WotF_PlayerElf.label>
-  <WotF_PlayerElf.description>A band of forest elves who have left the court to settle on their own. They keep the old ways: the forest is the only monarch, and the elders speak for it.</WotF_PlayerElf.description>
   <WotF_PlayerElf.pawnSingular>elf</WotF_PlayerElf.pawnSingular>
   <WotF_PlayerElf.pawnsPlural>elves</WotF_PlayerElf.pawnsPlural>
-
 </LanguageData>

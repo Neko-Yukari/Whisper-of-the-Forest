@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_HaulRitualOfferings.gerund>供物を運搬</WotF_HaulRitualOfferings.gerund>
+  <WotF_HaulRitualOfferings.label>祭壇へ供物を運ぶ</WotF_HaulRitualOfferings.label>
+  <WotF_HaulRitualOfferings.verb>供物を運ぶ</WotF_HaulRitualOfferings.verb>
+  <WotF_HostRitual.gerund>儀式を執行</WotF_HostRitual.gerund>
+  <WotF_HostRitual.label>祭壇で儀式を執り行う</WotF_HostRitual.label>
+  <WotF_HostRitual.verb>儀式を執り行う</WotF_HostRitual.verb>
+</LanguageData>

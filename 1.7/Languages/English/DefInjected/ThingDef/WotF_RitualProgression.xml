@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_EngineeringResonanceCore.description>A polyhedral core recovered from the depths of an ancient ruin. No modern craft can replicate it, yet it is an indispensable cornerstone for building a starlight altar.\nEven after ages of slumber, it emits a steady, low hum whenever mana draws near.</WotF_EngineeringResonanceCore.description>
+  <WotF_EngineeringResonanceCore.label>engineering-station resonance core</WotF_EngineeringResonanceCore.label>
+  <WotF_RitualAltar_LivingWood.description>A second-tier, single-tile altar carved from livingwood atop a stone pedestal. Its living grain channels mana far better than ordinary timber, allowing the transmutation of elven steel and higher-tier ritual chalk as well as all tier-two and lower rituals.</WotF_RitualAltar_LivingWood.description>
+  <WotF_RitualAltar_LivingWood.label>livingwood altar</WotF_RitualAltar_LivingWood.label>
+  <WotF_RitualAltar_Starlight.description>A third-tier, single-tile altar built from livingwood, elven steel, and an engineering-station resonance core. The slumbering core hums low within the plinth, steadying ambient mana enough to transmute adamantine and mithril and sustain all rituals up to tier three.</WotF_RitualAltar_Starlight.description>
+  <WotF_RitualAltar_Starlight.label>starlight altar</WotF_RitualAltar_Starlight.label>
+  <WotF_RitualElvenStatue.description>An elven figure finely carved from livingwood and jade. It serves as an artistic meditation focus and adds resonance strength to a nearby altar based on its quality. Up to 6 statues can link to one altar.</WotF_RitualElvenStatue.description>
+  <WotF_RitualElvenStatue.label>elven ritual statue</WotF_RitualElvenStatue.label>
+  <WotF_RitualLivingwoodLamp.description>A ritual fixture holding a jade lantern atop a livingwood pillar, casting a soft verdigris glow year-round. Placed near an altar, each lamp adds 2 resonance strength; up to 4 lamps can link to one altar.</WotF_RitualLivingwoodLamp.description>
+  <WotF_RitualLivingwoodLamp.label>livingwood ritual lamp</WotF_RitualLivingwoodLamp.label>
+</LanguageData>

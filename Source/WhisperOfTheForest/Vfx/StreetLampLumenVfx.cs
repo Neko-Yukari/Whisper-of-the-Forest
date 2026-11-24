@@ -238,7 +238,7 @@ namespace WhisperOfTheForest.Vfx
         public static string EnsureLampLightEffect(StreetLampLumenVfxDef def)
         {
             string effectId = $"NekoYukari.WhisperOfTheForest:StreetLampLight_{def.defName}";
-            if (!registeredIds.Add(effectId))
+            if (registeredIds.Contains(effectId))
             {
                 return effectId;
             }
@@ -266,13 +266,14 @@ namespace WhisperOfTheForest.Vfx
                     new EffectStateSpec { Name = "Lit", Nodes = new[] { "lamp_pool_light" }, Duration = 4f, Loop = true }
                 }
             });
+            registeredIds.Add(effectId);
             return effectId;
         }
 
         public static string EnsureButterflyDustEffect(StreetLampLumenVfxDef def)
         {
             string effectId = $"NekoYukari.WhisperOfTheForest:StreetLampButterflyDust_{def.defName}";
-            if (!registeredIds.Add(effectId))
+            if (registeredIds.Contains(effectId))
             {
                 return effectId;
             }
@@ -338,13 +339,14 @@ namespace WhisperOfTheForest.Vfx
                     }
                 }
             });
+            registeredIds.Add(effectId);
             return effectId;
         }
 
         public static string EnsureButterflyFleeBurstEffect(StreetLampLumenVfxDef def)
         {
             string effectId = $"NekoYukari.WhisperOfTheForest:StreetLampButterflyFleeBurst_{def.defName}";
-            if (!registeredIds.Add(effectId))
+            if (registeredIds.Contains(effectId))
             {
                 return effectId;
             }
@@ -414,6 +416,7 @@ namespace WhisperOfTheForest.Vfx
                     }
                 }
             });
+            registeredIds.Add(effectId);
             return effectId;
         }
 

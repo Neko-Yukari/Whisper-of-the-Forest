@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_Spellbook.AugmentBindHint>左隣で強調表示されている形式ルーンまたは効果ルーンに作用する。</WotF_Spellbook.AugmentBindHint>
+  <WotF_Spellbook.BadgeLocked>未解放</WotF_Spellbook.BadgeLocked>
+  <WotF_Spellbook.BarCleared>編集中のルーン列を消去しました。スロットに保存済みの呪文は変更されていません。</WotF_Spellbook.BarCleared>
+  <WotF_Spellbook.BarEmpty>ルーン列が空です。先に左ページからルーンを追加してください。</WotF_Spellbook.BarEmpty>
+  <WotF_Spellbook.CarrierEnchant>刻印</WotF_Spellbook.CarrierEnchant>
+  <WotF_Spellbook.CarrierEnchantOk>儀式の祭壇で武器や防具に刻印できる。</WotF_Spellbook.CarrierEnchantOk>
+  <WotF_Spellbook.CarrierStaff>スタッフ</WotF_Spellbook.CarrierStaff>
+  <WotF_Spellbook.CarrierStaffNo>自身・周回・超位呪文はアクティブスキルであり、スタッフによる自動攻撃では詠唱できない。</WotF_Spellbook.CarrierStaffNo>
+  <WotF_Spellbook.CarrierStaffOk>呪文スタッフの武器攻撃として自動詠唱できる。</WotF_Spellbook.CarrierStaffOk>
+  <WotF_Spellbook.CarrierTurret>タレット</WotF_Spellbook.CarrierTurret>
+  <WotF_Spellbook.CarrierTurretOk>詠唱タレットに刻印できる。</WotF_Spellbook.CarrierTurretOk>
+  <WotF_Spellbook.Cast>詠唱</WotF_Spellbook.Cast>
+  <WotF_Spellbook.CastBlocked>詠唱不可：{0}</WotF_Spellbook.CastBlocked>
+  <WotF_Spellbook.CastNamed>「{0}」を詠唱</WotF_Spellbook.CastNamed>
+  <WotF_Spellbook.CastNoSaved>スロット{0}は空です。先に呪文を保存してください。</WotF_Spellbook.CastNoSaved>
+  <WotF_Spellbook.CastTip>対象指定に入り、スロット{0}に保存された呪文を詠唱します。</WotF_Spellbook.CastTip>
+  <WotF_Spellbook.CatalogEmpty>条件に一致するルーンはありません。</WotF_Spellbook.CatalogEmpty>
+  <WotF_Spellbook.CatalogMissingDefs>ルーン定義が見つかりません。魔導書XMLが読み込まれているか確認してください。</WotF_Spellbook.CatalogMissingDefs>
+  <WotF_Spellbook.CategoryAll>すべて</WotF_Spellbook.CategoryAll>
+  <WotF_Spellbook.CategoryAugment>強化</WotF_Spellbook.CategoryAugment>
+  <WotF_Spellbook.CategoryEffect>効果</WotF_Spellbook.CategoryEffect>
+  <WotF_Spellbook.CategoryForm>形式</WotF_Spellbook.CategoryForm>
+  <WotF_Spellbook.CategorySuper>超位</WotF_Spellbook.CategorySuper>
+  <WotF_Spellbook.ChainCapBadge>上限 {0}</WotF_Spellbook.ChainCapBadge>
+  <WotF_Spellbook.ChainEmpty>左ページの形式または超位ルーンをクリックして編成を始めます。</WotF_Spellbook.ChainEmpty>
+  <WotF_Spellbook.ChainHeader>ルーン列 {0}/{1}</WotF_Spellbook.ChainHeader>
+  <WotF_Spellbook.ChainHintShort>左ページで追加 · 珠をクリックで解除</WotF_Spellbook.ChainHintShort>
+  <WotF_Spellbook.ChipEntropy>ニューラルヒート</WotF_Spellbook.ChipEntropy>
+  <WotF_Spellbook.ChipMana>消費魔力</WotF_Spellbook.ChipMana>
+  <WotF_Spellbook.ChipManaStaffTip>基本消費魔力：{0}
+装備中の杖倍率：{1} → 実消費 {2}
+詠唱による血脈経験値：{3}</WotF_Spellbook.ChipManaStaffTip>
+  <WotF_Spellbook.ChipManaTip>基本消費魔力：{0}
+詠唱による血脈経験値：{1}</WotF_Spellbook.ChipManaTip>
+  <WotF_Spellbook.ChipRange>射程</WotF_Spellbook.ChipRange>
+  <WotF_Spellbook.ChipTime>詠唱時間</WotF_Spellbook.ChipTime>
+  <WotF_Spellbook.ChipTurretMana>消費/発</WotF_Spellbook.ChipTurretMana>
+  <WotF_Spellbook.ClearBar>クリア</WotF_Spellbook.ClearBar>
+  <WotF_Spellbook.ClearBarTip>編集中のルーン列のみをクリアします。このスロットに保存済みの呪文には影響しません。</WotF_Spellbook.ClearBarTip>
+  <WotF_Spellbook.ClickToRemove>クリックで解除：{0}</WotF_Spellbook.ClickToRemove>
+  <WotF_Spellbook.CompatAugments>対応強化：{0}</WotF_Spellbook.CompatAugments>
+  <WotF_Spellbook.Create>スロット{0}に保存</WotF_Spellbook.Create>
+  <WotF_Spellbook.CreateRefused>保存不可：{0}</WotF_Spellbook.CreateRefused>
+  <WotF_Spellbook.CreateTip>現在のルーン列をスロット{0}に書き込みます。既存の呪文は上書きされます。</WotF_Spellbook.CreateTip>
+  <WotF_Spellbook.Created>スロット{0}に保存し、使用中の呪文に設定しました。</WotF_Spellbook.Created>
+  <WotF_Spellbook.DeleteSlot>スロット削除</WotF_Spellbook.DeleteSlot>
+  <WotF_Spellbook.DeleteSlotTip>クリックすると確認なしでスロット{0}の呪文を即座に削除します。</WotF_Spellbook.DeleteSlotTip>
+  <WotF_Spellbook.EmptySlotHint>このスロットは空です。ルーンを編成して保存すると、ポーンの詠唱コマンドから発動できるようになります。</WotF_Spellbook.EmptySlotHint>
+  <WotF_Spellbook.ExcludesAugments>併用不可：{0}</WotF_Spellbook.ExcludesAugments>
+  <WotF_Spellbook.FormNone>形式未選択</WotF_Spellbook.FormNone>
+  <WotF_Spellbook.FormOrbit>周回</WotF_Spellbook.FormOrbit>
+  <WotF_Spellbook.FormProjectile>投射</WotF_Spellbook.FormProjectile>
+  <WotF_Spellbook.FormSelf>自身</WotF_Spellbook.FormSelf>
+  <WotF_Spellbook.FormSpecial>超位</WotF_Spellbook.FormSpecial>
+  <WotF_Spellbook.FormTouch>接触</WotF_Spellbook.FormTouch>
+  <WotF_Spellbook.GlyphAdded>ルーンを追加：{0}</WotF_Spellbook.GlyphAdded>
+  <WotF_Spellbook.GlyphMissing>ルーン定義が欠落</WotF_Spellbook.GlyphMissing>
+  <WotF_Spellbook.GlyphRemoved>ルーンを解除：{0}</WotF_Spellbook.GlyphRemoved>
+  <WotF_Spellbook.GlyphTiming>+{0}秒 / +{1}秒 / +{2}秒（準備 / 集中 / 硬直）</WotF_Spellbook.GlyphTiming>
+  <WotF_Spellbook.HeaderBadge>{0} · {1} · 上限 {2} ルーン · 魔力 {3}</WotF_Spellbook.HeaderBadge>
+  <WotF_Spellbook.HeaderBadgeTip>{0}
+1呪文あたりのルーン上限：{1}個
+超位ルーン対応：{2}</WotF_Spellbook.HeaderBadgeTip>
+  <WotF_Spellbook.HeaderNoBook>{0} · 魔導書未装備 · 魔力 {1}</WotF_Spellbook.HeaderNoBook>
+  <WotF_Spellbook.InspectorEmpty>左ページのルーンカードや右ページのルーン珠にカーソルを合わせると、基礎数値・対応する強化・解説が表示されます。編成文法：形式 → 効果 → 強化（強化は左隣にある直近の形式または効果に結び付きます）。</WotF_Spellbook.InspectorEmpty>
+  <WotF_Spellbook.InspectorTitle>ルーン詳細</WotF_Spellbook.InspectorTitle>
+  <WotF_Spellbook.KindAugment>強化</WotF_Spellbook.KindAugment>
+  <WotF_Spellbook.KindEffect>効果</WotF_Spellbook.KindEffect>
+  <WotF_Spellbook.KindForm>形式</WotF_Spellbook.KindForm>
+  <WotF_Spellbook.KindSuper>超位</WotF_Spellbook.KindSuper>
+  <WotF_Spellbook.MetaEntropy>ヒート +{0}</WotF_Spellbook.MetaEntropy>
+  <WotF_Spellbook.MetaMana>魔力 {0}</WotF_Spellbook.MetaMana>
+  <WotF_Spellbook.MetaTime>{0}秒</WotF_Spellbook.MetaTime>
+  <WotF_Spellbook.MicroAoe>半径 +{0}</WotF_Spellbook.MicroAoe>
+  <WotF_Spellbook.MicroBlink>瞬移 {0}マス</WotF_Spellbook.MicroBlink>
+  <WotF_Spellbook.MicroBreakArmor>装甲貫通 +{0}</WotF_Spellbook.MicroBreakArmor>
+  <WotF_Spellbook.MicroColdSnap>{0}ダメ · 凍結×{1}</WotF_Spellbook.MicroColdSnap>
+  <WotF_Spellbook.MicroDelay>遅延 {0}秒</WotF_Spellbook.MicroDelay>
+  <WotF_Spellbook.MicroExplosion>{0}ダメ · 半径{1}</WotF_Spellbook.MicroExplosion>
+  <WotF_Spellbook.MicroFactor>×{0}</WotF_Spellbook.MicroFactor>
+  <WotF_Spellbook.MicroFreeze>鈍足 {0}秒</WotF_Spellbook.MicroFreeze>
+  <WotF_Spellbook.MicroGrow>成長×{0} · {1}秒</WotF_Spellbook.MicroGrow>
+  <WotF_Spellbook.MicroHack>強度{0} · {1}秒</WotF_Spellbook.MicroHack>
+  <WotF_Spellbook.MicroHarm>{0}ダメ · 装甲貫通{1}</WotF_Spellbook.MicroHarm>
+  <WotF_Spellbook.MicroHeal>治療{0} · {1}秒</WotF_Spellbook.MicroHeal>
+  <WotF_Spellbook.MicroHex>呪印 {0}秒</WotF_Spellbook.MicroHex>
+  <WotF_Spellbook.MicroKnockback>吹飛 {0}マス</WotF_Spellbook.MicroKnockback>
+  <WotF_Spellbook.MicroLightning>{0}火傷 + {1}EMP</WotF_Spellbook.MicroLightning>
+  <WotF_Spellbook.MicroLinger>半径{0} · {1}秒</WotF_Spellbook.MicroLinger>
+  <WotF_Spellbook.MicroMagelight>照明{0} · {1}秒</WotF_Spellbook.MicroMagelight>
+  <WotF_Spellbook.MicroOrbit>{0}球 · {1}秒</WotF_Spellbook.MicroOrbit>
+  <WotF_Spellbook.MicroPierce>貫通 +{0}</WotF_Spellbook.MicroPierce>
+  <WotF_Spellbook.MicroPlanarShield>{0}回 · 幅{1}</WotF_Spellbook.MicroPlanarShield>
+  <WotF_Spellbook.MicroProjectile>{0}発 · 射程 {1}</WotF_Spellbook.MicroProjectile>
+  <WotF_Spellbook.MicroPull>引寄 {0}マス</WotF_Spellbook.MicroPull>
+  <WotF_Spellbook.MicroRailgun>{0}ダメ · 幅 {1}</WotF_Spellbook.MicroRailgun>
+  <WotF_Spellbook.MicroRune>地印 {0}秒</WotF_Spellbook.MicroRune>
+  <WotF_Spellbook.MicroSelf>詠唱者自身</WotF_Spellbook.MicroSelf>
+  <WotF_Spellbook.MicroSensitive>建造物保護</WotF_Spellbook.MicroSensitive>
+  <WotF_Spellbook.MicroSnare>拘束 {0}秒</WotF_Spellbook.MicroSnare>
+  <WotF_Spellbook.MicroSplit>+{0} 弾/球</WotF_Spellbook.MicroSplit>
+  <WotF_Spellbook.MicroTornado>{0}/回 · {1}秒</WotF_Spellbook.MicroTornado>
+  <WotF_Spellbook.MicroTouch>射程 {0}マス</WotF_Spellbook.MicroTouch>
+  <WotF_Spellbook.NamePlaceholder>呪文名を入力…</WotF_Spellbook.NamePlaceholder>
+  <WotF_Spellbook.NoCaster>ポーン未選択</WotF_Spellbook.NoCaster>
+  <WotF_Spellbook.NoCompatibleAugments>対応する強化はありません。</WotF_Spellbook.NoCompatibleAugments>
+  <WotF_Spellbook.NoGameComponent>魔導書のセーブコンポーネントが未準備のため、呪文を読み書きできません。</WotF_Spellbook.NoGameComponent>
+  <WotF_Spellbook.PageCatalog>ルーン図録</WotF_Spellbook.PageCatalog>
+  <WotF_Spellbook.PageEditor>呪文編成</WotF_Spellbook.PageEditor>
+  <WotF_Spellbook.PlanPending>形式ルーンと効果ルーンを1つ以上並べると、確定した詳細数値が表示されます。</WotF_Spellbook.PlanPending>
+  <WotF_Spellbook.SearchPlaceholder>ルーン名を検索…</WotF_Spellbook.SearchPlaceholder>
+  <WotF_Spellbook.SecondsShort>{0}秒</WotF_Spellbook.SecondsShort>
+  <WotF_Spellbook.SectionPlan>呪文プレビュー</WotF_Spellbook.SectionPlan>
+  <WotF_Spellbook.SlotAlreadyEmpty>スロット{0}はすでに空です。</WotF_Spellbook.SlotAlreadyEmpty>
+  <WotF_Spellbook.SlotDeleted>スロット{0}の呪文を削除しました。</WotF_Spellbook.SlotDeleted>
+  <WotF_Spellbook.SlotEmpty>空き</WotF_Spellbook.SlotEmpty>
+  <WotF_Spellbook.SlotEmptyShort>空</WotF_Spellbook.SlotEmptyShort>
+  <WotF_Spellbook.SlotExceedsBookHint>呪文はポーンに保持されたまま失われません。上位の魔導書を装備すれば詠唱や編集が可能になります。</WotF_Spellbook.SlotExceedsBookHint>
+  <WotF_Spellbook.SlotGlyphCount>ルーン {0}個</WotF_Spellbook.SlotGlyphCount>
+  <WotF_Spellbook.SlotTitle>呪文スロット {0}</WotF_Spellbook.SlotTitle>
+  <WotF_Spellbook.SlotTooltipUsed>保存済：{0}</WotF_Spellbook.SlotTooltipUsed>
+  <WotF_Spellbook.SocketSealedFallback>第{0}ルーン枠は現在の魔導書の階位により封印されています。</WotF_Spellbook.SocketSealedFallback>
+  <WotF_Spellbook.SocketSealedMark>封</WotF_Spellbook.SocketSealedMark>
+  <WotF_Spellbook.SocketSealedTip>第{0}ルーン枠は封印されています。{1}を装備すると最大{2}個のルーン列が解放されます。</WotF_Spellbook.SocketSealedTip>
+  <WotF_Spellbook.StaffModSummary>威力 {0} · 魔力 {1} · 持続 {2}</WotF_Spellbook.StaffModSummary>
+  <WotF_Spellbook.StaffModTip>上部の消費魔力・射程・時間および下部のプレビュー数値には、装備中の「{0}」による補正が反映されています：
+ダメージ {1} · 消費魔力 {2} · 持続 {3} · 射程 {4} · 準備 {5}</WotF_Spellbook.StaffModTip>
+  <WotF_Spellbook.SwitchBookmark>クリックでこのスロットに切り替え、ポーンの詠唱コマンドを同期します。</WotF_Spellbook.SwitchBookmark>
+  <WotF_Spellbook.TargetAnimal>動物</WotF_Spellbook.TargetAnimal>
+  <WotF_Spellbook.TargetBuilding>建造物</WotF_Spellbook.TargetBuilding>
+  <WotF_Spellbook.TargetCasterOnly>詠唱者のみ</WotF_Spellbook.TargetCasterOnly>
+  <WotF_Spellbook.TargetCell>地面</WotF_Spellbook.TargetCell>
+  <WotF_Spellbook.TargetEntity>エンティティ</WotF_Spellbook.TargetEntity>
+  <WotF_Spellbook.TargetHumanlike>人間型</WotF_Spellbook.TargetHumanlike>
+  <WotF_Spellbook.TargetItem>アイテム</WotF_Spellbook.TargetItem>
+  <WotF_Spellbook.TargetMechanoid>メカノイド</WotF_Spellbook.TargetMechanoid>
+  <WotF_Spellbook.TargetPlant>植物</WotF_Spellbook.TargetPlant>
+  <WotF_Spellbook.TargetRock>岩石</WotF_Spellbook.TargetRock>
+  <WotF_Spellbook.TargetsLine>対象：{0}</WotF_Spellbook.TargetsLine>
+  <WotF_Spellbook.Timing>準備 {0}秒 · 集中 {1}秒 · 硬直 {2}秒</WotF_Spellbook.Timing>
+  <WotF_Spellbook.TimingTip>保存時に固定される詠唱時間：準備 {0} tick、集中 {1} tick、硬直 {2} tick（60 tick = 1秒）。準備中は自由に移動でき、集中中は移動速度が低下し、硬直中はその場に立ち止まります。</WotF_Spellbook.TimingTip>
+  <WotF_Spellbook.ValidationFailed>無効：{0}</WotF_Spellbook.ValidationFailed>
+  <WotF_Spellbook.ValidationOk>有効な組み合わせです。保存できます。</WotF_Spellbook.ValidationOk>
+  <WotF_Spellbook.ValidationUnknown>原因不明</WotF_Spellbook.ValidationUnknown>
+  <WotF_Spellbook.WindowTitle>魔導書</WotF_Spellbook.WindowTitle>
+</LanguageData>

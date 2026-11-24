@@ -283,4 +283,624 @@
     </subSounds>
   </SoundDef>
 
+  <!-- ==================== 7. Spell Carriers & Forms ==================== -->
+
+  <SoundDef>
+    <defName>WotF_Sound_Missile_Launch</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>4</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Missile_Launch_01</clipPath></li>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Missile_Launch_02</clipPath></li>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Missile_Launch_03</clipPath></li>
+        </grains>
+        <volumeRange>22~30</volumeRange>
+        <pitchRange>0.94~1.08</pitchRange>
+        <distRange>10~45</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Missile_Touch</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>4</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Missile_Touch_01</clipPath></li>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Missile_Touch_02</clipPath></li>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Missile_Touch_03</clipPath></li>
+        </grains>
+        <volumeRange>14~22</volumeRange>
+        <pitchRange>0.96~1.08</pitchRange>
+        <distRange>8~40</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Orbit_Spawn</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>1</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Orbit_Spawn</clipPath></li>
+        </grains>
+        <volumeRange>24~30</volumeRange>
+        <pitchRange>0.96~1.05</pitchRange>
+        <distRange>10~45</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Linger_Deploy</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Linger_Deploy</clipPath></li>
+        </grains>
+        <volumeRange>24~32</volumeRange>
+        <pitchRange>0.96~1.04</pitchRange>
+        <distRange>10~45</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Linger_Pulse</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Linger_Pulse</clipPath></li>
+        </grains>
+        <volumeRange>16~24</volumeRange>
+        <pitchRange>0.97~1.05</pitchRange>
+        <distRange>8~36</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Rune_Place</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Rune_Place</clipPath></li>
+        </grains>
+        <volumeRange>24~32</volumeRange>
+        <pitchRange>0.96~1.05</pitchRange>
+        <distRange>10~42</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <!-- ==================== 8. Spell Effects ==================== -->
+
+  <SoundDef>
+    <defName>WotF_Sound_Effect_Harm</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>4</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Harm_01</clipPath></li>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Harm_02</clipPath></li>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Harm_03</clipPath></li>
+        </grains>
+        <volumeRange>28~36</volumeRange>
+        <pitchRange>0.94~1.07</pitchRange>
+        <distRange>10~45</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Effect_Heal</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Heal_01</clipPath></li>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Heal_02</clipPath></li>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Heal_03</clipPath></li>
+        </grains>
+        <volumeRange>26~34</volumeRange>
+        <pitchRange>0.97~1.05</pitchRange>
+        <distRange>10~45</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Effect_Grow</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Grow_01</clipPath></li>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Grow_02</clipPath></li>
+        </grains>
+        <volumeRange>26~34</volumeRange>
+        <pitchRange>0.95~1.06</pitchRange>
+        <distRange>10~45</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Effect_Explosion</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Explosion_01</clipPath></li>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Explosion_02</clipPath></li>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Explosion_03</clipPath></li>
+        </grains>
+        <volumeRange>38~46</volumeRange>
+        <pitchRange>0.93~1.06</pitchRange>
+        <distRange>15~65</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Effect_Lightning</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Lightning_01</clipPath></li>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Lightning_02</clipPath></li>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Lightning_03</clipPath></li>
+        </grains>
+        <volumeRange>34~44</volumeRange>
+        <pitchRange>0.94~1.06</pitchRange>
+        <distRange>15~65</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Effect_ColdSnap</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_ColdSnap_01</clipPath></li>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_ColdSnap_02</clipPath></li>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_ColdSnap_03</clipPath></li>
+        </grains>
+        <volumeRange>30~38</volumeRange>
+        <pitchRange>0.94~1.07</pitchRange>
+        <distRange>12~50</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Effect_Freeze</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Freeze_01</clipPath></li>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Freeze_02</clipPath></li>
+        </grains>
+        <volumeRange>28~36</volumeRange>
+        <pitchRange>0.95~1.05</pitchRange>
+        <distRange>10~45</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Effect_Knockback</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Knockback_01</clipPath></li>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Knockback_02</clipPath></li>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Knockback_03</clipPath></li>
+        </grains>
+        <volumeRange>30~38</volumeRange>
+        <pitchRange>0.94~1.06</pitchRange>
+        <distRange>10~48</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Effect_Pull</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Pull_01</clipPath></li>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Pull_02</clipPath></li>
+        </grains>
+        <volumeRange>28~36</volumeRange>
+        <pitchRange>0.95~1.06</pitchRange>
+        <distRange>10~48</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Effect_Snare</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Snare_01</clipPath></li>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Snare_02</clipPath></li>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Snare_03</clipPath></li>
+        </grains>
+        <volumeRange>28~36</volumeRange>
+        <pitchRange>0.94~1.06</pitchRange>
+        <distRange>10~45</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Effect_Hex</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Hex_01</clipPath></li>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Hex_02</clipPath></li>
+        </grains>
+        <volumeRange>28~36</volumeRange>
+        <pitchRange>0.94~1.04</pitchRange>
+        <distRange>10~45</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Effect_Hack_Pulse</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Hack_Pulse</clipPath></li>
+        </grains>
+        <volumeRange>28~36</volumeRange>
+        <pitchRange>0.97~1.05</pitchRange>
+        <distRange>10~45</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Effect_Hack_Loop</defName>
+    <sustain>True</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Hack_Loop</clipPath></li>
+        </grains>
+        <volumeRange>14~20</volumeRange>
+        <pitchRange>0.98~1.02</pitchRange>
+        <distRange>6~28</distRange>
+        <sustainLoop>True</sustainLoop>
+        <sustainAttack>0.12</sustainAttack>
+        <sustainRelease>0.20</sustainRelease>
+        <tempoAffectedByGameSpeed>True</tempoAffectedByGameSpeed>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Effect_Hack_Confirm</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Hack_Confirm</clipPath></li>
+        </grains>
+        <volumeRange>30~38</volumeRange>
+        <pitchRange>0.98~1.04</pitchRange>
+        <distRange>12~50</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Effect_Magelight</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Magelight_01</clipPath></li>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Magelight_02</clipPath></li>
+        </grains>
+        <volumeRange>22~30</volumeRange>
+        <pitchRange>0.97~1.06</pitchRange>
+        <distRange>10~42</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Effect_Blink</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Blink_01</clipPath></li>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Blink_02</clipPath></li>
+        </grains>
+        <volumeRange>26~34</volumeRange>
+        <pitchRange>0.96~1.06</pitchRange>
+        <distRange>10~45</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Effect_Delay</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Effect_Delay</clipPath></li>
+        </grains>
+        <volumeRange>24~32</volumeRange>
+        <pitchRange>0.98~1.04</pitchRange>
+        <distRange>10~42</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <!-- ==================== 9. Super: Cordium Fire Tornado ==================== -->
+
+  <SoundDef>
+    <defName>WotF_Sound_Tornado_Spawn</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Tornado_Spawn</clipPath></li>
+        </grains>
+        <volumeRange>38~46</volumeRange>
+        <pitchRange>0.95~1.04</pitchRange>
+        <distRange>18~75</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Tornado_Loop</defName>
+    <sustain>True</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Tornado_Loop</clipPath></li>
+        </grains>
+        <volumeRange>28~38</volumeRange>
+        <pitchRange>0.96~1.04</pitchRange>
+        <distRange>16~68</distRange>
+        <sustainLoop>True</sustainLoop>
+        <sustainAttack>0.25</sustainAttack>
+        <sustainRelease>0.40</sustainRelease>
+        <tempoAffectedByGameSpeed>True</tempoAffectedByGameSpeed>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Tornado_End</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>Spells/WotF_Tornado_End</clipPath></li>
+        </grains>
+        <volumeRange>30~38</volumeRange>
+        <pitchRange>0.96~1.04</pitchRange>
+        <distRange>16~68</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <!-- ==================== 10. Rituals, Teleport Gate & Short Staff ==================== -->
+
+  <SoundDef>
+    <defName>WotF_Sound_Ritual_Chant_Loop</defName>
+    <sustain>True</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>1</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>WotF/WotF_Ritual_Chant_Loop</clipPath></li>
+        </grains>
+        <volumeRange>16~22</volumeRange>
+        <pitchRange>0.99~1.01</pitchRange>
+        <distRange>10~45</distRange>
+        <sustainLoop>True</sustainLoop>
+        <sustainAttack>0.45</sustainAttack>
+        <sustainRelease>0.60</sustainRelease>
+        <tempoAffectedByGameSpeed>True</tempoAffectedByGameSpeed>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Ritual_Complete_Life</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>WotF/WotF_Ritual_Complete_Life</clipPath></li>
+        </grains>
+        <volumeRange>34~42</volumeRange>
+        <pitchRange>0.98~1.03</pitchRange>
+        <distRange>18~75</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Ritual_Complete_Craft</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>WotF/WotF_Ritual_Complete_Craft</clipPath></li>
+        </grains>
+        <volumeRange>34~42</volumeRange>
+        <pitchRange>0.98~1.03</pitchRange>
+        <distRange>18~75</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Ritual_Complete_Domain</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>WotF/WotF_Ritual_Complete_Domain</clipPath></li>
+        </grains>
+        <volumeRange>34~42</volumeRange>
+        <pitchRange>0.98~1.03</pitchRange>
+        <distRange>18~75</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_TeleportGate_Transfer</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>WotF/WotF_TeleportGate_Transfer</clipPath></li>
+        </grains>
+        <volumeRange>32~40</volumeRange>
+        <pitchRange>0.96~1.04</pitchRange>
+        <distRange>14~58</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>WotF_Sound_Staff_Disrupt</defName>
+    <sustain>False</sustain>
+    <context>MapOnly</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip"><clipPath>WotF/WotF_Staff_Disrupt</clipPath></li>
+        </grains>
+        <volumeRange>32~40</volumeRange>
+        <pitchRange>0.96~1.05</pitchRange>
+        <distRange>12~50</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
 </Defs>

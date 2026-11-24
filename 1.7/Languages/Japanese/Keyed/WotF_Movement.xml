@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_Movement_Equipped>{0}を装備しました。{1}</WotF_Movement_Equipped>
+  <WotF_Movement_StatusLine>{0}：歩行 {1}マス、瞬間移動 {2}マス、瞬間移動阻害 {3}回（直近の理由：{4}）</WotF_Movement_StatusLine>
+  <WotF_Movement_Unequipped>{0}を外したため、移動効果は即座に通常状態へ戻りました。{1}</WotF_Movement_Unequipped>
+</LanguageData>

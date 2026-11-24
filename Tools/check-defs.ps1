@@ -1231,7 +1231,7 @@ foreach ($entry in $modDefs) {
 # English text. Only literals are checked: "WotF_x".Translate(...), and both arms of a
 # (cond ? "WotF_a" : "WotF_b").Translate(...). Keys built by concatenation, TryTranslate/CanTranslate
 # probes and wrappers such as SpellText.T are not looked at.
-$keyedLanguages = @('English', 'ChineseSimplified')
+$keyedLanguages = @('English', 'ChineseSimplified', 'Japanese')
 $keyedKeys = @{}
 foreach ($language in $keyedLanguages) {
     $languageKeys = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)

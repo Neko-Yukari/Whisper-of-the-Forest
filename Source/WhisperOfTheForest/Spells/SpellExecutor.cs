@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Verse;
+using Verse.Sound;
 
 namespace WhisperOfTheForest.Spells
 {
@@ -20,7 +21,13 @@ namespace WhisperOfTheForest.Spells
             {
                 if (report.Length > 0) report.Append(' ');
                 report.Append(steps[i].DiagnosticName).Append('=');
-                report.Append(steps[i].Execute(caster, primary, cell, map));
+                int count = steps[i].Execute(caster, primary, cell, map);
+                report.Append(count);
+                if (count > 0 && map == Find.CurrentMap)
+                {
+                    SoundDef sound = steps[i].ResolveSound;
+                    if (sound != null) sound.PlayOneShot(new TargetInfo(cell, map));
+                }
             }
             return report.Length == 0 ? "no-effects" : report.ToString();
         }

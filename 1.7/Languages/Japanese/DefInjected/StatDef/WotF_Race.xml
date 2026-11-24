@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_ManaMax.description>森の血脈を持つ詠唱者が蓄えられる魔力の上限。基礎値は血脈レベルによって決まり、装備によってさらに加算される。</WotF_ManaMax.description>
+  <WotF_ManaMax.label>魔力上限</WotF_ManaMax.label>
+  <WotF_ManaRegen.description>森の血脈を持つ詠唱者が1秒あたりに回復する魔力量。</WotF_ManaRegen.description>
+  <WotF_ManaRegen.label>魔力回復</WotF_ManaRegen.label>
+</LanguageData>

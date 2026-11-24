@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <WotF_SuperRuneRubbing_Railgun.label>磁轨炮符文</WotF_SuperRuneRubbing_Railgun.label>
-  <WotF_SuperRuneRubbing_Railgun.description>在古老遗迹深处发现的孤本超位符文，表面蚀刻着常人难以理解的精密纹路。经过研读后，这份脆弱的载体便会化为灰烬，但法术的构成将被永久记录下来，供整个殖民地的施法者使用。</WotF_SuperRuneRubbing_Railgun.description>
   <WotF_SuperRuneRubbing_Railgun.comps.CompUsable.useLabel>研读{0_label}</WotF_SuperRuneRubbing_Railgun.comps.CompUsable.useLabel>
-  <WotF_SuperRuneRubbing_Tornado.label>烈焰龙卷符文</WotF_SuperRuneRubbing_Tornado.label>
-  <WotF_SuperRuneRubbing_Tornado.description>在古老遗迹深处发现的孤本超位符文，表面蚀刻着常人难以理解的精密纹路。经过研读后，这份脆弱的载体便会化为灰烬，但法术的构成将被永久记录下来，供整个殖民地的施法者使用。</WotF_SuperRuneRubbing_Tornado.description>
+  <WotF_SuperRuneRubbing_Railgun.description>在古老遗迹深处发现的孤本超位符文，表面蚀刻着常人难以理解的精密纹路。经过研读后，这份脆弱的载体便会化为灰烬，但法术的构成将被永久记录下来，供整个殖民地的施法者使用。</WotF_SuperRuneRubbing_Railgun.description>
+  <WotF_SuperRuneRubbing_Railgun.label>磁轨炮符文</WotF_SuperRuneRubbing_Railgun.label>
   <WotF_SuperRuneRubbing_Tornado.comps.CompUsable.useLabel>研读{0_label}</WotF_SuperRuneRubbing_Tornado.comps.CompUsable.useLabel>
+  <WotF_SuperRuneRubbing_Tornado.description>在古老遗迹深处发现的孤本超位符文，表面蚀刻着常人难以理解的精密纹路。经过研读后，这份脆弱的载体便会化为灰烬，但法术的构成将被永久记录下来，供整个殖民地的施法者使用。</WotF_SuperRuneRubbing_Tornado.description>
+  <WotF_SuperRuneRubbing_Tornado.label>烈焰龙卷符文</WotF_SuperRuneRubbing_Tornado.label>
 </LanguageData>

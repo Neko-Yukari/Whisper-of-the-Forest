@@ -1,6 +1,8 @@
 using System;
+using RimWorld;
 using UnityEngine;
 using Verse;
+using Verse.Sound;
 
 namespace WhisperOfTheForest.Missiles
 {
@@ -148,6 +150,12 @@ namespace WhisperOfTheForest.Missiles
                 projectile.Initialize(missile, caster, target, target);
                 GenSpawn.Spawn(projectile, spawnCell, map, WipeMode.Vanish);
                 launched++;
+            }
+
+            if (launched > 0 && map == Find.CurrentMap && !(caster is Building_Turret)
+                && volley.visualDef?.launchSound != null)
+            {
+                volley.visualDef.launchSound.PlayOneShot(new TargetInfo(origin.ToIntVec3(), map));
             }
 
             return launched;

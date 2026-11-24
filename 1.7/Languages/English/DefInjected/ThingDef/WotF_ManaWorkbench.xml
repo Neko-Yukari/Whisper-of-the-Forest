@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_ManaWorkbench.description>A non-electric workshop built from a stone base, timber, and livingwood. Linked to a nearby mana network, it consumes mana only while a crafter is actively working and halts if the supply runs dry. Because it uses no electricity, elves retain their forest craft bonus here.</WotF_ManaWorkbench.description>
+  <WotF_ManaWorkbench.label>mana workbench</WotF_ManaWorkbench.label>
+</LanguageData>

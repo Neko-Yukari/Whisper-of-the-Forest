@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <WotF_Site_Ruin_Core.label>古老工程遗迹</WotF_Site_Ruin_Core.label>
-  <WotF_Site_Ruin_Core.description>掩埋在植被与混凝土之下的古老工程设施。当年封存在深处的遗物至今无人开启，看守此处的机构也仍在运转。</WotF_Site_Ruin_Core.description>
   <WotF_Site_Ruin_Core.approachOrderString>探查{0}</WotF_Site_Ruin_Core.approachOrderString>
   <WotF_Site_Ruin_Core.approachingReportString>正在探查{0}。</WotF_Site_Ruin_Core.approachingReportString>
   <WotF_Site_Ruin_Core.arrivedLetter>你们抵达了工程遗迹。旧日闪耀世界的遗物就埋藏在厚厚的混凝土之下，但需要小心，那些防止入侵的机构仍在工作…\n你有一种预感，如果不把守卫清理干净，那扇传送门是不可能再次被打开的。</WotF_Site_Ruin_Core.arrivedLetter>
+  <WotF_Site_Ruin_Core.description>掩埋在植被与混凝土之下的古老工程设施。当年封存在深处的遗物至今无人开启，看守此处的机构也仍在运转。</WotF_Site_Ruin_Core.description>
+  <WotF_Site_Ruin_Core.label>古老工程遗迹</WotF_Site_Ruin_Core.label>
 </LanguageData>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_Site_Ruin_Core.approachOrderString>Investigate {0}</WotF_Site_Ruin_Core.approachOrderString>
+  <WotF_Site_Ruin_Core.approachingReportString>Investigating {0}.</WotF_Site_Ruin_Core.approachingReportString>
+  <WotF_Site_Ruin_Core.arrivedLetter>You have reached the ancient engineering ruin. Relics of an old glitterworld lie buried beneath the thick concrete, but be careful—the anti-intrusion defenses are still active...\nYou have a feeling that unless the guardians are cleared out, that teleport gate will never open again.</WotF_Site_Ruin_Core.arrivedLetter>
+  <WotF_Site_Ruin_Core.description>An ancient engineering facility buried beneath overgrowth and concrete. The relics sealed deep within remain untouched, and the mechanisms guarding it are still active.</WotF_Site_Ruin_Core.description>
+  <WotF_Site_Ruin_Core.label>ancient engineering ruin</WotF_Site_Ruin_Core.label>
+</LanguageData>

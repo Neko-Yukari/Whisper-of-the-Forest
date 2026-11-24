@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-
+  <WotF_Hediff_Clotting.description>A gentle layer of mana seals surface wounds, helping them heal more quickly.</WotF_Hediff_Clotting.description>
   <WotF_Hediff_Clotting.label>clotted wounds</WotF_Hediff_Clotting.label>
-  <WotF_Hediff_Clotting.description>Wounds were bandaged by magic and are closing faster than they otherwise would.</WotF_Hediff_Clotting.description>
-  <WotF_Hediff_Freeze.label>frozen</WotF_Hediff_Freeze.label>
-  <WotF_Hediff_Freeze.description>Rime on the joints: movement is capped while the cold lasts.</WotF_Hediff_Freeze.description>
+  <WotF_Hediff_Ensnare.description>Unseen mana pins the target in place. It cannot move a step, yet can still attack as normal.</WotF_Hediff_Ensnare.description>
   <WotF_Hediff_Ensnare.label>rooted</WotF_Hediff_Ensnare.label>
-  <WotF_Hediff_Ensnare.description>Held in place by the spell. Movement is zero; attacking is untouched.</WotF_Hediff_Ensnare.description>
+  <WotF_Hediff_Freeze.description>Biting frost coats the body and joints. Until the chill fades, the target's movements are stiff and severely slowed.</WotF_Hediff_Freeze.description>
+  <WotF_Hediff_Freeze.label>frozen</WotF_Hediff_Freeze.label>
+  <WotF_Hediff_Hex.description>A cold mark branded onto the target. Until it fades, the target takes extra damage while wound healing and mana recovery slow.</WotF_Hediff_Hex.description>
   <WotF_Hediff_Hex.label>hexed</WotF_Hediff_Hex.label>
-  <WotF_Hediff_Hex.description>A mark that makes the body take more damage and mend more slowly.</WotF_Hediff_Hex.description>
+  <WotF_Hediff_LightningCharge.description>Residual static from a lightning strike crackles across the body. The more stacks carried, the harder the next lightning strike hits.</WotF_Hediff_LightningCharge.description>
   <WotF_Hediff_LightningCharge.label>charged</WotF_Hediff_LightningCharge.label>
-  <WotF_Hediff_LightningCharge.description>Residual charge from a lightning strike. The next strike hurts more for every stack carried.</WotF_Hediff_LightningCharge.description>
+  <WotF_Hediff_MechAssimilation.description>Foreign mana is forcing its way through this mechanoid's command circuits, leaving it stunned. If the caster's channeling is interrupted, assimilation fails immediately.</WotF_Hediff_MechAssimilation.description>
+  <WotF_Hediff_MechAssimilation.label>being assimilated</WotF_Hediff_MechAssimilation.label>
+  <WotF_Hediff_MechControlled.description>Its command circuits have been briefly overwritten by magic, placing it under the caster's faction without using mechanitor bandwidth. Once the effect expires, it reverts to its original faction and is undrafted.</WotF_Hediff_MechControlled.description>
+  <WotF_Hediff_MechControlled.label>temporarily controlled</WotF_Hediff_MechControlled.label>
+  <WotF_Hediff_Scorch.description>Residual arcane flame clings to the surface, continuing to sear the target without igniting anything nearby.</WotF_Hediff_Scorch.description>
   <WotF_Hediff_Scorch.label>scorched</WotF_Hediff_Scorch.label>
-  <WotF_Hediff_Scorch.description>A controlled burn that keeps searing the target without ever becoming a spreading fire.</WotF_Hediff_Scorch.description>
-
 </LanguageData>

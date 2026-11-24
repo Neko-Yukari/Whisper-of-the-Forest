@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-
   <WotF_Magelight.label>magelight</WotF_Magelight.label>
-  <WotF_SpellField.label>spell field</WotF_SpellField.label>
-  <WotF_SpellOrbit.label>arcane orb</WotF_SpellOrbit.label>
-  <WotF_SpellExplosion.label>arcane explosion</WotF_SpellExplosion.label>
   <WotF_ShieldField.label>arcane shield</WotF_ShieldField.label>
-
+  <WotF_SpellExplosion.label>arcane explosion</WotF_SpellExplosion.label>
+  <WotF_SpellField.label>spell field</WotF_SpellField.label>
+  <WotF_SpellOrbit.label>orbiting orb</WotF_SpellOrbit.label>
 </LanguageData>

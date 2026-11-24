@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_Enchant.Gizmo.Current>ミスリルスロット：第{0}槽・{1}</WotF_Enchant.Gizmo.Current>
+  <WotF_Enchant.Gizmo.Desc>ミスリル製武具は2つの刻印スロットを備える。切り替えると、選択中スロットの呪文が反応発動する。</WotF_Enchant.Gizmo.Desc>
+  <WotF_Enchant.Gizmo.None>ミスリルスロット：第{0}槽（空）</WotF_Enchant.Gizmo.None>
+  <WotF_Enchant.Inspect.Empty>空</WotF_Enchant.Inspect.Empty>
+  <WotF_Enchant.Inspect.None>刻印：なし</WotF_Enchant.Inspect.None>
+  <WotF_Enchant.Inspect.One>刻印：{0}</WotF_Enchant.Inspect.One>
+  <WotF_Enchant.Inspect.Slots>刻印：{0}</WotF_Enchant.Inspect.Slots>
+  <WotF_Enchant.Menu.Slot>{0}. {1}</WotF_Enchant.Menu.Slot>
+  <WotF_Equipment.Gizmo.Current>{0}：{1}</WotF_Equipment.Gizmo.Current>
+  <WotF_Equipment.Gizmo.Desc>このスタッフまたはワンドで攻撃する際に詠唱する魔導書スロットを選択する。触媒が記憶するのは呪文の複製ではなくスロット自体であり、該当ページを書き換えると詠唱される呪文も連動して変わる。スロットが空の場合は攻撃できない。</WotF_Equipment.Gizmo.Desc>
+  <WotF_Equipment.Gizmo.NoBook>現在のゲームでは魔導書がまだ利用可能になっていません。</WotF_Equipment.Gizmo.NoBook>
+  <WotF_Equipment.Gizmo.NoSavedSpell>魔導書に保存されている呪文がまだありません。</WotF_Equipment.Gizmo.NoSavedSpell>
+  <WotF_Equipment.Gizmo.NoSpell>{0}：呪文未選択</WotF_Equipment.Gizmo.NoSpell>
+  <WotF_Equipment.Inspect.Current>呪文：{0}</WotF_Equipment.Inspect.Current>
+  <WotF_Equipment.Inspect.NoSpell>呪文：なし</WotF_Equipment.Inspect.NoSpell>
+  <WotF_Equipment.Menu.Slot>{0}. {1}</WotF_Equipment.Menu.Slot>
+  <WotF_Equipment.Reason.TwoHandedShieldBlock>装備中のシールドベルトが両手スタッフの詠唱を遮っています。</WotF_Equipment.Reason.TwoHandedShieldBlock>
+</LanguageData>

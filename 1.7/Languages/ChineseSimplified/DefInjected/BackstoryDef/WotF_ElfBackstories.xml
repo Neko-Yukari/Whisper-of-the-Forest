@@ -1,108 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-
-  <WotF_Backstory_FruitSneak.title>摸秋者</WotF_Backstory_FruitSneak.title>
-  <WotF_Backstory_FruitSneak.titleShort>摸秋者</WotF_Backstory_FruitSneak.titleShort>
-  <WotF_Backstory_FruitSneak.description>大人们总用魔法辅助采集浆果和草药，[PAWN_nameDef]也很快学会了这套手法——只不过她大半时候都在偷偷把最甜的果子和嫩芽拢进自己兜里，躲在一旁当零嘴吃掉。</WotF_Backstory_FruitSneak.description>
-
-  <WotF_Backstory_Bookworm.title>书虫</WotF_Backstory_Bookworm.title>
-  <WotF_Backstory_Bookworm.titleShort>书虫</WotF_Backstory_Bookworm.titleShort>
-  <WotF_Backstory_Bookworm.description>[PAWN_nameDef]几乎把所有空闲时间都泡在了聚落的书库里。架子上那些泛黄的旧手册明明晦涩得连大人们都懒得翻，她却总是捧着不放，甚至还会为了弄懂某张奇怪的插图而忘记吃饭。</WotF_Backstory_Bookworm.description>
-
-  <WotF_Backstory_RuinExplorer.title>遗迹探险家</WotF_Backstory_RuinExplorer.title>
-  <WotF_Backstory_RuinExplorer.titleShort>探险家</WotF_Backstory_RuinExplorer.titleShort>
-  <WotF_Backstory_RuinExplorer.description>[PAWN_nameDef]总爱拉着几个同龄伙伴，背着简陋的工具溜去聚落附近的古代遗迹探险。至于那片废墟早就被大人们里里外外翻过十遍、危险的机构也早拆干净的事，大家很有默契地一直没戳穿她。</WotF_Backstory_RuinExplorer.description>
-
-  <WotF_Backstory_MartialEnthusiast.title>武艺爱好者</WotF_Backstory_MartialEnthusiast.title>
-  <WotF_Backstory_MartialEnthusiast.titleShort>习武者</WotF_Backstory_MartialEnthusiast.titleShort>
-  <WotF_Backstory_MartialEnthusiast.description>别的孩子还在溪边摸鱼打闹时，[PAWN_nameDef]就已经天天缠着守卫教她拉弓舞剑了。不过在她心里，起手式摆得帅不帅气，有时候比箭矢能不能射中靶心还要重要。</WotF_Backstory_MartialEnthusiast.description>
-
-  <WotF_Backstory_RepairApprentice.title>维修学徒</WotF_Backstory_RepairApprentice.title>
-  <WotF_Backstory_RepairApprentice.titleShort>维修学徒</WotF_Backstory_RepairApprentice.titleShort>
-  <WotF_Backstory_RepairApprentice.description>[PAWN_nameDef]从小就跟着工坊的导师照看聚落里仅存的几台旧机器。虽然完全搞不懂铁壳里面为什么会嗡嗡作响，但她早早学会了一本正经地往外壳上画几道记号，再拿木槌轻敲两下，而且每次敲完机器居然真的会恢复运转。</WotF_Backstory_RepairApprentice.description>
-
-  <WotF_Backstory_CourierChild.title>送信人</WotF_Backstory_CourierChild.title>
-  <WotF_Backstory_CourierChild.titleShort>送信人</WotF_Backstory_CourierChild.titleShort>
-  <WotF_Backstory_CourierChild.description>精灵聚落之间很少用无线电联络，日常传话大多靠双腿跑。年幼的[PAWN_nameDef]整天揣着信件在各处哨所之间来回穿梭，不仅练出了一副好脚力，还顺带学会了怎么打发拦路的野兽。</WotF_Backstory_CourierChild.description>
-
-  <WotF_Backstory_CuriousChild.title>好奇宝宝</WotF_Backstory_CuriousChild.title>
-  <WotF_Backstory_CuriousChild.titleShort>好奇宝宝</WotF_Backstory_CuriousChild.titleShort>
-  <WotF_Backstory_CuriousChild.description>[PAWN_nameDef]对外面的世界充满了好奇，隔三岔五就会趁长辈不注意溜出聚落外围。四处乱逛的日子让她早早学会了怎么和陌生人打交道，也终于记住了摔破膝盖时该扯哪几种草药应急。</WotF_Backstory_CuriousChild.description>
-
-  <WotF_Backstory_PigmentMaker.title>颜料匠</WotF_Backstory_PigmentMaker.title>
-  <WotF_Backstory_PigmentMaker.titleShort>颜料匠</WotF_Backstory_PigmentMaker.titleShort>
-  <WotF_Backstory_PigmentMaker.description>[PAWN_nameDef]整天待在工坊里淘洗白石、研磨矿物和草药，用来调配仪式粉笔和绘图所需的各色颜料。因为常年和矿粉打交道，她的指甲缝里几乎什么时候都沾着洗不干净的淡色印迹。</WotF_Backstory_PigmentMaker.description>
-
-  <WotF_Backstory_Woodshaper.title>木艺师</WotF_Backstory_Woodshaper.title>
-  <WotF_Backstory_Woodshaper.titleShort>木匠</WotF_Backstory_Woodshaper.titleShort>
-  <WotF_Backstory_Woodshaper.description>[PAWN_nameDef]擅长顺着树木原本的纹理引导魔力，让生长中的枝干慢慢弯折成弓臂、手杖或是梁柱的形状。经她照料长成的木料格外坚韧，连一丝锯痕都找不到。</WotF_Backstory_Woodshaper.description>
-
-  <WotF_Backstory_Smith.title>铁匠</WotF_Backstory_Smith.title>
-  <WotF_Backstory_Smith.titleShort>铁匠</WotF_Backstory_Smith.titleShort>
-  <WotF_Backstory_Smith.description>聚落里允许生起高炉的铁匠铺屈指可数，[PAWN_nameDef]常年守在其中一间炉火旁。她习惯反复敲打那些质地奇特的金属胚料，直到它们化作趁手的兵刃与护具。</WotF_Backstory_Smith.description>
-
-  <WotF_Backstory_MachineSpiritMender.title>电器维修工</WotF_Backstory_MachineSpiritMender.title>
-  <WotF_Backstory_MachineSpiritMender.titleShort>维修工</WotF_Backstory_MachineSpiritMender.titleShort>
-  <WotF_Backstory_MachineSpiritMender.description>聚落里几台祖传的旧冰箱和净水器全靠[PAWN_nameDef]照看。虽然她根本说不清铁壳里面那些嗡嗡作响的零件是什么原理，但凭着几笔仪式记号和精准的两下木槌，她总能让罢工的老伙计重新转起来。</WotF_Backstory_MachineSpiritMender.description>
-
-  <WotF_Backstory_NurseryKeeper.title>苗圃看护人</WotF_Backstory_NurseryKeeper.title>
-  <WotF_Backstory_NurseryKeeper.titleShort>园丁</WotF_Backstory_NurseryKeeper.titleShort>
-  <WotF_Backstory_NurseryKeeper.description>[PAWN_nameDef]平时负责照看聚落的药圃与幼苗，哪株草药缺水、哪片土该翻松，她看一眼就心里有数。活儿干完以后，她最喜欢做的事就是直接靠在树荫底下闭目打盹。</WotF_Backstory_NurseryKeeper.description>
-
-  <WotF_Backstory_Beekeeper.title>养蜂人</WotF_Backstory_Beekeeper.title>
-  <WotF_Backstory_Beekeeper.titleShort>养蜂人</WotF_Backstory_Beekeeper.titleShort>
-  <WotF_Backstory_Beekeeper.description>[PAWN_nameDef]在聚落边缘的空地上照看蜂箱和几只温顺的小动物，衣服上常年带着淡淡的甜香。每到采蜜的时节，连平时板着脸的护卫想讨一小罐蜜糖，都得先看她的脸色。</WotF_Backstory_Beekeeper.description>
-
-  <WotF_Backstory_Herbalist.title>草药医师</WotF_Backstory_Herbalist.title>
-  <WotF_Backstory_Herbalist.titleShort>医师</WotF_Backstory_Herbalist.titleShort>
-  <WotF_Backstory_Herbalist.description>[PAWN_nameDef]习惯用温和的止血法术配合草药膏处理外伤。每当听说外面的诊所动不动就要动刀锯骨，她总会忍不住皱起眉头，觉得那些手段未免太过粗暴。</WotF_Backstory_Herbalist.description>
-
-  <WotF_Backstory_QuarryWorker.title>采石工</WotF_Backstory_QuarryWorker.title>
-  <WotF_Backstory_QuarryWorker.titleShort>采石工</WotF_Backstory_QuarryWorker.titleShort>
-  <WotF_Backstory_QuarryWorker.description>[PAWN_nameDef]常年在山壁旁凿取石料，为聚落铺路、筑墙并收集制作粉笔所需的矿物。收工时她的口袋往往沉甸甸的，里面多半藏着几块顺手捡来、色泽好看的碎矿石。</WotF_Backstory_QuarryWorker.description>
-
-  <WotF_Backstory_Hunter.title>猎人</WotF_Backstory_Hunter.title>
-  <WotF_Backstory_Hunter.titleShort>猎人</WotF_Backstory_Hunter.titleShort>
-  <WotF_Backstory_Hunter.description>[PAWN_nameDef]负责驱赶靠近聚落的凶猛野兽，顺带为仓库补上毛皮和肉食。只要野兽在泥地里留下过痕迹，她就能不紧不慢地一路追到巢穴门口。</WotF_Backstory_Hunter.description>
-
-  <WotF_Backstory_ForestCook.title>厨师</WotF_Backstory_ForestCook.title>
-  <WotF_Backstory_ForestCook.titleShort>厨师</WotF_Backstory_ForestCook.titleShort>
-  <WotF_Backstory_ForestCook.description>就算直接啃生浆果也不会吃坏肚子，[PAWN_nameDef]还是执着于研究火候与调味。只要给她一口铁锅，她就能把寻常的菌菇、蜂蜜和猎物炖出让人走不动道的香气。</WotF_Backstory_ForestCook.description>
-
-  <WotF_Backstory_ManuscriptKeeper.title>图书管理员</WotF_Backstory_ManuscriptKeeper.title>
-  <WotF_Backstory_ManuscriptKeeper.titleShort>管理员</WotF_Backstory_ManuscriptKeeper.titleShort>
-  <WotF_Backstory_ManuscriptKeeper.description>[PAWN_nameDef]负责整理并修补聚落里流传下来的旧书与残页。那些用奇怪的格式写成的文献其实没几个人能完全看懂，但只要谁敢随手把书页折出角来，就一定会被她追着念叨一整天。</WotF_Backstory_ManuscriptKeeper.description>
-
-  <WotF_Backstory_CourtTrader.title>精灵行商</WotF_Backstory_CourtTrader.title>
-  <WotF_Backstory_CourtTrader.titleShort>行商</WotF_Backstory_CourtTrader.titleShort>
-  <WotF_Backstory_CourtTrader.description>[PAWN_nameDef]是少数常年带着商队往返于人类城镇的精灵。她熟门熟路地拿手工艺品和草药去换外界少见的布料与器物，每趟回来包里装满货物，脑子里也顺带装满了一肚子传闻。</WotF_Backstory_CourtTrader.description>
-
-  <WotF_Backstory_StoneSculptor.title>石雕艺人</WotF_Backstory_StoneSculptor.title>
-  <WotF_Backstory_StoneSculptor.titleShort>石雕师</WotF_Backstory_StoneSculptor.titleShort>
-  <WotF_Backstory_StoneSculptor.description>[PAWN_nameDef]替聚落的广场与祭坛雕琢石柱和雕像。她的手艺无可挑剔，性子却慢得让人发急，一块合眼缘的大石料摆进院子，她能慢悠悠地打磨上整整半年。</WotF_Backstory_StoneSculptor.description>
-
-  <WotF_Backstory_Wanderer.title>闲散旅者</WotF_Backstory_Wanderer.title>
-  <WotF_Backstory_Wanderer.titleShort>旅者</WotF_Backstory_Wanderer.titleShort>
-  <WotF_Backstory_Wanderer.description>明明有着漫长的寿命，[PAWN_nameDef]却半点不想被聚落的规矩拴在原地。某天她干脆往兜里揣了根魔杖，留下一张纸条便出门到处晃悠，比起干正经事，她显然更关心山那边有没有没见过的新鲜玩意儿。</WotF_Backstory_Wanderer.description>
-
-  <WotF_Backstory_Idler.title>懒骨头</WotF_Backstory_Idler.title>
-  <WotF_Backstory_Idler.titleShort>闲人</WotF_Backstory_Idler.titleShort>
-  <WotF_Backstory_Idler.description>[PAWN_nameDef]打心底觉得既然寿命有几百年，实在没必要急着把今天的活干完。只要没人盯着，她能在树荫底下安安静静入定一整个上午，偶尔才慢吞吞地起来帮别人递个工具。</WotF_Backstory_Idler.description>
-
-  <WotF_Backstory_Ranger.title>精灵游侠</WotF_Backstory_Ranger.title>
-  <WotF_Backstory_Ranger.titleShort>游侠</WotF_Backstory_Ranger.titleShort>
-  <WotF_Backstory_Ranger.description>长期在领地外围巡逻的精灵射手。[PAWN_nameDef]习惯背着长弓在树影与灌木间无声移动，专门留意那些试图绕过哨所、悄悄潜入深处的不速之客。</WotF_Backstory_Ranger.description>
-
-  <WotF_Backstory_SwordGuard.title>精灵剑卫</WotF_Backstory_SwordGuard.title>
-  <WotF_Backstory_SwordGuard.titleShort>剑卫</WotF_Backstory_SwordGuard.titleShort>
-  <WotF_Backstory_SwordGuard.description>身法灵巧的近战护卫。[PAWN_nameDef]偏好轻便合身的护甲与长剑，交手时极少和对手硬碰硬，更习惯在贴身周旋中借着步法避开笨重的劈砍，再顺势还击。</WotF_Backstory_SwordGuard.description>
-
+  <WotF_Backstory_ArcaneScholar.description>精灵中少数被获准研习高阶魔法并保管遗迹档案权限的人之一，平时泡在古籍与实验台边上。但只要需要，她的法杖就会毫不留情地释放出威力巨大的法术。</WotF_Backstory_ArcaneScholar.description>
   <WotF_Backstory_ArcaneScholar.title>秘法学者</WotF_Backstory_ArcaneScholar.title>
   <WotF_Backstory_ArcaneScholar.titleShort>学者</WotF_Backstory_ArcaneScholar.titleShort>
-  <WotF_Backstory_ArcaneScholar.description>精灵中少数被获准研习高阶魔法并保管遗迹档案权限的人之一，平时泡在古籍与实验台边上。但只要需要，她的法杖就会毫不留情地释放出威力巨大的法术。</WotF_Backstory_ArcaneScholar.description>
-
+  <WotF_Backstory_Archon.description>代表聚落对外交涉与主持大局的领袖。[PAWN_nameDef]平日大多在文书与往来斡旋之间忙碌，唯有在聚落面临存亡危机的时刻，她才会披上封存已久的重甲，动用被严格管控的高危法术。</WotF_Backstory_Archon.description>
   <WotF_Backstory_Archon.title>执政官</WotF_Backstory_Archon.title>
   <WotF_Backstory_Archon.titleShort>执政官</WotF_Backstory_Archon.titleShort>
-  <WotF_Backstory_Archon.description>代表聚落对外交涉与主持大局的领袖。[PAWN_nameDef]平日大多在文书与往来斡旋之间忙碌，唯有在聚落面临存亡危机的时刻，她才会披上封存已久的重甲，动用被严格管控的高危法术。</WotF_Backstory_Archon.description>
-
+  <WotF_Backstory_Beekeeper.description>[PAWN_nameDef]在聚落边缘的空地上照看蜂箱和几只温顺的小动物，衣服上常年带着淡淡的甜香。每到采蜜的时节，连平时板着脸的护卫想讨一小罐蜜糖，都得先看她的脸色。</WotF_Backstory_Beekeeper.description>
+  <WotF_Backstory_Beekeeper.title>养蜂人</WotF_Backstory_Beekeeper.title>
+  <WotF_Backstory_Beekeeper.titleShort>养蜂人</WotF_Backstory_Beekeeper.titleShort>
+  <WotF_Backstory_Bookworm.description>[PAWN_nameDef]几乎把所有空闲时间都泡在了聚落的书库里。架子上那些泛黄的旧手册明明晦涩得连大人们都懒得翻，她却总是捧着不放，甚至还会为了弄懂某张奇怪的插图而忘记吃饭。</WotF_Backstory_Bookworm.description>
+  <WotF_Backstory_Bookworm.title>书虫</WotF_Backstory_Bookworm.title>
+  <WotF_Backstory_Bookworm.titleShort>书虫</WotF_Backstory_Bookworm.titleShort>
+  <WotF_Backstory_CourierChild.description>精灵聚落之间很少用无线电联络，日常传话大多靠双腿跑。年幼的[PAWN_nameDef]整天揣着信件在各处哨所之间来回穿梭，不仅练出了一副好脚力，还顺带学会了怎么打发拦路的野兽。</WotF_Backstory_CourierChild.description>
+  <WotF_Backstory_CourierChild.title>送信人</WotF_Backstory_CourierChild.title>
+  <WotF_Backstory_CourierChild.titleShort>送信人</WotF_Backstory_CourierChild.titleShort>
+  <WotF_Backstory_CourtTrader.description>[PAWN_nameDef]是少数常年带着商队往返于人类城镇的精灵。她熟门熟路地拿手工艺品和草药去换外界少见的布料与器物，每趟回来包里装满货物，脑子里也顺带装满了一肚子传闻。</WotF_Backstory_CourtTrader.description>
+  <WotF_Backstory_CourtTrader.title>精灵行商</WotF_Backstory_CourtTrader.title>
+  <WotF_Backstory_CourtTrader.titleShort>行商</WotF_Backstory_CourtTrader.titleShort>
+  <WotF_Backstory_CuriousChild.description>[PAWN_nameDef]对外面的世界充满了好奇，隔三岔五就会趁长辈不注意溜出聚落外围。四处乱逛的日子让她早早学会了怎么和陌生人打交道，也终于记住了摔破膝盖时该扯哪几种草药应急。</WotF_Backstory_CuriousChild.description>
+  <WotF_Backstory_CuriousChild.title>好奇宝宝</WotF_Backstory_CuriousChild.title>
+  <WotF_Backstory_CuriousChild.titleShort>好奇宝宝</WotF_Backstory_CuriousChild.titleShort>
+  <WotF_Backstory_ForestCook.description>就算直接啃生浆果也不会吃坏肚子，[PAWN_nameDef]还是执着于研究火候与调味。只要给她一口铁锅，她就能把寻常的菌菇、蜂蜜和猎物炖出让人走不动道的香气。</WotF_Backstory_ForestCook.description>
+  <WotF_Backstory_ForestCook.title>厨师</WotF_Backstory_ForestCook.title>
+  <WotF_Backstory_ForestCook.titleShort>厨师</WotF_Backstory_ForestCook.titleShort>
+  <WotF_Backstory_FruitSneak.description>大人们总用魔法辅助采集浆果和草药，[PAWN_nameDef]也很快学会了这套手法——只不过她大半时候都在偷偷把最甜的果子和嫩芽拢进自己兜里，躲在一旁当零嘴吃掉。</WotF_Backstory_FruitSneak.description>
+  <WotF_Backstory_FruitSneak.title>摸秋者</WotF_Backstory_FruitSneak.title>
+  <WotF_Backstory_FruitSneak.titleShort>摸秋者</WotF_Backstory_FruitSneak.titleShort>
+  <WotF_Backstory_Herbalist.description>[PAWN_nameDef]习惯用温和的止血法术配合草药膏处理外伤。每当听说外面的诊所动不动就要动刀锯骨，她总会忍不住皱起眉头，觉得那些手段未免太过粗暴。</WotF_Backstory_Herbalist.description>
+  <WotF_Backstory_Herbalist.title>草药医师</WotF_Backstory_Herbalist.title>
+  <WotF_Backstory_Herbalist.titleShort>医师</WotF_Backstory_Herbalist.titleShort>
+  <WotF_Backstory_Hunter.description>[PAWN_nameDef]负责驱赶靠近聚落的凶猛野兽，顺带为仓库补上毛皮和肉食。只要野兽在泥地里留下过痕迹，她就能不紧不慢地一路追到巢穴门口。</WotF_Backstory_Hunter.description>
+  <WotF_Backstory_Hunter.title>猎人</WotF_Backstory_Hunter.title>
+  <WotF_Backstory_Hunter.titleShort>猎人</WotF_Backstory_Hunter.titleShort>
+  <WotF_Backstory_Idler.description>[PAWN_nameDef]打心底觉得既然寿命有几百年，实在没必要急着把今天的活干完。只要没人盯着，她能在树荫底下安安静静入定一整个上午，偶尔才慢吞吞地起来帮别人递个工具。</WotF_Backstory_Idler.description>
+  <WotF_Backstory_Idler.title>懒骨头</WotF_Backstory_Idler.title>
+  <WotF_Backstory_Idler.titleShort>闲人</WotF_Backstory_Idler.titleShort>
+  <WotF_Backstory_MachineSpiritMender.description>聚落里几台祖传的旧冰箱和净水器全靠[PAWN_nameDef]照看。虽然她根本说不清铁壳里面那些嗡嗡作响的零件是什么原理，但凭着几笔仪式记号和精准的两下木槌，她总能让罢工的老伙计重新转起来。</WotF_Backstory_MachineSpiritMender.description>
+  <WotF_Backstory_MachineSpiritMender.title>电器维修工</WotF_Backstory_MachineSpiritMender.title>
+  <WotF_Backstory_MachineSpiritMender.titleShort>维修工</WotF_Backstory_MachineSpiritMender.titleShort>
+  <WotF_Backstory_ManuscriptKeeper.description>[PAWN_nameDef]负责整理并修补聚落里流传下来的旧书与残页。那些用奇怪的格式写成的文献其实没几个人能完全看懂，但只要谁敢随手把书页折出角来，就一定会被她追着念叨一整天。</WotF_Backstory_ManuscriptKeeper.description>
+  <WotF_Backstory_ManuscriptKeeper.title>图书管理员</WotF_Backstory_ManuscriptKeeper.title>
+  <WotF_Backstory_ManuscriptKeeper.titleShort>管理员</WotF_Backstory_ManuscriptKeeper.titleShort>
+  <WotF_Backstory_MartialEnthusiast.description>别的孩子还在溪边摸鱼打闹时，[PAWN_nameDef]就已经天天缠着守卫教她拉弓舞剑了。不过在她心里，起手式摆得帅不帅气，有时候比箭矢能不能射中靶心还要重要。</WotF_Backstory_MartialEnthusiast.description>
+  <WotF_Backstory_MartialEnthusiast.title>武艺爱好者</WotF_Backstory_MartialEnthusiast.title>
+  <WotF_Backstory_MartialEnthusiast.titleShort>习武者</WotF_Backstory_MartialEnthusiast.titleShort>
+  <WotF_Backstory_NurseryKeeper.description>[PAWN_nameDef]平时负责照看聚落的药圃与幼苗，哪株草药缺水、哪片土该翻松，她看一眼就心里有数。活儿干完以后，她最喜欢做的事就是直接靠在树荫底下闭目打盹。</WotF_Backstory_NurseryKeeper.description>
+  <WotF_Backstory_NurseryKeeper.title>苗圃看护人</WotF_Backstory_NurseryKeeper.title>
+  <WotF_Backstory_NurseryKeeper.titleShort>园丁</WotF_Backstory_NurseryKeeper.titleShort>
+  <WotF_Backstory_PigmentMaker.description>[PAWN_nameDef]整天待在工坊里淘洗白石、研磨矿物和草药，用来调配仪式粉笔和绘图所需的各色颜料。因为常年和矿粉打交道，她的指甲缝里几乎什么时候都沾着洗不干净的淡色印迹。</WotF_Backstory_PigmentMaker.description>
+  <WotF_Backstory_PigmentMaker.title>颜料匠</WotF_Backstory_PigmentMaker.title>
+  <WotF_Backstory_PigmentMaker.titleShort>颜料匠</WotF_Backstory_PigmentMaker.titleShort>
+  <WotF_Backstory_QuarryWorker.description>[PAWN_nameDef]常年在山壁旁凿取石料，为聚落铺路、筑墙并收集制作粉笔所需的矿物。收工时她的口袋往往沉甸甸的，里面多半藏着几块顺手捡来、色泽好看的碎矿石。</WotF_Backstory_QuarryWorker.description>
+  <WotF_Backstory_QuarryWorker.title>采石工</WotF_Backstory_QuarryWorker.title>
+  <WotF_Backstory_QuarryWorker.titleShort>采石工</WotF_Backstory_QuarryWorker.titleShort>
+  <WotF_Backstory_Ranger.description>长期在领地外围巡逻的精灵射手。[PAWN_nameDef]习惯背着长弓在树影与灌木间无声移动，专门留意那些试图绕过哨所、悄悄潜入深处的不速之客。</WotF_Backstory_Ranger.description>
+  <WotF_Backstory_Ranger.title>精灵游侠</WotF_Backstory_Ranger.title>
+  <WotF_Backstory_Ranger.titleShort>游侠</WotF_Backstory_Ranger.titleShort>
+  <WotF_Backstory_RepairApprentice.description>[PAWN_nameDef]从小就跟着工坊的导师照看聚落里仅存的几台旧机器。虽然完全搞不懂铁壳里面为什么会嗡嗡作响，但她早早学会了一本正经地往外壳上画几道记号，再拿木槌轻敲两下，而且每次敲完机器居然真的会恢复运转。</WotF_Backstory_RepairApprentice.description>
+  <WotF_Backstory_RepairApprentice.title>维修学徒</WotF_Backstory_RepairApprentice.title>
+  <WotF_Backstory_RepairApprentice.titleShort>维修学徒</WotF_Backstory_RepairApprentice.titleShort>
+  <WotF_Backstory_RuinExplorer.description>[PAWN_nameDef]总爱拉着几个同龄伙伴，背着简陋的工具溜去聚落附近的古代遗迹探险。至于那片废墟早就被大人们里里外外翻过十遍、危险的机构也早拆干净的事，大家很有默契地一直没戳穿她。</WotF_Backstory_RuinExplorer.description>
+  <WotF_Backstory_RuinExplorer.title>遗迹探险家</WotF_Backstory_RuinExplorer.title>
+  <WotF_Backstory_RuinExplorer.titleShort>探险家</WotF_Backstory_RuinExplorer.titleShort>
+  <WotF_Backstory_Smith.description>聚落里允许生起高炉的铁匠铺屈指可数，[PAWN_nameDef]常年守在其中一间炉火旁。她习惯反复敲打那些质地奇特的金属胚料，直到它们化作趁手的兵刃与护具。</WotF_Backstory_Smith.description>
+  <WotF_Backstory_Smith.title>铁匠</WotF_Backstory_Smith.title>
+  <WotF_Backstory_Smith.titleShort>铁匠</WotF_Backstory_Smith.titleShort>
+  <WotF_Backstory_StoneSculptor.description>[PAWN_nameDef]替聚落的广场与祭坛雕琢石柱和雕像。她的手艺无可挑剔，性子却慢得让人发急，一块合眼缘的大石料摆进院子，她能慢悠悠地打磨上整整半年。</WotF_Backstory_StoneSculptor.description>
+  <WotF_Backstory_StoneSculptor.title>石雕艺人</WotF_Backstory_StoneSculptor.title>
+  <WotF_Backstory_StoneSculptor.titleShort>石雕师</WotF_Backstory_StoneSculptor.titleShort>
+  <WotF_Backstory_SwordGuard.description>身法灵巧的近战护卫。[PAWN_nameDef]偏好轻便合身的护甲与长剑，交手时极少和对手硬碰硬，更习惯在贴身周旋中借着步法避开笨重的劈砍，再顺势还击。</WotF_Backstory_SwordGuard.description>
+  <WotF_Backstory_SwordGuard.title>精灵剑卫</WotF_Backstory_SwordGuard.title>
+  <WotF_Backstory_SwordGuard.titleShort>剑卫</WotF_Backstory_SwordGuard.titleShort>
+  <WotF_Backstory_Wanderer.description>明明有着漫长的寿命，[PAWN_nameDef]却半点不想被聚落的规矩拴在原地。某天她干脆往兜里揣了根魔杖，留下一张纸条便出门到处晃悠，比起干正经事，她显然更关心山那边有没有没见过的新鲜玩意儿。</WotF_Backstory_Wanderer.description>
+  <WotF_Backstory_Wanderer.title>闲散旅者</WotF_Backstory_Wanderer.title>
+  <WotF_Backstory_Wanderer.titleShort>旅者</WotF_Backstory_Wanderer.titleShort>
+  <WotF_Backstory_Woodshaper.description>[PAWN_nameDef]擅长顺着树木原本的纹理引导魔力，让生长中的枝干慢慢弯折成弓臂、手杖或是梁柱的形状。经她照料长成的木料格外坚韧，连一丝锯痕都找不到。</WotF_Backstory_Woodshaper.description>
+  <WotF_Backstory_Woodshaper.title>木艺师</WotF_Backstory_Woodshaper.title>
+  <WotF_Backstory_Woodshaper.titleShort>木匠</WotF_Backstory_Woodshaper.titleShort>
 </LanguageData>

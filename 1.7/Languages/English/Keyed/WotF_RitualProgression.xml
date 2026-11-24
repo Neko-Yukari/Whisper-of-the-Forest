@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <WotF_Ritual_TierRequired>This rite requires an altar of tier {0} or higher.</WotF_Ritual_TierRequired>
   <WotF_Ritual_ResearchRequired>Requires research: {0}.</WotF_Ritual_ResearchRequired>
-  <WotF_Ritual_RitualStrength>Ritual strength: {0}</WotF_Ritual_RitualStrength>
   <WotF_Ritual_ResonanceStrength>Resonance strength: {0} (×{1})</WotF_Ritual_ResonanceStrength>
+  <WotF_Ritual_RitualStrength>Ritual strength: {0}</WotF_Ritual_RitualStrength>
+  <WotF_Ritual_TierRequired>This rite requires an altar of tier {0} or higher.</WotF_Ritual_TierRequired>
 </LanguageData>

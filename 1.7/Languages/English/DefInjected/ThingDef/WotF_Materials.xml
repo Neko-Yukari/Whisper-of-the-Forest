@@ -1,15 +1,11 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-
-  <!-- DefInjected path = <defName>.<field>. The parent folder (DefInjected/ThingDef) already
-       supplies the def type. -->
-  <WotF_LivingWood.label>living wood</WotF_LivingWood.label>
-  <WotF_LivingWood.description>Living wood cut from the forest's oldest trees. It is still growing: flexible, warm to the touch and slow to burn.</WotF_LivingWood.description>
-  <WotF_ElvenSteel.label>elven steel</WotF_ElvenSteel.label>
-  <WotF_ElvenSteel.description>A pale blue-silver metal drawn from living wood. Light, keen, and it carries a weave as readily as it cuts.</WotF_ElvenSteel.description>
+  <WotF_Adamantine.description>A dark-gold metal that feels cold and heavy to the touch and will not burn. Exceptionally hard and dense, whether raised into fortifications or forged into heavy armor and weapons, it is exceedingly difficult to break.</WotF_Adamantine.description>
   <WotF_Adamantine.label>adamantine</WotF_Adamantine.label>
-  <WotF_Adamantine.description>A cold, heavy dark-gold metal. Nothing else in the colony is harder to break, and it does not burn.</WotF_Adamantine.description>
+  <WotF_ElvenSteel.description>A pale blue-silver metal transmuted from steel and livingwood through ritual. Light yet tough, it takes an exceptionally keen edge, swings far more nimbly than ordinary steel, and lends itself well to forging both staves and blades.</WotF_ElvenSteel.description>
+  <WotF_ElvenSteel.label>elven steel</WotF_ElvenSteel.label>
+  <WotF_LivingWood.description>A wondrous length of wood, supple and alive to the touch. The moment you bring it into contact with mana, a soft green glow blooms through it from the inside out.</WotF_LivingWood.description>
+  <WotF_LivingWood.label>livingwood</WotF_LivingWood.label>
+  <WotF_Mithril.description>A moon-white metal that feels almost weightless and never burns. Mana clings to it readily: weapons and armor forged from mithril gain an extra spell-inscribing slot and draw less mana when triggering inscribed spells.</WotF_Mithril.description>
   <WotF_Mithril.label>mithril</WotF_Mithril.label>
-  <WotF_Mithril.description>A moon-white metal that feels weightless. Weaves cling to it, so armour and blades made from it take spells into themselves.</WotF_Mithril.description>
-
 </LanguageData>

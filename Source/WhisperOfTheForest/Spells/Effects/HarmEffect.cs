@@ -27,6 +27,7 @@ namespace WhisperOfTheForest.Spells
             this.logSource = logSource;
         }
         public override string DiagnosticName => "harm";
+        public override SoundDef ResolveSound => SpellDefs.Glyph(SpellDefs.EffectHarm)?.resolveSound;
         public override void AppendSummary(List<string> lines, int indent)
         {
             lines.Add(SummaryIndent(indent) + SpellText.TF("WotF_SpellPlan.EffectHarm",

@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-
-  <WotF_Elf.label>精灵</WotF_Elf.label>
   <WotF_Elf.description>身形修长、寿命漫长的精灵族。她们天生拥有与常人迥异的体质，似乎无需借助任何外物，就能直接唤起某种被称为“魔法”的力量。至于她们究竟从何而来、又为何对森林抱有近乎本能的亲近，就连精灵自己也大多说不清楚。</WotF_Elf.description>
-
+  <WotF_Elf.label>精灵</WotF_Elf.label>
 </LanguageData>

@@ -25,6 +25,7 @@ namespace WhisperOfTheForest.Spells
             this.soilRadius = soilRadius;
         }
         public override string DiagnosticName => "grow";
+        public override SoundDef ResolveSound => SpellDefs.Glyph(SpellDefs.EffectGrow)?.resolveSound;
         public override void AppendSummary(List<string> lines, int indent)
         {
             lines.Add(SummaryIndent(indent) + SpellText.TF("WotF_SpellPlan.EffectGrow",

@@ -1,15 +1,11 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-
-  <!-- DefInjected path = <defName>.<field>. The parent folder (DefInjected/ThingDef) already
-       supplies the def type. -->
-  <WotF_LivingWood.label>活木</WotF_LivingWood.label>
-  <WotF_LivingWood.description>这是一节神奇的木头，表面柔韧且富有活性，当你尝试让其接触魔力时，它几乎是瞬间由内到外地散发出温柔的绿光。</WotF_LivingWood.description>
-  <WotF_ElvenSteel.label>精灵钢</WotF_ElvenSteel.label>
-  <WotF_ElvenSteel.description>淡青银色的金属，由钢铁与活木经仪式点化而成。它质地轻巧坚韧，磨出的刃口格外锋利，挥舞起来比寻常钢铁轻快不少，也很适合打造法杖与兵刃。</WotF_ElvenSteel.description>
-  <WotF_Adamantine.label>精金</WotF_Adamantine.label>
   <WotF_Adamantine.description>触手冷冽沉重的暗金色金属，完全不会燃烧。它极为坚硬致密，无论筑成工事还是锻作重甲与重兵，都极难被外力摧毁。</WotF_Adamantine.description>
-  <WotF_Mithril.label>秘银</WotF_Mithril.label>
+  <WotF_Adamantine.label>精金</WotF_Adamantine.label>
+  <WotF_ElvenSteel.description>淡青银色的金属，由钢铁与活木经仪式点化而成。它质地轻巧坚韧，磨出的刃口格外锋利，挥舞起来比寻常钢铁轻快不少，也很适合打造法杖与兵刃。</WotF_ElvenSteel.description>
+  <WotF_ElvenSteel.label>精灵钢</WotF_ElvenSteel.label>
+  <WotF_LivingWood.description>这是一节神奇的木头，表面柔韧且富有活性，当你尝试让其接触魔力时，它几乎是瞬间由内到外地散发出温柔的绿光。</WotF_LivingWood.description>
+  <WotF_LivingWood.label>活木</WotF_LivingWood.label>
   <WotF_Mithril.description>质地轻得几乎没有分量的月白金属，且完全不燃。魔力极易依附其上，用它锻造的武器与护甲能多出一个注法槽位，触发铭刻法术时的魔力消耗也会更低。</WotF_Mithril.description>
-
+  <WotF_Mithril.label>秘银</WotF_Mithril.label>
 </LanguageData>

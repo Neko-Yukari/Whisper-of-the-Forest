@@ -38,6 +38,9 @@ namespace WhisperOfTheForest.Missiles
         /// <summary>Effect played where a missile of this backend detonates.</summary>
         public string impactVisualDefName;
 
+        /// <summary>Sound played once when a non-turret caster launches a volley of this visual.</summary>
+        public SoundDef launchSound;
+
         public override IEnumerable<string> ConfigErrors()
         {
             foreach (string error in base.ConfigErrors())

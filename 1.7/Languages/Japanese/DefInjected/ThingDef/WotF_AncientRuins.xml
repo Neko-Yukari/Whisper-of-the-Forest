@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_RelicCasket.description>遺跡の奥深くに静かに安置された密閉容器。外殻には、もはや誰にも解読できない識別番号と警告標識が刻まれている。\nかつてこれを封印した者は、すぐに戻って開封するつもりだったのだろう。しかし長い歳月が過ぎたいま、なお忠実に務めを果たし続けているのは、扉の外に佇む冷たい守衛たちだけである。</WotF_RelicCasket.description>
+  <WotF_RelicCasket.label>遺物匣</WotF_RelicCasket.label>
+  <WotF_TeleportGate_Broken.description>遺跡の外縁にぽつんと佇む古い石門。土台の石材はとうにひび割れ、刻まれたルーンもかつての輝きを失っている。\nすでにマナネットワークからの供給は絶たれているが、残された余力だけでも帰路への最後の一度きりの跳躍なら辛うじて支えられるかもしれない——もっとも、遺跡内でいまも稼働している封鎖を解除するのが先決である。</WotF_TeleportGate_Broken.description>
+  <WotF_TeleportGate_Broken.label>崩れた転送門</WotF_TeleportGate_Broken.label>
+</LanguageData>

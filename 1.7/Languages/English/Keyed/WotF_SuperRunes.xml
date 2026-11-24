@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <WotF_Spells.Reason.SuperNeedsCodex>Super runes require a worn starlight codex.</WotF_Spells.Reason.SuperNeedsCodex>
-  <WotF_Spells.Reason.SuperNeedsStaff>Casting a super spell requires holding a two-handed spell staff.</WotF_Spells.Reason.SuperNeedsStaff>
-  <WotF_Spells.Reason.SuperNoTurret>Automatic spell turrets cannot hold super spells.</WotF_Spells.Reason.SuperNoTurret>
-  <WotF_Spells.Rubbing.AlreadyKnown>The colony already knows this super rune.</WotF_Spells.Rubbing.AlreadyKnown>
+  <WotF_Spells.Reason.SuperNeedsCodex>Supra runes require a worn starlight codex.</WotF_Spells.Reason.SuperNeedsCodex>
+  <WotF_Spells.Reason.SuperNeedsStaff>Casting a supra spell requires holding a two-handed staff in the primary hand.</WotF_Spells.Reason.SuperNeedsStaff>
+  <WotF_Spells.Reason.SuperNoTurret>Spell turrets cannot hold supra spells.</WotF_Spells.Reason.SuperNoTurret>
+  <WotF_Spells.Rubbing.AlreadyKnown>The colony already knows this supra rune.</WotF_Spells.Rubbing.AlreadyKnown>
   <WotF_Spells.Rubbing.Unlocked>Study complete: {0} is permanently unlocked for the whole colony.</WotF_Spells.Rubbing.Unlocked>
 </LanguageData>

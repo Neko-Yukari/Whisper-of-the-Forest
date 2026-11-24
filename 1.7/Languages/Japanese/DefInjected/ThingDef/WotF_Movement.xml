@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_EntropyCirclet.description>エルフ鋼・ミスリル・アダマンティンのいずれかで鍛え、ヒスイをあしらった細身の金属製サークレット。額に沿って乱れたサイキック波動を逃がすことでニューラルヒートの放散を早め、同時に着用者が耐えられるニューラルヒート上限を引き上げる。</WotF_EntropyCirclet.description>
+  <WotF_EntropyCirclet.label>静心のサークレット</WotF_EntropyCirclet.label>
+  <WotF_TerrainStride.description>独特の魔力が込められた軽やかなマント。その魔力によって、着用者は足取りを緩めることなく障害物を軽々と越えて進める。\n伝承によれば、草木の生い茂る森の中をより自在に駆け抜けるためにエルフたちが生み出したものだという。</WotF_TerrainStride.description>
+  <WotF_TerrainStride.label>踏地のマント</WotF_TerrainStride.label>
+</LanguageData>

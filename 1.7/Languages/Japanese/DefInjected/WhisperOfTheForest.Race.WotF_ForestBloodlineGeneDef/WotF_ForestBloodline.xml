@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_ForestBloodline.description>エルフの身に脈々と流れる古の血脈。受け継いだ者は生まれつき魔力を宿し、常人の手では反応しない魔導書を目覚めさせることができる。呪文を詠唱し続けることで血脈の魔力親和は次第に深まり、より高いニューラルヒートの負荷にも耐えられるようになる。</WotF_ForestBloodline.description>
+  <WotF_ForestBloodline.label>森の血脈</WotF_ForestBloodline.label>
+  <WotF_ForestBloodline.labelShortAdj>林庭</WotF_ForestBloodline.labelShortAdj>
+  <WotF_ForestBloodline.resourceDescription>詠唱者の体内に蓄えられた魔力の備えであり、呪文を唱える際に必要に応じて消費される。魔力の上限は主に血脈の成長度合いで決まるが、上位の魔導書や適した装備を身につけることでさらに広げられる。</WotF_ForestBloodline.resourceDescription>
+  <WotF_ForestBloodline.resourceLabel>魔力</WotF_ForestBloodline.resourceLabel>
+</LanguageData>

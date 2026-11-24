@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_ManaVial_Full>そのメンバーの魔力はすでに満タンです。</WotF_ManaVial_Full>
+  <WotF_ManaVial_NoBloodline>マナの青瓶を飲めるのは森の血脈を持つメンバーだけです。</WotF_ManaVial_NoBloodline>
+  <WotF_RitualPanel_AbortActiveTip>実行中の儀式を中止する：{0}</WotF_RitualPanel_AbortActiveTip>
+  <WotF_RitualPanel_AbortBtn>中止</WotF_RitualPanel_AbortBtn>
+  <WotF_RitualPanel_AbortIdleTip>実行中または準備中の儀式はない。</WotF_RitualPanel_AbortIdleTip>
+  <WotF_RitualPanel_AbortPrepTip>「{0}」の供物準備を取り消す。すでに運び込まれた供物は地面に落ちる。</WotF_RitualPanel_AbortPrepTip>
+  <WotF_RitualPanel_AddHelperShort>追加</WotF_RitualPanel_AddHelperShort>
+  <WotF_RitualPanel_AltarCellMark>壇</WotF_RitualPanel_AltarCellMark>
+  <WotF_RitualPanel_AltarTierLabel>祭壇階位</WotF_RitualPanel_AltarTierLabel>
+  <WotF_RitualPanel_AltarTierValue>{0}（T{1}）</WotF_RitualPanel_AltarTierValue>
+  <WotF_RitualPanel_AutoExecute>自動実行</WotF_RitualPanel_AutoExecute>
+  <WotF_RitualPanel_BadgeAuto>自動</WotF_RitualPanel_BadgeAuto>
+  <WotF_RitualPanel_BadgeCollecting>収集中</WotF_RitualPanel_BadgeCollecting>
+  <WotF_RitualPanel_BadgeMissingMat>素材不足</WotF_RitualPanel_BadgeMissingMat>
+  <WotF_RitualPanel_BadgeRunning>進行中</WotF_RitualPanel_BadgeRunning>
+  <WotF_RitualPanel_BookSlotEmpty>空</WotF_RitualPanel_BookSlotEmpty>
+  <WotF_RitualPanel_BookSlotPrefix>第{0}ページ</WotF_RitualPanel_BookSlotPrefix>
+  <WotF_RitualPanel_BookSlotSelected>第{0}ページ：{1}</WotF_RitualPanel_BookSlotSelected>
+  <WotF_RitualPanel_CellsUnit>{0}マス</WotF_RitualPanel_CellsUnit>
+  <WotF_RitualPanel_ChalkGreen>翠葉</WotF_RitualPanel_ChalkGreen>
+  <WotF_RitualPanel_ChalkStar>星輝</WotF_RitualPanel_ChalkStar>
+  <WotF_RitualPanel_ChalkWhite>白亜</WotF_RitualPanel_ChalkWhite>
+  <WotF_RitualPanel_ChantLevelShort>詠唱 {0}</WotF_RitualPanel_ChantLevelShort>
+  <WotF_RitualPanel_ChooseShort>選択</WotF_RitualPanel_ChooseShort>
+  <WotF_RitualPanel_CostHeader>消費：</WotF_RitualPanel_CostHeader>
+  <WotF_RitualPanel_CostMissingTip>マップ・祭壇で利用可能：{0} / 必要 {1}</WotF_RitualPanel_CostMissingTip>
+  <WotF_RitualPanel_FamilyCrafting>製作</WotF_RitualPanel_FamilyCrafting>
+  <WotF_RitualPanel_FamilyDomain>界域</WotF_RitualPanel_FamilyDomain>
+  <WotF_RitualPanel_FamilyLife>生命</WotF_RitualPanel_FamilyLife>
+  <WotF_RitualPanel_GateReady>接続済み</WotF_RitualPanel_GateReady>
+  <WotF_RitualPanel_HelperHeaderMin>協力者（最低{0}人）</WotF_RitualPanel_HelperHeaderMin>
+  <WotF_RitualPanel_HelperLabel>協力者</WotF_RitualPanel_HelperLabel>
+  <WotF_RitualPanel_HostLabel>主宰者</WotF_RitualPanel_HostLabel>
+  <WotF_RitualPanel_LockedWhileRunning>儀式の進行中は参加メンバーを変更できません。</WotF_RitualPanel_LockedWhileRunning>
+  <WotF_RitualPanel_ManaLabel>マナ</WotF_RitualPanel_ManaLabel>
+  <WotF_RitualPanel_ManaPerStrikeLabel>維持</WotF_RitualPanel_ManaPerStrikeLabel>
+  <WotF_RitualPanel_ManaTip>ネットワークマナ：{0} / 必要 {1}</WotF_RitualPanel_ManaTip>
+  <WotF_RitualPanel_MetricCounterStun>拘束時間</WotF_RitualPanel_MetricCounterStun>
+  <WotF_RitualPanel_MetricHealingPool>生命プール量</WotF_RitualPanel_MetricHealingPool>
+  <WotF_RitualPanel_MetricManaRestore>魔力回復量</WotF_RitualPanel_MetricManaRestore>
+  <WotF_RitualPanel_MetricRadius>効果半径</WotF_RitualPanel_MetricRadius>
+  <WotF_RitualPanel_MetricShieldCharges>迎撃回数</WotF_RitualPanel_MetricShieldCharges>
+  <WotF_RitualPanel_MetricStrikeRate>落雷頻度</WotF_RitualPanel_MetricStrikeRate>
+  <WotF_RitualPanel_MetricTameChance>手懐け率</WotF_RitualPanel_MetricTameChance>
+  <WotF_RitualPanel_MetricWork>作業量</WotF_RitualPanel_MetricWork>
+  <WotF_RitualPanel_MetricYieldFactor>産出倍率</WotF_RitualPanel_MetricYieldFactor>
+  <WotF_RitualPanel_MinStrengthCallout>必要 R ≥ {0}</WotF_RitualPanel_MinStrengthCallout>
+  <WotF_RitualPanel_MissingMatTip>現在このマップ上で利用できる供物が不足している。</WotF_RitualPanel_MissingMatTip>
+  <WotF_RitualPanel_NoResearched>研究済みの儀式がまだありません。</WotF_RitualPanel_NoResearched>
+  <WotF_RitualPanel_ParamHeader>儀式パラメータ</WotF_RitualPanel_ParamHeader>
+  <WotF_RitualPanel_PerMinuteUnit>{0}回/分</WotF_RitualPanel_PerMinuteUnit>
+  <WotF_RitualPanel_PerStrike>{0}/回</WotF_RitualPanel_PerStrike>
+  <WotF_RitualPanel_PhaseChanting>詠唱中</WotF_RitualPanel_PhaseChanting>
+  <WotF_RitualPanel_PhaseGathering>集合中</WotF_RitualPanel_PhaseGathering>
+  <WotF_RitualPanel_PhaseSustaining>継続維持</WotF_RitualPanel_PhaseSustaining>
+  <WotF_RitualPanel_PickGate>転送門を選択…</WotF_RitualPanel_PickGate>
+  <WotF_RitualPanel_PickHelperTitle>協力者を選択</WotF_RitualPanel_PickHelperTitle>
+  <WotF_RitualPanel_PickHostTitle>主宰者を選択</WotF_RitualPanel_PickHostTitle>
+  <WotF_RitualPanel_PickRune>ルーンを選択…</WotF_RitualPanel_PickRune>
+  <WotF_RitualPanel_PrepHeader>準備進捗：</WotF_RitualPanel_PrepHeader>
+  <WotF_RitualPanel_PrepareBtn>準備を開始</WotF_RitualPanel_PrepareBtn>
+  <WotF_RitualPanel_ResonanceLabel>共鳴強度 F</WotF_RitualPanel_ResonanceLabel>
+  <WotF_RitualPanel_ResonanceValue>{0}（×{1}）</WotF_RitualPanel_ResonanceValue>
+  <WotF_RitualPanel_RingTip>{0}×{1} {2}のチョーク儀式陣</WotF_RitualPanel_RingTip>
+  <WotF_RitualPanel_RunningBtn>儀式進行中…</WotF_RitualPanel_RunningBtn>
+  <WotF_RitualPanel_SecondsUnit>{0}秒</WotF_RitualPanel_SecondsUnit>
+  <WotF_RitualPanel_StartBtn>儀式を開始</WotF_RitualPanel_StartBtn>
+  <WotF_RitualPanel_StrengthLabel>儀式強度 R</WotF_RitualPanel_StrengthLabel>
+  <WotF_RitualPanel_SustainingActive>継続発動中</WotF_RitualPanel_SustainingActive>
+  <WotF_RitualPanel_TagIsHelper>協力者に選択済み</WotF_RitualPanel_TagIsHelper>
+  <WotF_RitualPanel_TagIsHost>主宰者に選択済み</WotF_RitualPanel_TagIsHost>
+  <WotF_RitualPanel_TierCallout>T{0}</WotF_RitualPanel_TierCallout>
+  <WotF_RitualPanel_TierHeader>第{0}階位儀式</WotF_RitualPanel_TierHeader>
+  <WotF_RitualPanel_TierLockedTip>{0}（第{1}階位の祭壇）が必要である。</WotF_RitualPanel_TierLockedTip>
+  <WotF_RitualPanel_Title>儀式を執り行う</WotF_RitualPanel_Title>
+  <WotF_Ritual_AllRunesUnlocked>この祭壇で覚醒できる未解放ルーンはもうありません。</WotF_Ritual_AllRunesUnlocked>
+  <WotF_Ritual_AlreadyRunning>{0}はすでに進行中です。</WotF_Ritual_AlreadyRunning>
+  <WotF_Ritual_AltarBusy>祭壇または選択したアイテムが他の作業で使用中です。</WotF_Ritual_AltarBusy>
+  <WotF_Ritual_AutoRepeat_Current>自動反復：{0}</WotF_Ritual_AutoRepeat_Current>
+  <WotF_Ritual_AutoRepeat_Desc>祭壇が空いている間、選択した生産儀式を自動で繰り返す。運搬担当が供物を祭壇へ運び入れ、供物が揃うと森の血脈を持つ入植者が「基本」作業として主宰を引き受ける。主宰者・マナ・供物のいずれかが不足している間は待機する。</WotF_Ritual_AutoRepeat_Desc>
+  <WotF_Ritual_AutoRepeat_None>自動反復できる生産儀式がありません。</WotF_Ritual_AutoRepeat_None>
+  <WotF_Ritual_AutoRepeat_Off>自動反復を停止</WotF_Ritual_AutoRepeat_Off>
+  <WotF_Ritual_BeastCall_Left>{0}は召喚の契りに応じず、立ち去りました。</WotF_Ritual_BeastCall_Left>
+  <WotF_Ritual_BeastCall_NoRoom>祭壇の脇に召喚された霊獣を収容できる空きがありません。</WotF_Ritual_BeastCall_NoRoom>
+  <WotF_Ritual_BeastCall_Tamed>{0}が召喚の契りを受け入れ、コロニーに加わりました。</WotF_Ritual_BeastCall_Tamed>
+  <WotF_Ritual_Cancelled>{0}が中断されました。消費されたものはありません。</WotF_Ritual_Cancelled>
+  <WotF_Ritual_CannotAct>{0}は現在、儀式を主宰できません。</WotF_Ritual_CannotAct>
+  <WotF_Ritual_Casting>{0}は呪文を詠唱中のため、儀式を主宰できません。</WotF_Ritual_Casting>
+  <WotF_Ritual_ChooseBookSlot>書き込む魔導書のページを選択してください。</WotF_Ritual_ChooseBookSlot>
+  <WotF_Ritual_ChooseEquipment>祭壇の周囲から刻印する武器または防具を選択してください。</WotF_Ritual_ChooseEquipment>
+  <WotF_Ritual_ChooseHost>主宰者を選択してください。</WotF_Ritual_ChooseHost>
+  <WotF_Ritual_ChooseRune>覚醒させるルーンを選択してください。</WotF_Ritual_ChooseRune>
+  <WotF_Ritual_Complete_GateLost>選択した転送門が儀式完了前に無効になったため、何も消費されませんでした。</WotF_Ritual_Complete_GateLost>
+  <WotF_Ritual_Complete_NoMana>詠唱完了時にネットワークマナが不足していました（{1} / 必要 {0}）。今回の儀式ではマナも供物も消費されませんでした。</WotF_Ritual_Complete_NoMana>
+  <WotF_Ritual_Complete_OfferingsGone>詠唱完了時に祭壇の供物が不足していました：{0}。今回の儀式ではマナも供物も消費されませんでした。</WotF_Ritual_Complete_OfferingsGone>
+  <WotF_Ritual_CounterPsychic_CancelReason>{0}が主宰する林庭のサイキック遮断儀式によって強制中断された。</WotF_Ritual_CounterPsychic_CancelReason>
+  <WotF_Ritual_CounterPsychic_Done>サイキック遮断が完了しました。敵対するサイキック儀式{0}件を打ち消し、参加者{1}名を{2}秒間スタンさせました。</WotF_Ritual_CounterPsychic_Done>
+  <WotF_Ritual_CounterPsychic_NoTarget>現在このマップ上で進行中の敵対サイキック儀式はありません。</WotF_Ritual_CounterPsychic_NoTarget>
+  <WotF_Ritual_CounterPsychic_NoneActive>サイキック遮断は完了しましたが、マップ上に進行中の敵対サイキック儀式はすでにありませんでした。</WotF_Ritual_CounterPsychic_NoneActive>
+  <WotF_Ritual_EquipmentForm>この呪文の形式は武具に刻印できません。刻印できるのは接触・自身・周回のみです。</WotF_Ritual_EquipmentForm>
+  <WotF_Ritual_FertileSoil_Done>沃土活化が完了しました。{0}マスの土壌が肥沃な土壌に変わりました。</WotF_Ritual_FertileSoil_Done>
+  <WotF_Ritual_Gizmo_Auto>自動変成</WotF_Ritual_Gizmo_Auto>
+  <WotF_Ritual_Gizmo_Host>儀式を執り行う…</WotF_Ritual_Gizmo_Host>
+  <WotF_Ritual_Gizmo_HostDesc>儀式・儀式陣・主宰者・協力者を選択する。「準備を開始」を押すと運搬担当が供物を祭壇へ運び、すべて揃った時点で開始できる。消費は詠唱完了時にのみ発生する。</WotF_Ritual_Gizmo_HostDesc>
+  <WotF_Ritual_Healing_AllDone>生命再生が完了しました。{0}名の傷病計{1}か所を治癒し、範囲内の傷病者は全員完治しました（生命プール {2} / {3}）。</WotF_Ritual_Healing_AllDone>
+  <WotF_Ritual_Healing_NoneNeeded>生命再生が完了しました。範囲内にこの階位で治療できる傷病はありませんでした。</WotF_Ritual_Healing_NoneNeeded>
+  <WotF_Ritual_Healing_PartialDone>生命再生が完了しました。{0}名の傷病計{1}か所を治癒し、{2}か所を部分的に緩和しました（生命プール消費 {3} / {4}）。</WotF_Ritual_Healing_PartialDone>
+  <WotF_Ritual_Healing_PoolSpent>生命再生が完了しました。{0}名の傷病計{1}か所を治癒しました（生命プール消費 {2} / {3}、未治療の傷病あり）。</WotF_Ritual_Healing_PoolSpent>
+  <WotF_Ritual_Healing_PoolTooLow>生命再生は効果を発揮できませんでした。生命プール（{0}）が{1}の「{2}」の回復に足りません（必要 {3}）。儀式強度を高めてから再度お試しください。</WotF_Ritual_Healing_PoolTooLow>
+  <WotF_Ritual_HelperBusy>{0}は現在、この儀式に参加できません。</WotF_Ritual_HelperBusy>
+  <WotF_Ritual_HelperDuplicate>{0}は協力者として重複選択されています。</WotF_Ritual_HelperDuplicate>
+  <WotF_Ritual_HostFirst>魔導書の呪文を見るには、先に主宰者を選択してください。</WotF_Ritual_HostFirst>
+  <WotF_Ritual_HostNoBook>主宰者が覚醒済みの魔導書を装備していないため、呪文ページを参照できません。</WotF_Ritual_HostNoBook>
+  <WotF_Ritual_InProgress>{0}（進行中）</WotF_Ritual_InProgress>
+  <WotF_Ritual_Inscribe_Done>「{1}」を{0}の第{2}スロットに刻印しました。</WotF_Ritual_Inscribe_Done>
+  <WotF_Ritual_Inscribe_Lost>刻印に失敗しました。対象アイテムが祭壇の範囲外へ移動したか、選択した呪文ページが空になっています。今回の儀式ではマナも供物も消費されませんでした。</WotF_Ritual_Inscribe_Lost>
+  <WotF_Ritual_InspectActive>儀式進行中：{0}</WotF_Ritual_InspectActive>
+  <WotF_Ritual_InspectChanting>詠唱中：マナと供物は詠唱完了時にのみ消費されます。</WotF_Ritual_InspectChanting>
+  <WotF_Ritual_InspectCollecting>供物を収集中：{0}（{1}）</WotF_Ritual_InspectCollecting>
+  <WotF_Ritual_InspectGathering>儀式陣に集合中：全員がチョークマスに立つと詠唱が始まります。</WotF_Ritual_InspectGathering>
+  <WotF_Ritual_InspectIdle>実行中の儀式なし</WotF_Ritual_InspectIdle>
+  <WotF_Ritual_InspectShield>古樹の守護：残り {0} / {1}回（{2}）</WotF_Ritual_InspectShield>
+  <WotF_Ritual_InspectSustaining>継続維持中：落雷1回ごとにネットワークマナ {0} を消費。</WotF_Ritual_InspectSustaining>
+  <WotF_Ritual_LeylineMining_Done>地脈から鉱物{0}単位がもたらされました。</WotF_Ritual_LeylineMining_Done>
+  <WotF_Ritual_LeylineMining_NoResource>祭壇の地下に汲み上げられる深層鉱脈がありません。</WotF_Ritual_LeylineMining_NoResource>
+  <WotF_Ritual_LeylineMining_NoRoom>祭壇の脇に汲み上げた鉱物を置く空きがありません。</WotF_Ritual_LeylineMining_NoRoom>
+  <WotF_Ritual_ManaSpring_Done>霊泉充填が完了しました。{0}名のメンバーが魔力を回復しました。</WotF_Ritual_ManaSpring_Done>
+  <WotF_Ritual_MinStrengthRequired>儀式強度（{1}）が必要な最低強度（{0}）を下回っています。</WotF_Ritual_MinStrengthRequired>
+  <WotF_Ritual_NeedsParticipants>この儀式には森の血脈を持つ協力者が{0}名必要ですが、現在{1}名しか選ばれていません。</WotF_Ritual_NeedsParticipants>
+  <WotF_Ritual_NoBloodline>{0}は森の血脈を持たないため、儀式を主宰できません。</WotF_Ritual_NoBloodline>
+  <WotF_Ritual_NoCaster>儀式を主宰できる森の血脈のメンバーがいません。</WotF_Ritual_NoCaster>
+  <WotF_Ritual_NoEnchantable>祭壇の範囲内に刻印可能な武器や防具がありません。</WotF_Ritual_NoEnchantable>
+  <WotF_Ritual_NoMana>祭壇がマナネットワークに接続されていないか、ネットワーク内のマナが不足しています。</WotF_Ritual_NoMana>
+  <WotF_Ritual_NoMaterials>祭壇に供物が不足しています：{0}</WotF_Ritual_NoMaterials>
+  <WotF_Ritual_NoStandingCell>{0}は儀式陣の空き位置まで移動できません。</WotF_Ritual_NoStandingCell>
+  <WotF_Ritual_NotPrepared>先に「準備を開始」を押して、運搬担当に供物を祭壇へ運ばせてください。</WotF_Ritual_NotPrepared>
+  <WotF_Ritual_NotSelected>先に「儀式を執り行う」画面で儀式を選択してください</WotF_Ritual_NotSelected>
+  <WotF_Ritual_Participants>協力者：{0}名</WotF_Ritual_Participants>
+  <WotF_Ritual_PrioritizeHost>「{0}」の主宰を優先</WotF_Ritual_PrioritizeHost>
+  <WotF_Ritual_PrioritizeHostNone>儀式の主宰を優先</WotF_Ritual_PrioritizeHostNone>
+  <WotF_Ritual_RingComplete>チョーク環は完全です。</WotF_Ritual_RingComplete>
+  <WotF_Ritual_RingIncomplete>チョーク環が不完全です。チョークの印が{0}か所不足しています。</WotF_Ritual_RingIncomplete>
+  <WotF_Ritual_RuneAlreadyUnlocked>{0}はすでに覚醒しています。</WotF_Ritual_RuneAlreadyUnlocked>
+  <WotF_Ritual_RuneAwakening_Done>{0}がコロニー全体に対して覚醒しました。</WotF_Ritual_RuneAwakening_Done>
+  <WotF_Ritual_ShieldDome_Done>祭壇の上空に古樹の守護ドームが展開されました（迎撃回数 {0}回）。</WotF_Ritual_ShieldDome_Done>
+  <WotF_Ritual_SpellbookAwakening_Done>祭壇の脇で魔導書が1冊覚醒しました。</WotF_Ritual_SpellbookAwakening_Done>
+  <WotF_Ritual_SpellbookAwakening_NoRoom>祭壇の脇に覚醒した魔導書を置く空きがありません。</WotF_Ritual_SpellbookAwakening_NoRoom>
+  <WotF_Ritual_SpellbookUpgrade_Done>魔導書の昇階が完了しました。{0}が祭壇の脇に置かれました。</WotF_Ritual_SpellbookUpgrade_Done>
+  <WotF_Ritual_SpellbookUpgrade_NoRoom>祭壇の脇に昇階後の魔導書を置く空きがありません。</WotF_Ritual_SpellbookUpgrade_NoRoom>
+  <WotF_Ritual_StrikeRate>落雷頻度：毎分 {0}回</WotF_Ritual_StrikeRate>
+  <WotF_Ritual_SuperRuneNeedsRubbing>超位ルーンは遺跡で見つかる超位ルーンの拓本を解読して解放するしかなく、祭壇では覚醒できません。</WotF_Ritual_SuperRuneNeedsRubbing>
+  <WotF_Ritual_Sustained_HelpersLost>儀式陣の協力者が不足したため、{0}は終了しました。</WotF_Ritual_Sustained_HelpersLost>
+  <WotF_Ritual_Sustained_HostLost>主宰者が続行できなくなったため、{0}は終了しました。</WotF_Ritual_Sustained_HostLost>
+  <WotF_Ritual_Sustained_ManaDepleted>ネットワークマナが枯渇したため、{0}は収束しました。</WotF_Ritual_Sustained_ManaDepleted>
+  <WotF_Ritual_Sustained_RingBroken>チョーク環が破損したため、{0}は終了しました。</WotF_Ritual_Sustained_RingBroken>
+  <WotF_Ritual_Sustained_Started>{0}が継続発動しました。</WotF_Ritual_Sustained_Started>
+  <WotF_Ritual_Sustained_Stopped>{0}を停止しました。</WotF_Ritual_Sustained_Stopped>
+  <WotF_Ritual_Teleport_Done>入植者{0}名が{1}へ転送されました。</WotF_Ritual_Teleport_Done>
+  <WotF_Ritual_Teleport_NoGate>儀式陣の範囲内で稼働中の転送門を1つ選択してください。</WotF_Ritual_Teleport_NoGate>
+  <WotF_Ritual_Teleport_NoPassengers>祭壇の周囲に転送可能な入植者がいません。</WotF_Ritual_Teleport_NoPassengers>
+  <WotF_Ritual_Teleport_NoRoom>入植者{1}名のうち{0}名について、転送門の脇に着地できる空きマスが見つかりませんでした。何も消費されていません。</WotF_Ritual_Teleport_NoRoom>
+  <WotF_Ritual_Transmute_Done>変成が完了し、生成物が祭壇の脇に現れました。</WotF_Ritual_Transmute_Done>
+  <WotF_Ritual_Transmute_NoRoom>祭壇の脇に変成物を置く空きがありません。</WotF_Ritual_Transmute_NoRoom>
+  <WotF_Ritual_Weather_Done>{0}が完了しました。天候が{1}へと移り変わります。</WotF_Ritual_Weather_Done>
+</LanguageData>

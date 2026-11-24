@@ -1,44 +1,37 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <WotF_UI.SettingsCategory>Whisper of the Forest</WotF_UI.SettingsCategory>
-  <WotF_UI.SettingsHint>Debug logging is off by default; turn it on only while diagnosing, and the game log will then carry per-object detail.</WotF_UI.SettingsHint>
-  <WotF_UI.WindowTitle>Whisper of the Forest - Tech Lab</WotF_UI.WindowTitle>
-
+  <WotF_UI.ActionDone>Done: {0} ({1})</WotF_UI.ActionDone>
+  <WotF_UI.ActionFailed>Failed: {0} ({1})</WotF_UI.ActionFailed>
+  <WotF_UI.DebugLog>Log per-object debug lines (turn on while diagnosing)</WotF_UI.DebugLog>
+  <WotF_UI.EntryGlyph>W</WotF_UI.EntryGlyph>
+  <WotF_UI.EntryHidden>The floating entry is hidden. Open the bottom tech lab button to show it again.</WotF_UI.EntryHidden>
+  <WotF_UI.EntryHideTooltip>Hide the floating entry (the bottom tech lab button still opens the window)</WotF_UI.EntryHideTooltip>
+  <WotF_UI.EntryHint>Drag the entry to move it, click it to open this window. The entry stays after the window is closed. If the entry is hidden, reopen this window from the bottom tech lab button.</WotF_UI.EntryHint>
+  <WotF_UI.EntryTooltip>Tech lab: drag to move, click to open the window</WotF_UI.EntryTooltip>
+  <WotF_UI.EquipTerrainStride>Equip strider cloak</WotF_UI.EquipTerrainStride>
+  <WotF_UI.EquipTerrainStrideTip>Equips the strider cloak on the selected pawn: passable terrain, plants, furniture, snow and sand no longer slow the wearer.</WotF_UI.EquipTerrainStrideTip>
+  <WotF_UI.FreeCasting>Cast without spending mana or neural heat (development)</WotF_UI.FreeCasting>
+  <WotF_UI.GrantPsycast>Grant missile psycast</WotF_UI.GrantPsycast>
+  <WotF_UI.GrantPsycastTip>Grants the experimental arcane missile to the selected pawn. Cast it from the pawn's gizmo bar and pick a target.</WotF_UI.GrantPsycastTip>
+  <WotF_UI.MovementHint>The cloak cannot cross impassable cells or bypass door opening. Removing it restores normal movement costs.</WotF_UI.MovementHint>
+  <WotF_UI.NeedPawnTip>Select a pawn on the map first.</WotF_UI.NeedPawnTip>
   <WotF_UI.NoPawn>No pawn selected</WotF_UI.NoPawn>
   <WotF_UI.NoPawnHint>Select a pawn on the map to enable the actions below.</WotF_UI.NoPawnHint>
   <WotF_UI.PawnInfo>{0} - {1}</WotF_UI.PawnInfo>
-  <WotF_UI.NeedPawnTip>Select a pawn on the map first.</WotF_UI.NeedPawnTip>
-
-  <WotF_UI.SectionPsycast>Arcane missile</WotF_UI.SectionPsycast>
-  <WotF_UI.GrantPsycast>Grant missile psycast</WotF_UI.GrantPsycast>
-  <WotF_UI.GrantPsycastTip>Grants the experimental arcane missile to the selected pawn. Cast it from the pawn's gizmo bar and pick a target.</WotF_UI.GrantPsycastTip>
   <WotF_UI.PsycastHint>Rule: the missile only works for pawns that were granted it. Several missiles may fly at once, but each hit resolves once. Missiles track moving targets.</WotF_UI.PsycastHint>
-
-  <WotF_UI.SectionMovement>Movement apparel</WotF_UI.SectionMovement>
-  <WotF_UI.EquipTerrainStride>Terrain stride</WotF_UI.EquipTerrainStride>
-  <WotF_UI.EquipTerrainStrideTip>Equips the terrain stride mantle: passable terrain, plants, furniture, snow and sand no longer slow the wearer.</WotF_UI.EquipTerrainStrideTip>
-  <WotF_UI.RemoveApparel>Remove terrain mantle</WotF_UI.RemoveApparel>
-  <WotF_UI.RemoveApparelTip>Removes the terrain stride mantle and ends its movement effect.</WotF_UI.RemoveApparelTip>
-  <WotF_UI.MovementHint>The mantle cannot cross impassable cells or bypass door opening. Removing it restores normal movement costs.</WotF_UI.MovementHint>
-
-  <WotF_UI.SectionEntry>Floating entry</WotF_UI.SectionEntry>
-  <WotF_UI.ShowFloatingEntry>Show the bottom-right floating entry</WotF_UI.ShowFloatingEntry>
-  <WotF_UI.DebugLog>Log per-object debug lines (turn on while diagnosing)</WotF_UI.DebugLog>
-  <WotF_UI.UnlockAllGlyphs>Unlock every rune (development)</WotF_UI.UnlockAllGlyphs>
-  <WotF_UI.FreeCasting>Cast without spending mana or neural heat (development)</WotF_UI.FreeCasting>
+  <WotF_UI.RemoveApparel>Remove strider cloak</WotF_UI.RemoveApparel>
+  <WotF_UI.RemoveApparelTip>Removes the strider cloak and ends its movement effect.</WotF_UI.RemoveApparelTip>
   <WotF_UI.ResetEntryPosition>Reset position</WotF_UI.ResetEntryPosition>
   <WotF_UI.ResetEntryPositionTip>Puts the floating entry back above the vanilla play settings row in the bottom right corner.</WotF_UI.ResetEntryPositionTip>
-  <WotF_UI.EntryHint>Drag the entry to move it, click it to open this window. The entry stays after the window is closed. If the entry is hidden, reopen this window from the bottom tech lab button.</WotF_UI.EntryHint>
-
-  <WotF_UI.StatusReady>Run an action after selecting a pawn; failures are reported here.</WotF_UI.StatusReady>
-  <WotF_UI.ActionDone>Done: {0} ({1})</WotF_UI.ActionDone>
-  <WotF_UI.ActionFailed>Failed: {0} ({1})</WotF_UI.ActionFailed>
-
   <WotF_UI.RowEntryTooltip>Tech lab: open the window (the floating entry can be dragged or hidden)</WotF_UI.RowEntryTooltip>
   <WotF_UI.RowEntryTooltipRestore>Tech lab: open the window and restore the floating entry</WotF_UI.RowEntryTooltipRestore>
-
-  <WotF_UI.EntryGlyph>W</WotF_UI.EntryGlyph>
-  <WotF_UI.EntryTooltip>Tech lab: drag to move, click to open the window</WotF_UI.EntryTooltip>
-  <WotF_UI.EntryHideTooltip>Hide the floating entry (the bottom tech lab button still opens the window)</WotF_UI.EntryHideTooltip>
-  <WotF_UI.EntryHidden>The floating entry is hidden. Open the bottom tech lab button to show it again.</WotF_UI.EntryHidden>
+  <WotF_UI.SectionEntry>Floating entry</WotF_UI.SectionEntry>
+  <WotF_UI.SectionMovement>Movement apparel</WotF_UI.SectionMovement>
+  <WotF_UI.SectionPsycast>Arcane missile</WotF_UI.SectionPsycast>
+  <WotF_UI.SettingsCategory>Whisper of the Forest</WotF_UI.SettingsCategory>
+  <WotF_UI.SettingsHint>Debug logging is off by default; turn it on only while diagnosing, and the game log will then carry per-object detail.</WotF_UI.SettingsHint>
+  <WotF_UI.ShowFloatingEntry>Show the bottom-right floating entry</WotF_UI.ShowFloatingEntry>
+  <WotF_UI.StatusReady>Run an action after selecting a pawn; failures are reported here.</WotF_UI.StatusReady>
+  <WotF_UI.UnlockAllGlyphs>Unlock every rune (development)</WotF_UI.UnlockAllGlyphs>
+  <WotF_UI.WindowTitle>Whisper of the Forest - Tech Lab</WotF_UI.WindowTitle>
 </LanguageData>

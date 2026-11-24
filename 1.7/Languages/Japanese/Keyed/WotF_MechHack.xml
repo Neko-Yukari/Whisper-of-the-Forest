@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_Hack_AlreadyAffected>対象はすでに同化中または支配下にあります。</WotF_Hack_AlreadyAffected>
+  <WotF_Hack_HostileMechOnly>敵対するメカノイドのみ同化できます。</WotF_Hack_HostileMechOnly>
+  <WotF_Hack_Remaining>残り時間：{0}</WotF_Hack_Remaining>
+</LanguageData>

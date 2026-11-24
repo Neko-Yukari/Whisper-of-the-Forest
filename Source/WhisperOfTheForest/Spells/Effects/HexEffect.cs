@@ -23,6 +23,7 @@ namespace WhisperOfTheForest.Spells
             this.targetRadius = targetRadius;
         }
         public override string DiagnosticName => "hex";
+        public override SoundDef ResolveSound => SpellDefs.Glyph(SpellDefs.EffectHex)?.resolveSound;
         public override void AppendSummary(List<string> lines, int indent)
         {
             lines.Add(SummaryIndent(indent) + SpellText.TF("WotF_SpellPlan.EffectHex",

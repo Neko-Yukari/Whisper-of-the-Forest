@@ -12,7 +12,7 @@
     <hediffSolid>Crack</hediffSolid>
     <armorCategory>Blunt</armorCategory>
     <makesAnimalsFlee>false</makesAnimalsFlee>
-    <soundExplosion>Explosion_Bomb</soundExplosion>
+    <soundExplosion>WotF_Sound_Effect_Explosion</soundExplosion>
     <combatLogRules>Damage_Bomb</combatLogRules>
   </DamageDef>
 
@@ -58,6 +58,7 @@
     <workerClass>WhisperOfTheForest.Missiles.ArcaneMissileRimLumenVfxWorker</workerClass>
     <lifetime>FollowThing</lifetime>
     <impactVisualDefName>WotF_Vfx_MissileImpact_RimLumen</impactVisualDefName>
+    <launchSound>WotF_Sound_Missile_Launch</launchSound>
     <headCoreRadiusFactor>0.22</headCoreRadiusFactor>
     <headHaloRadiusFactor>0.46</headHaloRadiusFactor>
     <headStretchLengthFactor>0.72</headStretchLengthFactor>
@@ -78,7 +79,8 @@
     <hdrTrailMultiplier>1.35</hdrTrailMultiplier>
     <hdrWakeMultiplier>1.25</hdrWakeMultiplier>
     <ribbonEdgePower>1.65</ribbonEdgePower>
-    <drainDurationSeconds>0.42</drainDurationSeconds>
+    <drainFadeSeconds>0.12</drainFadeSeconds>
+    <drainDurationSeconds>0.16</drainDurationSeconds>
   </WhisperOfTheForest.Missiles.ArcaneMissileRimLumenVfxDef>
 
   <WhisperOfTheForest.Missiles.ArcaneMissileVisualDef>
@@ -87,34 +89,46 @@
     <workerClass>WhisperOfTheForest.Missiles.ArcaneMissileNativeVfxWorker</workerClass>
     <lifetime>FollowThing</lifetime>
     <impactVisualDefName>WotF_Vfx_MissileImpact_Native</impactVisualDefName>
+    <launchSound>WotF_Sound_Missile_Launch</launchSound>
   </WhisperOfTheForest.Missiles.ArcaneMissileVisualDef>
 
   <WhisperOfTheForest.Missiles.ArcaneMissileImpactRimLumenVfxDef>
     <defName>WotF_Vfx_MissileImpact_RimLumen</defName>
     <label>arcane missile impact (RimLumen HDR)</label>
     <workerClass>WhisperOfTheForest.Missiles.ArcaneMissileRimLumenImpactVfxWorker</workerClass>
-    <flashDurationSeconds>0.16</flashDurationSeconds>
-    <holdDurationSeconds>0.48</holdDurationSeconds>
-    <flashPeakRadiusFactor>0.82</flashPeakRadiusFactor>
-    <sparkBurstCount>18</sparkBurstCount>
-    <sparkSpeedMin>2.2</sparkSpeedMin>
-    <sparkSpeedMax>5.6</sparkSpeedMax>
+    <touchSound>WotF_Sound_Missile_Touch</touchSound>
+    <flashDurationSeconds>0.20</flashDurationSeconds>
+    <holdDurationSeconds>0.60</holdDurationSeconds>
+    <flashPeakRadiusFactor>0.85</flashPeakRadiusFactor>
+    <sparkBurstCount>16</sparkBurstCount>
+    <sparkSpeedMin>1.4</sparkSpeedMin>
+    <sparkSpeedMax>3.4</sparkSpeedMax>
     <sparkLifetimeMin>0.18</sparkLifetimeMin>
-    <sparkLifetimeMax>0.38</sparkLifetimeMax>
-    <sparkSizeMinFactor>0.065</sparkSizeMinFactor>
+    <sparkLifetimeMax>0.36</sparkLifetimeMax>
+    <sparkSizeMinFactor>0.068</sparkSizeMinFactor>
     <sparkSizeMaxFactor>0.13</sparkSizeMaxFactor>
-    <sparkDrag>5.8</sparkDrag>
-    <distortionRadius>1.35</distortionRadius>
-    <distortionStrength>0.036</distortionStrength>
-    <distortionThickness>0.24</distortionThickness>
-    <distortionSpeed>5.8</distortionSpeed>
-    <distortionDurationSeconds>0.24</distortionDurationSeconds>
-    <lightRadius>2.6</lightRadius>
+    <sparkDrag>6.2</sparkDrag>
+    <emberBurstCount>16</emberBurstCount>
+    <emberSpeedMin>0.25</emberSpeedMin>
+    <emberSpeedMax>1.05</emberSpeedMax>
+    <emberLifetimeMin>0.28</emberLifetimeMin>
+    <emberLifetimeMax>0.56</emberLifetimeMax>
+    <emberSizeMinFactor>0.082</emberSizeMinFactor>
+    <emberSizeMaxFactor>0.165</emberSizeMaxFactor>
+    <emberDrag>4.6</emberDrag>
+    <emberTurbulence>1.20</emberTurbulence>
+    <distortionRadius>1.0</distortionRadius>
+    <distortionStrength>0.024</distortionStrength>
+    <distortionThickness>0.20</distortionThickness>
+    <distortionSpeed>4.8</distortionSpeed>
+    <distortionDurationSeconds>0.18</distortionDurationSeconds>
+    <lightRadius>2.5</lightRadius>
     <lightHeightCells>1.25</lightHeightCells>
-    <lightPeakIntensity>0.55</lightPeakIntensity>
+    <lightPeakIntensity>0.60</lightPeakIntensity>
     <lightDurationSeconds>0.22</lightDurationSeconds>
-    <hdrFlashMultiplier>1.65</hdrFlashMultiplier>
-    <hdrSparkMultiplier>1.55</hdrSparkMultiplier>
+    <hdrFlashMultiplier>1.72</hdrFlashMultiplier>
+    <hdrSparkMultiplier>1.85</hdrSparkMultiplier>
+    <hdrEmberMultiplier>1.80</hdrEmberMultiplier>
     <ribbonEdgePower>1.65</ribbonEdgePower>
   </WhisperOfTheForest.Missiles.ArcaneMissileImpactRimLumenVfxDef>
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
+  <WotF_ForestCraft.description>An artisan's instinct favoring bare hands and arcane tools. Elves work with remarkable ease at unpowered benches, producing higher-quality goods, yet grow somewhat clumsy around powered modern machinery. When fixing broken electrical devices, their strange gestures look less like repair than soothing the machine—though somehow it works.</WotF_ForestCraft.description>
   <WotF_ForestCraft.label>forest craft</WotF_ForestCraft.label>
   <WotF_ForestCraft.labelShortAdj>forest artisan</WotF_ForestCraft.labelShortAdj>
-  <WotF_ForestCraft.description>An instinct for handcraft and magical tools. Products made at workbenches without electrical power components gain one quality tier. Work at electrical workbenches runs at 70% speed. Broken electrical machinery is repaired with chalk marks and wooden taps.</WotF_ForestCraft.description>
 </LanguageData>

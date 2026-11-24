@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_Hediff_Clotting.description>穏やかな魔力の膜が体表の傷口を覆い、治癒の速度を高めている。</WotF_Hediff_Clotting.description>
+  <WotF_Hediff_Clotting.label>凝血処置</WotF_Hediff_Clotting.label>
+  <WotF_Hediff_Ensnare.description>目に見えぬ魔力が対象をその場に縫い留めている。一歩も動けないものの、攻撃自体は通常通り行える。</WotF_Hediff_Ensnare.description>
+  <WotF_Hediff_Ensnare.label>足止め</WotF_Hediff_Ensnare.label>
+  <WotF_Hediff_Freeze.description>骨身に染みる霜が関節と体表に張りついている。冷気が引くまで動きはひどくぎこちなくなり、移動能力が大きく制限される。</WotF_Hediff_Freeze.description>
+  <WotF_Hediff_Freeze.label>凍結</WotF_Hediff_Freeze.label>
+  <WotF_Hediff_Hex.description>陰鬱な刻印が対象に刻まれている。消えるまでの間、受けるダメージが増加し、傷の治癒と魔力の回復も鈍くなる。</WotF_Hediff_Hex.description>
+  <WotF_Hediff_Hex.label>呪印</WotF_Hediff_Hex.label>
+  <WotF_Hediff_LightningCharge.description>落雷のあとに体表へ残った遊離電荷がかすかに鳴り響いている。蓄積したスタックが多いほど、次の落雷で受けるダメージが増大する。</WotF_Hediff_LightningCharge.description>
+  <WotF_Hediff_LightningCharge.label>帯電</WotF_Hediff_LightningCharge.label>
+  <WotF_Hediff_MechAssimilation.description>外部からの魔力が指令回路へ強引に書き込まれ、このメカノイドはスタン状態に陥っている。術者の詠唱維持が中断されれば、同化は即座に失敗する。</WotF_Hediff_MechAssimilation.description>
+  <WotF_Hediff_MechAssimilation.label>同化中</WotF_Hediff_MechAssimilation.label>
+  <WotF_Hediff_MechControlled.description>指令回路が呪文によって一時的に書き換えられており、メカナイターの帯域を消費せず術者の派閥に従っている。効果時間が切れると元の派閥へ戻り、徴兵も解除される。</WotF_Hediff_MechControlled.description>
+  <WotF_Hediff_MechControlled.label>一時ハッキング</WotF_Hediff_MechControlled.label>
+  <WotF_Hediff_Scorch.description>体表にまとわりつく魔力の残り火が対象を焼き続けている。炎は身体に縛りつけられており、周囲の物に燃え広がることはない。</WotF_Hediff_Scorch.description>
+  <WotF_Hediff_Scorch.label>焼灼</WotF_Hediff_Scorch.label>
+</LanguageData>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_RelicCasket.description>A sealed container resting quietly deep inside the ruin, its casing stamped with serial codes and warning markings no one can read anymore.\nWhoever sealed it clearly expected to return and open it soon—yet after long ages, the only ones still faithfully doing their duty are the cold guardians waiting outside the door.</WotF_RelicCasket.description>
+  <WotF_RelicCasket.label>relic casket</WotF_RelicCasket.label>
+  <WotF_TeleportGate_Broken.description>An ancient arch standing alone on the ruin's perimeter, its stone base long since cracked and its runes stripped of their former luster.\nCut off from any mana network, its lingering charge may still be barely enough for one last crossing home—provided the active lockdown inside the ruin is lifted first.</WotF_TeleportGate_Broken.description>
+  <WotF_TeleportGate_Broken.label>broken teleport gate</WotF_TeleportGate_Broken.label>
+</LanguageData>

@@ -4,6 +4,7 @@ using RimLumen.Core.Api;
 using RimLumen.Core.Contracts;
 using UnityEngine;
 using Verse;
+using Verse.Sound;
 using WhisperOfTheForest.Spells;
 using WhisperOfTheForest.Vfx;
 using CurveKey = RimLumen.Core.Contracts.CurveKey;
@@ -34,6 +35,7 @@ namespace WhisperOfTheForest.Missiles
         public float hdrTrailMultiplier;
         public float hdrWakeMultiplier;
         public float ribbonEdgePower;
+        public float drainFadeSeconds;
         public float drainDurationSeconds;
 
         public override IEnumerable<string> ConfigErrors()
@@ -73,15 +75,16 @@ namespace WhisperOfTheForest.Missiles
                 yield return "hdr multipliers and ribbonEdgePower must be positive";
             }
 
-            if (drainDurationSeconds <= 0f)
+            if (drainFadeSeconds <= 0f || drainDurationSeconds < drainFadeSeconds)
             {
-                yield return "drainDurationSeconds must be positive";
+                yield return "0 < drainFadeSeconds <= drainDurationSeconds is required";
             }
         }
     }
 
     public sealed class ArcaneMissileImpactRimLumenVfxDef : VfxDef
     {
+        public SoundDef touchSound;
         public float flashDurationSeconds;
         public float holdDurationSeconds;
         public float flashPeakRadiusFactor;
@@ -93,6 +96,15 @@ namespace WhisperOfTheForest.Missiles
         public float sparkSizeMinFactor;
         public float sparkSizeMaxFactor;
         public float sparkDrag;
+        public int emberBurstCount;
+        public float emberSpeedMin;
+        public float emberSpeedMax;
+        public float emberLifetimeMin;
+        public float emberLifetimeMax;
+        public float emberSizeMinFactor;
+        public float emberSizeMaxFactor;
+        public float emberDrag;
+        public float emberTurbulence;
         public float distortionRadius;
         public float distortionStrength;
         public float distortionThickness;
@@ -104,6 +116,7 @@ namespace WhisperOfTheForest.Missiles
         public float lightDurationSeconds;
         public float hdrFlashMultiplier;
         public float hdrSparkMultiplier;
+        public float hdrEmberMultiplier;
         public float ribbonEdgePower;
 
         public override IEnumerable<string> ConfigErrors()
@@ -129,6 +142,14 @@ namespace WhisperOfTheForest.Missiles
                 yield return "spark lifetime/size ranges must be positive and sparkDrag non-negative";
             }
 
+            if (emberBurstCount < 1 || emberSpeedMin < 0f || emberSpeedMax < emberSpeedMin
+                || emberLifetimeMin <= 0f || emberLifetimeMax < emberLifetimeMin
+                || emberSizeMinFactor <= 0f || emberSizeMaxFactor < emberSizeMinFactor
+                || emberDrag < 0f || emberTurbulence < 0f)
+            {
+                yield return "ember burst count, lifetime/size ranges must be positive and speed/drag/turbulence non-negative";
+            }
+
             if (distortionRadius <= 0f || distortionStrength <= 0f || distortionThickness <= 0f
                 || distortionSpeed <= 0f || distortionDurationSeconds <= 0f)
             {
@@ -140,7 +161,7 @@ namespace WhisperOfTheForest.Missiles
                 yield return "impact light parameters must be positive with lightHeightCells >= 1";
             }
 
-            if (hdrFlashMultiplier <= 0f || hdrSparkMultiplier <= 0f || ribbonEdgePower <= 0f)
+            if (hdrFlashMultiplier <= 0f || hdrSparkMultiplier <= 0f || hdrEmberMultiplier <= 0f || ribbonEdgePower <= 0f)
             {
                 yield return "hdr multipliers and ribbonEdgePower must be positive";
             }
@@ -156,12 +177,13 @@ namespace WhisperOfTheForest.Missiles
             int trailCentis = Mathf.Max(5, Mathf.RoundToInt(settings.trailTime * 100f));
             int sizeCentis = Mathf.Max(10, Mathf.RoundToInt(settings.missileSize * 100f));
             string effectId = $"NekoYukari.WhisperOfTheForest:DynamicMissile_{def.defName}_{theme.defName}_{trailCentis}_{sizeCentis}";
-            if (!registeredIds.Add(effectId))
+            if (registeredIds.Contains(effectId))
             {
                 return effectId;
             }
 
             RimLumenApi.RegisterEffect(BuildFlightAsset(effectId, def, theme, settings));
+            registeredIds.Add(effectId);
             return effectId;
         }
 
@@ -198,15 +220,17 @@ namespace WhisperOfTheForest.Missiles
                             Width = def.trailWidthFactor * size,
                             WidthOverLength = new ScalarCurve(new[]
                             {
-                                new CurveKey(0f, 1f),
-                                new CurveKey(0.32f, 0.62f),
+                                new CurveKey(0f, 0.35f),
+                                new CurveKey(0.06f, 1f),
+                                new CurveKey(0.35f, 0.62f),
                                 new CurveKey(0.75f, 0.24f),
                                 new CurveKey(1f, 0f)
                             }),
                             ColorOverLength = new ColorGradient(new[]
                             {
-                                new ColorStop(0f, ToVec4(core, 0.96f)),
-                                new ColorStop(0.24f, ToVec4(pri, 0.84f)),
+                                new ColorStop(0f, ToVec4(core, 0.28f)),
+                                new ColorStop(0.06f, ToVec4(core, 0.96f)),
+                                new ColorStop(0.26f, ToVec4(pri, 0.84f)),
                                 new ColorStop(0.72f, ToVec4(sec, 0.42f)),
                                 new ColorStop(1f, ToVec4(sec, 0f))
                             }),
@@ -280,12 +304,13 @@ namespace WhisperOfTheForest.Missiles
         {
             int sizeCentis = Mathf.Max(10, Mathf.RoundToInt(missileSize * 100f));
             string effectId = $"NekoYukari.WhisperOfTheForest:DynamicMissileImpact_{def.defName}_{theme.defName}_{sizeCentis}";
-            if (!registeredIds.Add(effectId))
+            if (registeredIds.Contains(effectId))
             {
                 return effectId;
             }
 
             RimLumenApi.RegisterEffect(BuildImpactAsset(effectId, def, theme, missileSize));
+            registeredIds.Add(effectId);
             return effectId;
         }
 
@@ -299,6 +324,7 @@ namespace WhisperOfTheForest.Missiles
             Color pri = theme.PrimaryColorUnity;
             Color sec = theme.SecondaryColorUnity;
             Color light = theme.LightColorUnity;
+            Color midBright = Color.Lerp(core, pri, 0.55f);
             float hdr = theme.hdrIntensity;
 
             return new EffectAsset
@@ -322,9 +348,9 @@ namespace WhisperOfTheForest.Missiles
                             WorldSpaceSimulation = true,
                             RateOverTime = 0f,
                             Bursts = new[] { new ParticleBurstSpec(0f, def.sparkBurstCount) },
-                            Shape = LumenShapeKind.SphereShell,
-                            ShapeExtents = new NumVector3(0.08f * missileSize, 0.08f * missileSize, 0.08f * missileSize),
-                            SphericalDirectionAmount = 1f,
+                            Shape = LumenShapeKind.Sphere,
+                            ShapeExtents = new NumVector3(0.10f * missileSize, 0.08f * missileSize, 0.10f * missileSize),
+                            SphericalDirectionAmount = 0.85f,
                             StartLifetimeMin = def.sparkLifetimeMin,
                             StartLifetimeMax = def.sparkLifetimeMax,
                             StartSpeedMin = def.sparkSpeedMin,
@@ -333,27 +359,77 @@ namespace WhisperOfTheForest.Missiles
                             StartSizeMax = def.sparkSizeMaxFactor * missileSize,
                             BlendMode = LumenBlendMode.Additive,
                             BillboardMode = LumenBillboardMode.StretchedVelocity,
-                            VelocityStretchFactor = 0.05f,
-                            LengthScale = 1.2f,
+                            VelocityStretchFactor = 0.035f,
+                            LengthScale = 1.15f,
                             SoftParticleFadeDistance = 0.06f,
                             HdrIntensity = def.hdrSparkMultiplier * hdr,
                             SizeOverLifetime = new ScalarCurve(new[]
                             {
                                 new CurveKey(0f, 1f),
-                                new CurveKey(0.45f, 0.72f),
+                                new CurveKey(0.45f, 0.74f),
                                 new CurveKey(1f, 0f)
                             }),
                             ColorOverLifetime = new ColorGradient(new[]
                             {
                                 new ColorStop(0f, ToVec4(core, 0.96f)),
-                                new ColorStop(0.38f, ToVec4(pri, 0.80f)),
-                                new ColorStop(0.82f, ToVec4(sec, 0.36f)),
+                                new ColorStop(0.32f, ToVec4(midBright, 0.86f)),
+                                new ColorStop(0.75f, ToVec4(pri, 0.48f)),
                                 new ColorStop(1f, ToVec4(sec, 0f))
                             }),
                             ForceFields = new[]
                             {
-                                new ForceFieldSpec(ForceFieldKind.GravityDrag, new NumVector3(0f, -1f, 0f), new NumVector3(def.sparkDrag, 0f, 0f), 0f, 1.4f),
-                                new ForceFieldSpec(ForceFieldKind.CurlTurbulence, NumVector3.Zero, NumVector3.Zero, 0f, 0.9f, 2.5f)
+                                new ForceFieldSpec(ForceFieldKind.GravityDrag, new NumVector3(0f, -1f, 0f), new NumVector3(def.sparkDrag, 0f, 0f), 0f, 0.9f),
+                                new ForceFieldSpec(ForceFieldKind.CurlTurbulence, NumVector3.Zero, NumVector3.Zero, 0f, 1.0f, 2.5f)
+                            },
+                            EnvironmentChannels = LumenEnvironmentChannel.None
+                        }
+                    },
+                    new EffectNodeSpec
+                    {
+                        Name = "impact_embers",
+                        SpacePlane = LumenSpacePlane.Vertical3D,
+                        LocalPosition = new NumVector3(0f, 0.06f, 0f),
+                        Emitter = new EmitterSpec
+                        {
+                            Name = "impact_embers",
+                            PreferredTier = LumenParticleTier.L2_GpuCompute,
+                            MaxParticles = Math.Max(16, def.emberBurstCount + 8),
+                            Duration = def.holdDurationSeconds,
+                            Looping = false,
+                            WorldSpaceSimulation = true,
+                            RateOverTime = 0f,
+                            Bursts = new[] { new ParticleBurstSpec(0f, def.emberBurstCount) },
+                            Shape = LumenShapeKind.Sphere,
+                            ShapeExtents = new NumVector3(0.18f * missileSize, 0.14f * missileSize, 0.18f * missileSize),
+                            SphericalDirectionAmount = 0.72f,
+                            StartLifetimeMin = def.emberLifetimeMin,
+                            StartLifetimeMax = def.emberLifetimeMax,
+                            StartSpeedMin = def.emberSpeedMin,
+                            StartSpeedMax = def.emberSpeedMax,
+                            StartSizeMin = def.emberSizeMinFactor * missileSize,
+                            StartSizeMax = def.emberSizeMaxFactor * missileSize,
+                            BlendMode = LumenBlendMode.Additive,
+                            BillboardMode = LumenBillboardMode.Camera,
+                            SoftParticleFadeDistance = 0.06f,
+                            HdrIntensity = def.hdrEmberMultiplier * hdr,
+                            SizeOverLifetime = new ScalarCurve(new[]
+                            {
+                                new CurveKey(0f, 0.75f),
+                                new CurveKey(0.25f, 1f),
+                                new CurveKey(0.75f, 0.55f),
+                                new CurveKey(1f, 0f)
+                            }),
+                            ColorOverLifetime = new ColorGradient(new[]
+                            {
+                                new ColorStop(0f, ToVec4(core, 0.92f)),
+                                new ColorStop(0.35f, ToVec4(pri, 0.78f)),
+                                new ColorStop(0.78f, ToVec4(sec, 0.40f)),
+                                new ColorStop(1f, ToVec4(sec, 0f))
+                            }),
+                            ForceFields = new[]
+                            {
+                                new ForceFieldSpec(ForceFieldKind.GravityDrag, new NumVector3(0f, 1f, 0f), new NumVector3(def.emberDrag, 0f, 0f), 0f, 0.45f),
+                                new ForceFieldSpec(ForceFieldKind.CurlTurbulence, NumVector3.Zero, NumVector3.Zero, 0f, def.emberTurbulence, 2.8f)
                             },
                             EnvironmentChannels = LumenEnvironmentChannel.None
                         }
@@ -488,11 +564,14 @@ namespace WhisperOfTheForest.Missiles
             }
 
             float elapsed = SecondsSince(drainStartTick);
-            if (elapsed >= def.drainDurationSeconds && (lumenHandle == null || !lumenHandle.IsAlive))
+            if (lumenHandle != null && lumenHandle.IsAlive)
             {
-                Finished = true;
+                float fadeU = Mathf.Clamp01(elapsed / def.drainFadeSeconds);
+                float fade = Mathf.Pow(1f - fadeU, 1.8f);
+                lumenHandle.SetParam("intensity", fade);
             }
-            else if (elapsed >= def.drainDurationSeconds + settings.trailTime + 0.25f)
+
+            if (elapsed >= def.drainDurationSeconds)
             {
                 Finished = true;
             }
@@ -529,17 +608,13 @@ namespace WhisperOfTheForest.Missiles
             var tailEnd = new Vector3(lastX - headingX * tailLen, altitudeY, lastZ - headingZ * tailLen);
             var noseTip = new Vector3(lastX + headingX * (tailLen * 0.42f), altitudeY, lastZ + headingZ * (tailLen * 0.42f));
 
-            // Outer colored comet sheath + bright core spearhead aligned with live heading
-            headMesh.AddTaperedSegment(
+            // Smooth rounded teardrop comet sheath (tapers to zero width & alpha at both nose and tail)
+            AddCometSheath(
                 noseTip,
+                headCenter,
                 tailEnd,
-                def.headHaloRadiusFactor * size * 1.35f,
-                def.headHaloRadiusFactor * size * 0.25f,
-                new Color(primaryColor.r, primaryColor.g, primaryColor.b, 0.65f),
-                new Color(secondaryColor.r, secondaryColor.g, secondaryColor.b, 0f),
-                hdr * 0.9f,
-                def.ribbonEdgePower,
-                null);
+                def.headHaloRadiusFactor * size * 1.28f,
+                hdr * 0.9f);
             headMesh.AddRadialGlowDisc(
                 headCenter,
                 def.headHaloRadiusFactor * size,
@@ -563,6 +638,44 @@ namespace WhisperOfTheForest.Missiles
             if (headMesh.HasGeometry)
             {
                 LumenShaders.DrawLumen(headMesh.Mesh, LumenShaders.RibbonOver);
+            }
+        }
+
+        private void AddCometSheath(Vector3 noseTip, Vector3 headCenter, Vector3 tailEnd, float peakWidth, float hdr)
+        {
+            const float peakAlpha = 0.58f;
+            Color noseTint = Color.Lerp(coreColor, primaryColor, 0.55f);
+
+            const int noseSteps = 3;
+            for (int i = 0; i < noseSteps; i++)
+            {
+                float u0 = i / (float)noseSteps;
+                float u1 = (i + 1) / (float)noseSteps;
+                Vector3 p0 = Vector3.Lerp(noseTip, headCenter, u0);
+                Vector3 p1 = Vector3.Lerp(noseTip, headCenter, u1);
+                float w0 = peakWidth * Mathf.Sqrt(u0);
+                float w1 = peakWidth * Mathf.Sqrt(u1);
+                Color c0 = Color.Lerp(noseTint, primaryColor, u0);
+                Color c1 = Color.Lerp(noseTint, primaryColor, u1);
+                c0.a = peakAlpha * Mathf.Sin(u0 * Mathf.PI * 0.5f);
+                c1.a = peakAlpha * Mathf.Sin(u1 * Mathf.PI * 0.5f);
+                headMesh.AddTaperedSegment(p0, p1, w0, w1, c0, c1, hdr, def.ribbonEdgePower, null);
+            }
+
+            const int tailSteps = 4;
+            for (int i = 0; i < tailSteps; i++)
+            {
+                float u0 = i / (float)tailSteps;
+                float u1 = (i + 1) / (float)tailSteps;
+                Vector3 p0 = Vector3.Lerp(headCenter, tailEnd, u0);
+                Vector3 p1 = Vector3.Lerp(headCenter, tailEnd, u1);
+                float w0 = peakWidth * Mathf.Pow(1f - u0, 1.2f);
+                float w1 = peakWidth * Mathf.Pow(1f - u1, 1.2f);
+                Color c0 = Color.Lerp(primaryColor, secondaryColor, u0);
+                Color c1 = Color.Lerp(primaryColor, secondaryColor, u1);
+                c0.a = peakAlpha * Mathf.Pow(1f - u0, 1.5f);
+                c1.a = peakAlpha * Mathf.Pow(1f - u1, 1.5f);
+                headMesh.AddTaperedSegment(p0, p1, w0, w1, c0, c1, hdr, def.ribbonEdgePower, null);
             }
         }
 
@@ -667,6 +780,11 @@ namespace WhisperOfTheForest.Missiles
 
             flashMesh = new LumenRibbonMesh("WotF_ArcaneImpact_" + theme.defName);
 
+            if (request.map == Find.CurrentMap && def.touchSound != null)
+            {
+                def.touchSound.PlayOneShot(new TargetInfo(impactPos.ToIntVec3(), request.map));
+            }
+
             if (RimLumenApi.IsReady)
             {
                 string effectId = ArcaneMissileLumenCatalog.EnsureImpactEffect(def, theme, settings.missileSize);
@@ -712,28 +830,31 @@ namespace WhisperOfTheForest.Missiles
             }
 
             flashMesh.Clear();
+            float size = settings.missileSize;
             float t = Mathf.Clamp01(elapsed / def.flashDurationSeconds);
-            float expand = t < 0.22f ? Mathf.Lerp(0.55f, 1f, t / 0.22f) : Mathf.Pow(1f - (t - 0.22f) / 0.78f, 1.6f);
-            float radius = def.flashPeakRadiusFactor * settings.missileSize * expand;
-            float alpha = Mathf.Pow(1f - t, 1.35f);
+            float expand = t < 0.20f
+                ? Mathf.Lerp(0.65f, 1f, t / 0.20f)
+                : Mathf.Pow(1f - (t - 0.20f) / 0.80f, 1.65f);
+            float radius = def.flashPeakRadiusFactor * size * expand;
+            float alpha = Mathf.Pow(1f - t, 1.45f);
             float hdr = theme.hdrIntensity * def.hdrFlashMultiplier;
 
             flashMesh.AddRadialGlowDisc(
                 impactPos,
                 radius * 1.45f,
                 20,
-                new Color(primaryColor.r, primaryColor.g, primaryColor.b, 0.52f * alpha),
+                new Color(primaryColor.r, primaryColor.g, primaryColor.b, 0.50f * alpha),
                 new Color(secondaryColor.r, secondaryColor.g, secondaryColor.b, 0f),
-                hdr * 0.9f,
+                hdr * 0.88f,
                 def.ribbonEdgePower,
                 null);
             flashMesh.AddRadialGlowDisc(
                 impactPos,
-                radius * 0.65f,
+                radius * 0.66f,
                 16,
                 new Color(coreColor.r, coreColor.g, coreColor.b, 0.94f * alpha),
                 new Color(primaryColor.r, primaryColor.g, primaryColor.b, 0f),
-                hdr * 1.4f,
+                hdr * 1.32f,
                 def.ribbonEdgePower * 0.85f,
                 null);
 

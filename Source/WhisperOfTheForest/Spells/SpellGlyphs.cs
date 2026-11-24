@@ -94,6 +94,9 @@ namespace WhisperOfTheForest.Spells
         /// <summary>Data-driven cast visual and sound theme for Effect and Super glyphs.</summary>
         public SpellThemeDef theme;
 
+        /// <summary>Optional sound played where an Effect glyph resolves on targets/cells.</summary>
+        public SoundDef resolveSound;
+
         /// <summary>Combat-log flavor rules owned by each damaging Effect or Super glyph.</summary>
         public RulePackDef combatLogRules;
 
@@ -539,6 +542,7 @@ namespace WhisperOfTheForest.Spells
         public const string EffectPull = "WotF_Effect_Pull";
         public const string EffectSnare = "WotF_Effect_Snare";
         public const string EffectHex = "WotF_Effect_Hex";
+        public const string EffectHack = "WotF_Effect_Hack";
         public const string EffectMagelight = "WotF_Effect_Magelight";
         public const string EffectPlanarShield = "WotF_Effect_PlanarShield";
         public const string EffectBlink = "WotF_Effect_Blink";

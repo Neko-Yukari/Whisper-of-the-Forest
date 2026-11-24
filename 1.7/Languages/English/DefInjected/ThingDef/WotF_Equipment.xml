@@ -1,15 +1,18 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-
-  <!-- DefInjected path = <defName>.<field>. The parent folder (DefInjected/ThingDef) already
-       supplies the def type. -->
-
+  <WotF_ElvenLongbow.description>A longbow bent along the natural grain of a single length of livingwood and strung with supple sinew. It draws light and silent, and a spell inscribed into its grip rides every arrow loosed toward the target.</WotF_ElvenLongbow.description>
+  <WotF_ElvenLongbow.label>livingwood longbow</WotF_ElvenLongbow.label>
+  <WotF_ElvenLongsword.description>A slender, well-balanced traditional elven blade, equally suited to a flowing slash or a clean thrust. A spell inscribed into its hilt discharges the moment the edge strikes home.</WotF_ElvenLongsword.description>
+  <WotF_ElvenLongsword.label>elven longsword</WotF_ElvenLongsword.label>
+  <WotF_Projectile_ElvenArrow.label>elven arrow</WotF_Projectile_ElvenArrow.label>
+  <WotF_SpellStaff.description>A long-hafted staff meant to be steadied with both hands. Next to a nimble one-handed wand, a staff feels cumbersome and leaves little room for extra defensive gear in close quarters; in return, it withstands far fiercer surges of mana, casts spells across greater range, and is one of the rare conduits able to channel supra spells stably.</WotF_SpellStaff.description>
   <WotF_SpellStaff.label>spell staff</WotF_SpellStaff.label>
-  <WotF_SpellStaff.description>A full-length, two-handed spell staff — properly a staff rather than a quick one-handed wand, even if colonists casually call both "staves". Steadied with both hands, it channels a spellbook bookmark at full reach, amplifies material resonance to higher ceilings, and anchors super runes; in return it cannot be fired while wearing a ranged-blocking shield belt. Without a saved spell in its chosen bookmark it cannot attack.</WotF_SpellStaff.description>
+  <WotF_SpellWand.description>A one-handed wand—not to be confused with a two-handed staff!\nWands are favored by elves who lean toward swordsmanship. Lighter than a two-handed staff, a wand looses spells faster and weaves them seamlessly into bladework, at the cost of shorter range and narrower spell capacity.</WotF_SpellWand.description>
   <WotF_SpellWand.label>spell wand</WotF_SpellWand.label>
-  <WotF_SpellWand.description>People keep calling it a "short spell staff", though by proper fantasy convention this nimble one-handed focus is strictly a wand, not a two-handed staff. Worn in the offhand without displacing a primary weapon, it can auto-cast when carried alone or fire on command alongside a blade and a shield belt — trading reach, material ceilings and super-rune support for rapid windup and compact handling.</WotF_SpellWand.description>
-  <WotF_Spellbook_Apprentice.label>apprentice spellbook</WotF_Spellbook_Apprentice.label>
+  <WotF_Spellbook_Adept.description>A spellbook reforged through a tier-2 ritual, its binding and pages strengthened to hold intricate mana circuits. It unlocks all 10 spell bookmarks with up to 7 runes per spell, further raises the wearer's mana capacity and recovery, and still cannot hold supra runes.</WotF_Spellbook_Adept.description>
   <WotF_Spellbook_Adept.label>adept spellbook</WotF_Spellbook_Adept.label>
+  <WotF_Spellbook_Apprentice.description>An introductory spellbook worn at the hip by elves new to spellweaving. It opens all 10 spell bookmarks with up to 4 runes per spell, modestly raises the wearer's mana capacity and recovery, and cannot hold supra runes.</WotF_Spellbook_Apprentice.description>
+  <WotF_Spellbook_Apprentice.label>apprentice spellbook</WotF_Spellbook_Apprentice.label>
+  <WotF_Spellbook_Archmage.description>A high-tier tome elevated by a starlight ritual, a cool silver sheen drifting across its pages. It opens all 10 spell bookmarks, extends each rune chain up to 10 runes, and greatly boosts the wearer's mana capacity and recovery. It is the only spellbook capable of holding supra runes, though casting a supra spell still requires wielding a staff in the main hand.</WotF_Spellbook_Archmage.description>
   <WotF_Spellbook_Archmage.label>starlight codex</WotF_Spellbook_Archmage.label>
-
 </LanguageData>

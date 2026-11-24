@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <WotF_RitualAltar_LivingWood.label>活木祭坛</WotF_RitualAltar_LivingWood.label>
-  <WotF_RitualAltar_LivingWood.description>在石座之上以活木雕琢而成的二阶祭坛，占地一格。活木枝脉比寻常木材更善导引魔源，可在此点化精灵钢与高阶仪式粉笔，也能主持全部二阶及以下仪式。</WotF_RitualAltar_LivingWood.description>
-  <WotF_RitualAltar_Starlight.label>星辉祭坛</WotF_RitualAltar_Starlight.label>
-  <WotF_RitualAltar_Starlight.description>由活木、精灵钢与工程站谐振核构筑而成的三阶祭坛，占地一格。沉睡的谐振核在台座中低沉嗡鸣，能稳住周遭的魔源，足以点化精金与秘银，并承载全部三阶及以下仪式。</WotF_RitualAltar_Starlight.description>
-  <WotF_EngineeringResonanceCore.label>工程站谐振核</WotF_EngineeringResonanceCore.label>
   <WotF_EngineeringResonanceCore.description>从遗迹深处取出的多面体核心，无法由现有的任何工艺仿制，却是构筑星辉祭坛不可或缺的基石。\n即便沉睡了数个纪元，它在靠近魔源时依然会发出规律而低沉的嗡鸣。</WotF_EngineeringResonanceCore.description>
-  <WotF_RitualLivingwoodLamp.label>灵木灯台</WotF_RitualLivingwoodLamp.label>
-  <WotF_RitualLivingwoodLamp.description>以活木立柱托起翡翠灯盏的仪式器具，常年散发出柔和的青绿微光。摆在祭坛附近时，每座灯台可提供 2 点共鸣强度，单座祭坛最多同时连接 4 座。</WotF_RitualLivingwoodLamp.description>
-  <WotF_RitualElvenStatue.label>精灵仪式雕像</WotF_RitualElvenStatue.label>
+  <WotF_EngineeringResonanceCore.label>工程站谐振核</WotF_EngineeringResonanceCore.label>
+  <WotF_RitualAltar_LivingWood.description>在石座之上以活木雕琢而成的二阶祭坛，占地一格。活木枝脉比寻常木材更善导引魔源，可在此点化精灵钢与高阶仪式粉笔，也能主持全部二阶及以下仪式。</WotF_RitualAltar_LivingWood.description>
+  <WotF_RitualAltar_LivingWood.label>活木祭坛</WotF_RitualAltar_LivingWood.label>
+  <WotF_RitualAltar_Starlight.description>由活木、精灵钢与工程站谐振核构筑而成的三阶祭坛，占地一格。沉睡的谐振核在台座中低沉嗡鸣，能稳住周遭的魔源，足以点化精金与秘银，并承载全部三阶及以下仪式。</WotF_RitualAltar_Starlight.description>
+  <WotF_RitualAltar_Starlight.label>星辉祭坛</WotF_RitualAltar_Starlight.label>
   <WotF_RitualElvenStatue.description>用活木与翡翠细心雕琢的精灵像。它本身可作艺术冥想焦点，摆在祭坛附近时还会按艺术品质提供共鸣强度，单座祭坛最多连接 6 座。</WotF_RitualElvenStatue.description>
+  <WotF_RitualElvenStatue.label>精灵仪式雕像</WotF_RitualElvenStatue.label>
+  <WotF_RitualLivingwoodLamp.description>以活木立柱托起翡翠灯盏的仪式器具，常年散发出柔和的青绿微光。摆在祭坛附近时，每座灯台可提供 2 点共鸣强度，单座祭坛最多同时连接 4 座。</WotF_RitualLivingwoodLamp.description>
+  <WotF_RitualLivingwoodLamp.label>灵木灯台</WotF_RitualLivingwoodLamp.label>
 </LanguageData>

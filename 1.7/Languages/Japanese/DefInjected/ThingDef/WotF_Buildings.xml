@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_Chalk.description>石粉と木灰、薬草を練り固めた淡い白のチョーク。手に取るとわずかにざらつきがあり、祭壇の周囲に白亜のチョーク環を描くのに用いる。</WotF_Chalk.description>
+  <WotF_Chalk.label>白亜のチョーク</WotF_Chalk.label>
+  <WotF_ChalkGreen.description>白亜のチョークと薬草から錬成された翠色のチョーク。近づけるとほのかに草葉の香りが漂う。エルフたちは生気や守護に関わる翠葉環を描く際によく用いる。</WotF_ChalkGreen.description>
+  <WotF_ChalkGreen.label>翠葉のチョーク</WotF_ChalkGreen.label>
+  <WotF_ChalkMark_Green.description>翠葉のチョークで地面に描かれた青緑の紋線。祭壇の周囲を一周つなぐことで第2階位の儀式を支える。</WotF_ChalkMark_Green.description>
+  <WotF_ChalkMark_Green.label>緑のチョーク痕</WotF_ChalkMark_Green.label>
+  <WotF_ChalkMark_Star.description>星輝のチョークで地面に描かれた銀白の紋線。祭壇の周囲を完全な環として囲むことで第3階位の儀式を支える。</WotF_ChalkMark_Star.description>
+  <WotF_ChalkMark_Star.label>星輝のチョーク痕</WotF_ChalkMark_Star.label>
+  <WotF_ChalkMark_White.description>白亜のチョークで地面に描かれた淡い白の紋線。祭壇の周囲を切れ目なく囲むことで儀式を支える。</WotF_ChalkMark_White.description>
+  <WotF_ChalkMark_White.label>白いチョーク痕</WotF_ChalkMark_White.label>
+  <WotF_ChalkStar.description>白亜のチョークにシルバーとヒスイを混ぜて錬成された銀白のチョーク。断面には冷ややかな微光が宿り、描かれた星輝環は天象・地脈・上位錬成などの第3階位儀式を受け止める。</WotF_ChalkStar.description>
+  <WotF_ChalkStar.label>星輝のチョーク</WotF_ChalkStar.label>
+  <WotF_ElvenStreetLamp.description>花を咲かせた青蔦が絡みつく、銀白の二灯式エルフの街灯。マナネットワークに接続するとわずかなマナを消費するだけで太陽灯に匹敵する範囲へ50%の常時照明をもたらす。光色は昼夜に応じて温かな琥珀色から青緑へと移ろい、夜には蔓の花のあいだへ晶翼の蝶が集まってくることも多い。</WotF_ElvenStreetLamp.description>
+  <WotF_ElvenStreetLamp.label>エルフの街灯</WotF_ElvenStreetLamp.label>
+  <WotF_Gun_SpellTurret.description>詠唱タレットの頂部に据えられたルーン集束器。刻まれた紋様に沿って弾体呪文を代わりに発動する。</WotF_Gun_SpellTurret.description>
+  <WotF_Gun_SpellTurret.label>詠唱タレット集束器</WotF_Gun_SpellTurret.label>
+  <WotF_ManaBattery.description>余剰のマナを蓄える木石造りの容器。接続範囲内で最も近いマナノードの属するマナネットワークへ自動的に接続される。一時的にネットワークから外れても蓄積したマナは保持されるが、建物が破壊されると霧散する。</WotF_ManaBattery.description>
+  <WotF_ManaBattery.label>マナバッテリー</WotF_ManaBattery.label>
+  <WotF_ManaConverter.description>プラスチールで鋳造された奇妙な装置。コロニーの電力網から流れる電流をゆっくりと純粋なマナへ変換し、近隣のマナネットワークへ供給する。冷たい電流がなぜ魔法と通じ合うのか説明できる者はいないが、それでも確実に稼働し続けている。</WotF_ManaConverter.description>
+  <WotF_ManaConverter.label>電力マナ変換器</WotF_ManaConverter.label>
+  <WotF_ManaFurnace.description>石積みで造られた低い炉。木材を燃やし続けることで近隣のマナネットワークへマナを供給する。ネットワークが満杯になると、炉火は自動的に休眠状態へ移行して薪を節約する。</WotF_ManaFurnace.description>
+  <WotF_ManaFurnace.label>薪焚きマナ炉</WotF_ManaFurnace.label>
+  <WotF_ManaGrove.description>活木とルーン石で築かれたマナネットワーク設備。付近に成木があれば、木々を傷つけることなくその生気を近隣のマナネットワークへと取り込む。</WotF_ManaGrove.description>
+  <WotF_ManaGrove.label>霊木共鳴石陣</WotF_ManaGrove.label>
+  <WotF_ManaNode.description>精巧に造られた導魔装置。範囲内のすべてのマナを一つのマナネットワークへ集約して分配し、ノード同士を中継させることでより遠距離への伝送も可能にする。</WotF_ManaNode.description>
+  <WotF_ManaNode.label>マナノード</WotF_ManaNode.label>
+  <WotF_RitualAltar.description>ありふれた木材と石材で組まれた1マス占有の第1階位祭壇。近隣のマナネットワークに接続し周囲にチョーク環を描くことで、活木の錬成や見習いの魔導書の覚醒など基礎的な儀式を行える。上位の祭壇でもこれらの儀式はそのまま挙行できる。</WotF_RitualAltar.description>
+  <WotF_RitualAltar.label>木石の祭壇</WotF_RitualAltar.label>
+  <WotF_SpellTurret.description>ルーン集束器を中心に構築された自動防衛タレット。詠唱者が弾体形式の通常呪文を一つ刻み込むと、近隣のマナネットワークからマナを汲み上げて自動射撃を行う。マナが途絶えるか呪文が未登録のあいだは沈黙を保つ。</WotF_SpellTurret.description>
+  <WotF_SpellTurret.label>詠唱タレット</WotF_SpellTurret.label>
+  <WotF_TeleportGate.description>石積みの台座にそびえるルーンの石門。活木・ミスリル・アダマンティンで築かれている。開放中は近隣のマナネットワークからマナを消費し続け、収容した人員や物資を同一マップ上の別の開放済み転送門へ送ることも、遺跡探査で特定した古代工学遺跡へ直接送り込むこともできる。</WotF_TeleportGate.description>
+  <WotF_TeleportGate.label>魔導転送門</WotF_TeleportGate.label>
+</LanguageData>

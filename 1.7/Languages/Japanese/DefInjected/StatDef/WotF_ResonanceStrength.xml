@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_ResonanceStrength.description>接続された設備によって供給される共鳴強度。儀式の挙行時、儀式強度は詠唱強度（主催者の森の血脈レベル + 0.5 × 協力者の血脈レベルの合計）× √(1 + 共鳴強度 / 10) として計算される。</WotF_ResonanceStrength.description>
+  <WotF_ResonanceStrength.label>共鳴強度</WotF_ResonanceStrength.label>
+</LanguageData>

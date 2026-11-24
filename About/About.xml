@@ -1,46 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-<packageId>NekoYukari.WhisperOfTheForest</packageId>
-<name>Whisper of the Forest</name>
-<description>在边缘世界的密林深处，居住着一支身形修长、寿命漫长的精灵族。她们习惯以手工打造器物，借由魔术书、法杖与粉笔法阵施展魔法，并在被植被吞没的古老遗迹周围延续着自己的生活。</description>
-<authors>
-  <li>Neko Yukari</li>
-</authors>
-<supportedVersions>
-  <li>1.6</li>
-  <li>1.7</li>
-</supportedVersions>
-<modVersion>1.0</modVersion>
-<loadAfter>
-  <li>brrainz.harmony</li>
-  <li>erdelf.HumanoidAlienRaces</li>
-  <li>NekoYukari.RimLumen</li>
-</loadAfter>
-<modDependenciesByVersion>
-  <v1.7>
-    <li>
-      <packageId>brrainz.harmony</packageId>
-      <displayName>Harmony</displayName>
-      <steamWorkshopUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=2009463077</steamWorkshopUrl>
-    </li>
-    <li>
-      <packageId>erdelf.HumanoidAlienRaces</packageId>
-      <displayName>Humanoid Alien Races</displayName>
-      <steamWorkshopUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=839005762</steamWorkshopUrl>
-    </li>
-    <li>
-      <packageId>NekoYukari.RimLumen</packageId>
-      <displayName>RimLumen</displayName>
-      <steamWorkshopUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=3839499092</steamWorkshopUrl>
-    </li>
-    <li>
-      <packageId>ludeon.rimworld.royalty</packageId>
-      <displayName>RimWorld - Royalty</displayName>
-    </li>
-    <li>
-      <packageId>ludeon.rimworld.biotech</packageId>
-      <displayName>RimWorld - Biotech</displayName>
-    </li>
-  </v1.7>
-</modDependenciesByVersion>
+  <packageId>NekoYukari.WhisperOfTheForest</packageId>
+  <name>Whisper of the Forest</name>
+  <authors>
+    <li>Neko Yukari</li>
+  </authors>
+  <modVersion>0.1.3</modVersion>
+  <url>https://github.com/Neko-Yukari/Whisper-of-the-Forest</url>
+  <supportedVersions>
+    <li>1.7</li>
+  </supportedVersions>
+  <description>森林的低语（Whisper of the Forest）是一款面向 RimWorld 1.7 的森林精灵种族与魔法模组。
+
+主要内容：
+- 森林精灵种族与派系（翠绿林庭）：独特的精灵外观与血脉特性、本族常服与战斗护甲、入定蒲团与灵木照明。
+- 模块化符文法术体系：通过魔术书、魔杖与法杖自由组合形式、效果与强化符文，并支持武器与护甲法术注入。
+- 魔源网络与功能建筑：魔源节点、魔源电池、燃木魔源炉、灵木共鸣石阵、电力魔源转化器、魔力工作台与自动施法炮塔。
+- 精灵仪式与三阶祭坛：在木石、活木与星辉祭坛周边绘制三族粉笔法阵，完成材料点化、符文启封、生命再生、古树护盾穹顶与天象仪式。
+- 魔导传送门与古老工程遗迹：通过仪式寻踪远古遗迹，跨越传送门带回工程站谐振核与超位符文拓片。</description>
+  <loadAfter>
+    <li>Ludeon.RimWorld</li>
+    <li>Ludeon.RimWorld.Royalty</li>
+    <li>Ludeon.RimWorld.Biotech</li>
+    <li>brrainz.harmony</li>
+    <li>erdelf.HumanoidAlienRaces</li>
+    <li>NekoYukari.RimLumen</li>
+  </loadAfter>
+  <modDependenciesByVersion>
+    <v1.7>
+      <li>
+        <packageId>brrainz.harmony</packageId>
+        <displayName>Harmony</displayName>
+        <steamWorkshopUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=2009463077</steamWorkshopUrl>
+      </li>
+      <li>
+        <packageId>erdelf.HumanoidAlienRaces</packageId>
+        <displayName>Humanoid Alien Races</displayName>
+        <steamWorkshopUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=839005762</steamWorkshopUrl>
+      </li>
+      <li>
+        <packageId>NekoYukari.RimLumen</packageId>
+        <displayName>RimLumen</displayName>
+        <steamWorkshopUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=3839499092</steamWorkshopUrl>
+      </li>
+      <li>
+        <packageId>ludeon.rimworld.royalty</packageId>
+        <displayName>RimWorld - Royalty</displayName>
+      </li>
+      <li>
+        <packageId>ludeon.rimworld.biotech</packageId>
+        <displayName>RimWorld - Biotech</displayName>
+      </li>
+    </v1.7>
+  </modDependenciesByVersion>
 </ModMetaData>

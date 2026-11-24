@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_GreenCourt.description>大小さまざまなエルフの集落が築く緩やかな同盟の対外的な総称。表向きは執政官に従っているが、実際の行政権は今も各集落の長老たちが握っている。\n\n遠い昔、エルフたちは遺跡に眠る古代の遺物を巡って大きな戦乱を引き起こした。生き残った者たちは廃墟の上に現在の秩序を築き直し、殺傷性の高い呪文の流通や遺跡へのさらなる探索を厳しく統制している。\n\nしかし近年、リムワールド各地の動乱によって、エルフたちは知識の重要性を再び痛感するようになった。遺跡の真相を自ら解き明かすべきだと主張する者もいれば、決してよそ者に領地へ手を触れさせてはならないと説く者もいる。そしてさらに多くの者は過去の災厄を忘れられず、外界との接触を一方的に拒み続けている。</WotF_GreenCourt.description>
+  <WotF_GreenCourt.fixedName>翠緑の林庭</WotF_GreenCourt.fixedName>
+  <WotF_GreenCourt.label>翠緑の林庭</WotF_GreenCourt.label>
+  <WotF_GreenCourt.leaderTitle>執政官</WotF_GreenCourt.leaderTitle>
+  <WotF_GreenCourt.leaderTitleFemale>執政官</WotF_GreenCourt.leaderTitleFemale>
+  <WotF_GreenCourt.pawnSingular>林庭のエルフ</WotF_GreenCourt.pawnSingular>
+  <WotF_GreenCourt.pawnsPlural>林庭のエルフ</WotF_GreenCourt.pawnsPlural>
+</LanguageData>

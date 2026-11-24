@@ -26,6 +26,7 @@ namespace WhisperOfTheForest.Spells
         public string LightColor => lightColor;
         public int LifetimeTicks => lifetimeTicks;
         public override string DiagnosticName => "magelight";
+        public override SoundDef ResolveSound => SpellDefs.Glyph(SpellDefs.EffectMagelight)?.resolveSound;
         public override void AppendSummary(List<string> lines, int indent)
         {
             lines.Add(SummaryIndent(indent) + SpellText.TF("WotF_SpellPlan.EffectMagelight",

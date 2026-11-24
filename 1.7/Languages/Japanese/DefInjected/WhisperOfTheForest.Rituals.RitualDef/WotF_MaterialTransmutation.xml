@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_Ritual_TransmuteAdamantine.description>第三階梯の祭壇の周囲に7×7の星輝のチョーク陣を描き、エルフ鋼とプラスチールを魔力の重圧で鍛え直して冷厳で重厚なアダマンティンへと変じる。産出量は固定で、儀式強度が高いほど点化が早まる。</WotF_Ritual_TransmuteAdamantine.description>
+  <WotF_Ritual_TransmuteAdamantine.label>点化：アダマンティン</WotF_Ritual_TransmuteAdamantine.label>
+  <WotF_Ritual_TransmuteElvenSteel.description>第二階梯以上の祭壇と5×5の翠葉のチョーク陣を用い、活木のしなやかさをスチールへ染み込ませて淡い青銀のエルフ鋼へと点化する。産出量は固定で、儀式強度が高いほど点化が早まる。</WotF_Ritual_TransmuteElvenSteel.description>
+  <WotF_Ritual_TransmuteElvenSteel.label>点化：エルフ鋼</WotF_Ritual_TransmuteElvenSteel.label>
+  <WotF_Ritual_TransmuteLivingWood.description>第一階梯以上の祭壇の周りに3×3の白亜のチョーク陣を描き、薬草を導きとして木材に眠る生気を呼び覚まし、しなやかで温もりのある活木へと点化する。産出量は固定で、儀式強度が高いほど点化が早まる。</WotF_Ritual_TransmuteLivingWood.description>
+  <WotF_Ritual_TransmuteLivingWood.label>点化：活木</WotF_Ritual_TransmuteLivingWood.label>
+  <WotF_Ritual_TransmuteMithril.description>第三階梯の祭壇に描いた7×7の星輝のチョーク陣の中で、エルフ鋼とシルバーを溶かし合わせ、軽やかで魔力になじむ月白のミスリルへと精錬する。産出量は固定で、儀式強度が高いほど精錬が早まる。</WotF_Ritual_TransmuteMithril.description>
+  <WotF_Ritual_TransmuteMithril.label>点化：ミスリル</WotF_Ritual_TransmuteMithril.label>
+</LanguageData>

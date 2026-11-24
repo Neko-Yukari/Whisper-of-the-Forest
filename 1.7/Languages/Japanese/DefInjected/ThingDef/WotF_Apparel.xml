@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_ElvenApronDress.description>普段着として用いられるゆったりとしたエプロンドレス。腰回りには道具や草葉を入れるポケットが縫い付けられており、動きを妨げず農作業や収穫がはかどる。</WotF_ElvenApronDress.description>
+  <WotF_ElvenApronDress.label>エルフのエプロンドレス</WotF_ElvenApronDress.label>
+  <WotF_ElvenDressTraditional_I.description>布や柔らかな革で仕立てられたワンピース型の長衣。胴体と脚を覆って寒暑から身を守り、エルフの集落で最も一般的な日常着である。</WotF_ElvenDressTraditional_I.description>
+  <WotF_ElvenDressTraditional_I.label>エルフの伝統ドレス I</WotF_ElvenDressTraditional_I.label>
+  <WotF_ElvenDressTraditional_II.description>別仕立てのワンピース型長衣。保護範囲や寒暑への耐性は一般的な型と変わらないが、生地の織り目とシルエットがわずかに異なる。</WotF_ElvenDressTraditional_II.description>
+  <WotF_ElvenDressTraditional_II.label>エルフの伝統ドレス II</WotF_ElvenDressTraditional_II.label>
+  <WotF_ElvenFlowerWreath.description>みずみずしい枝葉と野花で編まれた花冠。髪に添えるとほのかな草の香りを漂わせ、人との会話で好感を得やすくなる。</WotF_ElvenFlowerWreath.description>
+  <WotF_ElvenFlowerWreath.label>エルフの花冠</WotF_ElvenFlowerWreath.label>
+  <WotF_ElvenFormalGown.description>繊細な金糸を織り込んだ重ね仕立ての礼服。祝祭や外交の場で着用され、気品ある佇まいで交渉の場でも重みをもたらす。</WotF_ElvenFormalGown.description>
+  <WotF_ElvenFormalGown.label>エルフの礼装ドレス</WotF_ElvenFormalGown.label>
+  <WotF_ElvenHunterUndershirt.description>マントや軽装鎧の下に着込む密着型の肌着。張りのある生地が動きの妨げとなるたるみを抑え、近接戦での回避を助ける。</WotF_ElvenHunterUndershirt.description>
+  <WotF_ElvenHunterUndershirt.label>エルフの狩猟用肌着</WotF_ElvenHunterUndershirt.label>
+  <WotF_ElvenLightArmor.description>レンジャーが好んで着用する軽装防具。肌着の上から胸当てと腕当てを重ねつつ裾に余裕を持たせてあり、足取りを妨げず遠距離の照準を安定させる。祭壇で被弾時発動の呪文を刻み込むこともできる。</WotF_ElvenLightArmor.description>
+  <WotF_ElvenLightArmor.label>エルフの軽装鎧</WotF_ElvenLightArmor.label>
+  <WotF_ElvenMageRobe.description>縫い目に沿って極細の金属糸を織り込んだ外袍。通常は肌着の上に羽織る。体内の魔力の巡りを滑らかにし、長期戦でも豊かな魔力と回復力を保てるようにする。</WotF_ElvenMageRobe.description>
+  <WotF_ElvenMageRobe.label>エルフの魔導ローブ</WotF_ElvenMageRobe.label>
+  <WotF_ElvenSunHat.description>つばの広い手編みの帽子。外出時に日差しから顔を守るだけでなく、会話の相手にも良い印象を与えやすくなる。</WotF_ElvenSunHat.description>
+  <WotF_ElvenSunHat.label>エルフの日よけ帽</WotF_ElvenSunHat.label>
+  <WotF_ElvenTravelCloak.description>荷物用の負い紐を備えた長身の旅マント。頭部を除く全身を風雪や強い日差しから守り、負い紐が荷重を分散することで携帯できる物資の量も増やす。</WotF_ElvenTravelCloak.description>
+  <WotF_ElvenTravelCloak.label>エルフの旅マント</WotF_ElvenTravelCloak.label>
+  <WotF_ElvenTravelHood.description>旅マントと対になる深いフード。すっぽりと被ることで頭部全体を冷風や日差しから守る。</WotF_ElvenTravelHood.description>
+  <WotF_ElvenTravelHood.label>エルフの旅フード</WotF_ElvenTravelHood.label>
+  <WotF_ElvenWarArmor.description>肩当てを備えた全身金属板金鎧で、エルフの剣衛や執政官の制式装備。頭部以下の全身を保護しつつ移動速度の低下は最小限に抑えられており、祭壇で被弾時発動の呪文を刻み込むこともできる。</WotF_ElvenWarArmor.description>
+  <WotF_ElvenWarArmor.label>エルフの戦鎧</WotF_ElvenWarArmor.label>
+  <WotF_ElvenWarCrown.description>一枚の金属から鍛え上げられた翼状の戦冠。顔面が開いた造りでありながら重兜に匹敵する防護力を備え、着用者の頭部全体を守る。</WotF_ElvenWarCrown.description>
+  <WotF_ElvenWarCrown.label>エルフの戦冠</WotF_ElvenWarCrown.label>
+</LanguageData>

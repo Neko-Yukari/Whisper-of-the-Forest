@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_Site_Ruin_Core.approachOrderString>{0}を調査する</WotF_Site_Ruin_Core.approachOrderString>
+  <WotF_Site_Ruin_Core.approachingReportString>{0}を調査中。</WotF_Site_Ruin_Core.approachingReportString>
+  <WotF_Site_Ruin_Core.arrivedLetter>古代工学遺跡に到着しました。かつてのグリッターワールドの遺物が厚いコンクリートの下に眠っていますが、侵入を防ぐ機構はいまも稼働しているようです……。\n守衛をすべて排除しない限り、あの転送門が再び開くことはないという予感がします。</WotF_Site_Ruin_Core.arrivedLetter>
+  <WotF_Site_Ruin_Core.description>草木とコンクリートの下に埋もれた古代の工学施設。かつて奥深くに封じられた遺物はいまなお手つかずのまま残されており、この地を守る機構も稼働を続けている。</WotF_Site_Ruin_Core.description>
+  <WotF_Site_Ruin_Core.label>古代工学遺跡</WotF_Site_Ruin_Core.label>
+</LanguageData>

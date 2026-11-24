@@ -4,9 +4,13 @@ Source/**/bin/
 *.user
 *.suo
 
-# Local tool output
+# Local tool output and agent scratch files
 .vs/
 .idea/
+.claude/
+.cortexkit/
+.scratch/
+Dist/
 *.log
 
 Tests/**/obj/

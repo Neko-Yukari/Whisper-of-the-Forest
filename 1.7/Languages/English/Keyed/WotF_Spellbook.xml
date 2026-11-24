@@ -1,168 +1,148 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <WotF_Spellbook.WindowTitle>Spellbook</WotF_Spellbook.WindowTitle>
-  <WotF_Spellbook.NoCaster>no pawn</WotF_Spellbook.NoCaster>
+  <WotF_Spellbook.AugmentBindHint>Modifies the highlighted Form or Effect on its left.</WotF_Spellbook.AugmentBindHint>
+  <WotF_Spellbook.BadgeLocked>Locked</WotF_Spellbook.BadgeLocked>
+  <WotF_Spellbook.BarCleared>Editing chain cleared; the saved slot was not changed.</WotF_Spellbook.BarCleared>
+  <WotF_Spellbook.BarEmpty>The rune chain is empty. Add runes from the left page first.</WotF_Spellbook.BarEmpty>
+  <WotF_Spellbook.CarrierEnchant>Inscribe</WotF_Spellbook.CarrierEnchant>
+  <WotF_Spellbook.CarrierEnchantOk>Can be inscribed onto weapons or armor at a ritual altar.</WotF_Spellbook.CarrierEnchantOk>
+  <WotF_Spellbook.CarrierStaff>Staff</WotF_Spellbook.CarrierStaff>
+  <WotF_Spellbook.CarrierStaffNo>Self, Orbit and Supra spells are active skills and cannot auto-attack via a staff.</WotF_Spellbook.CarrierStaffNo>
+  <WotF_Spellbook.CarrierStaffOk>Can be auto-cast as a spell staff weapon attack.</WotF_Spellbook.CarrierStaffOk>
+  <WotF_Spellbook.CarrierTurret>Turret</WotF_Spellbook.CarrierTurret>
+  <WotF_Spellbook.CarrierTurretOk>Can be inscribed into a spell turret.</WotF_Spellbook.CarrierTurretOk>
+  <WotF_Spellbook.Cast>Cast</WotF_Spellbook.Cast>
+  <WotF_Spellbook.CastBlocked>Cannot cast: {0}</WotF_Spellbook.CastBlocked>
+  <WotF_Spellbook.CastNamed>Cast "{0}"</WotF_Spellbook.CastNamed>
+  <WotF_Spellbook.CastNoSaved>Slot {0} is empty. Save a spell first.</WotF_Spellbook.CastNoSaved>
+  <WotF_Spellbook.CastTip>Start targeting with the spell saved in slot {0}.</WotF_Spellbook.CastTip>
+  <WotF_Spellbook.CatalogEmpty>No rune matches this filter.</WotF_Spellbook.CatalogEmpty>
+  <WotF_Spellbook.CatalogMissingDefs>No rune defs were loaded. Check that the spellbook XML is active.</WotF_Spellbook.CatalogMissingDefs>
+  <WotF_Spellbook.CategoryAll>All</WotF_Spellbook.CategoryAll>
+  <WotF_Spellbook.CategoryAugment>Augment</WotF_Spellbook.CategoryAugment>
+  <WotF_Spellbook.CategoryEffect>Effect</WotF_Spellbook.CategoryEffect>
+  <WotF_Spellbook.CategoryForm>Form</WotF_Spellbook.CategoryForm>
+  <WotF_Spellbook.CategorySuper>Supra</WotF_Spellbook.CategorySuper>
+  <WotF_Spellbook.ChainCapBadge>Max {0}</WotF_Spellbook.ChainCapBadge>
+  <WotF_Spellbook.ChainEmpty>Click a form or supra rune on the left page to begin weaving.</WotF_Spellbook.ChainEmpty>
+  <WotF_Spellbook.ChainHeader>Rune chain {0}/{1}</WotF_Spellbook.ChainHeader>
+  <WotF_Spellbook.ChainHintShort>Click left to add · click bead to remove</WotF_Spellbook.ChainHintShort>
+  <WotF_Spellbook.ChipEntropy>Neural heat</WotF_Spellbook.ChipEntropy>
+  <WotF_Spellbook.ChipMana>Mana</WotF_Spellbook.ChipMana>
+  <WotF_Spellbook.ChipManaStaffTip>Base mana cost: {0}
+Held staff multiplier: {1} -&gt; {2}
+Bloodline XP gained: {3}</WotF_Spellbook.ChipManaStaffTip>
+  <WotF_Spellbook.ChipManaTip>Base mana cost: {0}
+Bloodline XP gained: {1}</WotF_Spellbook.ChipManaTip>
+  <WotF_Spellbook.ChipRange>Range</WotF_Spellbook.ChipRange>
+  <WotF_Spellbook.ChipTime>Cast time</WotF_Spellbook.ChipTime>
+  <WotF_Spellbook.ChipTurretMana>Per shot</WotF_Spellbook.ChipTurretMana>
+  <WotF_Spellbook.ClearBar>Clear</WotF_Spellbook.ClearBar>
+  <WotF_Spellbook.ClearBarTip>Clears the editing chain only; the saved spell in this slot stays untouched.</WotF_Spellbook.ClearBarTip>
+  <WotF_Spellbook.ClickToRemove>Click to remove: {0}</WotF_Spellbook.ClickToRemove>
+  <WotF_Spellbook.CompatAugments>Augments: {0}</WotF_Spellbook.CompatAugments>
+  <WotF_Spellbook.Create>Save to slot {0}</WotF_Spellbook.Create>
+  <WotF_Spellbook.CreateRefused>Cannot save: {0}</WotF_Spellbook.CreateRefused>
+  <WotF_Spellbook.CreateTip>Write the rune chain into slot {0}; any existing spell in this slot is overwritten.</WotF_Spellbook.CreateTip>
+  <WotF_Spellbook.Created>Saved to slot {0} and set as active.</WotF_Spellbook.Created>
+  <WotF_Spellbook.DeleteSlot>Delete slot</WotF_Spellbook.DeleteSlot>
+  <WotF_Spellbook.DeleteSlotTip>Immediately deletes the saved spell in slot {0} without confirmation.</WotF_Spellbook.DeleteSlotTip>
+  <WotF_Spellbook.EmptySlotHint>This slot is empty: weave runes and save so the pawn's cast gizmo can fire it.</WotF_Spellbook.EmptySlotHint>
+  <WotF_Spellbook.ExcludesAugments>Excludes: {0}</WotF_Spellbook.ExcludesAugments>
+  <WotF_Spellbook.FormNone>No form</WotF_Spellbook.FormNone>
+  <WotF_Spellbook.FormOrbit>Orbit</WotF_Spellbook.FormOrbit>
+  <WotF_Spellbook.FormProjectile>Projectile</WotF_Spellbook.FormProjectile>
+  <WotF_Spellbook.FormSelf>Self</WotF_Spellbook.FormSelf>
+  <WotF_Spellbook.FormSpecial>Supra</WotF_Spellbook.FormSpecial>
+  <WotF_Spellbook.FormTouch>Touch</WotF_Spellbook.FormTouch>
+  <WotF_Spellbook.GlyphAdded>Added rune: {0}</WotF_Spellbook.GlyphAdded>
+  <WotF_Spellbook.GlyphMissing>missing rune def</WotF_Spellbook.GlyphMissing>
+  <WotF_Spellbook.GlyphRemoved>Removed rune: {0}</WotF_Spellbook.GlyphRemoved>
+  <WotF_Spellbook.GlyphTiming>+{0}s / +{1}s / +{2}s (windup / channel / recovery)</WotF_Spellbook.GlyphTiming>
   <WotF_Spellbook.HeaderBadge>{0} · {1} · Max {2} runes · Mana {3}</WotF_Spellbook.HeaderBadge>
   <WotF_Spellbook.HeaderBadgeTip>{0}
 Single-spell rune chain limit: {1}
-Supports super runes: {2}</WotF_Spellbook.HeaderBadgeTip>
+Supports supra runes: {2}</WotF_Spellbook.HeaderBadgeTip>
   <WotF_Spellbook.HeaderNoBook>{0} · No spellbook worn · Mana {1}</WotF_Spellbook.HeaderNoBook>
-
-  <WotF_Spellbook.PageCatalog>Rune codex</WotF_Spellbook.PageCatalog>
-  <WotF_Spellbook.PageEditor>Spell weaving</WotF_Spellbook.PageEditor>
-  <WotF_Spellbook.SearchPlaceholder>Search runes...</WotF_Spellbook.SearchPlaceholder>
-  <WotF_Spellbook.CategoryAll>All</WotF_Spellbook.CategoryAll>
-  <WotF_Spellbook.CategoryForm>Form</WotF_Spellbook.CategoryForm>
-  <WotF_Spellbook.CategoryEffect>Effect</WotF_Spellbook.CategoryEffect>
-  <WotF_Spellbook.CategoryAugment>Augment</WotF_Spellbook.CategoryAugment>
-  <WotF_Spellbook.CategorySuper>Supra</WotF_Spellbook.CategorySuper>
-  <WotF_Spellbook.CatalogEmpty>No rune matches this filter.</WotF_Spellbook.CatalogEmpty>
-  <WotF_Spellbook.CatalogMissingDefs>No rune defs were loaded. Check that the spellbook XML is active.</WotF_Spellbook.CatalogMissingDefs>
-
-  <WotF_Spellbook.KindForm>Form</WotF_Spellbook.KindForm>
-  <WotF_Spellbook.KindEffect>Effect</WotF_Spellbook.KindEffect>
-  <WotF_Spellbook.KindAugment>Augment</WotF_Spellbook.KindAugment>
-  <WotF_Spellbook.KindSuper>Supra</WotF_Spellbook.KindSuper>
-  <WotF_Spellbook.BadgeLocked>Locked</WotF_Spellbook.BadgeLocked>
-
-  <WotF_Spellbook.FormSelf>Self</WotF_Spellbook.FormSelf>
-  <WotF_Spellbook.FormTouch>Touch</WotF_Spellbook.FormTouch>
-  <WotF_Spellbook.FormProjectile>Projectile</WotF_Spellbook.FormProjectile>
-  <WotF_Spellbook.FormOrbit>Orbit</WotF_Spellbook.FormOrbit>
-  <WotF_Spellbook.FormSpecial>Supra</WotF_Spellbook.FormSpecial>
-  <WotF_Spellbook.FormNone>No form</WotF_Spellbook.FormNone>
-
-  <WotF_Spellbook.InspectorTitle>Rune inspector</WotF_Spellbook.InspectorTitle>
   <WotF_Spellbook.InspectorEmpty>Hover any rune on the left codex or right spell chain to inspect its numbers, compatible augments and effect. Grammar: Form → Effects → Augments (each augment binds to the nearest Form or Effect on its left).</WotF_Spellbook.InspectorEmpty>
+  <WotF_Spellbook.InspectorTitle>Rune inspector</WotF_Spellbook.InspectorTitle>
+  <WotF_Spellbook.KindAugment>Augment</WotF_Spellbook.KindAugment>
+  <WotF_Spellbook.KindEffect>Effect</WotF_Spellbook.KindEffect>
+  <WotF_Spellbook.KindForm>Form</WotF_Spellbook.KindForm>
+  <WotF_Spellbook.KindSuper>Supra</WotF_Spellbook.KindSuper>
+  <WotF_Spellbook.MetaEntropy>Heat +{0}</WotF_Spellbook.MetaEntropy>
   <WotF_Spellbook.MetaMana>Mana {0}</WotF_Spellbook.MetaMana>
-  <WotF_Spellbook.MetaEntropy>Heat {0}</WotF_Spellbook.MetaEntropy>
   <WotF_Spellbook.MetaTime>{0}s</WotF_Spellbook.MetaTime>
-  <WotF_Spellbook.CompatAugments>Augments: {0}</WotF_Spellbook.CompatAugments>
-  <WotF_Spellbook.ExcludesAugments>Excludes: {0}</WotF_Spellbook.ExcludesAugments>
-  <WotF_Spellbook.NoCompatibleAugments>Accepts no augments.</WotF_Spellbook.NoCompatibleAugments>
-
-  <!-- Rune card numeric micro-summaries -->
-  <WotF_Spellbook.MicroSelf>Caster cell</WotF_Spellbook.MicroSelf>
-  <WotF_Spellbook.MicroTouch>Reach {0}</WotF_Spellbook.MicroTouch>
-  <WotF_Spellbook.MicroProjectile>{0} dart · R {1}</WotF_Spellbook.MicroProjectile>
-  <WotF_Spellbook.MicroOrbit>{0} orbs · {1}s</WotF_Spellbook.MicroOrbit>
-  <WotF_Spellbook.MicroRailgun>{0} dmg · W {1}</WotF_Spellbook.MicroRailgun>
-  <WotF_Spellbook.MicroTornado>{0}/pulse · {1}s</WotF_Spellbook.MicroTornado>
-  <WotF_Spellbook.MicroBreakArmor>+{0} AP</WotF_Spellbook.MicroBreakArmor>
   <WotF_Spellbook.MicroAoe>+{0} radius</WotF_Spellbook.MicroAoe>
-  <WotF_Spellbook.MicroSplit>+{0} dart/orb</WotF_Spellbook.MicroSplit>
-  <WotF_Spellbook.MicroPierce>+{0} pierce</WotF_Spellbook.MicroPierce>
-  <WotF_Spellbook.MicroSensitive>Spares buildings</WotF_Spellbook.MicroSensitive>
-  <WotF_Spellbook.MicroFactor>x{0}</WotF_Spellbook.MicroFactor>
-  <WotF_Spellbook.MicroHarm>{0} dmg · {1} AP</WotF_Spellbook.MicroHarm>
-  <WotF_Spellbook.MicroHeal>Tend {0} · {1}s</WotF_Spellbook.MicroHeal>
-  <WotF_Spellbook.MicroExplosion>{0} dmg · R {1}</WotF_Spellbook.MicroExplosion>
-  <WotF_Spellbook.MicroLightning>{0} burn + {1} EMP</WotF_Spellbook.MicroLightning>
-  <WotF_Spellbook.MicroColdSnap>{0} dmg · frozen x{1}</WotF_Spellbook.MicroColdSnap>
-  <WotF_Spellbook.MicroFreeze>Slow {0}s</WotF_Spellbook.MicroFreeze>
-  <WotF_Spellbook.MicroSnare>Root {0}s</WotF_Spellbook.MicroSnare>
-  <WotF_Spellbook.MicroHex>Hex {0}s</WotF_Spellbook.MicroHex>
-  <WotF_Spellbook.MicroKnockback>Push {0} cells</WotF_Spellbook.MicroKnockback>
-  <WotF_Spellbook.MicroPull>Drag {0} cells</WotF_Spellbook.MicroPull>
   <WotF_Spellbook.MicroBlink>Blink {0} cells</WotF_Spellbook.MicroBlink>
+  <WotF_Spellbook.MicroBreakArmor>+{0} AP</WotF_Spellbook.MicroBreakArmor>
+  <WotF_Spellbook.MicroColdSnap>{0} dmg · frozen x{1}</WotF_Spellbook.MicroColdSnap>
+  <WotF_Spellbook.MicroDelay>Delay {0}s</WotF_Spellbook.MicroDelay>
+  <WotF_Spellbook.MicroExplosion>{0} dmg · R {1}</WotF_Spellbook.MicroExplosion>
+  <WotF_Spellbook.MicroFactor>x{0}</WotF_Spellbook.MicroFactor>
+  <WotF_Spellbook.MicroFreeze>Slow {0}s</WotF_Spellbook.MicroFreeze>
   <WotF_Spellbook.MicroGrow>x{0} grow · {1}s</WotF_Spellbook.MicroGrow>
   <WotF_Spellbook.MicroHack>Str {0} · {1}s</WotF_Spellbook.MicroHack>
-  <WotF_Spellbook.MicroMagelight>R {0} · {1}s</WotF_Spellbook.MicroMagelight>
-  <WotF_Spellbook.MicroPlanarShield>{0} blk · W {1}</WotF_Spellbook.MicroPlanarShield>
-  <WotF_Spellbook.MicroDelay>Delay {0}s</WotF_Spellbook.MicroDelay>
+  <WotF_Spellbook.MicroHarm>{0} dmg · {1} AP</WotF_Spellbook.MicroHarm>
+  <WotF_Spellbook.MicroHeal>Tend {0} · {1}s</WotF_Spellbook.MicroHeal>
+  <WotF_Spellbook.MicroHex>Hex {0}s</WotF_Spellbook.MicroHex>
+  <WotF_Spellbook.MicroKnockback>Push {0} cells</WotF_Spellbook.MicroKnockback>
+  <WotF_Spellbook.MicroLightning>{0} burn + {1} EMP</WotF_Spellbook.MicroLightning>
   <WotF_Spellbook.MicroLinger>R {0} · {1}s</WotF_Spellbook.MicroLinger>
+  <WotF_Spellbook.MicroMagelight>R {0} · {1}s</WotF_Spellbook.MicroMagelight>
+  <WotF_Spellbook.MicroOrbit>{0} orbs · {1}s</WotF_Spellbook.MicroOrbit>
+  <WotF_Spellbook.MicroPierce>+{0} pierce</WotF_Spellbook.MicroPierce>
+  <WotF_Spellbook.MicroPlanarShield>{0} blk · W {1}</WotF_Spellbook.MicroPlanarShield>
+  <WotF_Spellbook.MicroProjectile>{0} dart · R {1}</WotF_Spellbook.MicroProjectile>
+  <WotF_Spellbook.MicroPull>Drag {0} cells</WotF_Spellbook.MicroPull>
+  <WotF_Spellbook.MicroRailgun>{0} dmg · W {1}</WotF_Spellbook.MicroRailgun>
   <WotF_Spellbook.MicroRune>Seal {0}s</WotF_Spellbook.MicroRune>
-
-  <!-- Right page: weaving, slots & chain -->
-  <WotF_Spellbook.ChainCapBadge>Max {0}</WotF_Spellbook.ChainCapBadge>
+  <WotF_Spellbook.MicroSelf>Caster cell</WotF_Spellbook.MicroSelf>
+  <WotF_Spellbook.MicroSensitive>Spares buildings</WotF_Spellbook.MicroSensitive>
+  <WotF_Spellbook.MicroSnare>Root {0}s</WotF_Spellbook.MicroSnare>
+  <WotF_Spellbook.MicroSplit>+{0} dart/orb</WotF_Spellbook.MicroSplit>
+  <WotF_Spellbook.MicroTornado>{0}/pulse · {1}s</WotF_Spellbook.MicroTornado>
+  <WotF_Spellbook.MicroTouch>Reach {0}</WotF_Spellbook.MicroTouch>
   <WotF_Spellbook.NamePlaceholder>Enter spell name...</WotF_Spellbook.NamePlaceholder>
-  <WotF_Spellbook.ChainHeader>Rune chain {0}/{1}</WotF_Spellbook.ChainHeader>
-  <WotF_Spellbook.ChainHintShort>Click left to add · click bead to remove</WotF_Spellbook.ChainHintShort>
-  <WotF_Spellbook.ChainEmpty>Click a form or supra rune on the left page to begin weaving.</WotF_Spellbook.ChainEmpty>
-  <WotF_Spellbook.GlyphAdded>Added rune: {0}</WotF_Spellbook.GlyphAdded>
-  <WotF_Spellbook.GlyphRemoved>Removed rune: {0}</WotF_Spellbook.GlyphRemoved>
-  <WotF_Spellbook.GlyphMissing>missing rune def</WotF_Spellbook.GlyphMissing>
-  <WotF_Spellbook.GlyphTiming>+{0}s / +{1}s / +{2}s (windup / channel / recovery)</WotF_Spellbook.GlyphTiming>
-  <WotF_Spellbook.ClickToRemove>Click to remove: {0}</WotF_Spellbook.ClickToRemove>
-  <WotF_Spellbook.AugmentBindHint>Modifies the highlighted Form or Effect on its left.</WotF_Spellbook.AugmentBindHint>
+  <WotF_Spellbook.NoCaster>no pawn</WotF_Spellbook.NoCaster>
+  <WotF_Spellbook.NoCompatibleAugments>Accepts no augments.</WotF_Spellbook.NoCompatibleAugments>
+  <WotF_Spellbook.NoGameComponent>The spellbook save component is not ready yet.</WotF_Spellbook.NoGameComponent>
+  <WotF_Spellbook.PageCatalog>Rune codex</WotF_Spellbook.PageCatalog>
+  <WotF_Spellbook.PageEditor>Spell weaving</WotF_Spellbook.PageEditor>
+  <WotF_Spellbook.PlanPending>Add a form and at least one effect to calculate exact compiled numbers.</WotF_Spellbook.PlanPending>
+  <WotF_Spellbook.SearchPlaceholder>Search runes...</WotF_Spellbook.SearchPlaceholder>
+  <WotF_Spellbook.SecondsShort>{0}s</WotF_Spellbook.SecondsShort>
+  <WotF_Spellbook.SectionPlan>Compiled spell preview</WotF_Spellbook.SectionPlan>
+  <WotF_Spellbook.SlotAlreadyEmpty>Slot {0} was already empty.</WotF_Spellbook.SlotAlreadyEmpty>
+  <WotF_Spellbook.SlotDeleted>Deleted the spell in slot {0}.</WotF_Spellbook.SlotDeleted>
+  <WotF_Spellbook.SlotEmpty>empty</WotF_Spellbook.SlotEmpty>
+  <WotF_Spellbook.SlotEmptyShort>Empty</WotF_Spellbook.SlotEmptyShort>
+  <WotF_Spellbook.SlotExceedsBookHint>The spell is safely kept on the pawn; wear a higher-tier spellbook to cast or edit it.</WotF_Spellbook.SlotExceedsBookHint>
+  <WotF_Spellbook.SlotGlyphCount>{0} runes</WotF_Spellbook.SlotGlyphCount>
+  <WotF_Spellbook.SlotTitle>Slot {0}</WotF_Spellbook.SlotTitle>
+  <WotF_Spellbook.SlotTooltipUsed>saved: {0}</WotF_Spellbook.SlotTooltipUsed>
+  <WotF_Spellbook.SocketSealedFallback>Rune socket {0} is sealed by the worn spellbook's tier.</WotF_Spellbook.SocketSealedFallback>
   <WotF_Spellbook.SocketSealedMark>Lock</WotF_Spellbook.SocketSealedMark>
   <WotF_Spellbook.SocketSealedTip>Rune socket {0} is sealed. Wear a {1} to unlock chains up to {2} runes.</WotF_Spellbook.SocketSealedTip>
-  <WotF_Spellbook.SocketSealedFallback>Rune socket {0} is sealed by the worn spellbook's tier.</WotF_Spellbook.SocketSealedFallback>
-
-  <!-- Live tactical plan ledger & carriers -->
-  <WotF_Spellbook.ValidationOk>Valid combination — ready to save.</WotF_Spellbook.ValidationOk>
-  <WotF_Spellbook.ValidationFailed>Invalid: {0}</WotF_Spellbook.ValidationFailed>
-  <WotF_Spellbook.ValidationUnknown>unknown reason</WotF_Spellbook.ValidationUnknown>
-  <WotF_Spellbook.SectionPlan>Compiled spell preview</WotF_Spellbook.SectionPlan>
-  <WotF_Spellbook.PlanPending>Add a form and at least one effect to calculate exact compiled numbers.</WotF_Spellbook.PlanPending>
-
-  <WotF_Spellbook.ChipMana>Mana</WotF_Spellbook.ChipMana>
-  <WotF_Spellbook.ChipTurretMana>Per shot</WotF_Spellbook.ChipTurretMana>
-  <WotF_Spellbook.ChipManaTip>Base mana cost: {0}
-Bloodline XP gained: {1}</WotF_Spellbook.ChipManaTip>
-  <WotF_Spellbook.ChipManaStaffTip>Base mana cost: {0}
-Held staff multiplier: {1} -> {2}
-Bloodline XP gained: {3}</WotF_Spellbook.ChipManaStaffTip>
-  <WotF_Spellbook.ChipTime>Cast time</WotF_Spellbook.ChipTime>
-  <WotF_Spellbook.SecondsShort>{0}s</WotF_Spellbook.SecondsShort>
-  <WotF_Spellbook.Timing>Windup {0}s · Channel {1}s · Recovery {2}s</WotF_Spellbook.Timing>
-  <WotF_Spellbook.TimingTip>Frozen phase ticks: windup {0}, channel {1}, recovery {2} (60 ticks = 1s). The caster may walk during windup, moves slowly while channelling, and stands still during recovery.</WotF_Spellbook.TimingTip>
-  <WotF_Spellbook.ChipRange>Range</WotF_Spellbook.ChipRange>
-  <WotF_Spellbook.ChipEntropy>Neural heat</WotF_Spellbook.ChipEntropy>
   <WotF_Spellbook.StaffModSummary>Dmg {0} · Mana {1} · Dur {2}</WotF_Spellbook.StaffModSummary>
   <WotF_Spellbook.StaffModTip>Live preview includes the equipped {0}'s modifiers:
 Damage {1} · Mana cost {2} · Duration {3} · Range {4} · Windup {5}</WotF_Spellbook.StaffModTip>
-
-  <WotF_Spellbook.TargetsLine>Targets: {0}</WotF_Spellbook.TargetsLine>
-  <WotF_Spellbook.TargetCasterOnly>Caster only</WotF_Spellbook.TargetCasterOnly>
-  <WotF_Spellbook.TargetHumanlike>Humanlike</WotF_Spellbook.TargetHumanlike>
-  <WotF_Spellbook.TargetAnimal>Animal</WotF_Spellbook.TargetAnimal>
-  <WotF_Spellbook.TargetMechanoid>Mechanoid</WotF_Spellbook.TargetMechanoid>
-  <WotF_Spellbook.TargetEntity>Entity</WotF_Spellbook.TargetEntity>
-  <WotF_Spellbook.TargetBuilding>Building</WotF_Spellbook.TargetBuilding>
-  <WotF_Spellbook.TargetRock>Rock</WotF_Spellbook.TargetRock>
-  <WotF_Spellbook.TargetPlant>Plant</WotF_Spellbook.TargetPlant>
-  <WotF_Spellbook.TargetItem>Item</WotF_Spellbook.TargetItem>
-  <WotF_Spellbook.TargetCell>Ground</WotF_Spellbook.TargetCell>
-
-  <WotF_Spellbook.CarrierStaff>Staff</WotF_Spellbook.CarrierStaff>
-  <WotF_Spellbook.CarrierStaffOk>Can be auto-cast as a spell staff weapon attack.</WotF_Spellbook.CarrierStaffOk>
-  <WotF_Spellbook.CarrierStaffNo>Self, Orbit and Supra spells are active skills and cannot auto-attack via a staff.</WotF_Spellbook.CarrierStaffNo>
-  <WotF_Spellbook.CarrierTurret>Turret</WotF_Spellbook.CarrierTurret>
-  <WotF_Spellbook.CarrierTurretOk>Can be inscribed into an automatic spell turret.</WotF_Spellbook.CarrierTurretOk>
-  <WotF_Spellbook.CarrierEnchant>Inscribe</WotF_Spellbook.CarrierEnchant>
-  <WotF_Spellbook.CarrierEnchantOk>Can be inscribed onto weapons or armour at a ritual altar.</WotF_Spellbook.CarrierEnchantOk>
-
-  <!-- Actions & bookmarks -->
-  <WotF_Spellbook.CastNoSaved>Slot {0} is empty. Save a spell first.</WotF_Spellbook.CastNoSaved>
-  <WotF_Spellbook.CastBlocked>Cannot cast: {0}</WotF_Spellbook.CastBlocked>
-  <WotF_Spellbook.EmptySlotHint>This slot is empty: weave runes and save so the pawn's cast gizmo can fire it.</WotF_Spellbook.EmptySlotHint>
-
-  <WotF_Spellbook.Create>Save to slot {0}</WotF_Spellbook.Create>
-  <WotF_Spellbook.CreateTip>Write the rune chain into slot {0}; any existing spell in this slot is overwritten.</WotF_Spellbook.CreateTip>
-  <WotF_Spellbook.Created>Saved to slot {0} and set as active.</WotF_Spellbook.Created>
-  <WotF_Spellbook.CreateRefused>Cannot save: {0}</WotF_Spellbook.CreateRefused>
-  <WotF_Spellbook.BarEmpty>The rune chain is empty. Add runes from the left page first.</WotF_Spellbook.BarEmpty>
-
-  <WotF_Spellbook.ClearBar>Clear</WotF_Spellbook.ClearBar>
-  <WotF_Spellbook.ClearBarTip>Clears the editing chain only; the saved spell in this slot stays untouched.</WotF_Spellbook.ClearBarTip>
-  <WotF_Spellbook.BarCleared>Editing chain cleared; the saved slot was not changed.</WotF_Spellbook.BarCleared>
-  <WotF_Spellbook.DeleteSlot>Delete slot</WotF_Spellbook.DeleteSlot>
-  <WotF_Spellbook.DeleteSlotTip>Immediately deletes the saved spell in slot {0}.</WotF_Spellbook.DeleteSlotTip>
-  <WotF_Spellbook.SlotDeleted>Deleted the spell in slot {0}.</WotF_Spellbook.SlotDeleted>
-  <WotF_Spellbook.SlotAlreadyEmpty>Slot {0} was already empty.</WotF_Spellbook.SlotAlreadyEmpty>
-
-  <WotF_Spellbook.Cast>Cast</WotF_Spellbook.Cast>
-  <WotF_Spellbook.CastNamed>Cast "{0}"</WotF_Spellbook.CastNamed>
-  <WotF_Spellbook.CastTip>Start targeting with the spell saved in slot {0}.</WotF_Spellbook.CastTip>
-
-  <WotF_Spellbook.SlotTitle>Slot {0}</WotF_Spellbook.SlotTitle>
-  <WotF_Spellbook.SlotEmpty>empty</WotF_Spellbook.SlotEmpty>
-  <WotF_Spellbook.SlotEmptyShort>Empty</WotF_Spellbook.SlotEmptyShort>
-  <WotF_Spellbook.SlotTooltipUsed>saved: {0}</WotF_Spellbook.SlotTooltipUsed>
-  <WotF_Spellbook.SlotGlyphCount>{0} runes</WotF_Spellbook.SlotGlyphCount>
-  <WotF_Spellbook.SlotExceedsBookHint>The spell is safely kept on the pawn; wear a higher-tier spellbook to cast or edit it.</WotF_Spellbook.SlotExceedsBookHint>
   <WotF_Spellbook.SwitchBookmark>Click to select this slot as active.</WotF_Spellbook.SwitchBookmark>
-
-  <WotF_Spellbook.NoGameComponent>The spellbook save component is not ready yet.</WotF_Spellbook.NoGameComponent>
+  <WotF_Spellbook.TargetAnimal>Animal</WotF_Spellbook.TargetAnimal>
+  <WotF_Spellbook.TargetBuilding>Building</WotF_Spellbook.TargetBuilding>
+  <WotF_Spellbook.TargetCasterOnly>Caster only</WotF_Spellbook.TargetCasterOnly>
+  <WotF_Spellbook.TargetCell>Ground</WotF_Spellbook.TargetCell>
+  <WotF_Spellbook.TargetEntity>Entity</WotF_Spellbook.TargetEntity>
+  <WotF_Spellbook.TargetHumanlike>Humanlike</WotF_Spellbook.TargetHumanlike>
+  <WotF_Spellbook.TargetItem>Item</WotF_Spellbook.TargetItem>
+  <WotF_Spellbook.TargetMechanoid>Mechanoid</WotF_Spellbook.TargetMechanoid>
+  <WotF_Spellbook.TargetPlant>Plant</WotF_Spellbook.TargetPlant>
+  <WotF_Spellbook.TargetRock>Rock</WotF_Spellbook.TargetRock>
+  <WotF_Spellbook.TargetsLine>Targets: {0}</WotF_Spellbook.TargetsLine>
+  <WotF_Spellbook.Timing>Windup {0}s · Channel {1}s · Recovery {2}s</WotF_Spellbook.Timing>
+  <WotF_Spellbook.TimingTip>Frozen phase ticks: windup {0}, channel {1}, recovery {2} (60 ticks = 1s). The caster may walk during windup, moves slowly while channeling, and stands still during recovery.</WotF_Spellbook.TimingTip>
+  <WotF_Spellbook.ValidationFailed>Invalid: {0}</WotF_Spellbook.ValidationFailed>
+  <WotF_Spellbook.ValidationOk>Valid combination — ready to save.</WotF_Spellbook.ValidationOk>
+  <WotF_Spellbook.ValidationUnknown>unknown reason</WotF_Spellbook.ValidationUnknown>
+  <WotF_Spellbook.WindowTitle>Spellbook</WotF_Spellbook.WindowTitle>
 </LanguageData>

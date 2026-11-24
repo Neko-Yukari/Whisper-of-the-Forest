@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_ElvenStreetLamp_Lit>点灯中・{0} マナ/秒</WotF_ElvenStreetLamp_Lit>
+  <WotF_ElvenStreetLamp_NoMana>消灯中：マナ不足（必要 {0}/秒）</WotF_ElvenStreetLamp_NoMana>
+  <WotF_ManaBattery_Inspect>貯蔵マナ {0} / {1}</WotF_ManaBattery_Inspect>
+  <WotF_ManaConverter_Off>無通電・変換停止</WotF_ManaConverter_Off>
+  <WotF_ManaConverter_On>通電中・マナ {0}/秒</WotF_ManaConverter_On>
+  <WotF_ManaFurnace_Full>ネットワーク満杯・燃焼停止</WotF_ManaFurnace_Full>
+  <WotF_ManaGrove_Inspect>樹木 {0}本・マナ {1}/秒</WotF_ManaGrove_Inspect>
+  <WotF_ManaNetwork_Stored>マナ {0} / {1}</WotF_ManaNetwork_Stored>
+  <WotF_ManaNetwork_Toggle>マナネットワークの接続と貯蔵量を表示</WotF_ManaNetwork_Toggle>
+  <WotF_ManaNode_Inspect>接続ノード数 {0}</WotF_ManaNode_Inspect>
+  <WotF_ManaProducer_Linked>{0}個のノードから成るマナネットワークに接続済み</WotF_ManaProducer_Linked>
+  <WotF_ManaProducer_Unlinked>マナノード未接続</WotF_ManaProducer_Unlinked>
+  <WotF_ManaSwitch_Desc>このマナ設備の稼働を切り替える。</WotF_ManaSwitch_Desc>
+  <WotF_ManaSwitch_Label>稼働切替</WotF_ManaSwitch_Label>
+  <WotF_ManaSwitch_Off>停止中</WotF_ManaSwitch_Off>
+  <WotF_ManaWorkbench_NoMana>マナ不足・作業停止</WotF_ManaWorkbench_NoMana>
+  <WotF_ManaWorkbench_Rate>作業時マナ消費 {0}/秒</WotF_ManaWorkbench_Rate>
+  <WotF_SpellTurret_Inspect>ネットワークマナ {0}・1発あたり {1}</WotF_SpellTurret_Inspect>
+</LanguageData>

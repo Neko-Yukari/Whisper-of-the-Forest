@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_Adamantine.description>触れると冷たく重厚な暗金色の金属で、一切燃えない。極めて硬く緻密であり、防壁を築くにも重鎧や重武器を鍛えるにも、外力によって破壊することは極めて困難である。</WotF_Adamantine.description>
+  <WotF_Adamantine.label>アダマンティン</WotF_Adamantine.label>
+  <WotF_ElvenSteel.description>スチールと活木を儀式で錬成して生み出される淡い青銀の金属。軽くて強靭なうえ、研ぎ上げた刃はひときわ鋭く、通常のスチールよりはるかに軽快に振るえるため、スタッフや武具の鍛造にも適している。</WotF_ElvenSteel.description>
+  <WotF_ElvenSteel.label>エルフ鋼</WotF_ElvenSteel.label>
+  <WotF_LivingWood.description>しなやかで生気に満ちた不思議な木材。魔力に触れさせようとすると、ほぼ瞬時に内側から外側へと柔らかな緑の光が滲み出す。</WotF_LivingWood.description>
+  <WotF_LivingWood.label>活木</WotF_LivingWood.label>
+  <WotF_Mithril.description>ほとんど重みを感じさせない月白色の金属で、完全に不燃である。魔力が極めて宿りやすく、これで鍛えた武器や防具は注法スロットが一つ増え、刻まれた呪文を発動する際の魔力消費も抑えられる。</WotF_Mithril.description>
+  <WotF_Mithril.label>ミスリル</WotF_Mithril.label>
+</LanguageData>

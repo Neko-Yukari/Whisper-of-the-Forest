@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_TeleportGate_CannotConnect>{0}は現在接続できません（{1}）。何も転送されず、マナも消費されていません。</WotF_TeleportGate_CannotConnect>
+  <WotF_TeleportGate_Connecting>転送門を接続中…</WotF_TeleportGate_Connecting>
+  <WotF_TeleportGate_Empty>転送門が空です。先に人員や物資を積み込んでください。</WotF_TeleportGate_Empty>
+  <WotF_TeleportGate_Failed>{0}への接続に失敗しました。</WotF_TeleportGate_Failed>
+  <WotF_TeleportGate_Gizmo_Connect>帰還接続…</WotF_TeleportGate_Gizmo_Connect>
+  <WotF_TeleportGate_Gizmo_ConnectDesc>この崩れた転送門に積み込んだ人員や物資を、稼働中のコロニーの転送門へ送り返します。起動するには遺跡内のすべての番人を倒す必要があります。帰還時の消費マナは往路と同じで受け入れ側のマナネットワークから差し引かれ、この門は転送後に崩壊します。</WotF_TeleportGate_Gizmo_ConnectDesc>
+  <WotF_TeleportGate_Gizmo_Send>接続…</WotF_TeleportGate_Gizmo_Send>
+  <WotF_TeleportGate_Gizmo_SendDesc>この転送門に積み込んだ人員や物資を、遺跡の崩れた転送門、または同マップ内の別の稼働中転送門へ送ります。</WotF_TeleportGate_Gizmo_SendDesc>
+  <WotF_TeleportGate_Gone>転送門、または接続先の門が失われました。</WotF_TeleportGate_Gone>
+  <WotF_TeleportGate_Inspect_Closed>閉鎖中</WotF_TeleportGate_Inspect_Closed>
+  <WotF_TeleportGate_Inspect_Contents>積載中：{0}人、物資 {1} kg</WotF_TeleportGate_Inspect_Contents>
+  <WotF_TeleportGate_Inspect_Ruined>破損：残り1回の転送のみ可能</WotF_TeleportGate_Inspect_Ruined>
+  <WotF_TeleportGate_Inspect_RuinedLocked>破損：遺跡の番人が残っているため起動不可</WotF_TeleportGate_Inspect_RuinedLocked>
+  <WotF_TeleportGate_Inspect_Running>起動中（維持費 {0} マナ/秒）</WotF_TeleportGate_Inspect_Running>
+  <WotF_TeleportGate_Inspect_Starved>起動中（マナネットワークが維持費 {0} マナ/秒を賄えません）</WotF_TeleportGate_Inspect_Starved>
+  <WotF_TeleportGate_Inspect_Unlinked>起動中（{0}マス以内にマナノードがありません）</WotF_TeleportGate_Inspect_Unlinked>
+  <WotF_TeleportGate_ManaShort>必要 {0} マナ、現在 {1}</WotF_TeleportGate_ManaShort>
+  <WotF_TeleportGate_NeedsParty>行動可能な入植者を1名以上乗せてください。初回転送時に遺跡マップが生成され、マップ上に誰もいなくなると破棄されます。</WotF_TeleportGate_NeedsParty>
+  <WotF_TeleportGate_NoAnchor>{0}に着地先となる転送門がないため、接続は拒否されました。</WotF_TeleportGate_NoAnchor>
+  <WotF_TeleportGate_NoHomeGate>拠点に稼働中の転送門がありません。門を起動するか、キャラバンを組んで徒歩で帰還してください。</WotF_TeleportGate_NoHomeGate>
+  <WotF_TeleportGate_NoLanding>{0}への接続が拒否されました：一行のうち{1}件はマップ上のどこにも着地できる空き地がありません。</WotF_TeleportGate_NoLanding>
+  <WotF_TeleportGate_NoRoom>{0}の周囲にすべて収まりきりません：{2}件中{1}件は{3}マス以内に空きマスがありません。何も転送されず、マナも消費されていません。</WotF_TeleportGate_NoRoom>
+  <WotF_TeleportGate_NoRuin>接続可能な遺跡がありません。先に第2階位の祭壇で探索を行ってください。</WotF_TeleportGate_NoRuin>
+  <WotF_TeleportGate_NoTransporter>この転送門には積載区画がありません。</WotF_TeleportGate_NoTransporter>
+  <WotF_TeleportGate_PartyLabel>転送門の一行</WotF_TeleportGate_PartyLabel>
+  <WotF_TeleportGate_ReturnCost>帰還には{1}のマナネットワークから{0}マナが必要ですが、現在の備蓄は{2}です。何も転送されずマナも消費されていません。キャラバンを組んで徒歩で帰還してください。</WotF_TeleportGate_ReturnCost>
+  <WotF_TeleportGate_ReturnNeeds>— {1}の備蓄は{2}マナ（必要量 {0}）。キャラバンを組んで徒歩で帰還してください</WotF_TeleportGate_ReturnNeeds>
+  <WotF_TeleportGate_ReturnTo>{0}へ帰還 · {1} マナ</WotF_TeleportGate_ReturnTo>
+  <WotF_TeleportGate_Returned>{0}件が{2}マナを消費して{1}へ帰還し、背後の崩れた転送門は崩れ落ちました。</WotF_TeleportGate_Returned>
+  <WotF_TeleportGate_RuinHostiles>遺跡内にまだ番人が残っているため、この崩れた転送門はまだ開けません。</WotF_TeleportGate_RuinHostiles>
+  <WotF_TeleportGate_SendLocal>{0}へ移動</WotF_TeleportGate_SendLocal>
+  <WotF_TeleportGate_SendTo>{0}へ転送 · {1} マナ</WotF_TeleportGate_SendTo>
+  <WotF_TeleportGate_Sent>{0}人と物資{1} kgが{2}マナを消費して{3}に到着しました。</WotF_TeleportGate_Sent>
+  <WotF_TeleportGate_SentLocalDone>{0}件が{1}へ移動しました。</WotF_TeleportGate_SentLocalDone>
+  <WotF_TeleportGate_Widened>{0}の周囲に収まりきらなかったため、一行は最寄りの空き地に着地しました（門から最大{1}マス）。</WotF_TeleportGate_Widened>
+</LanguageData>

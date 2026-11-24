@@ -25,8 +25,7 @@
         <warmupTime>0.5</warmupTime>
         <range>24.9</range>
         <defaultCooldownTime>2.0</defaultCooldownTime>
-        <soundCast>GunShotA</soundCast>
-        <soundCastTail>GunTail_Light</soundCastTail>
+        <soundCast>WotF_Sound_Missile_Launch</soundCast>
         <muzzleFlashScale>9</muzzleFlashScale>
       </li>
     </verbs>

@@ -31,6 +31,7 @@ namespace WhisperOfTheForest.Spells
             this.logSource = logSource;
         }
         public override string DiagnosticName => "cold snap";
+        public override SoundDef ResolveSound => SpellDefs.Glyph(SpellDefs.EffectColdSnap)?.resolveSound;
         public override void AppendSummary(List<string> lines, int indent)
         {
             lines.Add(SummaryIndent(indent) + SpellText.TF("WotF_SpellPlan.EffectColdSnap",

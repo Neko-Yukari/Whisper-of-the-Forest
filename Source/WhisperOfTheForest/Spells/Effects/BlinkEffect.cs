@@ -19,6 +19,7 @@ namespace WhisperOfTheForest.Spells
             this.selfForwardDistance = selfForwardDistance;
         }
         public override string DiagnosticName => "blink";
+        public override SoundDef ResolveSound => SpellDefs.Glyph(SpellDefs.EffectBlink)?.resolveSound;
         public override void AppendSummary(List<string> lines, int indent)
         {
             lines.Add(SummaryIndent(indent) + SpellText.TF("WotF_SpellPlan.EffectBlink",

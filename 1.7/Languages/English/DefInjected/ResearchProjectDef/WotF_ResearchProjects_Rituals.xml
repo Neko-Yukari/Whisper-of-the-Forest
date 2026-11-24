@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_Research_Adamantine.customUnlockTexts>
+    <li>Ritual: rite of adamantine</li>
+  </WotF_Research_Adamantine.customUnlockTexts>
+  <WotF_Research_Adamantine.description>Fuse and recast elven steel and plasteel inside a 7×7 starlight chalk ring to forge heavy, unyielding adamantine. Unlocks ritual: rite of adamantine.</WotF_Research_Adamantine.description>
+  <WotF_Research_Adamantine.label>adamantine</WotF_Research_Adamantine.label>
+  <WotF_Research_AltarT1.description>Construct a tier 1 wood-and-stone altar to anchor 3×3 white chalk rings and perform basic rituals. Unlocks building: wood-and-stone altar.</WotF_Research_AltarT1.description>
+  <WotF_Research_AltarT1.label>wood-and-stone altar</WotF_Research_AltarT1.label>
+  <WotF_Research_AltarT2.description>Build livingwood into a tier 2 altar, relying on its steadier mana-conducting grain to sustain 5×5 emerald chalk rings and tier 2 rituals. Unlocks building: livingwood altar. Unlocks crafting: staff.</WotF_Research_AltarT2.description>
+  <WotF_Research_AltarT2.label>livingwood altar</WotF_Research_AltarT2.label>
+  <WotF_Research_AltarT3.description>Construct a tier 3 altar around an engineering-station resonance core recovered from the depths of the ruin, capable of sustaining 7×7 starlight chalk rings and tier 3 rituals. Unlocks building: starlight altar.</WotF_Research_AltarT3.description>
+  <WotF_Research_AltarT3.label>starlight altar</WotF_Research_AltarT3.label>
+  <WotF_Research_ElvenSteel.customUnlockTexts>
+    <li>Ritual: rite of elven steel</li>
+  </WotF_Research_ElvenSteel.customUnlockTexts>
+  <WotF_Research_ElvenSteel.description>Temper the rigidity of ordinary steel with livingwood inside a 5×5 emerald chalk ring to refine light, keen-edged elven steel. Unlocks ritual: rite of elven steel.</WotF_Research_ElvenSteel.description>
+  <WotF_Research_ElvenSteel.label>elven steel</WotF_Research_ElvenSteel.label>
+  <WotF_Research_GreenChalk.customUnlockTexts>
+    <li>Ritual: rite of emerald chalk</li>
+  </WotF_Research_GreenChalk.customUnlockTexts>
+  <WotF_Research_GreenChalk.description>Infuse ordinary chalk with herbal medicine inside a 3×3 white chalk ring at a tier 2 altar to create the emerald chalk needed for 5×5 tier 2 rings. Unlocks ritual: rite of emerald chalk.</WotF_Research_GreenChalk.description>
+  <WotF_Research_GreenChalk.label>emerald chalk</WotF_Research_GreenChalk.label>
+  <WotF_Research_LivingWood.customUnlockTexts>
+    <li>Ritual: rite of livingwood</li>
+  </WotF_Research_LivingWood.customUnlockTexts>
+  <WotF_Research_LivingWood.description>Awaken the vitality dormant in ordinary timber using herbal medicine inside a 3×3 white chalk ring, transmuting it into workable livingwood. Unlocks ritual: rite of livingwood.</WotF_Research_LivingWood.description>
+  <WotF_Research_LivingWood.label>livingwood</WotF_Research_LivingWood.label>
+  <WotF_Research_Mithril.customUnlockTexts>
+    <li>Ritual: rite of mithril</li>
+  </WotF_Research_Mithril.customUnlockTexts>
+  <WotF_Research_Mithril.description>Alloy elven steel and silver inside a 7×7 starlight chalk ring into light, spell-attuned mithril. Unlocks ritual: rite of mithril.</WotF_Research_Mithril.description>
+  <WotF_Research_Mithril.label>mithril</WotF_Research_Mithril.label>
+  <WotF_Research_Ritual_BeastCall.customUnlockTexts>
+    <li>Ritual: rite of beast calling</li>
+  </WotF_Research_Ritual_BeastCall.customUnlockTexts>
+  <WotF_Research_Ritual_BeastCall.description>Offer hay inside a 5×5 emerald chalk ring to summon a wild horse and attempt to tame it on the spot. Unlocks ritual: rite of beast calling.</WotF_Research_Ritual_BeastCall.description>
+  <WotF_Research_Ritual_BeastCall.label>rite of beast calling</WotF_Research_Ritual_BeastCall.label>
+  <WotF_Research_Ritual_BottleMana.customUnlockTexts>
+    <li>Ritual: rite of bottling</li>
+  </WotF_Research_Ritual_BottleMana.customUnlockTexts>
+  <WotF_Research_Ritual_BottleMana.description>Seal network mana into portable mana vials using wood and herbal medicine in a 3×3 white chalk ring. Unlocks ritual: rite of bottling.</WotF_Research_Ritual_BottleMana.description>
+  <WotF_Research_Ritual_BottleMana.label>rite of bottling</WotF_Research_Ritual_BottleMana.label>
+  <WotF_Research_Ritual_ClearSky.customUnlockTexts>
+    <li>Ritual: rite of clear skies</li>
+  </WotF_Research_Ritual_ClearSky.customUnlockTexts>
+  <WotF_Research_Ritual_ClearSky.description>Chant an invocation inside a 5×5 emerald chalk ring to scatter heavy clouds and rain, restoring clear skies. Unlocks ritual: rite of clear skies.</WotF_Research_Ritual_ClearSky.description>
+  <WotF_Research_Ritual_ClearSky.label>rite of clear skies</WotF_Research_Ritual_ClearSky.label>
+  <WotF_Research_Ritual_CounterPsychic.customUnlockTexts>
+    <li>Ritual: rite of psychic severance</li>
+  </WotF_Research_Ritual_CounterPsychic.customUnlockTexts>
+  <WotF_Research_Ritual_CounterPsychic.description>Release a counter-pulse from a 5×5 emerald chalk ring across the entire map, cutting off hostile psychic rituals and stunning all participants. Unlocks ritual: rite of psychic severance.</WotF_Research_Ritual_CounterPsychic.description>
+  <WotF_Research_Ritual_CounterPsychic.label>rite of psychic severance</WotF_Research_Ritual_CounterPsychic.label>
+  <WotF_Research_Ritual_FertileSoil.customUnlockTexts>
+    <li>Ritual: rite of fertile awakening</li>
+  </WotF_Research_Ritual_FertileSoil.customUnlockTexts>
+  <WotF_Research_Ritual_FertileSoil.description>Drive the vitality of a 5×5 emerald chalk ring into the earth, turning ordinary natural soil around the altar into rich soil. Unlocks ritual: rite of fertile awakening.</WotF_Research_Ritual_FertileSoil.description>
+  <WotF_Research_Ritual_FertileSoil.label>rite of fertile awakening</WotF_Research_Ritual_FertileSoil.label>
+  <WotF_Research_Ritual_HealingGrand.customUnlockTexts>
+    <li>Ritual: rite of mending (star ring)</li>
+  </WotF_Research_Ritual_HealingGrand.customUnlockTexts>
+  <WotF_Research_Ritual_HealingGrand.description>Advance the mending ritual to a 7×7 starlight chalk ring, regenerating missing organs and curing addictions and treatable chronic conditions. Unlocks ritual: rite of mending (starlight ring).</WotF_Research_Ritual_HealingGrand.description>
+  <WotF_Research_Ritual_HealingGrand.label>rite of mending (starlight ring)</WotF_Research_Ritual_HealingGrand.label>
+  <WotF_Research_Ritual_HealingMedium.customUnlockTexts>
+    <li>Ritual: rite of mending (emerald ring)</li>
+  </WotF_Research_Ritual_HealingMedium.customUnlockTexts>
+  <WotF_Research_Ritual_HealingMedium.description>Channel a richer life pool in a 5×5 emerald chalk ring to smooth away old scars and regrow lost limbs. Unlocks ritual: rite of mending (emerald ring).</WotF_Research_Ritual_HealingMedium.description>
+  <WotF_Research_Ritual_HealingMedium.label>rite of mending (emerald ring)</WotF_Research_Ritual_HealingMedium.label>
+  <WotF_Research_Ritual_HealingMinor.customUnlockTexts>
+    <li>Ritual: rite of mending</li>
+  </WotF_Research_Ritual_HealingMinor.customUnlockTexts>
+  <WotF_Research_Ritual_HealingMinor.description>Channel a basic life pool in a 3×3 white chalk ring to stanch bleeding and heal fresh wounds on colonists near the altar. Unlocks ritual: rite of mending.</WotF_Research_Ritual_HealingMinor.description>
+  <WotF_Research_Ritual_HealingMinor.label>rite of mending</WotF_Research_Ritual_HealingMinor.label>
+  <WotF_Research_Ritual_InscribeEquipment.customUnlockTexts>
+    <li>Ritual: rite of spell inscribing</li>
+  </WotF_Research_Ritual_InscribeEquipment.customUnlockTexts>
+  <WotF_Research_Ritual_InscribeEquipment.description>Inscribe a touch, self, or orbit spell from a spellbook into a weapon or piece of armor beside the altar using a 3×3 white chalk ring, letting weapons trigger it on hit and armor trigger it when struck. Unlocks ritual: rite of spell inscribing.</WotF_Research_Ritual_InscribeEquipment.description>
+  <WotF_Research_Ritual_InscribeEquipment.label>rite of spell inscribing</WotF_Research_Ritual_InscribeEquipment.label>
+  <WotF_Research_Ritual_LeylineMining.customUnlockTexts>
+    <li>Ritual: rite of leyline mining</li>
+  </WotF_Research_Ritual_LeylineMining.customUnlockTexts>
+  <WotF_Research_Ritual_LeylineMining.description>Reach into deep rock veins with a 7×7 starlight chalk ring to draw mineral deposits directly from beneath the altar without a drill. Unlocks ritual: rite of leyline mining.</WotF_Research_Ritual_LeylineMining.description>
+  <WotF_Research_Ritual_LeylineMining.label>rite of leyline mining</WotF_Research_Ritual_LeylineMining.label>
+  <WotF_Research_Ritual_ManaSpring.customUnlockTexts>
+    <li>Ritual: rite of the mana spring</li>
+  </WotF_Research_Ritual_ManaSpring.customUnlockTexts>
+  <WotF_Research_Ritual_ManaSpring.description>Channel network mana through a 3×3 white chalk ring to replenish mana for nearby forest-blooded colonists. Unlocks ritual: rite of the mana spring.</WotF_Research_Ritual_ManaSpring.description>
+  <WotF_Research_Ritual_ManaSpring.label>rite of the mana spring</WotF_Research_Ritual_ManaSpring.label>
+  <WotF_Research_Ritual_RainCall.customUnlockTexts>
+    <li>Ritual: rite of rain</li>
+  </WotF_Research_Ritual_RainCall.customUnlockTexts>
+  <WotF_Research_Ritual_RainCall.description>Call a gentle rain over the settlement with a 5×5 emerald chalk ring to water fields and douse spreading fires. Unlocks ritual: rite of rain.</WotF_Research_Ritual_RainCall.description>
+  <WotF_Research_Ritual_RainCall.label>rite of rain</WotF_Research_Ritual_RainCall.label>
+  <WotF_Research_Ritual_RuneAwakening.customUnlockTexts>
+    <li>Ritual: rite of rune awakening</li>
+  </WotF_Research_Ritual_RuneAwakening.customUnlockTexts>
+  <WotF_Research_Ritual_RuneAwakening.description>Perform awakening rites in the matching chalk ring for each rune tier to gradually unlock new spell runes for the colony. Unlocks ritual: rite of rune awakening.</WotF_Research_Ritual_RuneAwakening.description>
+  <WotF_Research_Ritual_RuneAwakening.label>rite of rune awakening</WotF_Research_Ritual_RuneAwakening.label>
+  <WotF_Research_Ritual_SeekRuin.customUnlockTexts>
+    <li>Ritual: rite of seeking</li>
+  </WotF_Research_Ritual_SeekRuin.customUnlockTexts>
+  <WotF_Research_Ritual_SeekRuin.description>Tap into the remnants of the psychic network through a 5×5 emerald chalk ring to locate a dormant ancient engineering ruin on the world map and recover relics and resonance cores. Unlocks ritual: rite of seeking.</WotF_Research_Ritual_SeekRuin.description>
+  <WotF_Research_Ritual_SeekRuin.label>rite of seeking</WotF_Research_Ritual_SeekRuin.label>
+  <WotF_Research_Ritual_ShieldDome.customUnlockTexts>
+    <li>Ritual: rite of the grove shield</li>
+  </WotF_Research_Ritual_ShieldDome.customUnlockTexts>
+  <WotF_Research_Ritual_ShieldDome.description>Awaken the altar's ward in a 5×5 emerald chalk ring to raise a one-way grove shield dome over the settlement that blocks hostile fire while letting friendly shots pass. Unlocks ritual: rite of the grove shield.</WotF_Research_Ritual_ShieldDome.description>
+  <WotF_Research_Ritual_ShieldDome.label>rite of the grove shield</WotF_Research_Ritual_ShieldDome.label>
+  <WotF_Research_Ritual_SkyWrath.customUnlockTexts>
+    <li>Ritual: rite of sky wrath</li>
+  </WotF_Research_Ritual_SkyWrath.customUnlockTexts>
+  <WotF_Research_Ritual_SkyWrath.description>Sustain a channeling rite inside a 7×7 starlight chalk ring to call down repeated lightning strikes onto unroofed enemies nearby. Unlocks ritual: rite of sky wrath.</WotF_Research_Ritual_SkyWrath.description>
+  <WotF_Research_Ritual_SkyWrath.label>rite of sky wrath</WotF_Research_Ritual_SkyWrath.label>
+  <WotF_Research_Ritual_SpellbookAwakening.customUnlockTexts>
+    <li>Ritual: rite of spellbook awakening</li>
+  </WotF_Research_Ritual_SpellbookAwakening.customUnlockTexts>
+  <WotF_Research_Ritual_SpellbookAwakening.description>Awaken a dormant apprentice spellbook in a 3×3 white chalk ring so a forest-blooded colonist can wear it and cast spells. Unlocks ritual: rite of spellbook awakening.</WotF_Research_Ritual_SpellbookAwakening.description>
+  <WotF_Research_Ritual_SpellbookAwakening.label>rite of spellbook awakening</WotF_Research_Ritual_SpellbookAwakening.label>
+  <WotF_Research_Ritual_SpellbookUpgradeAdept.customUnlockTexts>
+    <li>Ritual: rite of the adept spellbook</li>
+  </WotF_Research_Ritual_SpellbookUpgradeAdept.customUnlockTexts>
+  <WotF_Research_Ritual_SpellbookUpgradeAdept.description>Upgrade an apprentice spellbook with elven steel and jade inside a 5×5 emerald chalk ring into an adept spellbook, expanding the rune chain limit to 7 runes per spell. Unlocks ritual: rite of the adept spellbook.</WotF_Research_Ritual_SpellbookUpgradeAdept.description>
+  <WotF_Research_Ritual_SpellbookUpgradeAdept.label>rite of the adept spellbook</WotF_Research_Ritual_SpellbookUpgradeAdept.label>
+  <WotF_Research_Ritual_SpellbookUpgradeArchmage.customUnlockTexts>
+    <li>Ritual: rite of the starlight codex</li>
+  </WotF_Research_Ritual_SpellbookUpgradeArchmage.customUnlockTexts>
+  <WotF_Research_Ritual_SpellbookUpgradeArchmage.description>Reforge an adept spellbook with mithril and starlight chalk inside a 7×7 starlight chalk ring into a starlight codex, raising the rune chain limit to 10 runes per spell and enabling supra runes. Unlocks ritual: rite of the starlight codex.</WotF_Research_Ritual_SpellbookUpgradeArchmage.description>
+  <WotF_Research_Ritual_SpellbookUpgradeArchmage.label>rite of the starlight codex</WotF_Research_Ritual_SpellbookUpgradeArchmage.label>
+  <WotF_Research_Ritual_Teleport.customUnlockTexts>
+    <li>Ritual: local teleport</li>
+  </WotF_Research_Ritual_Teleport.customUnlockTexts>
+  <WotF_Research_Ritual_Teleport.description>Align spatial coordinates through a 5×5 emerald chalk ring to transport colonists near the altar directly to an active teleport gate on the same map. Unlocks ritual: local teleport.</WotF_Research_Ritual_Teleport.description>
+  <WotF_Research_Ritual_Teleport.label>local teleport</WotF_Research_Ritual_Teleport.label>
+  <WotF_Research_Ritual_Thunderstorm.customUnlockTexts>
+    <li>Ritual: rite of thunderstorm</li>
+  </WotF_Research_Ritual_Thunderstorm.customUnlockTexts>
+  <WotF_Research_Ritual_Thunderstorm.description>Summon a storm through a 7×7 starlight chalk ring, sweeping the entire map with lightning and torrential rain. Unlocks ritual: rite of thunderstorm.</WotF_Research_Ritual_Thunderstorm.description>
+  <WotF_Research_Ritual_Thunderstorm.label>rite of thunderstorm</WotF_Research_Ritual_Thunderstorm.label>
+  <WotF_Research_Ritual_TransmuteComponent.customUnlockTexts>
+    <li>Ritual: rite of components</li>
+  </WotF_Research_Ritual_TransmuteComponent.customUnlockTexts>
+  <WotF_Research_Ritual_TransmuteComponent.description>A curious transmutation formula in a 5×5 emerald chalk ring that reshapes steel and herbal medicine directly into industrial components. Unlocks ritual: rite of components.</WotF_Research_Ritual_TransmuteComponent.description>
+  <WotF_Research_Ritual_TransmuteComponent.label>rite of components</WotF_Research_Ritual_TransmuteComponent.label>
+  <WotF_Research_StarChalk.customUnlockTexts>
+    <li>Ritual: rite of starlight chalk</li>
+  </WotF_Research_StarChalk.customUnlockTexts>
+  <WotF_Research_StarChalk.description>Fuse white chalk with silver and jade inside a 5×5 emerald chalk ring to produce starlight chalk for drawing 7×7 tier-3 chalk rings. Unlocks ritual: rite of starlight chalk.</WotF_Research_StarChalk.description>
+  <WotF_Research_StarChalk.label>starlight chalk</WotF_Research_StarChalk.label>
+</LanguageData>

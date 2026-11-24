@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_PlayerElf.description>元の集落を離れ、外で自らの暮らしを築くことを選んだエルフの一団。もはや長老たちの管理下にはないものの、その身の奥には同胞から受け継いだ生活の習わしが色濃く残っている。</WotF_PlayerElf.description>
+  <WotF_PlayerElf.label>森エルフ</WotF_PlayerElf.label>
+  <WotF_PlayerElf.pawnSingular>エルフ</WotF_PlayerElf.pawnSingular>
+  <WotF_PlayerElf.pawnsPlural>エルフ</WotF_PlayerElf.pawnsPlural>
+</LanguageData>

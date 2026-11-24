@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-    <WotF_PerformRitual.reportString>performing a ritual.</WotF_PerformRitual.reportString>
-    <WotF_AssistRitual.reportString>attending a ritual.</WotF_AssistRitual.reportString>
+  <WotF_AssistRitual.reportString>assisting with a ritual.</WotF_AssistRitual.reportString>
+  <WotF_PerformRitual.reportString>performing a ritual.</WotF_PerformRitual.reportString>
 </LanguageData>

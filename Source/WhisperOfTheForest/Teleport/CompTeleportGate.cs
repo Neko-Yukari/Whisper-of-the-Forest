@@ -44,6 +44,9 @@ namespace WhisperOfTheForest.Teleport
         /// </summary>
         public int riteArrivalRadius;
 
+        /// <summary>Sound played at the destination gate when a crossing completes.</summary>
+        public SoundDef transferSound;
+
         public CompProperties_TeleportGate()
         {
             compClass = typeof(CompTeleportGate);

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <WotF_RuinSeek_Core.questNameRules.rulesStrings>
-    <li>questName->古老工程遗迹</li>
-  </WotF_RuinSeek_Core.questNameRules.rulesStrings>
   <WotF_RuinSeek_Core.questDescriptionRules.rulesStrings>
-    <li>questDescription->寻踪仪式定位到了一处埋在地下的古老工程遗迹。深处封存着装有谐振核的遗物匣，清理掉里面的守卫后再去开启它。</li>
+    <li>questDescription-&gt;寻踪仪式定位到了一处埋在地下的古老工程遗迹。深处封存着装有谐振核的遗物匣，清理掉里面的守卫后再去开启它。</li>
   </WotF_RuinSeek_Core.questDescriptionRules.rulesStrings>
+  <WotF_RuinSeek_Core.questNameRules.rulesStrings>
+    <li>questName-&gt;古老工程遗迹</li>
+  </WotF_RuinSeek_Core.questNameRules.rulesStrings>
 </LanguageData>

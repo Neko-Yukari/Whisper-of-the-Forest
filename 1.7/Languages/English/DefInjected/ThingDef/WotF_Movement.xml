@@ -1,13 +1,7 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-
-  <!-- DefInjected path = <defName>.<field>. The parent folder (DefInjected/ThingDef)
-       already supplies the def type; a leading "ThingDef." segment is read as a defName
-       and fails with "Found no ThingDef named ThingDef". -->
-  <WotF_TerrainStride.label>terrain stride mantle</WotF_TerrainStride.label>
-  <WotF_TerrainStride.description>A light woodland mantle. On passable cells that require no door opening, it removes movement penalties from terrain, plants, rock chunks, furniture, crossable workbenches, snow and sand. It does not allow passage through walls or impassable water, and doors still open normally.</WotF_TerrainStride.description>
-
+  <WotF_EntropyCirclet.description>A slender metal circlet forged from elven steel, mithril, or adamantine and set with jade. It channels unruly psychic turbulence away from the brow, speeding neural heat recovery while raising the wearer's neural heat limit.</WotF_EntropyCirclet.description>
   <WotF_EntropyCirclet.label>entropy circlet</WotF_EntropyCirclet.label>
-  <WotF_EntropyCirclet.description>A circlet forged from elven steel, mithril or adamantine. It accelerates neural heat recovery and raises the wearer's safe neural heat limit.</WotF_EntropyCirclet.description>
-
+  <WotF_TerrainStride.description>Unique magic has been woven into this light cloak, allowing its wearer to glide effortlessly over obstacles without breaking stride.\nLegend has it the elves devised it to move freely through dense woodland undergrowth.</WotF_TerrainStride.description>
+  <WotF_TerrainStride.label>strider cloak</WotF_TerrainStride.label>
 </LanguageData>

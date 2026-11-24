@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_Ritual_BeastCall.description>Place 50 hay inside a 5×5 emerald chalk ring to draw a wild horse from the wilderness to the altar. The host attempts to tame it once; on success it joins the colony, otherwise it wanders away.</WotF_Ritual_BeastCall.description>
+  <WotF_Ritual_BeastCall.label>rite of beast calling</WotF_Ritual_BeastCall.label>
+  <WotF_Ritual_BottleMana.description>Within a 3×3 chalk ring, shape a vial from 5 wood and 3 herbal medicine, then seal 60 mana from the network inside. The vial holds less mana than the ritual consumes, trading efficiency for portable reserves in the field or during combat.</WotF_Ritual_BottleMana.description>
+  <WotF_Ritual_BottleMana.label>rite of bottling</WotF_Ritual_BottleMana.label>
+  <WotF_Ritual_ClearSky.description>Chant softly within a 5×5 emerald chalk ring to part heavy clouds and rain over the settlement, turning the weather clear until it shifts naturally.</WotF_Ritual_ClearSky.description>
+  <WotF_Ritual_ClearSky.label>rite of clear skies</WotF_Ritual_ClearSky.label>
+  <WotF_Ritual_CounterPsychic.description>Send a sharp counter-pulse through the map's psychic weave from a 5×5 emerald chalk ring. Every active hostile psychic ritual on the map (not limited to skip abduction) is interrupted at once and all participants are stunned. Stun duration scales with ritual strength from 10 to 70 seconds.</WotF_Ritual_CounterPsychic.description>
+  <WotF_Ritual_CounterPsychic.label>rite of psychic severance</WotF_Ritual_CounterPsychic.label>
+  <WotF_Ritual_FertileSoil.description>Use a 5×5 emerald chalk ring to awaken dormant fertility beneath the altar, turning nearby natural soil into rich soil across a radius that expands with ritual strength. Constructed floors, rock, buildings, and growing plants remain untouched.</WotF_Ritual_FertileSoil.description>
+  <WotF_Ritual_FertileSoil.label>rite of fertile awakening</WotF_Ritual_FertileSoil.label>
+  <WotF_Ritual_HealingGrand.description>Within a 7×7 starlight chalk ring, gather the deepest vitality pool scaled by ritual strength, rebuilding injured bodies in turn outward from the host. Alongside fresh wounds, scars, and lost limbs, it restores missing organs, addictions, and curable chronic conditions—including luciferium need and crumbled mind. Neural heat, anesthetic, and artificial parts remain untouched.</WotF_Ritual_HealingGrand.description>
+  <WotF_Ritual_HealingGrand.label>rite of mending (starlight ring)</WotF_Ritual_HealingGrand.label>
+  <WotF_Ritual_HealingMedium.description>Within a 5×5 emerald chalk ring, gather a fuller vitality pool than the chalk ring can hold, tending nearby wounded in turn outward from the host. Beyond fresh wounds and blood loss, it erases old scars and regrows missing limbs; missing organs and chronic conditions still require the starlight ring.</WotF_Ritual_HealingMedium.description>
+  <WotF_Ritual_HealingMedium.label>rite of mending (emerald ring)</WotF_Ritual_HealingMedium.label>
+  <WotF_Ritual_HealingMinor.description>Within a 3×3 chalk ring around the altar, gather a vitality pool scaled by ritual strength. Flowing outward from the host, it mends the worst fresh wounds and blood loss of nearby colonists in turn until exhausted. Old scars cannot be removed.</WotF_Ritual_HealingMinor.description>
+  <WotF_Ritual_HealingMinor.label>rite of mending</WotF_Ritual_HealingMinor.label>
+  <WotF_Ritual_InscribeEquipment.description>Lay a weapon or piece of armor inside a 3×3 chalk ring to inscribe one spell from the host's spellbook into it. The inscribed item retains an independent copy of the spell: weapons trigger on hitting a foe, while armor responds when the wearer is struck. Only touch, self, and orbit spells may be inscribed.</WotF_Ritual_InscribeEquipment.description>
+  <WotF_Ritual_InscribeEquipment.label>rite of spell inscribing</WotF_Ritual_InscribeEquipment.label>
+  <WotF_Ritual_LeylineMining.description>Drive mana deep into the bedrock through a 7×7 starlight chalk ring to draw buried ore straight to the surface. Each ritual extracts up to 3 deep mineral deposits beneath the altar, with higher ritual strength increasing the yield of each. If no deep veins lie below, the ritual aborts before spending mana.</WotF_Ritual_LeylineMining.description>
+  <WotF_Ritual_LeylineMining.label>rite of leyline mining</WotF_Ritual_LeylineMining.label>
+  <WotF_Ritual_ManaSpring.description>Draw stored power from the mana network through a 3×3 chalk ring around the altar, restoring mana to every forest-blooded pawn nearby. Higher ritual strength increases the amount restored.</WotF_Ritual_ManaSpring.description>
+  <WotF_Ritual_ManaSpring.label>rite of the mana spring</WotF_Ritual_ManaSpring.label>
+  <WotF_Ritual_RainCall.description>Invoke a steady drizzle from a 5×5 emerald chalk ring around the altar, lasting until the local weather shifts on its own.</WotF_Ritual_RainCall.description>
+  <WotF_Ritual_RainCall.label>rite of rain</WotF_Ritual_RainCall.label>
+  <WotF_Ritual_RuneAwakening.description>Unseal a chosen rune for the entire colony using a 3×3 chalk, 5×5 emerald chalk, or 7×7 starlight chalk ring according to its tier. Required offerings and network mana are reserved at the start and consumed only upon completion. Supra runes can only be learned by studying rubbings recovered from ancient ruins.</WotF_Ritual_RuneAwakening.description>
+  <WotF_Ritual_RuneAwakening.label>rite of rune awakening</WotF_Ritual_RuneAwakening.label>
+  <WotF_Ritual_ShieldDome.description>Awaken a ward of wood and stone within a 5×5 emerald chalk ring, raising a one-way shield dome of 12.9-tile radius for a full day. It intercepts incoming hostile ground and aerial projectiles—including arcane missiles—while allowing allied fire through. Each blocked shot spends 1 charge, and higher ritual strength increases total charges.</WotF_Ritual_ShieldDome.description>
+  <WotF_Ritual_ShieldDome.label>rite of the grove shield</WotF_Ritual_ShieldDome.label>
+  <WotF_Ritual_SkyWrath.description>Hold a chant within a 7×7 starlight chalk ring to call down repeated lightning strikes onto the nearest unroofed foe. Each strike costs 10 network mana—nothing is spent without a target—and the ritual persists until canceled, the host falls, or mana runs dry. Higher ritual strength shortens the interval between strikes. Contained entities, prisoners, and buildings are spared.</WotF_Ritual_SkyWrath.description>
+  <WotF_Ritual_SkyWrath.label>rite of sky wrath</WotF_Ritual_SkyWrath.label>
+  <WotF_Ritual_SpellbookAwakening.description>Stir a faint remnant of ancient resonance inside a 3×3 chalk ring to conjure an apprentice spellbook beside the altar for any forest-blooded pawn to equip.</WotF_Ritual_SpellbookAwakening.description>
+  <WotF_Ritual_SpellbookAwakening.label>rite of spellbook awakening</WotF_Ritual_SpellbookAwakening.label>
+  <WotF_Ritual_SpellbookUpgradeAdept.description>Place an unequipped apprentice spellbook, 12 elven steel, and 15 jade around the altar within a 5×5 emerald chalk ring to reforge them into an adept spellbook. Offerings are consumed on completion while compiled spells remain on their caster. All 10 spell bookmarks stay open, and the maximum rune chain length per spell rises to 7.</WotF_Ritual_SpellbookUpgradeAdept.description>
+  <WotF_Ritual_SpellbookUpgradeAdept.label>rite of the adept spellbook</WotF_Ritual_SpellbookUpgradeAdept.label>
+  <WotF_Ritual_SpellbookUpgradeArchmage.description>Gather an unequipped adept spellbook, 12 mithril, and 10 starlight chalk from the ground within a 7×7 starlight chalk ring to elevate them into a starlight codex. The old book must be set on the ground first; compiled spells remain on their caster. All 10 spell bookmarks stay open, the rune chain limit per spell rises to 10, and the codex can host supra runes.</WotF_Ritual_SpellbookUpgradeArchmage.description>
+  <WotF_Ritual_SpellbookUpgradeArchmage.label>rite of the starlight codex</WotF_Ritual_SpellbookUpgradeArchmage.label>
+  <WotF_Ritual_Teleport.description>Lock onto a spatial anchor with a 5×5 emerald chalk ring, sending colonists gathered around the altar straight to an active teleport gate on the same map. This ritual pays only for the transit itself; upkeep for keeping the gate open is separate.</WotF_Ritual_Teleport.description>
+  <WotF_Ritual_Teleport.label>local teleport</WotF_Ritual_Teleport.label>
+  <WotF_Ritual_Thunderstorm.description>Cast a signal aloft from a 7×7 starlight chalk ring, gathering dense thunderheads over the settlement for a thunderstorm that lasts until the weather shifts naturally.</WotF_Ritual_Thunderstorm.description>
+  <WotF_Ritual_Thunderstorm.label>rite of thunderstorm</WotF_Ritual_Thunderstorm.label>
+  <WotF_Ritual_TransmuteComponent.description>Place 30 steel and 15 herbal medicine inside a 5×5 emerald chalk ring to reshape them with mana into 1 industrial component.</WotF_Ritual_TransmuteComponent.description>
+  <WotF_Ritual_TransmuteComponent.label>rite of components</WotF_Ritual_TransmuteComponent.label>
+  <WotF_Ritual_TransmuteGreenChalk.description>Within a 3×3 chalk ring around a second-tier or higher altar, steep 5 chalk sticks in 20 herbal medicine to refine 5 emerald chalk. Output is fixed; higher ritual strength speeds up the refinement.</WotF_Ritual_TransmuteGreenChalk.description>
+  <WotF_Ritual_TransmuteGreenChalk.label>rite of emerald chalk</WotF_Ritual_TransmuteGreenChalk.label>
+  <WotF_Ritual_TransmuteStarChalk.description>Arrange 5 chalk sticks, 10 silver, and 10 jade inside a 5×5 emerald chalk ring to refine them into 5 starlight chalk. Output is fixed; higher ritual strength speeds up the refinement.</WotF_Ritual_TransmuteStarChalk.description>
+  <WotF_Ritual_TransmuteStarChalk.label>rite of starlight chalk</WotF_Ritual_TransmuteStarChalk.label>
+</LanguageData>

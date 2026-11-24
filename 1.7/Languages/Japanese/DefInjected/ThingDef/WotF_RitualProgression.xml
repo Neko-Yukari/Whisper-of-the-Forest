@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_EngineeringResonanceCore.description>遺跡の奥底から掘り出された多面体のコア。現代のいかなる技術をもってしても再現できないが、星輝の祭壇を築くには欠かせない要石である。\n幾世もの眠りを経た今でも、マナが近づくと規則正しく低い唸りを発する。</WotF_EngineeringResonanceCore.description>
+  <WotF_EngineeringResonanceCore.label>工学ステーション共鳴核</WotF_EngineeringResonanceCore.label>
+  <WotF_RitualAltar_LivingWood.description>石の台座の上に活木を彫り込んで造られた第二階梯の祭壇。占有面積は1マス。活木の枝脈は並の木材よりはるかに巧みにマナを導くため、エルフ鋼や上位の儀式用チョークの点化に加え、第二階梯以下のすべての儀式を執り行える。</WotF_RitualAltar_LivingWood.description>
+  <WotF_RitualAltar_LivingWood.label>活木の祭壇</WotF_RitualAltar_LivingWood.label>
+  <WotF_RitualAltar_Starlight.description>活木、エルフ鋼、そして工学ステーション共鳴核によって築かれた第三階梯の祭壇。占有面積は1マス。台座の奥で眠る共鳴核が低く唸りながら周囲のマナを鎮めるため、アダマンティンやミスリルの点化をはじめ、第三階梯以下のあらゆる儀式を受け止められる。</WotF_RitualAltar_Starlight.description>
+  <WotF_RitualAltar_Starlight.label>星輝の祭壇</WotF_RitualAltar_Starlight.label>
+  <WotF_RitualElvenStatue.description>活木とヒスイを丹念に彫り上げたエルフの像。芸術の瞑想対象として機能するほか、祭壇の近くに置くと品質に応じた共鳴強度をもたらす。祭壇1基につき最大6体まで連結できる。</WotF_RitualElvenStatue.description>
+  <WotF_RitualElvenStatue.label>エルフの儀式像</WotF_RitualElvenStatue.label>
+  <WotF_RitualLivingwoodLamp.description>活木の柱でヒスイの灯火を掲げる儀式具で、絶えず柔らかな青緑の光を放つ。祭壇のそばに置くと1基ごとに共鳴強度を2高め、祭壇1基につき最大4基まで同時に連結できる。</WotF_RitualLivingwoodLamp.description>
+  <WotF_RitualLivingwoodLamp.label>霊木の灯台</WotF_RitualLivingwoodLamp.label>
+</LanguageData>

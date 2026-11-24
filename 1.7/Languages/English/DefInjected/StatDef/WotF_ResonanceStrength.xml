@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_ResonanceStrength.description>Resonance strength supplied by linked facilities. During a ritual, ritual strength equals chant strength (host's forest bloodline level + 0.5 × sum of helpers' bloodline levels) × √(1 + resonance strength / 10).</WotF_ResonanceStrength.description>
+  <WotF_ResonanceStrength.label>resonance strength</WotF_ResonanceStrength.label>
+</LanguageData>

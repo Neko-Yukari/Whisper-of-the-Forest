@@ -7,6 +7,7 @@ using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using Verse.Sound;
 using WhisperOfTheForest.Mana;
 
 namespace WhisperOfTheForest.Teleport
@@ -398,6 +399,7 @@ namespace WhisperOfTheForest.Teleport
             }
 
             CameraJumper.TryJump(anchor.parent);
+            PlayTransferSound(anchor);
             Messages.Message(
                 (string)"WotF_TeleportGate_Sent".Translate(pawnCount,
                     cargoMass.ToString("0.#"), cost.ToString("0.#"), site.Label),
@@ -446,6 +448,7 @@ namespace WhisperOfTheForest.Teleport
 
             Move(transporter, plan, to.parent.Map);
             CameraJumper.TryJump(to.parent);
+            PlayTransferSound(to);
             Messages.Message((string)"WotF_TeleportGate_SentLocalDone".Translate(plan.Count, to.parent.LabelCap),
                 to.parent, MessageTypeDefOf.PositiveEvent, false);
         }
@@ -532,6 +535,7 @@ namespace WhisperOfTheForest.Teleport
             }
 
             CameraJumper.TryJump(home.parent);
+            PlayTransferSound(home);
             Messages.Message(
                 (string)"WotF_TeleportGate_Returned".Translate(plan.Count, HomeLabel(home), cost.ToString("0.#")),
                 home.parent, MessageTypeDefOf.PositiveEvent, false);
@@ -799,6 +803,15 @@ namespace WhisperOfTheForest.Teleport
                     throw new InvalidOperationException("gate transfer: " + step.Key.ToStringSafe()
                         + " could not be placed at " + step.Value + " on " + destination);
                 }
+            }
+        }
+
+        private static void PlayTransferSound(CompTeleportGate gate)
+        {
+            SoundDef sound = gate?.Props?.transferSound;
+            if (sound != null && gate.parent.Spawned && gate.parent.Map == Find.CurrentMap)
+            {
+                sound.PlayOneShot(new TargetInfo(gate.parent.Position, gate.parent.Map));
             }
         }
 

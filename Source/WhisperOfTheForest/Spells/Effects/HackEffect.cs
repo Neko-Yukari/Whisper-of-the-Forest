@@ -37,6 +37,7 @@ namespace WhisperOfTheForest.Spells
         public int MaxTicks => maxTicks;
         public int ControlTicks => controlTicks;
         public override string DiagnosticName => "hack";
+        public override SoundDef ResolveSound => SpellDefs.Glyph(SpellDefs.EffectHack)?.resolveSound;
         public override void AppendSummary(List<string> lines, int indent)
         {
             lines.Add(SummaryIndent(indent) + SpellText.TF("WotF_SpellPlan.EffectHack",
@@ -64,6 +65,8 @@ namespace WhisperOfTheForest.Spells
         public int minTicks;
         public int maxTicks;
         public int controlTicks;
+        public SoundDef channelLoopSound;
+        public SoundDef confirmSound;
         public override SpellEffect Compile(IReadOnlyList<SpellGlyphDef> augments,
             SpellStaffModifiers staff, SpellPayload payload = null)
         {

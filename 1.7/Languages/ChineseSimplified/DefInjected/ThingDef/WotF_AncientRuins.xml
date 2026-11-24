@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <WotF_RelicCasket.label>遗物匣</WotF_RelicCasket.label>
   <WotF_RelicCasket.description>静静陈列在遗迹深处的密封容器，外壳上印着早已无人能识的编号与警示标识。\n当年封存它的人显然以为自己很快就会回来开启它，然而漫长的岁月过去，唯一还在忠实履行职责的，只剩下门外那些冰冷的守卫。</WotF_RelicCasket.description>
-  <WotF_TeleportGate_Broken.label>残破传送门</WotF_TeleportGate_Broken.label>
+  <WotF_RelicCasket.label>遗物匣</WotF_RelicCasket.label>
   <WotF_TeleportGate_Broken.description>孤零零矗立在遗迹外围的古老拱门，石质基底早已龟裂，符文也失去了往日的光泽。\n它不再有魔网供能，仅凭残存的余力，或许勉强还能支撑最后一次通往归途的跃迁——前提是先解除遗迹里那些仍在运作的封锁。</WotF_TeleportGate_Broken.description>
+  <WotF_TeleportGate_Broken.label>残破传送门</WotF_TeleportGate_Broken.label>
 </LanguageData>

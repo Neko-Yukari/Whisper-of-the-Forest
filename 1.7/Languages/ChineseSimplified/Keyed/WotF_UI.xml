@@ -1,44 +1,37 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <WotF_UI.SettingsCategory>林地低语</WotF_UI.SettingsCategory>
-  <WotF_UI.SettingsHint>调试日志默认关闭，只在排查时开启；开启后游戏日志会记录逐对象明细。</WotF_UI.SettingsHint>
-  <WotF_UI.WindowTitle>林地低语 · 实验台</WotF_UI.WindowTitle>
-
+  <WotF_UI.ActionDone>已执行：{0}（{1}）</WotF_UI.ActionDone>
+  <WotF_UI.ActionFailed>执行失败：{0}（{1}）</WotF_UI.ActionFailed>
+  <WotF_UI.DebugLog>记录逐对象调试日志（排查时开启）</WotF_UI.DebugLog>
+  <WotF_UI.EntryGlyph>灵</WotF_UI.EntryGlyph>
+  <WotF_UI.EntryHidden>悬浮入口已隐藏。打开底部实验台按钮，可在窗口内重新显示。</WotF_UI.EntryHidden>
+  <WotF_UI.EntryHideTooltip>隐藏悬浮入口（底部实验台按钮仍可打开窗口）</WotF_UI.EntryHideTooltip>
+  <WotF_UI.EntryHint>拖动入口移动位置，点击打开本窗口；关闭窗口后入口保留。隐藏入口后可从底部实验台按钮重新打开本窗口。</WotF_UI.EntryHint>
+  <WotF_UI.EntryTooltip>实验台：拖动可移动，点击打开窗口</WotF_UI.EntryTooltip>
+  <WotF_UI.EquipTerrainStride>穿上踏地披风</WotF_UI.EquipTerrainStride>
+  <WotF_UI.EquipTerrainStrideTip>为选中角色穿上踏地披风，忽略可通行地形、植物、家具、积雪与沙尘的移动减速。</WotF_UI.EquipTerrainStrideTip>
+  <WotF_UI.FreeCasting>施法不消耗魔力与心灵熵（开发用）</WotF_UI.FreeCasting>
+  <WotF_UI.GrantPsycast>授予灵能飞弹</WotF_UI.GrantPsycast>
+  <WotF_UI.GrantPsycastTip>向选中角色授予实验灵能飞弹。授予后用角色技能栏里的飞弹技能选择目标施放。</WotF_UI.GrantPsycastTip>
+  <WotF_UI.MovementHint>披风不能穿过不可通行的格子，也不能跳过开门等待；脱下后恢复正常移动成本。</WotF_UI.MovementHint>
+  <WotF_UI.NeedPawnTip>请先在地图上选择一名角色。</WotF_UI.NeedPawnTip>
   <WotF_UI.NoPawn>未选择角色</WotF_UI.NoPawn>
   <WotF_UI.NoPawnHint>在地图上选中一名角色，下面的操作才会启用。</WotF_UI.NoPawnHint>
   <WotF_UI.PawnInfo>{0} · {1}</WotF_UI.PawnInfo>
-  <WotF_UI.NeedPawnTip>请先在地图上选择一名角色。</WotF_UI.NeedPawnTip>
-
-  <WotF_UI.SectionPsycast>灵能飞弹</WotF_UI.SectionPsycast>
-  <WotF_UI.GrantPsycast>授予灵能飞弹</WotF_UI.GrantPsycast>
-  <WotF_UI.GrantPsycastTip>向选中角色授予实验灵能飞弹。授予后用角色技能栏里的飞弹技能选择目标施放。</WotF_UI.GrantPsycastTip>
   <WotF_UI.PsycastHint>规则：飞弹只对已授予的角色可用；可以连续发射多枚，命中只结算一次。目标在飞行中移动时飞弹会追踪。</WotF_UI.PsycastHint>
-
-  <WotF_UI.SectionMovement>移动装备</WotF_UI.SectionMovement>
-  <WotF_UI.EquipTerrainStride>穿上踏地披风</WotF_UI.EquipTerrainStride>
-  <WotF_UI.EquipTerrainStrideTip>为选中角色穿上踏地披风，忽略可通行地形、植物、家具、积雪与沙尘的移动减速。</WotF_UI.EquipTerrainStrideTip>
   <WotF_UI.RemoveApparel>卸下踏地披风</WotF_UI.RemoveApparel>
   <WotF_UI.RemoveApparelTip>卸下踏地披风，停止其移动效果。</WotF_UI.RemoveApparelTip>
-  <WotF_UI.MovementHint>披风不能穿过不可通行的格子，也不能跳过开门等待；脱下后恢复正常移动成本。</WotF_UI.MovementHint>
-
-  <WotF_UI.SectionEntry>悬浮入口</WotF_UI.SectionEntry>
-  <WotF_UI.ShowFloatingEntry>显示右下角悬浮入口</WotF_UI.ShowFloatingEntry>
-  <WotF_UI.DebugLog>记录逐对象调试日志（排查时开启）</WotF_UI.DebugLog>
-  <WotF_UI.UnlockAllGlyphs>解锁全部符文（开发用）</WotF_UI.UnlockAllGlyphs>
-  <WotF_UI.FreeCasting>施法不消耗魔力与心灵熵（开发用）</WotF_UI.FreeCasting>
   <WotF_UI.ResetEntryPosition>重置位置</WotF_UI.ResetEntryPosition>
   <WotF_UI.ResetEntryPositionTip>把悬浮入口放回右下角显示开关那排控件的左上方。</WotF_UI.ResetEntryPositionTip>
-  <WotF_UI.EntryHint>拖动入口移动位置，点击打开本窗口；关闭窗口后入口保留。隐藏入口后可从底部实验台按钮重新打开本窗口。</WotF_UI.EntryHint>
-
-  <WotF_UI.StatusReady>选择角色后执行操作，失败原因会显示在这里。</WotF_UI.StatusReady>
-  <WotF_UI.ActionDone>已执行：{0}（{1}）</WotF_UI.ActionDone>
-  <WotF_UI.ActionFailed>执行失败：{0}（{1}）</WotF_UI.ActionFailed>
-
   <WotF_UI.RowEntryTooltip>实验台：打开窗口（右下角悬浮入口可拖动或隐藏）</WotF_UI.RowEntryTooltip>
   <WotF_UI.RowEntryTooltipRestore>实验台：打开窗口并恢复右下角悬浮入口</WotF_UI.RowEntryTooltipRestore>
-
-  <WotF_UI.EntryGlyph>灵</WotF_UI.EntryGlyph>
-  <WotF_UI.EntryTooltip>实验台：拖动可移动，点击打开窗口</WotF_UI.EntryTooltip>
-  <WotF_UI.EntryHideTooltip>隐藏悬浮入口（底部实验台按钮仍可打开窗口）</WotF_UI.EntryHideTooltip>
-  <WotF_UI.EntryHidden>悬浮入口已隐藏。打开底部实验台按钮，可在窗口内重新显示。</WotF_UI.EntryHidden>
+  <WotF_UI.SectionEntry>悬浮入口</WotF_UI.SectionEntry>
+  <WotF_UI.SectionMovement>移动装备</WotF_UI.SectionMovement>
+  <WotF_UI.SectionPsycast>灵能飞弹</WotF_UI.SectionPsycast>
+  <WotF_UI.SettingsCategory>林地低语</WotF_UI.SettingsCategory>
+  <WotF_UI.SettingsHint>调试日志默认关闭，只在排查时开启；开启后游戏日志会记录逐对象明细。</WotF_UI.SettingsHint>
+  <WotF_UI.ShowFloatingEntry>显示右下角悬浮入口</WotF_UI.ShowFloatingEntry>
+  <WotF_UI.StatusReady>选择角色后执行操作，失败原因会显示在这里。</WotF_UI.StatusReady>
+  <WotF_UI.UnlockAllGlyphs>解锁全部符文（开发用）</WotF_UI.UnlockAllGlyphs>
+  <WotF_UI.WindowTitle>林地低语 · 实验台</WotF_UI.WindowTitle>
 </LanguageData>

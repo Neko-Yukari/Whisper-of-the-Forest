@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_RuinSeek_Core.questDescriptionRules.rulesStrings>
+    <li>questDescription-&gt;The seeking ritual has pinpointed a buried ancient engineering ruin. Sealed in its depths is a relic casket holding a resonance core; clear out the guardians inside before opening it.</li>
+  </WotF_RuinSeek_Core.questDescriptionRules.rulesStrings>
+  <WotF_RuinSeek_Core.questNameRules.rulesStrings>
+    <li>questName-&gt;ancient engineering ruin</li>
+  </WotF_RuinSeek_Core.questNameRules.rulesStrings>
+</LanguageData>

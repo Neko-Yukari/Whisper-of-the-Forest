@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_SpellPlan.ApSuffix>、装甲貫通 {0}</WotF_SpellPlan.ApSuffix>
+  <WotF_SpellPlan.AreaSuffix>（半径 {0}マス）</WotF_SpellPlan.AreaSuffix>
+  <WotF_SpellPlan.ChargeDurSuffix>、持続 {0}秒</WotF_SpellPlan.ChargeDurSuffix>
+  <WotF_SpellPlan.DeliveryOrbit>周回：法球 {0}個、持続 {1}秒、接触半径 {2}マス、角速度 {3}°/秒。</WotF_SpellPlan.DeliveryOrbit>
+  <WotF_SpellPlan.DeliveryProjectile>投射：{0}発、弾速 {1}マス/秒、射程 {2}マス{3}。</WotF_SpellPlan.DeliveryProjectile>
+  <WotF_SpellPlan.DeliverySelf>自身：詠唱者の現在位置で即座に発動。</WotF_SpellPlan.DeliverySelf>
+  <WotF_SpellPlan.DeliveryTouch>接触：隣接 {0}マス以内の対象に作用。</WotF_SpellPlan.DeliveryTouch>
+  <WotF_SpellPlan.EffectBlink>瞬移：着弾点へ瞬間移動（自身詠唱時は前方 {0}マス）</WotF_SpellPlan.EffectBlink>
+  <WotF_SpellPlan.EffectColdSnap>氷裂：{0}ダメージ（凍結対象 ×{1}）{2}{3}</WotF_SpellPlan.EffectColdSnap>
+  <WotF_SpellPlan.EffectDelay>{0}秒の遅延後に発動：</WotF_SpellPlan.EffectDelay>
+  <WotF_SpellPlan.EffectExplosion>爆裂：{0}ダメージ、半径 {1}マス{2}{3}</WotF_SpellPlan.EffectExplosion>
+  <WotF_SpellPlan.EffectFreeze>霜凍：鈍足 {0}秒{1}</WotF_SpellPlan.EffectFreeze>
+  <WotF_SpellPlan.EffectGrow>育成：植物の成長 ×{0}、持続 {1}秒{2}</WotF_SpellPlan.EffectGrow>
+  <WotF_SpellPlan.EffectHack>ハッキング：強度 {0}、支配 {1}秒{2}</WotF_SpellPlan.EffectHack>
+  <WotF_SpellPlan.EffectHarm>打撃：{0}ダメージ{1}{2}</WotF_SpellPlan.EffectHarm>
+  <WotF_SpellPlan.EffectHeal>止血：治療品質 {0}、自然治癒加速 {1}秒{2}</WotF_SpellPlan.EffectHeal>
+  <WotF_SpellPlan.EffectHex>呪印：被ダメージ増加・治癒低下 {0}秒{1}</WotF_SpellPlan.EffectHex>
+  <WotF_SpellPlan.EffectKnockback>吹き飛ばし：{0}マス押し出す{1}</WotF_SpellPlan.EffectKnockback>
+  <WotF_SpellPlan.EffectLightning>落雷：{0}火傷{1} + {2} EMP（帯電1層ごと +{3}{4}）{5}</WotF_SpellPlan.EffectLightning>
+  <WotF_SpellPlan.EffectLinger>滞留魔力場：半径 {0}マス、持続 {1}秒（{2}秒ごとに発動）：</WotF_SpellPlan.EffectLinger>
+  <WotF_SpellPlan.EffectMagelight>魔光：半径 {0}マスを照明、持続 {1}秒</WotF_SpellPlan.EffectMagelight>
+  <WotF_SpellPlan.EffectPlanarShield>平面魔力盾：幅 {0}マス、防御 {1}回、持続 {2}秒</WotF_SpellPlan.EffectPlanarShield>
+  <WotF_SpellPlan.EffectPull>引き寄せ：{0}マス引き寄せる{1}</WotF_SpellPlan.EffectPull>
+  <WotF_SpellPlan.EffectRune>地印：踏むと発動（持続 {0}秒）：</WotF_SpellPlan.EffectRune>
+  <WotF_SpellPlan.EffectSnare>拘束：移動封じ {0}秒{1}</WotF_SpellPlan.EffectSnare>
+  <WotF_SpellPlan.FullMap>マップ全域</WotF_SpellPlan.FullMap>
+  <WotF_SpellPlan.IgnoreBuildings>、建造物を傷つけない</WotF_SpellPlan.IgnoreBuildings>
+  <WotF_SpellPlan.PierceSuffix>、貫通 {0}回</WotF_SpellPlan.PierceSuffix>
+  <WotF_SpellPlan.RangeCells>{0}マス</WotF_SpellPlan.RangeCells>
+  <WotF_SpellPlan.SpecialRailgun>レールガン：{0}ダメージ（装甲貫通 {1}）、光線幅 {2}マス、射程 {3}。</WotF_SpellPlan.SpecialRailgun>
+  <WotF_SpellPlan.SpecialTornado>烈火の竜巻：{1}秒ごとに{0}ダメージ、持続 {2}秒、半径 {3}マス、装甲貫通 {4}、着火率 {5}、射程 {6}。</WotF_SpellPlan.SpecialTornado>
+  <WotF_Spells.CastDone>「{0}」を詠唱しました。</WotF_Spells.CastDone>
+  <WotF_Spells.Gizmo.CastDesc>しおり{0}に保存されている呪文を詠唱します。</WotF_Spells.Gizmo.CastDesc>
+  <WotF_Spells.Gizmo.NoSpell>呪文未選択</WotF_Spells.Gizmo.NoSpell>
+  <WotF_Spells.Gizmo.NoSpellDesc>魔導書を開き、このポーンが使う呪文をしおりから選びます。</WotF_Spells.Gizmo.NoSpellDesc>
+  <WotF_Spells.Gizmo.NoSpellReason>しおり{0}は空です。</WotF_Spells.Gizmo.NoSpellReason>
+  <WotF_Spells.Gizmo.OpenBook>魔導書</WotF_Spells.Gizmo.OpenBook>
+  <WotF_Spells.Gizmo.OpenBookDesc>ルーンを編成して呪文に名を付け、10個のしおりのいずれかに保存します。</WotF_Spells.Gizmo.OpenBookDesc>
+  <WotF_Spells.Gizmo.Unnamed>無名の呪文</WotF_Spells.Gizmo.Unnamed>
+  <WotF_Spells.Reason.AlreadyCasting>このポーンはすでに詠唱中です。</WotF_Spells.Reason.AlreadyCasting>
+  <WotF_Spells.Reason.AmplifyCannotGrow>「育成」は即座に完了するため、「増幅」で強めることはできません。</WotF_Spells.Reason.AmplifyCannotGrow>
+  <WotF_Spells.Reason.AmplifyNeedsEffect>「増幅」を使うには、左隣に効果ルーンが必要です。</WotF_Spells.Reason.AmplifyNeedsEffect>
+  <WotF_Spells.Reason.AoeNeedsEffect>「範囲」を使うには、左隣に効果ルーンが必要です。</WotF_Spells.Reason.AoeNeedsEffect>
+  <WotF_Spells.Reason.AugmentExcluded>{0}と{1}は同じルーンに併用できません。</WotF_Spells.Reason.AugmentExcluded>
+  <WotF_Spells.Reason.AugmentNotAccepted>この強化ルーンは左隣のルーンには付与できません。</WotF_Spells.Reason.AugmentNotAccepted>
+  <WotF_Spells.Reason.BookTooLong>装備中の魔導書は、1つの呪文につき最大{0}個のルーンまで対応しています。</WotF_Spells.Reason.BookTooLong>
+  <WotF_Spells.Reason.CompleteFormNoEffect>超位ルーンは単体で完結した呪文のため、効果ルーンを続けることはできません。</WotF_Spells.Reason.CompleteFormNoEffect>
+  <WotF_Spells.Reason.Cooldown>魔力を再収束中です：次の詠唱まであと{0}秒。</WotF_Spells.Reason.Cooldown>
+  <WotF_Spells.Reason.ExceedsBookGlyphs>この呪文にはルーンが{0}個含まれており、現在の魔導書の上限（{1}個）を超えています。</WotF_Spells.Reason.ExceedsBookGlyphs>
+  <WotF_Spells.Reason.FormMustBeFirst>最初のルーンは形式（自身・接触・投射・周回）または超位でなければなりません。</WotF_Spells.Reason.FormMustBeFirst>
+  <WotF_Spells.Reason.GlyphLocked>コロニーはまだこのルーンを解放していません：{0}</WotF_Spells.Reason.GlyphLocked>
+  <WotF_Spells.Reason.LaunchFailed>魔法弾を発射できませんでした。</WotF_Spells.Reason.LaunchFailed>
+  <WotF_Spells.Reason.MissingImpactDef>呪文投射物の定義 {0} が見つからないため、発射できません。</WotF_Spells.Reason.MissingImpactDef>
+  <WotF_Spells.Reason.NeedName>保存する前に呪文の名前を入力してください。</WotF_Spells.Reason.NeedName>
+  <WotF_Spells.Reason.NeuralHeatOverflow>ニューラルヒートがさらに{0}増えると上限を超えます。</WotF_Spells.Reason.NeuralHeatOverflow>
+  <WotF_Spells.Reason.NoBloodline>森の血脈を持つポーンのみが詠唱できます。</WotF_Spells.Reason.NoBloodline>
+  <WotF_Spells.Reason.NoBook>魔導書の装備が必要です。</WotF_Spells.Reason.NoBook>
+  <WotF_Spells.Reason.NoEffect>呪文には効果ルーンが1つ以上必要です。</WotF_Spells.Reason.NoEffect>
+  <WotF_Spells.Reason.NoGameComponent>現在のゲームで魔導書がまだ初期化されていません。</WotF_Spells.Reason.NoGameComponent>
+  <WotF_Spells.Reason.NoGlyphs>ルーンが編成されていません。最初に形式を1つ、続けて効果を1つ以上配置してください。</WotF_Spells.Reason.NoGlyphs>
+  <WotF_Spells.Reason.NoLineOfSight>障害物が射線を遮っています。</WotF_Spells.Reason.NoLineOfSight>
+  <WotF_Spells.Reason.NoNeuralHeat>このポーンはニューラルヒート容量を持たないため、この呪文の負荷に耐えられません。</WotF_Spells.Reason.NoNeuralHeat>
+  <WotF_Spells.Reason.NoPawn>詠唱者が指定されていません。</WotF_Spells.Reason.NoPawn>
+  <WotF_Spells.Reason.NoSpellSelected>このポーンに呪文が選択されていません。魔導書から選んでください。</WotF_Spells.Reason.NoSpellSelected>
+  <WotF_Spells.Reason.NoSpellbook>詠唱するには魔導書を装備している必要があります。</WotF_Spells.Reason.NoSpellbook>
+  <WotF_Spells.Reason.NoTarget>先に対象を選んでください。</WotF_Spells.Reason.NoTarget>
+  <WotF_Spells.Reason.NoTargeter>対象選択の準備が整っていません。</WotF_Spells.Reason.NoTargeter>
+  <WotF_Spells.Reason.NotEnoughMana>魔力が不足しています：必要 {0}、現在 {1}。</WotF_Spells.Reason.NotEnoughMana>
+  <WotF_Spells.Reason.NotPlayerControlled>魔導書を使えるのは操作可能なポーンのみです。</WotF_Spells.Reason.NotPlayerControlled>
+  <WotF_Spells.Reason.OneForm>呪文の先頭に置ける形式または超位ルーンは1つだけです。</WotF_Spells.Reason.OneForm>
+  <WotF_Spells.Reason.OnlyOneForm>1つの呪文に含められる形式ルーンは1つだけです。</WotF_Spells.Reason.OnlyOneForm>
+  <WotF_Spells.Reason.PawnDead>死亡したポーンは詠唱できません。</WotF_Spells.Reason.PawnDead>
+  <WotF_Spells.Reason.PawnDowned>ダウン中のポーンは詠唱できません。</WotF_Spells.Reason.PawnDowned>
+  <WotF_Spells.Reason.PawnNotSpawned>詠唱者がマップ上に存在する必要があります。</WotF_Spells.Reason.PawnNotSpawned>
+  <WotF_Spells.Reason.ProjectileAugmentNeedsProjectile>加速・減速・分裂は投射形式にのみ適用できます。</WotF_Spells.Reason.ProjectileAugmentNeedsProjectile>
+  <WotF_Spells.Reason.RailgunOutOfRange>レールガンの射程{0}マス以内に狙える対象がありません。</WotF_Spells.Reason.RailgunOutOfRange>
+  <WotF_Spells.Reason.SlotOutOfRange>しおり{0}は存在しません。</WotF_Spells.Reason.SlotOutOfRange>
+  <WotF_Spells.Reason.TargetOtherMap>その対象はこのマップ上にいません。</WotF_Spells.Reason.TargetOtherMap>
+  <WotF_Spells.Reason.TargetOutOfBounds>その対象はマップ外にあります。</WotF_Spells.Reason.TargetOutOfBounds>
+  <WotF_Spells.Reason.TimingNeedsEffect>滞留・地印・遅延は右側に1つ以上の効果ルーンが必要です。さもないと何も起こりません。</WotF_Spells.Reason.TimingNeedsEffect>
+  <WotF_Spells.Reason.TooLong>この呪文のルーン数が上限（{0}個）を超えています。</WotF_Spells.Reason.TooLong>
+  <WotF_Spells.Reason.TouchNotAdjacent>接触呪文は隣接するマスにしか届きません。</WotF_Spells.Reason.TouchNotAdjacent>
+  <WotF_Spells.Reason.TuningMissing>呪文機能は無効化されています：呪文パラメータデータの読み込みに失敗しました（ログを参照してください）。</WotF_Spells.Reason.TuningMissing>
+  <WotF_Spells.Reason.Unknown>この呪文は現在詠唱できません。</WotF_Spells.Reason.Unknown>
+  <WotF_Spells.Reason.UnknownGlyph>不明なルーン：{0}</WotF_Spells.Reason.UnknownGlyph>
+</LanguageData>

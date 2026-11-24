@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <WotF_Turret_ProjectileOnly>自动施法炮塔只能写入射弹形态的法术。</WotF_Turret_ProjectileOnly>
+  <WotF_Turret_Animals>动物</WotF_Turret_Animals>
+  <WotF_Turret_Candidate>{0} · 法术槽 {1} · {2}</WotF_Turret_Candidate>
+  <WotF_Turret_CategoryGroup>目标类别</WotF_Turret_CategoryGroup>
+  <WotF_Turret_ComposeHint>此法术只交给炮塔，不保存到任何人的魔术书槽位。</WotF_Turret_ComposeHint>
+  <WotF_Turret_CurrentSpell>当前法术：{0}</WotF_Turret_CurrentSpell>
+  <WotF_Turret_Entities>异象实体</WotF_Turret_Entities>
+  <WotF_Turret_Friendly>友方</WotF_Turret_Friendly>
+  <WotF_Turret_HeaderBadge>炮塔法术铭刻 · 仅限射弹形态</WotF_Turret_HeaderBadge>
+  <WotF_Turret_Hostile>敌方</WotF_Turret_Hostile>
+  <WotF_Turret_Humanlikes>人形</WotF_Turret_Humanlikes>
+  <WotF_Turret_ManaPreview>每发耗魔：{0}</WotF_Turret_ManaPreview>
+  <WotF_Turret_Mechanoids>机械</WotF_Turret_Mechanoids>
+  <WotF_Turret_Neutral>中立</WotF_Turret_Neutral>
+  <WotF_Turret_NewSpell>新写法术</WotF_Turret_NewSpell>
+  <WotF_Turret_NoCandidates>殖民地尚无可列出的法术。可点击「新写法术」编写法术。</WotF_Turret_NoCandidates>
   <WotF_Turret_NoSpell>未写入法术</WotF_Turret_NoSpell>
+  <WotF_Turret_PendingSpell>待写入法术：{0}</WotF_Turret_PendingSpell>
+  <WotF_Turret_ProjectileOnly>自动施法炮塔只能写入射弹形态的法术。</WotF_Turret_ProjectileOnly>
+  <WotF_Turret_RelationGroup>阵营关系</WotF_Turret_RelationGroup>
+  <WotF_Turret_RequestWrite>请求写入</WotF_Turret_RequestWrite>
   <WotF_Turret_SelectSpell>选择法术</WotF_Turret_SelectSpell>
   <WotF_Turret_SelectSpellDesc>选择殖民地已有的法术。需要施法者到炮塔旁完成写入后才能使用。</WotF_Turret_SelectSpellDesc>
-  <WotF_Turret_Candidate>{0} · 法术槽 {1} · {2}</WotF_Turret_Candidate>
-  <WotF_Turret_NewSpell>新写法术</WotF_Turret_NewSpell>
-  <WotF_Turret_HeaderBadge>炮塔法术铭刻 · 仅限射弹形态</WotF_Turret_HeaderBadge>
-  <WotF_Turret_RequestWrite>请求写入</WotF_Turret_RequestWrite>
-  <WotF_Turret_ComposeHint>此法术只交给炮塔，不保存到任何人的魔术书槽位。</WotF_Turret_ComposeHint>
-  <WotF_Turret_ManaPreview>每发耗魔：{0}</WotF_Turret_ManaPreview>
-  <WotF_Turret_CurrentSpell>当前法术：{0}</WotF_Turret_CurrentSpell>
-  <WotF_Turret_PendingSpell>待写入法术：{0}</WotF_Turret_PendingSpell>
   <WotF_Turret_Targets>目标过滤</WotF_Turret_Targets>
-  <WotF_Turret_Humanlikes>人形</WotF_Turret_Humanlikes>
-  <WotF_Turret_Animals>动物</WotF_Turret_Animals>
-  <WotF_Turret_Mechanoids>机械</WotF_Turret_Mechanoids>
-  <WotF_Turret_Entities>异象实体</WotF_Turret_Entities>
-  <WotF_Turret_NoCandidates>殖民地尚无可列出的法术。可点击「新写法术」编写法术。</WotF_Turret_NoCandidates>
-  <WotF_Turret_CategoryGroup>目标类别</WotF_Turret_CategoryGroup>
-  <WotF_Turret_RelationGroup>阵营关系</WotF_Turret_RelationGroup>
-  <WotF_Turret_Hostile>敌方</WotF_Turret_Hostile>
-  <WotF_Turret_Neutral>中立</WotF_Turret_Neutral>
-  <WotF_Turret_Friendly>友方</WotF_Turret_Friendly>
 </LanguageData>

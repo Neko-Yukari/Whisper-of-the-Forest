@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_UI.ActionDone>実行完了：{0}（{1}）</WotF_UI.ActionDone>
+  <WotF_UI.ActionFailed>実行失敗：{0}（{1}）</WotF_UI.ActionFailed>
+  <WotF_UI.DebugLog>オブジェクトごとのデバッグログを記録（調査時のみ有効化）</WotF_UI.DebugLog>
+  <WotF_UI.EntryGlyph>霊</WotF_UI.EntryGlyph>
+  <WotF_UI.EntryHidden>フローティング入口を非表示にしました。画面下部の実験台ボタンからウィンドウを開き、再表示できます。</WotF_UI.EntryHidden>
+  <WotF_UI.EntryHideTooltip>フローティング入口を隠す（下部の実験台ボタンから引き続き開けます）</WotF_UI.EntryHideTooltip>
+  <WotF_UI.EntryHint>ドラッグで移動、クリックでこのウィンドウを開きます。ウィンドウを閉じても入口は残ります。非表示にした場合は、画面下部の実験台ボタンから再度開けます。</WotF_UI.EntryHint>
+  <WotF_UI.EntryTooltip>実験台：ドラッグで移動、クリックでウィンドウを開く</WotF_UI.EntryTooltip>
+  <WotF_UI.EquipTerrainStride>踏地のマントを装備</WotF_UI.EquipTerrainStride>
+  <WotF_UI.EquipTerrainStrideTip>選択中のポーンに踏地のマントを装備させ、通行可能な地形・植物・家具・雪・砂による移動速度低下を無視します。</WotF_UI.EquipTerrainStrideTip>
+  <WotF_UI.FreeCasting>魔力・ニューラルヒート消費なしで詠唱（開発用）</WotF_UI.FreeCasting>
+  <WotF_UI.GrantPsycast>霊能ミサイルを付与</WotF_UI.GrantPsycast>
+  <WotF_UI.GrantPsycastTip>選択中のポーンに実験用の霊能ミサイルを付与します。付与後はコマンドバーのスキルから対象を選んで発動できます。</WotF_UI.GrantPsycastTip>
+  <WotF_UI.MovementHint>マントを装備しても通行不可マスは通れず、ドアの開閉待ちも省略されません。外すと通常の移動コストに戻ります。</WotF_UI.MovementHint>
+  <WotF_UI.NeedPawnTip>先にマップ上でポーンを1名選択してください。</WotF_UI.NeedPawnTip>
+  <WotF_UI.NoPawn>ポーン未選択</WotF_UI.NoPawn>
+  <WotF_UI.NoPawnHint>マップ上でポーンを選択すると、以下の操作が有効になります。</WotF_UI.NoPawnHint>
+  <WotF_UI.PawnInfo>{0} · {1}</WotF_UI.PawnInfo>
+  <WotF_UI.PsycastHint>仕様：ミサイルは付与済みのポーンのみ使用可能です。複数発を連続で発射でき、各弾の命中処理は1回のみ行われます。飛行中に対象が移動しても追尾します。</WotF_UI.PsycastHint>
+  <WotF_UI.RemoveApparel>踏地のマントを外す</WotF_UI.RemoveApparel>
+  <WotF_UI.RemoveApparelTip>踏地のマントを外し、移動効果を終了します。</WotF_UI.RemoveApparelTip>
+  <WotF_UI.ResetEntryPosition>位置をリセット</WotF_UI.ResetEntryPosition>
+  <WotF_UI.ResetEntryPositionTip>フローティング入口を画面右下の表示設定バー左上の初期位置に戻します。</WotF_UI.ResetEntryPositionTip>
+  <WotF_UI.RowEntryTooltip>実験台：ウィンドウを開く（右下のフローティング入口は移動・非表示が可能）</WotF_UI.RowEntryTooltip>
+  <WotF_UI.RowEntryTooltipRestore>実験台：ウィンドウを開き、右下のフローティング入口を再表示する</WotF_UI.RowEntryTooltipRestore>
+  <WotF_UI.SectionEntry>フローティング入口</WotF_UI.SectionEntry>
+  <WotF_UI.SectionMovement>移動用装備</WotF_UI.SectionMovement>
+  <WotF_UI.SectionPsycast>霊能ミサイル</WotF_UI.SectionPsycast>
+  <WotF_UI.SettingsCategory>森の囁き</WotF_UI.SettingsCategory>
+  <WotF_UI.SettingsHint>デバッグログは既定でオフになっています。問題調査時のみオンにしてください。有効化するとオブジェクトごとの詳細がゲームログに記録されます。</WotF_UI.SettingsHint>
+  <WotF_UI.ShowFloatingEntry>右下のフローティング入口を表示</WotF_UI.ShowFloatingEntry>
+  <WotF_UI.StatusReady>ポーンを選択して操作を実行してください。失敗した理由がここに表示されます。</WotF_UI.StatusReady>
+  <WotF_UI.UnlockAllGlyphs>すべてのルーンを解放（開発用）</WotF_UI.UnlockAllGlyphs>
+  <WotF_UI.WindowTitle>森の囁き · 実験台</WotF_UI.WindowTitle>
+</LanguageData>

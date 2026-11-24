@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_WriteTurretSpell.gerund>呪文を刻印</WotF_WriteTurretSpell.gerund>
+  <WotF_WriteTurretSpell.label>詠唱タレットに呪文を刻む</WotF_WriteTurretSpell.label>
+  <WotF_WriteTurretSpell.verb>呪文を刻む</WotF_WriteTurretSpell.verb>
+</LanguageData>

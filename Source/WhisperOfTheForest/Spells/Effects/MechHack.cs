@@ -4,6 +4,7 @@ using System.Linq;
 using RimWorld;
 using Verse;
 using Verse.AI;
+using Verse.Sound;
 
 namespace WhisperOfTheForest.Spells
 {
@@ -100,6 +101,11 @@ namespace WhisperOfTheForest.Spells
             control.TryGetComp<HediffComp_MechControlled>().Begin(target.Faction, controlTicks);
             target.health.AddHediff(control);
             target.SetFaction(caster.Faction);
+            if (target.Spawned && target.Map == Find.CurrentMap)
+            {
+                SoundDef confirm = (SpellDefs.Glyph(SpellDefs.EffectHack) as HackGlyphDef)?.confirmSound;
+                confirm?.PlayOneShot(new TargetInfo(target.Position, target.Map));
+            }
             SpellDiagnostics.Message("hack controlled " + target.LabelShort + " for " + controlTicks + " ticks");
         }
     }
@@ -203,6 +209,7 @@ namespace WhisperOfTheForest.Spells
             Toil channel = ToilMaker.MakeToil();
             channel.initAction = () => pawn.pather.StopDead();
             channel.defaultCompleteMode = ToilCompleteMode.Never;
+            channel.PlaySustainerOrSound(() => (SpellDefs.Glyph(SpellDefs.EffectHack) as HackGlyphDef)?.channelLoopSound);
             channel.tickAction = () =>
             {
                 Pawn nearest = null;

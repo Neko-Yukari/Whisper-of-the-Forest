@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-
-  <WotF_Hediff_Clotting.label>凝血包扎</WotF_Hediff_Clotting.label>
   <WotF_Hediff_Clotting.description>一层柔和的魔力封住了体表创口，令伤口以更快的速度愈合。</WotF_Hediff_Clotting.description>
-  <WotF_Hediff_Freeze.label>霜冻</WotF_Hediff_Freeze.label>
-  <WotF_Hediff_Freeze.description>刺骨的寒霜凝结在关节与躯体表面。寒意散去前，目标的行动会变得格外僵硬，移动能力大受限制。</WotF_Hediff_Freeze.description>
-  <WotF_Hediff_Ensnare.label>缚足</WotF_Hediff_Ensnare.label>
+  <WotF_Hediff_Clotting.label>凝血包扎</WotF_Hediff_Clotting.label>
   <WotF_Hediff_Ensnare.description>无形的魔力将目标牢牢钉在原地。它虽寸步难行，却仍能照常发起攻击。</WotF_Hediff_Ensnare.description>
-  <WotF_Hediff_Hex.label>咒印</WotF_Hediff_Hex.label>
+  <WotF_Hediff_Ensnare.label>缚足</WotF_Hediff_Ensnare.label>
+  <WotF_Hediff_Freeze.description>刺骨的寒霜凝结在关节与躯体表面。寒意散去前，目标的行动会变得格外僵硬，移动能力大受限制。</WotF_Hediff_Freeze.description>
+  <WotF_Hediff_Freeze.label>霜冻</WotF_Hediff_Freeze.label>
   <WotF_Hediff_Hex.description>一道阴冷的印记烙在目标身上。印记消散前，目标会承受更多伤害，伤口愈合与魔力恢复也会变得迟缓。</WotF_Hediff_Hex.description>
-  <WotF_Hediff_LightningCharge.label>受电</WotF_Hediff_LightningCharge.label>
+  <WotF_Hediff_Hex.label>咒印</WotF_Hediff_Hex.label>
   <WotF_Hediff_LightningCharge.description>雷击后残留在体表的游离电荷仍在隐隐作响。积蓄的层数越多，下一次遭受落雷时的伤害就越重。</WotF_Hediff_LightningCharge.description>
-  <WotF_Hediff_Scorch.label>灼烧</WotF_Hediff_Scorch.label>
-  <WotF_Hediff_Scorch.description>附在体表的魔法余焰仍在持续灼伤目标，但火焰被束缚在身上，不会引燃周围的物件。</WotF_Hediff_Scorch.description>
-
-  <WotF_Hediff_MechAssimilation.label>同化中</WotF_Hediff_MechAssimilation.label>
+  <WotF_Hediff_LightningCharge.label>受电</WotF_Hediff_LightningCharge.label>
   <WotF_Hediff_MechAssimilation.description>外来的魔力正顺着指令回路强行写入，使这台机械体陷入眩晕。施法者的引导一旦被打断，同化就会立刻失败。</WotF_Hediff_MechAssimilation.description>
-  <WotF_Hediff_MechControlled.label>临时骇入</WotF_Hediff_MechControlled.label>
+  <WotF_Hediff_MechAssimilation.label>同化中</WotF_Hediff_MechAssimilation.label>
   <WotF_Hediff_MechControlled.description>指令回路被法术短暂覆写，目前正听命于施法者阵营，不占用机械师带宽。一旦时效结束，它就会恢复原有阵营并解除征召。</WotF_Hediff_MechControlled.description>
+  <WotF_Hediff_MechControlled.label>临时骇入</WotF_Hediff_MechControlled.label>
+  <WotF_Hediff_Scorch.description>附在体表的魔法余焰仍在持续灼伤目标，但火焰被束缚在身上，不会引燃周围的物件。</WotF_Hediff_Scorch.description>
+  <WotF_Hediff_Scorch.label>灼烧</WotF_Hediff_Scorch.label>
 </LanguageData>

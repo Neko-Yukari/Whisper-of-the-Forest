@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_Race.EntropyFromLevel>森の血脈 Lv.{0} による補正</WotF_Race.EntropyFromLevel>
+  <WotF_Race.EntropyRecoveryFromLevel>森の血脈 Lv.{0} による補正</WotF_Race.EntropyRecoveryFromLevel>
+  <WotF_Race.GizmoExperience>経験値 {0} / {1}</WotF_Race.GizmoExperience>
+  <WotF_Race.GizmoLevel>森の血脈 Lv.{0}</WotF_Race.GizmoLevel>
+  <WotF_Race.GizmoMaxLevel>経験値が最大レベルに達しています</WotF_Race.GizmoMaxLevel>
+  <WotF_Race.ManaFromLevel>森の血脈 Lv.{0} による補正</WotF_Race.ManaFromLevel>
+</LanguageData>

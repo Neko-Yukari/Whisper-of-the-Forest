@@ -1,26 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-
-  <!-- 法杖 / 魔杖的 Gizmo 与信息栏文本。Gizmo 标题写出载体名称与所选法术，双持时一目了然。 -->
-
-  <WotF_Equipment.Gizmo.NoSpell>{0}：未选择法术</WotF_Equipment.Gizmo.NoSpell>
+  <WotF_Enchant.Gizmo.Current>秘银槽位：第 {0} 槽 · {1}</WotF_Enchant.Gizmo.Current>
+  <WotF_Enchant.Gizmo.Desc>秘银件有两个注法槽，切换后按当前槽位的法术触发反应。</WotF_Enchant.Gizmo.Desc>
+  <WotF_Enchant.Gizmo.None>秘银槽位：第 {0} 槽（空）</WotF_Enchant.Gizmo.None>
+  <WotF_Enchant.Inspect.Empty>空</WotF_Enchant.Inspect.Empty>
+  <WotF_Enchant.Inspect.None>注法：无</WotF_Enchant.Inspect.None>
+  <WotF_Enchant.Inspect.One>注法：{0}</WotF_Enchant.Inspect.One>
+  <WotF_Enchant.Inspect.Slots>注法：{0}</WotF_Enchant.Inspect.Slots>
+  <WotF_Enchant.Menu.Slot>{0}. {1}</WotF_Enchant.Menu.Slot>
   <WotF_Equipment.Gizmo.Current>{0}：{1}</WotF_Equipment.Gizmo.Current>
   <WotF_Equipment.Gizmo.Desc>选择这根法杖或魔杖攻击时施放哪个魔术书槽位。载体记住的是槽位而非法术副本，修改该页会同步改变它施放的法术；槽位为空时无法攻击。</WotF_Equipment.Gizmo.Desc>
   <WotF_Equipment.Gizmo.NoBook>魔术书在当前游戏中尚未就绪。</WotF_Equipment.Gizmo.NoBook>
   <WotF_Equipment.Gizmo.NoSavedSpell>魔术书里还没有保存的法术。</WotF_Equipment.Gizmo.NoSavedSpell>
-  <WotF_Equipment.Menu.Slot>{0}. {1}</WotF_Equipment.Menu.Slot>
-  <WotF_Equipment.Inspect.NoSpell>法术：无</WotF_Equipment.Inspect.NoSpell>
+  <WotF_Equipment.Gizmo.NoSpell>{0}：未选择法术</WotF_Equipment.Gizmo.NoSpell>
   <WotF_Equipment.Inspect.Current>法术：{0}</WotF_Equipment.Inspect.Current>
+  <WotF_Equipment.Inspect.NoSpell>法术：无</WotF_Equipment.Inspect.NoSpell>
+  <WotF_Equipment.Menu.Slot>{0}. {1}</WotF_Equipment.Menu.Slot>
   <WotF_Equipment.Reason.TwoHandedShieldBlock>护盾腰带阻挡了双手长法杖的施法。</WotF_Equipment.Reason.TwoHandedShieldBlock>
-
-  <!-- 武具注法：槽位切换与信息栏。 -->
-  <WotF_Enchant.Gizmo.None>秘银槽位：第 {0} 槽（空）</WotF_Enchant.Gizmo.None>
-  <WotF_Enchant.Gizmo.Current>秘银槽位：第 {0} 槽 · {1}</WotF_Enchant.Gizmo.Current>
-  <WotF_Enchant.Gizmo.Desc>秘银件有两个注法槽，切换后按当前槽位的法术触发反应。</WotF_Enchant.Gizmo.Desc>
-  <WotF_Enchant.Menu.Slot>{0}. {1}</WotF_Enchant.Menu.Slot>
-  <WotF_Enchant.Inspect.None>注法：无</WotF_Enchant.Inspect.None>
-  <WotF_Enchant.Inspect.One>注法：{0}</WotF_Enchant.Inspect.One>
-  <WotF_Enchant.Inspect.Slots>注法：{0}</WotF_Enchant.Inspect.Slots>
-  <WotF_Enchant.Inspect.Empty>空</WotF_Enchant.Inspect.Empty>
-
 </LanguageData>

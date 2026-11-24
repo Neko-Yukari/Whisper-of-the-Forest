@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_Turret_Animals>動物</WotF_Turret_Animals>
+  <WotF_Turret_Candidate>{0} · 呪文スロット {1} · {2}</WotF_Turret_Candidate>
+  <WotF_Turret_CategoryGroup>対象カテゴリ</WotF_Turret_CategoryGroup>
+  <WotF_Turret_ComposeHint>この呪文はこのタレット専用で、誰の魔導書スロットにも保存されません。</WotF_Turret_ComposeHint>
+  <WotF_Turret_CurrentSpell>現在の呪文：{0}</WotF_Turret_CurrentSpell>
+  <WotF_Turret_Entities>エンティティ</WotF_Turret_Entities>
+  <WotF_Turret_Friendly>味方</WotF_Turret_Friendly>
+  <WotF_Turret_HeaderBadge>タレット呪文刻印 · 投射形式のみ</WotF_Turret_HeaderBadge>
+  <WotF_Turret_Hostile>敵対</WotF_Turret_Hostile>
+  <WotF_Turret_Humanlikes>人間型</WotF_Turret_Humanlikes>
+  <WotF_Turret_ManaPreview>1発あたりの消費マナ：{0}</WotF_Turret_ManaPreview>
+  <WotF_Turret_Mechanoids>メカノイド</WotF_Turret_Mechanoids>
+  <WotF_Turret_Neutral>中立</WotF_Turret_Neutral>
+  <WotF_Turret_NewSpell>新規呪文を作成</WotF_Turret_NewSpell>
+  <WotF_Turret_NoCandidates>一覧に表示できるコロニーの呪文がありません。「新規呪文を作成」から呪文を編成できます。</WotF_Turret_NoCandidates>
+  <WotF_Turret_NoSpell>呪文未刻印</WotF_Turret_NoSpell>
+  <WotF_Turret_PendingSpell>刻印待ちの呪文：{0}</WotF_Turret_PendingSpell>
+  <WotF_Turret_ProjectileOnly>詠唱タレットに刻印できるのは投射形式の呪文のみです。</WotF_Turret_ProjectileOnly>
+  <WotF_Turret_RelationGroup>派閥関係</WotF_Turret_RelationGroup>
+  <WotF_Turret_RequestWrite>刻印を依頼</WotF_Turret_RequestWrite>
+  <WotF_Turret_SelectSpell>呪文を選択</WotF_Turret_SelectSpell>
+  <WotF_Turret_SelectSpellDesc>コロニーの既存の呪文を選びます。使用するには詠唱者がタレットのそばで刻印作業を完了させる必要があります。</WotF_Turret_SelectSpellDesc>
+  <WotF_Turret_Targets>標的フィルター</WotF_Turret_Targets>
+</LanguageData>

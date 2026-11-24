@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-
-  <!--
-    The railgun rune's own text. The reason strings of the grammar live with the other spell
-    reasons in Keyed/WotF_Spells.xml; this file only names and explains the rune itself.
-  -->
+  <WotF_Form_Railgun.description>One of the legendary supra runes.\nFires a hypervelocity, high-density kinetic projectile that punches straight through everything in its path.\nThat flash tearing across the sky was originally built by the ancients to launch samples into orbit.</WotF_Form_Railgun.description>
   <WotF_Form_Railgun.label>railgun</WotF_Form_Railgun.label>
-  <WotF_Form_Railgun.description>A single rune that is a complete spell: it charges for a moment and then fires one straight shot through everything in its path, walls and mountains included. Nobody in the line is spared, the caster excepted.</WotF_Form_Railgun.description>
-
 </LanguageData>

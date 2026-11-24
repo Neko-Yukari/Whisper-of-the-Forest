@@ -1,39 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <!-- T3 传送门（设定/05, 技术/04）。数值全部来自 Def，这里的句子只说明状态与后果。 -->
-  <WotF_TeleportGate_Gizmo_Send>连接…</WotF_TeleportGate_Gizmo_Send>
-  <WotF_TeleportGate_Gizmo_SendDesc>把装在这扇门里的东西送到遗迹的残破传送门，或送到本图另一扇开启中的传送门。</WotF_TeleportGate_Gizmo_SendDesc>
+  <WotF_TeleportGate_CannotConnect>{0}现在无法接通（{1}）。没有传送任何东西，也没有扣费。</WotF_TeleportGate_CannotConnect>
+  <WotF_TeleportGate_Connecting>正在接通传送门…</WotF_TeleportGate_Connecting>
+  <WotF_TeleportGate_Empty>门里没有装东西，先装人或货物。</WotF_TeleportGate_Empty>
+  <WotF_TeleportGate_Failed>与{0}的连接失败。</WotF_TeleportGate_Failed>
   <WotF_TeleportGate_Gizmo_Connect>连接回家…</WotF_TeleportGate_Gizmo_Connect>
   <WotF_TeleportGate_Gizmo_ConnectDesc>把装在这扇残破传送门里的东西，从一处正在运行的殖民传送门送回去。必须先清完遗迹内所有守卫才能开启。回程费率和去程一样，从那扇门的魔网扣；这扇门经不起穿越。</WotF_TeleportGate_Gizmo_ConnectDesc>
-  <WotF_TeleportGate_Connecting>正在接通传送门…</WotF_TeleportGate_Connecting>
+  <WotF_TeleportGate_Gizmo_Send>连接…</WotF_TeleportGate_Gizmo_Send>
+  <WotF_TeleportGate_Gizmo_SendDesc>把装在这扇门里的东西送到遗迹的残破传送门，或送到本图另一扇开启中的传送门。</WotF_TeleportGate_Gizmo_SendDesc>
+  <WotF_TeleportGate_Gone>传送门或它的另一端已经不在了。</WotF_TeleportGate_Gone>
+  <WotF_TeleportGate_Inspect_Closed>已关闭</WotF_TeleportGate_Inspect_Closed>
+  <WotF_TeleportGate_Inspect_Contents>已装载：{0} 人，{1} 千克货物</WotF_TeleportGate_Inspect_Contents>
+  <WotF_TeleportGate_Inspect_Ruined>残破：只剩最后一次穿越</WotF_TeleportGate_Inspect_Ruined>
+  <WotF_TeleportGate_Inspect_RuinedLocked>残破：遗迹守卫尚未清完，无法开启</WotF_TeleportGate_Inspect_RuinedLocked>
   <WotF_TeleportGate_Inspect_Running>开启中，维持消耗 {0} 魔源/秒</WotF_TeleportGate_Inspect_Running>
   <WotF_TeleportGate_Inspect_Starved>开启中，但魔网付不起 {0} 魔源/秒的维持</WotF_TeleportGate_Inspect_Starved>
   <WotF_TeleportGate_Inspect_Unlinked>开启中，但 {0} 格内没有魔源节点</WotF_TeleportGate_Inspect_Unlinked>
-  <WotF_TeleportGate_Inspect_Closed>已关闭</WotF_TeleportGate_Inspect_Closed>
-  <WotF_TeleportGate_Inspect_Ruined>残破：只剩最后一次穿越</WotF_TeleportGate_Inspect_Ruined>
-  <WotF_TeleportGate_Inspect_RuinedLocked>残破：遗迹守卫尚未清完，无法开启</WotF_TeleportGate_Inspect_RuinedLocked>
-  <WotF_TeleportGate_Inspect_Contents>已装载：{0} 人，{1} 千克货物</WotF_TeleportGate_Inspect_Contents>
-  <WotF_TeleportGate_RuinHostiles>遗迹内仍有守卫未清理，这扇残破传送门还无法再次打开。</WotF_TeleportGate_RuinHostiles>
-  <WotF_TeleportGate_NoTransporter>这扇门没有装载舱。</WotF_TeleportGate_NoTransporter>
-  <WotF_TeleportGate_Empty>门里没有装东西，先装人或货物。</WotF_TeleportGate_Empty>
-  <WotF_TeleportGate_NoHomeGate>家里没有开启中的传送门。先让一扇门运行起来，或者组远行队徒步回去。</WotF_TeleportGate_NoHomeGate>
-  <WotF_TeleportGate_NoRuin>没有可以连通的遗迹。先在 2 阶祭坛上发起寻踪。</WotF_TeleportGate_NoRuin>
-  <WotF_TeleportGate_ReturnTo>返回 {0} · {1} 魔源</WotF_TeleportGate_ReturnTo>
-  <WotF_TeleportGate_ReturnNeeds>— {1} 当前只有 {2} 魔源，需要 {0}；组远行队徒步回去</WotF_TeleportGate_ReturnNeeds>
-  <WotF_TeleportGate_SendLocal>跨到 {0}</WotF_TeleportGate_SendLocal>
-  <WotF_TeleportGate_SentLocalDone>{0} 件东西跨到了 {1}。</WotF_TeleportGate_SentLocalDone>
-  <WotF_TeleportGate_SendTo>送到 {0} · {1} 魔源</WotF_TeleportGate_SendTo>
   <WotF_TeleportGate_ManaShort>需要 {0} 魔源，当前只有 {1}</WotF_TeleportGate_ManaShort>
-  <WotF_TeleportGate_Sent>{0} 人与 {1} 千克货物抵达{3}，消耗 {2} 魔源。</WotF_TeleportGate_Sent>
-  <WotF_TeleportGate_Returned>{0} 件东西消耗 {2} 魔源回到了{1}，残破传送门在身后崩塌。</WotF_TeleportGate_Returned>
-  <WotF_TeleportGate_ReturnCost>回程需要从{1}的魔网扣 {0} 魔源，当前只有 {2}。没有传送任何东西，也没有扣费；组远行队徒步回去。</WotF_TeleportGate_ReturnCost>
-  <WotF_TeleportGate_Gone>传送门或它的另一端已经不在了。</WotF_TeleportGate_Gone>
-  <WotF_TeleportGate_Failed>与{0}的连接失败。</WotF_TeleportGate_Failed>
-  <WotF_TeleportGate_NoAnchor>{0}里没有可以落脚的传送门，这次连接被拒绝。</WotF_TeleportGate_NoAnchor>
-  <WotF_TeleportGate_CannotConnect>{0}现在无法接通（{1}）。没有传送任何东西，也没有扣费。</WotF_TeleportGate_CannotConnect>
-  <WotF_TeleportGate_NoRoom>{0}周围放不下全部东西：{2} 件里有 {1} 件在 {3} 格内找不到空格。没有传送任何东西，也没有扣费。</WotF_TeleportGate_NoRoom>
-  <WotF_TeleportGate_PartyLabel>穿过传送门的队伍</WotF_TeleportGate_PartyLabel>
   <WotF_TeleportGate_NeedsParty>至少装入一名站立的殖民者。首次穿越会生成遗迹地图，没人留在地图上的话它会被丢弃。</WotF_TeleportGate_NeedsParty>
-  <WotF_TeleportGate_Widened>传送门旁放不下，队伍落在了最近的空地上，最远离门 {1} 格。</WotF_TeleportGate_Widened>
+  <WotF_TeleportGate_NoAnchor>{0}里没有可以落脚的传送门，这次连接被拒绝。</WotF_TeleportGate_NoAnchor>
+  <WotF_TeleportGate_NoHomeGate>家里没有开启中的传送门。先让一扇门运行起来，或者组远行队徒步回去。</WotF_TeleportGate_NoHomeGate>
   <WotF_TeleportGate_NoLanding>与{0}的连接被拒绝：队伍中有 {1} 件在整张地图上都找不到空地。</WotF_TeleportGate_NoLanding>
+  <WotF_TeleportGate_NoRoom>{0}周围放不下全部东西：{2} 件里有 {1} 件在 {3} 格内找不到空格。没有传送任何东西，也没有扣费。</WotF_TeleportGate_NoRoom>
+  <WotF_TeleportGate_NoRuin>没有可以连通的遗迹。先在 2 阶祭坛上发起寻踪。</WotF_TeleportGate_NoRuin>
+  <WotF_TeleportGate_NoTransporter>这扇门没有装载舱。</WotF_TeleportGate_NoTransporter>
+  <WotF_TeleportGate_PartyLabel>穿过传送门的队伍</WotF_TeleportGate_PartyLabel>
+  <WotF_TeleportGate_ReturnCost>回程需要从{1}的魔网扣 {0} 魔源，当前只有 {2}。没有传送任何东西，也没有扣费；组远行队徒步回去。</WotF_TeleportGate_ReturnCost>
+  <WotF_TeleportGate_ReturnNeeds>— {1} 当前只有 {2} 魔源，需要 {0}；组远行队徒步回去</WotF_TeleportGate_ReturnNeeds>
+  <WotF_TeleportGate_ReturnTo>返回 {0} · {1} 魔源</WotF_TeleportGate_ReturnTo>
+  <WotF_TeleportGate_Returned>{0} 件东西消耗 {2} 魔源回到了{1}，残破传送门在身后崩塌。</WotF_TeleportGate_Returned>
+  <WotF_TeleportGate_RuinHostiles>遗迹内仍有守卫未清理，这扇残破传送门还无法再次打开。</WotF_TeleportGate_RuinHostiles>
+  <WotF_TeleportGate_SendLocal>跨到 {0}</WotF_TeleportGate_SendLocal>
+  <WotF_TeleportGate_SendTo>送到 {0} · {1} 魔源</WotF_TeleportGate_SendTo>
+  <WotF_TeleportGate_Sent>{0} 人与 {1} 千克货物抵达{3}，消耗 {2} 魔源。</WotF_TeleportGate_Sent>
+  <WotF_TeleportGate_SentLocalDone>{0} 件东西跨到了 {1}。</WotF_TeleportGate_SentLocalDone>
+  <WotF_TeleportGate_Widened>传送门旁放不下，队伍落在了最近的空地上，最远离门 {1} 格。</WotF_TeleportGate_Widened>
 </LanguageData>

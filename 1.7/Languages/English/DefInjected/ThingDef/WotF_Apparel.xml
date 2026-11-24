@@ -1,43 +1,29 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-
-  <WotF_ElvenDressTraditional_I.label>elven traditional dress I</WotF_ElvenDressTraditional_I.label>
-  <WotF_ElvenDressTraditional_I.description>A close-cut elven dress that covers the torso and legs in one piece. Woven from cloth or leather, it insulates against both heat and cold, and is the everyday wear of forest villages.</WotF_ElvenDressTraditional_I.description>
-
-  <WotF_ElvenDressTraditional_II.label>elven traditional dress II</WotF_ElvenDressTraditional_II.label>
-  <WotF_ElvenDressTraditional_II.description>The second traditional elven cut: the same one-piece torso-and-legs dress in a different style, insulating the wearer against heat and cold.</WotF_ElvenDressTraditional_II.description>
-
+  <WotF_ElvenApronDress.description>A roomy everyday elven apron dress with waist pockets stitched for tools and cuttings. It stays neat and out of the way, making tending and harvesting crops easier.</WotF_ElvenApronDress.description>
   <WotF_ElvenApronDress.label>elven apron dress</WotF_ElvenApronDress.label>
-  <WotF_ElvenApronDress.description>A homely elven apron dress in the manner of forest homesteads. The cut leaves the hands free, and the wearer works among plants a little faster than usual.</WotF_ElvenApronDress.description>
-
-  <WotF_ElvenHunterUndershirt.label>elven hunter underlayer</WotF_ElvenHunterUndershirt.label>
-  <WotF_ElvenHunterUndershirt.description>A trim underlayer cut for stalking. It can be worn beneath a cloak or light armor without bunching, and its close fit makes the wearer a little harder to hit in melee.</WotF_ElvenHunterUndershirt.description>
-
-  <WotF_ElvenFormalGown.label>elven formal gown</WotF_ElvenFormalGown.label>
-  <WotF_ElvenFormalGown.description>A ceremonial elven gown of layered silk, trimmed with gold thread. It is made to be seen in: the wearer cuts a more impressive figure and is more pleasing to look at.</WotF_ElvenFormalGown.description>
-
-  <WotF_ElvenTravelCloak.label>elven travel cloak</WotF_ElvenTravelCloak.label>
-  <WotF_ElvenTravelCloak.description>A long travelling cloak with a strap for a travel pack, cut to cover everything but the head. It sheds wind, rain and sun, and the pack straps let the wearer carry more than usual.</WotF_ElvenTravelCloak.description>
-
-  <WotF_ElvenLightArmor.label>elven light armor</WotF_ElvenLightArmor.label>
-  <WotF_ElvenLightArmor.description>A ranger's harness of leather and wood: chest guard and arm guards over an elven underlayer, leaving the skirt free. It adds no encumbrance at all and steadies the wearer's aim.</WotF_ElvenLightArmor.description>
-
-  <WotF_ElvenMageRobe.label>elven mage robe</WotF_ElvenMageRobe.label>
-  <WotF_ElvenMageRobe.description>An arcanist's outer robe with crystal conduits sewn along the seams. Woven over an elven underlayer, it widens the wearer's mana pool and speeds its recovery. Mithril-thread upgrade is not implemented yet.</WotF_ElvenMageRobe.description>
-
-  <WotF_ElvenWarArmor.label>elven war armor</WotF_ElvenWarArmor.label>
-  <WotF_ElvenWarArmor.description>Full elven war plate, forged from a single metal and fitted with shoulder guards. It protects the whole body below the head at the cost of a little speed. This is the sword-guard and archon pattern; the reaction slots are not inscribed yet.</WotF_ElvenWarArmor.description>
-
+  <WotF_ElvenDressTraditional_I.description>A one-piece elven dress tailored from cloth or soft leather. It covers the torso and legs against heat and cold, and is the most common everyday attire in elven settlements.</WotF_ElvenDressTraditional_I.description>
+  <WotF_ElvenDressTraditional_I.label>elven traditional dress I</WotF_ElvenDressTraditional_I.label>
+  <WotF_ElvenDressTraditional_II.description>An alternate cut of the one-piece elven dress. It offers the same coverage and insulation against heat and cold as the standard style, differing only in weave and silhouette.</WotF_ElvenDressTraditional_II.description>
+  <WotF_ElvenDressTraditional_II.label>elven traditional dress II</WotF_ElvenDressTraditional_II.label>
+  <WotF_ElvenFlowerWreath.description>A brow wreath woven from fresh sprigs and wildflowers. Worn in the hair, it gives off a faint herbal scent and helps the wearer win goodwill in conversation.</WotF_ElvenFlowerWreath.description>
   <WotF_ElvenFlowerWreath.label>elven flower wreath</WotF_ElvenFlowerWreath.label>
-  <WotF_ElvenFlowerWreath.description>A wreath of living leaves and small flowers worn across the brow. It leaves the hair and face untouched, and the wearer makes a slightly better impression in conversation. A mood bonus is not implemented yet.</WotF_ElvenFlowerWreath.description>
-
+  <WotF_ElvenFormalGown.description>A layered ceremonial gown woven with fine gold thread, worn for festivals and diplomatic gatherings. It lends a poised, pleasing presence and carries weight in negotiations.</WotF_ElvenFormalGown.description>
+  <WotF_ElvenFormalGown.label>elven formal gown</WotF_ElvenFormalGown.label>
+  <WotF_ElvenHunterUndershirt.description>A close-fitting underlayer worn beneath a cloak or light armor. Its taut fabric resists bunching in motion, helping the wearer evade blows in close combat.</WotF_ElvenHunterUndershirt.description>
+  <WotF_ElvenHunterUndershirt.label>elven hunter underlayer</WotF_ElvenHunterUndershirt.label>
+  <WotF_ElvenLightArmor.description>Fitted armor favored by rangers, with chest and arm guards worn over an underlayer and an open skirt for a full stride. It adds no encumbrance, steadies ranged aim, and can be inscribed at an altar with a spell triggered when struck.</WotF_ElvenLightArmor.description>
+  <WotF_ElvenLightArmor.label>elven light armor</WotF_ElvenLightArmor.label>
+  <WotF_ElvenMageRobe.description>An outer robe stitched along its seams with fine metallic thread, usually worn over an underlayer. It smooths the flow of mana within the body, helping sustain fuller reserves through prolonged fights.</WotF_ElvenMageRobe.description>
+  <WotF_ElvenMageRobe.label>elven mage robe</WotF_ElvenMageRobe.label>
+  <WotF_ElvenSunHat.description>A broad-brimmed handwoven hat that shades the face outdoors and helps the wearer leave a warmer impression in conversation.</WotF_ElvenSunHat.description>
   <WotF_ElvenSunHat.label>elven sun hat</WotF_ElvenSunHat.label>
-  <WotF_ElvenSunHat.description>A broad-brimmed elven sun hat of woven fibre, shading the face without hiding the hair. It keeps the sun off and the wearer makes a slightly better impression in conversation. A mood bonus is not implemented yet.</WotF_ElvenSunHat.description>
-
+  <WotF_ElvenTravelCloak.description>A full-length cloak fitted with pack straps, shielding everything below the head from wind, chill, and sun. The straps distribute weight so the wearer can carry more supplies.</WotF_ElvenTravelCloak.description>
+  <WotF_ElvenTravelCloak.label>elven travel cloak</WotF_ElvenTravelCloak.label>
+  <WotF_ElvenTravelHood.description>A deep hood made to pair with the travel cloak, covering the entire head against cold winds and harsh sun.</WotF_ElvenTravelHood.description>
   <WotF_ElvenTravelHood.label>elven travel hood</WotF_ElvenTravelHood.label>
-  <WotF_ElvenTravelHood.description>A deep hood made to match the travel cloak. It covers the whole head against wind, cold and sun while leaving the face and the tips of the hair free.</WotF_ElvenTravelHood.description>
-
+  <WotF_ElvenWarArmor.description>Full metal plate fitted with pauldrons, standard issue for elven sword-guards and archons. It protects the whole body below the head at only a slight cost to speed, and can be inscribed at an altar with a spell triggered when struck.</WotF_ElvenWarArmor.description>
+  <WotF_ElvenWarArmor.label>elven war armor</WotF_ElvenWarArmor.label>
+  <WotF_ElvenWarCrown.description>A winged war crown forged from a single piece of metal. Despite its open-faced design, its protection rivals a heavy helmet and shields the wearer's entire head.</WotF_ElvenWarCrown.description>
   <WotF_ElvenWarCrown.label>elven war crown</WotF_ElvenWarCrown.label>
-  <WotF_ElvenWarCrown.description>A winged war crown forged from a single metal. It guards the whole head like a heavy helmet while the open face keeps the wearer's expression and hair visible.</WotF_ElvenWarCrown.description>
-
 </LanguageData>

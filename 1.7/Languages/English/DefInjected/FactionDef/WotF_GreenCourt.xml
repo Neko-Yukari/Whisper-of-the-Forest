@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_GreenCourt.description>The outward name for a loose league of elven settlements large and small. On the surface they answer to the Archon, yet real governance still rests with the elders of each settlement.\n\nLong ago, the elves fought a great war over the ancient relics within the ruin. Out of the wreckage, the survivors built the order that stands today, strictly controlling the circulation of lethal spells and any further exploration of the ruin.\n\nIn recent years, however, turmoil across the rimworld has reminded the elves of what knowledge is worth. Some argue for actively uncovering the truth behind the ruin; some insist outsiders must never be allowed to touch their territory; and many more still cannot forget the old catastrophe, choosing simply to shut out the outside world.</WotF_GreenCourt.description>
+  <WotF_GreenCourt.fixedName>Green Court</WotF_GreenCourt.fixedName>
+  <WotF_GreenCourt.label>Green Court</WotF_GreenCourt.label>
+  <WotF_GreenCourt.leaderTitle>archon</WotF_GreenCourt.leaderTitle>
+  <WotF_GreenCourt.leaderTitleFemale>archon</WotF_GreenCourt.leaderTitleFemale>
+  <WotF_GreenCourt.pawnSingular>Court elf</WotF_GreenCourt.pawnSingular>
+  <WotF_GreenCourt.pawnsPlural>Court elves</WotF_GreenCourt.pawnsPlural>
+</LanguageData>

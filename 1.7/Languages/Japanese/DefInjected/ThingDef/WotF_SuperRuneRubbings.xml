@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WotF_SuperRuneRubbing_Railgun.comps.CompUsable.useLabel>{0_label}を読み解く</WotF_SuperRuneRubbing_Railgun.comps.CompUsable.useLabel>
+  <WotF_SuperRuneRubbing_Railgun.description>古代遺跡の奥底で発見された一点物の超位ルーンの拓本。常人には解しがたい緻密な紋様が刻まれている。読み解くと脆い媒体は灰へと還るが、レールガンのルーンの構成は永続的に記録され、コロニーのすべての詠唱者が扱えるようになる。</WotF_SuperRuneRubbing_Railgun.description>
+  <WotF_SuperRuneRubbing_Railgun.label>レールガンのルーン拓本</WotF_SuperRuneRubbing_Railgun.label>
+  <WotF_SuperRuneRubbing_Tornado.comps.CompUsable.useLabel>{0_label}を読み解く</WotF_SuperRuneRubbing_Tornado.comps.CompUsable.useLabel>
+  <WotF_SuperRuneRubbing_Tornado.description>古代遺跡の奥底で発見された一点物の超位ルーンの拓本。常人には解しがたい緻密な紋様が刻まれている。読み解くと脆い媒体は灰へと還るが、烈火の竜巻のルーンの構成は永続的に記録され、コロニーのすべての詠唱者が扱えるようになる。</WotF_SuperRuneRubbing_Tornado.description>
+  <WotF_SuperRuneRubbing_Tornado.label>烈火の竜巻のルーン拓本</WotF_SuperRuneRubbing_Tornado.label>
+</LanguageData>

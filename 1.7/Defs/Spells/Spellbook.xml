@@ -161,6 +161,7 @@
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.HarmGlyphDef">
     <defName>WotF_Effect_Harm</defName>
     <theme>WotF_Theme_Runic</theme>
+    <resolveSound>WotF_Sound_Effect_Harm</resolveSound>
     <combatLogRules>WotF_CombatLog_Harm</combatLogRules>
     <tier>0</tier>
     <targets>
@@ -193,6 +194,7 @@
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.HealGlyphDef">
     <defName>WotF_Effect_Heal</defName>
     <theme>WotF_Theme_Vitality</theme>
+    <resolveSound>WotF_Sound_Effect_Heal</resolveSound>
     <tier>0</tier>
     <targets>
       <li>Humanlike</li>
@@ -256,6 +258,7 @@
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.GrowGlyphDef">
     <defName>WotF_Effect_Grow</defName>
     <theme>WotF_Theme_Vitality</theme>
+    <resolveSound>WotF_Sound_Effect_Grow</resolveSound>
     <tier>1</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>
@@ -329,6 +332,7 @@
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.ColdSnapGlyphDef">
     <defName>WotF_Effect_ColdSnap</defName>
     <theme>WotF_Theme_Frost</theme>
+    <resolveSound>WotF_Sound_Effect_ColdSnap</resolveSound>
     <combatLogRules>WotF_CombatLog_ColdSnap</combatLogRules>
     <tier>2</tier>
     <requiresUnlock>true</requiresUnlock>
@@ -366,6 +370,7 @@
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.FreezeGlyphDef">
     <defName>WotF_Effect_Freeze</defName>
     <theme>WotF_Theme_Frost</theme>
+    <resolveSound>WotF_Sound_Effect_Freeze</resolveSound>
     <tier>1</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>
@@ -397,6 +402,7 @@
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.KnockbackGlyphDef">
     <defName>WotF_Effect_Knockback</defName>
     <theme>WotF_Theme_HoloStorm</theme>
+    <resolveSound>WotF_Sound_Effect_Knockback</resolveSound>
     <tier>1</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>
@@ -430,6 +436,7 @@
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.PullGlyphDef">
     <defName>WotF_Effect_Pull</defName>
     <theme>WotF_Theme_Runic</theme>
+    <resolveSound>WotF_Sound_Effect_Pull</resolveSound>
     <tier>1</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>
@@ -463,6 +470,7 @@
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.SnareGlyphDef">
     <defName>WotF_Effect_Snare</defName>
     <theme>WotF_Theme_Vitality</theme>
+    <resolveSound>WotF_Sound_Effect_Snare</resolveSound>
     <tier>1</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>
@@ -493,6 +501,7 @@
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.HexGlyphDef">
     <defName>WotF_Effect_Hex</defName>
     <theme>WotF_Theme_Runic</theme>
+    <resolveSound>WotF_Sound_Effect_Hex</resolveSound>
     <tier>2</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>
@@ -524,6 +533,9 @@
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.HackGlyphDef">
     <defName>WotF_Effect_Hack</defName>
     <theme>WotF_Theme_HoloStorm</theme>
+    <resolveSound>WotF_Sound_Effect_Hack_Pulse</resolveSound>
+    <channelLoopSound>WotF_Sound_Effect_Hack_Loop</channelLoopSound>
+    <confirmSound>WotF_Sound_Effect_Hack_Confirm</confirmSound>
     <tier>3</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>
@@ -560,6 +572,7 @@
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.MagelightGlyphDef">
     <defName>WotF_Effect_Magelight</defName>
     <theme>WotF_Theme_Starlight</theme>
+    <resolveSound>WotF_Sound_Effect_Magelight</resolveSound>
     <tier>0</tier>
     <targets>
       <li>Cell</li>
@@ -622,6 +635,7 @@
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.BlinkGlyphDef">
     <defName>WotF_Effect_Blink</defName>
     <theme>WotF_Theme_Starlight</theme>
+    <resolveSound>WotF_Sound_Effect_Blink</resolveSound>
     <tier>3</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>
@@ -710,6 +724,7 @@
   <WhisperOfTheForest.Spells.SpellGlyphDef ParentName="WotF_EffectGlyphBase" Class="WhisperOfTheForest.Spells.DelayGlyphDef">
     <defName>WotF_Effect_Delay</defName>
     <theme>WotF_Theme_Starlight</theme>
+    <resolveSound>WotF_Sound_Effect_Delay</resolveSound>
     <tier>1</tier>
     <requiresUnlock>true</requiresUnlock>
     <unlockCost>

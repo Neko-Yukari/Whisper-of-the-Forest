@@ -185,10 +185,11 @@ namespace WhisperOfTheForest.Missiles
                 return;
             }
 
+            ArcaneMissileVfxPosition.Of(state, out float vx, out float vy, out float vz);
             VfxService.Play(new ArcaneMissileVfxRequest
             {
                 map = Map,
-                origin = new Vector3(state.posX, state.settings.flightHeight, state.posZ),
+                origin = new Vector3(vx, vy, vz),
                 target = state.TargetPosition(),
                 direction = new Vector3(state.headingX, 0f, state.headingZ),
                 vfxDefName = visualDef.impactVisualDefName,
